@@ -14,8 +14,9 @@ title: PRO AnalytiX Lab
   <div class="areas">
     {% for area in site.data.research_areas %}
     <article class="area">
-      <div class="en">{{ area.en }}</div>
-      <h3>{{ area.ko }}</h3>
+      {% include area-art.html icon=area.icon label=area.en %}
+      <h3 class="area-en">{{ area.en }}</h3>
+      <div class="area-ko">{{ area.ko }}</div>
       <p>{{ area.summary }}</p>
       <ul class="tags">{% for k in area.keywords %}<li>{{ k }}</li>{% endfor %}</ul>
     </article>
