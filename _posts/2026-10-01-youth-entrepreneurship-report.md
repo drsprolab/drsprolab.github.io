@@ -43,4 +43,4 @@ wide: true
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
 
-<div class="report-intro"><h2>측정도구 출처</h2><ul><li>정승환, 노아영, 하선민 (2023). 진로교육을 위한 청소년 기업가정신 측정도구 개발. 청소년학연구, 30(4), 113–135.</li></ul><p>원도구는 청소년 기업가정신 측정도구이며, 이 페이지는 청년 대상 활용 예시를 보여줍니다.</p><p><a href="https://docs.google.com/spreadsheets/d/1twM_INCFhfnc6V8ULp8BNrog4v_2Rf6F/edit?gid=1087342266#gid=1087342266">원문 시트 보기</a></p></div>
+<div class="report-intro"><h2>측정도구 출처</h2><ul><li>정승환, 노아영, 하선민 (2023). 진로교육을 위한 청소년 기업가정신 측정도구 개발. 청소년학연구, 30(4), 113–135.</li></ul><p>원도구는 청소년 기업가정신 측정도구이며, 이 페이지는 청년 대상 활용 예시를 보여줍니다.</p></div>

@@ -43,4 +43,4 @@ wide: true
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
 
-<div class="report-intro"><h2>측정도구 출처</h2><ul><li>Lee, J., &amp; Song, J. H. (2022). Developing a measurement of employee learning agility. European Journal of Training and Development, 46(5/6), 585-606. https://doi.org/10.1108/EJTD-01-2021-0018</li></ul><p><a href="https://docs.google.com/spreadsheets/d/1twM_INCFhfnc6V8ULp8BNrog4v_2Rf6F/edit?gid=1163726001#gid=1163726001">원문 시트 보기</a></p></div>
+<div class="report-intro"><h2>측정도구 출처</h2><ul><li>Lee, J., &amp; Song, J. H. (2022). Developing a measurement of employee learning agility. European Journal of Training and Development, 46(5/6), 585-606. https://doi.org/10.1108/EJTD-01-2021-0018</li></ul></div>

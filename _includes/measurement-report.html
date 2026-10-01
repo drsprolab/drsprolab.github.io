@@ -13,5 +13,5 @@
   <section class="panel persona-panel"><h2 class="panel-title">페르소나 진단</h2><p class="panel-sub">가상의 인물 3명을 선택해 응답 수준과 지원 활동 예시를 확인하세요.</p><div class="persona-cards" id="ye-personas" role="tablist" aria-label="페르소나 선택"></div><div class="persona-result" id="ye-persona-result" role="tabpanel" aria-live="polite"></div></section>
 </div>
 <div class="viz-tip" id="ye-tip" role="tooltip" hidden></div>
-<div class="report-intro"><h2>측정도구 출처</h2><ul>{% for reference in page.measurement_references %}<li>{{ reference }}</li>{% endfor %}</ul><p><a href="{{ page.measurement_source }}">원문 시트 보기</a></p></div>
+<div class="report-intro"><h2>측정도구 출처</h2><ul>{% for reference in page.measurement_references %}<li>{{ reference }}</li>{% endfor %}</ul></div>
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
