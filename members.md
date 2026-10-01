@@ -32,7 +32,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 </div>
 
 ### Research Areas
-{{ prof.research_areas }}
+<ul class="tags big">{% for a in prof.research_areas %}<li>{{ a }}</li>{% endfor %}</ul>
 
 ### Education
 <ul class="ledger">

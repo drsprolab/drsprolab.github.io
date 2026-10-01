@@ -20,7 +20,13 @@ past_positions:
   - "교육부 지정 교육복지정책중점연구소장 (2016–2021)"
   - "University of North Texas 교수 (2012–2015)"
   - "Oklahoma State University 교수 (2008–2012)"
-research_areas: "조직개발(OD), 지식경영, 조직창의성, 지식창출, 측정과 평가도구 개발, 학습조직, 조직몰입"
+research_areas:
+  - "Human-AI Learning"
+  - "Generative Cognitive Pause in AI"
+  - "Organizational Learning"
+  - "Learning Agility"
+  - "Organization Change and Innovation"
+  - "Employee Engagement"
 service:
   - "Human Resource Development Quarterly 심사위원"
   - "Human Resource Development International 편집위원 및 심사위원"
