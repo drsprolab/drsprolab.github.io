@@ -30,8 +30,9 @@
       var anchor = Math.abs(l[0] - cx) < 8 ? 'middle' : (l[0] > cx ? 'start' : 'end');
       s += '<text x="' + l[0] + '" y="' + (l[1] + 4) + '" text-anchor="' + anchor + '" class="rd-label">' + esc(fc.name) + '</text>';
     });
-    series.forEach(function (se) { s += '<polygon points="' + se.values.map(function (v, i) { return pt(i, v).join(','); }).join(' ') + '" class="rd-area ' + se.cls + '"/>'; });
+    series.forEach(function (se) { s += '<polygon points="' + se.values.map(function (v, i) { return pt(i, v).join(','); }).join(' ') + '" class="rd-area ' + se.cls + (se.dashed ? ' rd-dashed' : '') + '"/>'; });
     series.forEach(function (se) {
+      if (se.dashed) return;
       se.values.forEach(function (v, i) {
         var p = pt(i, v);
         s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4.5" class="rd-dot ' + se.cls + '"/>';
@@ -41,7 +42,7 @@
     return s + '</svg>';
   }
   function legend(items) {
-    return items.map(function (it) { return '<span class="lg"><span class="lg-key ' + it.cls + '"></span>' + esc(it.label) + '</span>'; }).join('');
+    return items.map(function (it) { return '<span class="lg"><span class="lg-key ' + it.cls + (it.dashed ? ' lg-dashed' : '') + '"></span>' + esc(it.label) + '</span>'; }).join('');
   }
 
   function render() {
@@ -65,6 +66,47 @@
     document.getElementById('ye-change').innerHTML = h + '</div><div class="legend">' + legend(series) + '</div>';
   }
 
+
+  // ---------- 페르소나 진단 ----------
+  var P, selected = null, groupPost;
+  function renderPersonaCards() {
+    document.getElementById('ye-personas').innerHTML = P.personas.map(function (p) {
+      return '<button type="button" class="persona-card" role="tab" aria-selected="' + (selected === p.id) + '" data-pid="' + p.id + '">' +
+        '<span class="persona-avatar" aria-hidden="true">' + esc(p.name.slice(0, 1)) + '</span>' +
+        '<span class="persona-meta"><span class="persona-type">' + esc(p.type) + '</span>' +
+        '<span class="persona-name">' + esc(p.name) + ' <small>' + p.age + '세 · ' + esc(p.role) + '</small></span></span></button>';
+    }).join('');
+  }
+  function renderPersona() {
+    var p = P.personas.find(function (x) { return x.id === selected; });
+    var box = document.getElementById('ye-persona-result');
+    if (!p) { box.innerHTML = ''; return; }
+    var rank = P.factors.map(function (f, i) { return { f: f, v: p.scores[i], d: p.scores[i] - groupPost[i] }; });
+    var top = rank.slice().sort(function (a, b) { return b.v - a.v; }).slice(0, 2);
+    var low = rank.slice().sort(function (a, b) { return a.v - b.v; }).slice(0, 2);
+    var series = [{ label: '집단 평균(사후)', values: groupPost, cls: 'ref', dashed: true }, { label: p.name, values: p.scores, cls: 's1' }];
+    function item(x) { return '<strong>' + esc(x.f) + '</strong> <span class="pd-score">' + x.v.toFixed(1) + '</span> <span class="pd-diff ' + (x.d >= 0 ? 'up' : 'down') + '">평균 대비 ' + signed(x.d) + '</span>'; }
+    box.innerHTML =
+      '<div class="pr-grid"><div><div class="legend">' + legend(series) + '</div><div class="radar-box">' +
+      radar(series, p.name + ' 하위요인 점수와 집단 평균 비교') + '</div></div>' +
+      '<div class="pr-diag"><p class="pr-summary"><span class="chip">' + esc(p.type) + '</span> ' + esc(p.summary) + '</p>' +
+      '<div class="pd-block"><h3><span class="chip good">강점</span></h3><ul>' + top.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="pd-block"><h3><span class="chip warn">성장 요소</span></h3><ul>' + low.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="pd-block"><h3>추천 활동</h3><ul class="pd-acts">' +
+      top.map(function (x) { return '<li><span class="pd-tag">강점 강화 · ' + esc(x.f) + '</span>' + esc(P.activities[x.f].strengthen) + '</li>'; }).join('') +
+      low.map(function (x) { return '<li><span class="pd-tag">성장 요소 극복 · ' + esc(x.f) + '</span>' + esc(P.activities[x.f].grow) + '</li>'; }).join('') +
+      '</ul></div><div class="pd-plan"><strong>종합 제안</strong> ' + esc(p.plan) + '</div></div></div>';
+  }
+  function selectPersona(id) { selected = id; renderPersonaCards(); renderPersona(); }
+  document.getElementById('ye-personas').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-pid]'); if (b) selectPersona(b.dataset.pid);
+  });
+  function loadPersonas() {
+    if (!root.dataset.personas) return;
+    groupPost = groupMeans('post');
+    fetch(root.dataset.personas).then(function (r) { return r.json(); }).then(function (data) { P = data; selectPersona(P.personas[0].id); });
+  }
+
   root.addEventListener('mousemove', function (e) {
     var t = e.target.closest('[data-tip]');
     if (!t) { tip.hidden = true; return; }
@@ -73,6 +115,6 @@
   });
   root.addEventListener('mouseleave', function () { tip.hidden = true; });
 
-  fetch(root.dataset.src).then(function (r) { return r.json(); }).then(function (data) { D = data; render(); })
+  fetch(root.dataset.src).then(function (r) { return r.json(); }).then(function (data) { D = data; render(); loadPersonas(); })
     .catch(function () { root.innerHTML = '<p class="report-foot">데이터를 불러오지 못했습니다.</p>'; });
 })();
