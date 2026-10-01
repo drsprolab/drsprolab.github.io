@@ -87,7 +87,10 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .section { padding-block: 56px 0; }
 .areas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .area { border: 1px solid var(--line); border-radius: 8px; padding: 24px; display: grid; gap: 10px; align-content: start; background: var(--paper); }
-.area .en { font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.area { overflow: hidden; padding-top: 0; }
+.area-art { display: block; width: calc(100% + 48px); max-width: none; height: auto; aspect-ratio: 400 / 150; margin: 0 -24px 8px; border-bottom: 1px solid var(--line); }
+.area .area-en { font-family: var(--f-body); font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.area .area-ko { font-family: var(--f-body); font-size: 13.5px; color: var(--accent); margin-top: -4px; }
 .area p { margin: 0; color: var(--muted); }
 .tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .tags li { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--tint); }

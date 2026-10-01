@@ -14,8 +14,9 @@ title: PRO AnalytiX Lab
   <div class="areas">
     {% for area in site.data.research_areas %}
     <article class="area">
-      <div class="en">{{ area.en }}</div>
-      <h3>{{ area.ko }}</h3>
+      {% include area-art.html icon=area.icon label=area.en %}
+      <h3 class="area-en">{{ area.en }}</h3>
+      <div class="area-ko">{{ area.ko }}</div>
       <p>{{ area.summary }}</p>
       <ul class="tags">{% for k in area.keywords %}<li>{{ k }}</li>{% endfor %}</ul>
     </article>
@@ -34,7 +35,8 @@ title: PRO AnalytiX Lab
   </div>
 </section>
 
-{% if site.posts.size > 0 %}
+{% comment %} 최근 소식: 공개 사이트에서는 숨기고 로컬 미리보기(_config.preview.yml)에서만 보임 {% endcomment %}
+{% if site.preview and site.posts.size > 0 %}
 <section class="section">
   <h2>최근 소식</h2>
   <ul class="post-list">
