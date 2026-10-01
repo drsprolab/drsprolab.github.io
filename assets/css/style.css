@@ -406,3 +406,36 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 @media (max-width: 520px) {
   .journal-pubs li { grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: 10px; }
 }
+
+/* Index totals for the current Journal list. */
+.journal-index-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 10px;
+}
+.journal-index-summary > div {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--tint);
+}
+.journal-index-summary dt {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.journal-index-summary dd {
+  margin: 6px 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.journal-index-summary dd span { margin-left: 5px; font-size: 14px; font-weight: 400; color: var(--muted); }
+.journal-index-note { margin: 0 0 28px; font-size: 13px; color: var(--muted); }
+@media (max-width: 520px) {
+  .journal-index-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

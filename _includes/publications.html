@@ -1,7 +1,24 @@
 {%- assign list = site.data.publications | where: include.scope, true -%}
 {%- assign groups = list | group_by: "year" | sort: "name" | reverse -%}
 {%- assign publication_number = list.size -%}
+{%- assign ssci_count = 0 -%}
+{%- assign scopus_count = 0 -%}
+{%- assign esci_scie_count = 0 -%}
+{%- assign kci_count = 0 -%}
+{%- for publication in list -%}
+  {%- if publication.index contains 'SSCI' -%}{%- assign ssci_count = ssci_count | plus: 1 -%}{%- endif -%}
+  {%- if publication.index contains 'SCOPUS' -%}{%- assign scopus_count = scopus_count | plus: 1 -%}{%- endif -%}
+  {%- if publication.index contains 'ESCI' or publication.index contains 'SCIE' -%}{%- assign esci_scie_count = esci_scie_count | plus: 1 -%}{%- endif -%}
+  {%- if publication.index contains 'KCI' -%}{%- assign kci_count = kci_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
 <p class="count">총 {{ list.size }}편</p>
+<dl class="journal-index-summary" aria-label="논문 등재 분류별 합계">
+  <div><dt>SSCI</dt><dd>{{ ssci_count }}<span>편</span></dd></div>
+  <div><dt>SCOPUS</dt><dd>{{ scopus_count }}<span>편</span></dd></div>
+  <div><dt>ESCI(SCIE)</dt><dd>{{ esci_scie_count }}<span>편</span></dd></div>
+  <div><dt>KCI</dt><dd>{{ kci_count }}<span>편</span></dd></div>
+</dl>
+<p class="journal-index-note">복수 등재 논문은 각 분류에 포함됩니다. ESCI와 SCIE는 합산하며, 두 분류에 함께 등재된 논문은 한 번만 셉니다.</p>
 {% for g in groups %}
 <section class="year-group">
   <h3 id="pub-{{ include.scope }}-{{ g.name }}">{{ g.name }} <span class="n">{{ g.items.size }}</span></h3>
