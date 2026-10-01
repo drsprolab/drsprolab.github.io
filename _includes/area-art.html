@@ -1,59 +1,86 @@
-{%- comment -%} 주요 연구 분야 카드 상단 그림. include.icon: learning | organization | hrd | analytics {%- endcomment -%}
+{%- comment -%}
+주요 연구 분야 카드 상단 그림 (추상 일러스트, 원본 제작).
+include.icon: learning | organization | hrd | analytics
+{%- endcomment -%}
+{%- assign k = include.icon -%}
 <svg class="area-art" viewBox="0 0 400 150" role="img" aria-label="{{ include.label }}" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg-{{ include.icon }}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#eaf2fb"/><stop offset="1" stop-color="#d3e4f5"/>
+    <linearGradient id="bg-{{ k }}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1f38"/><stop offset=".6" stop-color="#123459"/><stop offset="1" stop-color="#1b4a7c"/>
     </linearGradient>
-    <radialGradient id="glow-{{ include.icon }}" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    <radialGradient id="halo-{{ k }}" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#7fb2e8" stop-opacity=".45"/><stop offset="1" stop-color="#7fb2e8" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="gold-{{ k }}" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f3dca4"/><stop offset="1" stop-color="#c99a4b"/>
+    </linearGradient>
+    <pattern id="dots-{{ k }}" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r=".8" fill="#ffffff" fill-opacity=".08"/>
+    </pattern>
   </defs>
-  <rect width="400" height="150" fill="url(#bg-{{ include.icon }})"/>
-  <g fill="none" stroke="#2f6db0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-{%- case include.icon -%}
+  <rect width="400" height="150" fill="url(#bg-{{ k }})"/>
+  <rect width="400" height="150" fill="url(#dots-{{ k }})"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+{%- case k -%}
 {%- when "learning" %}
-    <circle cx="200" cy="62" r="70" fill="url(#glow-learning)" stroke="none"/>
-    <path d="M118 124 Q160 108 200 122 Q240 108 282 124 L282 132 Q240 118 200 132 Q160 118 118 132 Z" fill="#ffffff"/>
-    <path d="M200 122 V132"/>
-    <g stroke="#7aa6d6" stroke-width="1.4"><path d="M168 64 L200 40 L232 62 L214 92 L182 92 Z M200 40 L200 70 L168 64 M200 70 L232 62 M200 70 L214 92 M200 70 L182 92"/></g>
-    <g fill="#2f6db0" stroke="#ffffff" stroke-width="2"><circle cx="200" cy="40" r="6"/><circle cx="168" cy="64" r="6"/><circle cx="232" cy="62" r="6"/><circle cx="214" cy="92" r="6"/><circle cx="182" cy="92" r="6"/><circle cx="200" cy="70" r="7" fill="#eb6834"/></g>
-    <path d="M200 98 V114" stroke-dasharray="3 4"/>
-    <g stroke="#7aa6d6" stroke-width="1.6"><rect x="300" y="44" width="40" height="40" rx="8" fill="#ffffff"/><path d="M308 44 V36 M320 44 V36 M332 44 V36 M308 84 V92 M320 84 V92 M332 84 V92"/><text x="320" y="69" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="#2f6db0" stroke="none">AI</text></g>
-    <path d="M298 64 Q268 64 238 63" stroke-dasharray="3 4" stroke="#7aa6d6"/>
-    <g stroke="#7aa6d6" stroke-width="1.6"><circle cx="78" cy="58" r="16" fill="#ffffff"/><path d="M50 108 Q78 74 106 108" fill="#ffffff"/></g>
-    <path d="M100 58 Q132 54 162 62" stroke-dasharray="3 4" stroke="#7aa6d6"/>
+    <circle cx="250" cy="75" r="95" fill="url(#halo-{{ k }})" stroke="none"/>
+    <g stroke="#9cc3ec" stroke-opacity=".28" stroke-width=".8">
+      <circle cx="250" cy="75" r="26"/><circle cx="250" cy="75" r="46"/><circle cx="250" cy="75" r="68"/><circle cx="250" cy="75" r="92" stroke-dasharray="2 5"/>
+    </g>
+    <ellipse cx="250" cy="75" rx="80" ry="26" transform="rotate(-18 250 75)" stroke="#9cc3ec" stroke-opacity=".55" stroke-width="1"/>
+    <ellipse cx="250" cy="75" rx="80" ry="26" transform="rotate(32 250 75)" stroke="#9cc3ec" stroke-opacity=".35" stroke-width="1"/>
+    <path d="M250 75 L174 98 M250 75 L316 40 M250 75 L232 18 M250 75 L300 122" stroke="#ffffff" stroke-opacity=".22" stroke-width=".8"/>
+    <g fill="#ffffff" stroke="none"><circle cx="174" cy="98" r="3"/><circle cx="316" cy="40" r="3.2"/><circle cx="232" cy="18" r="2.4"/><circle cx="300" cy="122" r="2.6"/><circle cx="330" cy="88" r="1.8" fill-opacity=".7"/><circle cx="186" cy="52" r="1.8" fill-opacity=".7"/></g>
+    <circle cx="250" cy="75" r="9" fill="url(#gold-{{ k }})" stroke="none"/>
+    <circle cx="250" cy="75" r="15" stroke="url(#gold-{{ k }})" stroke-opacity=".6" stroke-width="1"/>
+    <g stroke="#ffffff" stroke-opacity=".5" stroke-width="1"><path d="M40 112 H120"/><path d="M40 120 H96" stroke-opacity=".25"/></g>
+    <text x="40" y="100" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9.5" letter-spacing="1.6" fill="#ffffff" fill-opacity=".55">HUMAN × AI</text>
 {%- when "organization" %}
-    <path d="M40 128 H360" stroke="#9fbfe0"/>
-    <g fill="#ffffff" stroke="#9fbfe0"><rect x="70" y="104" width="44" height="24"/><rect x="114" y="88" width="44" height="40"/><rect x="158" y="72" width="44" height="56"/></g>
-    <path d="M60 96 Q140 60 196 50 T330 26" stroke="#eb6834" stroke-width="2.4"/>
-    <path d="M318 20 L332 25 L322 36" stroke="#eb6834" stroke-width="2.4"/>
-    <g stroke="#7aa6d6" stroke-width="1.4"><path d="M252 70 L292 56 L326 86 L284 104 Z M252 70 L326 86 M292 56 L284 104"/></g>
-    <g stroke="#2f6db0" stroke-width="1.8" fill="#ffffff">
-      <circle cx="252" cy="62" r="8"/><path d="M238 86 Q252 70 266 86"/>
-      <circle cx="292" cy="48" r="8"/><path d="M278 72 Q292 56 306 72"/>
-      <circle cx="326" cy="78" r="8"/><path d="M312 102 Q326 86 340 102"/>
-      <circle cx="284" cy="96" r="8"/><path d="M270 120 Q284 104 298 120"/>
+    <circle cx="250" cy="70" r="90" fill="url(#halo-{{ k }})" stroke="none"/>
+    <g stroke="#9cc3ec" stroke-width="1">
+      <path d="M250 104 L316 122 L250 140 L184 122 Z" fill="#9cc3ec" fill-opacity=".10" stroke-opacity=".55"/>
+      <path d="M250 70 L310 86 L250 102 L190 86 Z" fill="#9cc3ec" fill-opacity=".14" stroke-opacity=".7"/>
+      <path d="M250 38 L300 51 L250 64 L200 51 Z" fill="#9cc3ec" fill-opacity=".20" stroke-opacity=".9"/>
+    </g>
+    <path d="M250 122 V12" stroke="url(#gold-{{ k }})" stroke-width="1.4"/>
+    <path d="M244 18 L250 10 L256 18" stroke="#e7c47f" stroke-width="1.4"/>
+    <g stroke="#ffffff" stroke-opacity=".3" stroke-width=".8"><path d="M214 122 L232 86 L250 51 M286 122 L268 86 L250 51 M200 122 L210 86"/></g>
+    <g fill="#ffffff" stroke="none">
+      <circle cx="214" cy="122" r="2.4"/><circle cx="250" cy="122" r="2.4"/><circle cx="286" cy="122" r="2.4"/><circle cx="200" cy="122" r="1.8" fill-opacity=".7"/><circle cx="300" cy="122" r="1.8" fill-opacity=".7"/>
+      <circle cx="232" cy="86" r="2.8"/><circle cx="268" cy="86" r="2.8"/><circle cx="210" cy="86" r="2" fill-opacity=".7"/>
+      <circle cx="250" cy="51" r="4.2" fill="url(#gold-{{ k }})"/>
+    </g>
+    <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="8.5" letter-spacing="1.4" fill="#ffffff" fill-opacity=".45">
+      <text x="326" y="125">INDIVIDUAL</text><text x="320" y="89">GROUP</text><text x="310" y="54">ORGANIZATION</text>
     </g>
 {%- when "hrd" %}
-    <g fill="#ffffff" stroke="#7aa6d6" stroke-width="1.6">
-      <rect x="46" y="34" width="96" height="62" rx="8"/><rect x="58" y="46" width="96" height="62" rx="8"/>
+    <circle cx="282" cy="75" r="85" fill="url(#halo-{{ k }})" stroke="none"/>
+    <g stroke="#9cc3ec" stroke-width="1">
+      <path d="M30 22 C130 22 170 72 268 75" stroke-opacity=".35"/>
+      <path d="M30 48 C130 48 180 74 268 75" stroke-opacity=".5"/>
+      <path d="M30 75 C120 75 200 75 268 75" stroke-opacity=".7"/>
+      <path d="M30 102 C130 102 180 76 268 75" stroke-opacity=".5"/>
+      <path d="M30 128 C130 128 170 78 268 75" stroke-opacity=".35"/>
     </g>
-    <circle cx="84" cy="70" r="11" stroke="#2f6db0"/><path d="M68 98 Q84 80 100 98" stroke="#2f6db0"/>
-    <path d="M112 66 H142 M112 78 H134 M112 90 H140" stroke="#9fbfe0"/>
-    <path d="M160 78 Q186 78 192 78" stroke-dasharray="3 4" stroke="#7aa6d6"/>
-    <g stroke="#7aa6d6" stroke-width="1.6"><rect x="194" y="58" width="40" height="40" rx="8" fill="#ffffff"/><path d="M202 58 V50 M214 58 V50 M226 58 V50 M202 98 V106 M214 98 V106 M226 98 V106"/><text x="214" y="83" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="#2f6db0" stroke="none">AI</text></g>
-    <path d="M236 78 C268 78 262 40 296 40 S326 110 360 104" stroke-dasharray="4 5" stroke="#2f6db0"/>
-    <g fill="#ffffff" stroke="#2f6db0" stroke-width="2"><circle cx="268" cy="60" r="6"/><circle cx="300" cy="42" r="6"/><circle cx="326" cy="82" r="6"/></g>
-    <path d="M352 96 L366 104 L352 112 Z" fill="#eb6834" stroke="#eb6834"/>
+    <g fill="#ffffff" stroke="none"><circle cx="92" cy="25" r="2"/><circle cx="128" cy="53" r="2.4"/><circle cx="160" cy="75" r="2.6"/><circle cx="118" cy="99" r="2.2"/><circle cx="150" cy="117" r="2"/><circle cx="200" cy="66" r="1.8" fill-opacity=".7"/><circle cx="210" cy="86" r="1.8" fill-opacity=".7"/></g>
+    <path d="M282 55 L299 65 L299 85 L282 95 L265 85 L265 65 Z" stroke="url(#gold-{{ k }})" stroke-width="1.6" fill="#0b1f38" fill-opacity=".6"/>
+    <path d="M282 64 L291 69 L291 81 L282 86 L273 81 L273 69 Z" fill="url(#gold-{{ k }})" stroke="none" fill-opacity=".9"/>
+    <path d="M300 75 C330 75 340 40 372 34" stroke="#e7c47f" stroke-width="1.2" stroke-dasharray="3 4"/>
+    <path d="M300 75 C330 75 342 104 372 112" stroke="#ffffff" stroke-opacity=".4" stroke-width="1" stroke-dasharray="3 4"/>
+    <circle cx="372" cy="34" r="3" fill="#e7c47f" stroke="none"/><circle cx="372" cy="112" r="2.6" fill="#ffffff" fill-opacity=".7" stroke="none"/>
+    <text x="30" y="142" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9.5" letter-spacing="1.6" fill="#ffffff" fill-opacity=".55">TALENT → AI → GROWTH</text>
 {%- when "analytics" %}
-    <g fill="#9fbfe0" stroke="none"><circle cx="40" cy="118" r="3"/><circle cx="58" cy="108" r="3"/><circle cx="66" cy="114" r="3"/><circle cx="82" cy="98" r="3"/><circle cx="96" cy="102" r="3"/><circle cx="104" cy="86" r="3"/><circle cx="120" cy="80" r="3"/><circle cx="132" cy="84" r="3"/><circle cx="146" cy="66" r="3"/></g>
-    <path d="M32 124 L154 62" stroke="#eb6834" stroke-width="2.2"/>
-    <path d="M28 40 V130 H160" stroke="#9fbfe0" stroke-width="1.4"/>
-    <ellipse cx="236" cy="75" rx="36" ry="20" fill="#ffffff"/>
-    <text x="236" y="80" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="#2f6db0" stroke="none">F1</text>
-    <g fill="#ffffff" stroke="#7aa6d6" stroke-width="1.6"><rect x="318" y="28" width="44" height="24" rx="3"/><rect x="318" y="63" width="44" height="24" rx="3"/><rect x="318" y="98" width="44" height="24" rx="3"/></g>
-    <g stroke="#2f6db0" stroke-width="1.6"><path d="M272 70 L314 42 M272 75 L314 75 M272 80 L314 108"/><path d="M308 38 L315 41 L311 48 M307 72 L315 75 L307 78 M311 101 L315 108 L307 108"/></g>
-    <g font-size="11" font-family="IBM Plex Mono, monospace" fill="#2f6db0" stroke="none" text-anchor="middle"><text x="340" y="44">x1</text><text x="340" y="79">x2</text><text x="340" y="114">x3</text></g>
+    <circle cx="110" cy="80" r="80" fill="url(#halo-{{ k }})" stroke="none"/>
+    <g stroke="#ffffff" stroke-opacity=".12" stroke-width=".6"><path d="M30 30 H190 M30 60 H190 M30 90 H190 M30 120 H190 M70 22 V128 M110 22 V128 M150 22 V128"/></g>
+    <path d="M30 124 C60 124 70 52 98 52 C120 52 122 98 140 98 C156 98 162 64 178 64 C186 64 190 110 196 124" stroke="#9cc3ec" stroke-width="1.4" stroke-opacity=".85"/>
+    <path d="M30 124 C64 124 84 40 110 40 C136 40 156 124 190 124" stroke="url(#gold-{{ k }})" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <g fill="#ffffff" stroke="none" fill-opacity=".75"><circle cx="48" cy="112" r="1.6"/><circle cx="66" cy="96" r="1.6"/><circle cx="82" cy="70" r="1.6"/><circle cx="94" cy="58" r="1.6"/><circle cx="118" cy="66" r="1.6"/><circle cx="132" cy="90" r="1.6"/><circle cx="150" cy="86" r="1.6"/><circle cx="168" cy="72" r="1.6"/><circle cx="182" cy="96" r="1.6"/></g>
+    <ellipse cx="266" cy="75" rx="30" ry="18" stroke="url(#gold-{{ k }})" stroke-width="1.6" fill="#0b1f38" fill-opacity=".5"/>
+    <text x="266" y="79" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="10.5" fill="#f3dca4">η</text>
+    <g stroke="#9cc3ec" stroke-width="1" stroke-opacity=".8"><path d="M296 70 L334 34 M296 75 L334 75 M296 80 L334 116"/></g>
+    <g stroke="#9cc3ec" stroke-width="1" fill="#0b1f38" fill-opacity=".55"><rect x="336" y="24" width="34" height="20" rx="2"/><rect x="336" y="65" width="34" height="20" rx="2"/><rect x="336" y="106" width="34" height="20" rx="2"/></g>
+    <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9" fill="#ffffff" fill-opacity=".75" text-anchor="middle"><text x="353" y="37">y1</text><text x="353" y="78">y2</text><text x="353" y="119">y3</text></g>
+    <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="8" fill="#ffffff" fill-opacity=".45"><text x="306" y="46">.82</text><text x="310" y="71">.76</text><text x="306" y="110">.71</text></g>
 {%- endcase %}
   </g>
 </svg>
