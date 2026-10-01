@@ -85,14 +85,6 @@ phd:
       - "Teaching Competency"
       - "Development of Measurement and Evaluation tools"
     affiliation: "백석대학교 PBL지원센터"
-  - name: "강지혜"
-    name_en: "Kang Ji Hye"
-    interests:
-      - "Human Resource Development"
-      - "Organizational Behavior"
-      - "Organization Development"
-      - "Learning Organization"
-    affiliation: "성일정보고등학교"
   - name: "김예서"
     name_en: "Kim Ye Suh"
     interests:
@@ -249,13 +241,6 @@ ma:
       - "Organization Development"
       - "Human Resource Development"
     affiliation: "한양대학교"
-  - name: "한지혜"
-    name_en: "Han Ji Hye"
-    interests:
-      - "Instructional Design"
-      - "Learning Analytics"
-      - "e-learning"
-    affiliation: "KBH 영업본부"
 alumni_phd:
   - name: "유명현"
     name_en: "Myunghyun Yoo"

@@ -3,6 +3,7 @@ layout: page
 title: Members
 eyebrow: People
 permalink: /members/
+wide: true
 lede: 안녕, 윙맨. 같이 날아봅시다.
 ---
 {% assign prof = site.data.professor %}
@@ -10,7 +11,11 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 ## Professor-in-charge {#professor}
 
 <div class="profile">
-  <div>
+  <figure class="profile-portrait">
+    <img src="{{ '/assets/images/people/ji-hoon-song.png' | relative_url }}" alt="송지훈 교수" width="302" height="429" decoding="async">
+  </figure>
+  <div class="profile-details">
+  <div class="profile-intro">
     <h3 class="profile-name">{{ prof.name }} <span>{{ prof.name_en }}</span></h3>
     <ul class="plain">
       {% for p in prof.positions %}<li>{{ p }}</li>{% endfor %}
@@ -23,6 +28,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
     <dt>E-mail</dt><dd>{{ prof.email }}</dd>
     <dt>Links</dt><dd>{% for l in prof.links %}<a href="{{ l.url }}">{{ l.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</dd>
   </dl>
+  </div>
 </div>
 
 ### Research Areas
@@ -56,10 +62,18 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 <h3>{{ label }} <span class="n">{{ list.size }}</span></h3>
 <div class="member-grid">
   {% for m in list %}
+  {% assign member_photo = site.data.member_photos[m.name] %}
   <article class="member">
+    {% if member_photo %}
+    <img class="member-photo" src="{{ member_photo.image | relative_url }}" alt="{{ m.name | escape }} 사진" style="object-position: {{ member_photo.position | default: 'center' | escape }};" width="240" height="180" loading="lazy" decoding="async">
+    {% else %}
+    <div class="member-photo member-photo--empty" aria-hidden="true"><span>{{ m.name | slice: 0 }}</span></div>
+    {% endif %}
+    <div class="member-info">
     <div class="member-name">{{ m.name }}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>
     {% if m.affiliation %}<div class="sub">{{ m.affiliation }}</div>{% endif %}
     {% if m.interests %}<ul class="tags">{% for i in m.interests %}<li>{{ i }}</li>{% endfor %}</ul>{% endif %}
+    </div>
   </article>
   {% endfor %}
 </div>
