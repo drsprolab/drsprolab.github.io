@@ -1,176 +1,225 @@
-// 대문 키워드 네트워크: 논문 제목에서 키워드를 찾아 학문 분야별 네트워크로 그린다.
+// 대문 연구 지도: 논문(점)과 키워드(큰 점)를 잇는 네트워크.
 // 데이터: _data/publications.yml, _data/keyword_map.yml (빌드 때 JSON으로 노출)
 (function () {
-  var root = document.getElementById('kwnet');
+  var root = document.getElementById('rmap');
   if (!root || !window.d3) return;
 
-  // 분야 색 (어두운 배경용 범주형 팔레트, 고정 순서)
-  var COLORS = ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#e66767', '#9085e9'];
+  var COLORS_LIGHT = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#e34948', '#4a3aa7'];
+  var COLORS_DARK = ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#e66767', '#9085e9'];
+  var NONE = '#9aa3ad';
   var MIN_COUNT = 2;
+  var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var svg = d3.select('#kwnet-svg');
-  var panel = document.getElementById('kwnet-panel');
-  var papers = [], nodes = [], links = [], byId = {}, sim, selected = null;
+  var svg = d3.select('#rm-svg');
+  var detail = document.getElementById('rm-detail');
+  var fields = [], papers = [], kws = [], nodes = [], links = [], byId = {};
+  var state = { q: '', off: new Set(), local: false, sel: null };
+  var sim, zoom, gAll, linkSel, nodeSel, W, H, k = 1;
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function titleOf(c) {
-    var m = c.match(/\(\d{4}[a-z]?\)\.\s*(.+)$/);
-    var rest = m ? m[1] : c;
-    return rest.split(/\.\s+/)[0];
-  }
-  function toRegex(p) {
-    try { return new RegExp(p, 'i'); } catch (e) { return new RegExp(p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
-  }
+  function titleOf(c) { var m = c.match(/\(\d{4}[a-z]?\)\.\s*(.+)$/); return (m ? m[1] : c).split(/\.\s+/)[0]; }
+  function short(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+  function toRegex(p) { try { return new RegExp(p, 'i'); } catch (e) { return new RegExp(p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); } }
 
   Promise.all([fetch(root.dataset.pubs).then(function (r) { return r.json(); }), fetch(root.dataset.map).then(function (r) { return r.json(); })])
-    .then(function (res) { build(res[0], res[1]); draw(); })
-    .catch(function () { document.getElementById('kwnet-sub').textContent = '키워드 데이터를 불러오지 못했습니다.'; });
+    .then(function (res) { build(res[0], res[1]); draw(); bind(); apply(); })
+    .catch(function () { detail.innerHTML = '<h3>선택한 항목</h3><p class="rm-hint">데이터를 불러오지 못했습니다.</p>'; });
 
+  // ---------- data ----------
   function build(pubs, map) {
     var seen = {};
-    pubs.forEach(function (p) {
+    pubs.forEach(function (p, i) {
       if (!p.citation || seen[p.citation]) return;
       seen[p.citation] = 1;
-      papers.push({ year: p.year, citation: p.citation, title: titleOf(p.citation), kws: [] });
+      papers.push({ id: 'p' + i, type: 'paper', year: p.year, citation: p.citation, name: titleOf(p.citation), kws: [] });
     });
     map.forEach(function (f, fi) {
-      var fid = 'f' + fi;
-      var fnode = { id: fid, type: 'field', name: f.field, en: f.en, color: COLORS[fi % COLORS.length], fi: fi, papers: [] };
-      f.keywords.forEach(function (k, ki) {
-        var res = (k.patterns || []).map(toRegex);
-        var kid = fid + 'k' + ki;
-        var kn = { id: kid, type: 'kw', name: k.name, en: k.en, color: fnode.color, fi: fi, field: fnode, papers: [] };
-        papers.forEach(function (p) { if (res.some(function (r) { return r.test(p.title); })) { kn.papers.push(p); p.kws.push(kn); } });
-        if (kn.papers.length >= MIN_COUNT) { nodes.push(kn); links.push({ source: fid, target: kid, type: 'field', w: 1 }); }
-        else papers.forEach(function (p) { p.kws = p.kws.filter(function (x) { return x !== kn; }); });
+      fields.push({ fi: fi, name: f.field, en: f.en, color: COLORS[fi % COLORS.length] });
+      f.keywords.forEach(function (kw, ki) {
+        var res = (kw.patterns || []).map(toRegex);
+        var node = { id: 'k' + fi + '_' + ki, type: 'kw', name: kw.name, en: kw.en, fi: fi, papers: [] };
+        papers.forEach(function (p) { if (res.some(function (r) { return r.test(p.name); })) node.papers.push(p); });
+        if (node.papers.length >= MIN_COUNT) {
+          kws.push(node);
+          node.papers.forEach(function (p) { p.kws.push(node); links.push({ source: node.id, target: p.id }); });
+        }
       });
-      nodes.push(fnode);
     });
-    nodes.forEach(function (n) { byId[n.id] = n; });
-    nodes.filter(function (n) { return n.type === 'field'; }).forEach(function (f) {
-      var set = new Set();
-      papers.forEach(function (p) { if (p.kws.some(function (k) { return k.fi === f.fi; })) set.add(p); });
-      f.papers = Array.from(set);
-    });
-    // 같은 논문에 함께 나온 키워드끼리 연결
-    var co = {};
+    // 논문 색 = 가장 많이 걸린 분야
     papers.forEach(function (p) {
-      for (var i = 0; i < p.kws.length; i++) for (var j = i + 1; j < p.kws.length; j++) {
-        var a = p.kws[i].id, b = p.kws[j].id, key = a < b ? a + '|' + b : b + '|' + a;
-        co[key] = (co[key] || 0) + 1;
-      }
+      var cnt = {};
+      p.kws.forEach(function (kw) { cnt[kw.fi] = (cnt[kw.fi] || 0) + 1; });
+      var best = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a] || a - b; })[0];
+      p.fi = best == null ? -1 : +best;
+      p.fis = new Set(p.kws.map(function (kw) { return kw.fi; }));
     });
-    Object.keys(co).forEach(function (key) { var ab = key.split('|'); links.push({ source: ab[0], target: ab[1], type: 'co', w: co[key] }); });
-    nodes.forEach(function (n) { n.nb = new Set([n.id]); });
+    kws.forEach(function (kw) { kw.fis = new Set([kw.fi]); });
+    nodes = kws.concat(papers);
+    nodes.forEach(function (n) { byId[n.id] = n; n.nb = new Set([n.id]); n.phase = Math.random() * 6.283; });
     links.forEach(function (l) { byId[l.source].nb.add(l.target); byId[l.target].nb.add(l.source); });
-    var matched = papers.filter(function (p) { return p.kws.length; }).length;
-    document.getElementById('kwnet-sub').textContent = '논문 ' + papers.length + '편의 제목에서 키워드 ' + nodes.filter(function (n) { return n.type === 'kw'; }).length + '개를 뽑아 ' +
-      map.length + '개 학문 분야로 엮었습니다. 키워드를 누르면 관련 연구가 나옵니다.';
-    root.dataset.matched = matched;
+    document.getElementById('rm-s-papers').textContent = papers.length;
+    document.getElementById('rm-s-kws').textContent = kws.length;
+    document.getElementById('rm-s-links').textContent = links.length;
+    document.getElementById('rm-fields').innerHTML = fields.map(function (f) {
+      return '<label class="rm-chip"><input type="checkbox" checked data-fi="' + f.fi + '"><span class="rm-sw" style="background:' + f.color + '"></span>' + esc(f.name) + '</label>';
+    }).join('');
   }
+  function color(n) { return n.fi < 0 ? NONE : COLORS[n.fi % COLORS.length]; }
+  function radius(n) { return n.type === 'kw' ? 8 + Math.sqrt(n.papers.length) * 2.6 : 4.2 + Math.min(n.kws.length, 4) * 1.1; }
 
-  function radius(n) { return n.type === 'field' ? 9 + Math.sqrt(n.papers.length) * 1.6 : 4 + Math.sqrt(n.papers.length) * 2.2; }
-
+  // ---------- graph ----------
   function draw() {
     var box = svg.node().getBoundingClientRect();
-    var W = Math.max(box.width, 320), H = Math.max(box.height, 360);
-    var TOP = 96, BOTTOM = 64; // 제목과 범례 자리
-    var midY = TOP + (H - TOP - BOTTOM) / 2, spanY = (H - TOP - BOTTOM) / 2;
-    svg.attr('viewBox', '0 0 ' + W + ' ' + H);
-    var fields = nodes.filter(function (n) { return n.type === 'field'; });
-    // 분야 중심을 타원 위에 고르게 배치
-    fields.forEach(function (f, i) {
+    W = Math.max(box.width, 320); H = Math.max(box.height, 380);
+    svg.attr('viewBox', [0, 0, W, H]);
+    var anchors = fields.map(function (f, i) {
       var a = -Math.PI / 2 + i * 2 * Math.PI / fields.length;
-      f.ax = W / 2 + Math.cos(a) * W * 0.34; f.ay = midY + Math.sin(a) * spanY * 0.78;
-      f.x = f.ax; f.y = f.ay;
+      return { x: W / 2 + Math.cos(a) * W * 0.30, y: H / 2 + Math.sin(a) * H * 0.30 };
     });
-    nodes.forEach(function (n) { if (n.type === 'kw') { n.x = n.field.ax + (Math.random() - .5) * 40; n.y = n.field.ay + (Math.random() - .5) * 40; } n.phase = Math.random() * Math.PI * 2; });
+    nodes.forEach(function (n) {
+      var a = n.fi >= 0 ? anchors[n.fi] : { x: W / 2, y: H / 2 };
+      n.x = a.x + (Math.random() - .5) * 120; n.y = a.y + (Math.random() - .5) * 120;
+    });
 
-    var gLinks = svg.append('g').attr('class', 'kw-links');
-    var link = gLinks.selectAll('line').data(links).join('line')
-      .attr('class', function (l) { return 'kw-link ' + l.type; })
-      .attr('stroke-width', function (l) { return l.type === 'co' ? Math.min(0.6 + l.w * 0.5, 3) : 1; });
-
-    var gNodes = svg.append('g').attr('class', 'kw-nodes');
-    var node = gNodes.selectAll('g').data(nodes).join('g')
-      .attr('class', function (n) { return 'kw-node ' + n.type; })
-      .attr('tabindex', 0).attr('role', 'button')
-      .attr('aria-label', function (n) { return n.name + ' · 논문 ' + n.papers.length + '편'; })
-      .on('click', function (e, n) { select(n); })
+    gAll = svg.append('g');
+    linkSel = gAll.append('g').attr('class', 'rm-links').selectAll('line').data(links).join('line')
+      .attr('class', 'rm-link').attr('stroke', function (l) { return color(byId[l.source.id || l.source]); });
+    nodeSel = gAll.append('g').attr('class', 'rm-nodes').selectAll('g').data(nodes).join('g')
+      .attr('class', function (n) { return 'rm-node ' + n.type; })
+      .attr('tabindex', function (n) { return n.type === 'kw' ? 0 : -1; }).attr('role', 'button')
+      .attr('aria-label', function (n) { return n.type === 'kw' ? n.name + ', 논문 ' + n.papers.length + '편' : n.name; })
+      .on('click', function (e, n) { if (e.defaultPrevented) return; select(n); })
+      .on('dblclick', function (e, n) { e.stopPropagation(); n.fx = n.fy = null; n.pinned = false; d3.select(this).classed('pinned', false); sim.alpha(0.1).restart(); })
       .on('keydown', function (e, n) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(n); } })
-      .on('mouseenter', function (e, n) { focusOn(n); })
-      .on('mouseleave', function () { focusOn(selected); })
+      .on('mouseenter', function (e, n) { hover(n); })
+      .on('mouseleave', function () { hover(null); })
       .call(d3.drag()
-        .on('start', function (e, n) { if (!e.active) sim.alphaTarget(0.15).restart(); n.fx = n.x; n.fy = n.y; })
+        .on('start', function (e, n) { if (!e.active) sim.alphaTarget(0.06).restart(); n.fx = n.x; n.fy = n.y; })
         .on('drag', function (e, n) { n.fx = e.x; n.fy = e.y; })
-        .on('end', function (e, n) { if (!e.active) sim.alphaTarget(reduceMotion ? 0 : 0.012); n.fx = null; n.fy = null; }));
-
-    node.append('circle').attr('class', 'kw-halo').attr('r', function (n) { return radius(n) + 6; }).attr('fill', function (n) { return n.color; });
-    node.append('circle').attr('class', 'kw-dot').attr('r', radius).attr('fill', function (n) { return n.type === 'field' ? 'var(--kw-bg)' : n.color; }).attr('stroke', function (n) { return n.color; });
-    node.append('text').attr('class', 'kw-label').attr('dy', function (n) { return n.type === 'field' ? -radius(n) - 8 : radius(n) + 13; })
-      .text(function (n) { return n.type === 'field' ? n.en : n.name; });
-    node.filter(function (n) { return n.type === 'field'; }).append('text').attr('class', 'kw-count').attr('dy', 4).text(function (n) { return n.papers.length; });
-
-    // 범례
-    document.getElementById('kwnet-legend').innerHTML = fields.map(function (f) {
-      return '<button type="button" class="kw-lg" data-id="' + f.id + '"><span style="background:' + f.color + '"></span>' + esc(f.name) + '</button>';
-    }).join('');
-    document.getElementById('kwnet-legend').addEventListener('click', function (e) { var b = e.target.closest('[data-id]'); if (b) select(byId[b.dataset.id]); });
+        .on('end', function (e, n) { if (!e.active) sim.alphaTarget(reduceMotion ? 0 : 0.004); n.pinned = true; d3.select(this).classed('pinned', true); }));
+    nodeSel.append('circle').attr('r', radius).attr('fill', color);
+    nodeSel.append('text').attr('class', 'rm-label').attr('dy', function (n) { return -radius(n) - 5; })
+      .text(function (n) { return n.type === 'kw' ? n.name : short(n.name, 24); });
 
     sim = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(function (n) { return n.id; })
-        .distance(function (l) { return l.type === 'field' ? 46 + radius(l.target) : 120; })
-        .strength(function (l) { return l.type === 'field' ? 0.55 : Math.min(0.02 * l.w, 0.12); }))
-      .force('charge', d3.forceManyBody().strength(function (n) { return n.type === 'field' ? -320 : -140; }))
-      .force('collide', d3.forceCollide().radius(function (n) { return radius(n) + (n.type === 'field' ? 26 : Math.min(8 + n.name.length * 4.2, 30)); }).iterations(2))
-      .force('x', d3.forceX(function (n) { return n.type === 'field' ? n.ax : n.field.ax; }).strength(function (n) { return n.type === 'field' ? 0.25 : 0.06; }))
-      .force('y', d3.forceY(function (n) { return n.type === 'field' ? n.ay : n.field.ay; }).strength(function (n) { return n.type === 'field' ? 0.25 : 0.06; }))
-      .alphaDecay(0.03);
+      .velocityDecay(0.6)
+      .force('link', d3.forceLink(links).id(function (n) { return n.id; }).distance(34).strength(0.35))
+      .force('charge', d3.forceManyBody().strength(function (n) { return n.type === 'kw' ? -180 : -26; }).distanceMax(320))
+      .force('collide', d3.forceCollide().radius(function (n) { return radius(n) + (n.type === 'kw' ? 6 : 2); }))
+      .force('x', d3.forceX(function (n) { return n.fi >= 0 ? anchors[n.fi].x : W / 2; }).strength(0.035))
+      .force('y', d3.forceY(function (n) { return n.fi >= 0 ? anchors[n.fi].y : H / 2; }).strength(0.035));
     if (!reduceMotion) {
-      // 천천히 떠다니는 움직임
-      sim.force('drift', function (alpha) {
+      // 아주 느리게 떠다니는 움직임
+      sim.force('drift', function () {
         var t = Date.now() / 1000;
-        nodes.forEach(function (n) { n.vx += Math.cos(t * 0.5 + n.phase) * 0.018; n.vy += Math.sin(t * 0.4 + n.phase) * 0.018; });
-      }).alphaTarget(0.012);
+        nodes.forEach(function (n) { if (n.pinned) return; n.vx += Math.cos(t * 0.15 + n.phase) * 0.006; n.vy += Math.sin(t * 0.12 + n.phase) * 0.006; });
+      }).alphaTarget(0.004);
     }
     sim.on('tick', function () {
-      nodes.forEach(function (n) { var r = radius(n) + 14; n.x = Math.max(r, Math.min(W - r, n.x)); n.y = Math.max(TOP + r, Math.min(H - BOTTOM - r, n.y)); });
-      link.attr('x1', function (l) { return l.source.x; }).attr('y1', function (l) { return l.source.y; })
+      linkSel.attr('x1', function (l) { return l.source.x; }).attr('y1', function (l) { return l.source.y; })
         .attr('x2', function (l) { return l.target.x; }).attr('y2', function (l) { return l.target.y; });
-      node.attr('transform', function (n) { return 'translate(' + n.x + ',' + n.y + ')'; });
+      nodeSel.attr('transform', function (n) { return 'translate(' + n.x + ',' + n.y + ')'; });
     });
-    if (reduceMotion) { sim.stop(); for (var i = 0; i < 300; i++) sim.tick(); sim.on('tick')(); }
+    for (var i = 0; i < 260; i++) sim.tick();
+    sim.on('tick')();
+    if (reduceMotion) sim.stop();
 
-    function focusOn(n) {
-      node.classed('dim', function (m) { return n ? !n.nb.has(m.id) : false; }).classed('on', function (m) { return n && m.id === n.id; });
-      link.classed('dim', function (l) { return n ? (l.source.id !== n.id && l.target.id !== n.id) : false; })
-        .classed('hot', function (l) { return n ? (l.source.id === n.id || l.target.id === n.id) : false; });
-    }
-    window.__kwFocus = focusOn;
+    zoom = d3.zoom().scaleExtent([0.4, 5]).on('zoom', function (e) {
+      gAll.attr('transform', e.transform); k = e.transform.k;
+      svg.classed('zoomed', k >= 1.6);
+    });
+    svg.call(zoom).on('dblclick.zoom', null);
+    fit(false);
   }
 
+  function fit(animate) {
+    var vis = nodes.filter(function (n) { return n.visible !== false && (n.fi >= 0 || state.local); });
+    if (!vis.length) return;
+    var x0 = d3.min(vis, function (n) { return n.x; }), x1 = d3.max(vis, function (n) { return n.x; });
+    var y0 = d3.min(vis, function (n) { return n.y; }), y1 = d3.max(vis, function (n) { return n.y; });
+    var s = Math.min(3, 0.97 / Math.max((x1 - x0 + 40) / W, (y1 - y0 + 40) / H));
+    var t = d3.zoomIdentity.translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+    (animate && !reduceMotion ? svg.transition().duration(600) : svg).call(zoom.transform, t);
+  }
+
+  // ---------- filters & selection ----------
+  function apply() {
+    var q = state.q.trim().toLowerCase();
+    var sel = state.sel;
+    nodes.forEach(function (n) {
+      var inField = n.type === 'kw' ? !state.off.has(n.fi) : (n.fi < 0 ? state.off.size === 0 : Array.from(n.fis).some(function (fi) { return !state.off.has(fi); }));
+      var inLocal = !(state.local && sel) || sel.nb.has(n.id);
+      n.visible = inField && inLocal;
+      n.match = q && n.name.toLowerCase().indexOf(q) >= 0;
+    });
+    nodeSel.classed('hidden', function (n) { return !n.visible; })
+      .classed('match', function (n) { return n.match; })
+      .classed('faded', function (n) { return (q && !n.match && !(sel && sel.nb.has(n.id))) || (sel && !sel.nb.has(n.id) && !q); })
+      .classed('sel', function (n) { return sel && n.id === sel.id; });
+    linkSel.classed('hidden', function (l) { return !l.source.visible || !l.target.visible; })
+      .classed('hot', function (l) { return sel && (l.source.id === sel.id || l.target.id === sel.id); })
+      .classed('faded', function (l) { return (sel && l.source.id !== sel.id && l.target.id !== sel.id) || !!q; });
+    document.getElementById('rm-s-visible').textContent = nodes.filter(function (n) { return n.visible; }).length;
+  }
+  function hover(n) {
+    if (state.sel || state.q) return;
+    nodeSel.classed('faded', function (m) { return n ? !n.nb.has(m.id) : false; });
+    linkSel.classed('hot', function (l) { return n && (l.source.id === n.id || l.target.id === n.id); })
+      .classed('faded', function (l) { return n ? l.source.id !== n.id && l.target.id !== n.id : false; });
+  }
   function select(n) {
-    selected = (selected && n && selected.id === n.id) ? null : n;
-    if (window.__kwFocus) window.__kwFocus(selected);
-    if (!selected) { panel.hidden = true; return; }
-    var list = selected.papers.slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
-    var related = Array.from(selected.nb).map(function (id) { return byId[id]; })
-      .filter(function (m) { return m.id !== selected.id && m.type === 'kw'; })
-      .sort(function (a, b) { return b.papers.length - a.papers.length; }).slice(0, 8);
-    var head = selected.type === 'field'
-      ? '<div class="kp-eyebrow"><span class="kp-sw" style="background:' + selected.color + '"></span>학문 분야</div><h3>' + esc(selected.name) + '</h3><div class="kp-en">' + esc(selected.en) + '</div>'
-      : '<div class="kp-eyebrow"><span class="kp-sw" style="background:' + selected.color + '"></span>' + esc(selected.field.name) + '</div><h3>' + esc(selected.name) + '</h3><div class="kp-en">' + esc(selected.en) + '</div>';
-    panel.innerHTML = '<button type="button" class="kp-close" aria-label="닫기">×</button>' + head +
-      '<div class="kp-count"><strong>' + list.length + '</strong>편의 연구</div>' +
-      (related.length ? '<div class="kp-rel">' + related.map(function (m) { return '<button type="button" data-id="' + m.id + '">' + esc(m.name) + '</button>'; }).join('') + '</div>' : '') +
-      '<ol class="kp-list">' + list.map(function (p) { return '<li><span class="kp-year">' + (p.year || '') + '</span><span>' + esc(p.citation) + '</span></li>'; }).join('') + '</ol>';
-    panel.hidden = false;
-    panel.scrollTop = 0;
+    state.sel = (n && state.sel && state.sel.id === n.id) ? null : n;
+    apply(); renderDetail();
+    if (state.local) fit(true);
   }
-  panel.addEventListener('click', function (e) {
-    if (e.target.closest('.kp-close')) { select(selected); return; }
-    var b = e.target.closest('[data-id]'); if (b) select(byId[b.dataset.id]);
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && selected) select(selected); });
+  function renderDetail() {
+    var n = state.sel;
+    if (!n) { detail.innerHTML = '<h3>선택한 항목</h3><p class="rm-hint">키워드나 논문 점을 누르면 여기에 관련 연구가 표시됩니다.</p>'; return; }
+    var f = n.fi >= 0 ? fields[n.fi] : null;
+    var head = '<h3>선택한 항목</h3><div class="rm-d-eyebrow">' + (f ? '<span class="rm-sw" style="background:' + f.color + '"></span>' + esc(f.name) : '분류 없음') + ' · ' + (n.type === 'kw' ? '키워드' : '논문') + '</div>';
+    if (n.type === 'kw') {
+      var list = n.papers.slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+      var rel = {};
+      list.forEach(function (p) { p.kws.forEach(function (o) { if (o !== n) rel[o.id] = (rel[o.id] || 0) + 1; }); });
+      var relList = Object.keys(rel).sort(function (a, b) { return rel[b] - rel[a]; }).slice(0, 8).map(function (id) { return byId[id]; });
+      detail.innerHTML = head + '<div class="rm-d-title">' + esc(n.name) + ' <span>' + esc(n.en) + '</span></div>' +
+        '<div class="rm-d-count"><strong>' + list.length + '</strong>편의 연구</div>' +
+        (relList.length ? '<div class="rm-d-rel">' + relList.map(function (o) { return '<button type="button" data-id="' + o.id + '">' + esc(o.name) + '</button>'; }).join('') + '</div>' : '') +
+        '<ol class="rm-d-list">' + list.map(function (p) { return '<li><button type="button" data-id="' + p.id + '"><span class="rm-y">' + (p.year || '') + '</span><span>' + esc(p.citation) + '</span></button></li>'; }).join('') + '</ol>';
+    } else {
+      detail.innerHTML = head + '<p class="rm-d-cite">' + esc(n.citation) + '</p>' +
+        (n.kws.length ? '<div class="rm-d-rel">' + n.kws.map(function (o) { return '<button type="button" data-id="' + o.id + '">' + esc(o.name) + '</button>'; }).join('') + '</div>' : '<p class="rm-hint">연결된 키워드가 없습니다.</p>');
+    }
+  }
+
+  function bind() {
+    var timer;
+    document.getElementById('rm-search').addEventListener('input', function (e) {
+      clearTimeout(timer); var v = e.target.value; timer = setTimeout(function () { state.q = v; apply(); }, 150);
+    });
+    document.getElementById('rm-search').addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var q = state.q.trim().toLowerCase(); if (!q) return;
+      var hit = kws.find(function (n) { return n.name.toLowerCase().indexOf(q) >= 0; }) || papers.find(function (n) { return n.name.toLowerCase().indexOf(q) >= 0; });
+      if (hit) select(hit);
+    });
+    document.getElementById('rm-fields').addEventListener('change', function (e) {
+      var fi = +e.target.dataset.fi; if (e.target.checked) state.off.delete(fi); else state.off.add(fi); apply();
+    });
+    document.getElementById('rm-local').addEventListener('change', function (e) { state.local = e.target.checked; apply(); fit(true); });
+    document.getElementById('rm-reset').addEventListener('click', function () {
+      state.q = ''; state.off.clear(); state.local = false; state.sel = null;
+      document.getElementById('rm-search').value = ''; document.getElementById('rm-local').checked = false;
+      document.querySelectorAll('#rm-fields input').forEach(function (c) { c.checked = true; });
+      nodes.forEach(function (n) { n.fx = n.fy = null; n.pinned = false; }); nodeSel.classed('pinned', false);
+      apply(); renderDetail(); fit(true); sim.alpha(0.2).restart();
+    });
+    detail.addEventListener('click', function (e) { var b = e.target.closest('[data-id]'); if (b) select(byId[b.dataset.id]); });
+    document.getElementById('rm-zin').addEventListener('click', function () { svg.transition().duration(250).call(zoom.scaleBy, 1.4); });
+    document.getElementById('rm-zout').addEventListener('click', function () { svg.transition().duration(250).call(zoom.scaleBy, 1 / 1.4); });
+    document.getElementById('rm-zfit').addEventListener('click', function () { fit(true); });
+    svg.on('click', function (e) { if (e.target === svg.node()) select(state.sel); });
+  }
 })();
