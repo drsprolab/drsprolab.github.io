@@ -627,6 +627,6 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .pd-tag { font-size: 12px; font-weight: 600; color: var(--accent); }
 .pd-plan { font-size: 14px; line-height: 1.65; padding: 12px 14px; border-radius: 8px; background: var(--accent-soft); }
 .pd-plan strong { margin-right: 4px; }
-.report-intro { max-width: 760px; margin-block: 20px 4px; display: grid; gap: 8px; }
+.report-intro { width: 100%; max-width: none; margin-block: 20px 24px; display: grid; gap: 12px; }
 .prose .report-intro h2 { font-size: 20px; margin: 0; padding: 0; }
-.prose .report-intro p { margin: 0; line-height: 1.75; }
+.prose .report-intro p { margin: 0; width: 100%; max-width: none; line-height: 1.7; }

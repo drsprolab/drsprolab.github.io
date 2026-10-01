@@ -23,8 +23,8 @@ daily-insight:
   image: daily-insight
   alt: AI의 정보 흐름을 분석하며 통찰을 정리하는 연구 공간
 blog:
-  image: blog
-  alt: 연구 경험과 아이디어를 기록하는 노트와 책
+  image: measurement-diagnosis-solutions
+  alt: AI 기반 진단도구 개발과 역량 분석을 통해 솔루션과 컨설팅을 설계하는 전문가들의 협업
 bk21-aix:
   image: bk21-aix
   alt: AI 연결망을 중심으로 교육공학·기계공학·데이터사이언스·미디어커뮤니케이션이 협력하는 융합연구 일러스트
