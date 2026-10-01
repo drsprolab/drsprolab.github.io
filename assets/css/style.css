@@ -508,8 +508,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 @media (prefers-color-scheme: dark) { .rmap { --rm-bg: #121a24; --rm-grid: rgba(255,255,255,.05); --rm-ring: #121a24; --rm-label: #e6eaf0; --rm-label-bg: rgba(18,26,36,.85); } }
 .rmap-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 24px; padding: 24px 26px;
   border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(120deg, var(--accent-soft), var(--paper) 70%); }
-.rmap-eyebrow { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
-.rmap .rmap-title { font-family: var(--f-body); font-size: 30px; font-weight: 700; margin: 4px 0 6px; letter-spacing: -.01em; }
+.rmap .rmap-title { font-family: var(--f-body); font-size: clamp(28px, 3.5vw, 36px); font-weight: 600; margin: 0 0 10px; letter-spacing: -.02em; }
 .rmap .rmap-desc { margin: 0; color: var(--muted); font-size: 14.5px; max-width: 52ch; }
 .rmap-stats { display: grid; grid-template-columns: repeat(4, minmax(78px, 1fr)); gap: 8px; margin: 0; }
 .rmap-stats div { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
