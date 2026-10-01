@@ -550,3 +550,28 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   .kwnet-svg { height: 560px; }
   .kwnet-panel { position: relative; inset: auto; width: auto; margin: 0 10px 56px; max-height: 420px; }
 }
+
+/* Soft academic background behind the home introduction. */
+.hero-intro {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  min-height: 310px;
+  padding: 40px;
+  border: 1px solid rgba(148, 178, 207, .2);
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #142536;
+  background-image: linear-gradient(90deg, rgba(10, 22, 35, .86) 0%, rgba(10, 22, 35, .68) 55%, rgba(10, 22, 35, .16) 100%), url('../images/banners/hero-research-background.jpg');
+  background-position: center;
+  background-size: cover;
+  color: #f4f7fb;
+}
+.hero-intro .eyebrow { color: #c3d3e2; }
+.hero-intro h1 .expand { color: #cbd9e5; }
+.hero-intro p { color: #edf2f7; max-width: 62ch; }
+@media (max-width: 680px) {
+  .hero-intro { min-height: 300px; padding: 28px 22px; border-radius: 12px; }
+  .hero-intro h1 { font-size: clamp(32px, 8vw, 44px); }
+  .hero-intro p { font-size: 16px; }
+}
