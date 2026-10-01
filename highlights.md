@@ -25,7 +25,7 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
 <div class="gallery">
   {% for g in list %}
   <article class="gcard">
-    {% if g.image %}<img src="{{ '/assets/images/gallery/' | append: g.image | relative_url }}" alt="{{ g.title }}" loading="lazy" decoding="async" width="560" height="420">{% else %}<div class="ph" aria-hidden="true"></div>{% endif %}
+    {% if g.image %}<img src="{{ '/assets/images/gallery/' | append: g.image | relative_url }}" alt="{{ g.title }}" loading="lazy" decoding="async" width="480" height="360">{% else %}<div class="ph" aria-hidden="true"></div>{% endif %}
     <div class="gcard-title">{{ g.title }}</div>
     {% if g.year %}<div class="gcard-meta">{{ g.year }}{% if g.month %}.{{ g.month | prepend: '0' | slice: -2, 2 }}{% endif %}</div>{% endif %}
   </article>
