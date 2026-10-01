@@ -28,5 +28,5 @@
   children:
     - { title: Awards, url: /highlights/#awards }
     - { title: Gallery, url: /highlights/#gallery }
-- title: Blog
+- title: Measurement
   url: /blog/
