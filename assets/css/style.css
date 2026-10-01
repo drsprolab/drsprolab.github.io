@@ -182,10 +182,11 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .inst .badge { margin: 0; }
 .inst.ended { color: var(--muted); }
 
-.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-.shot { margin: 0; display: grid; gap: 6px; }
-.shot img, .shot .ph { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: var(--tint); max-width: 100%; }
-.shot figcaption { font-size: 13.5px; color: var(--muted); }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.gcard { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; gap: 6px; align-content: start; background: var(--paper); }
+.gcard img, .gcard .ph { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 5px; background: var(--tint); max-width: 100%; }
+.gcard-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.gcard-meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-top: -2px; }
 
 /* ---- Blog post content ---- */
 .post .prose > table { display: block; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; margin-block: 16px; }

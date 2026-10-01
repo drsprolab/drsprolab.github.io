@@ -1,408 +1,563 @@
-# 갤러리 행사 목록. 사진을 넣으려면 assets/images/gallery/ 에 파일을 두고 image: "파일이름" 을 추가하세요
+# 갤러리. 사진은 assets/images/gallery/ 에 있고 image 에 파일 이름을 적습니다.
 conferences:
-  - year: 2026
+  - title: "2026 고용·직업능력개발 학술대회"
+    year: 2026
     month: 8
-    title: "2026 고용·직업능력개발 학술대회"
-  - year: 2026
+    image: "conferences-960794e05f.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-4c61fb37a3.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-ec26893ea4.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-12020e44b8.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-fc1d3e9f5b.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-254324ed0f.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-807bf8a7c1.jpg"
+  - title: "2026 UFHRD"
+    year: 2026
     month: 6
-    title: "2026 UFHRD"
-  - year: 2026
+    image: "conferences-459a6e98d3.jpg"
+  - title: "2026 교정미 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 교정미 춘계학술대회"
-  - year: 2026
+    image: "conferences-7b444010f2.jpg"
+  - title: "2026 인력개발학회 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 인력개발학회 춘계학술대회"
-  - year: 2026
+    image: "conferences-d9e69714ef.jpg"
+  - title: "2026 인력개발학회 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 인력개발학회 춘계학술대회"
-  - year: 2026
+    image: "conferences-5351294cb4.jpg"
+  - title: "2026 인력개발학회 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 인력개발학회 춘계학술대회"
-  - year: 2026
+    image: "conferences-4bf498e6eb.jpg"
+  - title: "2026 인력개발학회 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 인력개발학회 춘계학술대회"
-  - year: 2026
+    image: "conferences-c4365129d8.jpg"
+  - title: "2026 인력개발학회 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 인력개발학회 춘계학술대회"
-  - year: 2026
+    image: "conferences-19b824b8de.jpg"
+  - title: "2026 KAHRD 춘계학술대회"
+    year: 2026
     month: 5
-    title: "2026 KAHRD 춘계학술대회"
-  - year: 2025
+    image: "conferences-3462e1a1a4.jpg"
+  - title: "2025 ICoME 국제학술대회"
+    year: 2025
     month: 8
-    title: "2025 ICoME 국제학술대회"
-  - year: 2025
+    image: "conferences-6ba5443fdd.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-91c033c4ad.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-d821b16f27.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-384e5fee76.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: null
-    month: null
-    title: "2025 UFHRD"
-  - year: null
-    month: null
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-99dc24068a.jpg"
+  - title: "2025 UFHRD"
+    image: "conferences-6064405c22.jpg"
+  - title: "2025 UFHRD"
+    image: "conferences-d5f9d459ae.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-5ff0ce0861.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-a39c110239.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-aa6ed744a1.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-1a81ffddb6.jpg"
+  - title: "2025 UFHRD"
+    year: 2025
     month: 6
-    title: "2025 UFHRD"
-  - year: 2025
+    image: "conferences-a9f367b668.jpg"
+  - title: "2025 한국교육공학회"
+    year: 2025
     month: 5
-    title: "2025 한국교육공학회"
-  - year: 2025
+    image: "conferences-c562828b9f.jpg"
+  - title: "2025 한국교육정보미디어학회 춘계학술대회 미디어전"
+    year: 2025
     month: 5
-    title: "2025 한국교육정보미디어학회 춘계학술대회 미디어전"
-  - year: 2025
+    image: "conferences-74d0f5ae8f.jpg"
+  - title: "2025 AHRD"
+    year: 2025
     month: 2
-    title: "2025 AHRD"
-  - year: 2024
+    image: "conferences-4e236be9e9.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 9
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-9da5992838.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-be269e543d.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-0b859344ec.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-6d491e5429.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-ba7add8e1d.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-b57b0ec494.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 10
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-65f8ad4d42.jpg"
+  - title: "2024 Asian AHRD"
+    year: 2024
     month: 9
-    title: "2024 Asian AHRD"
-  - year: 2024
+    image: "conferences-223033f5f6.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-f3d6182381.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-a7ef1e7306.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-90574f9e43.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-7a74bbbe5a.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-e7d48a08cd.jpg"
+  - title: "2024 UFHRD"
+    year: 2024
     month: 6
-    title: "2024 UFHRD"
-  - year: 2024
+    image: "conferences-dc212a09aa.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-095a7f065b.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-b44f2d8437.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-c4c6f1afa4.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-2d076c7885.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-31a8a6b133.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2024
+    image: "conferences-ba9a9edf72.jpg"
+  - title: "2024 한국교육정보미디어학회 춘계학술대회"
+    year: 2024
     month: 5
-    title: "2024 한국교육정보미디어학회 춘계학술대회"
-  - year: 2023
+    image: "conferences-5145cc42e6.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-267031a48c.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-876e047437.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-8e0ab7ddb7.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-81acef817e.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-8caad9523f.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-a0c7fddb3a.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-55f6c090cd.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-f273416267.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: null
-    month: null
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-58e162c120.jpg"
+  - title: "2023 UFHRD"
+    image: "conferences-9511dd5358.jpg"
+  - title: "2023 UFHRD"
+    year: 2023
     month: 6
-    title: "2023 UFHRD"
-  - year: 2023
+    image: "conferences-e8cc44bf8c.jpg"
+  - title: "2023 인력개발학회"
+    year: 2023
     month: 6
-    title: "2023 인력개발학회"
-  - year: 2023
+    image: "conferences-f09b69dd00.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2023
+    image: "conferences-3f00975ef3.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2023
+    image: "conferences-ba22cdc716.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2023
+    image: "conferences-d7b14afdb2.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2023
+    image: "conferences-33a5233e64.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2023
+    image: "conferences-ba3111631a.jpg"
+  - title: "2023 AHRD"
+    year: 2023
     month: 3
-    title: "2023 AHRD"
-  - year: 2022
-    month: null
-    title: "2022 한국해양수산교육학회 추계학술대회"
-  - year: 2022
+    image: "conferences-fa8da6c4f6.jpg"
+  - title: "2022 한국해양수산교육학회 추계학술대회"
+    year: 2022
+    image: "conferences-fafecfe317.jpg"
+  - title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
+    year: 2022
     month: 11
-    title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
-  - year: 2022
+    image: "conferences-ea8d0cf45a.jpg"
+  - title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
+    year: 2022
     month: 11
-    title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
-  - year: 2022
+    image: "conferences-1aee8fb0b4.jpg"
+  - title: "2022 한국인력개발학회 추계학술대회"
+    year: 2022
     month: 11
-    title: "2022 한국인력개발학회 추계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 한국인력개발학회 춘계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 한국인력개발학회 춘계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 한국인력개발학회 춘계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 한국교육정보미디어학회 춘계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 한국교육정보미디어학회 춘계학술대회"
-  - year: 2022
-    month: null
-    title: "2022 AHRD (Online)"
-  - year: 2022
-    month: null
-    title: "2022 AHRD (Online)"
-  - year: 2022
-    month: null
-    title: "2022 AHRD (Online)"
-  - year: 2022
-    month: null
-    title: "2022 AHRD (Online)"
-  - year: 2021
-    month: null
-    title: "2021 AHRD (Online)"
-  - year: 2021
-    month: null
-    title: "2021 AHRD (Online)"
-  - year: 2020
-    month: null
-    title: "2020 AHRD"
-  - year: 2020
-    month: null
-    title: "2020 AHRD"
-  - year: 2020
-    month: null
-    title: "2020 AHRD"
-  - year: 2019
-    month: null
-    title: "2019 ATD conference"
-  - year: 2019
-    month: null
-    title: "2019 AHRD Hanoi"
-  - year: 2019
-    month: null
-    title: "2019 AHRD Hanoi"
-  - year: 2018
-    month: null
-    title: "2018 KSET 춘계학술대회"
-  - year: 2018
-    month: null
-    title: "2018 AHRD"
-  - year: 2018
-    month: null
-    title: "2018 AHRD"
-  - year: 2018
-    month: null
-    title: "2018 AHRD"
-  - year: 2018
-    month: null
-    title: "2018 AHRD"
-  - year: 2017
-    month: null
-    title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
-  - year: 2017
-    month: null
-    title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
-  - year: 2017
-    month: null
-    title: "2017 세계전략포럼"
-  - year: 2017
-    month: null
-    title: "2017 대한민국 인력개발 실태 및 성숙도 조사"
-  - year: 2017
-    month: null
-    title: "2017 KSET 춘계학술대회"
-  - year: 2017
-    month: null
-    title: "2017 KSET 춘계학술대회"
-  - year: 2017
-    month: null
-    title: "2017 KSA 인적자원개발 컨퍼런스"
-  - year: 2017
-    month: null
-    title: "2017 ATD conference"
-  - year: 2017
-    month: null
-    title: "2017 AHRD"
-  - year: 2016
-    month: null
-    title: "2016 ATD conference"
+    image: "conferences-91724abdc9.jpg"
+  - title: "2022 한국인력개발학회 춘계학술대회"
+    year: 2022
+    image: "conferences-b49ef03278.jpg"
+  - title: "2022 한국인력개발학회 춘계학술대회"
+    year: 2022
+    image: "conferences-f25bd1d7fa.jpg"
+  - title: "2022 한국인력개발학회 춘계학술대회"
+    year: 2022
+    image: "conferences-c60210ae28.jpg"
+  - title: "2022 한국교육정보미디어학회 춘계학술대회"
+    year: 2022
+    image: "conferences-d7fcc9a16c.jpg"
+  - title: "2022 한국교육정보미디어학회 춘계학술대회"
+    year: 2022
+    image: "conferences-11cb1349e6.jpg"
+  - title: "2022 AHRD (Online)"
+    year: 2022
+    image: "conferences-8d635de2de.jpg"
+  - title: "2022 AHRD (Online)"
+    year: 2022
+    image: "conferences-ba8918bf3b.jpg"
+  - title: "2022 AHRD (Online)"
+    year: 2022
+    image: "conferences-079f9bb59d.jpg"
+  - title: "2022 AHRD (Online)"
+    year: 2022
+    image: "conferences-d67859c5e7.jpg"
+  - title: "2021 AHRD (Online)"
+    year: 2021
+    image: "conferences-b9078b6dea.jpg"
+  - title: "2021 AHRD (Online)"
+    year: 2021
+    image: "conferences-f7a911ec91.jpg"
+  - title: "2020 AHRD"
+    year: 2020
+    image: "conferences-1a57b96602.jpg"
+  - title: "2020 AHRD"
+    year: 2020
+    image: "conferences-cc76d83bf4.jpg"
+  - title: "2020 AHRD"
+    year: 2020
+    image: "conferences-2d3e2a5c8a.jpg"
+  - title: "2019 ATD conference"
+    year: 2019
+    image: "conferences-fc420bd691.jpg"
+  - title: "2019 AHRD Hanoi"
+    year: 2019
+    image: "conferences-7c5dce7c63.jpg"
+  - title: "2019 AHRD Hanoi"
+    year: 2019
+    image: "conferences-10ca9c16a0.jpg"
+  - title: "2018 KSET 춘계학술대회"
+    year: 2018
+    image: "conferences-5a9405714b.jpg"
+  - title: "2018 AHRD"
+    year: 2018
+    image: "conferences-2a0bb1bb5d.jpg"
+  - title: "2018 AHRD"
+    year: 2018
+    image: "conferences-0d90c417a1.jpg"
+  - title: "2018 AHRD"
+    year: 2018
+    image: "conferences-cc04e2fc57.jpg"
+  - title: "2018 AHRD"
+    year: 2018
+    image: "conferences-d8ef59545e.jpg"
+  - title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
+    year: 2017
+    image: "conferences-b5b9861f1b.jpg"
+  - title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
+    year: 2017
+    image: "conferences-b3e3db0b47.jpg"
+  - title: "2017 세계전략포럼"
+    year: 2017
+    image: "conferences-106ed7e9e0.jpg"
+  - title: "2017 대한민국 인력개발 실태 및 성숙도 조사"
+    year: 2017
+    image: "conferences-04dfdb5e40.jpg"
+  - title: "2017 KSET 춘계학술대회"
+    year: 2017
+    image: "conferences-1ce1f15a96.jpg"
+  - title: "2017 KSET 춘계학술대회"
+    year: 2017
+    image: "conferences-8158e5d4f9.jpg"
+  - title: "2017 KSA 인적자원개발 컨퍼런스"
+    year: 2017
+    image: "conferences-7c79c5cfbd.jpg"
+  - title: "2017 ATD conference"
+    year: 2017
+    image: "conferences-aa4f45bfdf.jpg"
+  - title: "2017 AHRD"
+    year: 2017
+    image: "conferences-27d4360bb6.jpg"
+  - title: "2016 ATD conference"
+    year: 2016
+    image: "conferences-ae3c33c7c8.jpg"
 workshops:
   - title: "2026 동계워크샵"
+    image: "workshops-ea94bc7313.jpg"
   - title: "2025 하계 워크샵"
+    image: "workshops-efc3d99724.jpg"
   - title: "2025 동계 워크샵"
+    image: "workshops-c74ce865a9.jpg"
   - title: "2025 동계 방학 스터디"
+    image: "workshops-e2521442f2.jpg"
   - title: "2024 하계 워크샵"
+    image: "workshops-ecd7b05dd5.jpg"
   - title: "2023 석사과정 워크샵"
+    image: "workshops-95e21b2306.jpg"
   - title: "세미나 수업"
+    image: "workshops-258fc04923.jpg"
   - title: "세미나 수업"
+    image: "workshops-63c5cb76a9.jpg"
   - title: "2019 하계 워크샵"
+    image: "workshops-e3b270b6c8.jpg"
   - title: "2019 하계 워크샵"
+    image: "workshops-265d84f80a.jpg"
   - title: "2019 하계 워크샵"
+    image: "workshops-854645f745.jpg"
   - title: "2019 하계 워크샵"
+    image: "workshops-ae53a9cd09.jpg"
   - title: "2019 아고라 스터디"
+    image: "workshops-61a1d91886.jpg"
   - title: "2019 아고라 스터디"
+    image: "workshops-3ba12af91e.jpg"
   - title: "2018 하계 워크샵"
+    image: "workshops-f2251e53b2.jpg"
   - title: "2018 하계 워크샵"
+    image: "workshops-57fa4614f1.jpg"
   - title: "2017 하계 워크샵"
+    image: "workshops-d14edecb81.jpg"
   - title: "2017 하계 워크샵"
+    image: "workshops-0eb9601c54.jpg"
   - title: "2017 하계 워크샵"
+    image: "workshops-358e0e5b36.jpg"
   - title: "2017 동계 워크샵"
+    image: "workshops-be2971f0d5.jpg"
   - title: "2017 동계 워크샵"
+    image: "workshops-36a3cc5ace.jpg"
 daily:
   - title: "주재홍 박사님 결혼식"
+    image: "daily-2d565df940.jpg"
   - title: "2026 추석"
+    image: "daily-629731a9d6.jpg"
   - title: "성한올 교수님 환영식"
+    image: "daily-63687741fe.jpg"
   - title: "2026 스승의 날"
+    image: "daily-b3fdc976d8.jpg"
   - title: "2026 박사 학위패 수여"
+    image: "daily-3c831683d3.jpg"
   - title: "2026-1 박사 모임"
+    image: "daily-94d75e3cc0.jpg"
   - title: "2025-2학기 조직개발 책거리"
+    image: "daily-be25706bd0.jpg"
   - title: "2025 추석"
+    image: "daily-ae0ecd0f56.jpg"
   - title: "2025 스승의날"
+    image: "daily-1e82ede948.jpg"
   - title: "2025-1 졸업식"
+    image: "daily-35ffb3cb7c.jpg"
   - title: "2024-2 졸업식"
+    image: "daily-ed49629872.jpg"
   - title: "정수정 교수님 환영식"
+    image: "daily-16f8c392f7.jpg"
   - title: "2024-2학기 신입생 환영회"
+    image: "daily-5a4f203b0f.jpg"
   - title: "2024 주말 모임"
+    image: "daily-b0a9a53779.jpg"
   - title: "2024-1 졸업생 송별회"
+    image: "daily-11375aa2c4.jpg"
   - title: "2024 졸업생 모임"
+    image: "daily-b98bfaebac.jpg"
   - title: "2024 스승의 날"
+    image: "daily-8be01a8db7.jpg"
   - title: "2024 동계 스터디 책거리"
+    image: "daily-4a0f9c2648.jpg"
   - title: "2023-2 졸업식"
+    image: "daily-f426a10b56.jpg"
   - title: "2024 설"
+    image: "daily-4309a65558.jpg"
   - title: "교육부장관 표창장 수여(유명현 박사)"
+    image: "daily-1a7acdc14c.jpg"
   - title: "2023 졸업생,박사 모임"
+    image: "daily-00a81249a1.jpg"
   - title: "2023 추석"
+    image: "daily-c4c1abd5ba.jpg"
   - title: "2023-1학기 졸업식"
+    image: "daily-0b90ce9bf8.jpg"
   - title: "장유진 박사 학위패 증정"
+    image: "daily-3c5869c2a4.jpg"
   - title: "2023-1 박사모임"
+    image: "daily-38425ed6b6.jpg"
   - title: "2023 졸업생 모임"
+    image: "daily-9241ecf4fa.jpg"
   - title: "2023 스승의 날"
+    image: "daily-a7b3bc6bcf.jpg"
   - title: "2023 설"
+    image: "daily-193b4753eb.jpg"
   - title: "2023 박사모임"
+    image: "daily-2135651f78.jpg"
   - title: "2022 서울나들이"
+    image: "daily-5aee7eba87.jpg"
   - title: "2022 서울나들이"
+    image: "daily-a5188d5a3c.jpg"
   - title: "2022 전용찬 선생님 결혼식"
+    image: "daily-0ead42003e.jpg"
   - title: "2022 전용찬 선생님 결혼식"
+    image: "daily-0a95696d99.jpg"
   - title: "2022 2학기 연구실 개강총회"
+    image: "daily-95fa126331.jpg"
   - title: "2022 2학기 연구실 개강총회"
+    image: "daily-952bc30ca9.jpg"
   - title: "2022 스승의날"
+    image: "daily-bd343180a8.jpg"
   - title: "2022 스승의날"
+    image: "daily-f8ed94bfc1.jpg"
   - title: "2022 설"
+    image: "daily-fcff73fa9f.jpg"
   - title: "2022 교수님 HYU학술상 수상"
+    image: "daily-d8c6e7ba1c.jpg"
   - title: "2022 교수님 HYU학술상 수상"
+    image: "daily-2ccd01324d.jpg"
   - title: "2021 황은혜 선생님 결혼식"
+    image: "daily-4b30a56883.jpg"
   - title: "2021 추석"
+    image: "daily-149634ec87.jpg"
   - title: "2021 주말 모임"
+    image: "daily-d5955960bb.jpg"
   - title: "2021 스승의날"
+    image: "daily-24168e3d86.jpg"
   - title: "2021 스승의날"
+    image: "daily-51767e1ff4.jpg"
   - title: "2021 송년모임"
+    image: "daily-44d092efe7.jpg"
   - title: "2021 설"
+    image: "daily-c5e928bb09.jpg"
   - title: "2021 김재현 선생님 결혼식"
+    image: "daily-76a3e51a95.jpg"
   - title: "2020 하계 모임"
+    image: "daily-9a0404c6e3.jpg"
   - title: "2020 추석"
+    image: "daily-753eb30d6f.jpg"
   - title: "2020 논문 스터디"
+    image: "daily-8bec2f243f.jpg"
   - title: "2020 2학기 산책모임"
+    image: "daily-2404e74fef.jpg"
   - title: "2020 2학기 산책모임"
+    image: "daily-72ca85e62c.jpg"
   - title: "2020 1학기 종강모임"
+    image: "daily-f48f854a33.jpg"
   - title: "2020 1학기 종강모임"
+    image: "daily-abdeb93976.jpg"
   - title: "2020 10월 연구실 모임"
+    image: "daily-64dd1aac32.jpg"
   - title: "2019 한국교육학회 뒷풀이"
+    image: "daily-fb56c23858.jpg"
   - title: "2019 한국교육학회 뒷풀이"
+    image: "daily-e51bffc675.jpg"
   - title: "2019 주중 모임"
+    image: "daily-0d0cbafaa2.jpg"
   - title: "2019 스승의날"
+    image: "daily-1f951a1b41.jpg"
   - title: "2019 스승의날"
+    image: "daily-b08ef64587.jpg"
   - title: "2019 동기 모임"
+    image: "daily-de37f307a7.jpg"
   - title: "2019 2월 연초모임"
+    image: "daily-e057ecfe24.jpg"
   - title: "2018 연말 모임"
+    image: "daily-dac1b92682.jpg"
   - title: "2018 설"
+    image: "daily-bbfcdea7cb.jpg"
   - title: "2017 스승의날"
+    image: "daily-d2dca20346.jpg"
   - title: "2017 랩 모임"
+    image: "daily-4469260f4d.jpg"

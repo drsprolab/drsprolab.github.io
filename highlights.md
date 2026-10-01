@@ -24,10 +24,11 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
 <h3>{{ label }} <span class="n">{{ list.size }}</span></h3>
 <div class="gallery">
   {% for g in list %}
-  <figure class="shot">
-    {% if g.image %}<img src="{{ '/assets/images/gallery/' | append: g.image | relative_url }}" alt="{{ g.title }}" loading="lazy">{% else %}<div class="ph" aria-hidden="true"></div>{% endif %}
-    <figcaption>{{ g.title }}</figcaption>
-  </figure>
+  <article class="gcard">
+    {% if g.image %}<img src="{{ '/assets/images/gallery/' | append: g.image | relative_url }}" alt="{{ g.title }}" loading="lazy" decoding="async" width="560" height="420">{% else %}<div class="ph" aria-hidden="true"></div>{% endif %}
+    <div class="gcard-title">{{ g.title }}</div>
+    {% if g.year %}<div class="gcard-meta">{{ g.year }}{% if g.month %}.{{ g.month | prepend: '0' | slice: -2, 2 }}{% endif %}</div>{% endif %}
+  </article>
   {% endfor %}
 </div>
 {% endfor %}
