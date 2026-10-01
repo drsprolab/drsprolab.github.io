@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<article class="page post">
+<article class="page post{% if page.wide %} wide{% endif %}">
   <header class="page-head">
     <div class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time>{% if page.category %} · {{ page.category }}{% endif %}</div>
     <h1>{{ page.title }}</h1>
