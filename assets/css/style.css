@@ -182,3 +182,14 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .shot { margin: 0; display: grid; gap: 6px; }
 .shot img, .shot .ph { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: var(--tint); max-width: 100%; }
 .shot figcaption { font-size: 13.5px; color: var(--muted); }
+
+/* ---- Blog post content ---- */
+.post .prose table { display: block; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; margin-block: 16px; }
+.post .prose td:first-child { font-weight: 600; white-space: nowrap; }
+.post .prose thead th:empty { background: var(--tint); }
+.post .prose blockquote { margin: 16px 0; padding: 16px 20px; background: var(--accent-soft); border-radius: 8px; }
+.post .prose blockquote p { margin: 0; }
+.post .prose h3 { margin: 32px 0 10px; font-size: 18px; }
+.post .prose hr { border: 0; border-top: 1px solid var(--line); margin-block: 40px 24px; }
+.download { display: inline-block; padding: 8px 16px; border: 1px solid var(--accent); border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 15px; }
+.download:hover { background: var(--accent-soft); }
