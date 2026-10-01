@@ -2,6 +2,10 @@
 layout: post
 title: "학습민첩성"
 category: 측정도구
+measurement_order: 1
+measurement_target: 직장인·조직 구성원
+measurement_factors: 6개 요인
+measurement_summary: 새로운 경험에서 배우고 다른 상황에 적용하는 역량을 진단합니다.
 wide: true
 ---
 

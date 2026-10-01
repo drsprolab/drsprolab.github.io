@@ -5,12 +5,18 @@ eyebrow: Measurement
 permalink: /blog/
 lede: 개인의 행동과, 조직의 특성, 그리고 역량을 진단하고 솔루션을 제공합니다.
 ---
-<ul class="post-list">
-  {% for post in site.posts %}
-  <li>
-    <span class="eyebrow">{{ post.date | date: "%Y.%m.%d" }}{% if post.category %} · {{ post.category }}{% endif %}</span>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    {% if post.excerpt %}<p>{{ post.excerpt | strip_html | truncate: 120 }}</p>{% endif %}
-  </li>
+<div class="inst-grid">
+  {% assign tools = site.posts | where: "category", "측정도구" | sort: "measurement_order" %}
+  {% for tool in tools %}
+  <a class="inst" href="{{ tool.url | relative_url }}">
+    <div class="tags"><span class="badge">역량 진단</span><span class="badge">{{ tool.measurement_target }}</span></div>
+    <h3>{{ tool.title }}</h3>
+    <p>{{ tool.measurement_summary }}</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>{{ tool.measurement_target }}</dd>
+      <dt>측정 요인</dt><dd>{{ tool.measurement_factors }}</dd>
+      <dt>활용</dt><dd>강점·성장 요소 분석 및 교육·지원 설계</dd>
+    </dl>
+  </a>
   {% endfor %}
-</ul>
+</div>

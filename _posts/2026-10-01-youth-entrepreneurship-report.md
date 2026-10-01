@@ -2,6 +2,10 @@
 layout: post
 title: "청년 기업가정신"
 category: 측정도구
+measurement_order: 2
+measurement_target: 대학생·청년
+measurement_factors: 7개 요인
+measurement_summary: 낯선 환경에 도전하고 새로운 가치를 만들어 내는 역량을 진단합니다.
 wide: true
 ---
 
@@ -38,4 +42,3 @@ wide: true
 <div class="viz-tip" id="ye-tip" role="tooltip" hidden></div>
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
-
