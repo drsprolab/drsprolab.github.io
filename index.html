@@ -35,7 +35,8 @@ title: PRO AnalytiX Lab
   </div>
 </section>
 
-{% if site.posts.size > 0 %}
+{% comment %} 최근 소식: 공개 사이트에서는 숨기고 로컬 미리보기(_config.preview.yml)에서만 보임 {% endcomment %}
+{% if site.preview and site.posts.size > 0 %}
 <section class="section">
   <h2>최근 소식</h2>
   <ul class="post-list">
