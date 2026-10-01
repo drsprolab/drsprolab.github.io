@@ -1,0 +1,16 @@
+---
+layout: page
+title: Blog
+eyebrow: News & Notes
+permalink: /blog/
+lede: 연구실 소식과 연구 노트입니다.
+---
+<ul class="post-list">
+  {% for post in site.posts %}
+  <li>
+    <span class="eyebrow">{{ post.date | date: "%Y.%m.%d" }}{% if post.category %} · {{ post.category }}{% endif %}</span>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    {% if post.excerpt %}<p>{{ post.excerpt | strip_html | truncate: 120 }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ul>

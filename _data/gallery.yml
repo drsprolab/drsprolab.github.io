@@ -1,0 +1,408 @@
+# 갤러리 행사 목록. 사진을 넣으려면 assets/images/gallery/ 에 파일을 두고 image: "파일이름" 을 추가하세요
+conferences:
+  - year: 2026
+    month: 8
+    title: "2026 고용·직업능력개발 학술대회"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 6
+    title: "2026 UFHRD"
+  - year: 2026
+    month: 5
+    title: "2026 교정미 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 인력개발학회 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 인력개발학회 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 인력개발학회 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 인력개발학회 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 인력개발학회 춘계학술대회"
+  - year: 2026
+    month: 5
+    title: "2026 KAHRD 춘계학술대회"
+  - year: 2025
+    month: 8
+    title: "2025 ICoME 국제학술대회"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: null
+    month: null
+    title: "2025 UFHRD"
+  - year: null
+    month: null
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 6
+    title: "2025 UFHRD"
+  - year: 2025
+    month: 5
+    title: "2025 한국교육공학회"
+  - year: 2025
+    month: 5
+    title: "2025 한국교육정보미디어학회 춘계학술대회 미디어전"
+  - year: 2025
+    month: 2
+    title: "2025 AHRD"
+  - year: 2024
+    month: 9
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 10
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 9
+    title: "2024 Asian AHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 6
+    title: "2024 UFHRD"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2024
+    month: 5
+    title: "2024 한국교육정보미디어학회 춘계학술대회"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: null
+    month: null
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 UFHRD"
+  - year: 2023
+    month: 6
+    title: "2023 인력개발학회"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2023
+    month: 3
+    title: "2023 AHRD"
+  - year: 2022
+    month: null
+    title: "2022 한국해양수산교육학회 추계학술대회"
+  - year: 2022
+    month: 11
+    title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
+  - year: 2022
+    month: 11
+    title: "2022 한국디지털콘텐츠학회 추계종합학술대회"
+  - year: 2022
+    month: 11
+    title: "2022 한국인력개발학회 추계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 한국인력개발학회 춘계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 한국인력개발학회 춘계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 한국인력개발학회 춘계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 한국교육정보미디어학회 춘계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 한국교육정보미디어학회 춘계학술대회"
+  - year: 2022
+    month: null
+    title: "2022 AHRD (Online)"
+  - year: 2022
+    month: null
+    title: "2022 AHRD (Online)"
+  - year: 2022
+    month: null
+    title: "2022 AHRD (Online)"
+  - year: 2022
+    month: null
+    title: "2022 AHRD (Online)"
+  - year: 2021
+    month: null
+    title: "2021 AHRD (Online)"
+  - year: 2021
+    month: null
+    title: "2021 AHRD (Online)"
+  - year: 2020
+    month: null
+    title: "2020 AHRD"
+  - year: 2020
+    month: null
+    title: "2020 AHRD"
+  - year: 2020
+    month: null
+    title: "2020 AHRD"
+  - year: 2019
+    month: null
+    title: "2019 ATD conference"
+  - year: 2019
+    month: null
+    title: "2019 AHRD Hanoi"
+  - year: 2019
+    month: null
+    title: "2019 AHRD Hanoi"
+  - year: 2018
+    month: null
+    title: "2018 KSET 춘계학술대회"
+  - year: 2018
+    month: null
+    title: "2018 AHRD"
+  - year: 2018
+    month: null
+    title: "2018 AHRD"
+  - year: 2018
+    month: null
+    title: "2018 AHRD"
+  - year: 2018
+    month: null
+    title: "2018 AHRD"
+  - year: 2017
+    month: null
+    title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
+  - year: 2017
+    month: null
+    title: "2017 한국교육공학회, 한국교육정보미디어학회 추계공동학술대회"
+  - year: 2017
+    month: null
+    title: "2017 세계전략포럼"
+  - year: 2017
+    month: null
+    title: "2017 대한민국 인력개발 실태 및 성숙도 조사"
+  - year: 2017
+    month: null
+    title: "2017 KSET 춘계학술대회"
+  - year: 2017
+    month: null
+    title: "2017 KSET 춘계학술대회"
+  - year: 2017
+    month: null
+    title: "2017 KSA 인적자원개발 컨퍼런스"
+  - year: 2017
+    month: null
+    title: "2017 ATD conference"
+  - year: 2017
+    month: null
+    title: "2017 AHRD"
+  - year: 2016
+    month: null
+    title: "2016 ATD conference"
+workshops:
+  - title: "2026 동계워크샵"
+  - title: "2025 하계 워크샵"
+  - title: "2025 동계 워크샵"
+  - title: "2025 동계 방학 스터디"
+  - title: "2024 하계 워크샵"
+  - title: "2023 석사과정 워크샵"
+  - title: "세미나 수업"
+  - title: "세미나 수업"
+  - title: "2019 하계 워크샵"
+  - title: "2019 하계 워크샵"
+  - title: "2019 하계 워크샵"
+  - title: "2019 하계 워크샵"
+  - title: "2019 아고라 스터디"
+  - title: "2019 아고라 스터디"
+  - title: "2018 하계 워크샵"
+  - title: "2018 하계 워크샵"
+  - title: "2017 하계 워크샵"
+  - title: "2017 하계 워크샵"
+  - title: "2017 하계 워크샵"
+  - title: "2017 동계 워크샵"
+  - title: "2017 동계 워크샵"
+daily:
+  - title: "주재홍 박사님 결혼식"
+  - title: "2026 추석"
+  - title: "성한올 교수님 환영식"
+  - title: "2026 스승의 날"
+  - title: "2026 박사 학위패 수여"
+  - title: "2026-1 박사 모임"
+  - title: "2025-2학기 조직개발 책거리"
+  - title: "2025 추석"
+  - title: "2025 스승의날"
+  - title: "2025-1 졸업식"
+  - title: "2024-2 졸업식"
+  - title: "정수정 교수님 환영식"
+  - title: "2024-2학기 신입생 환영회"
+  - title: "2024 주말 모임"
+  - title: "2024-1 졸업생 송별회"
+  - title: "2024 졸업생 모임"
+  - title: "2024 스승의 날"
+  - title: "2024 동계 스터디 책거리"
+  - title: "2023-2 졸업식"
+  - title: "2024 설"
+  - title: "교육부장관 표창장 수여(유명현 박사)"
+  - title: "2023 졸업생,박사 모임"
+  - title: "2023 추석"
+  - title: "2023-1학기 졸업식"
+  - title: "장유진 박사 학위패 증정"
+  - title: "2023-1 박사모임"
+  - title: "2023 졸업생 모임"
+  - title: "2023 스승의 날"
+  - title: "2023 설"
+  - title: "2023 박사모임"
+  - title: "2022 서울나들이"
+  - title: "2022 서울나들이"
+  - title: "2022 전용찬 선생님 결혼식"
+  - title: "2022 전용찬 선생님 결혼식"
+  - title: "2022 2학기 연구실 개강총회"
+  - title: "2022 2학기 연구실 개강총회"
+  - title: "2022 스승의날"
+  - title: "2022 스승의날"
+  - title: "2022 설"
+  - title: "2022 교수님 HYU학술상 수상"
+  - title: "2022 교수님 HYU학술상 수상"
+  - title: "2021 황은혜 선생님 결혼식"
+  - title: "2021 추석"
+  - title: "2021 주말 모임"
+  - title: "2021 스승의날"
+  - title: "2021 스승의날"
+  - title: "2021 송년모임"
+  - title: "2021 설"
+  - title: "2021 김재현 선생님 결혼식"
+  - title: "2020 하계 모임"
+  - title: "2020 추석"
+  - title: "2020 논문 스터디"
+  - title: "2020 2학기 산책모임"
+  - title: "2020 2학기 산책모임"
+  - title: "2020 1학기 종강모임"
+  - title: "2020 1학기 종강모임"
+  - title: "2020 10월 연구실 모임"
+  - title: "2019 한국교육학회 뒷풀이"
+  - title: "2019 한국교육학회 뒷풀이"
+  - title: "2019 주중 모임"
+  - title: "2019 스승의날"
+  - title: "2019 스승의날"
+  - title: "2019 동기 모임"
+  - title: "2019 2월 연초모임"
+  - title: "2018 연말 모임"
+  - title: "2018 설"
+  - title: "2017 스승의날"
+  - title: "2017 랩 모임"

@@ -1,0 +1,26 @@
+title: PRO AnalytiX Lab
+subtitle: People · Relation · Organization
+description: 한양대학교 교육공학과 송지훈 교수 연구실
+lang: ko
+author: Ji Hoon Song
+email: psu.jihoonsong@gmail.com
+
+# GitHub Pages 주소에 맞게 수정하세요.
+# - https://<아이디>.github.io 로 쓰면 baseurl: ""
+# - https://<아이디>.github.io/<저장소이름> 으로 쓰면 baseurl: "/<저장소이름>"
+url: "https://drsprolab.github.io"
+baseurl: ""
+
+permalink: /blog/:year/:month/:title/
+markdown: kramdown
+timezone: Asia/Seoul
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

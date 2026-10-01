@@ -1,0 +1,27 @@
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-name">PRO AnalytiX Lab</span>
+      <span class="brand-sub">Hanyang University</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
+    <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
+      <ul>
+        {% for item in site.data.navigation %}
+        {% assign active = false %}
+        {% if page.url contains item.url and item.url != '/' %}{% assign active = true %}{% endif %}
+        <li class="nav-item{% if item.children %} has-children{% endif %}">
+          <a href="{{ item.url | relative_url }}"{% if active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+          {% if item.children %}
+          <ul class="submenu">
+            {% for child in item.children %}
+            <li><a href="{{ child.url | relative_url }}">{{ child.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

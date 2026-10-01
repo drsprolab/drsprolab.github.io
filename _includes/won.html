@@ -1,0 +1,1 @@
+{%- assign s = include.n | append: "" -%}{%- assign len = s.size -%}{%- assign out = "" -%}{%- for i in (1..len) -%}{%- assign idx = len | minus: i -%}{%- assign ch = s | slice: idx -%}{%- assign out = ch | append: out -%}{%- assign mod = i | modulo: 3 -%}{%- if mod == 0 and i < len -%}{%- assign out = "," | append: out -%}{%- endif -%}{%- endfor -%}{{ out }}

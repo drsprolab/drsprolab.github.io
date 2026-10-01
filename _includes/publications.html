@@ -1,0 +1,16 @@
+{%- assign list = site.data.publications | where: include.scope, true -%}
+{%- assign groups = list | group_by: "year" -%}
+<p class="count">총 {{ list.size }}편</p>
+{% for g in groups %}
+<section class="year-group">
+  <h3 id="pub-{{ include.scope }}-{{ g.name }}">{{ g.name }} <span class="n">{{ g.items.size }}</span></h3>
+  <ol class="pubs">
+    {% for p in g.items %}
+    <li>
+      <span class="cite">{{ p.citation }}</span>
+      {% if p.index %}<span class="idx">{% for i in p.index %}<span class="badge">{{ i }}</span>{% endfor %}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endfor %}

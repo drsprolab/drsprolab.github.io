@@ -1,0 +1,32 @@
+- title: Members
+  url: /members/
+  children:
+    - { title: Professor-in-charge, url: /members/#professor }
+    - { title: Lab Members, url: /members/#lab-members }
+    - { title: Alumni, url: /members/#alumni }
+- title: Teaching & Research
+  url: /research/
+  children:
+    - { title: Research (Professor), url: /research/ }
+    - { title: Research (Lab), url: /research/lab/ }
+    - { title: Teaching, url: /teaching/ }
+- title: Project
+  url: /project/
+  children:
+    - { title: Project, url: /project/ }
+    - { title: Lecture and Consulting, url: /project/#lecture }
+- title: Institute & Center
+  url: /institutes/
+  children:
+    - { title: 인문사회연구소, url: /institutes/humsoc/ }
+    - { title: 교육공학과 4단계 BK21, url: /institutes/bk21/ }
+    - { title: ECDI, url: /institutes/ecdi/ }
+    - { title: 교육과정혁신학과, url: /institutes/curriculum/ }
+    - { title: 교육복지정책중점연구소, url: /institutes/welfare/ }
+- title: Highlights
+  url: /highlights/
+  children:
+    - { title: Awards, url: /highlights/#awards }
+    - { title: Gallery, url: /highlights/#gallery }
+- title: Blog
+  url: /blog/

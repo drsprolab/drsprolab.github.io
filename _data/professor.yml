@@ -1,0 +1,57 @@
+# 책임교수 프로필
+name: "송지훈"
+name_en: "Ji Hoon Song, Ph.D."
+office: "#504, College of Education"
+tel: "+82-2-2220-2642"
+email: "psu.jihoonsong@gmail.com"
+links:
+  - { title: "Google Scholar", url: "https://scholar.google.com/citations?user=wrbbVIQAAAAJ&hl=en" }
+  - { title: "ResearchGate", url: "https://www.researchgate.net/profile/Ji-Hoon-Song-2" }
+  - { title: "Elsevier Pure", url: "https://hanyang.elsevierpure.com/en/persons/ji-hoon-song" }
+positions:
+  - "한양대학교 교육공학과 교수"
+  - "교육공학과장 (한양대학교 교육공학과)"
+  - "한양대학교 연구석학 교수 (Distinguished Research Fellow Professor)"
+  - "한국교육문제연구소장"
+  - "교육부 지정 인문사회연구소장"
+  - "한양대학교 지정 EduTech Center for Digital Intelligence(ECDI) 센터장"
+past_positions:
+  - "한양대학교 교육공학과 4단계 BK21사업팀 연구팀장 (2020–2024, 인간 지성과 Data 기반 학습전문가 양성팀)"
+  - "교육부 지정 중앙교육복지연구지원센터장 (2018–2022)"
+  - "교육부 지정 교육복지정책중점연구소장 (2016–2021)"
+  - "University of North Texas 교수 (2012–2015)"
+  - "Oklahoma State University 교수 (2008–2012)"
+research_areas: "조직개발(OD), 지식경영, 조직창의성, 지식창출, 측정과 평가도구 개발, 학습조직, 조직몰입"
+service:
+  - "Human Resource Development Quarterly 심사위원"
+  - "Human Resource Development International 편집위원 및 심사위원"
+  - "International Journal of Manpower 심사위원"
+  - "Performance Improvement Quarterly 심사위원"
+  - "산업교육학회 상임이사 및 산업교육연구 편집장"
+  - "한국인력개발학회 상임이사 및 학생분과위원 부위원장"
+  - "한국교육공학회 이사"
+  - "한국교육정보미디어학회 이사"
+  - "역량개발학습연구 심사위원"
+  - "HRD 연구 편집위원 및 심사위원"
+  - "교육공학회지 심사위원"
+  - "교육정보미디어학회지 심사위원"
+education:
+  - { year: 2008, degree: "Doctor of Philosophy (Ph.D.)", school: "The Pennsylvania State University, University Park", dept: "Learning and Performance Systems, Human Resource and Organization Development" }
+  - { year: 2005, degree: "Master of Science (M.Sc.)", school: "The Pennsylvania State University, University Park", dept: "Learning and Performance Systems, Training and Human Resource Major" }
+  - { year: 2004, degree: "Bachelor of Arts (B.A.)", school: "Hanyang University, Seoul", dept: "Department of Educational Technology" }
+awards:
+  - { year: 2022, title: "HYU 학술상 (연구석학교수 타이틀 수여)" }
+  - { year: 2022, title: "Cutting Edge Research Paper Award", org: "Academy of Human Resource Development" }
+  - { year: 2019, title: "교육부 장관 표창 (교육복지정책 분야)" }
+  - { year: 2018, title: "Cutting Edge Research Paper Award", org: "Academy of Human Resource Development" }
+  - { year: 2014, title: "Early Career Award of the Year (올해의 신진연구자상)", org: "Academy of Human Resource Development" }
+  - { year: 2014, title: "Cutting Edge Research Paper Award [2 Manuscripts]", org: "Academy of Human Resource Development" }
+  - { year: 2013, title: "Cutting Edge Research Paper Award", org: "Academy of Human Resource Development" }
+  - { year: 2012, title: "Outstanding Assistant Professor of the Year Award (전미 HRD 대학 연합 선정 최우수 교수상)" }
+  - { year: 2011, title: "Cutting Edge Research Paper Award", org: "Academy of Human Resource Development" }
+  - { year: 2010, title: "Cutting Edge Research Paper Award", org: "Academy of Human Resource Development" }
+  - { year: 2009, title: "Emerald/EFMD Outstanding Doctoral Research Award (조직개발·리더십 분야 우수연구상)" }
+  - { year: 2008, title: "Outstanding Dissertation of the Year Award (전미 HRD 대학 연합 선정 최우수 학위논문상)" }
+  - { year: 2008, title: "Graduate School Leadership Award", org: "The Pennsylvania State University" }
+  - { year: 2007, title: "Alumni Society Distinguished Graduate Student Award", org: "The Pennsylvania State University" }
+  - { year: 2005, title: "Outstanding Research Presentation Award", org: "Career Technical Education Association" }

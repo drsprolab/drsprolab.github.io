@@ -1,0 +1,15 @@
+{%- assign groups = site.data.presentations | group_by: "year" -%}
+<p class="count">총 {{ site.data.presentations.size }}건</p>
+{% for g in groups %}
+<section class="year-group">
+  <h3>{{ g.name }} <span class="n">{{ g.items.size }}</span></h3>
+  <ol class="pubs">
+    {% for t in g.items %}
+    <li>
+      <span class="cite">{% if t.authors %}{{ t.authors }}. {% endif %}<strong>{{ t.title }}</strong>{% if t.venue %}. {{ t.venue }}{% endif %}{% if t.month %}, {{ t.year }}.{{ t.month }}{% endif %}.</span>
+      {% if t.region %}<span class="idx"><span class="badge">{{ t.region }}</span></span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endfor %}

@@ -1,0 +1,12 @@
+{%- assign rows = include.rows -%}{%- assign sum = 0 -%}
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>연도</th>{% if include.label %}<th>구분</th>{% endif %}<th>연구기간</th><th class="num">연구규모(원)</th></tr></thead>
+    <tbody>
+      {% for r in rows %}{% assign sum = sum | plus: r.amount %}
+      <tr><td>{{ r.year }}</td>{% if include.label %}<td>{{ r.label }}</td>{% endif %}<td class="nowrap">{{ r.period }}</td><td class="num">{% include won.html n=r.amount %}</td></tr>
+      {% endfor %}
+    </tbody>
+    <tfoot><tr><td colspan="{% if include.label %}3{% else %}2{% endif %}">합계</td><td class="num">{% include won.html n=sum %}</td></tr></tfoot>
+  </table>
+</div>

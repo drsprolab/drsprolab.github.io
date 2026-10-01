@@ -1,0 +1,26 @@
+# 담당 강의
+graduate:
+  - { code: "DET6034", title: "학습조직과 조직문화" }
+  - { code: "DET8094", title: "조직개발과 성과평가" }
+  - { code: "DET8101", title: "교육공학양적연구방법론" }
+  - { code: "DET8096", title: "조직몰입 모델설계" }
+  - { code: "DET8081", title: "교육공학콜로퀴움" }
+  - { code: "DET8100", title: "교육공학연구 세미나" }
+  - { code: "DET9114", title: "조직학습몰입" }
+  - { code: "DET9111", title: "학습조직" }
+  - { code: "DET9113", title: "조직개발" }
+  - { code: "DET9018", title: "교육통계", note: "교육대학원" }
+  - { code: "DET9009", title: "HRD와 데이터분석", note: "교육대학원" }
+  - { code: "DET9102", title: "조직변화와 학습조직", note: "교육대학원" }
+undergraduate:
+  - { code: "EDU4037", title: "교육공학데이터분석" }
+  - { code: "DET1004", title: "교육공학이론과 실제" }
+  - { code: "DET4022", title: "교수체제개발" }
+  - { code: "DET2037", title: "학습전이모형개발" }
+  - { code: "DET3037", title: "HRD컨설팅제안서개발" }
+  - { code: "DET1003", title: "HRD개론" }
+  - { code: "DET2039", title: "HRD트렌드" }
+  - { code: "EDU4037", title: "데이터기반인적자원개발" }
+curriculum_links:
+  - { title: "일반대학원 교육공학과 전체 교육과정", url: "https://education.hanyang.ac.kr/front/graduate/engineering/course" }
+  - { title: "사범대학 교육공학과 전체 교육과정", url: "https://education.hanyang.ac.kr/front/undergraduate/engineering/course" }
