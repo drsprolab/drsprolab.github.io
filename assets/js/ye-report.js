@@ -17,6 +17,13 @@
   }
 
   function radar(series, label) {
+    if (D.factors.length < 3 || D.factors.length > 8) {
+      return '<div class="factor-profile" role="img" aria-label="' + esc(label) + '">' + D.factors.map(function (fc, i) {
+        return '<div class="factor-profile-row"><strong>' + esc(fc.name) + '</strong>' + series.map(function (se) {
+          return '<div class="factor-profile-value"><span>' + esc(se.label) + '</span><meter min="1" max="5" value="' + se.values[i] + '">' + f2(se.values[i]) + '</meter><span>' + f2(se.values[i]) + '</span></div>';
+        }).join('') + '</div>';
+      }).join('') + '</div>';
+    }
     var n = D.factors.length, W = 440, H = 400, cx = W / 2, cy = H / 2 + 6, R = 138;
     function pt(i, v) { var a = -Math.PI / 2 + i * 2 * Math.PI / n, r = R * (v - 1) / 4; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="radar" role="img" aria-label="' + esc(label) + '">';
@@ -51,15 +58,15 @@
 
   function render() {
     var pre = groupMeans('pre'), post = groupMeans('post');
-    var series = [{ label: '사전', values: pre, cls: 's2' }, { label: '사후', values: post, cls: 's1' }];
+    var series = [{ label: D.points.pre, values: pre, cls: 's2' }, { label: D.points.post, values: post, cls: 's1' }];
     document.getElementById('ye-legend-group').innerHTML = legend(series);
     document.getElementById('ye-radar-group').innerHTML = radar(series, '하위요인별 평균: ' + D.factors.map(function (f, i) { return f.name + ' 사전 ' + f2(pre[i]) + ' 사후 ' + f2(post[i]); }).join(', '));
 
     var rows = D.factors.map(function (f, i) { return { name: f.name, pre: pre[i], post: post[i], d: post[i] - pre[i] }; }).sort(function (a, b) { return b.d - a.d; });
-    var lo = 2.5, hi = 4.5;
+    var lo = 1, hi = 5;
     function x(v) { return Math.max(0, Math.min(100, (v - lo) / (hi - lo) * 100)); }
     var h = '<div class="dumbbell"><div class="db-scale"><span></span><span class="db-axis">' +
-      [2.5, 3, 3.5, 4, 4.5].map(function (t) { return '<i style="left:' + x(t) + '%">' + t.toFixed(1) + '</i>'; }).join('') + '</span><span></span></div>';
+      [1, 2, 3, 4, 5].map(function (t) { return '<i style="left:' + x(t) + '%">' + t.toFixed(1) + '</i>'; }).join('') + '</span><span></span></div>';
     rows.forEach(function (r) {
       var a = x(Math.min(r.pre, r.post)), b = x(Math.max(r.pre, r.post));
       h += '<div class="db-row" data-tip="' + esc(r.name + ' · 사전 ' + f2(r.pre) + ' → 사후 ' + f2(r.post)) + '"><span class="db-name">' + esc(r.name) + '</span>' +
@@ -86,19 +93,20 @@
     var box = document.getElementById('ye-persona-result');
     if (!p) { box.innerHTML = ''; return; }
     var rank = P.factors.map(function (f, i) { return { f: f, v: p.scores[i], d: p.scores[i] - groupPost[i] }; });
-    var top = rank.slice().sort(function (a, b) { return b.v - a.v; }).slice(0, 2);
-    var low = rank.slice().sort(function (a, b) { return a.v - b.v; }).slice(0, 2);
+    var take = P.neutral ? Math.max(1, Math.min(2, Math.floor(rank.length / 2))) : 2;
+    var top = rank.slice().sort(function (a, b) { return b.v - a.v; }).slice(0, take);
+    var low = rank.slice().filter(function (x) { return !P.neutral || top.indexOf(x) < 0; }).sort(function (a, b) { return a.v - b.v; }).slice(0, take);
     var series = [{ label: '집단 평균(사후)', values: groupPost, cls: 'ref', dashed: true }, { label: p.name, values: p.scores, cls: 's1' }];
     function item(x) { return '<strong>' + esc(x.f) + '</strong> <span class="pd-score">' + x.v.toFixed(1) + '</span> <span class="pd-diff ' + (x.d >= 0 ? 'up' : 'down') + '">평균 대비 ' + signed(x.d) + '</span>'; }
     box.innerHTML =
       '<div class="pr-grid"><div><div class="legend">' + legend(series) + '</div><div class="radar-box">' +
       radar(series, p.name + ' 하위요인 점수와 집단 평균 비교') + '</div></div>' +
       '<div class="pr-diag"><p class="pr-summary"><span class="chip">' + esc(p.type) + '</span> ' + esc(p.summary) + '</p>' +
-      '<div class="pd-block"><h3><span class="chip good">강점</span></h3><ul>' + top.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
-      '<div class="pd-block"><h3><span class="chip warn">성장 요소</span></h3><ul>' + low.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="pd-block"><h3><span class="chip good">' + (P.neutral ? (rank.length === 1 ? '응답 수준' : '상대적으로 높은 응답') : '강점') + '</span></h3><ul>' + top.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
+      (low.length ? '<div class="pd-block"><h3><span class="chip warn">' + (P.neutral ? '상대적으로 낮은 응답' : '성장 요소') + '</span></h3><ul>' + low.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' : '') +
       '<div class="pd-block"><h3>추천 활동</h3><ul class="pd-acts">' +
-      top.map(function (x) { return '<li><span class="pd-tag">강점 강화 · ' + esc(x.f) + '</span>' + esc(P.activities[x.f].strengthen) + '</li>'; }).join('') +
-      low.map(function (x) { return '<li><span class="pd-tag">성장 요소 극복 · ' + esc(x.f) + '</span>' + esc(P.activities[x.f].grow) + '</li>'; }).join('') +
+      top.map(function (x) { return '<li><span class="pd-tag">' + (P.neutral ? '지원 활동 · ' : '강점 강화 · ') + esc(x.f) + '</span>' + esc(P.activities[x.f].strengthen) + '</li>'; }).join('') +
+      low.map(function (x) { return '<li><span class="pd-tag">' + (P.neutral ? '지원 활동 · ' : '성장 요소 극복 · ') + esc(x.f) + '</span>' + esc(P.activities[x.f].grow) + '</li>'; }).join('') +
       '</ul></div><div class="pd-plan"><strong>종합 제안</strong> ' + esc(p.plan) + '</div></div></div>';
   }
   function selectPersona(id) { selected = id; renderPersonaCards(); renderPersona(); }

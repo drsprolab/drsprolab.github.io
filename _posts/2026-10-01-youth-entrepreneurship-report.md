@@ -4,7 +4,7 @@ title: "청년 기업가정신"
 category: 측정도구
 measurement_order: 2
 measurement_target: 대학생·청년
-measurement_factors: 7개 요인
+measurement_factors: 7개 요인 · 31문항
 measurement_summary: 낯선 환경에 도전하고 새로운 가치를 만들어 내는 역량을 진단합니다.
 wide: true
 ---
@@ -42,3 +42,5 @@ wide: true
 <div class="viz-tip" id="ye-tip" role="tooltip" hidden></div>
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
+
+<div class="report-intro"><h2>측정도구 출처</h2><ul><li>정승환, 노아영, 하선민 (2023). 진로교육을 위한 청소년 기업가정신 측정도구 개발. 청소년학연구, 30(4), 113–135.</li></ul><p>원도구는 청소년 기업가정신 측정도구이며, 이 페이지는 청년 대상 활용 예시를 보여줍니다.</p><p><a href="https://docs.google.com/spreadsheets/d/1twM_INCFhfnc6V8ULp8BNrog4v_2Rf6F/edit?gid=1087342266#gid=1087342266">원문 시트 보기</a></p></div>

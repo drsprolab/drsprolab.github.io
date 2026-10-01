@@ -628,5 +628,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .pd-plan { font-size: 14px; line-height: 1.65; padding: 12px 14px; border-radius: 8px; background: var(--accent-soft); }
 .pd-plan strong { margin-right: 4px; }
 .report-intro { width: 100%; max-width: none; margin-block: 20px 24px; display: grid; gap: 12px; }
+.factor-profile { display: grid; gap: 14px; padding-block: 12px; }
+.factor-profile-row { display: grid; gap: 5px; }
+.factor-profile-value { display: grid; grid-template-columns: minmax(90px, 1fr) 2fr 3em; gap: 8px; align-items: center; font-size: 13px; }
+.factor-profile-value meter { width: 100%; accent-color: var(--accent); }
 .prose .report-intro h2 { font-size: 20px; margin: 0; padding: 0; }
 .prose .report-intro p { margin: 0; width: 100%; max-width: none; line-height: 1.7; }

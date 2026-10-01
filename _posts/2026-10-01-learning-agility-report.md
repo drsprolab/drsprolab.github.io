@@ -4,7 +4,7 @@ title: "학습민첩성"
 category: 측정도구
 measurement_order: 1
 measurement_target: 직장인·조직 구성원
-measurement_factors: 6개 요인
+measurement_factors: 6개 요인 · 18문항
 measurement_summary: 새로운 경험에서 배우고 다른 상황에 적용하는 역량을 진단합니다.
 wide: true
 ---
@@ -42,3 +42,5 @@ wide: true
 <div class="viz-tip" id="ye-tip" role="tooltip" hidden></div>
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
+
+<div class="report-intro"><h2>측정도구 출처</h2><ul><li>Lee, J., &amp; Song, J. H. (2022). Developing a measurement of employee learning agility. European Journal of Training and Development, 46(5/6), 585-606. https://doi.org/10.1108/EJTD-01-2021-0018</li></ul><p><a href="https://docs.google.com/spreadsheets/d/1twM_INCFhfnc6V8ULp8BNrog4v_2Rf6F/edit?gid=1163726001#gid=1163726001">원문 시트 보기</a></p></div>
