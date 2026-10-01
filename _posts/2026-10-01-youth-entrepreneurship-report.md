@@ -7,6 +7,12 @@ wide: true
 
 <p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: PRO AnalytiX Lab</p>
 
+<div class="report-intro">
+  <h2>측정도구 소개</h2>
+  <p>인공지능이 일하고 배우는 방식을 빠르게 바꾸면서, 대학생에게는 정해진 답을 찾는 능력보다 낯선 환경에 먼저 뛰어드는 <strong>도전정신</strong>과 새로운 방식을 떠올리는 <strong>혁신적 마인드</strong>가 더 중요해졌습니다.</p>
+  <p>청년 기업가정신 진단도구는 AI 시대에 학생이 <strong>스스로 가치를 만들어 낼 수 있는 역량</strong>을 자기유능감, 자기주도성, 성장의지, 도전정신, 혁신적 사고, 협업능력, 문제해결의 7개 요인으로 확인합니다. 진단 결과로 개인과 집단의 강점과 성장 요소를 파악하고, 이를 바탕으로 어떤 <strong>교육과 지원이 필요한지</strong> 과제를 찾을 수 있습니다.</p>
+</div>
+
 <div class="report" id="ye-report" data-src="{{ '/assets/data/youth-entrepreneurship-sample.json' | relative_url }}" data-personas="{{ '/assets/data/ye-personas.json' | relative_url }}">
   <section class="report-grid">
     <div class="panel">
