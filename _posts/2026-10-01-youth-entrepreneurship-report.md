@@ -5,7 +5,7 @@ category: 측정도구
 wide: true
 ---
 
-<p class="report-source">출처: PRO AnalytiX Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: PRO AnalytiX Lab</p>
 
 <div class="report" id="ye-report" data-src="{{ '/assets/data/youth-entrepreneurship-sample.json' | relative_url }}">
   <section class="report-grid">
@@ -26,4 +26,3 @@ wide: true
 
 <script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
 
-<p class="report-foot">예시 데이터로 만든 샘플입니다. 측정도구: 정승환·노아영·하선민(2023), 7요인 31문항.</p>
