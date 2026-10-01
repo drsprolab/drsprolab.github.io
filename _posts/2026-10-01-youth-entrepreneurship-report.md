@@ -5,7 +5,7 @@ category: 측정도구
 wide: true
 ---
 
-[청소년 기업가정신 측정도구]({{ '/blog/2026/10/youth-entrepreneurship-scale/' | relative_url }})(7요인 31문항)로 진로교육 프로그램 전후를 진단했다고 가정한 **결과 보고서 샘플**입니다. 측정 시점과 학교급을 바꾸면 모든 수치와 차트가 다시 계산되고, 응답자 ID를 누르면 그 학생의 프로파일이 열립니다.
+청소년 기업가정신 측정도구(정승환·노아영·하선민, 2023; 7요인 31문항)로 진로교육 프로그램 전후를 진단했다고 가정한 **결과 보고서 샘플**입니다. 측정 시점과 학교급을 바꾸면 모든 수치와 차트가 다시 계산되고, 응답자 ID를 누르면 그 학생의 프로파일이 열립니다.
 
 <div class="report" id="ye-report" data-src="{{ '/assets/data/youth-entrepreneurship-sample.json' | relative_url }}">
   <p class="report-note" id="ye-note">데이터를 불러오는 중입니다…</p>
