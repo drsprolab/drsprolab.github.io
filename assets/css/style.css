@@ -630,3 +630,23 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .report-intro { width: 100%; max-width: none; margin-block: 20px 24px; display: grid; gap: 12px; }
 .prose .report-intro h2 { font-size: 20px; margin: 0; padding: 0; }
 .prose .report-intro p { margin: 0; width: 100%; max-width: none; line-height: 1.7; }
+
+/* ---- Home: diagnosis solution contact ---- */
+.solution { margin-top: 20px; max-width: 640px; display: grid; gap: 0; }
+.solution-btn { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 16px;
+  padding: 16px 20px; border-radius: 12px; border: 1px solid var(--accent); background: linear-gradient(120deg, var(--accent-soft), var(--paper)); transition: box-shadow .2s; }
+.solution-btn:hover { box-shadow: 0 6px 20px rgba(29,79,134,.15); }
+.solution-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.solution-btn[aria-expanded="true"] { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.solution-kicker { grid-column: 1; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.solution-title { grid-column: 1; font-size: 18px; font-weight: 700; color: var(--ink); }
+.solution-cta { grid-column: 2; grid-row: 1 / span 2; font-size: 14px; font-weight: 600; color: var(--paper); background: var(--accent); padding: 8px 14px; border-radius: 999px; white-space: nowrap; }
+.solution-btn[aria-expanded="true"] .solution-cta span { display: inline-block; transform: rotate(90deg); }
+.solution-panel { border: 1px solid var(--accent); border-top: 0; border-radius: 0 0 12px 12px; padding: 16px 20px; background: var(--paper); display: grid; gap: 12px; }
+.hero .solution-desc { margin: 0; font-size: 14.5px; color: var(--muted); line-height: 1.65; }
+.solution-contact { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; font-size: 15px; }
+.solution-contact dt { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.solution-contact dd { margin: 0; }
+@media (max-width: 520px) { .solution-btn { grid-template-columns: 1fr; } .solution-cta { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 8px; } }
+.solution-panel, .solution-contact dd { color: var(--ink); }
+.solution-contact a, .solution-desc a { color: var(--accent); }
