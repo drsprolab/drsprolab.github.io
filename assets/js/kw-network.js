@@ -96,9 +96,9 @@
       .on('mouseenter', function (e, n) { hover(n); })
       .on('mouseleave', function () { hover(null); })
       .call(d3.drag()
-        .on('start', function (e, n) { if (!e.active) sim.alphaTarget(0.06).restart(); n.fx = n.x; n.fy = n.y; })
+        .on('start', function (e, n) { if (!e.active) sim.alphaTarget(0.05).restart(); n.fx = n.x; n.fy = n.y; })
         .on('drag', function (e, n) { n.fx = e.x; n.fy = e.y; })
-        .on('end', function (e, n) { if (!e.active) sim.alphaTarget(reduceMotion ? 0 : 0.004); n.pinned = true; d3.select(this).classed('pinned', true); }));
+        .on('end', function (e, n) { if (!e.active) sim.alphaTarget(0); n.pinned = true; d3.select(this).classed('pinned', true); }));
     nodeSel.append('circle').attr('r', radius).attr('fill', color);
     nodeSel.append('text').attr('class', 'rm-label').attr('dy', function (n) { return -radius(n) - 5; })
       .text(function (n) { return n.type === 'kw' ? n.name : short(n.name, 24); });
@@ -110,21 +110,15 @@
       .force('collide', d3.forceCollide().radius(function (n) { return radius(n) + (n.type === 'kw' ? 6 : 2); }))
       .force('x', d3.forceX(function (n) { return n.fi >= 0 ? anchors[n.fi].x : W / 2; }).strength(0.035))
       .force('y', d3.forceY(function (n) { return n.fi >= 0 ? anchors[n.fi].y : H / 2; }).strength(0.035));
-    if (!reduceMotion) {
-      // 아주 느리게 떠다니는 움직임
-      sim.force('drift', function () {
-        var t = Date.now() / 1000;
-        nodes.forEach(function (n) { if (n.pinned) return; n.vx += Math.cos(t * 0.15 + n.phase) * 0.006; n.vy += Math.sin(t * 0.12 + n.phase) * 0.006; });
-      }).alphaTarget(0.004);
-    }
     sim.on('tick', function () {
       linkSel.attr('x1', function (l) { return l.source.x; }).attr('y1', function (l) { return l.source.y; })
         .attr('x2', function (l) { return l.target.x; }).attr('y2', function (l) { return l.target.y; });
       nodeSel.attr('transform', function (n) { return 'translate(' + n.x + ',' + n.y + ')'; });
     });
-    for (var i = 0; i < 260; i++) sim.tick();
+    // 배치를 미리 계산해 두고 멈춘다. 계속 움직이지 않으므로 CPU를 쓰지 않는다.
+    sim.stop();
+    for (var i = 0; i < 300; i++) sim.tick();
     sim.on('tick')();
-    if (reduceMotion) sim.stop();
 
     zoom = d3.zoom().scaleExtent([0.4, 5]).on('zoom', function (e) {
       gAll.attr('transform', e.transform); k = e.transform.k;
