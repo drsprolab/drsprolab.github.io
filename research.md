@@ -11,7 +11,7 @@ lede: 읽고, 읽고, 또 읽고 나서 쓰는 것.
 
 {% include publications.html scope="professor" %}
 
-## Book & Book Chapter
+## Book (Chapters)
 
 {% assign books = site.data.books | sort: "year" | reverse %}
 <p class="count">총 {{ books.size }}편</p>

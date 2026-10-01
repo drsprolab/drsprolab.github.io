@@ -11,14 +11,17 @@
   {%- if publication.index contains 'KCI' -%}{%- assign kci_count = kci_count | plus: 1 -%}{%- endif -%}
   {%- assign index_labels = publication.index | join: '|' | downcase | remove: ' ' -%}
   {%- assign publication_type = publication.type | default: '' | downcase | remove: ' ' | remove: '_' | remove: '-' -%}
-  {%- if index_labels contains '기타국제학술지' or index_labels contains 'bookchapter' or publication_type == 'bookchapter' -%}{%- assign other_international_count = other_international_count | plus: 1 -%}{%- endif -%}
+  {%- if index_labels contains '기타국제학술지' or index_labels contains '기타국내학술지' -%}{%- assign other_international_count = other_international_count | plus: 1 -%}{%- endif -%}
 {%- endfor -%}
 <p class="count">총 {{ list.size }}편</p>
 <dl class="journal-index-summary" aria-label="논문 등재 분류별 합계">
   <div><dt>SSCI</dt><dd>{{ ssci_count }}<span>편</span></dd></div>
   <div><dt>SCOPUS / ESCI / SCIE</dt><dd>{{ international_index_count }}<span>편</span></dd></div>
   <div><dt>KCI</dt><dd>{{ kci_count }}<span>편</span></dd></div>
-  <div><dt>기타 국제학술지 / Book Chapter</dt><dd>{{ other_international_count }}<span>편</span></dd></div>
+  <div><dt>기타학술지</dt><dd>{{ other_international_count }}<span>편</span></dd></div>
+  {%- if include.scope == "professor" %}
+  <div><dt>Book (Chapters)</dt><dd>{{ site.data.books.size }}<span>편</span></dd></div>
+  {%- endif %}
 </dl>
 {% for g in groups %}
 <section class="year-group">
