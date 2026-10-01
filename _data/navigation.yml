@@ -4,6 +4,8 @@
     - { title: Professor-in-charge, url: /members/#professor }
     - { title: Lab Members, url: /members/#lab-members }
     - { title: Alumni, url: /members/#alumni }
+- title: Measurement & Solution
+  url: /blog/
 - title: Teaching & Research
   url: /research/
   children:
@@ -31,5 +33,3 @@
     - { title: Gallery, url: /highlights/#gallery }
 - title: Daily Insight
   url: /daily-insight/
-- title: Measurement
-  url: /blog/
