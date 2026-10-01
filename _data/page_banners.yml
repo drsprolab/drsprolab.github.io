@@ -1,0 +1,27 @@
+home:
+  image: home
+  alt: AI와 함께 배우는 사람들과 데이터로 연결된 조직의 변화
+members:
+  image: members
+  alt: 아이디어를 나누며 함께 배우는 대학 연구팀
+research:
+  image: research
+  alt: 논문과 데이터 분석을 연결하는 교육공학 연구
+teaching:
+  image: teaching
+  alt: 디지털 학습 자료를 활용하며 토론하는 대학 세미나
+project:
+  image: project
+  alt: 조직의 학습과 변화를 함께 설계하는 산학 협력
+institutes:
+  image: institutes
+  alt: 교육과 인문사회 연구를 연결하는 학제 간 연구 공간
+highlights:
+  image: highlights
+  alt: 연구 성과와 공동의 성취를 기념하는 장면
+daily-insight:
+  image: daily-insight
+  alt: AI의 정보 흐름을 분석하며 통찰을 정리하는 연구 공간
+blog:
+  image: blog
+  alt: 연구 경험과 아이디어를 기록하는 노트와 책

@@ -1,0 +1,8 @@
+{% assign banner_key = include.key %}
+{% unless banner_key %}{% assign banner_key = page.url | split: '/' | slice: 1 | first %}{% endunless %}
+{% assign banner = site.data.page_banners[banner_key] %}
+{% if banner %}
+<figure class="page-banner{% if banner_key == 'home' %} page-banner--home{% endif %}">
+  <img src="{{ '/assets/images/banners/' | append: banner.image | append: '.jpg' | relative_url }}" alt="{{ banner.alt | escape }}" width="1536" height="512" decoding="async" fetchpriority="{% if banner_key == 'home' %}high{% else %}auto{% endif %}">
+</figure>
+{% endif %}

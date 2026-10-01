@@ -28,5 +28,7 @@
   children:
     - { title: Awards, url: /highlights/#awards }
     - { title: Gallery, url: /highlights/#gallery }
+- title: Daily Insight
+  url: /daily-insight/
 - title: Blog
   url: /blog/

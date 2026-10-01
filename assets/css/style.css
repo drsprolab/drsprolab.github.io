@@ -312,3 +312,97 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .ir-arrow.up { color: var(--good); } .ir-arrow.down { color: var(--warn); }
 
 .viz-tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--paper); font-size: 12.5px; padding: 6px 10px; border-radius: 6px; max-width: 280px; box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+
+/* ---- Daily Insight: same palette and typography as the lab ---- */
+.preview-banner { background: var(--accent-soft); border-bottom: 1px solid var(--line); color: var(--accent); font-size: 13px; }
+.preview-banner .container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; padding-block: 8px; }
+.preview-banner strong { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; }
+.daily-index { max-width: 900px; margin-inline: auto; }
+.daily-hero { display: grid; gap: 18px; padding-block: 12px 40px; }
+.daily-hero h1 { font-size: clamp(40px, 7vw, 60px); }
+.daily-hero h1 span { display: block; margin-top: 16px; font-family: var(--f-body); font-size: 20px; font-weight: 500; line-height: 1.5; }
+.daily-feature { border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 8px; background: var(--tint); padding: clamp(22px, 4vw, 36px); }
+.daily-feature-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-bottom: 22px; }
+.daily-feature-meta .eyebrow { color: var(--accent); }
+.daily-feature-meta time { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); }
+.daily-feature h2 { font-size: clamp(24px, 3.8vw, 34px); line-height: 1.45; margin-bottom: 14px; }
+.daily-feature h2 a { color: var(--ink); text-decoration: none; }
+.daily-feature h2 a:hover { color: var(--accent); }
+.daily-feature > p { color: var(--muted); margin: 0 0 20px; max-width: 68ch; }
+.daily-feature .tags li { background: var(--paper); border: 1px solid var(--line); }
+.daily-feature-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.daily-feature-bottom > span, .daily-issue-meta { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); }
+.daily-read { text-decoration: none; font-weight: 600; font-size: 15px; }
+.daily-read span { margin-left: 8px; }
+.daily-archive { margin-top: 48px; }
+.daily-archive h2 { font-size: 23px; }
+.daily-method { margin-top: 36px; padding: 20px 24px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; color: var(--muted); }
+.daily-method strong { color: var(--ink); }
+.daily-method p { margin: 6px 0 0; }
+.daily-issue { max-width: 800px; margin-inline: auto; }
+.daily-back { display: inline-block; font-size: 14px; text-decoration: none; margin-bottom: 30px; }
+.daily-issue-head { padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
+.daily-issue-head h1 { font-size: clamp(30px, 4.5vw, 42px); line-height: 1.4; }
+.daily-issue-head .tags { margin-block: 10px; }
+.daily-takeaway { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 20px 24px; }
+.daily-takeaway p { margin: 0; }
+.daily-takeaway p + p { margin-top: 8px; font-size: 18px; }
+.daily-check { color: var(--muted); font-size: 13px; margin-block: 18px 32px; }
+.daily-content h2 { font-family: var(--f-body); font-size: 23px; line-height: 1.5; border-top: 1px solid var(--line); margin-top: 40px; padding-top: 28px; scroll-margin-top: 90px; }
+.daily-content blockquote { background: var(--tint); margin: 20px 0; padding: 16px 20px; border-left: 2px solid var(--line); border-radius: 0 6px 6px 0; font-size: 14.5px; }
+.daily-content blockquote p { margin: 0; }
+.daily-content blockquote p + p { margin-top: 6px; }
+.daily-content #sources ~ p { font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .daily-desktop-break { display: none; }
+  .daily-hero { padding-top: 0; }
+  .daily-hero h1 span { font-size: 18px; }
+  .daily-feature-bottom { align-items: flex-start; flex-direction: column; }
+  .daily-content h2 { font-size: 20px; }
+}
+
+/* Panoramic illustrations for the home and menu pages */
+.page-banner {
+  margin: 0 0 36px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--tint);
+}
+.page-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  object-position: center;
+}
+.page-banner--home { margin: 12px 0 0; }
+.daily-hero .page-banner { margin: 24px 0 0; }
+@media (max-width: 600px) {
+  .page-banner { border-radius: 8px; margin-bottom: 24px; }
+  .page-banner img { aspect-ratio: 2 / 1; }
+  .page-banner--home { margin-bottom: 0; }
+}
+
+/* Journal numbering continues across year groups, newest to oldest. */
+.journal-pubs { gap: 0; }
+.journal-pubs li {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 6px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.publication-number {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  text-align: right;
+}
+.journal-pubs .idx { grid-column: 2; flex-wrap: wrap; }
+@media (max-width: 520px) {
+  .journal-pubs li { grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: 10px; }
+}

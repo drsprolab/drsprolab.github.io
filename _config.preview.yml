@@ -1,0 +1,4 @@
+# Local review only. This config is never used by the Pages workflow.
+preview: true
+url: "http://127.0.0.1:4001"
+baseurl: ""

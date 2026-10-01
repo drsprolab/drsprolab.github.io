@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% seo %}
+  {% if site.preview %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -11,6 +12,9 @@
   {% feed_meta %}
 </head>
 <body>
+  {% if site.preview %}
+  <div class="preview-banner" role="note"><div class="container"><strong>LOCAL PREVIEW</strong><span>검토용 미리보기 · 아직 공개 사이트에 반영되지 않았습니다.</span></div></div>
+  {% endif %}
   {% include header.html %}
   <main class="container">
     {{ content }}
