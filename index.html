@@ -10,12 +10,13 @@ title: PRO AnalytiX Lab
   {% assign prof = site.data.professor %}
   <div class="solution">
     <button type="button" class="solution-btn" id="solution-btn" aria-haspopup="dialog" aria-controls="solution-dialog">개인진단 및 조직진단 Solution</button>
+    <a class="solution-link" href="{{ '/blog/' | relative_url }}">진단도구 활용 예시 보기 →</a>
   </div>
   <dialog class="solution-dialog" id="solution-dialog" aria-labelledby="solution-dialog-title">
     <button type="button" class="solution-close" id="solution-close" aria-label="닫기">×</button>
     <div class="solution-kicker">Diagnosis Solution</div>
     <h2 class="solution-title" id="solution-dialog-title">개인진단 및 조직진단 Solution</h2>
-    <p class="solution-desc">연구실이 개발·타당화한 진단도구로 개인과 조직의 역량을 진단하고, 결과에 맞는 교육과 지원 방안을 함께 설계합니다. <a href="{{ '/blog/' | relative_url }}">진단도구 활용 예시 보기</a></p>
+    <p class="solution-desc">연구실이 개발·타당화한 진단도구로 개인과 조직의 역량을 진단하고, 결과에 맞는 교육과 지원 방안을 함께 설계합니다.</p>
     <dl class="solution-contact">
       <dt>E-mail</dt><dd><a href="mailto:{{ prof.email }}">{{ prof.email }}</a></dd>
       <dt>Tel</dt><dd>{{ prof.tel }}</dd>
