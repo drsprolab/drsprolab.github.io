@@ -79,18 +79,7 @@ bk21:
       label: "5차년도"
       period: "2024.03-2025.02"
       amount: 158710000
-    - year: 2025
-      label: "6차년도"
-      period: "2025.03-2026.02"
-      amount: 158710000
-    - year: 2026
-      label: "7차년도"
-      period: "2026.03-2027.02"
-      amount: 158710000
-    - year: 2027
-      label: "8차년도"
-      period: "2027.02~2028.08"
-      amount: 79355000
+
 curriculum:
   funding:
     - year: 2023
@@ -467,3 +456,21 @@ ecdi:
     - title: "학습자 요구 기반 IC-PBL교수학습센터 환류시스템 개발"
       client: "한양대학교 IC-PBL 센터"
       period: "2022.11.28 ~ 2023.02.28."
+
+bk21-aix:
+  leader:
+    name: "김동립"
+    department: "기계공학과"
+  researchers:
+    - { name: "송지훈", department: "교육공학과" }
+    - { name: "정수정", department: "교육공학과" }
+  departments:
+    - "교육공학과"
+    - "기계공학과"
+    - "데이터사이언스학과"
+    - "미디어커뮤니케이션학과"
+  funding:
+    - year: "2026–2027"
+      period: "2026 ~ 2027"
+      amount: 130000000
+      department_share: 10000000

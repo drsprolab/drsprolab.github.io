@@ -13,6 +13,7 @@ lede: 송지훈 교수가 이끌거나 참여한 연구소, 사업단, 센터입
     <dl class="kv">
       <dt>기간</dt><dd>{{ i.period }}</dd>
       <dt>총연구비</dt><dd>{% include won.html n=i.total %}원</dd>
+      {% if i.department_share %}<dt>교육공학과 지분</dt><dd>{% include won.html n=i.department_share %}원</dd>{% endif %}
     </dl>
   </a>
 {% endfor %}

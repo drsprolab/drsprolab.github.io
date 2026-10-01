@@ -1,4 +1,4 @@
-{% assign banner_key = include.key %}
+{% assign banner_key = include.key | default: page.banner %}
 {% unless banner_key %}{% assign banner_key = page.url | split: '/' | slice: 1 | first %}{% endunless %}
 {% assign banner = site.data.page_banners[banner_key] %}
 {% if banner %}

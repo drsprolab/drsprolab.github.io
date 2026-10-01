@@ -3,6 +3,7 @@ layout: page
 title: Highlights
 eyebrow: Highlights
 permalink: /highlights/
+wide: true
 lede: 우리가 함께 꿈꾸고 바라보는 것.
 ---
 

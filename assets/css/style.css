@@ -101,10 +101,10 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 /* Content pages */
 .page-head { display: grid; gap: 10px; margin-bottom: 40px; }
 .lede { margin: 0; color: var(--muted); max-width: 62ch; font-size: 17px; }
-.prose { max-width: 760px; }
+.prose { max-width: none; }
 .prose h2 { margin-top: 48px; padding-top: 8px; }
 .prose h2:first-child { margin-top: 0; }
-.prose p, .prose li { max-width: 68ch; }
+.prose p, .prose li { max-width: none; }
 
 .ledger { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .ledger li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding-block: 12px; border-bottom: 1px solid var(--line); max-width: none; }
@@ -119,7 +119,7 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .post-list a { font-size: 19px; font-weight: 600; color: var(--ink); text-decoration: none; }
 .post-list a:hover { color: var(--accent); }
 .post-list p { margin: 0; color: var(--muted); }
-.post-nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); max-width: 760px; }
+.post-nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); max-width: none; }
 
 /* Footer */
 .site-footer { background: var(--tint); border-top: 1px solid var(--line); padding-block: 36px 24px; font-size: 14px; color: var(--muted); }
@@ -219,7 +219,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 :root { --series-1: #2a78d6; --series-2: #eb6834; --good: #1a7f37; --warn: #b54708; }
 @media (prefers-color-scheme: dark) { :root { --series-1: #3987e5; --series-2: #d95926; --good: #4ac26b; --warn: #f0883e; } }
 .post.wide .prose { max-width: none; }
-.post.wide .prose > p, .post.wide .prose > ul, .post.wide .prose > h2 { max-width: 760px; }
+.post.wide .prose > p, .post.wide .prose > ul, .post.wide .prose > h2 { max-width: none; }
 .report { display: grid; gap: 20px; margin-block: 28px 40px; }
 .report-note { margin: 0; font-size: 14px; color: var(--muted); }
 .report-controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
@@ -342,7 +342,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .daily-method { margin-top: 36px; padding: 20px 24px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; color: var(--muted); }
 .daily-method strong { color: var(--ink); }
 .daily-method p { margin: 6px 0 0; }
-.daily-issue { max-width: 800px; margin-inline: auto; }
+.daily-issue { max-width: none; margin-inline: 0; }
 .daily-back { display: inline-block; font-size: 14px; text-decoration: none; margin-bottom: 30px; }
 .daily-issue-head { padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
 .daily-issue-head h1 { font-size: clamp(30px, 4.5vw, 42px); line-height: 1.4; }
