@@ -659,3 +659,19 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .solution { gap: 6px 10px; }
 .solution-link { font-size: 12.5px; text-decoration: none; opacity: .8; }
 .solution-link:hover { text-decoration: underline; opacity: 1; }
+
+/* ---- Tables on phones: rows become stacked cards ---- */
+@media (max-width: 640px) {
+  .table-wrap:has(table.stack) { overflow: visible; border: 0; border-radius: 0; }
+  table.stack, table.stack tbody, table.stack tfoot, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { display: none; }
+  table.stack tr { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  table.stack td { border: 0; padding: 2px 0; text-align: left; white-space: normal; }
+  table.stack td.st-title { font-weight: 600; font-size: 14.5px; padding-bottom: 4px; }
+  table.stack td[data-label] { display: grid; grid-template-columns: 64px 1fr; gap: 8px; font-size: 13.5px; color: var(--ink); }
+  table.stack td[data-label]::before { content: attr(data-label); color: var(--muted); font-size: 12.5px; }
+  table.stack td.num { font-variant-numeric: tabular-nums; }
+  table.stack td.st-hide, table.stack td:empty { display: none; }
+  table.stack tfoot tr { background: var(--tint); }
+  table.stack tfoot td[data-label] { font-weight: 600; }
+}

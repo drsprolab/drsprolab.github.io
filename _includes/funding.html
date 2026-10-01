@@ -1,12 +1,12 @@
 {%- assign rows = include.rows -%}{%- assign sum = 0 -%}
 <div class="table-wrap">
-  <table>
+  <table class="stack">
     <thead><tr><th>연도</th>{% if include.label %}<th>구분</th>{% endif %}<th>연구기간</th><th class="num">연구규모(원)</th></tr></thead>
     <tbody>
       {% for r in rows %}{% assign sum = sum | plus: r.amount %}
-      <tr><td>{{ r.year }}</td>{% if include.label %}<td>{{ r.label }}</td>{% endif %}<td class="nowrap">{{ r.period }}</td><td class="num">{% include won.html n=r.amount %}</td></tr>
+      <tr><td class="st-title">{{ r.year }}{% if include.label %} · {{ r.label }}{% endif %}</td>{% if include.label %}<td class="st-hide">{{ r.label }}</td>{% endif %}<td class="nowrap" data-label="연구기간">{{ r.period }}</td><td class="num" data-label="연구규모">{% include won.html n=r.amount %}원</td></tr>
       {% endfor %}
     </tbody>
-    <tfoot><tr><td colspan="{% if include.label %}3{% else %}2{% endif %}">합계</td><td class="num">{% include won.html n=sum %}</td></tr></tfoot>
+    <tfoot><tr><td colspan="{% if include.label %}3{% else %}2{% endif %}" class="st-hide">합계</td><td class="num" data-label="합계">{% include won.html n=sum %}원</td></tr></tfoot>
   </table>
 </div>
