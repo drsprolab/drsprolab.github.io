@@ -500,3 +500,53 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   .member-grid { grid-template-columns: 1fr; }
   .member-photo { height: 160px; }
 }
+
+/* ---- Home: research keyword network ---- */
+.kwnet { --kw-bg: #0b1f38; position: relative; margin-top: 12px; border-radius: 12px; overflow: hidden; color: #fff;
+  background: radial-gradient(120% 90% at 50% 40%, #1b4a7c 0%, #123459 45%, #0b1f38 100%); }
+.kwnet::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.08) .8px, transparent .8px); background-size: 14px 14px; pointer-events: none; }
+.kwnet-head { position: absolute; top: 18px; left: 22px; right: 22px; z-index: 1; pointer-events: none; display: grid; gap: 2px; }
+.kwnet-title { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #e7c47f; }
+.kwnet-sub { font-size: 13px; color: rgba(255,255,255,.72); max-width: 60ch; }
+.kwnet-svg { display: block; width: 100%; height: 640px; font-family: var(--f-body); touch-action: none; }
+.kw-link { stroke: #9cc3ec; transition: stroke-opacity .2s; }
+.kw-link.field { stroke-opacity: .28; }
+.kw-link.co { stroke-opacity: .16; }
+.kw-link.hot { stroke: #e7c47f; stroke-opacity: .85; }
+.kw-link.dim { stroke-opacity: .04; }
+.kw-node { cursor: pointer; transition: opacity .2s; }
+.kw-node:focus { outline: none; }
+.kw-node:focus-visible .kw-dot { stroke: #fff; stroke-width: 2.5; }
+.kw-node.dim { opacity: .18; }
+.kw-halo { opacity: 0; transition: opacity .2s; }
+.kw-node.on .kw-halo, .kw-node:hover .kw-halo { opacity: .28; }
+.kw-dot { stroke-width: 1.5; }
+.kw-node.kw .kw-dot { stroke: rgba(255,255,255,.55); }
+.kw-node.field .kw-dot { stroke-width: 2.5; }
+.kw-label { fill: #fff; font-size: 11.5px; text-anchor: middle; paint-order: stroke; stroke: rgba(11,31,56,.85); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.kw-node.field .kw-label { font-size: 13px; font-weight: 600; letter-spacing: .02em; fill: #f3dca4; }
+.kw-count { fill: #fff; font-size: 11px; font-family: var(--f-mono); text-anchor: middle; pointer-events: none; }
+.kwnet-legend { position: absolute; left: 18px; bottom: 14px; right: 18px; display: flex; flex-wrap: wrap; gap: 6px; z-index: 1; }
+.kw-lg { font: inherit; font-size: 12px; color: rgba(255,255,255,.85); background: rgba(11,31,56,.55); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 3px 10px 3px 8px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.kw-lg:hover { border-color: #e7c47f; }
+.kw-lg span { width: 9px; height: 9px; border-radius: 50%; }
+.kwnet-panel { position: absolute; top: 14px; right: 14px; bottom: 14px; width: min(380px, 46%); z-index: 2; overflow-y: auto;
+  background: var(--paper); color: var(--ink); border-radius: 10px; padding: 18px 18px 10px; box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+.kwnet-panel:focus { outline: none; }
+.kwnet-panel h3 { font-size: 20px; margin: 4px 0 0; }
+.kp-close { position: absolute; top: 8px; right: 10px; font-size: 22px; line-height: 1; border: 0; background: none; color: var(--muted); cursor: pointer; padding: 4px 8px; }
+.kp-eyebrow { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.kp-sw { width: 9px; height: 9px; border-radius: 50%; }
+.kp-en { font-size: 13px; color: var(--muted); }
+.kp-count { margin: 10px 0 8px; font-size: 13.5px; color: var(--muted); }
+.kp-count strong { font-size: 22px; color: var(--ink); margin-right: 2px; font-variant-numeric: tabular-nums; }
+.kp-rel { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.kp-rel button { font: inherit; font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--tint); color: var(--ink); cursor: pointer; }
+.kp-rel button:hover { border-color: var(--accent); color: var(--accent); }
+.kp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 13px; line-height: 1.55; }
+.kp-list li { display: grid; grid-template-columns: 38px 1fr; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.kp-year { font-family: var(--f-mono); font-size: 12px; color: var(--accent); padding-top: 1px; }
+@media (max-width: 760px) {
+  .kwnet-svg { height: 560px; }
+  .kwnet-panel { position: relative; inset: auto; width: auto; margin: 0 10px 56px; max-height: 420px; }
+}

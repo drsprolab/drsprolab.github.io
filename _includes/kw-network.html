@@ -1,0 +1,14 @@
+<section class="kwnet" id="kwnet" aria-label="연구 키워드 네트워크"
+  data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
+  data-map="{{ '/assets/data/keyword-map.json' | relative_url }}">
+  <div class="kwnet-head">
+    <div class="kwnet-title">Research Landscape</div>
+    <div class="kwnet-sub" id="kwnet-sub">논문 제목에서 뽑은 키워드를 학문 분야별로 엮었습니다. 키워드를 누르면 관련 연구가 나옵니다.</div>
+  </div>
+  <svg class="kwnet-svg" id="kwnet-svg" role="group" aria-label="키워드 네트워크 그래프"></svg>
+  <div class="kwnet-legend" id="kwnet-legend"></div>
+  <aside class="kwnet-panel" id="kwnet-panel" hidden tabindex="-1" aria-live="polite"></aside>
+  <noscript><p class="kwnet-sub">키워드 네트워크를 보려면 JavaScript를 켜 주세요.</p></noscript>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="{{ '/assets/js/kw-network.js' | relative_url }}" defer></script>
