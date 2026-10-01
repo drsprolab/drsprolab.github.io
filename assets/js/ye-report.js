@@ -28,7 +28,11 @@
       var e = pt(i, 5), l = pt(i, 5.62);
       s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + e[0] + '" y2="' + e[1] + '" class="rd-axis"/>';
       var anchor = Math.abs(l[0] - cx) < 8 ? 'middle' : (l[0] > cx ? 'start' : 'end');
-      s += '<text x="' + l[0] + '" y="' + (l[1] + 4) + '" text-anchor="' + anchor + '" class="rd-label">' + esc(fc.name) + '</text>';
+      // 긴 요인 이름은 두 줄로 나눈다
+      var words = fc.name.split(' '), lines = [fc.name];
+      if (fc.name.length > 7 && words.length > 1) { var cut = Math.ceil(words.length / 2); lines = [words.slice(0, cut).join(' '), words.slice(cut).join(' ')]; }
+      var y0 = l[1] + 4 - (lines.length - 1) * 7;
+      s += '<text x="' + l[0] + '" y="' + y0 + '" text-anchor="' + anchor + '" class="rd-label">' + lines.map(function (t, li) { return '<tspan x="' + l[0] + '" dy="' + (li ? 15 : 0) + '">' + esc(t) + '</tspan>'; }).join('') + '</text>';
     });
     series.forEach(function (se) { s += '<polygon points="' + se.values.map(function (v, i) { return pt(i, v).join(','); }).join(' ') + '" class="rd-area ' + se.cls + (se.dashed ? ' rd-dashed' : '') + '"/>'; });
     series.forEach(function (se) {
