@@ -193,3 +193,20 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .post .prose hr { border: 0; border-top: 1px solid var(--line); margin-block: 40px 24px; }
 .download { display: inline-block; padding: 8px 16px; border: 1px solid var(--accent); border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 15px; }
 .download:hover { background: var(--accent-soft); }
+
+/* ---- Factor-structure figures ---- */
+.fig-wrap { margin: 24px 0; max-width: none; }
+.fig-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--paper); }
+.factor-fig { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--f-body); }
+.fig-link { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
+.fig-path { stroke: var(--muted); stroke-width: 1; fill: none; opacity: .7; }
+.fig-arrowhead { fill: var(--muted); }
+.fig-construct { fill: var(--accent); }
+.fig-construct-t { fill: var(--paper); font-size: 15px; font-weight: 600; text-anchor: middle; }
+.fig-factor { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.fig-factor-t { fill: var(--ink); font-size: 14px; font-weight: 600; text-anchor: middle; }
+.fig-factor-n { fill: var(--muted); font-size: 11px; text-anchor: middle; font-family: var(--f-mono); }
+.fig-item { fill: var(--paper); stroke: var(--line); stroke-width: 1; }
+.fig-item-no { fill: var(--accent); font-size: 11.5px; font-family: var(--f-mono); }
+.fig-item-t { fill: var(--ink); font-size: 12.5px; }
+.fig-caption { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
