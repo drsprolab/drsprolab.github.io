@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Daily Insight
-description: AI 주요 소식을 짧게 읽고, 원문과 함께 확인하는 데일리 브리핑.
+description: 고민하고 있는 HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.
 permalink: /daily-insight/
 ---
 {% assign issues = site.insights | sort: 'date' | reverse %}
@@ -9,7 +9,7 @@ permalink: /daily-insight/
   <header class="daily-hero">
     <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
     <h1 id="daily-title">Daily Insight<span>AI의 변화, 맥락까지 읽다.</span></h1>
-    <p class="lede">주목할 AI 소식을 짧게 정리합니다. 발표 내용은 원문과 함께,<br class="daily-desktop-break"> 교육·연구·조직에 주는 시사점은 별도의 해석으로 담습니다.</p>
+    <p class="lede">고민하고 있는 HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.</p>
     {% include page-banner.html key="daily-insight" %}
   </header>
   {% if issues.size > 0 %}
