@@ -18,7 +18,7 @@ permalink: /daily-insight/
     <div class="inst-grid">
       {% for issue in issues %}
       <a class="inst" href="{{ issue.url | relative_url }}">
-        <div class="tags">{% if forloop.first %}<span class="badge">최신 Insights</span>{% endif %}{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
+        <div class="tags">{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
         <h3>{{ issue.title | escape }}</h3>
         <p>{{ issue.summary | escape }}</p>
       </a>
