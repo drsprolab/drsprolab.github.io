@@ -1,15 +1,15 @@
 ---
 layout: default
 title: Daily Insight
-description: 고민하고 있는 HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.
+description: HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.
 permalink: /daily-insight/
 ---
 {% assign issues = site.insights | sort: 'date' | reverse %}
 <section class="daily-index" aria-labelledby="daily-title">
   <header class="daily-hero">
     <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
-    <h1 id="daily-title">Daily Insight<span>AI의 변화, 맥락까지 읽다.</span></h1>
-    <p class="lede">고민하고 있는 HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.</p>
+    <h1 id="daily-title">Daily Insight</h1>
+    <p class="lede">HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.</p>
     {% include page-banner.html key="daily-insight" %}
   </header>
   {% if issues.size > 0 %}
