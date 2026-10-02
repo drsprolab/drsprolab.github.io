@@ -390,7 +390,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 1;
+  aspect-ratio: 1536 / 320;
   object-fit: cover;
   object-position: center;
 }
@@ -398,7 +398,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .daily-hero .page-banner { margin: 24px 0 0; }
 @media (max-width: 600px) {
   .page-banner { border-radius: 8px; margin-bottom: 24px; }
-  .page-banner img { aspect-ratio: 2 / 1; }
+  .page-banner img { aspect-ratio: 3 / 1; }
   .page-banner--home { margin-bottom: 0; }
 }
 
