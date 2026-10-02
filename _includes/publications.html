@@ -33,7 +33,7 @@
 (function () {
   if (window.__pubFilter) return; window.__pubFilter = true;
   function apply(tag) {
-    document.querySelectorAll('.pf-chip').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === tag)); });
+    document.querySelectorAll('.pf-chip[data-filter]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === tag)); });
     var shown = 0;
     // Journal 목록
     document.querySelectorAll('.journal-pubs:not(.book-pubs) > li').forEach(function (li) {
@@ -43,7 +43,7 @@
       li.hidden = !ok; if (ok) shown++;
     });
     document.querySelectorAll('.year-group').forEach(function (g) {
-      if (!g.querySelector('.journal-pubs')) return;
+      if (!g.querySelector('.journal-pubs:not(.book-pubs)')) return;
       g.hidden = !g.querySelector('.journal-pubs > li:not([hidden])');
     });
     // Book 목록과 제목
@@ -57,6 +57,6 @@
     }
     var empty = document.querySelector('.pf-empty'); if (empty) empty.hidden = shown > 0;
   }
-  document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip'); if (b) apply(b.dataset.filter); });
+  document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip[data-filter]'); if (b) apply(b.dataset.filter); });
 })();
 </script>

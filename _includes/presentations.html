@@ -1,12 +1,17 @@
 {%- assign groups = site.data.presentations | group_by: "year" | sort: "name" | reverse -%}
 {%- assign presentation_number = site.data.presentations.size -%}
 <p class="count">총 {{ site.data.presentations.size }}건</p>
+<div class="pub-filter conf-filter" role="group" aria-label="국내·해외 학술대회로 보기">
+  <button type="button" class="cf-chip pf-chip" data-region="" aria-pressed="true">전체</button>
+  <button type="button" class="cf-chip pf-chip" data-region="intl" aria-pressed="false">International Confer.</button>
+  <button type="button" class="cf-chip pf-chip" data-region="dom" aria-pressed="false">Confer.</button>
+</div>
 {% for g in groups %}
 <section class="year-group">
   <h3>{{ g.name }} <span class="n">{{ g.items.size }}</span></h3>
   <ol class="pubs conference-pubs" reversed start="{{ presentation_number }}">
     {% for t in g.items %}
-    <li value="{{ presentation_number }}">
+    <li value="{{ presentation_number }}" data-region="{% if t.region == "국내" %}dom{% elsif t.region %}intl{% endif %}">
       <span class="publication-number" aria-hidden="true">{{ presentation_number }}.</span>
       <span class="cite">{% if t.authors %}{{ t.authors }}. {% endif %}<strong>{{ t.title }}</strong>{% if t.venue %}. {{ t.venue }}{% endif %}{% if t.month %}, {{ t.year }}.{{ t.month }}{% endif %}.</span>
       {% if t.region %}<span class="idx"><span class="badge region-{% if t.region == "국내" %}dom{% else %}intl{% endif %}">{% if t.region == "국외" %}해외{% else %}{{ t.region }}{% endif %}</span></span>{% endif %}
@@ -16,3 +21,19 @@
   </ol>
 </section>
 {% endfor %}
+
+<script>
+(function () {
+  if (window.__confFilter) return; window.__confFilter = true;
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.cf-chip'); if (!b) return;
+    var r = b.dataset.region;
+    document.querySelectorAll('.cf-chip').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    document.querySelectorAll('.conference-pubs > li').forEach(function (li) { li.hidden = !!r && li.dataset.region !== r; });
+    document.querySelectorAll('.year-group').forEach(function (g) {
+      var list = g.querySelector('.conference-pubs'); if (!list) return;
+      g.hidden = !list.querySelector('li:not([hidden])');
+    });
+  });
+})();
+</script>
