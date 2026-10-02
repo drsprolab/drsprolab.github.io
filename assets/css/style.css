@@ -718,7 +718,6 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* ---- Daily Insight 목록: 다른 탭과 같은 폭·제목 크기로 맞춤 ---- */
 .daily-index { max-width: none; margin-inline: 0; }
 .daily-hero { gap: 10px; padding-block: 0; margin-bottom: 40px; }
-.daily-hero h1 { font-size: clamp(32px, 5vw, 46px); font-weight: 500; letter-spacing: -.022em; }
 .daily-hero h1 span { margin-top: 10px; font-size: 17px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 .daily-hero .page-banner { margin-top: 26px; }
 .daily-issue-head h1 { font-weight: 500; }
