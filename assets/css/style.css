@@ -874,3 +874,12 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .pe-tbar-mid { position: absolute; left: 50%; top: -3px; width: 2px; height: 20px; background: var(--ink); opacity: .45; }
 .pe-tval { text-align: right; font-variant-numeric: tabular-nums; font-size: 12.5px; }
 @media (max-width: 640px) { .pe-trow { grid-template-columns: 1fr; gap: 4px; } .pe-cause-row { grid-template-columns: 90px minmax(0, 1fr) 46px; } }
+
+/* ---- 지식은폐 진단 ---- */
+.kh-legend { margin: 0 0 12px; padding-left: 1.1em; display: grid; gap: 4px; font-size: 13.5px; }
+.kh-heat { font-size: 13.5px; }
+.kh-heat th, .kh-heat td { text-align: center; }
+.kh-heat .kh-sit { text-align: left; white-space: nowrap; }
+.kh-cell { display: inline-block; min-width: 54px; padding: 6px 10px; border-radius: 6px; font-variant-numeric: tabular-nums; background: color-mix(in srgb, var(--warn) calc(var(--a) * 55%), var(--tint)); }
+.kh-cell.top { font-weight: 700; outline: 2px solid var(--warn); outline-offset: -2px; }
+.prose .kh-chips { margin: 0 0 6px; max-width: none; display: flex; flex-wrap: wrap; gap: 6px; }
