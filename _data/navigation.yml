@@ -4,14 +4,14 @@
     - { title: Professor-in-charge, url: /members/#professor }
     - { title: Lab Members, url: /members/#lab-members }
     - { title: Alumni, url: /members/#alumni }
-- title: Measurement & Solution
-  url: /blog/
 - title: Teaching & Research
   url: /research/
   children:
     - { title: Research (Professor), url: /research/ }
     - { title: Research (Lab), url: /research/lab/ }
     - { title: Teaching, url: /teaching/ }
+- title: Measurement & Solution
+  url: /blog/
 - title: Project
   url: /project/
   children:
