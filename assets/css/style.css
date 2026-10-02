@@ -357,12 +357,25 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .daily-content blockquote p { margin: 0; }
 .daily-content blockquote p + p { margin-top: 6px; }
 .daily-content #sources ~ p { font-size: 13px; overflow-wrap: anywhere; }
+.daily-brief { margin: 8px 0 36px; padding: 22px 24px; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 8px; background: var(--paper); }
+.daily-brief-label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; color: var(--accent); margin-bottom: 8px; }
+.daily-brief h3 { font-size: 20px; line-height: 1.45; margin: 0 0 4px; }
+.daily-brief-cite { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+.daily-brief-cite a { overflow-wrap: anywhere; }
+.daily-brief dl { display: grid; grid-template-columns: max-content 1fr; gap: 14px 20px; margin: 18px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+.daily-brief dt { font-weight: 700; font-size: 14.5px; color: var(--ink); }
+.daily-brief dd { margin: 0; font-size: 15px; }
+.daily-brief dd p { margin: 0; }
+.daily-brief dd p + p { margin-top: 6px; }
 @media (max-width: 680px) {
   .daily-desktop-break { display: none; }
   .daily-hero { padding-top: 0; }
   .daily-hero h1 span { font-size: 18px; }
   .daily-feature-bottom { align-items: flex-start; flex-direction: column; }
   .daily-content h2 { font-size: 20px; }
+  .daily-brief { padding: 18px; }
+  .daily-brief dl { grid-template-columns: 1fr; gap: 4px; }
+  .daily-brief dd { margin-bottom: 10px; }
 }
 
 /* Panoramic illustrations for the home and menu pages */
