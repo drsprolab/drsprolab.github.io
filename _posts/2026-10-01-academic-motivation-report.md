@@ -58,5 +58,3 @@ measurement_use: 구성원 학습동기 수준 진단 및 HRD 지원·교육환�
 <div class="viz-tip" id="lm-tip" role="tooltip" hidden></div>
 
 <script src="{{ '/assets/js/lm-report.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
-
-<div class="report-intro"><h2>측정도구 출처</h2><ul><li>주라헬(2026). 대학생의 학업 동기 측정 도구 개발 및 검증. 한양대학교 대학원 박사학위논문.</li></ul><p>원도구는 대학생 학업 동기 측정도구이며, 이 페이지는 조직 구성원의 학습동기 진단에 활용한 예시입니다. 구성원 점수와 4개 유형은 LPA 결과를 설명하기 위한 가상 예시입니다.</p></div>
