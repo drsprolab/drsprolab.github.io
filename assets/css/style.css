@@ -779,3 +779,32 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 @media (max-width: 860px) { .lm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .lm-cards { grid-template-columns: 1fr; } }
 .lm-av-s1 { background: var(--series-1); } .lm-av-s2 { background: var(--series-2); } .lm-av-s3 { background: var(--series-3); } .lm-av-s4 { background: var(--series-4); }
+
+/* ---- Goal Orientation: 3×3 조합 지도 ---- */
+.gm { display: grid; grid-template-columns: 22px 1fr; grid-template-rows: auto auto; gap: 6px; margin-top: 8px; }
+.gm-ylab { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; color: var(--muted); text-align: center; align-self: center; }
+.gm-grid { display: grid; grid-template-columns: 44px repeat(3, minmax(0, 1fr)); gap: 6px; }
+.gm-xlab { grid-column: 2; font-size: 12px; color: var(--muted); text-align: center; padding-left: 44px; }
+.gm-rowlab, .gm-collab { font-size: 12px; color: var(--muted); display: grid; place-items: center; }
+.gm-cell { position: relative; min-height: 92px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--series-1) calc(var(--a) * 38%), var(--paper)); display: grid; gap: 4px; align-content: start; transition: opacity .2s; }
+.gm-name { font-size: 13.5px; font-weight: 600; }
+.gm-n { font-size: 13px; font-variant-numeric: tabular-nums; }
+.gm-n small { color: var(--muted); }
+.gm-cell .chip { justify-self: start; }
+.gm-marks { position: absolute; top: 8px; right: 8px; display: flex; gap: 3px; }
+.gm-mark { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-style: normal; font-size: 11px; font-weight: 700; color: #fff; }
+.gm-m1, .gm-av1 { background: var(--series-1); } .gm-m2, .gm-av2 { background: var(--series-2); } .gm-m3, .gm-av3 { background: var(--series-3); } .gm-m4, .gm-av4 { background: var(--series-4); }
+#gl-legend .lg { gap: 6px; }
+.gm-small .gm-cell { min-height: 46px; padding: 6px 8px; }
+.gm-small .gm-name { font-size: 11.5px; font-weight: 500; }
+.gm-cell.dim { opacity: .35; }
+.gm-cell.on { outline: 2px solid var(--accent); outline-offset: 1px; }
+.prose .gl-sub { font-size: 14px; margin: 6px 0 8px; }
+.gl-sub span { font-weight: 400; color: var(--muted); font-size: 12.5px; }
+.gl-bars .lvr-row { grid-template-columns: 120px minmax(0, 1fr) 110px; }
+@media (max-width: 640px) { .gm-cell { min-height: 74px; padding: 8px; } .gm-name { font-size: 12px; } .gm-grid { grid-template-columns: 34px repeat(3, minmax(0, 1fr)); } .gm-xlab { padding-left: 34px; } }
+/* 세로축 이름은 세로쓰기 대신 표 위에 가로로 표시 */
+.gm { grid-template-columns: 1fr; }
+.gm-ylab { writing-mode: horizontal-tb; transform: none; text-align: left; align-self: start; }
+.gm-xlab { grid-column: 1; }
