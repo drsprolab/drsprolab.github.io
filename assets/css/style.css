@@ -821,3 +821,6 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .gm { grid-template-columns: 1fr; }
 .gm-ylab { writing-mode: horizontal-tb; transform: none; text-align: left; align-self: start; }
 .gm-xlab { grid-column: 1; }
+/* Daily Insight 요약 상자: 항목 구분 없이 이어지는 문단 */
+.daily-brief-body { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.daily-brief-body p { margin: 0; font-size: 15px; line-height: 1.75; max-width: none; }
