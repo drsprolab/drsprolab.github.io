@@ -14,4 +14,4 @@
 </div>
 <div class="viz-tip" id="ye-tip" role="tooltip" hidden></div>
 <div class="report-intro"><h2>측정도구 출처</h2><ul>{% for reference in page.measurement_references %}<li>{{ reference }}</li>{% endfor %}</ul></div>
-<script src="{{ '/assets/js/ye-report.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/ye-report.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
