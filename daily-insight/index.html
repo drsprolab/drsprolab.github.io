@@ -13,21 +13,23 @@ permalink: /daily-insight/
     {% include page-banner.html key="daily-insight" %}
   </header>
   {% if issues.size > 0 %}
-  {% assign latest = issues.first %}
-  <article class="daily-feature" aria-labelledby="latest-title">
-    <div class="daily-feature-meta"><span class="eyebrow">LATEST BRIEFING</span><time datetime="{{ latest.date | date_to_xmlschema }}">{{ latest.date | date: "%Y.%m.%d" }} · KST</time></div>
-    <h2 id="latest-title"><a href="{{ latest.url | relative_url }}">{{ latest.title }}</a></h2>
-    <p>{{ latest.summary | escape }}</p>
-    <ul class="tags" aria-label="주제">{% for topic in latest.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
-    <div class="daily-feature-bottom"><span>{{ latest.news_count }}개 소식 · {{ latest.source_count }}개 공식 출처 · 약 {{ latest.reading_minutes }}분</span><a class="daily-read" href="{{ latest.url | relative_url }}">브리핑 읽기 <span aria-hidden="true">→</span></a></div>
-  </article>
   <div class="daily-archive">
-    <h2>지난 브리핑 <span class="n">{{ issues.size }}</span></h2>
-    <ul class="post-list">
+    <h2>브리핑 <span class="n">{{ issues.size }}</span></h2>
+    <div class="inst-grid">
       {% for issue in issues %}
-      <li><span class="eyebrow"><time datetime="{{ issue.date | date_to_xmlschema }}">{{ issue.date | date: "%Y.%m.%d" }}</time> · AI BRIEFING</span><a href="{{ issue.url | relative_url }}">{{ issue.title }}</a><p>{{ issue.summary | escape }}</p></li>
+      <a class="inst" href="{{ issue.url | relative_url }}">
+        <div class="tags">{% if forloop.first %}<span class="badge">최신 브리핑</span>{% endif %}{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
+        <h3>{{ issue.title | escape }}</h3>
+        <p>{{ issue.summary | escape }}</p>
+        <dl class="kv">
+          <dt>작성일</dt><dd><time datetime="{{ issue.date | date_to_xmlschema }}">{{ issue.date | date: "%Y.%m.%d" }}</time> · KST</dd>
+          <dt>주요 소식</dt><dd>{{ issue.news_count }}개</dd>
+          <dt>공식 출처</dt><dd>{{ issue.source_count }}개</dd>
+          <dt>읽는 시간</dt><dd>약 {{ issue.reading_minutes }}분</dd>
+        </dl>
+      </a>
       {% endfor %}
-    </ul>
+    </div>
   </div>
   {% else %}
   <p class="daily-method">첫 브리핑을 준비하고 있습니다.</p>
