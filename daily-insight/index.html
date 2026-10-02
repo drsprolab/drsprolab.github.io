@@ -14,7 +14,7 @@ permalink: /daily-insight/
   </header>
   {% if issues.size > 0 %}
   <div class="daily-archive">
-    <h2>브리핑 <span class="n">{{ issues.size }}</span></h2>
+    <h2>Insights <span class="n">{{ issues.size }}</span></h2>
     <div class="inst-grid">
       {% for issue in issues %}
       <a class="inst" href="{{ issue.url | relative_url }}">
