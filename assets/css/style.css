@@ -721,3 +721,41 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .daily-hero h1 span { margin-top: 10px; font-size: 17px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 .daily-hero .page-banner { margin-top: 26px; }
 .daily-issue-head h1 { font-weight: 500; }
+
+/* ---- Agile 조직문화 진단 ---- */
+:root { --series-3: #1baf7a; }
+@media (prefers-color-scheme: dark) { :root { --series-3: #199e70; } }
+.rd-area.s3 { fill: var(--series-3); fill-opacity: .08; stroke: var(--series-3); }
+.rd-dot.s3, .lg-key.s3 { fill: var(--series-3); background: var(--series-3); }
+.prose .report-section-title { font-size: 20px; margin: 4px 0 -6px; padding: 0; }
+.prose .panel h3.panel-title { font-family: var(--f-body); font-size: 17px; font-weight: 600; margin: 0; }
+.prose .lvr-note { font-size: 13.5px; color: var(--muted); margin: 10px 0 0; max-width: none; }
+.lvr { display: grid; gap: 12px; margin-top: 6px; }
+.lvr-scale, .lvr-row { display: grid; grid-template-columns: 130px minmax(0, 1fr) 150px; gap: 14px; align-items: center; }
+.lvr-axis { position: relative; height: 16px; }
+.lvr-axis i { position: absolute; transform: translateX(-50%); font-style: normal; font-size: 10.5px; color: var(--muted); font-family: var(--f-mono); }
+.lvr-head { font-size: 11.5px; color: var(--muted); }
+.lvr-name { font-size: 13.5px; }
+.lvr-track { position: relative; height: 22px; background: linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat; }
+.lvr-range { position: absolute; top: 8px; height: 6px; border-radius: 3px; background: var(--muted); opacity: .22; }
+.lvr-iqr { position: absolute; top: 6px; height: 10px; border-radius: 3px; background: var(--series-1); opacity: .35; }
+.lvr-org { position: absolute; top: 2px; width: 2px; height: 18px; margin-left: -1px; background: var(--ink); opacity: .55; }
+.lvr-mean { position: absolute; top: 5px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--series-1); border: 2px solid var(--paper); }
+.lvr-val { font-size: 13px; font-variant-numeric: tabular-nums; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.lvr-sd { color: var(--muted); font-size: 12px; }
+.lvr-key-mean, .lvr-key-iqr, .lvr-key-range, .lvr-key-org { display: inline-block; vertical-align: middle; }
+.lvr-key-mean { width: 10px; height: 10px; border-radius: 50%; background: var(--series-1); }
+.lvr-key-iqr { width: 16px; height: 8px; border-radius: 2px; background: var(--series-1); opacity: .35; }
+.lvr-key-range { width: 16px; height: 5px; border-radius: 2px; background: var(--muted); opacity: .3; }
+.lvr-key-org { width: 2px; height: 12px; background: var(--ink); opacity: .55; }
+@media (max-width: 640px) {
+  .lvr-scale, .lvr-row { grid-template-columns: 1fr; gap: 4px; }
+  .lvr-scale .lvr-head, .lvr-scale > span:first-child { display: none; }
+}
+.la-level { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 10px; padding: 12px 14px; border-radius: 8px; background: var(--tint); }
+.la-level-k { font-size: 12.5px; color: var(--muted); }
+.la-level strong { font-size: 24px; font-variant-numeric: tabular-nums; }
+.la-level-type { font-weight: 600; color: var(--accent); margin-left: auto; }
+.la-combo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .la-combo { grid-template-columns: 1fr; } }
+.prose .la-combo-line { margin: 0; font-size: 14px; max-width: none; }
