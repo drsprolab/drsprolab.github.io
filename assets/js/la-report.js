@@ -5,6 +5,8 @@
   if (!root) return;
   var tip = document.getElementById('la-tip');
   var D, F, teams, all, orgMean, selTeam = null, selPersona = null;
+  var LBL = root.dataset.label || 'Agility';           // 레이더 제목에 쓰는 이름
+  var LEVEL = root.dataset.levelLabel || 'Agile 수준'; // 팀 수준 표시 이름
 
   function mean(a) { return a.length ? a.reduce(function (s, v) { return s + v; }, 0) / a.length : 0; }
   function sd(a) { var m = mean(a); return Math.sqrt(mean(a.map(function (v) { return (v - m) * (v - m); }))); }
@@ -61,14 +63,14 @@
       { label: '하위 25% 구성원', values: F.map(function (_, j) { return mean(col(low, j)); }), cls: 'ref', dashed: true }
     ];
     document.getElementById('la-legend-indiv').innerHTML = legend(indiv);
-    document.getElementById('la-radar-indiv').innerHTML = radar(indiv, '개인별 Agility 진단');
+    document.getElementById('la-radar-indiv').innerHTML = radar(indiv, '개인별 ' + LBL + ' 진단');
     document.getElementById('la-indiv-note').textContent = '구성원 ' + all.length + '명 · 상위와 하위 25% 구성원의 차이가 가장 큰 요인: ' +
       F.map(function (f, j) { return { f: f, d: indiv[0].values[j] - indiv[2].values[j] }; }).sort(function (a, b) { return b.d - a.d; })[0].f;
 
     var clsByTeam = ['s1', 's2', 's3'];
     var teamSeries = teams.map(function (t, i) { return { label: t.name + ' (' + t.unit + ')', values: t.mean, cls: clsByTeam[i % 3] }; });
     document.getElementById('la-legend-team').innerHTML = legend(teamSeries);
-    document.getElementById('la-radar-team').innerHTML = radar(teamSeries, '팀별 Agility 진단');
+    document.getElementById('la-radar-team').innerHTML = radar(teamSeries, '팀별 ' + LBL + ' 진단');
   }
 
   // ---------- 2. 하위요인별 팀 수준과 구성원 간 차이 ----------
@@ -120,7 +122,7 @@
     function block(title, tag, list) { return '<div class="pd-block"><h3>' + title + '</h3><ul class="pd-acts">' + list.map(function (a) { return '<li><span class="pd-tag">' + tag + '</span>' + esc(a) + '</li>'; }).join('') + '</ul></div>'; }
     box.innerHTML = '<div class="pr-grid"><div><div class="legend">' + legend(series) + '</div><div class="radar-box">' + radar(series, t.name + ' 팀 프로파일') + '</div></div>' +
       '<div class="pr-diag">' +
-      '<div class="la-level"><span class="la-level-k">Agile 수준</span><strong>' + f2(overall) + '</strong><span class="chip ' + lv.c + '">' + lv.t + '</span><span class="la-level-type">' + esc(t.type) + '</span></div>' +
+      '<div class="la-level"><span class="la-level-k">' + esc(LEVEL) + '</span><strong>' + f2(overall) + '</strong><span class="chip ' + lv.c + '">' + lv.t + '</span><span class="la-level-type">' + esc(t.type) + '</span></div>' +
       '<p class="pr-summary">' + esc(t.summary) + '</p>' +
       '<div class="la-combo"><div class="pd-block"><h3><span class="chip good">높은 영역</span></h3><ul>' + hi.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div>' +
       '<div class="pd-block"><h3><span class="chip warn">낮은 영역</span></h3><ul>' + lo.map(function (x) { return '<li>' + item(x) + '</li>'; }).join('') + '</ul></div></div>' +
