@@ -1,6 +1,8 @@
 ---
 layout: page
 title: Research (Professor)
+heading_main: Research
+heading_suffix: (Professor)
 eyebrow: Teaching & Research
 permalink: /research/
 lede: 읽고, 읽고, 또 읽고 나서 쓰는 것.

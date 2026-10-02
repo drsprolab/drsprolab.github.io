@@ -4,7 +4,7 @@ layout: default
 <article class="page{% if page.wide %} page--wide{% endif %}">
   <header class="page-head">
     {% if page.eyebrow %}<div class="eyebrow">{{ page.eyebrow }}</div>{% endif %}
-    <h1>{{ page.title }}</h1>
+    <h1>{% if page.heading_main %}{{ page.heading_main }}{% if page.heading_suffix %} <span class="page-heading-suffix">{{ page.heading_suffix }}</span>{% endif %}{% else %}{{ page.title }}{% endif %}</h1>
     {% if page.lede %}<p class="lede">{{ page.lede }}</p>{% endif %}
   </header>
   {% include page-banner.html %}
