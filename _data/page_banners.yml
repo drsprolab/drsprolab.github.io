@@ -3,28 +3,28 @@ home:
   alt: AI와 함께 배우는 사람들과 데이터로 연결된 조직의 변화
 members:
   image: members
-  alt: 아이디어를 나누며 함께 배우는 대학 연구팀
+  alt: 개인과 팀, 연구실이 이어진 공동체를 별자리처럼 표현한 추상 일러스트
 research:
   image: research
-  alt: 논문과 데이터 분석을 연결하는 교육공학 연구
+  alt: 겹쳐진 논문과 인용 네트워크, 성장하는 지식 곡선을 표현한 추상 일러스트
 teaching:
   image: teaching
-  alt: 디지털 학습 자료를 활용하며 토론하는 대학 세미나
+  alt: 단계적으로 올라가는 학습 경로를 표현한 추상 일러스트
 project:
   image: project
-  alt: 조직의 학습과 변화를 함께 설계하는 산학 협력
+  alt: 여러 과제 흐름이 마일스톤을 거쳐 하나의 성과로 모이는 추상 일러스트
 institutes:
   image: institutes
-  alt: 교육과 인문사회 연구를 연결하는 학제 간 연구 공간
+  alt: 연구소와 센터를 잇는 육각형 허브 네트워크 추상 일러스트
 highlights:
   image: highlights
-  alt: 연구 성과와 공동의 성취를 기념하는 장면
+  alt: 지구 위로 떠오르는 성취의 별과 해외 학회로 향하는 궤적을 표현한 추상 일러스트
 daily-insight:
   image: daily-insight
-  alt: AI의 정보 흐름을 분석하며 통찰을 정리하는 연구 공간
+  alt: 여러 정보 흐름이 렌즈를 지나 하나의 통찰로 모이는 추상 일러스트
 blog:
   image: measurement-diagnosis-solutions
-  alt: AI 기반 진단도구 개발과 역량 분석을 통해 솔루션과 컨설팅을 설계하는 전문가들의 협업
+  alt: 진단 레이더와 요인 경로도, 분포 곡선으로 진단과 분석을 표현한 추상 일러스트
 bk21-aix:
   image: bk21-aix
-  alt: AI 연결망을 중심으로 교육공학·기계공학·데이터사이언스·미디어커뮤니케이션이 협력하는 융합연구 일러스트
+  alt: AI를 중심으로 교육·공학·데이터·미디어 분야가 연결되는 융합 추상 일러스트
