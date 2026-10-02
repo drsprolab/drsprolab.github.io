@@ -759,3 +759,23 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .la-combo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 @media (max-width: 640px) { .la-combo { grid-template-columns: 1fr; } }
 .prose .la-combo-line { margin: 0; font-size: 14px; max-width: none; }
+
+/* ---- Learning Motivation 진단 ---- */
+:root { --series-4: #c98500; }
+.rd-area.s4 { fill: var(--series-4); fill-opacity: .07; stroke: var(--series-4); }
+.rd-dot.s4, .lg-key.s4 { fill: var(--series-4); background: var(--series-4); }
+.rd-label.rd-burden { fill: var(--warn); }
+.lm-select { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.lm-select select { font: inherit; font-size: 14px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); min-width: 190px; }
+.lm-pname { font-size: 20px !important; }
+.lm-share { display: grid; gap: 14px; margin-top: 10px; }
+.lm-share-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 84px; gap: 12px; align-items: center; font-size: 13.5px; }
+.lm-share-name { display: inline-flex; align-items: center; gap: 6px; }
+.lm-share-track { height: 12px; background: var(--tint); border-radius: 6px; overflow: hidden; }
+.lm-share-bar { display: block; height: 100%; border-radius: 6px; }
+.lm-share-bar.s1 { background: var(--series-1); } .lm-share-bar.s2 { background: var(--series-2); } .lm-share-bar.s3 { background: var(--series-3); } .lm-share-bar.s4 { background: var(--series-4); }
+.lm-share-val { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12.5px; text-align: right; }
+.lm-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 860px) { .lm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lm-cards { grid-template-columns: 1fr; } }
+.lm-av-s1 { background: var(--series-1); } .lm-av-s2 { background: var(--series-2); } .lm-av-s3 { background: var(--series-3); } .lm-av-s4 { background: var(--series-4); }
