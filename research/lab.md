@@ -1,6 +1,8 @@
 ---
 layout: page
 title: Research (Lab)
+heading_main: Research
+heading_suffix: (Lab)
 eyebrow: Teaching & Research
 permalink: /research/lab/
 lede: 연구실 구성원이 참여한 논문과 발표입니다.
