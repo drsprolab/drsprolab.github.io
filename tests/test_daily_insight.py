@@ -45,7 +45,7 @@ class DailyInsightTest(unittest.TestCase):
         self.assertEqual(official, [])
         text = (SITE / "daily-insight" / "2026-10-01" / "index.html").read_text()
         self.assertNotIn("References", text)
-        self.assertIn("Exclusive Summary", text)
+        self.assertIn("이그제큐티브 서머리", text)
         self.assertIn("DrSong Opinion", text)
 
     def test_local_preview_is_marked_and_not_indexable(self):
