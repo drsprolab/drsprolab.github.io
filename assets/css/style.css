@@ -827,3 +827,19 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* APA References: 내어쓰기 */
 .references { display: grid; gap: 8px; font-size: 14px; line-height: 1.65; }
 .references p { margin: 0; padding-left: 2em; text-indent: -2em; overflow-wrap: anywhere; max-width: none; }
+
+/* ---- 자기자비 진단 ---- */
+.sc-compare { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+@media (max-width: 860px) { .sc-compare { grid-template-columns: 1fr; } }
+.sc-persona-list { display: grid; gap: 10px; }
+.sc-pcard { all: unset; box-sizing: border-box; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.sc-pcard:hover { border-color: var(--accent); }
+.sc-pcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sc-state { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.sc-av-s1 { background: var(--series-1); } .sc-av-s2 { background: var(--series-2); } .sc-av-s3 { background: var(--series-3); } .sc-av-s4 { background: var(--series-4); }
+.sc-pattern td, .sc-pattern th { white-space: nowrap; font-size: 13px; }
+.sc-pattern tr[data-pid] { cursor: pointer; }
+.sc-pattern tr.is-sel td { background: var(--accent-soft); }
+.sc-cell { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--tint); color: var(--muted); font-size: 12px; }
+.sc-cell.good { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); font-weight: 600; }
+.sc-cell.bad { background: color-mix(in srgb, var(--warn) 15%, transparent); color: var(--warn); font-weight: 600; }
