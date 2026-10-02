@@ -9,7 +9,7 @@
     <li value="{{ presentation_number }}">
       <span class="publication-number" aria-hidden="true">{{ presentation_number }}.</span>
       <span class="cite">{% if t.authors %}{{ t.authors }}. {% endif %}<strong>{{ t.title }}</strong>{% if t.venue %}. {{ t.venue }}{% endif %}{% if t.month %}, {{ t.year }}.{{ t.month }}{% endif %}.</span>
-      {% if t.region %}<span class="idx"><span class="badge">{{ t.region }}</span></span>{% endif %}
+      {% if t.region %}<span class="idx"><span class="badge region-{% if t.region == "국내" %}dom{% else %}intl{% endif %}">{% if t.region == "국외" %}해외{% else %}{{ t.region }}{% endif %}</span></span>{% endif %}
     </li>
     {% assign presentation_number = presentation_number | minus: 1 %}
     {% endfor %}
