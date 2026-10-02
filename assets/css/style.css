@@ -689,5 +689,16 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   .nav-item > a { padding-inline: 8px; font-size: 13.5px; }
 }
 
-/* ---- Page titles (Members, Research 등 각 탭 제목): 조금 얇게 ---- */
-.page-head h1 { font-weight: 400; letter-spacing: -.02em; }
+/* ---- Page titles (Members, Research 등 각 탭 제목): 원래(600)와 400의 중간 ---- */
+.page-head h1 { font-weight: 500; letter-spacing: -.022em; }
+
+/* ---- Mobile hardening: 긴 URL·통계 칸 때문에 화면이 옆으로 넘치지 않게 ---- */
+.hero { grid-template-columns: minmax(0, 1fr); }
+.hero > *, .report-grid > *, .rmap-body > *, .pr-grid > *, .profile-grid > * { min-width: 0; }
+.prose p, .prose li, .prose dd, .pubs .cite, .report-intro, .kp-list, .rm-d-list, .solution-contact dd { overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .rmap-top { padding: 18px; }
+  .rmap-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .rmap .rmap-title { font-size: 24px; }
+  .solution-btn { white-space: normal; text-align: left; max-width: 100%; }
+}
