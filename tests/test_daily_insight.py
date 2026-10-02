@@ -37,16 +37,16 @@ class DailyInsightTest(unittest.TestCase):
         self.assertNotIn("{{", text)
         self.assertNotIn("{%", text)
 
-    def test_briefing_links_to_six_distinct_official_sources(self):
+    def test_references_are_present_without_official_source_links(self):
         issue = Page(SITE / "daily-insight" / "2026-10-01" / "index.html")
-        official = {a.get("href") for a in issue.links
-                    if a.get("href", "").startswith(("https://blog.google/", "https://openai.com/",
-                                                     "https://www.anthropic.com/", "https://nvidianews.nvidia.com/",
-                                                     "https://deploymentsafety.openai.com/"))}
-        self.assertEqual(len(official), 6, "Every numbered source must be a clickable official link")
-        for a in issue.links:
-            if a.get("target") == "_blank":
-                self.assertIn("noopener", a.get("rel", ""))
+        official = [a for a in issue.links if a.get("href", "").startswith(
+            ("https://blog.google/", "https://openai.com/", "https://www.anthropic.com/",
+             "https://nvidianews.nvidia.com/", "https://deploymentsafety.openai.com/"))]
+        self.assertEqual(official, [])
+        text = (SITE / "daily-insight" / "2026-10-01" / "index.html").read_text()
+        self.assertNotIn("References", text)
+        self.assertIn("Exclusive Summary", text)
+        self.assertIn("DrSong Opinion", text)
 
     def test_local_preview_is_marked_and_not_indexable(self):
         import os

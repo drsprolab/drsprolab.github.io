@@ -18,7 +18,7 @@ permalink: /daily-insight/
     <div class="inst-grid">
       {% for issue in issues %}
       <a class="inst" href="{{ issue.url | relative_url }}">
-        <div class="tags">{% if forloop.first %}<span class="badge">최신 브리핑</span>{% endif %}{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
+        <div class="tags">{% if forloop.first %}<span class="badge">최신 Insights</span>{% endif %}{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
         <h3>{{ issue.title | escape }}</h3>
         <p>{{ issue.summary | escape }}</p>
         <dl class="kv">
@@ -32,7 +32,7 @@ permalink: /daily-insight/
     </div>
   </div>
   {% else %}
-  <p class="daily-method">첫 브리핑을 준비하고 있습니다.</p>
+  <p class="daily-method">첫 Insights을 준비하고 있습니다.</p>
   {% endif %}
-  <aside class="daily-method" aria-label="편집 원칙"><strong>편집 원칙</strong><p>이 페이지의 날짜는 한국시간 기준 브리핑 작성일입니다. 각 소식에 원문의 발표일과 출처를 표시하며, 제품 성능 수치는 발표 기업의 주장과 독립 검증 결과를 구분합니다. 매일 자동 게시되는 페이지는 아닙니다.</p></aside>
+  <aside class="daily-method" aria-label="편집 원칙"><strong>편집 원칙</strong><p>이 페이지의 날짜는 한국시간 기준 Insights 작성일입니다. 각 소식에 원문의 발표일과 출처를 표시하며, 제품 성능 수치는 발표 기업의 주장과 독립 검증 결과를 구분합니다. 매일 자동 게시되는 페이지는 아닙니다.</p></aside>
 </section>
