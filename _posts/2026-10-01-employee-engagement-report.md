@@ -54,4 +54,4 @@ measurement_use: 개인·팀 열의 수준 진단 및 열의 향상 지원
 
 <script src="{{ '/assets/js/ee-report.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 
-<div class="report-intro"><h2>References</h2><div class="references"><p>김지현 (2017). <em>직원열의의 통합적 개념모형과 측정도구 개발</em> [석사학위논문, 한양대학교].</p></div><p>구성원, 팀, 군집 점수는 모두 설명을 위한 가상 예시입니다.</p></div>
+<p class="report-foot">구성원, 팀, 군집 점수는 모두 설명을 위한 가상 예시입니다.</p>
