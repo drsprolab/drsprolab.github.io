@@ -109,14 +109,14 @@ phd:
     interests:
       - "K-12 Education"
       - "Learning Science"
-    affiliation: "양천창업지원센터"
+    affiliation: "강남대성(대성마이맥)"
   - name: "박정민"
     name_en: "Park Jeongmin"
     interests:
       - "Virtual Reality"
       - "e-learning"
       - "Computer Education"
-    affiliation: "덕수고등학교"
+    affiliation: "서울시교육청 장학사"
   - name: "홍진표"
     name_en: "Hong Jinpyo"
     interests:
@@ -170,6 +170,7 @@ ma:
       - "Learning Organization"
       - "Instructional Design"
       - "Edu-tech"
+    affiliation: "차의과대학"
   - name: "이다은"
     interests:
       - "Human Resource Development"
@@ -184,10 +185,12 @@ ma:
     interests:
       - "Human Resource Development"
       - "Learning Motivation"
+    affiliation: "한화그룹"
   - name: "박소연"
     interests:
       - "Human Resource Development"
       - "Organization Development"
+    affiliation: "우아한형제들"
   - name: "최정은"
     interests:
       - "Organizational commitment"
