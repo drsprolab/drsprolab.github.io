@@ -1,34 +1,24 @@
 {%- assign list = site.data.publications | where: include.scope, true -%}
 {%- assign groups = list | group_by: "year" | sort: "name" | reverse -%}
 {%- assign publication_number = list.size -%}
-{%- assign ssci_count = 0 -%}
-{%- assign international_index_count = 0 -%}
-{%- assign kci_count = 0 -%}
-{%- assign other_international_count = 0 -%}
-{%- for publication in list -%}
-  {%- if publication.index contains 'SSCI' -%}{%- assign ssci_count = ssci_count | plus: 1 -%}{%- endif -%}
-  {%- if publication.index contains 'SCOPUS' or publication.index contains 'ESCI' or publication.index contains 'SCIE' -%}{%- assign international_index_count = international_index_count | plus: 1 -%}{%- endif -%}
-  {%- if publication.index contains 'KCI' -%}{%- assign kci_count = kci_count | plus: 1 -%}{%- endif -%}
-  {%- assign index_labels = publication.index | join: '|' | downcase | remove: ' ' -%}
-  {%- assign publication_type = publication.type | default: '' | downcase | remove: ' ' | remove: '_' | remove: '-' -%}
-  {%- if index_labels contains '기타국제학술지' or index_labels contains '기타국내학술지' -%}{%- assign other_international_count = other_international_count | plus: 1 -%}{%- endif -%}
-{%- endfor -%}
 <p class="count">총 {{ list.size }}편</p>
-<dl class="journal-index-summary" aria-label="논문 등재 분류별 합계">
-  <div><dt>SSCI</dt><dd>{{ ssci_count }}<span>편</span></dd></div>
-  <div><dt>SCOPUS / ESCI / SCIE</dt><dd>{{ international_index_count }}<span>편</span></dd></div>
-  <div><dt>KCI</dt><dd>{{ kci_count }}<span>편</span></dd></div>
-  <div><dt>기타학술지</dt><dd>{{ other_international_count }}<span>편</span></dd></div>
+<div class="pub-filter" role="group" aria-label="등재 분류로 보기">
+  <button type="button" class="pf-chip" data-filter="" aria-pressed="true">전체</button>
+  {%- assign index_tags = "SSCI,SCOPUS,ESCI,SCIE,KCI" | split: "," %}
+  {%- for t in index_tags %}
+  <button type="button" class="pf-chip" data-filter="{{ t }}" aria-pressed="false">{{ t }}</button>
+  {%- endfor %}
   {%- if include.scope == "professor" %}
-  <div><dt>Book (Chapters)</dt><dd>{{ site.data.books.size }}<span>편</span></dd></div>
+  <button type="button" class="pf-chip" data-filter="BOOK" aria-pressed="false">Book (Chapter)</button>
   {%- endif %}
-</dl>
+</div>
+<p class="pf-empty" hidden>해당 분류의 논문이 없습니다.</p>
 {% for g in groups %}
 <section class="year-group">
   <h3 id="pub-{{ include.scope }}-{{ g.name }}">{{ g.name }} <span class="n">{{ g.items.size }}</span></h3>
   <ol class="pubs journal-pubs" reversed start="{{ publication_number }}">
     {% for p in g.items %}
-    <li value="{{ publication_number }}">
+    <li value="{{ publication_number }}" data-tags="{{ p.index | join: ' ' | upcase }}">
       <span class="publication-number" aria-hidden="true">{{ publication_number }}.</span>
       <span class="cite">{{ p.citation }}</span>
       {% if p.index %}<span class="idx">{% for i in p.index %}<span class="badge">{{ i }}</span>{% endfor %}</span>{% endif %}
@@ -38,3 +28,34 @@
   </ol>
 </section>
 {% endfor %}
+
+<script>
+(function () {
+  if (window.__pubFilter) return; window.__pubFilter = true;
+  function apply(tag) {
+    document.querySelectorAll('.pf-chip').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === tag)); });
+    var shown = 0;
+    // Journal 목록
+    document.querySelectorAll('.journal-pubs:not(.book-pubs) > li').forEach(function (li) {
+      var ok = !tag || (tag !== 'BOOK' && (' ' + li.dataset.tags + ' ').indexOf(' ' + tag + ' ') >= 0);
+      li.hidden = !ok; if (ok) shown++;
+    });
+    document.querySelectorAll('.year-group').forEach(function (g) {
+      if (!g.querySelector('.journal-pubs')) return;
+      g.hidden = !g.querySelector('.journal-pubs > li:not([hidden])');
+    });
+    // Book 목록과 제목
+    var bookList = document.querySelector('.book-pubs');
+    if (bookList) {
+      var showBook = !tag || tag === 'BOOK';
+      bookList.querySelectorAll('li').forEach(function (li) { li.hidden = !showBook; });
+      var sec = document.getElementById('book-chapters');
+      [sec, sec && sec.nextElementSibling, bookList].forEach(function (el) { if (el && el.classList && (el === sec || el === bookList || el.classList.contains('count'))) el.hidden = !showBook; });
+      if (showBook) shown += bookList.querySelectorAll('li').length;
+    }
+    var empty = document.querySelector('.pf-empty'); if (empty) empty.hidden = shown > 0;
+    if (tag === 'BOOK' && document.getElementById('book-chapters')) document.getElementById('book-chapters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip'); if (b) apply(b.dataset.filter); });
+})();
+</script>
