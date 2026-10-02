@@ -4,7 +4,7 @@
 <p class="count">총 {{ list.size }}편</p>
 <div class="pub-filter" role="group" aria-label="등재 분류로 보기">
   <button type="button" class="pf-chip" data-filter="" aria-pressed="true">전체</button>
-  {%- assign index_tags = "SSCI,SCOPUS,ESCI,SCIE,KCI" | split: "," %}
+  {%- assign index_tags = "SSCI,SCOPUS,ESCI,KCI" | split: "," %}
   {%- for t in index_tags %}
   <button type="button" class="pf-chip" data-filter="{{ t }}" aria-pressed="false">{{ t }}</button>
   {%- endfor %}
@@ -37,7 +37,9 @@
     var shown = 0;
     // Journal 목록
     document.querySelectorAll('.journal-pubs:not(.book-pubs) > li').forEach(function (li) {
-      var ok = !tag || (tag !== 'BOOK' && (' ' + li.dataset.tags + ' ').indexOf(' ' + tag + ' ') >= 0);
+      var tags = li.dataset.tags || '';
+      // Book (Chapter) 버튼은 기타 국제학술지 논문도 함께 보여 준다
+      var ok = !tag || (tag === 'BOOK' ? tags.indexOf('기타 국제학술지') >= 0 : (' ' + tags + ' ').indexOf(' ' + tag + ' ') >= 0);
       li.hidden = !ok; if (ok) shown++;
     });
     document.querySelectorAll('.year-group').forEach(function (g) {
@@ -54,7 +56,6 @@
       if (showBook) shown += bookList.querySelectorAll('li').length;
     }
     var empty = document.querySelector('.pf-empty'); if (empty) empty.hidden = shown > 0;
-    if (tag === 'BOOK' && document.getElementById('book-chapters')) document.getElementById('book-chapters').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip'); if (b) apply(b.dataset.filter); });
 })();
