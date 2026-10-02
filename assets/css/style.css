@@ -843,3 +843,34 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .sc-cell { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--tint); color: var(--muted); font-size: 12px; }
 .sc-cell.good { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); font-weight: 600; }
 .sc-cell.bad { background: color-mix(in srgb, var(--warn) 15%, transparent); color: var(--warn); font-weight: 600; }
+
+/* ---- 심리적 특권의식 진단 ---- */
+.pe-swarm-wrap { border: 0; }
+.pe-swarm { display: block; width: 100%; min-width: 620px; height: auto; font-family: var(--f-body); }
+.pe-hiband { fill: var(--warn); fill-opacity: .07; }
+.pe-band-label { fill: var(--warn); font-size: 12px; }
+.pe-grid { stroke: var(--line); }
+.pe-tick { fill: var(--muted); font-size: 11px; font-family: var(--f-mono); }
+.pe-team { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.pe-dot { stroke: var(--paper); stroke-width: 1.2; transition: opacity .2s; }
+.pe-dot.none { fill: var(--muted); fill-opacity: .4; }
+.pe-dot.s1 { fill: var(--series-1); } .pe-dot.s2 { fill: var(--series-2); } .pe-dot.s3 { fill: var(--series-3); } .pe-dot.s4 { fill: var(--series-4); }
+.pe-dot.dim { opacity: .2; }
+.pe-key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.pe-key.none { background: var(--muted); opacity: .45; } .pe-key.s1 { background: var(--series-1); } .pe-key.s2 { background: var(--series-2); } .pe-key.s3 { background: var(--series-3); } .pe-key.s4 { background: var(--series-4); }
+.pe-cause-list { display: grid; gap: 12px; margin-top: 8px; }
+.pe-cause-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 52px; gap: 10px; align-items: center; font-size: 13.5px; }
+.pe-cause-track { height: 14px; background: var(--tint); border-radius: 7px; overflow: hidden; }
+.pe-cause-bar { display: block; height: 100%; border-radius: 7px; }
+.pe-cause-bar.pos { background: var(--warn); opacity: .75; } .pe-cause-bar.neg { background: var(--muted); opacity: .4; }
+.pe-cause-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.pe-howto { margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 14px; }
+.pe-tprofile { display: grid; gap: 10px; }
+.pe-trow { display: grid; grid-template-columns: 150px minmax(0, 1fr) 52px; gap: 10px; align-items: center; font-size: 13.5px; }
+.pe-trow.key .pe-tname { font-weight: 600; }
+.pe-tbar { position: relative; height: 14px; background: var(--tint); border-radius: 7px; }
+.pe-tbar-fill { position: absolute; top: 0; height: 100%; border-radius: 7px; }
+.pe-tbar-fill.pos { background: var(--warn); opacity: .75; } .pe-tbar-fill.neg { background: var(--series-1); opacity: .45; }
+.pe-tbar-mid { position: absolute; left: 50%; top: -3px; width: 2px; height: 20px; background: var(--ink); opacity: .45; }
+.pe-tval { text-align: right; font-variant-numeric: tabular-nums; font-size: 12.5px; }
+@media (max-width: 640px) { .pe-trow { grid-template-columns: 1fr; gap: 4px; } .pe-cause-row { grid-template-columns: 90px minmax(0, 1fr) 46px; } }
