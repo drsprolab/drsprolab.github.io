@@ -113,11 +113,11 @@ class ScholarMetricsTest(unittest.TestCase):
         self.assertNotIn('42편 이상의 논문이 각각 42회', text)
         self.assertIn('title="{{ scholar.h_index }}편 이상의 논문이 각각 {{ scholar.h_index }}회', text)
 
-    def test_weekly_workflow_updates_only_metrics_and_dispatches_deploy(self):
+    def test_existing_daily_workflow_updates_only_metrics_and_dispatches_deploy(self):
         workflow = ROOT / '.github/workflows/research-metrics.yml'
         self.assertTrue(workflow.is_file(), 'Weekly cloud schedule is missing')
         text = workflow.read_text()
-        self.assertIn("cron: '15 0 * * 1'", text)
+        self.assertIn("cron: '0 0 * * *'", text)
         self.assertIn('git add -- _data/scholar_metrics.yml', text)
         self.assertIn('gh workflow run jekyll.yml --ref main', text)
         self.assertIn("github.event_name == 'schedule'", text)

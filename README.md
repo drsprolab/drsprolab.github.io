@@ -38,8 +38,8 @@ http://127.0.0.1:4000 에서 확인합니다.
 
 ## Scholar · Scopus 지표 자동 갱신
 
-- 워크플로: `.github/workflows/research-metrics.yml` (`Weekly research metrics`).
-- 일정: **매주 월요일 09:15 한국시간** (`15 0 * * 1`, UTC). GitHub 사정에 따라 시작이 지연될 수 있습니다. Actions의 **Run workflow**로 즉시 실행할 수도 있습니다.
+- 워크플로: `.github/workflows/research-metrics.yml` (`Daily research metrics`).
+- 일정: **매일 09:00 한국시간** (`0 0 * * *`, UTC; 원격에서 반영된 기존 일정 유지). GitHub 사정에 따라 시작이 지연될 수 있습니다. Actions의 **Run workflow**로 즉시 실행할 수도 있습니다.
 - Google Scholar: 공개 프로필의 **전체 기간** 인용 수, h-index, i10-index. CAPTCHA·차단을 우회하지 않습니다.
 - Scopus: 공식 Elsevier Author Retrieval API의 `METRICS` 뷰로 **인용 수와 h-index**를 조회합니다. 논문 수는 응답 검증에만 사용하며 삭제된 Documents 카드는 다시 만들지 않습니다. `citation-count`와 인용한 문헌 수인 `cited-by-count`는 서로 바꾸어 쓰지 않습니다.
 - 저장소 **Settings → Secrets and variables → Actions → New repository secret**에서 `SCOPUS_API_KEY`를 등록하세요. 키 값을 코드·이슈·채팅에 넣지 마세요. GitHub 실행 환경에서 기관 구독 권한이 필요한 경우 Elsevier에서 발급받은 기관 토큰을 `SCOPUS_INST_TOKEN`으로 추가할 수 있습니다. API 키만으로 모든 기관 구독 권한이 보장되지는 않습니다.
