@@ -4,7 +4,7 @@
   <header class="rmap-top">
     <div>
       <h2 class="rmap-title">RESEARCH MAP</h2>
-      <p class="rmap-desc">논문과 키워드를 잇는 네트워크입니다. 키워드나 점을 누르면 관련 연구가 나옵니다.</p>
+      <p class="rmap-desc">A network linking our papers and research keywords. Click a keyword or a dot to see related studies.</p>
     </div>
     <dl class="rmap-stats">
       <div><dt>Papers</dt><dd id="rm-s-papers">–</dd></div>
@@ -16,28 +16,29 @@
   <div class="rmap-body">
     <aside class="rmap-side">
       <div class="rmap-card">
-        <h3>탐색</h3>
-        <label class="rm-label" for="rm-search">검색</label>
-        <input type="search" id="rm-search" class="rm-input" placeholder="키워드나 논문 제목" autocomplete="off">
-        <div class="rm-fields" id="rm-fields" role="group" aria-label="학문 분야 필터"></div>
-        <label class="rm-check"><input type="checkbox" id="rm-local"> 선택한 항목 주변만 보기</label>
-        <button type="button" class="rm-btn" id="rm-reset">초기화</button>
+        <h3>Explore</h3>
+        <label class="rm-label" for="rm-search">Search</label>
+        <input type="search" id="rm-search" class="rm-input" placeholder="Keyword or paper title" autocomplete="off">
+        <div class="rm-label">Field</div>
+        <div class="rm-groups" id="rm-groups" role="group" aria-label="Filter by field"></div>
+        <label class="rm-check"><input type="checkbox" id="rm-local"> Show only items linked to selection</label>
+        <button type="button" class="rm-btn" id="rm-reset">Reset</button>
       </div>
       <div class="rmap-card rm-detail" id="rm-detail" aria-live="polite">
-        <h3>선택한 항목</h3>
-        <p class="rm-hint">키워드나 논문 점을 누르면 여기에 관련 연구가 표시됩니다.</p>
+        <h3>Selected</h3>
+        <p class="rm-hint">Click a keyword or a paper dot to see related research here.</p>
       </div>
     </aside>
     <div class="rmap-graph">
       <div class="rmap-graph-head">
         <strong>PRO AnalytiX Research Map</strong>
-        <span>드래그로 고정 · 더블클릭으로 고정 해제 · 스크롤로 확대</span>
+        <span>Drag to pin · Double-click to unpin · Scroll to zoom</span>
       </div>
-      <svg id="rm-svg" class="rm-svg" role="group" aria-label="논문과 키워드 네트워크"></svg>
-      <div class="rm-zoom"><button type="button" id="rm-zin" aria-label="확대">+</button><button type="button" id="rm-zout" aria-label="축소">−</button><button type="button" id="rm-zfit" aria-label="전체 보기">⤢</button></div>
+      <svg id="rm-svg" class="rm-svg" role="group" aria-label="Network of papers and keywords"></svg>
+      <div class="rm-zoom"><button type="button" id="rm-zin" aria-label="Zoom in">+</button><button type="button" id="rm-zout" aria-label="Zoom out">−</button><button type="button" id="rm-zfit" aria-label="Fit to view">⤢</button></div>
     </div>
   </div>
-  <noscript><p class="rm-hint">연구 지도를 보려면 JavaScript를 켜 주세요.</p></noscript>
+  <noscript><p class="rm-hint">Please enable JavaScript to view the Research Map.</p></noscript>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="{{ '/assets/js/kw-network.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

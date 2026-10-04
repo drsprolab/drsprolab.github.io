@@ -580,10 +580,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .rm-node.faded { opacity: .14; }
 .rm-node:focus { outline: none; }
 .rm-node:focus-visible circle { stroke: var(--accent); stroke-width: 3; }
-.rm-label { fill: var(--rm-label); font-size: 11px; text-anchor: middle; paint-order: stroke; stroke: var(--rm-label-bg); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
-.rm-node.kw .rm-label { font-size: 12.5px; font-weight: 700; }
+.rm-label { fill: var(--rm-label); font-size: 9.5px; text-anchor: middle; paint-order: stroke; stroke: var(--rm-label-bg); stroke-width: 2.5px; stroke-linejoin: round; pointer-events: none; }
+.rm-node.kw .rm-label { font-size: 9.5px; font-weight: 600; letter-spacing: .01em; }
 .rm-node.paper .rm-label { display: none; }
-.rm-svg.zoomed .rm-node.paper .rm-label, .rm-node.paper:hover .rm-label, .rm-node.paper.sel .rm-label, .rm-node.paper.match .rm-label { display: block; }
 .rm-zoom { position: absolute; right: 12px; bottom: 12px; display: grid; gap: 4px; }
 .rm-zoom button { width: 32px; height: 32px; font: inherit; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); cursor: pointer; }
 
@@ -893,3 +892,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 }
 
 .inquiry-actions .solution-btn:hover { transform: translateY(-3px) scale(1.025); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
+
+/* ---- Research Map: 분야 버튼 ---- */
+.rm-groups { display: flex; flex-wrap: wrap; gap: 6px; }
+.rm-gbtn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); cursor: pointer; }
+.rm-gbtn:hover { border-color: var(--accent); color: var(--accent); }
+.rm-gbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }

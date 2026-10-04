@@ -1,11 +1,14 @@
-# 대문 키워드 네트워크: 학문 분야 > 키워드 > 제목에서 찾을 패턴
+# 대문 키워드 네트워크: 상위 기준(group) > 학문 분야 > 키워드 > 제목에서 찾을 패턴
+# also: 키워드를 추가 분야 버튼(Engagement, Innovation, Org. Culture)에도 넣습니다.
+# 지도에는 키워드의 en 이름이 표시되고, 검색은 한글·영문 모두 됩니다.
 # patterns: 논문 제목에서 찾을 문자열(대소문자 무시). 영문 약어는 \b 단어 경계를 써도 됩니다.
 - field: 조직행동
+  group: Org. Development
   en: Organizational Behavior
   keywords:
     - { name: 리더십, en: Leadership, patterns: ["리더십", "leadership", "리더", "leader"] }
-    - { name: 직무열의·몰입, en: Engagement, patterns: ["직무열의", "열의", "engagement", "몰입", "commitment"] }
-    - { name: 조직공정성, en: Justice, patterns: ["공정성", "justice"] }
+    - { name: 직무열의·몰입, en: Engagement, also: [Engagement], patterns: ["직무열의", "열의", "engagement", "몰입", "commitment"] }
+    - { name: 조직공정성, en: Org. Justice, patterns: ["공정성", "justice"] }
     - { name: 조직시민행동, en: OCB, patterns: ["조직시민행동", "citizenship", "\\bOCB\\b"] }
     - { name: 스트레스·소진, en: Stress & Burnout, patterns: ["스트레스", "소진", "burnout", "distress"] }
     - { name: 임파워먼트, en: Empowerment, patterns: ["임파워", "empower"] }
@@ -13,16 +16,18 @@
     - { name: 긍정심리자본, en: PsyCap, patterns: ["긍정심리자본", "psychological capital"] }
     - { name: 직무만족, en: Job Satisfaction, patterns: ["직무만족", "만족도", "satisfaction"] }
 - field: 조직학습·지식경영
+  group: HRD
   en: Org. Learning & Knowledge
   keywords:
-    - { name: 학습조직, en: Learning Organization, patterns: ["학습조직", "조직학습", "learning organization", "organizational learning", "\\bDLOQ\\b"] }
+    - { name: 학습조직, en: Learning Organization, also: [Org. Culture], patterns: ["학습조직", "조직학습", "learning organization", "organizational learning", "\\bDLOQ\\b"] }
     - { name: 지식공유, en: Knowledge Sharing, patterns: ["지식공유", "knowledge sharing"] }
-    - { name: 지식창출, en: Knowledge Creation, patterns: ["지식창출", "knowledge creation"] }
+    - { name: 지식창출, en: Knowledge Creation, also: [Innovation], patterns: ["지식창출", "knowledge creation"] }
     - { name: 지식은폐, en: Knowledge Hiding, patterns: ["지식은폐", "knowledge hiding"] }
-    - { name: 조직문화, en: Culture, patterns: ["조직문화", "culture"] }
+    - { name: 조직문화, en: Org. Culture, also: [Org. Culture], patterns: ["조직문화", "culture"] }
     - { name: 조직변화·민첩성, en: Change & Agility, patterns: ["조직변화", "변화저항", "민첩성", "agility", "organizational change"] }
-    - { name: 창의성·혁신, en: Creativity, patterns: ["창의", "creativ", "혁신", "innovat"] }
+    - { name: 창의성·혁신, en: Creativity & Innovation, also: [Innovation], patterns: ["창의", "creativ", "혁신", "innovat"] }
 - field: 경력개발
+  group: HRD
   en: Career Development
   keywords:
     - { name: 경력정체성, en: Career Identity, patterns: ["경력정체성", "career identity"] }
@@ -33,28 +38,32 @@
     - { name: 일-삶 균형, en: Work-Life, patterns: ["균형", "balance", "enrichment", "일-가정", "일과 삶"] }
     - { name: 경력개발, en: Career Development, patterns: ["경력개발", "career development", "경력성공", "career success"] }
 - field: 학습·교수설계
+  group: Educational Technology
   en: Learning & Instruction
   keywords:
     - { name: 협력학습, en: CSCL, patterns: ["협력학습", "\\bCSCL\\b", "collaborative"] }
     - { name: 무형식학습, en: Informal Learning, patterns: ["무형식", "informal learning", "비형식"] }
-    - { name: 학습전이, en: Transfer, patterns: ["학습전이", "전이", "transfer"] }
+    - { name: 학습전이, en: Learning Transfer, patterns: ["학습전이", "전이", "transfer"] }
     - { name: 인지부하, en: Cognitive Load, patterns: ["인지부하", "cognitive load"] }
     - { name: 자기효능감, en: Self-efficacy, patterns: ["자기효능감", "efficacy", "자기주도", "self-directed"] }
     - { name: 교수역량, en: Teaching Competency, patterns: ["교수역량", "교수자", "teaching competenc", "교수학습"] }
     - { name: 온라인·메타버스, en: Online & Metaverse, patterns: ["비대면", "온라인", "online", "\\bMOOC\\b", "메타버스", "metaverse", "실시간"] }
 - field: AI·디지털
+  group: Educational Technology
   en: AI & Digital
   keywords:
     - { name: 생성형 AI, en: Generative AI, patterns: ["생성형", "generative", "\\bAI\\b", "인공지능", "artificial intelligence"] }
     - { name: 디지털 리터러시, en: Digital Literacy, patterns: ["디지털", "digital", "리터러시", "literacy"] }
-- field: 교육복지·정책
-  en: Education Welfare & Policy
+- field: 학교교육
+  group: School Education
+  en: School Education
   keywords:
     - { name: 교육복지, en: Education Welfare, patterns: ["교육복지", "welfare"] }
     - { name: 청소년·청년, en: Youth, patterns: ["청소년", "청년", "youth", "adolescen"] }
     - { name: 교원, en: Teachers, patterns: ["교원", "교사", "teacher"] }
     - { name: 대학생, en: College Students, patterns: ["대학생", "college student", "university student", "graduate student"] }
 - field: 연구방법
+  group: Data Analysis
   en: Methods
   keywords:
     - { name: 메타분석, en: Meta-analysis, patterns: ["메타분석", "meta-analy"] }
@@ -63,4 +72,4 @@
     - { name: 종단·구조모형, en: SEM & Longitudinal, patterns: ["구조방정식", "구조적 관계", "structural", "잠재성장", "종단", "longitudinal", "교차지연"] }
     - { name: 텍스트마이닝·ML, en: Text Mining & ML, patterns: ["토픽모델링", "텍스트", "랜덤", "random forest", "machine learning", "\\bSHAP\\b", "머신러닝", "topic model"] }
     - { name: 요구분석, en: Needs Analysis, patterns: ["요구분석", "요구도", "borich", "needs analysis"] }
-    - { name: 문헌고찰, en: Review, patterns: ["문헌", "고찰", "스코핑", "scoping", "systematic review", "literature review", "연구동향"] }
+    - { name: 문헌고찰, en: Literature Review, patterns: ["문헌", "고찰", "스코핑", "scoping", "systematic review", "literature review", "연구동향"] }
