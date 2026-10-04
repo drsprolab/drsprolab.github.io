@@ -1,8 +1,13 @@
 """Weekly Scholar update tests (network-free; synthetic values are test fixtures)."""
+from datetime import datetime
 import importlib.util
+import json
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / 'scripts/update_scholar_metrics.py'
@@ -51,6 +56,33 @@ class ScholarMetricsTest(unittest.TestCase):
             self.assertIn('source_note: "manual provenance"', text)
             self.assertTrue(result['changed'])
 
+    def test_cli_summary_append_failure_keeps_successful_update_successful(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'metrics.yml'
+            path.write_text('profile_url: "https://scholar.google.com/citations?user=wrbbVIQAAAAJ&hl=ko"\nchecked_on: "2000-01-01"\ncitations: 7200\nh_index: 42\ni10_index: 82\n', encoding='utf-8')
+            fixture = Path(directory) / 'profile.html'
+            fixture.write_text(scholar_html(), encoding='utf-8')
+            summary = Path(directory) / 'summary'
+            summary.mkdir()  # Opening a directory for append raises a real OSError.
+            before = datetime.now(ZoneInfo('Asia/Seoul')).date().isoformat()
+            completed = subprocess.run(
+                [sys.executable, str(SCRIPT), '--data', str(path), '--html', str(fixture)],
+                env={'GITHUB_STEP_SUMMARY': str(summary)},
+                capture_output=True, text=True, check=False)
+            after = datetime.now(ZoneInfo('Asia/Seoul')).date().isoformat()
+            result = json.loads(completed.stdout)
+            saved = self.module.read_metric_fields(path.read_text(encoding='utf-8'))
+            self.assertTrue(result['changed'])
+            self.assertEqual({key: saved[key] for key in ('citations', 'h_index', 'i10_index')},
+                             {'citations': 7321, 'h_index': 43, 'i10_index': 84})
+            self.assertIn(saved['checked_on'], (before, after))
+            self.assertEqual(saved['checked_on'], result['checked_on'])
+            self.assertIn('checked_at: ' + json.dumps(result['checked_at']), path.read_text(encoding='utf-8'))
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertIn('warning', completed.stderr.lower())
+            self.assertIn('summary', completed.stderr.lower())
+            self.assertNotIn('previous metrics and check date retained', completed.stderr)
+
     def test_zero_reset_is_rejected_without_advancing_date(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'metrics.yml'
@@ -81,9 +113,9 @@ class ScholarMetricsTest(unittest.TestCase):
         self.assertNotIn('42편 이상의 논문이 각각 42회', text)
         self.assertIn('title="{{ scholar.h_index }}편 이상의 논문이 각각 {{ scholar.h_index }}회', text)
 
-    def test_daily_workflow_updates_only_metrics_and_dispatches_deploy(self):
+    def test_existing_daily_workflow_updates_only_metrics_and_dispatches_deploy(self):
         workflow = ROOT / '.github/workflows/research-metrics.yml'
-        self.assertTrue(workflow.is_file(), 'Daily cloud schedule is missing')
+        self.assertTrue(workflow.is_file(), 'Weekly cloud schedule is missing')
         text = workflow.read_text()
         self.assertIn("cron: '0 0 * * *'", text)
         self.assertIn('git add -- _data/scholar_metrics.yml', text)
@@ -94,6 +126,13 @@ class ScholarMetricsTest(unittest.TestCase):
     def test_updater_script_is_not_published_as_a_site_asset(self):
         text = (ROOT / '_config.yml').read_text()
         self.assertIn('  - scripts', text)
+
+    def test_success_records_the_actual_timezone_aware_check_time(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'metrics.yml'
+            path.write_text('profile_url: "https://scholar.google.com/citations?user=wrbbVIQAAAAJ&hl=ko"\nchecked_on: "2026-10-04"\ncitations: 7200\nh_index: 42\ni10_index: 82\n')
+            self.module.update_metrics(path, scholar_html(), '2026-10-05', 'Ji Hoon Song', checked_at='2026-10-05T09:15:00+09:00')
+            self.assertIn('checked_at: "2026-10-05T09:15:00+09:00"', path.read_text())
 
 
 if __name__ == '__main__':

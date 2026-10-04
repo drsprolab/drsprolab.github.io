@@ -138,7 +138,7 @@ def validate_profile_url(url):
         raise ScholarError('Expected one HTTPS Google Scholar citations profile')
 
 
-def update_metrics(path, html, checked_on, expected_name):
+def update_metrics(path, html, checked_on, expected_name, checked_at=None):
     metrics = parse_scholar(html, expected_name)
     if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', checked_on):
         raise ScholarError('Expected an ISO check date')
@@ -150,11 +150,21 @@ def update_metrics(path, html, checked_on, expected_name):
     if any(old[key] > 0 and metrics[key] == 0 for key in metrics):
         raise ScholarError('Refusing an unexpected zero reset of established metrics')
     updates = {'checked_on': checked_on, **metrics}
+    if checked_at is not None:
+        timestamp = datetime.fromisoformat(checked_at)
+        if timestamp.utcoffset() is None or timestamp.astimezone(ZoneInfo('Asia/Seoul')).date().isoformat() != checked_on:
+            raise ScholarError('Check time must be timezone-aware and match the check date')
+        updates['checked_at'] = checked_at
     updated = original
     for key, value in updates.items():
-        updated = re.sub(r'^' + key + r':[ \t]*.*$',
-                         key + ': ' + json.dumps(value, ensure_ascii=False),
-                         updated, count=1, flags=re.MULTILINE)
+        line = key + ': ' + json.dumps(value, ensure_ascii=False)
+        matches = re.findall(r'^' + key + ':', updated, flags=re.MULTILINE)
+        if len(matches) > 1:
+            raise ScholarError('Duplicate metric field: ' + key)
+        if matches:
+            updated = re.sub(r'^' + key + r':[ \t]*.*$', line, updated, count=1, flags=re.MULTILINE)
+        else:
+            updated = updated.rstrip('\n') + '\n' + line + '\n'
     if updated != original:
         temporary = None
         try:
@@ -191,20 +201,24 @@ def main():
     try:
         saved = read_metric_fields(args.data.read_text(encoding='utf-8'))
         html = args.html.read_text(encoding='utf-8') if args.html else fetch_profile(saved['profile_url'])
-        checked_on = datetime.now(ZoneInfo('Asia/Seoul')).date().isoformat()
-        result = update_metrics(args.data, html, checked_on, args.expected_name)
-        print(json.dumps(result, ensure_ascii=False))
-        summary = os.environ.get('GITHUB_STEP_SUMMARY')
-        if summary:
+        checked = datetime.now(ZoneInfo('Asia/Seoul'))
+        checked_on = checked.date().isoformat()
+        result = update_metrics(args.data, html, checked_on, args.expected_name, checked.isoformat(timespec='seconds'))
+    except (ScholarError, OSError, ValueError) as error:
+        print('Scholar update failed; previous metrics and check date retained: ' + str(error), file=sys.stderr)
+        return 1
+    print(json.dumps(result, ensure_ascii=False))
+    summary = os.environ.get('GITHUB_STEP_SUMMARY')
+    if summary:
+        try:
             with open(summary, 'a', encoding='utf-8') as stream:
                 stream.write('## Google Scholar verified\n\n'
                              + f"Checked on: {checked_on} (Asia/Seoul)\n\n"
                              + f"Citations: {result['citations']} · h-index: {result['h_index']}"
                              + f" · i10-index: {result['i10_index']}\n")
-        return 0
-    except (ScholarError, OSError, ValueError) as error:
-        print('Scholar update failed; previous metrics and check date retained: ' + str(error), file=sys.stderr)
-        return 1
+        except OSError as error:
+            print('Warning: Scholar summary append failed: ' + str(error), file=sys.stderr)
+    return 0
 
 
 if __name__ == '__main__':
