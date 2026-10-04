@@ -1,0 +1,83 @@
+name: Daily research metrics
+
+on:
+  schedule:
+    # 00:00 UTC = 09:00 Asia/Seoul, every day. No weekly schedule.
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/research-metrics.yml'
+      - 'scripts/update_*_metrics.py'
+      - 'tests/test_*metrics.py'
+      - '_includes/kw-network.html'
+      - '_config.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: research-metrics-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p 'test_*metrics.py' -v
+
+  update:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: main
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Collect both sources independently; retain data on failure
+        id: collect
+        shell: bash
+        env:
+          SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
+          SCOPUS_INST_TOKEN: ${{ secrets.SCOPUS_INST_TOKEN }}
+        run: |
+          failed=0
+          if ! python scripts/update_scholar_metrics.py; then
+            echo '::error::Google Scholar collection failed; previous values and check date retained.'
+            failed=1
+          fi
+          if ! python scripts/update_scopus_metrics.py; then
+            echo '::error::Scopus collection failed or is not configured; previous values and check date retained.'
+            failed=1
+          fi
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+          echo "Collection failures: $failed. Each source is updated only after verification." >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish verified changes and trigger Pages deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- _data/scholar_metrics.yml _data/scopus_metrics.yml
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: refresh verified research metrics'
+            git push origin HEAD:main
+            # GITHUB_TOKEN pushes do not trigger the push deployment workflow.
+            gh workflow run jekyll.yml --ref main
+          fi
+      - name: Surface incomplete collection after publishing successful sources
+        if: steps.collect.outputs.failed == '1'
+        run: exit 1

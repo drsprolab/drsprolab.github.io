@@ -19,7 +19,7 @@
       <div class="rmap-metrics-group"><div class="rmap-metrics-label"><a href="{{ scholar.profile_url }}" target="_blank" rel="noopener">Google Scholar ↗</a><span>전체 기간 · {{ scholar.checked_on }} 확인</span></div>
         <dl class="rmap-stats scholar-stats" aria-label="Google Scholar 인용 및 연구 영향력 지표">
           <div><dt>Citations</dt><dd>{{ scholar.citations | divided_by: 1000 }},{{ scholar.citations | modulo: 1000 | prepend: '000' | slice: -3, 3 }}</dd></div>
-          <div title="42편 이상의 논문이 각각 42회 이상 인용"><dt>h-index</dt><dd>{{ scholar.h_index }}</dd></div>
+          <div title="{{ scholar.h_index }}편 이상의 논문이 각각 {{ scholar.h_index }}회 이상 인용"><dt>h-index</dt><dd>{{ scholar.h_index }}</dd></div>
           <div title="10회 이상 인용된 논문 수"><dt>i10-index</dt><dd>{{ scholar.i10_index }}</dd></div>
         </dl>
       </div>
