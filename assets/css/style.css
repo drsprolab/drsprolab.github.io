@@ -884,10 +884,12 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .kh-cell.top { font-weight: 700; outline: 2px solid var(--warn); outline-offset: -2px; }
 .prose .kh-chips { margin: 0 0 6px; max-width: none; display: flex; flex-wrap: wrap; gap: 6px; }
 
-.inquiry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; align-items: stretch; max-width: 720px; margin-top: 20px; }
-.inquiry-actions .solution-btn { width: 100%; min-width: 0; white-space: normal; text-align: center; font-size: 14px; }
+.inquiry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; align-items: stretch; max-width: 600px; margin-top: 20px; }
+.inquiry-actions .solution-btn { width: 100%; min-width: 0; white-space: normal; text-align: center; font-size: 12px; padding: 10px 16px; }
 .inquiry-actions .solution-link { grid-column: 2; text-align: center; }
 @media (max-width: 600px) {
   .inquiry-actions { column-gap: 10px; }
-  .inquiry-actions .solution-btn { font-size: 12px; padding: 12px 10px; }
+  .inquiry-actions .solution-btn { font-size: 11px; padding: 9px 8px; }
 }
+
+.inquiry-actions .solution-btn:hover { transform: translateY(-3px) scale(1.025); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
