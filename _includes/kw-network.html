@@ -25,10 +25,9 @@
       </div>
       {% assign scopus = site.data.scopus_metrics %}
       <div class="rmap-metrics-group"><div class="rmap-metrics-label"><a href="{{ scopus.profile_url }}" target="_blank" rel="noopener">Scopus ↗</a><span>저자 프로필</span></div>
-        <dl class="rmap-stats scholar-stats scopus-stats" aria-label="Scopus 인용 및 연구 영향력 지표 조회">
-          <div><dt>Citations</dt><dd>{% if scopus.citations %}{{ scopus.citations }}{% else %}<a href="{{ scopus.profile_url }}" target="_blank" rel="noopener" aria-label="Scopus 총 인용 수 조회">조회 ↗</a>{% endif %}</dd></div>
-          <div><dt>h-index</dt><dd>{% if scopus.h_index %}{{ scopus.h_index }}{% else %}<a href="{{ scopus.profile_url }}" target="_blank" rel="noopener" aria-label="Scopus h-index 조회">조회 ↗</a>{% endif %}</dd></div>
-          <div><dt>Documents</dt><dd>{% if scopus.documents %}{{ scopus.documents }}{% else %}<a href="{{ scopus.profile_url }}" target="_blank" rel="noopener" aria-label="Scopus 논문 수 조회">조회 ↗</a>{% endif %}</dd></div>
+        <dl class="rmap-stats scholar-stats scopus-stats" aria-label="Scopus 인용 및 연구 영향력 지표">
+          <div><dt>Citations</dt><dd>{% if scopus.citations != nil %}{{ scopus.citations }}{% else %}<span title="Scopus 실제 수치 확인 필요">—</span>{% endif %}</dd></div>
+          <div><dt>h-index</dt><dd>{% if scopus.h_index != nil %}{{ scopus.h_index }}{% else %}<span title="Scopus 실제 수치 확인 필요">—</span>{% endif %}</dd></div>
         </dl>
       </div>
       <div class="rmap-metrics-group"><div class="rmap-metrics-label">ORCID</div>
