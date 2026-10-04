@@ -1,0 +1,98 @@
+name: Weekly research metrics
+
+on:
+  # Monday 09:15 Asia/Seoul (00:15 UTC). GitHub may delay scheduled starts.
+  schedule:
+    - cron: '15 0 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/research-metrics.yml'
+      - 'scripts/update_*_metrics.py'
+      - 'tests/test_*_metrics.py'
+      - '_includes/kw-network.html'
+      - '_config.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: research-metrics-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Test both source adapters and safety guards
+        run: python -m unittest discover -s tests -p 'test_*_metrics.py' -v
+
+  update:
+    needs: test
+    if: >-
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
+      github.ref == 'refs/heads/main' && github.repository == 'drsprolab/drsprolab.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          token: ${{ github.token }}
+          persist-credentials: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Fetch current metrics independently
+        id: collect
+        env:
+          SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
+          SCOPUS_INST_TOKEN: ${{ secrets.SCOPUS_INST_TOKEN }}
+        shell: bash
+        run: |
+          failed=false
+          if ! python scripts/update_scholar_metrics.py; then
+            failed=true
+            printf '\n**Google Scholar collection failed; its last verified values and date were retained.**\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if ! python scripts/update_scopus_metrics.py; then
+            failed=true
+            printf '\n**Scopus collection failed; its last verified values and date were retained. Check API credentials/entitlements.**\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          printf 'failed=%s\n' "$failed" >> "$GITHUB_OUTPUT"
+      - name: Commit only successfully verified metric data
+        id: commit
+        shell: bash
+        run: |
+          if git diff --quiet -- _data/scholar_metrics.yml _data/scopus_metrics.yml; then
+            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add -- _data/scholar_metrics.yml _data/scopus_metrics.yml
+            git commit -m 'chore: refresh verified research metrics'
+            git push origin HEAD:main
+            printf 'changed=true\n' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Deploy updated metrics to GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        # GITHUB_TOKEN pushes do not normally start another push-triggered workflow.
+        run: gh workflow run jekyll.yml --ref main
+      - name: Report any incomplete source update
+        if: steps.collect.outputs.failed == 'true'
+        run: |
+          printf 'At least one source could not be refreshed. Successful sources were kept; failed sources were not overwritten.\n' >&2
+          exit 1
