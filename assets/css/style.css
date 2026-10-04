@@ -883,3 +883,11 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .kh-cell { display: inline-block; min-width: 54px; padding: 6px 10px; border-radius: 6px; font-variant-numeric: tabular-nums; background: color-mix(in srgb, var(--warn) calc(var(--a) * 55%), var(--tint)); }
 .kh-cell.top { font-weight: 700; outline: 2px solid var(--warn); outline-offset: -2px; }
 .prose .kh-chips { margin: 0 0 6px; max-width: none; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.inquiry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; align-items: stretch; max-width: 720px; margin-top: 20px; }
+.inquiry-actions .solution-btn { width: 100%; min-width: 0; white-space: normal; text-align: center; }
+.inquiry-actions .solution-link { grid-column: 2; text-align: center; }
+@media (max-width: 600px) {
+  .inquiry-actions { column-gap: 10px; }
+  .inquiry-actions .solution-btn { font-size: 14px; padding: 12px 10px; }
+}
