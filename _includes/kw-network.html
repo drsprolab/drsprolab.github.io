@@ -2,16 +2,29 @@
   data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
   data-map="{{ '/assets/data/keyword-map.json' | relative_url }}">
   <header class="rmap-top">
-    <div>
-      <h2 class="rmap-title">RESEARCH MAP</h2>
-      <p class="rmap-desc">A network linking our papers and research keywords. Click a keyword or a dot to see related studies.</p>
-    </div>
+    <div class="rmap-metrics">
+      <div class="rmap-metrics-group"><div class="rmap-metrics-label">Research Map</div>
     <dl class="rmap-stats">
       <div><dt>Papers</dt><dd id="rm-s-papers">–</dd></div>
       <div><dt>Keywords</dt><dd id="rm-s-kws">–</dd></div>
       <div><dt>Links</dt><dd id="rm-s-links">–</dd></div>
       <div><dt>Visible</dt><dd id="rm-s-visible">–</dd></div>
     </dl>
+      </div>
+      {% assign scholar = site.data.scholar_metrics %}
+      <div class="rmap-metrics-group"><div class="rmap-metrics-label"><a href="{{ scholar.profile_url }}" target="_blank" rel="noopener">Google Scholar ↗</a><span>전체 기간 · {{ scholar.checked_on }} 확인</span></div>
+        <dl class="rmap-stats scholar-stats" aria-label="Google Scholar 인용 및 연구 영향력 지표">
+          <div><dt>Citations</dt><dd>{{ scholar.citations | divided_by: 1000 }},{{ scholar.citations | modulo: 1000 | prepend: '000' | slice: -3, 3 }}</dd></div>
+          <div title="42편 이상의 논문이 각각 42회 이상 인용"><dt>h-index</dt><dd>{{ scholar.h_index }}</dd></div>
+          <div title="10회 이상 인용된 논문 수"><dt>i10-index</dt><dd>{{ scholar.i10_index }}</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div>
+      <h2 class="rmap-title">RESEARCH MAP</h2>
+      <p class="rmap-desc">A network linking our papers and research keywords. Click a keyword or a dot to see related studies.</p>
+    </div>
+
   </header>
   <div class="rmap-body">
     <aside class="rmap-side">
