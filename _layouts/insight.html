@@ -2,9 +2,9 @@
 layout: default
 ---
 <article class="page daily-issue">
-  <a class="daily-back" href="{{ '/daily-insight/' | relative_url }}">← Daily Insight 전체 보기</a>
+  <a class="daily-back" href="{{ '/daily-insight/' | relative_url }}">← Weekly Insight 전체 보기</a>
   <header class="page-head daily-issue-head">
-    <div class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · DAILY INSIGHT · KST</div>
+    <div class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · WEEKLY INSIGHT · KST</div>
     <h1>{{ page.title | escape }}</h1>
     <p class="lede">{{ page.summary | escape }}</p>
     <ul class="tags" aria-label="주제">{% for topic in page.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>

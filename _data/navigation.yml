@@ -31,5 +31,5 @@
   children:
     - { title: Awards, url: /highlights/#awards }
     - { title: Gallery, url: /highlights/#gallery }
-- title: Daily Insight
+- title: Weekly Insight
   url: /daily-insight/

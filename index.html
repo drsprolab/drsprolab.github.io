@@ -9,6 +9,20 @@ title: PRO AnalytiX Lab
   <p>한양대학교 교육공학과 송지훈 교수 연구실입니다. 사람과 관계, 조직에서 일어나는 학습과 변화를 데이터로 분석하고, 더 나은 일터와 배움을 만드는 방법을 연구합니다.</p>
   {% assign prof = site.data.professor %}
   <div class="solution">
+    <button type="button" class="solution-btn" id="admissions-btn" aria-haspopup="dialog" aria-controls="admissions-dialog">학업 및 대학원진학 문의</button>
+  </div>
+  <dialog class="solution-dialog" id="admissions-dialog" aria-labelledby="admissions-dialog-title">
+    <button type="button" class="solution-close" id="admissions-close" aria-label="닫기">×</button>
+    <div class="solution-kicker">Academic & Graduate Admissions</div>
+    <h2 class="solution-title" id="admissions-dialog-title">학업 및 대학원진학 문의</h2>
+    <p class="solution-desc">학업과 대학원 진학에 관한 문의는 송지훈 교수에게 연락해 주세요.</p>
+    <dl class="solution-contact">
+      <dt>E-mail</dt><dd><a href="mailto:{{ prof.email }}">{{ prof.email }}</a></dd>
+      <dt>Tel</dt><dd><a href="tel:{{ prof.tel | remove: '-' }}">{{ prof.tel }}</a></dd>
+      <dt>Office</dt><dd>한양대학교 사범대학 504호 PRO AnalytiX Lab<br>서울시 성동구 왕십리로 222 (04763)</dd>
+    </dl>
+  </dialog>
+  <div class="solution">
     <button type="button" class="solution-btn" id="solution-btn" aria-haspopup="dialog" aria-controls="solution-dialog">개인진단 및 조직진단 Solution</button>
     <a class="solution-link" href="{{ '/blog/' | relative_url }}">(진단도구 활용 예시)</a>
   </div>
@@ -25,12 +39,14 @@ title: PRO AnalytiX Lab
   </dialog>
   <script>
     (function () {
-      var b = document.getElementById('solution-btn'), d = document.getElementById('solution-dialog'), c = document.getElementById('solution-close');
-      if (!b || !d) return;
-      b.addEventListener('click', function () { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); });
-      c.addEventListener('click', function () { d.close ? d.close() : d.removeAttribute('open'); });
-      // 바깥(배경)을 누르면 닫기
-      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+      ['admissions', 'solution'].forEach(function (name) {
+        var b = document.getElementById(name + '-btn'), d = document.getElementById(name + '-dialog'), c = document.getElementById(name + '-close');
+        if (!b || !d || !c) return;
+        b.addEventListener('click', function () { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); });
+        function close() { if (d.close) d.close(); else d.removeAttribute('open'); }
+        c.addEventListener('click', close);
+        d.addEventListener('click', function (e) { if (e.target === d) close(); });
+      });
     })();
   </script>
   </div>
