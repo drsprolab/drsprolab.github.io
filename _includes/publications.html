@@ -50,10 +50,11 @@
     var bookList = document.querySelector('.book-pubs');
     if (bookList) {
       var showBook = !tag || tag === 'BOOK';
-      bookList.querySelectorAll('li').forEach(function (li) { li.hidden = !showBook; });
+      document.querySelectorAll('.book-pubs li').forEach(function (li) { li.hidden = !showBook; });
+      document.querySelectorAll('.book-year-group').forEach(function (g) { g.hidden = !showBook; });
       var sec = document.getElementById('book-chapters');
       [sec, sec && sec.nextElementSibling, bookList].forEach(function (el) { if (el && el.classList && (el === sec || el === bookList || el.classList.contains('count'))) el.hidden = !showBook; });
-      if (showBook) shown += bookList.querySelectorAll('li').length;
+      if (showBook) shown += document.querySelectorAll('.book-pubs li').length;
     }
     var empty = document.querySelector('.pf-empty'); if (empty) empty.hidden = shown > 0;
   }
