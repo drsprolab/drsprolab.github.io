@@ -26,7 +26,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
     <dt>Office</dt><dd>{{ prof.office }}</dd>
     <dt>Tel</dt><dd>{{ prof.tel }}</dd>
     <dt>E-mail</dt><dd>{{ prof.email }}</dd>
-    <dt>Links</dt><dd>{% for l in prof.links %}<a href="{{ l.url }}">{{ l.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</dd>
+    <dt>Links</dt><dd>{% for l in prof.links %}<a href="{{ l.url }}" target="_blank" rel="noopener noreferrer">{{ l.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</dd>
   </dl>
   </div>
 </div>
