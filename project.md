@@ -8,9 +8,7 @@ lede: 농업적 근면성은 배신하지 않습니다.
 
 ## Lecture and Consulting (외부강연 및 자문) {#lecture}
 
-<ul class="tags big">
-{% for l in site.data.lectures %}<li>{{ l }}</li>{% endfor %}
-</ul>
+{% include lecture-network.html %}
 
 ## Project (외부연구용역)
 

@@ -1,0 +1,28 @@
+<section class="lecture-network" id="lecture-network" aria-label="외부강연 및 자문 네트워크">
+  <aside class="lecture-list">
+    <label class="lecture-search-label" for="lecture-search">기관·주제 검색</label>
+    <input id="lecture-search" type="search" placeholder="기관 또는 주제 검색">
+    <button type="button" class="lecture-reset">전체 보기</button>
+    <section class="lecture-category lecture-topics" style="--group-color: #8b5ac5">
+      <h3>강의·자문 주제</h3>
+      <div class="lecture-topic-buttons">{% for topic in site.data.lecture_topics.topics %}<button type="button" data-lecture-topic="{{ topic }}">{{ topic }}</button>{% endfor %}</div>
+      <p class="lecture-example">기관과 주제의 연결은 임의로 구성한 예시입니다.</p>
+    </section>
+    {% for group in site.data.lecture_groups %}
+    <section class="lecture-category" style="--group-color: {{ group.color }}">
+      <h3><button type="button" data-lecture-group="{{ group.id }}"><span class="lecture-dot"></span>{{ group.label }} <small>{{ group.items.size }}</small></button></h3>
+      <ul>{% for name in group.items %}<li><button type="button" data-lecture-name="{{ name | escape }}">{{ name }}</button></li>{% endfor %}</ul>
+    </section>
+    {% endfor %}
+  </aside>
+  <div class="lecture-visual">
+    <div class="lecture-visual-head"><strong>Lecture &amp; Consulting Network</strong><span>드래그로 이동 · 스크롤로 확대</span></div>
+    <svg class="lecture-svg" role="group" aria-label="기관과 강의·자문 주제를 연결한 예시 네트워크"></svg>
+    <p class="lecture-selection" aria-live="polite">기관이나 분류를 누르면 연결된 항목이 강조됩니다.</p>
+    <button type="button" class="lecture-fit">화면 맞춤</button>
+  </div>
+</section>
+<script type="application/json" id="lecture-network-data">{{ site.data.lecture_groups | jsonify }}</script>
+<script type="application/json" id="lecture-topic-data">{{ site.data.lecture_topics | jsonify }}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="{{ '/assets/js/lecture-network.js' | relative_url }}" defer></script>
