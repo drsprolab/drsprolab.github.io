@@ -160,6 +160,7 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .alumni li { display: grid; padding-block: 6px; border-bottom: 1px solid var(--line); }
 
 .year-group h3 { font-family: var(--f-mono); font-size: 18px; font-weight: 500; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.book-year-group + .book-year-group { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 12px; }
 .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .pubs li { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; font-size: 15px; line-height: 1.6; max-width: none; }
 .pubs .cite { flex: 1 1 520px; }
