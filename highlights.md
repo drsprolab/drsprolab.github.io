@@ -9,7 +9,7 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
 
 ## Member Awards {#awards}
 
-<ul class="ledger">
+<ul class="ledger member-awards">
 {% for a in site.data.member_awards %}
   <li><div class="yr">{{ a.year }}</div><div>{{ a.title }}<div class="sub">{{ a.org }} · {{ a.recipients }}</div>{% if a.paper %}<div class="sub">「{{ a.paper }}」</div>{% endif %}{% if a.note %}<div class="sub">{{ a.note }}</div>{% endif %}</div></li>
 {% endfor %}

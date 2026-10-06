@@ -112,6 +112,9 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .ledger li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding-block: 12px; border-bottom: 1px solid var(--line); max-width: none; }
 .ledger .yr { font-family: var(--f-mono); font-size: 14px; color: var(--accent); font-variant-numeric: tabular-nums; padding-top: 2px; }
 .ledger .sub { color: var(--muted); font-size: 14.5px; }
+.member-awards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+.member-awards li { grid-template-columns: 64px minmax(0, 1fr); gap: 14px; min-width: 0; }
+@media (max-width: 700px) { .member-awards { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .ledger li { grid-template-columns: 1fr; gap: 0; } }
 
 .badge { display: inline-block; font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 8px; border-radius: 4px; background: var(--tint); color: var(--muted); margin-left: 6px; vertical-align: 2px; }
