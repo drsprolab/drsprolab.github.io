@@ -50,6 +50,7 @@ jobs:
         id: collect
         shell: bash
         env:
+          SCOPUS_UPDATES_ENABLED: ${{ vars.SCOPUS_UPDATES_ENABLED }}
           SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
           SCOPUS_INST_TOKEN: ${{ secrets.SCOPUS_INST_TOKEN }}
         run: |
@@ -58,7 +59,9 @@ jobs:
             echo '::error::Google Scholar collection failed; previous values and check date retained.'
             failed=1
           fi
-          if ! python scripts/update_scopus_metrics.py; then
+          if [ "$SCOPUS_UPDATES_ENABLED" != "true" ]; then
+            echo 'Scopus updates paused by user; no API request made.' | tee -a "$GITHUB_STEP_SUMMARY"
+          elif ! python scripts/update_scopus_metrics.py; then
             echo '::error::Scopus collection failed or is not configured; previous values and check date retained.'
             failed=1
           fi
