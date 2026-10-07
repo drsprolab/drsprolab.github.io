@@ -113,14 +113,16 @@ class ScholarMetricsTest(unittest.TestCase):
         self.assertNotIn('42편 이상의 논문이 각각 42회', text)
         self.assertIn('title="{{ scholar.h_index }}편 이상의 논문이 각각 {{ scholar.h_index }}회', text)
 
-    def test_existing_daily_workflow_updates_only_metrics_and_dispatches_deploy(self):
+    def test_manual_cloud_workflow_has_no_duplicate_local_schedule(self):
         workflow = ROOT / '.github/workflows/research-metrics.yml'
-        self.assertTrue(workflow.is_file(), 'Weekly cloud schedule is missing')
+        self.assertTrue(workflow.is_file(), 'Manual metrics workflow is missing')
         text = workflow.read_text()
-        self.assertIn("cron: '0 0 * * *'", text)
+        self.assertNotIn('  schedule:', text)
+        self.assertNotIn('    - cron:', text)
+        self.assertIn('  workflow_dispatch:', text)
         self.assertIn('git add -- _data/scholar_metrics.yml', text)
         self.assertIn('gh workflow run jekyll.yml --ref main', text)
-        self.assertIn("github.event_name == 'schedule'", text)
+        self.assertIn("github.event_name == 'workflow_dispatch'", text)
         self.assertNotIn('continue-on-error:', text)
 
     def test_updater_script_is_not_published_as_a_site_asset(self):

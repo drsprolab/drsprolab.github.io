@@ -1,9 +1,8 @@
-name: Daily research metrics
+name: Manual research metrics
 
 on:
-  schedule:
-    # 00:00 UTC = 09:00 Asia/Seoul, every day. No weekly schedule.
-    - cron: '0 0 * * *'
+  # Daily Scholar collection runs on the user's Mac via Hermes at 09:00 KST.
+  # Google Scholar returned HTTP 403 from the hosted runner.
   workflow_dispatch:
   pull_request:
     paths:
@@ -32,7 +31,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_*metrics.py' -v
 
   update:
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 10
