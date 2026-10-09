@@ -15,14 +15,6 @@ postdoc:
       - "Psychological Entitlement"
     affiliation: "한양대학교"
 phd:
-  - name: "안솔뫼"
-    name_en: "Sol Moe Ahn"
-    interests:
-      - "Learning Sciences"
-      - "Health Sciences Education"
-      - "Self-Regulated Learning"
-      - "Computing education"
-    affiliation: "서울대학교"
   - name: "윤희제"
     name_en: "Hee Je Yun"
     interests:
@@ -224,13 +216,6 @@ ma:
       - "Human Resource Development"
       - "Organizational Culture"
     affiliation: "(주)이스트소프트"
-  - name: "염제명"
-    name_en: "Yeom Jae Myeong"
-    interests:
-      - "Learning and Experience"
-      - "Organizational Learning"
-      - "Leadership"
-    affiliation: "퍼시스그룹 시디즈 CX팀"
   - name: "이유경"
     name_en: "Lee Yu Kyeong"
     interests:
