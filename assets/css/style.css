@@ -911,20 +911,21 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .rm-gbtn:hover { border-color: var(--accent); color: var(--accent); }
 .rm-gbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 
-.rmap-top { align-items: flex-start; }
-.rmap-metrics { display: flex; flex-wrap: wrap; gap: 14px 24px; width: 100%; }
+.rmap-top { align-items: flex-start; min-width: 0; }
+/* Keep all four metric groups on one compact row; scroll only this strip on phones. */
+.rmap-metrics { display: grid; grid-template-columns: minmax(252px, 4fr) minmax(242px, 3.5fr) minmax(200px, 3fr) minmax(126px, 1.8fr); gap: 12px; width: 100%; min-width: 0; overflow-x: auto; padding-bottom: 4px; }
 .rmap-metrics-group { min-width: 0; }
-.rmap-metrics-label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-size: 11px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
-.rmap-metrics-label span { font-size: 10px; font-weight: 400; }
-.rmap-metrics .rmap-stats { grid-template-columns: repeat(4, minmax(58px, 1fr)); gap: 6px; width: auto; }
-.rmap-metrics .scholar-stats { grid-template-columns: repeat(3, minmax(64px, 1fr)); }
-.rmap-metrics .rmap-stats div { padding: 6px 10px; border-radius: 8px; }
-.rmap-metrics .rmap-stats dd { font-size: 17px; }
-.rmap-metrics .rmap-stats dt { font-size: 9px; letter-spacing: .06em; }
+.rmap-metrics-label { display: flex; flex-wrap: nowrap; align-items: baseline; gap: 6px; font-size: 10px; font-weight: 600; margin-bottom: 5px; color: var(--muted); white-space: nowrap; }
+.rmap-metrics-label span { font-size: 9px; font-weight: 400; }
+.rmap-metrics .rmap-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; width: 100%; }
+.rmap-metrics .scholar-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rmap-metrics .rmap-stats div { min-width: 0; min-height: 56px; padding: 6px 7px; border-radius: 8px; }
+.rmap-metrics .rmap-stats dd { font-size: 16px; white-space: nowrap; }
+.rmap-metrics .rmap-stats dt { font-size: 8.5px; letter-spacing: .03em; white-space: nowrap; }
 
-.rmap-metrics .scopus-stats { grid-template-columns: repeat(3, minmax(64px, 1fr)); }
-.rmap-orcid { display: grid; gap: 4px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 12px; text-decoration: none; }
-.rmap-orcid small { color: var(--muted); font-size: 10px; }
+.rmap-metrics .scopus-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rmap-orcid { display: grid; align-content: center; gap: 3px; min-height: 56px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 11px; text-decoration: none; white-space: nowrap; }
+.rmap-orcid small { color: var(--muted); font-size: 9px; }
 .rmap-orcid:hover { border-color: var(--accent); }
 
 /* Project: 기관 목록과 강연·자문 네트워크 */
