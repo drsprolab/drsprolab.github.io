@@ -922,7 +922,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .rmap-metrics .rmap-stats dd { font-size: 17px; }
 .rmap-metrics .rmap-stats dt { font-size: 9px; letter-spacing: .06em; }
 
-.rmap-metrics .scopus-stats { grid-template-columns: repeat(2, minmax(64px, 1fr)); }
+.rmap-metrics .scopus-stats { grid-template-columns: repeat(3, minmax(64px, 1fr)); }
 .rmap-orcid { display: grid; gap: 4px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 12px; text-decoration: none; }
 .rmap-orcid small { color: var(--muted); font-size: 10px; }
 .rmap-orcid:hover { border-color: var(--accent); }

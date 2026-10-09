@@ -49,21 +49,14 @@ jobs:
         id: collect
         shell: bash
         env:
-          SCOPUS_UPDATES_ENABLED: ${{ vars.SCOPUS_UPDATES_ENABLED }}
-          SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
-          SCOPUS_INST_TOKEN: ${{ secrets.SCOPUS_INST_TOKEN }}
         run: |
           failed=0
           if ! python scripts/update_scholar_metrics.py; then
             echo '::error::Google Scholar collection failed; previous values and check date retained.'
             failed=1
           fi
-          if [ "$SCOPUS_UPDATES_ENABLED" != "true" ]; then
-            echo 'Scopus updates paused by user; no API request made.' | tee -a "$GITHUB_STEP_SUMMARY"
-          elif ! python scripts/update_scopus_metrics.py; then
-            echo '::error::Scopus collection failed or is not configured; previous values and check date retained.'
-            failed=1
-          fi
+          # Scopus 지표는 _data/scopus_metrics.yml에 직접 입력하며 자동 갱신하지 않는다.
+          echo 'Scopus updates paused by user; values are entered manually in _data/scopus_metrics.yml.' | tee -a "$GITHUB_STEP_SUMMARY"
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
           echo "Collection failures: $failed. Each source is updated only after verification." >> "$GITHUB_STEP_SUMMARY"
       - name: Publish verified changes and trigger Pages deployment
@@ -73,7 +66,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- _data/scholar_metrics.yml _data/scopus_metrics.yml
+          git add -- _data/scholar_metrics.yml
           if ! git diff --cached --quiet; then
             git commit -m 'chore: refresh verified research metrics'
             git push origin HEAD:main

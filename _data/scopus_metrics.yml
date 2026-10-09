@@ -1,4 +1,8 @@
+# Scopus 지표는 자동 갱신하지 않고 직접 입력합니다. Scopus 저자 프로필 화면의 수치를 그대로 옮깁니다.
 profile_url: "https://www.scopus.com/authid/detail.uri?authorId=25655456100"
 author_id: "25655456100"
-citations:
-h_index:
+citations: 2411
+citing_documents: 2058
+documents: 91
+h_index: 28
+checked_on: "2026-10-09"

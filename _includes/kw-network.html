@@ -24,10 +24,11 @@
         </dl>
       </div>
       {% assign scopus = site.data.scopus_metrics %}
-      <div class="rmap-metrics-group"><div class="rmap-metrics-label"><a href="{{ scopus.profile_url }}" target="_blank" rel="noopener">Scopus ↗</a><span>{% if scopus.checked_on %}전체 기간 · {% if scopus.checked_at %}{{ scopus.checked_at | date: '%Y-%m-%d %H:%M' }} KST{% else %}{{ scopus.checked_on }}{% endif %} 확인{% else %}자동 갱신 연결 대기{% endif %}</span></div>
+      <div class="rmap-metrics-group"><div class="rmap-metrics-label"><a href="{{ scopus.profile_url }}" target="_blank" rel="noopener">Scopus ↗</a><span>전체 기간 · {{ scopus.checked_on }} 기준</span></div>
         <dl class="rmap-stats scholar-stats scopus-stats" aria-label="Scopus 인용 및 연구 영향력 지표">
-          <div><dt>Citations</dt><dd>{% if scopus.citations != nil %}{{ scopus.citations }}{% else %}<span title="Scopus 실제 수치 확인 필요">—</span>{% endif %}</dd></div>
-          <div><dt>h-index</dt><dd>{% if scopus.h_index != nil %}{{ scopus.h_index }}{% else %}<span title="Scopus 실제 수치 확인 필요">—</span>{% endif %}</dd></div>
+          <div title="Citations by {{ scopus.citing_documents | divided_by: 1000 }},{{ scopus.citing_documents | modulo: 1000 | prepend: '000' | slice: -3, 3 }} documents"><dt>Citations</dt><dd>{{ scopus.citations | divided_by: 1000 }},{{ scopus.citations | modulo: 1000 | prepend: '000' | slice: -3, 3 }}</dd></div>
+          <div><dt>Documents</dt><dd>{{ scopus.documents }}</dd></div>
+          <div title="{{ scopus.h_index }}편 이상의 논문이 각각 {{ scopus.h_index }}회 이상 인용"><dt>h-index</dt><dd>{{ scopus.h_index }}</dd></div>
         </dl>
       </div>
       <div class="rmap-metrics-group"><div class="rmap-metrics-label">ORCID</div>
