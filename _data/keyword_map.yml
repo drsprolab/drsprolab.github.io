@@ -69,7 +69,9 @@
     - { name: 메타분석, en: Meta-analysis, patterns: ["메타분석", "meta-analy"] }
     - { name: 잠재프로파일, en: Latent Profile, patterns: ["잠재프로파일", "잠재계층", "latent profile", "latent class", "\\bLPA\\b"] }
     - { name: 척도 개발·타당화, en: Scale Validation, patterns: ["측정도구", "척도", "타당화", "validation", "inventory", "questionnaire"] }
-    - { name: 종단·구조모형, en: SEM & Longitudinal, patterns: ["구조방정식", "구조적 관계", "structural", "잠재성장", "종단", "longitudinal", "교차지연"] }
+    - { name: 구조방정식 모형, en: Structural Equation Modeling (SEM), patterns: ["구조방정식", "구조적 관계", "구조적인", "structural", "\\bSEM\\b"] }
+    - { name: 종단 분석, en: Longitudinal Analysis, patterns: ["잠재성장", "잠재 성장", "성장혼합", "종단", "longitudinal", "교차지연"] }
+    - { name: 설계·개발 연구, en: Design & Development Research (DDR), patterns: ["설계원리", "설계 원리", "설계 방법", "design principle", "design and development", "design-based", "\\bDDR\\b", "개발 절차", "체계 개발", "교육과정 개발", "모형 개발", "developing an? (effective|conceptual)"] }
     - { name: 텍스트마이닝·ML, en: Text Mining & ML, patterns: ["토픽모델링", "텍스트", "랜덤", "random forest", "machine learning", "\\bSHAP\\b", "머신러닝", "topic model"] }
     - { name: 요구분석, en: Needs Analysis, patterns: ["요구분석", "요구도", "borich", "needs analysis"] }
     - { name: 문헌고찰, en: Literature Review, patterns: ["문헌", "고찰", "스코핑", "scoping", "systematic review", "literature review", "연구동향"] }
