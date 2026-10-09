@@ -1,12 +1,14 @@
 # 연구실 구성원. 원래 사이트 Notion DB_Members에서 옮김 (이메일·입학연도 등 비공개 항목 제외)
 postdoc:
   - name: "주라헬"
+    credential: "Ph.D"
     name_en: "Rachel Ju"
     interests:
       - "e-learning"
       - "Instructional Design"
     affiliation: "한양대학교"
   - name: "주재홍"
+    credential: "Ph.D"
     name_en: "Jaehong Joo"
     interests:
       - "Organizational Learning"

@@ -70,7 +70,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
     <div class="member-photo member-photo--empty" aria-hidden="true"><span>{{ m.name | slice: 0 }}</span></div>
     {% endif %}
     <div class="member-info">
-    <div class="member-name">{{ m.name }}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>
+    <div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>
     {% if m.affiliation %}<div class="sub">{{ m.affiliation }}</div>{% endif %}
     {% if m.interests %}<ul class="tags">{% for i in m.interests %}<li>{{ i }}</li>{% endfor %}</ul>{% endif %}
     </div>
