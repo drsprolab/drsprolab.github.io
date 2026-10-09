@@ -16,6 +16,12 @@ postdoc:
       - "Workaholism"
       - "Psychological Entitlement"
     affiliation: "한양대학교"
+  - name: "나청수"
+    credential: "Ph.D"
+    interests:
+      - "Computing Thinking"
+      - "Self-regulated Learning"
+      - "Adaptive Instruction"
 phd:
   - name: "윤희제"
     name_en: "Hee Je Yun"
