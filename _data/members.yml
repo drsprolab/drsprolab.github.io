@@ -18,6 +18,7 @@ postdoc:
     affiliation: "한양대학교"
   - name: "나청수"
     credential: "Ph.D"
+    photo_label: "나청수 박사"
     interests:
       - "Computing Thinking"
       - "Self-regulated Learning"
@@ -55,7 +56,7 @@ phd:
       - "Competency Modeling"
       - "Career Development"
       - "Learning Organization"
-    affiliation: "국립국어원"
+    affiliation: "인덕대학교"
   - name: "박민지"
     name_en: "Minji Park"
     interests:
@@ -64,7 +65,7 @@ phd:
       - "Learning Motivation"
       - "Job Satisfaction"
       - "Work Engagement"
-    affiliation: "한양대학교"
+    affiliation: "아주대학교"
   - name: "정준선"
     name_en: "Jun Seon Jeong"
     interests:
@@ -77,7 +78,7 @@ phd:
     interests:
       - "Learning and Experience"
       - "Learning Organization"
-    affiliation: "원광보건대학교 국제협력팀"
+    affiliation: "원광대학교"
   - name: "전용찬"
     name_en: "Yong Chan Jeon"
     interests:
@@ -196,6 +197,7 @@ ma:
       - "Organizational commitment"
       - "Leadership"
       - "Organization Development"
+    affiliation: "시나브로 컨설팅"
   - name: "최지수"
     interests:
       - "Human Resource Development"
@@ -208,7 +210,6 @@ ma:
       - "Engagement"
     affiliation: "한양대학교"
   - name: "황수진"
-    name_en: "Hwang Soo Jin"
     interests:
       - "Organization Development"
       - "Leadership"
@@ -225,14 +226,12 @@ ma:
       - "Organizational Culture"
     affiliation: "(주)이스트소프트"
   - name: "이유경"
-    name_en: "Lee Yu Kyeong"
     interests:
       - "Organizational commitment"
       - "Organization Development"
       - "Work Engagement"
     affiliation: "서울대학교병원"
   - name: "김규진"
-    name_en: "Kim Gyu Jin"
     interests:
       - "Organization Development"
       - "Human Resource Development"

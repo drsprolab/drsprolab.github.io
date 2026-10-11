@@ -67,7 +67,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
     {% if member_photo %}
     <img class="member-photo" src="{{ member_photo.image | relative_url }}" alt="{{ m.name | escape }} 사진" style="object-position: {{ member_photo.position | default: 'center' | escape }};" width="240" height="180" loading="lazy" decoding="async">
     {% else %}
-    <div class="member-photo member-photo--empty" aria-hidden="true"><span>{{ m.name | slice: 0 }}</span></div>
+    <div class="member-photo member-photo--empty{% if m.photo_label %} member-photo--label{% endif %}" aria-hidden="true"><span>{% if m.photo_label %}{{ m.photo_label }}{% else %}{{ m.name | slice: 0 }}{% endif %}</span></div>
     {% endif %}
     <div class="member-info">
     <div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>
