@@ -1,8 +1,11 @@
 <header class="site-header">
   <div class="container header-row">
-    <a class="brand" href="{{ '/' | relative_url }}">
-      <span class="brand-name">PRO AnalytiX Lab</span>
-      <span class="brand-sub">Hanyang University</span>
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="PRO-AX Lab, Hanyang University 홈">
+      <img class="brand-mark" src="{{ '/assets/images/hyu-symbol.png' | relative_url }}" alt="" width="40" height="40">
+      <span class="brand-text">
+        <span class="brand-name">PRO-AX Lab</span>
+        <span class="brand-sub">Hanyang University</span>
+      </span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
     <nav class="site-nav" id="site-nav" aria-label="주 메뉴">

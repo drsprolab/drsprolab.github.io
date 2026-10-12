@@ -45,7 +45,9 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 /* Header + dropdown nav */
 .site-header { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
 .header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
-.brand { display: grid; text-decoration: none; color: var(--ink); line-height: 1.2; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); line-height: 1.2; }
+.brand-mark { width: 40px; height: 40px; flex: none; }
+.brand-text { display: grid; }
 .brand-name { font-family: var(--f-display); font-weight: 600; font-size: 19px; }
 .brand-sub { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .site-nav > ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
