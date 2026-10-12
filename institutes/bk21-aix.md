@@ -23,7 +23,7 @@ lede: AI를 중심으로 교육공학·기계공학·데이터사이언스·미�
 
 <div class="table-wrap">
   <table>
-    <thead><tr><th>사업기간</th><th class="num">총사업비(원)</th><th class="num">교육공학과 지분(원)</th></tr></thead>
+    <thead><tr><th>사업기간</th><th class="num">총사업비(원/년)</th><th class="num">교육공학과 지분(원)</th></tr></thead>
     <tbody>
     {% for funding in aix.funding %}
       <tr><td>{{ funding.period }}</td><td class="num">{% include won.html n=funding.amount %}</td><td class="num">{% include won.html n=funding.department_share %}</td></tr>
