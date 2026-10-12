@@ -960,3 +960,17 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .prose .lecture-selection { font-size:11px; color:var(--muted); margin:0; padding:12px 16px; border-top:1px solid var(--line); padding-right:100px; }
 .lecture-fit { position:absolute; bottom:8px; right:12px; }
 @media(max-width:700px) { .lecture-network { grid-template-columns:1fr; }.lecture-list { max-height:340px; }.lecture-svg { min-height:360px; } }
+
+/* 대문 소개 박스: 박스와 글씨를 같은 비율(약 85%)로 축소 */
+.hero-intro { min-height: 264px; padding: 34px; gap: 15px; }
+.hero-intro .eyebrow { font-size: 10.6px; }
+.hero-intro h1 { font-size: clamp(31px, 5.1vw, 49px); }
+.hero-intro p { font-size: 14.5px; }
+.hero-intro .inquiry-actions { max-width: 510px; gap: 7px 14px; margin-top: 17px; }
+.hero-intro .inquiry-actions .solution-btn { font-size: 10.5px; padding: 8.5px 14px; }
+.hero-intro .solution-link { font-size: 10.6px; }
+@media (max-width: 680px) {
+  .hero-intro { min-height: 255px; padding: 24px 19px; }
+  .hero-intro h1 { font-size: clamp(27px, 6.8vw, 37px); }
+  .hero-intro p { font-size: 13.6px; }
+}
