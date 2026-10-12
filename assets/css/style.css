@@ -976,3 +976,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   .hero-intro h1 { font-size: clamp(27px, 6.8vw, 37px); }
   .hero-intro p { font-size: 13.6px; }
 }
+
+/* 상단 메뉴: 한양대 로고가 들어간 뒤에도 한 줄로 */
+@media (min-width: 1101px) {
+  .header-row { column-gap: 16px; }
+  .nav-item > a { white-space: nowrap; padding-inline: 8px; font-size: 13.5px; }
+}
