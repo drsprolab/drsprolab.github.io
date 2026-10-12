@@ -991,18 +991,34 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   .brand-mark { width: 32px; height: 32px; }
 }
 
-/* 논문·학회 목록: 마우스를 올리면 행 왼쪽에 빨간 점이 깜빡임 (berl.hanyang.ac.kr 참고) */
-.journal-pubs li, .conference-pubs li { position: relative; }
-.journal-pubs li::before, .conference-pubs li::before {
-  content: ""; position: absolute; left: 4px; top: calc(16px + .8em - 4px);
-  width: 8px; height: 8px; border-radius: 50%; background: #e0312b;
-  opacity: 0; pointer-events: none;
+/* 사이트 전체: 마우스를 올리면 해당 항목의 제목 옆에 빨간 점이 깜빡임 (berl.hanyang.ac.kr 참고)
+   - 목록 행(논문, 학회, 연혁·과목 목록): 행 왼쪽, 첫 줄(제목) 높이에
+   - 카드(Insight, Blog, Institute, Gallery, 연구분야, Members)와 표의 첫 칸: 제목 바로 오른쪽에 */
+.journal-pubs li, .conference-pubs li, .ledger li { position: relative; }
+.journal-pubs li::before, .conference-pubs li::before, .ledger li::before,
+.inst h3::after, .gcard .gcard-title::after, .area .area-en::after, .member .member-name::before, tbody td:first-child::after {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #e0312b; opacity: 0; pointer-events: none;
 }
-.journal-pubs li:hover::before, .conference-pubs li:hover::before { animation: pub-blink 1s ease-in-out infinite; }
+.journal-pubs li::before, .conference-pubs li::before, .ledger li::before { position: absolute; z-index: 2; }
+.journal-pubs li::before, .conference-pubs li::before { left: 4px; top: calc(16px + .8em - 4px); }
+.ledger li::before { left: -14px; top: calc(12px + .8em - 4px); }
+/* 제목 옆 점: 자리를 차지하지 않도록 바깥 여백으로 상쇄 (Members 카드는 영문 이름이 아래 줄이라 이름 왼쪽) */
+.member .member-name::before { display: inline-block; vertical-align: middle; margin: -2px 6px 0 -14px; }
+.inst h3::after, .gcard .gcard-title::after, .area .area-en::after, tbody td:first-child::after {
+  display: inline-block; vertical-align: middle; margin: -2px -14px 0 6px;
+}
+.journal-pubs li:hover::before, .conference-pubs li:hover::before, .ledger li:hover::before,
+.inst:hover h3::after, .gcard:hover .gcard-title::after, .area:hover .area-en::after, .member:hover .member-name::before, tbody tr:hover td:first-child::after {
+  animation: pub-blink 1s ease-in-out infinite;
+}
 @keyframes pub-blink {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(224, 49, 43, .45); }
   50% { opacity: .25; box-shadow: 0 0 0 5px rgba(224, 49, 43, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .journal-pubs li:hover::before, .conference-pubs li:hover::before { animation: none; opacity: 1; }
+  .journal-pubs li:hover::before, .conference-pubs li:hover::before, .ledger li:hover::before,
+  .inst:hover h3::after, .gcard:hover .gcard-title::after, .area:hover .area-en::after, .member:hover .member-name::before, tbody tr:hover td:first-child::after {
+    animation: none; opacity: 1;
+  }
 }
