@@ -26,7 +26,7 @@
   lab: true
 - year: 2026
   month: 8
-  citation: "최순리, 오선빈, 이시후, 문희라, 송지훈 (2026). 생성형 AI를 공동 행위자로 고려한 컴퓨터 기반 협력학습(CSCL) 지원도구 기능의 다중 사례 기반 분석. 36(2), 207-243."
+  citation: "최순리, 오선빈, 이시후, 문희라, 송지훈 (2026). 생성형 AI를 공동 행위자로 고려한 컴퓨터 기반 협력학습(CSCL) 지원도구 기능의 다중 사례 기반 분석. 교육혁신연구, 36(2), 207-243."
   journal: "교육혁신연구"
   index:
     - "KCI"
@@ -58,7 +58,7 @@
   lab: true
 - year: 2026
   month: null
-  citation: "Joo, J., Kim, D., Song, J. H., & Yoo, M. (2025). Is Career Development Resource Always Perceived Good in SMEs? A Comparative Analysis of Employment. European Journal of Training and Development. Online published first."
+  citation: "Joo, J., Kim, D., Song, J. H., & Yoo, M. (2025). Is career development resource always perceived good in SMEs? A comparative analysis of employment. European Journal of Training and Development, 49(7-8), 788-809."
   journal: "European Journal of Training and Development"
   index:
     - "SCOPUS"
@@ -76,7 +76,7 @@
   lab: true
 - year: 2026
   month: null
-  citation: "Shim., M. J., Kim, S., Song, J. H. (2025). The influence of team members’ and individual corporate entrepreneurship on unlearning process efficiency, Team Performance Mangement. Online published first."
+  citation: "Shim, M. J., Kim, S., & Song, J. H. (2025). The influence of team members’ and individual corporate entrepreneurship on unlearning process efficiency. Team Performance Management, 31(7-8), 733-753."
   journal: "Team Performance Management"
   index:
     - "SCOPUS"
@@ -93,7 +93,7 @@
   lab: true
 - year: 2026
   month: null
-  citation: "Lee, J., & Song, J. H. (2026). Increasing organizational sustainability: implications of a meta-analysis on organizational agility. The Learning Organization, 1-20."
+  citation: "Lee, J., & Song, J. H. (2026). Increasing organizational sustainability: implications of a meta-analysis on organizational agility. The Learning Organization, 33(3), 381-400."
   journal: "The Learning Organization"
   index:
     - "ESCI"
@@ -159,7 +159,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "Joo, J., & Hong, S. (2025). Predicting model for the employees' organizational commitment: Integrative approach of organizational identity and career identity. International Journal of Organizational Analysis. Online published first."
+  citation: "Joo, J., & Hong, S. (2025). Predicting model for the employees' organizational commitment: Integrative approach of organizational identity and career identity. International Journal of Organizational Analysis, 34(2), 439-461."
   journal: "International Journalof Organizational Analysis"
   index:
     - "SCOPUS"
@@ -192,7 +192,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "오서진, 원용호, 이윤숙 (2025). 국내 영어교육에서 게임기반학습(GBL) 효과에 관한 메타분석. 교육공학연구, 41(2). Online published first."
+  citation: "오서진, 원용호, 이윤숙 (2025). 국내 영어교육에서 게임기반학습(GBL) 효과에 관한 메타분석. 교육공학연구, 41(2), 577-600."
   journal: "교육공학연구"
   index:
     - "KCI"
@@ -208,7 +208,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "장창성, 주재홍 (2025). 스킬 미스매치에 따른 과학기술분야 재직인력의 무형식학습 및 지식공유 유형 분류: 잠재 프로파일 분석. HRD연구, 27(3). Online published first."
+  citation: "장창성, 주재홍 (2025). 스킬 미스매치에 따른 과학기술분야 재직자의 무형식학습 및 지식공유 유형 분류: 잠재 프로파일 분석. HRD연구, 27(3), 159-194."
   journal: "HRD연구"
   index:
     - "KCI"
@@ -216,7 +216,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "주재홍, 김민영, 최서현 (2025). 교사의 소명의식에 대한 비판적 문헌 고찰. 교육비평. (58). Online published first."
+  citation: "주재홍, 김민영, 최서현 (2025). 교사의 소명의식에 대한 비판적 문헌 고찰. 교육비평, (58), 288-327."
   journal: "교육비평"
   index:
     - "KCI"
@@ -232,7 +232,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "주재홍, 송지훈(2025). 국내 기업 재직자의 다양성, 형평성, 포용성 인식에 대한 현상학적 분석. HRD연구, 27(3), 125-158."
+  citation: "주재홍, 송지훈 (2025). 국내 기업 재직자의 다양성, 형평성, 포용성 경험에 대한 현상학적 연구. HRD연구, 27(3), 125-158."
   index:
     - "KCI"
   professor: true
@@ -247,7 +247,7 @@
   lab: true
 - year: 2025
   month: null
-  citation: "주재홍, 홍소정 (2025). 청소년의 스마트폰 의존에 대한 예측 모델링: 학교급별 결정요인 비교 분석, 사회과학연구. 18(2). Online published first."
+  citation: "주재홍, 홍소정 (2025). 청소년의 스마트폰 의존에 대한 예측 모델링: 학교급별 결정요인 비교 분석. 사회과학연구, 18(2), 279-314."
   journal: "사회과학연구"
   index:
     - "KCI"
@@ -288,15 +288,6 @@
   journal: "교육문화연구"
   index:
     - "KCI"
-  professor: true
-  lab: true
-- year: 2025
-  month: null
-  citation: "Kim, S.J., Park, M., Hong, S., Song, J. H., Kim., M., & Lee, Y. (2025). A moderating effect of digital literacy between work-life balance and emotional distress during the COVID-19. European Journal of Training and Development. Online published first."
-  journal: "European Journal of Training and Development"
-  index:
-    - "SCOPUS"
-    - "ESCI"
   professor: true
   lab: true
 - year: 2025
@@ -443,7 +434,7 @@
   lab: true
 - year: 2024
   month: 3
-  citation: "Ju, R., Hong, S., & Song, J. H. (2024). Differential effects of graduate students' motivational orientations and motivational strategy interventions on learning outcomes. Learning: Research and Practice, 1-15. https://doi.org/10.1080/23735082.2024.2314769"
+  citation: "Ju, R., Hong, S., & Song, J. H. (2024). Differential effects of graduate students' motivational orientations and motivational strategy interventions on learning outcomes. Learning: Research and Practice, 10(2), 204-218. https://doi.org/10.1080/23735082.2024.2314769"
   journal: "Learning: Research and Practice"
   index:
     - "SCOPUS"
@@ -483,7 +474,7 @@
   lab: true
 - year: 2024
   month: 1
-  citation: "Choi, S., Kang, S., Lee, K., Ju, H., & Song, J. (2024). The effect of an agent tutor’s integration of cognitive emotional gestures on cognitive load, motivation, and achievement. Contemporary Educational Technology, 16(1), ep491."
+  citation: "Choi, S., Kang, S., Lee, K., Ju, H., & Song, J. (2024). The effect of an agent tutor’s integration of cognitive and emotional gestures on cognitive load, motivation, and achievement. Contemporary Educational Technology, 16(1), ep491."
   journal: "Contemporary Educational Technology"
   index:
     - "SCOPUS"
@@ -641,14 +632,6 @@
   index:
     - "KCI"
   professor: true
-  lab: true
-- year: 2023
-  month: 12
-  citation: "주재홍, 홍소정 (2023). 과업지향풍토와 조직몰입의 관계: 성과급 제도와 타사대비 복리후생 지원의 다중가산조절효과 분석. 혁신기업연구. Online published first."
-  journal: "혁신기업연구"
-  index:
-    - "KCI"
-  professor: false
   lab: true
 - year: 2023
   month: 9
@@ -859,7 +842,8 @@
   lab: true
 - year: 2023
   month: null
-  citation: "주재홍, 홍소정 (2023). 과업지향풍토와 조직몰입의 관계: 성과급 제도와 타사대비 복리후생 지원의 다중가산조절효과 분석. 혁신기업연구, 8(4), 325-345."
+  citation: "주재홍, 홍소정 (2023). 과업지향풍토와 조직몰입의 관계: 성과급 제도와 타사대비 복리후생 지원의 다중가산조절효과 분석. 혁신기업연구, 8(4), 285-305."
+  journal: "혁신기업연구"
   index:
     - "KCI"
   professor: false
