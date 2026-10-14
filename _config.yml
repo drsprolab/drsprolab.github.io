@@ -8,7 +8,7 @@ email: jhsong77@hanyang.ac.kr
 # GitHub Pages 주소에 맞게 수정하세요.
 # - https://<아이디>.github.io 로 쓰면 baseurl: ""
 # - https://<아이디>.github.io/<저장소이름> 으로 쓰면 baseurl: "/<저장소이름>"
-url: "https://drsprolab.github.io"
+url: "https://hrdpro.hanyang.ac.kr"
 baseurl: ""
 
 permalink: /blog/:year/:month/:title/
