@@ -55,7 +55,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 
 ## Lab Members {#lab-members}
 
-{% assign groups = "postdoc:Post-Doc,phd:Ph.D. Students,ma:M.A. Students" | split: "," %}
+{% assign groups = "postdoc:연구교수 / Post-Doc,phd:Ph.D. Students,ma:M.A. Students" | split: "," %}
 {% for g in groups %}
 {% assign key = g | split: ":" | first %}{% assign label = g | split: ":" | last %}
 {% assign list = site.data.members[key] %}
