@@ -1026,3 +1026,35 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* 검색 비노출 구성원: 이름 이미지 */
 .member-name-img { display: block; width: 77px; height: auto; }
 @media (prefers-color-scheme: dark) { .member-name-img { filter: invert(1) hue-rotate(180deg); } }
+
+/* 포인터(마우스)를 올리거나 손가락으로 누르면 박스가 살짝 커지는 효과 */
+main.container { overflow-x: clip; }
+.area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+.persona-card, .sc-pcard, .pd-acts li, .gm-cell,
+.journal-pubs li, .conference-pubs li, .ledger li, .post-list li {
+  position: relative;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+.persona-card, .sc-pcard, .pd-acts li, .gm-cell { will-change: transform; }
+@media (hover: hover) {
+  .area:hover, .member:hover, .inst:hover, .gcard:hover, .kpi:hover, .item-group:hover, .journal-index-summary > div:hover, .rmap-card:hover,
+  .persona-card:hover, .sc-pcard:hover, .pd-acts li:hover, .gm-cell:hover {
+    transform: scale(1.03); z-index: 3; border-color: var(--accent); box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+  }
+  .journal-pubs li:hover, .conference-pubs li:hover, .ledger li:hover, .post-list li:hover {
+    transform: scale(1.012); z-index: 3; background-color: var(--tint);
+  }
+}
+.area:active, .member:active, .inst:active, .gcard:active, .kpi:active, .item-group:active, .journal-index-summary > div:active, .rmap-card:active,
+.persona-card:active, .sc-pcard:active, .pd-acts li:active, .gm-cell:active {
+  transform: scale(1.03); z-index: 3; border-color: var(--accent); box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+}
+.journal-pubs li:active, .conference-pubs li:active, .ledger li:active, .post-list li:active {
+  transform: scale(1.012); z-index: 3; background-color: var(--tint);
+}
+@media (prefers-reduced-motion: reduce) {
+  .area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+  .persona-card, .sc-pcard, .pd-acts li, .gm-cell,
+  .journal-pubs li, .conference-pubs li, .ledger li, .post-list li { transition: none; transform: none !important; }
+}
