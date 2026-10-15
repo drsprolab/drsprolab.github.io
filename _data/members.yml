@@ -135,6 +135,15 @@ phd:
       - "Human Resource Analytics"
       - "Motivation"
     affiliation: "한양대학교"
+  # 검색 비노출 구성원: 이름은 이미지로만 표시 (robots.txt에서 이미지 수집 차단)
+  - name: "private-1"
+    name_image: "/assets/images/people/private/n1.png"
+    photo: "/assets/images/people/private/p1.jpg"
+    interests:
+      - "GenAI Education"
+      - "Digital HRD"
+      - "AI-Enhanced Special Education"
+    affiliation: "한양대학교"
 ma:
   - name: "장유진"
     name_en: "Youjin Jang"
