@@ -19,7 +19,6 @@ postdoc:
   - name: "나청수"
     name_en: "Cheong Su Na"
     credential: "Ph.D"
-    photo_label: "나청수 박사"
     interests:
       - "Computing Thinking"
       - "Self-regulated Learning"

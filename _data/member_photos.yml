@@ -155,3 +155,7 @@
   image: "/assets/images/people/members/member-39.jpg"
   source: "https://oopy.lazyrockets.com/api/v2/notion/image?src=attachment%3A03467412-2e08-4eaf-9c92-159c012bf0bf%3Adf.jpeg&blockId=3199ec88-5719-8071-935f-c0da54bab7a4&width=1024"
   position: "center 35.529999999999994%"
+"나청수":
+  image: "/assets/images/people/members/member-40.jpg"
+  source: "본인 제공 프로필 사진 (2026-10-15)"
+  position: "center 35%"
