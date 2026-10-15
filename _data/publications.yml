@@ -10,6 +10,15 @@
   lab: true
 - year: 2026
   month: 8
+  citation: "Shin, Y., Song, J., Choi, S., Cho, Y., Choe, J., & Kim, K. (2026). Exploring group cohesion dynamics and the role of regulation in collaborative problem-solving using multimodal learning analysis. Computers & Education. Online published first."
+  journal: "Computers & Education"
+  index:
+    - "SSCI"
+    - "SCOPUS"
+  professor: true
+  lab: true
+- year: 2026
+  month: 8
   citation: "김예서, 송지훈 (2026). 조직 냉소주의에 관한 국내 실증연구 메타분석. 기업경영연구, 33(4), 123-149."
   journal: "기업경영연구"
   index:
