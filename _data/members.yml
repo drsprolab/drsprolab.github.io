@@ -1,12 +1,5 @@
 # 연구실 구성원. 원래 사이트 Notion DB_Members에서 옮김 (이메일·입학연도 등 비공개 항목 제외)
 postdoc:
-  - name: "주라헬"
-    credential: "Ph.D"
-    name_en: "Rachel Ju"
-    interests:
-      - "e-learning"
-      - "Instructional Design"
-    affiliation: "한양대학교"
   - name: "주재홍"
     credential: "Ph.D"
     name_en: "Jaehong Joo"
@@ -15,15 +8,22 @@ postdoc:
       - "Knowledge Creation"
       - "Workaholism"
       - "Psychological Entitlement"
-    affiliation: "한양대학교"
-  - name: "나청수"
-    name_en: "Cheong Su Na"
+    affiliation: "한양대학교 · 교육공학과 · 한국교육문제연구소"
+  - name: "주라헬"
     credential: "Ph.D"
-    photo_label: "나청수 박사"
+    name_en: "Rachel Ju"
     interests:
-      - "Computing Thinking"
-      - "Self-regulated Learning"
-      - "Adaptive Instruction"
+      - "e-learning"
+      - "Instructional Design"
+    affiliation: "한양대학교 · 교육공학과 · 한국교육문제연구소"
+  - name: "나청수"
+    name_en: "Chungsoo Na"
+    credential: "Ph.D"
+    interests:
+      - "Computing Education"
+      - "Learning Sciences"
+      - "Assessment"
+    affiliation: "한양대학교 · 교육공학과 · BK4-AIX 연구팀"
 phd:
   - name: "윤희제"
     name_en: "Hee Je Yun"
@@ -57,7 +57,7 @@ phd:
       - "Competency Modeling"
       - "Career Development"
       - "Learning Organization"
-    affiliation: "인덕대학교"
+    affiliation: "인덕대학교 한국어관광서비스학과"
   - name: "박민지"
     name_en: "Minji Park"
     interests:
@@ -135,6 +135,15 @@ phd:
       - "Human Resource Analytics"
       - "Motivation"
     affiliation: "한양대학교"
+  # 검색 비노출 구성원: 이름은 이미지로만 표시 (robots.txt에서 이미지 수집 차단)
+  - name: "private-1"
+    name_image: "/assets/images/people/private/n1.png"
+    photo: "/assets/images/people/private/p1.jpg"
+    interests:
+      - "GenAI Education"
+      - "Digital HRD"
+      - "AI-Enhanced Special Education"
+    affiliation: "한양대학교"
 ma:
   - name: "장유진"
     name_en: "Youjin Jang"
@@ -143,6 +152,7 @@ ma:
       - "Organization Development"
       - "Career Development"
       - "Learning Organization"
+    affiliation: "한국환경보전원"
   - name: "강서영"
     name_en: "Seo Yeong Kang"
     interests:
@@ -153,6 +163,7 @@ ma:
     interests:
       - "Learning Organization"
       - "Career Development"
+    affiliation: "이음길에이치알"
   - name: "안성현"
     name_en: "Seong Hyeon Ahn"
     interests:

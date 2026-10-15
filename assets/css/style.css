@@ -45,7 +45,9 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 /* Header + dropdown nav */
 .site-header { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
 .header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
-.brand { display: grid; text-decoration: none; color: var(--ink); line-height: 1.2; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); line-height: 1.2; }
+.brand-mark { width: 40px; height: 40px; flex: none; }
+.brand-text { display: grid; }
 .brand-name { font-family: var(--f-display); font-weight: 600; font-size: 19px; }
 .brand-sub { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .site-nav > ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
@@ -196,7 +198,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .gcard-meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-top: -2px; }
 
 /* ---- Blog post content ---- */
-.post .prose > table { display: block; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; margin-block: 16px; }
+.post .prose > table, .daily-content > table { display: block; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; margin-block: 16px; }
 .post .prose > table td:first-child { font-weight: 600; white-space: nowrap; }
 .post .prose thead th:empty { background: var(--tint); }
 .post .prose blockquote { margin: 16px 0; padding: 16px 20px; background: var(--accent-soft); border-radius: 8px; }
@@ -960,3 +962,111 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .prose .lecture-selection { font-size:11px; color:var(--muted); margin:0; padding:12px 16px; border-top:1px solid var(--line); padding-right:100px; }
 .lecture-fit { position:absolute; bottom:8px; right:12px; }
 @media(max-width:700px) { .lecture-network { grid-template-columns:1fr; }.lecture-list { max-height:340px; }.lecture-svg { min-height:360px; } }
+
+/* 대문 소개 박스: 박스와 글씨를 같은 비율(약 85%)로 축소 */
+.hero-intro { min-height: 264px; padding: 34px; gap: 15px; }
+.hero-intro .eyebrow { font-size: 10.6px; }
+.hero-intro h1 { font-size: clamp(31px, 5.1vw, 49px); }
+.hero-intro p { font-size: 14.5px; }
+.hero-intro .inquiry-actions { max-width: 510px; gap: 7px 14px; margin-top: 17px; }
+.hero-intro .inquiry-actions .solution-btn { font-size: 10.5px; padding: 8.5px 14px; }
+.hero-intro .solution-link { font-size: 10.6px; }
+@media (max-width: 680px) {
+  .hero-intro { min-height: 255px; padding: 24px 19px; }
+  .hero-intro h1 { font-size: clamp(27px, 6.8vw, 37px); }
+  .hero-intro p { font-size: 13.6px; }
+}
+
+/* 상단 메뉴: 한양대 로고가 들어간 뒤에도 한 줄로 */
+@media (min-width: 861px) {
+  .header-row { column-gap: 16px; }
+  .nav-item > a { white-space: nowrap; padding-inline: 8px; font-size: 13.5px; }
+}
+@media (min-width: 861px) and (max-width: 1100px) {
+  .header-row { column-gap: 10px; }
+  .nav-item > a { padding-inline: 5px; font-size: 12px; }
+}
+@media (min-width: 861px) and (max-width: 980px) {
+  .nav-item > a { padding-inline: 4px; font-size: 11px; letter-spacing: 0; }
+  .brand-mark { width: 32px; height: 32px; }
+}
+
+/* 사이트 전체: 마우스를 올리면 해당 항목의 제목 옆에 빨간 점이 깜빡임 (berl.hanyang.ac.kr 참고)
+   - 목록 행(논문, 학회, 연혁·과목 목록): 행 왼쪽, 첫 줄(제목) 높이에
+   - 카드(Insight, Blog, Institute, Gallery, 연구분야, Members)와 표의 첫 칸: 제목 바로 오른쪽에 */
+.journal-pubs li, .conference-pubs li, .ledger li { position: relative; }
+.journal-pubs li::before, .conference-pubs li::before, .ledger li::before,
+.inst h3::after, .gcard .gcard-title::after, .area .area-en::after, .member .member-name::before, tbody td:first-child::after {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #e0312b; opacity: 0; pointer-events: none;
+}
+.journal-pubs li::before, .conference-pubs li::before, .ledger li::before { position: absolute; z-index: 2; }
+.journal-pubs li::before, .conference-pubs li::before { left: 4px; top: calc(16px + .8em - 4px); }
+.ledger li::before { left: -14px; top: calc(12px + .8em - 4px); }
+/* 제목 옆 점: 자리를 차지하지 않도록 바깥 여백으로 상쇄 (Members 카드는 영문 이름이 아래 줄이라 이름 왼쪽) */
+.member .member-name::before { display: inline-block; vertical-align: middle; margin: -2px 6px 0 -14px; }
+.inst h3::after, .gcard .gcard-title::after, .area .area-en::after, tbody td:first-child::after {
+  display: inline-block; vertical-align: middle; margin: -2px -14px 0 6px;
+}
+.journal-pubs li:hover::before, .conference-pubs li:hover::before, .ledger li:hover::before,
+.inst:hover h3::after, .gcard:hover .gcard-title::after, .area:hover .area-en::after, .member:hover .member-name::before, tbody tr:hover td:first-child::after {
+  animation: pub-blink 1s ease-in-out infinite;
+}
+@keyframes pub-blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(224, 49, 43, .45); }
+  50% { opacity: .25; box-shadow: 0 0 0 5px rgba(224, 49, 43, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journal-pubs li:hover::before, .conference-pubs li:hover::before, .ledger li:hover::before,
+  .inst:hover h3::after, .gcard:hover .gcard-title::after, .area:hover .area-en::after, .member:hover .member-name::before, tbody tr:hover td:first-child::after {
+    animation: none; opacity: 1;
+  }
+}
+
+/* 검색 비노출 구성원: 이름 이미지 */
+.member-name-img { display: block; width: 77px; height: auto; }
+@media (prefers-color-scheme: dark) { .member-name-img { filter: invert(1) hue-rotate(180deg); } }
+
+/* 포인터(마우스)를 올리거나 손가락으로 누르면 박스가 살짝 커지는 효과 */
+main.container { overflow-x: clip; }
+.area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+.persona-card, .sc-pcard, .pd-acts li, .gm-cell,
+.journal-pubs li, .conference-pubs li, .ledger li, .post-list li {
+  position: relative;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+.persona-card, .sc-pcard, .pd-acts li, .gm-cell { will-change: transform; }
+@media (hover: hover) {
+  .area:hover, .member:hover, .inst:hover, .gcard:hover, .kpi:hover, .item-group:hover, .journal-index-summary > div:hover, .rmap-card:hover,
+  .persona-card:hover, .sc-pcard:hover, .pd-acts li:hover, .gm-cell:hover {
+    transform: scale(1.03); z-index: 3; border-color: var(--accent); box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+  }
+  .journal-pubs li:hover, .conference-pubs li:hover, .ledger li:hover, .post-list li:hover {
+    transform: scale(1.012); z-index: 3; background-color: var(--tint);
+  }
+}
+.area:active, .member:active, .inst:active, .gcard:active, .kpi:active, .item-group:active, .journal-index-summary > div:active, .rmap-card:active,
+.persona-card:active, .sc-pcard:active, .pd-acts li:active, .gm-cell:active {
+  transform: scale(1.03); z-index: 3; border-color: var(--accent); box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+}
+.journal-pubs li:active, .conference-pubs li:active, .ledger li:active, .post-list li:active {
+  transform: scale(1.012); z-index: 3; background-color: var(--tint);
+}
+@media (prefers-reduced-motion: reduce) {
+  .area, .member, .inst, .gcard, .kpi, .item-group, .journal-index-summary > div, .rmap-card,
+  .persona-card, .sc-pcard, .pd-acts li, .gm-cell,
+  .journal-pubs li, .conference-pubs li, .ledger li, .post-list li { transition: none; transform: none !important; }
+}
+
+/* Research Map 지표 상자: 마우스를 올리면 살짝 커짐 */
+.rmap-stats div, .rmap-orcid { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.rmap-stats div:hover, .rmap-orcid:hover { position: relative; z-index: 1; transform: translateY(-2px) scale(1.06); border-color: var(--accent); box-shadow: 0 8px 20px rgba(16,32,43,.14); }
+@media (prefers-reduced-motion: reduce) { .rmap-stats div:hover, .rmap-orcid:hover { transform: none; } }
+
+/* 상단 메뉴: 마우스를 올리면 살짝 커짐 (데스크톱) */
+@media (min-width: 861px) {
+  .nav-item > a { transition: transform .18s ease, color .18s ease; }
+  .nav-item > a:hover, .nav-item > a:focus-visible { transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) { .nav-item > a:hover, .nav-item > a:focus-visible { transform: none; } }

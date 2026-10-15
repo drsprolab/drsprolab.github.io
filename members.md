@@ -12,7 +12,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 
 <div class="profile">
   <figure class="profile-portrait">
-    <img src="{{ '/assets/images/people/ji-hoon-song.png' | relative_url }}" alt="송지훈 교수" width="302" height="429" decoding="async">
+    <img src="{{ '/assets/images/people/ji-hoon-song.png' | relative_url }}" alt="송지훈 교수" width="300" height="426" decoding="async">
   </figure>
   <div class="profile-details">
   <div class="profile-intro">
@@ -55,7 +55,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 
 ## Lab Members {#lab-members}
 
-{% assign groups = "postdoc:Post-Doc,phd:Ph.D. Students,ma:M.A. Students" | split: "," %}
+{% assign groups = "postdoc:연구교수 / Post-Doc,phd:Ph.D. Students,ma:M.A. Students" | split: "," %}
 {% for g in groups %}
 {% assign key = g | split: ":" | first %}{% assign label = g | split: ":" | last %}
 {% assign list = site.data.members[key] %}
@@ -64,13 +64,16 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
   {% for m in list %}
   {% assign member_photo = site.data.member_photos[m.name] %}
   <article class="member">
-    {% if member_photo %}
+    {% if m.photo %}
+    <img class="member-photo" src="{{ m.photo | relative_url }}" alt="" width="240" height="180" loading="lazy" decoding="async">
+    {% elsif member_photo %}
     <img class="member-photo" src="{{ member_photo.image | relative_url }}" alt="{{ m.name | escape }} 사진" style="object-position: {{ member_photo.position | default: 'center' | escape }};" width="240" height="180" loading="lazy" decoding="async">
     {% else %}
     <div class="member-photo member-photo--empty{% if m.photo_label %} member-photo--label{% endif %}" aria-hidden="true"><span>{% if m.photo_label %}{{ m.photo_label }}{% else %}{{ m.name | slice: 0 }}{% endif %}</span></div>
     {% endif %}
     <div class="member-info">
-    <div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>
+    {% if m.name_image %}<div class="member-name" data-nosnippet><img class="member-name-img" src="{{ m.name_image | relative_url }}" alt="" width="77" height="46"></div>
+    {% else %}<div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>{% endif %}
     {% if m.affiliation %}<div class="sub">{{ m.affiliation }}</div>{% endif %}
     {% if m.interests %}<ul class="tags">{% for i in m.interests %}<li>{{ i }}</li>{% endfor %}</ul>{% endif %}
     </div>

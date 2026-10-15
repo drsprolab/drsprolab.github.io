@@ -7,3 +7,6 @@
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 })();
+
+// iOS Safari는 터치 리스너가 있어야 :active 스타일이 적용됨 (박스 확대 효과)
+document.addEventListener('touchstart', function () {}, { passive: true });
