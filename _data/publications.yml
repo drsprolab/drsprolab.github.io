@@ -1899,7 +1899,7 @@
   index:
     - "SSCI"
   professor: true
-  lab: false
+  lab: true
 - year: 2008
   month: null
   citation: "Song, J. H. (2008). The effects of learning organization culture on the practices of human knowledge‐creation: an empirical research study in Korea. International Journal of Training and Development. 12(4), 265-281. https://doi.org/10.1111/ j.1468-2419.2008.00311.x."
