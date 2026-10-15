@@ -1058,3 +1058,8 @@ main.container { overflow-x: clip; }
   .persona-card, .sc-pcard, .pd-acts li, .gm-cell,
   .journal-pubs li, .conference-pubs li, .ledger li, .post-list li { transition: none; transform: none !important; }
 }
+
+/* Research Map 지표 상자: 마우스를 올리면 살짝 커짐 */
+.rmap-stats div, .rmap-orcid { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.rmap-stats div:hover, .rmap-orcid:hover { position: relative; z-index: 1; transform: translateY(-2px) scale(1.06); border-color: var(--accent); box-shadow: 0 8px 20px rgba(16,32,43,.14); }
+@media (prefers-reduced-motion: reduce) { .rmap-stats div:hover, .rmap-orcid:hover { transform: none; } }
