@@ -1494,7 +1494,7 @@
   lab: false
 - year: 2016
   month: null
-  citation: "Jeong, S. H., Yu, Y., Song, J. H., Kim, J. H., & Bae, S. H. (2016). The moderating role of transformational leadership on work engagement: The influences of professionalism and openness to change. Human Resource Development Quarterly, 27(4), 486-516. https://doi.org/10.1002/hrdq.21265"
+  citation: "Jeong, S., Hsiao, Y.-Y., Song, J. H., Kim, J., & Bae, S. H. (2016). The moderating role of transformational leadership on work engagement: The influences of professionalism and openness to change. Human Resource Development Quarterly, 27(4), 489-516. https://doi.org/10.1002/hrdq.21265"
   journal: "Human Resource Development Quarterly"
   index:
     - "SSCI"
@@ -1686,14 +1686,6 @@
   lab: false
 - year: 2012
   month: null
-  citation: "Song, J. H., Kolb, J. A., Lee, U. H., & Kim, H, K. (2012). Role of transformational leadership in effective organizational knowledge creation practices: Mediating effects of employees' work engagement. Human Resource Development Quarterly, 23(1), 65-101. https://doi.org/10.1002/hrdq.21120."
-  journal: "Human Resource Development Quarterly"
-  index:
-    - "SSCI"
-  professor: true
-  lab: false
-- year: 2012
-  month: null
   citation: "Joo, B. K, Song, J. H., Lim, D. H. & Yoon, S. W. (2012). Team creativity: The effects of perceived learning culture, developmental feedback and team cohesion. International Journal of Training and Development, 16(2), 77-91. https://doi.org/10.1111/j.1468-2419.2011.00395.x"
   journal: "International Journal of Training and Development"
   index:
@@ -1734,7 +1726,7 @@
   lab: false
 - year: 2012
   month: null
-  citation: "Song, J. H., Kolb, J. A., Hee Lee, U., & Kyoung Kim, H. (2012). Role of transformational leadership in effective organizational knowledge creation practices: Mediating effects of employees' work engagement. Human Resource Development Quarterly, 23(1), 65-101. https://doi.org/10.1002/hrdq.21120"
+  citation: "Song, J. H., Kolb, J. A., Lee, U. H., & Kim, H. K. (2012). Role of transformational leadership in effective organizational knowledge creation practices: Mediating effects of employees' work engagement. Human Resource Development Quarterly, 23(1), 65-101. https://doi.org/10.1002/hrdq.21120"
   journal: "Human Resource Development Quarterly"
   index:
     - "SSCI"
