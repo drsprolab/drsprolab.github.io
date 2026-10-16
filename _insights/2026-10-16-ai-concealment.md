@@ -1,6 +1,6 @@
 ---
 layout: insight
-title: "왜 조직원들은 AI로 만든 결과물을 숨기는가: AI 사용의 사회적 평가 벌점"
+title: "왜 조직원들은 AI로 만든 결과물을 숨기는가: 부정적 인식으로 인한 의도적 은폐"
 date: 2026-10-16 09:00:00 +0900
 summary: "AI를 쓰면 일은 빨라지지만, 동료와 상사는 AI를 쓴 사람을 더 게으르고 덜 유능하다고 봅니다. 4,439명이 참여한 PNAS 실험 연구를 읽고, 조직원이 AI 사용을 숨기는 이유와 이 현상을 ‘문화지체’로 읽을 수 있는지, 그 한계는 무엇인지 정리합니다."
 description: "2026년 10월 16일 Weekly Insight. Reif, Larrick, & Soll(2025, PNAS)의 ‘Evidence of a social evaluation penalty for using AI’를 리뷰합니다. 네 개 실험의 핵심 결과, 벌점이 사라지는 조건, 문화지체·귀인·도움 요청의 사회적 비용 관점에서 본 해석과 HRD 시사점을 다룹니다."
