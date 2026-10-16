@@ -1,7 +1,7 @@
 # watch: 이 메뉴의 내용 파일. 최근 커밋이 48시간 이내면 메뉴 옆에 NEW 표시 (_plugins/nav_updates.rb)
 - title: Members
   url: /members/
-  watch: [members.md, _data/members.yml, _data/member_photos.yml, _data/professor.yml, assets/images/people]
+  # Members는 NEW 표시를 하지 않음 (watch 없음)
   children:
     - { title: Professor-in-charge, url: /members/#professor }
     - { title: Lab Members, url: /members/#lab-members }
