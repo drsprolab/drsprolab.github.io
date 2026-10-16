@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 메뉴 NEW 표시용 커밋 기록 (_plugins/nav_updates.rb)
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"

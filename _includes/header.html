@@ -14,7 +14,7 @@
         {% assign active = false %}
         {% if page.url contains item.url and item.url != '/' %}{% assign active = true %}{% endif %}
         <li class="nav-item{% if item.children %} has-children{% endif %}">
-          <a href="{{ item.url | relative_url }}"{% if active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+          <a href="{{ item.url | relative_url }}"{% if active %} aria-current="page"{% endif %}{% assign upd = site.data.nav_updated[item.url] %}{% if upd %} data-updated="{{ upd }}"{% endif %}>{{ item.title }}</a>
           {% if item.children %}
           <ul class="submenu">
             {% for child in item.children %}
