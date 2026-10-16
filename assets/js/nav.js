@@ -26,8 +26,7 @@ document.addEventListener('touchstart', function () {}, { passive: true });
 })();
 
 // 메뉴에 들어가면 무엇이 바뀌었는지 보여 줌 (_plugins/item_updates.rb)
-//  1) 페이지 위에 '최근 업데이트' 안내: 이 메뉴의 최근 48시간 변경 내역(삭제 포함)
-//  2) 바뀐 항목(논문, 프로젝트, 구성원, 글 카드 등)의 제목 옆에 NEW 표시
+//  바뀐 항목(논문, 프로젝트, 구성원, 글 카드 등)의 제목 옆에 NEW 표시
 (function () {
   var el = document.getElementById('site-updates');
   var main = document.querySelector('main');
@@ -35,31 +34,13 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   var data; try { data = JSON.parse(el.textContent); } catch (e) { return; }
   var now = Date.now() / 1000, WINDOW = 48 * 3600;
   function fresh(t) { return t && now - t <= WINDOW && now >= t - 3600; }
-  function fmt(t) { var d = new Date(t * 1000); return (d.getMonth() + 1) + '/' + d.getDate(); }
   function norm(s) { return String(s).toLowerCase().replace(/[^0-9a-z가-힣]/g, ''); }
 
-  // 1) 이 페이지가 속한 메뉴의 최근 변경 내역
+  // 이 페이지가 속한 메뉴
   var path = location.pathname, best = '';
   Object.keys(data.nav || {}).forEach(function (u) { if (u !== '/' && path.indexOf(u) === 0 && u.length > best.length) best = u; });
-  var notes = best ? (data.nav[best] || []).filter(function (n) { return fresh(n.t); }) : [];
-  if (notes.length) {
-    var box = document.createElement('aside');
-    box.className = 'update-note';
-    box.setAttribute('aria-label', '최근 업데이트');
-    box.innerHTML = '<div class="update-note-head"><span class="item-new">NEW</span> 최근 업데이트</div><ul></ul>';
-    var ul = box.querySelector('ul');
-    notes.forEach(function (n) {
-      var li = document.createElement('li');
-      li.innerHTML = '<time></time><span></span>';
-      li.firstChild.textContent = fmt(n.t);
-      li.lastChild.textContent = n.s;
-      ul.appendChild(li);
-    });
-    var head = main.querySelector('.page-head, .daily-hero');
-    if (head) head.insertAdjacentElement('afterend', box); else main.insertBefore(box, main.firstChild);
-  }
 
-  // 2) 바뀐 항목 표시: 항목 글이 들어 있는 가장 안쪽 목록·카드에 NEW
+  // 바뀐 항목 표시: 항목 글이 들어 있는 가장 안쪽 목록·카드에 NEW
   // 항목은 그 데이터가 속한 메뉴 안에서만 찾는다(예: 구성원 이름이 논문 저자 목록에 NEW로 붙지 않게)
   var keys = (data.items || []).filter(function (i) { return fresh(i.t) && i.u === best; })
     .map(function (i) { return norm(i.s); }).filter(function (k) { return k.length >= 3; });
@@ -67,7 +48,6 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   var SEL = 'li, tbody tr, .inst, .gcard, .member, .area';
   var hits = [];
   main.querySelectorAll(SEL).forEach(function (c) {
-    if (c.closest('.update-note')) return;
     var text = norm(c.textContent);
     if (keys.some(function (k) { return text.indexOf(k) >= 0; })) hits.push(c);
   });

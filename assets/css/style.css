@@ -1091,9 +1091,3 @@ main.container { overflow-x: clip; }
   background: #e0312b; color: #fff; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
   letter-spacing: .04em; line-height: 1.5; vertical-align: 2px; white-space: nowrap;
 }
-.update-note { margin: 0 0 24px; padding: 14px 18px; border: 1px solid color-mix(in srgb, #e0312b 35%, var(--line)); border-radius: 10px; background: color-mix(in srgb, #e0312b 5%, var(--paper)); }
-.update-note-head { font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
-.update-note-head .item-new { margin: 0 4px 0 0; }
-.update-note ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
-.update-note li { display: flex; gap: 10px; }
-.update-note time { flex: none; font-family: var(--f-mono); color: var(--muted); font-size: 13px; padding-top: 1px; }

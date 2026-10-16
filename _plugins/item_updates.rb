@@ -2,7 +2,7 @@
 #   site.data["item_updates"]: 최근 7일 안에 바뀐 목록 항목들 [{ "t" => 유닉스 초, "s" => 대표 글(논문 인용, 제목, 이름 등), "u" => 메뉴 url }]
 #     - YAML 데이터 파일은 git blame 으로 줄마다 마지막 수정 시각을 읽고, 바뀐 줄이 속한 "- " 항목을 찾는다.
 #     - Weekly Insight·Measurement 글처럼 파일 하나가 항목 하나인 경우는 그 글의 제목을 쓴다.
-#   site.data["nav_changes"]: 메뉴(url)별 최근 7일 커밋 메시지 [{ "t", "s" }] — 삭제처럼 표시할 항목이 없는 변경도 알려 준다.
+#   site.data["nav_changes"]: 메뉴 url 목록 (값은 빈 배열). 커밋 메시지는 페이지에 싣지 않는다.
 # 실제로 NEW 를 보일지는 방문 시각 기준 48시간으로 브라우저에서 판단한다(메뉴 NEW 배지와 같은 기준).
 require "open3"
 require "yaml"
@@ -11,7 +11,6 @@ require "date"
 module ItemUpdates
   RECENT = 7 * 24 * 3600
   TITLE_KEYS = %w[citation title name ko field text].freeze
-  SKIP_MESSAGE = /\A(chore|merge|미리보기)/i
 
   class Generator < Jekyll::Generator
     safe true
@@ -33,10 +32,7 @@ module ItemUpdates
         paths = Array(item["watch"])
         next if paths.empty?
 
-        log, = git("log", "--since=#{cutoff}", "--no-merges", "--format=%ct%x1f%s", "--", *paths)
-        notes = log.lines.map { |l| t, s = l.chomp.split("\x1f", 2); { "t" => t.to_i, "s" => s.to_s.strip } }
-        notes.reject! { |n| n["s"].empty? || n["s"] =~ SKIP_MESSAGE }
-        site.data["nav_changes"][item["url"]] = notes.first(6) unless notes.empty?
+        site.data["nav_changes"][item["url"]] = [] # '최근 업데이트' 안내 상자는 쓰지 않음: 메뉴 url만 남김
 
         files, = git("ls-files", "--", *paths)
         files.lines.map(&:chomp).each do |f|
