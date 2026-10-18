@@ -1,17 +1,18 @@
+{% assign research_map = site.data.research_map %}
 <section class="rmap" id="rmap" aria-label="Research Map"
-  data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
-  data-map="{{ '/assets/data/keyword-map.json' | relative_url }}">
+  data-graph="{{ '/assets/data/research-map.json' | relative_url }}?v={{ research_map.version }}"
+  data-version="{{ research_map.version }}">
   <header class="rmap-top">
     <div>
       <h2 class="rmap-title">RESEARCH MAP</h2>
     </div>
     <div class="rmap-metrics">
-      <div class="rmap-metrics-group"><div class="rmap-metrics-label">Research Map</div>
+      <div class="rmap-metrics-group"><div class="rmap-metrics-label" title="Research 논문 추가·수정·삭제 시 제목과 키워드를 분석해 사이트 빌드마다 자동 갱신합니다.">Research Map <span>Auto-updated</span></div>
     <dl class="rmap-stats">
-      <div><dt>Papers</dt><dd id="rm-s-papers">–</dd></div>
-      <div><dt>Keywords</dt><dd id="rm-s-kws">–</dd></div>
-      <div><dt>Links</dt><dd id="rm-s-links">–</dd></div>
-      <div><dt>Visible</dt><dd id="rm-s-visible">–</dd></div>
+      <div title="중복을 제외한 Research 논문 수"><dt>Papers</dt><dd id="rm-s-papers">{{ research_map.stats.papers }}</dd></div>
+      <div title="논문 제목·명시 키워드에서 연결된 연구 키워드 수"><dt>Keywords</dt><dd id="rm-s-kws">{{ research_map.stats.keywords }}</dd></div>
+      <div title="논문과 키워드 사이의 연결 수"><dt>Links</dt><dd id="rm-s-links">{{ research_map.stats.links }}</dd></div>
+      <div title="현재 필터에서 표시하는 논문과 키워드 노드 수"><dt>Visible</dt><dd id="rm-s-visible">{{ research_map.stats.visible }}</dd></div>
     </dl>
       </div>
       {% assign scholar = site.data.scholar_metrics %}
@@ -64,4 +65,5 @@
   <noscript><p class="rm-hint">Please enable JavaScript to view the Research Map.</p></noscript>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="{{ '/assets/js/research-map-data.js' | relative_url }}?v={{ research_map.version }}" defer></script>
 <script src="{{ '/assets/js/kw-network.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

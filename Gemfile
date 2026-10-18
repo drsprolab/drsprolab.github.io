@@ -13,3 +13,7 @@ gem "base64"
 gem "bigdecimal"
 gem "logger"
 gem "webrick"
+
+group :test do
+  gem "minitest", "~> 5.0"
+end

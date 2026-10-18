@@ -1,5 +1,5 @@
 // 대문 연구 지도: 논문(점)과 키워드(큰 점)를 잇는 네트워크.
-// 데이터: _data/publications.yml, _data/keyword_map.yml (빌드 때 JSON으로 노출)
+// 데이터: Jekyll이 생성한 단일 research-map.json 스냅샷 (통계와 네트워크 공유)
 (function () {
   var root = document.getElementById('rmap');
   if (!root || !window.d3) return;
@@ -7,7 +7,6 @@
   var COLORS_LIGHT = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#e34948', '#4a3aa7'];
   var COLORS_DARK = ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#e66767', '#9085e9'];
   var NONE = '#9aa3ad';
-  var MIN_COUNT = 2;
   var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   var COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -19,42 +18,21 @@
   var sim, zoom, gAll, linkSel, nodeSel, W, H, k = 1;
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function titleOf(c) { var m = c.match(/\(\d{4}[a-z]?\)\.\s*(.+)$/); return (m ? m[1] : c).split(/\.\s+/)[0]; }
   function short(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
-  function toRegex(p) { try { return new RegExp(p, 'i'); } catch (e) { return new RegExp(p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); } }
 
-  Promise.all([fetch(root.dataset.pubs).then(function (r) { return r.json(); }), fetch(root.dataset.map).then(function (r) { return r.json(); })])
-    .then(function (res) { build(res[0], res[1]); draw(); bind(); apply(); })
-    .catch(function () { detail.innerHTML = '<h3>Selected</h3><p class="rm-hint">Could not load the data.</p>'; });
+  fetch(root.dataset.graph)
+    .then(function (r) { if (!r.ok) throw new Error('Research Map HTTP ' + r.status); return r.json(); })
+    .then(function (snapshot) { build(snapshot); draw(); bind(); apply(); })
+    .catch(function () { detail.innerHTML = '<h3>Selected</h3><p class="rm-hint">Could not load the network. Please reload this page. The summary above is from the latest site build.</p>'; });
 
   // ---------- data ----------
-  function build(pubs, map) {
-    var seen = {};
-    pubs.forEach(function (p, i) {
-      if (!p.citation || seen[p.citation]) return;
-      seen[p.citation] = 1;
-      papers.push({ id: 'p' + i, type: 'paper', year: p.year, citation: p.citation, name: titleOf(p.citation), kws: [] });
-    });
-    map.forEach(function (f, fi) {
-      fields.push({ fi: fi, name: f.field, en: f.en, group: f.group || 'Other', color: COLORS[fi % COLORS.length] });
-      f.keywords.forEach(function (kw, ki) {
-        var res = (kw.patterns || []).map(toRegex);
-        var node = { id: 'k' + fi + '_' + ki, type: 'kw', name: kw.en || kw.name, ko: kw.name, fi: fi, also: kw.also || [], papers: [] };
-        papers.forEach(function (p) { if (res.some(function (r) { return r.test(p.name); })) node.papers.push(p); });
-        if (node.papers.length >= MIN_COUNT) {
-          kws.push(node);
-          node.papers.forEach(function (p) { p.kws.push(node); links.push({ source: node.id, target: p.id }); });
-        }
-      });
-    });
-    // 논문 색 = 가장 많이 걸린 분야
-    papers.forEach(function (p) {
-      var cnt = {};
-      p.kws.forEach(function (kw) { cnt[kw.fi] = (cnt[kw.fi] || 0) + 1; });
-      var best = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a] || a - b; })[0];
-      p.fi = best == null ? -1 : +best;
-      p.fis = new Set(p.kws.map(function (kw) { return kw.fi; }));
-    });
+  function build(snapshot) {
+    var graph = window.ResearchMapData.hydrate(snapshot, root.dataset.version);
+    fields = graph.fields;
+    papers = graph.papers;
+    kws = graph.keywords;
+    links = graph.links;
+    fields.forEach(function (f) { f.color = COLORS[f.fi % COLORS.length]; });
     kws.forEach(function (kw) { kw.fis = new Set([kw.fi]); var f = fields[kw.fi]; kw.groups = new Set([f.group, fieldBtn(f)].concat(kw.also)); });
     nodes = kws.concat(papers);
     nodes.forEach(function (n) { byId[n.id] = n; n.nb = new Set([n.id]); n.phase = Math.random() * 6.283; });
