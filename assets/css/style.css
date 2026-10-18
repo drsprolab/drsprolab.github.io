@@ -1091,3 +1091,11 @@ main.container { overflow-x: clip; }
   background: #e0312b; color: #fff; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
   letter-spacing: .04em; line-height: 1.5; vertical-align: 2px; white-space: nowrap;
 }
+
+/* 대문 소개 상자 오른쪽: 키워드 궤도(Research Orbit) 그래픽 (assets/js/hero-orbit.js) */
+.hero-intro { position: relative; }
+.hero-orbit { display: none; }
+@media (min-width: 900px) {
+  .hero-orbit { display: block; position: absolute; right: 28px; top: 50%; transform: translateY(-50%); width: min(36%, 340px); height: auto; aspect-ratio: 1 / 1; pointer-events: none; }
+  .hero-intro > :not(.hero-orbit):not(dialog) { max-width: 58%; }
+}

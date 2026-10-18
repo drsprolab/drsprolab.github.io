@@ -4,6 +4,9 @@ title: PRO AnalytiX Lab
 ---
 <section class="hero">
   <div class="hero-intro">
+  <canvas class="hero-orbit" id="hero-orbit" width="720" height="720" aria-hidden="true"
+    data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
+    data-map="{{ '/assets/data/keyword-map.json' | relative_url }}"></canvas>
   <div class="eyebrow">Hanyang University · Dept. of Educational Technology</div>
   <h1>PRO A<span class="brand-middle">nalyti</span>X Lab<span class="expand">PRO-AX Lab<br>(People-Relation-Organization-AX)</span></h1>
   <p>한양대학교 교육공학과 송지훈 교수 연구실입니다. AIX 시대에 인간의 학습과 사람, 관계, 조직에서 일어나는 변화를 데이터로 분석하고, 더 나은 일터와 배움을 만드는 방법을 연구합니다.</p>
@@ -35,6 +38,7 @@ title: PRO AnalytiX Lab
       <dt>Office</dt><dd>한양대학교 사범대학 504호 PRO AnalytiX Lab<br>서울시 성동구 왕십리로 222 (04763)</dd>
     </dl>
   </dialog>
+  <script src="{{ '/assets/js/hero-orbit.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   <script>
     (function () {
       ['admissions', 'solution'].forEach(function (name) {
