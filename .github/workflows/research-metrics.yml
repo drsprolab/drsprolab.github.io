@@ -48,7 +48,6 @@ jobs:
       - name: Collect both sources independently; retain data on failure
         id: collect
         shell: bash
-        env:
         run: |
           failed=0
           if ! python scripts/update_scholar_metrics.py; then
