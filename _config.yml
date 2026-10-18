@@ -18,7 +18,7 @@ timezone: Asia/Seoul
 collections:
   insights:
     output: true
-    permalink: /daily-insight/:name/
+    permalink: /weekly-insight/:name/
 
 plugins:
   - jekyll-feed

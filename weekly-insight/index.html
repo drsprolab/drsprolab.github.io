@@ -1,0 +1,33 @@
+---
+layout: default
+title: Weekly Insight
+description: HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.
+permalink: /weekly-insight/
+---
+{% assign issues = site.insights | sort: 'date' %}
+{%- comment -%} 최신 날짜의 글이 가장 먼저, 같은 날 올린 연재(AI 역설 1~10 등)는 순서대로 {%- endcomment -%}
+{% assign days = issues | group_by_exp: 'i', "i.date | date: '%Y-%m-%d'" | reverse %}
+<section class="daily-index" aria-labelledby="daily-title">
+  <header class="daily-hero">
+    <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
+    <h1 id="daily-title">Weekly Insight</h1>
+    <p class="lede">HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.</p>
+    {% include page-banner.html key="daily-insight" %}
+  </header>
+  {% if issues.size > 0 %}
+  <div class="daily-archive">
+    <h2>Insights <span class="n">{{ issues.size }}</span></h2>
+    <div class="inst-grid">
+      {% for day in days %}{% for issue in day.items %}
+      <a class="inst" href="{{ issue.url | relative_url }}">
+        <div class="tags">{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
+        <h3>{{ issue.title | escape }}</h3>
+        <p>{{ issue.summary | escape }}</p>
+      </a>
+      {% endfor %}{% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <p class="daily-method">첫 Insights을 준비하고 있습니다.</p>
+  {% endif %}
+</section>

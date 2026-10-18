@@ -39,5 +39,5 @@
     - { title: Awards, url: /highlights/#awards }
     - { title: Gallery, url: /highlights/#gallery }
 - title: Weekly Insight
-  url: /daily-insight/
-  watch: [daily-insight, _insights]
+  url: /weekly-insight/
+  watch: [weekly-insight, daily-insight, _insights]
