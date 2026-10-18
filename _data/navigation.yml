@@ -1,4 +1,4 @@
-# watch: 이 메뉴의 내용 파일. 최근 커밋이 48시간 이내면 메뉴 옆에 NEW 표시 (_plugins/nav_updates.rb)
+# watch: 이 메뉴의 내용 파일. 여기서 새 글·새 항목이 추가되면 3일간 메뉴와 해당 항목 옆에 NEW 표시 (_plugins/item_updates.rb). 기존 내용 수정은 NEW가 아님
 - title: Members
   url: /members/
   # Members는 NEW 표시를 하지 않음 (watch 없음)
