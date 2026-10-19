@@ -1116,3 +1116,12 @@ main.container { overflow-x: clip; }
   .submenu { display: flex; flex-wrap: wrap; gap: 0 14px; padding: 0; }
   .submenu a { padding: 3px 0; font-size: 13px; }
 }
+
+/* 대문 Research Map 지표: 휴대폰에서는 옆으로 밀지 않아도 ORCID까지 다 보이게 네 묶음을 위아래로 쌓고 조금 작게 */
+@media (max-width: 700px) {
+  .rmap-metrics { grid-template-columns: minmax(0, 1fr); gap: 10px; overflow-x: visible; padding: 2px 0 4px; }
+  .rmap-metrics-label { flex-wrap: wrap; white-space: normal; gap: 0 6px; margin-bottom: 4px; }
+  .rmap-metrics .rmap-stats div { min-height: 0; padding: 5px 7px; }
+  .rmap-metrics .rmap-stats dd { font-size: 15px; }
+  .rmap-orcid { min-height: 0; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; padding: 8px 10px; }
+}
