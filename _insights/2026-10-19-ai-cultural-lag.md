@@ -3,7 +3,7 @@ layout: insight
 published: false
 title: "AI는 이미 왔는데 문화는 아직 오지 않았다: 문화지체로 본 AI의 네 가지 간극"
 date: 2026-10-19 16:30:00 +0900
-summary: "AI 기술은 빠르게 퍼지는데 사람들의 믿음, 지식, 정책, 교육은 그 속도를 따라가지 못하고 있습니다. 문화지체 이론을 AI에 직접 적용한 Journal of Advertising 연구를 읽고, 그 간극이 조직 안에서는 어떤 모습으로 나타나는지, 문화지체 개념으로 무엇을 설명할 수 있고 무엇은 설명하지 못하는지 정리합니다."
+summary: "AI 기술은 빠르게 퍼지는데 사람들의 믿음, 지식, 정책, 교육은 그 속도를 따라가지 못하고 있습니다. 문화지체 이론을 AI에 직접 적용한 Journal of Advertising 연구를 기반으로, 그 간극이 조직 안에서는 어떤 모습으로 나타나는지, 문화지체 개념으로 무엇을 설명할 수 있고 무엇은 설명하지 못하는지 정리합니다."
 description: "2026년 10월 19일 Weekly Insight. Lou 외(2026, Journal of Advertising)의 ‘Cultural Lag, Consumer Literacy, and Coping in AI-Enabled Advertising’을 리뷰합니다. AI에 뒤처진 네 가지 문화 요소, 소비자의 리터러시와 대처 전략, 조직 문화지체의 관점에서 본 HRD 시사점을 다룹니다."
 source_count: 5
 reading_minutes: 7
