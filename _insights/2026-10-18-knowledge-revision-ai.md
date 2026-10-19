@@ -19,7 +19,7 @@ KReC는 지식 수정을 **기존의 잘못된 지식과 새 정보가 함께 �
   <h3>지식의 인코딩과 경쟁인출 전략: AI 득인가? 독인가?</h3>
   <p class="daily-brief-cite">Kendeou, P. (2024). A theory of knowledge revision: The development of the KReC framework. <em>Educational Psychology Review, 36</em>(2), Article 44. 외 2024–2026년 연구 6편</p>
   <div class="daily-brief-body">
-    <p>학습조직 세미나에서 정리한 지식 수정 이론 <strong>KReC(Knowledge Revision Components)</strong>를 기준으로 삼았습니다. 그리고 생성형 AI가 사람의 비판적 사고, 메타인지, 학습, 추론, 판단, 창의성에 미치는 영향을 다룬 2024–2026년 연구 6편을 KReC의 세 조건에 비추어 읽었습니다. 질문은 하나입니다. <strong>AI를 쓰는 동안에도 지식이 고쳐지는 과정은 일어나고 있는가?</strong></p>
+    <p>지식 수정 이론 <strong>KReC(Knowledge Revision Components)</strong>를 기준으로, 생성형 AI가 사람의 비판적 사고, 메타인지, 학습, 추론, 판단, 창의성에 미치는 영향을 다룬 2024–2026년 연구 6편을 KReC의 세 조건에 비추어 읽었습니다. 질문은 하나입니다. <strong>AI를 쓰는 동안에도 지식이 고쳐지는 과정은 일어나고 있는가?</strong></p>
     <p>근거의 성격은 다양합니다. 무작위 실험과 사전등록 실험이 많지만 대부분 대학생·온라인 참여자가 하루 안에 수행한 과제입니다. 지식근로자 연구는 자기보고 설문입니다. 무엇보다 이 연구들은 KReC의 지식 수정을 <strong>직접 측정하지 않았습니다.</strong> KReC로 엮어 읽는 것은 이 글의 해석입니다.</p>
   </div>
 </div>
