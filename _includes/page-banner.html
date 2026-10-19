@@ -4,5 +4,39 @@
 {% if banner %}
 <figure class="page-banner{% if banner_key == 'home' %} page-banner--home{% endif %}">
   <img src="{{ '/assets/images/banners/' | append: banner.image | append: '.jpg' | relative_url }}" alt="{{ banner.alt | escape }}" width="1536" height="320" decoding="async" fetchpriority="{% if banner_key == 'home' %}high{% else %}auto{% endif %}">
+  {%- comment -%} 메뉴 키워드 궤도 (assets/js/orbit.js): 항목마다 키워드 목록을 JSON으로 넘긴다 {%- endcomment -%}
+  {%- capture orbit_items -%}
+  {%- case banner_key -%}
+  {%- when 'members' -%}
+    {%- assign ms = site.data.members.postdoc | concat: site.data.members.phd | concat: site.data.members.ma -%}
+    {{ ms | map: 'interests' | jsonify }}
+  {%- when 'teaching' -%}
+    {%- assign cs = site.data.teaching.graduate | concat: site.data.teaching.undergraduate -%}
+    [{% for c in cs %}[{{ c.title | jsonify }}]{% unless forloop.last %},{% endunless %}{% endfor %}]
+  {%- when 'blog' -%}
+    {%- comment -%} 진단도구 이름이 키워드, 같은 대상(조직구성원·팀·대학생·청년 등)을 진단하는 도구끼리 연결 {%- endcomment -%}
+    {%- assign tools = site.posts | where: 'category', '측정도구' -%}
+    [{% for p in tools %}{% if p.title contains '(' %}{% assign nm = p.title | split: '(' | last | split: ')' | first %}{% else %}{% assign nm = p.title | remove: ' 진단' | remove: ' 측정' | split: ' 역량' | first | split: '과 ' | first %}{% endif %}[{{ nm | strip | jsonify }}],{% endfor %}
+    {%- assign groups = '조직구성원,팀,조직,대학생,청년' | split: ',' -%}
+    {%- for g in groups -%}[{% assign first = true %}{% for p in tools %}{% assign tgt = p.measurement_target | remove: ' ' %}{% if tgt contains g %}{% if p.title contains '(' %}{% assign nm = p.title | split: '(' | last | split: ')' | first %}{% else %}{% assign nm = p.title | remove: ' 진단' | remove: ' 측정' | split: ' 역량' | first | split: '과 ' | first %}{% endif %}{% unless first %},{% endunless %}{{ nm | strip | jsonify }}{% assign first = false %}{% endif %}{% endfor %}]{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+  {%- when 'project' -%}
+    [{% for a in site.data.lecture_topics.assignments %}{{ a[1] | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}]
+  {%- when 'institutes' or 'bk21-aix' -%}
+    [{% for i in site.data.institutes %}[{{ i.name | jsonify }}{% for t in i.tags %},{{ t | jsonify }}{% endfor %}]{% unless forloop.last %},{% endunless %}{% endfor %}]
+  {%- when 'highlights' -%}
+    {%- assign gs = site.data.gallery.conferences | concat: site.data.gallery.workshops | concat: site.data.gallery.daily -%}
+    [{% for g in gs %}[{{ g.title | jsonify }}]{% unless forloop.last %},{% endunless %}{% endfor %}]
+  {%- when 'daily-insight' -%}
+    {{ site.insights | map: 'topics' | jsonify }}
+  {%- endcase -%}
+  {%- endcapture -%}
+  {%- if banner_key == 'research' %}
+  <canvas class="banner-orbit" data-orbit="wide" aria-hidden="true"
+    data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
+    data-map="{{ '/assets/data/keyword-map.json' | relative_url }}"></canvas>
+  {%- elsif orbit_items != '' %}
+  <script type="application/json" id="banner-orbit-items">{{ orbit_items }}</script>
+  <canvas class="banner-orbit" data-orbit="wide" data-items="banner-orbit-items" aria-hidden="true"></canvas>
+  {%- endif %}
 </figure>
 {% endif %}

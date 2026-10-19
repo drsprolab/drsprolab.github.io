@@ -1099,3 +1099,7 @@ main.container { overflow-x: clip; }
   .hero-orbit { display: block; position: absolute; right: 28px; top: 50%; transform: translateY(-50%); width: min(36%, 340px); height: auto; aspect-ratio: 1 / 1; pointer-events: none; }
   .hero-intro > :not(.hero-orbit):not(dialog) { max-width: 58%; }
 }
+
+/* 각 메뉴 배너 위 키워드 궤도 (assets/js/orbit.js) */
+.page-banner { position: relative; }
+.banner-orbit { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }

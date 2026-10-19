@@ -4,7 +4,7 @@ title: PRO AnalytiX Lab
 ---
 <section class="hero">
   <div class="hero-intro">
-  <canvas class="hero-orbit" id="hero-orbit" width="720" height="720" aria-hidden="true"
+  <canvas class="hero-orbit" id="hero-orbit" data-orbit="circle" width="720" height="720" aria-hidden="true"
     data-pubs="{{ '/assets/data/publications.json' | relative_url }}"
     data-map="{{ '/assets/data/keyword-map.json' | relative_url }}"></canvas>
   <div class="eyebrow">Hanyang University · Dept. of Educational Technology</div>
@@ -38,7 +38,6 @@ title: PRO AnalytiX Lab
       <dt>Office</dt><dd>한양대학교 사범대학 504호 PRO AnalytiX Lab<br>서울시 성동구 왕십리로 222 (04763)</dd>
     </dl>
   </dialog>
-  <script src="{{ '/assets/js/hero-orbit.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   <script>
     (function () {
       ['admissions', 'solution'].forEach(function (name) {
