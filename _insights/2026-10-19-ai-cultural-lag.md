@@ -1,7 +1,7 @@
 ---
 layout: insight
 published: false
-title: "AI는 이미 왔는데 문화는 아직 오지 않았다: 문화지체로 본 일터의 AI"
+title: "AI는 이미 왔는데 문화는 아직 오지 않았다: 문화지체(Cultural Lag)로 본 일터의 AI"
 date: 2026-10-19 16:30:00 +0900
 summary: "조직은 AI를 당연한 동반자라고 말하지만, 일터에서는 AI를 쓴 사람이 낮게 평가받고 AI 학습은 업무로 인정받지 못합니다. 문화지체 이론을 AI에 적용한 연구와 최근 HRD 연구를 기반으로, 이 간극이 왜 위험한지와 HRD가 바꿔야 할 것을 정리합니다."
 description: "2026년 10월 19일 Weekly Insight. 문화지체(cultural lag)의 관점에서 일터의 AI 활용이 인정받지 못하는 현상과 그 위험을 Lou 외(2026)와 최근 HRD 연구로 살펴보고, AI를 담을 조직 문화를 위한 HRD 시사점을 제시합니다."
