@@ -39,7 +39,7 @@
   function run(cv, items, opts) {
     opts = opts || {};
     if (!cv || !cv.getContext) return;
-    var g = build(items, opts.max || (opts.wide && cv.clientWidth < 600 ? 8 : 12));
+    var g = build(items, opts.max || (opts.wide ? (cv.clientWidth < 360 ? 5 : cv.clientWidth < 600 ? 8 : 12) : 12));
     if (g.kws.length < 3) { cv.hidden = true; return; }
     var ctx = cv.getContext('2d'), wide = !!opts.wide, minPair = opts.minPair || 1;
     var top = g.kws[0].ids.length;
@@ -96,7 +96,7 @@
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx + (mx - cx) * .35, cy + (my - cy) * .35, b.x, b.y); ctx.stroke();
       });
       ctx.globalAlpha = 1;
-      var fs = wide ? Math.round(12 * dpr) : Math.round(W * .029);
+      var fs = wide ? Math.round((W / dpr < 360 ? 10 : 12) * dpr) : Math.round(W * .029);
       ctx.font = '600 ' + fs + 'px "IBM Plex Sans KR", system-ui, sans-serif';
       ctx.textAlign = 'center';
       orb.forEach(function (o) {

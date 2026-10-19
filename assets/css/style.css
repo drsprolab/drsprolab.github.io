@@ -1102,4 +1102,6 @@ main.container { overflow-x: clip; }
 
 /* 각 메뉴 배너 위 키워드 궤도 (assets/js/orbit.js) */
 .page-banner { position: relative; }
-.banner-orbit { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.banner-orbit { position: absolute; top: 0; right: 0; bottom: 0; left: auto; width: 52%; height: 100%; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%); mask-image: linear-gradient(90deg, transparent 0, #000 14%); }
+@media (max-width: 640px) { .banner-orbit { width: 72%; } }
