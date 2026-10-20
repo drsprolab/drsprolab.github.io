@@ -167,7 +167,7 @@
   }
   function renderDetail() {
     var n = state.sel;
-    if (!n) { detail.innerHTML = '<h3>Selected</h3><p class="rm-hint">Click a keyword or a paper dot to see related research here.</p>'; return; }
+    if (!n) { detail.innerHTML = '<h3>Selected</h3>'; return; }
     var f = n.fi >= 0 ? fields[n.fi] : null;
     var head = '<h3>Selected</h3><div class="rm-d-eyebrow">' + (f ? '<span class="rm-sw" style="background:' + f.color + '"></span>' + esc(f.group) + (fieldBtn(f) !== f.group ? ' › ' + esc(f.en) : '') : 'Unclassified') + ' · ' + (n.type === 'kw' ? 'Keyword' : 'Paper') + '</div>';
     if (n.type === 'kw') {
