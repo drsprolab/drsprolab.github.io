@@ -5,7 +5,7 @@ eyebrow: Teaching & Research
 permalink: /teaching/
 wide: true
 ---
-<nav class="tabs"><a href="{{ '/research/' | relative_url }}">Professor</a><a href="{{ '/research/lab/' | relative_url }}">Lab</a><a href="{{ '/teaching/' | relative_url }}" aria-current="page">Teaching</a></nav>
+<nav class="tabs"><a href="{{ '/research/' | relative_url }}">Professor</a><a href="{{ '/research/lab/' | relative_url }}">Lab</a><a href="{{ '/teaching/' | relative_url }}" aria-current="page">Teaching</a><a href="{{ '/proax-lab-review/' | relative_url }}">PRO-AX Critical Review</a></nav>
 
 <div class="teaching-grid">
   <section class="teaching-column" aria-labelledby="graduate-title">

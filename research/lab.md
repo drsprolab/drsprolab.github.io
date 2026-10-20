@@ -7,7 +7,7 @@ eyebrow: Teaching & Research
 permalink: /research/lab/
 lede: 연구실 구성원이 참여한 논문과 발표입니다.
 ---
-<nav class="tabs"><a href="{{ '/research/' | relative_url }}">Professor</a><a href="{{ '/research/lab/' | relative_url }}" aria-current="page">Lab</a><a href="{{ '/teaching/' | relative_url }}">Teaching</a></nav>
+<nav class="tabs"><a href="{{ '/research/' | relative_url }}">Professor</a><a href="{{ '/research/lab/' | relative_url }}" aria-current="page">Lab</a><a href="{{ '/teaching/' | relative_url }}">Teaching</a><a href="{{ '/proax-lab-review/' | relative_url }}">PRO-AX Critical Review</a></nav>
 
 ## Journal
 
