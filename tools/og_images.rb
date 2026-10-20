@@ -27,7 +27,6 @@ def b64(path)
 end
 
 BANNER = b64(File.join(ROOT, "assets/images/banners/daily-insight.jpg"))
-LOGO = b64(File.join(ROOT, "assets/images/hyu-symbol.png"))
 LAB_LOGO = b64(File.join(ROOT, "assets/images/logo/lockup-dark.png"))
 
 def html(fm)
@@ -50,7 +49,6 @@ def html(fm)
       .chips { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
       .chip { font-size: 22px; font-weight: 500; padding: 6px 16px; border-radius: 999px; background: rgba(143,195,255,.16); border: 1px solid rgba(143,195,255,.35); color: #d6e6fb; }
       .foot { margin-top: auto; display: flex; align-items: center; gap: 16px; }
-      .foot img { width: 52px; height: 52px; }
       .foot b { display: block; font-size: 26px; font-weight: 700; }
       .foot span { font-family: "IBM Plex Mono", monospace; font-size: 17px; letter-spacing: .12em; color: #a9bddb; }
       .foot .lab { width: auto; height: 56px; }
@@ -60,7 +58,7 @@ def html(fm)
         <div class="eyebrow">Weekly Insight · #{date}</div>
         <h1>#{title}</h1>
         <div class="chips">#{topics}</div>
-        <div class="foot"><img src="#{LOGO}" alt=""><img class="lab" src="#{LAB_LOGO}" alt=""></div>
+        <div class="foot"><img class="lab" src="#{LAB_LOGO}" alt=""></div>
       </div>
     </body></html>
   HTML
