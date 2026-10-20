@@ -9,7 +9,7 @@ lede: 개인의 행동과, 조직의 특성, 그리고 역량을 진단하고 �
   {% assign tools = site.posts | where: "category", "측정도구" | sort: "measurement_order" %}
   {% for tool in tools %}
   <a class="inst" href="{{ tool.url | relative_url }}">
-    {% if tool.image.path and tool.image.path contains '/assets/og/measurement/' %}<img class="inst-thumb" src="{{ tool.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if tool.image.path and tool.image.path contains '/assets/og/measurement/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tool.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">{{ tool.measurement_badge | default: "역량 진단" }}</span><span class="badge">{{ tool.measurement_target }}</span></div>
     <h3>{{ tool.title }}</h3>
     <p>{{ tool.measurement_summary }}</p>
