@@ -7,6 +7,7 @@
   --line: #dde2e8;
   --accent: #1d4f86;
   --accent-soft: #e6edf6;
+  --logo-x-on-dark: #7fa6ff; /* 어두운 바탕용 로고(mark-dark.png 등)의 X 색 */
   --f-display: var(--f-body);
   --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -94,6 +95,8 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .hero { display: grid; gap: 16px; padding-block: 24px 56px; border-bottom: 1px solid var(--line); }
 .hero h1 { font-size: clamp(36px, 6vw, 58px); }
 .hero h1 .brand-middle { font-size: .65em; }
+/* 히어로는 두 테마 모두 어두운 바탕 — 옆의 로고 마크와 같은 X 색 */
+.hero h1 .brand-x { color: var(--logo-x-on-dark); }
 .hero h1 .expand { display: block; font-family: var(--f-body); font-weight: 500; font-size: .36em; color: var(--muted); margin-top: 10px; letter-spacing: .01em; }
 .hero p { margin: 0; max-width: 62ch; font-size: 17px; }
 .section { padding-block: 56px 0; }
