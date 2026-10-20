@@ -6,3 +6,5 @@ vendor
 .DS_Store
 __pycache__/
 *.pyc
+# tools/og_images.rb 가 배포 때 만드는 공유 이미지
+assets/og/

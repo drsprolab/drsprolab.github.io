@@ -1125,3 +1125,7 @@ main.container { overflow-x: clip; }
   .rmap-metrics .rmap-stats dd { font-size: 15px; }
   .rmap-orcid { min-height: 0; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; padding: 8px 10px; }
 }
+
+/* Weekly Insight 목록 카드 썸네일 (tools/og_images.rb 가 만든 공유 이미지) */
+.inst-thumb { display: block; width: calc(100% + 40px); max-width: none; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; margin: -20px -20px 4px; border-radius: 8px 8px 0 0; background: var(--tint); }
+.inst { overflow: hidden; }
