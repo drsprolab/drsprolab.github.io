@@ -72,6 +72,13 @@ python3 -m unittest discover -s tests -p 'test_research_map_*.py' -v
 - GitHub 수동 워크플로: `.github/workflows/research-metrics.yml` (`Manual research metrics`). GitHub 호스팅 실행 환경에서 Scholar가 HTTP 403으로 차단되어 중복 일일 예약을 제거했습니다. Actions의 **Run workflow**는 수동 진단용으로 유지합니다.
 - Google Scholar: 공개 프로필의 **전체 기간** 인용 수, h-index, i10-index. CAPTCHA·차단을 우회하지 않습니다.
 - Scopus: **자동 갱신하지 않습니다.** Scopus 저자 프로필 화면의 Citations, 인용 문헌 수, Documents, h-index를 `_data/scopus_metrics.yml`에 직접 입력하고 `checked_on`에 기준일을 적습니다. GitHub 워크플로와 Mac 일일 작업은 Scopus API를 호출하지 않습니다.
+
+### Research Map 방문 수
+- 대문 Research Map 위에 `Today hit`(최근 24시간)과 `Total hit`(누적)을 표시합니다.
+- 새 브라우저 탭 세션에서 첫 방문을 1회 집계하고 새로고침은 중복 집계하지 않습니다. 브라우저 탭 세션 표식은 `sessionStorage`에만 저장하며 IP 주소나 개인 식별 정보는 수집하지 않습니다.
+- 카운터 저장소는 무료 Google Apps Script 웹 앱이며, 소스는 `apps-script/research-map-hits/Code.gs`입니다. 시간별 방문 시각을 Script Properties에 저장하고 LockService로 동시 요청을 직렬화합니다.
+- Apps Script에서 새 프로젝트를 만들고 위 `Code.gs`를 붙여 넣은 다음 **Deploy → New deployment → Web app**으로 배포합니다. Execute as는 본인, access는 Anyone으로 설정하고 `/exec` URL을 `_data/research_hits.yml`의 `endpoint`에 입력합니다.
+- 배포 URL이 비어 있으면 카운터 값은 `—`로 남습니다. 웹 앱 배포 후 GitHub Pages를 다시 배포해야 실제 방문 수가 표시됩니다.
 - Scholar 수집이 성공했을 때만 수치와 한국시간 확인 시각을 갱신합니다. 차단·불완전 응답 시 기존 수치와 확인일은 보존하며 실행은 실패로 표시됩니다.
 - Mac 일일 작업은 최신 `origin/main`의 격리 작업 트리에서 Scholar만 확인하고 `_data/scholar_metrics.yml`만 커밋합니다. GitHub 수동 워크플로도 Scholar만 확인합니다.
 - `main` 푸시 후 `jekyll.yml` 배포 성공 및 공개 교수 페이지를 확인합니다. 공개 화면의 시각은 **최근 성공한 확인 시각**이지 상시 실시간 연결 표시가 아닙니다. 예약 실행 결과는 로컬 Hermes cron 기록에 저장됩니다.
