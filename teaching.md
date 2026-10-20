@@ -12,7 +12,7 @@ wide: true
     <h2 id="graduate-title">대학원</h2>
     <ul class="ledger">
     {% for c in site.data.teaching.graduate %}
-      <li{% if c.review %} class="course-linked"{% endif %}><div class="yr">{{ c.code }}</div><div>{% if c.review %}<a class="course-link" href="{{ c.review | relative_url }}" title="{{ c.review_label }} 제출 페이지로 이동">{{ c.title }} <span aria-hidden="true">→</span></a>{% else %}{{ c.title }}{% endif %}{% if c.note %} <span class="badge">{{ c.note }}</span>{% endif %}</div></li>
+      <li><div class="yr">{{ c.code }}</div><div>{{ c.title }}{% if c.note %} <span class="badge">{{ c.note }}</span>{% endif %}{% if c.review %} <a class="course-term" href="{{ c.review | relative_url }}" title="{{ c.review_label }} 학기 리뷰 제출 페이지로 이동">{{ c.review_label }}</a>{% endif %}</div></li>
     {% endfor %}
     </ul>
   </section>

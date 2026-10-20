@@ -7,7 +7,7 @@ graduate:
   - { code: "DET8081", title: "교육공학콜로퀴움" }
   - { code: "DET8100", title: "교육공학연구 세미나" }
   - { code: "DET9114", title: "조직학습몰입" }
-  - { code: "DET9111", title: "학습조직", review: "/lo-review/", review_label: "LO_Review" }
+  - { code: "DET9111", title: "학습조직", review: "/lo-review/", review_label: "26-2" }
   - { code: "DET9113", title: "조직개발" }
   - { code: "DET9018", title: "교육통계", note: "교육대학원" }
   - { code: "DET9009", title: "HRD와 데이터분석", note: "교육대학원" }

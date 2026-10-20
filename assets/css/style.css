@@ -1157,8 +1157,6 @@ main.container { overflow-x: clip; }
 .share-menu.to-left { left: auto; right: 0; }
 @media (prefers-reduced-motion: reduce) { .share-btn { transition: none; } .share-btn:hover { transform: none; } }
 
-/* Teaching: 수업 행을 누르면 그 수업의 리뷰 제출 사이트로 이동 (예: 학습조직 → LO_Review) */
-.course-linked { position: relative; cursor: pointer; }
-.course-link { color: var(--accent); font-weight: 600; text-decoration: none; }
-.course-link::after { content: ""; position: absolute; inset: 0; }  /* 행 전체를 링크 영역으로 */
-.course-link:hover, .course-linked:hover .course-link { text-decoration: underline; text-underline-offset: 3px; }
+/* Teaching: 수업 이름 옆 학기 링크(예: 학습조직 26-2 → LO_Review 제출 페이지) */
+.course-term { margin-left: 6px; font-family: var(--f-mono); font-size: 12px; font-weight: 600; color: #e0312b; text-decoration: none; }
+.course-term:hover { text-decoration: underline; text-underline-offset: 3px; }
