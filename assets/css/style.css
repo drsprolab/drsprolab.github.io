@@ -52,7 +52,8 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .brand-logo { display: block; height: 44px; width: auto; }
 .footer-logo { margin-bottom: 12px; }
 .footer-logo-img { display: block; width: min(100%, 261px); height: auto; }
-.hero-logo { display: block; width: min(100%, 520px); height: auto; margin: 4px 0 2px; }
+.hero-title { display: flex; align-items: center; gap: .3em; }
+.hero-mark { display: block; height: 1.25em; width: auto; flex: none; }
 .brand-text { display: grid; }
 .brand-name { font-family: var(--f-display); font-weight: 600; font-size: 19px; }
 .brand-sub { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
