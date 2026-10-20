@@ -1140,7 +1140,7 @@ main.container { overflow-x: clip; }
 /* Weekly Insight 목록 카드 썸네일 (tools/og_images.rb 가 만든 공유 이미지) */
 .inst-thumb { display: block; width: calc(100% + 40px); max-width: none; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; margin: -20px -20px 4px; border-radius: 8px 8px 0 0; background: var(--tint); }
 .inst { overflow: hidden; }
-/* Measurement 목록: 썸네일 윗부분(분류·제목·칩)만 보이게 낮게 자른다 */
+/* Measurement·Weekly Insight 목록: 썸네일 윗부분(분류·제목·칩)만 보이게 낮게 자른다 */
 .inst-thumb--compact { aspect-ratio: 1200 / 360; object-position: top; }
 
 /* Weekly Insight 글 제목 옆 공유 버튼 */

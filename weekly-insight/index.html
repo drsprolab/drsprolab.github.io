@@ -20,7 +20,7 @@ permalink: /weekly-insight/
     <div class="inst-grid">
       {% for day in days %}{% for issue in day.items %}
       <a class="inst" href="{{ issue.url | relative_url }}">
-        {% if issue.image.path %}<img class="inst-thumb" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+        {% if issue.image.path %}<img class="inst-thumb inst-thumb--compact" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
         <div class="tags">{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
         <h3>{{ issue.title | escape }}</h3>
         <p>{{ issue.summary | escape }}</p>
