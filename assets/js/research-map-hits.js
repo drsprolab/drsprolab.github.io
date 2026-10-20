@@ -1,18 +1,15 @@
 (function () {
   'use strict';
 
-  var section = document.getElementById('rmap');
-  if (!section) return;
-
-  var endpoint = (section.getAttribute('data-hit-api') || '').trim();
+  var endpoint = (document.body.getAttribute('data-hit-api') || '').trim();
   var today = document.getElementById('rm-hit-today');
   var total = document.getElementById('rm-hit-total');
-  if (!endpoint || !today || !total) return;
+  if (!endpoint) return;
 
   function show(data) {
     if (!data || !Number.isFinite(data.today) || !Number.isFinite(data.total)) return;
-    today.textContent = data.today.toLocaleString('en-US');
-    total.textContent = data.total.toLocaleString('en-US');
+    if (today) today.textContent = data.today.toLocaleString('en-US');
+    if (total) total.textContent = data.total.toLocaleString('en-US');
   }
 
   var counted = false;

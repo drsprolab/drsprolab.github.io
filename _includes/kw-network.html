@@ -1,8 +1,7 @@
 {% assign research_map = site.data.research_map %}
 <section class="rmap" id="rmap" aria-label="Research Map"
   data-graph="{{ '/assets/data/research-map.json' | relative_url }}?v={{ research_map.version }}"
-  data-version="{{ research_map.version }}"
-  data-hit-api="{{ site.data.research_hits.endpoint | escape }}">
+  data-version="{{ research_map.version }}">
   <header class="rmap-top">
     <div>
       <h2 class="rmap-title">RESEARCH MAP</h2>
@@ -72,4 +71,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="{{ '/assets/js/research-map-data.js' | relative_url }}?v={{ research_map.version }}" defer></script>
 <script src="{{ '/assets/js/kw-network.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
-<script src="{{ '/assets/js/research-map-hits.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

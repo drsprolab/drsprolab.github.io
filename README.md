@@ -73,9 +73,9 @@ python3 -m unittest discover -s tests -p 'test_research_map_*.py' -v
 - Google Scholar: 공개 프로필의 **전체 기간** 인용 수, h-index, i10-index. CAPTCHA·차단을 우회하지 않습니다.
 - Scopus: **자동 갱신하지 않습니다.** Scopus 저자 프로필 화면의 Citations, 인용 문헌 수, Documents, h-index를 `_data/scopus_metrics.yml`에 직접 입력하고 `checked_on`에 기준일을 적습니다. GitHub 워크플로와 Mac 일일 작업은 Scopus API를 호출하지 않습니다.
 
-### Research Map 방문 수
-- 대문 Research Map 위에 `Today hit`(최근 24시간)과 `Total hit`(누적)을 표시합니다.
-- 새 브라우저 탭 세션에서 첫 방문을 1회 집계하고 새로고침은 중복 집계하지 않습니다. 브라우저 탭 세션 표식은 `sessionStorage`에만 저장하며 IP 주소나 개인 식별 정보는 수집하지 않습니다.
+### 사이트 방문 수
+- 대문 Research Map 위에 `Today hit`(최근 24시간)과 `Total hit`(누적)을 표시합니다. 대문과 다른 메뉴 페이지를 포함해 사이트 어느 페이지에 처음 진입해도 방문을 집계합니다.
+- 새 브라우저 탭 세션에서 첫 방문을 1회 집계하고 같은 탭의 페이지 이동·새로고침은 중복 집계하지 않습니다. 브라우저 탭 세션 표식은 `sessionStorage`에만 저장하며 IP 주소나 개인 식별 정보는 수집하지 않습니다.
 - 카운터 저장소는 무료 Google Apps Script 웹 앱이며, 소스는 `apps-script/research-map-hits/Code.gs`입니다. 시간별 방문 시각을 Script Properties에 저장하고 LockService로 동시 요청을 직렬화합니다.
 - Apps Script에서 새 프로젝트를 만들고 위 `Code.gs`를 붙여 넣은 다음 **Deploy → New deployment → Web app**으로 배포합니다. Execute as는 본인, access는 Anyone으로 설정하고 `/exec` URL을 `_data/research_hits.yml`의 `endpoint`에 입력합니다.
 - 배포 URL이 비어 있으면 카운터 값은 `—`로 남습니다. 웹 앱 배포 후 GitHub Pages를 다시 배포해야 실제 방문 수가 표시됩니다.
