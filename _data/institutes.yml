@@ -7,13 +7,6 @@
   tags:
     - "교육부지정"
     - "한국교육문제연구소"
-- id: "bk21"
-  name: "교육공학과 4단계 BK21 사업팀"
-  ended: false
-  period: "2020.09 ~ 2027.08"
-  total: 714195000
-  tags:
-    - "BK21 FOUR"
 - id: "bk21-aix"
   name: "BK21 4단계 AIX 융합교육단"
   ended: false
@@ -30,6 +23,13 @@
   total: 250000000
   tags:
     - "ECDI"
+- id: "bk21"
+  name: "교육공학과 4단계 BK21 사업팀"
+  ended: false
+  period: "2020.09 ~ 2027.08"
+  total: 714195000
+  tags:
+    - "BK21 FOUR"
 - id: "curriculum"
   name: "교육과정혁신학과"
   ended: false
