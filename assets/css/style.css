@@ -1140,3 +1140,19 @@ main.container { overflow-x: clip; }
 /* Weekly Insight 목록 카드 썸네일 (tools/og_images.rb 가 만든 공유 이미지) */
 .inst-thumb { display: block; width: calc(100% + 40px); max-width: none; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; margin: -20px -20px 4px; border-radius: 8px 8px 0 0; background: var(--tint); }
 .inst { overflow: hidden; }
+
+/* Weekly Insight 글 제목 옆 공유 버튼 */
+.title-row { display: flex; align-items: flex-start; gap: 16px; }
+.title-row h1 { flex: 0 1 auto; min-width: 0; }
+.share { position: relative; flex: none; margin-top: .45em; }
+.share-btn { font: inherit; font-size: 14px; font-weight: 600; color: #fff; background: #e0312b; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
+.share-btn:hover { background: #c4241f; transform: translateY(-1px); }
+.share-btn:focus-visible { outline: 2px solid #e0312b; outline-offset: 3px; }
+.share-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; min-width: 168px; display: grid; padding: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+.share-menu[hidden] { display: none; }
+.share-menu a, .share-menu button { font: inherit; font-size: 14px; text-align: left; padding: 8px 12px; border: 0; border-radius: 6px; background: none; color: var(--ink); text-decoration: none; cursor: pointer; }
+.share-menu a:hover, .share-menu button:hover { background: var(--tint); }
+.share-done { font-size: 12.5px; color: #e0312b; padding: 0 12px; }
+.share-done:empty { display: none; }
+@media (max-width: 600px) { .title-row { flex-direction: column; gap: 10px; } .share { margin-top: 0; } .share-menu { left: 0; right: auto; } }
+@media (prefers-reduced-motion: reduce) { .share-btn { transition: none; } .share-btn:hover { transform: none; } }
