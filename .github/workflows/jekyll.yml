@@ -33,7 +33,7 @@ jobs:
         run: |
           bundle exec ruby tests/test_research_map.rb
           node --test tests/test_research_map_data.cjs
-      - name: Weekly Insight 공유 이미지(Open Graph·썸네일) 만들기
+      - name: Weekly Insight·Measurement 공유 이미지(Open Graph·썸네일) 만들기
         run: |
           sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
           bundle exec ruby tools/og_images.rb
