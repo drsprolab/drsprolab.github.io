@@ -35,3 +35,12 @@ exclude:
   - tools
   - _config.preview.yml
   - LOCAL_REVIEW.md
+
+# 링크 공유 미리보기(Open Graph) 기본 이미지. Weekly Insight 글은 글마다 따로 만든 이미지를 쓴다(_plugins/og_image.rb).
+defaults:
+  - scope: { path: "", type: pages }
+    values:
+      image: { path: /assets/images/og-default.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }
+  - scope: { path: "", type: posts }
+    values:
+      image: { path: /assets/images/og-default.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }
