@@ -927,7 +927,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* Keep the metric groups on one compact row; scroll only this strip on phones. */
 .rmap-metrics { display: grid; grid-template-columns: minmax(252px, 4fr) minmax(242px, 3.5fr) minmax(200px, 3fr) minmax(126px, 1.8fr); gap: 12px; width: 100%; min-width: 0; overflow-x: auto; padding: 8px 8px 20px; }
 .rmap-metrics-group { min-width: 0; }
-.rmap-hit-inline { display: flex; align-items: baseline; gap: 10px; margin: 0 0 5px; line-height: 1; }
+.rmap-hit-inline { display: inline-flex; align-items: baseline; gap: 10px; margin: 0; line-height: 1; }
 .rmap-hit-inline span { display: inline-flex; align-items: baseline; gap: 3px; white-space: nowrap; }
 .rmap-hit-inline small { color: var(--muted); font-size: 7px; letter-spacing: .01em; }
 .rmap-hit-inline strong { color: var(--ink); font-size: 8px; font-weight: 600; font-variant-numeric: tabular-nums; }
