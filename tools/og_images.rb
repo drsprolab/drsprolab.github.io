@@ -28,6 +28,7 @@ end
 
 BANNER = b64(File.join(ROOT, "assets/images/banners/daily-insight.jpg"))
 LOGO = b64(File.join(ROOT, "assets/images/hyu-symbol.png"))
+LAB_LOGO = b64(File.join(ROOT, "assets/images/logo/lockup-dark.png"))
 
 def html(fm)
   title = CGI.escapeHTML(fm["title"].to_s)
@@ -52,14 +53,14 @@ def html(fm)
       .foot img { width: 52px; height: 52px; }
       .foot b { display: block; font-size: 26px; font-weight: 700; }
       .foot span { font-family: "IBM Plex Mono", monospace; font-size: 17px; letter-spacing: .12em; color: #a9bddb; }
-      .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: #2f80ed; }
+      .foot .lab { width: auto; height: 56px; }
     </style></head><body>
-      <div class="shade"></div><div class="bar"></div>
+      <div class="shade"></div>
       <div class="card">
         <div class="eyebrow">Weekly Insight · #{date}</div>
         <h1>#{title}</h1>
         <div class="chips">#{topics}</div>
-        <div class="foot"><img src="#{LOGO}" alt=""><div><b>PRO-AX Lab</b><span>HANYANG UNIVERSITY</span></div></div>
+        <div class="foot"><img src="#{LOGO}" alt=""><img class="lab" src="#{LAB_LOGO}" alt=""></div>
       </div>
     </body></html>
   HTML

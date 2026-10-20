@@ -49,7 +49,8 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .brand-mark { width: 40px; height: 40px; flex: none; }
 /* 연구실 로고 (assets/images/logo, 밝은/어두운 화면용 두 벌) */
 .brand picture, .footer-logo picture { display: block; line-height: 0; }
-.brand-logo { display: block; height: 44px; width: auto; }
+.brand-logo { display: block; height: 36px; width: auto; }
+.brand .brand-mark { width: 36px; height: 36px; }
 .footer-logo { margin-bottom: 12px; }
 .footer-logo-img { display: block; width: min(100%, 261px); height: auto; }
 .hero-title { display: flex; align-items: center; gap: .3em; }
@@ -996,7 +997,8 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 @media (min-width: 861px) and (max-width: 980px) {
   .nav-item > a { padding-inline: 4px; font-size: 11px; letter-spacing: 0; }
   .brand-mark { width: 32px; height: 32px; }
-  .brand-logo { height: 36px; }
+  .brand-logo { height: 30px; }
+  .brand .brand-mark { width: 30px; height: 30px; }
 }
 
 /* 사이트 전체: 마우스를 올리면 해당 항목의 제목 옆에 빨간 점이 깜빡임 (berl.hanyang.ac.kr 참고)
