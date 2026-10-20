@@ -930,7 +930,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .rmap-hit-inline { display: flex; align-items: baseline; gap: 10px; margin: 0 0 5px; line-height: 1; }
 .rmap-hit-inline span { display: inline-flex; align-items: baseline; gap: 3px; white-space: nowrap; }
 .rmap-hit-inline small { color: var(--muted); font-size: 7px; letter-spacing: .01em; }
-.rmap-hit-inline strong { color: var(--ink); font-size: 9px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rmap-hit-inline strong { color: var(--ink); font-size: 8px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .rmap-metrics-label { display: flex; flex-wrap: nowrap; align-items: baseline; gap: 6px; font-size: 10px; font-weight: 600; margin-bottom: 5px; color: var(--muted); white-space: nowrap; }
 .rmap-metrics-label span { font-size: 9px; font-weight: 400; }
 .rmap-metrics .rmap-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; width: 100%; }
