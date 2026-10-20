@@ -34,7 +34,8 @@ layout: default
   var btn = box.querySelector('.share-btn'), menu = box.querySelector('.share-menu'), done = box.querySelector('.share-done');
   var url = box.dataset.url, title = box.dataset.title;
   var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-  function toggle(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (!open) done.textContent = ''; }
+  function toggle(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (!open) done.textContent = '';
+    if (open) { menu.classList.remove('to-left'); if (menu.getBoundingClientRect().right > document.documentElement.clientWidth - 8) menu.classList.add('to-left'); } }
   btn.addEventListener('click', function () {
     if (touch && navigator.share) { navigator.share({ title: title, url: url }).catch(function () {}); return; }
     toggle(menu.hidden);
