@@ -2,10 +2,25 @@
   var btn = document.getElementById('menu-toggle');
   var nav = document.getElementById('site-nav');
   if (!btn || !nav) return;
-  btn.addEventListener('click', function () {
-    var open = nav.classList.toggle('open');
+  var label = btn.querySelector('.menu-label');
+  function setOpen(open) {
+    nav.classList.toggle('open', open);
+    document.documentElement.classList.toggle('nav-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    if (label) label.textContent = open ? '닫기' : '메뉴';
+  }
+  btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+  // 모바일: 메뉴 항목(같은 페이지 #앵커 포함)을 누르거나, 바깥을 누르거나, Esc를 누르면 닫힘
+  nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('click', function (e) {
+    if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) setOpen(false);
   });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); }
+  });
+  // 화면을 넓히면(가로 회전 등) 데스크톱 메뉴로 돌아가므로 열림 상태 해제
+  window.addEventListener('resize', function () { if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false); });
 })();
 
 // iOS Safari는 터치 리스너가 있어야 :active 스타일이 적용됨 (박스 확대 효과)

@@ -1181,3 +1181,70 @@ main.container { overflow-x: clip; }
 .footer-links a:hover::after { color: var(--accent); transform: translate(2px, -2px); }
 @media (max-width: 600px) { .footer-links { width: 100%; } .footer-links a { min-width: 0; } }
 @media (prefers-reduced-motion: reduce) { .footer-links a, .footer-links a::after { transition: none; } .footer-links a:hover, .footer-links a:hover::after { transform: none; } }
+
+/* ==== 모바일 다듬기 (2026-10-21) ==== */
+.nowrap { white-space: nowrap; }
+
+/* 메뉴 버튼: 햄버거 아이콘 + 글자, 열리면 ×/닫기 */
+.menu-toggle { align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px 8px 12px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; letter-spacing: -.01em; transition: background-color .15s, border-color .15s, color .15s; }
+.menu-icon { position: relative; display: inline-block; width: 18px; height: 12px; }
+.menu-icon span { position: absolute; left: 0; width: 100%; height: 2px; border-radius: 2px; background: currentColor; transition: transform .2s ease, opacity .15s ease, top .2s ease; }
+.menu-icon span:nth-child(1) { top: 0; }
+.menu-icon span:nth-child(2) { top: 5px; }
+.menu-icon span:nth-child(3) { top: 10px; }
+.menu-toggle[aria-expanded="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(1) { top: 5px; transform: rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .header-row { flex-wrap: nowrap; min-height: 60px; }
+  .brand-logo { height: 30px; }
+  .menu-toggle { display: inline-flex; flex: none; }
+
+  /* 펼친 메뉴는 본문을 밀어내지 않고 헤더 아래에 겹쳐 뜬다 */
+  .site-nav, .site-nav.open { position: absolute; left: 0; right: 0; top: 100%; width: auto; padding: 4px 20px 16px;
+    background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 18px 32px rgba(10, 20, 35, .14);
+    max-height: calc(100dvh - 61px); overflow-y: auto; overscroll-behavior: contain; }
+  .site-nav { display: none; }
+  .site-nav.open { display: block; animation: nav-drop .18s ease-out; }
+  .nav-item { padding: 10px 0; }
+  .nav-item > a { display: inline-block; padding: 4px 0; font-size: 16px; font-weight: 600; }
+  .submenu { gap: 6px; margin-top: 6px; }
+  .submenu a { padding: 6px 11px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; line-height: 1.3; }
+  .submenu a:hover, .submenu a:active { background: var(--accent-soft, var(--tint)); color: var(--accent); }
+  html.nav-open, html.nav-open body { overflow: hidden; }
+  /* 메뉴 뒤 본문을 살짝 어둡게 — 바깥을 누르면 닫힘 (nav.js) */
+  html.nav-open main, html.nav-open .site-footer { filter: brightness(.82); transition: filter .15s; }
+}
+@keyframes nav-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .site-nav.open { animation: none; } .menu-icon span { transition: none; } }
+
+/* 대문: 휴대폰에서 헤더 아래 빈 공간 줄이고, 문의 버튼은 한 줄에 하나씩 꽉 차게 */
+@media (max-width: 680px) {
+  main.container { padding-block: 20px 64px; }
+  .hero { padding-block: 0 36px; }
+  .section { padding-block: 40px 0; }
+  .hero-intro { gap: 14px; padding: 26px 20px 24px; }
+  .hero-intro .eyebrow { font-size: 11px; letter-spacing: .06em; line-height: 1.6; }
+  .hero-intro h1 .expand { margin-top: 6px; }
+  .hero-intro p { font-size: 15.5px; line-height: 1.7; }
+  .inquiry-actions { grid-template-columns: 1fr; gap: 10px; max-width: none; margin-top: 6px; }
+  .inquiry-actions .solution-btn { font-size: 15px; padding: 14px 18px; text-align: center; line-height: 1.35; }
+  .inquiry-actions .solution-link { grid-column: 1; justify-self: center; font-size: 13px; padding: 2px 6px; }
+}
+@media (max-width: 680px) {
+  .hero-intro .eyebrow-sep { display: none; }
+  .hero-intro .eyebrow .nowrap { display: block; }
+}
+/* 태블릿·가로 휴대폰(701–1100px): 지표 네 묶음이 옆으로 넘쳐 글자가 겹치지 않게 2×2로 */
+@media (min-width: 701px) and (max-width: 1100px) {
+  .rmap-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; overflow-x: visible; padding: 4px 0 8px; }
+  .rmap-metrics-label { flex-wrap: wrap; white-space: normal; gap: 0 6px; }
+}
+/* 메뉴 버튼이 보이는 폭에서는 헤더 아래 빈 공간을 줄인다 */
+@media (min-width: 681px) and (max-width: 860px) {
+  main.container { padding-block: 28px 72px; }
+  .hero { padding-block: 0 44px; }
+}
