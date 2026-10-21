@@ -40,7 +40,7 @@ exclude:
 defaults:
   - scope: { path: "", type: pages }
     values:
-      image: { path: /assets/images/og-share-20261020.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }
+      image: { path: /assets/images/og-share-20261021.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }
   - scope: { path: "", type: posts }
     values:
-      image: { path: /assets/images/og-share-20261020.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }
+      image: { path: /assets/images/og-share-20261021.jpg, width: 1200, height: 630, alt: "PRO AnalytiX Lab · Hanyang University" }

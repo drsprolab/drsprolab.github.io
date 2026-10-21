@@ -2,7 +2,7 @@
 # 이미지는 tools/og_images.rb 가 assets/og/insights/<파일이름>.png, assets/og/measurement/<파일이름>.png 로 만든다.
 # 같은 page.image.path 가 목록 페이지 썸네일(.inst-thumb)로도 쓰인다.
 module OgImage
-  SITE_DEFAULT = "/assets/images/og-share-20261020.jpg"
+  SITE_DEFAULT = "/assets/images/og-share-20261021.jpg"
 
   class Generator < Jekyll::Generator
     safe true
