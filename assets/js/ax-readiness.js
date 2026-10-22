@@ -1,6 +1,6 @@
 // AX 전환 준비도 진단: 설문 응답 수집 → 분석 실시 → 내가 본 우리 회사 / 우리 회사 분석결과 / 응답자 구분별 비교.
-// 문항: 개인 → 직무 → 팀 → 조직 → 전사 시스템, 5단계 × 5문항 + 전반 인식 2문항 = 27문항, 5점 동의 척도.
-// 조직·전사 시스템·전반 인식 문항에는 '잘 모르겠다'(값 0)를 둔다. 0은 점수 계산에서 빼고, 단계별 '모르겠다' 비율로 따로 보고한다.
+// 문항: 기반 마련 → 개인 활용 → 업무 재설계 → 전사 확산 → AI 내재화, 5단계 × 5문항 + 전반 인식 2문항 = 27문항, 5점 동의 척도.
+// 회사를 주어로 묻는 단계(기반 마련·전사 확산·AI 내재화)와 전반 인식 문항에는 '잘 모르겠다'(값 0)를 둔다. 0은 점수 계산에서 빼고, 단계별 '모르겠다' 비율로 따로 보고한다.
 // 응답 저장: #axr의 data-endpoint(Google Apps Script 웹앱, tools/ax-readiness/)가 있으면 그곳에,
 // 비어 있으면 시험 모드로, 응답을 이 브라우저에만 저장하고 이 브라우저의 응답끼리만 분석한다.
 (function () {
@@ -18,53 +18,53 @@
   // ref: 문항의 주어(참조 대상). 한 단계 안에서는 주어를 통일한다.
   // unk: '잘 모르겠다' 허용 여부. 응답자가 직접 알기 어려운 회사 수준 단계에만 둔다.
   var STAGES = [
-    { key: 'P', name: '개인 준비', ref: '나는', icon: '🙋', q: '나는 AI와 일할 준비가 되었나?', unk: false,
-      def: '구성원 한 사람 한 사람이 AI를 다룰 줄 알고, 쓸 이유를 알고, 변화를 받아들이고 배우는 상태.',
-      ex: 'AI 도구의 기본 기능을 익혔고, 내 업무에 어떤 도움이 되는지 예를 들 수 있다',
-      owner: '구성원 개인', basis: '변화 준비도의 개인 효능감·개인 효용 (Holt 외, 2007)' },
-    { key: 'J', name: '직무 재설계', ref: '내 직무에서는', icon: '🧩', q: '내 일은 AI를 전제로 다시 짜였나?', unk: false,
-      def: '직무의 과업이 AI에게 맡길 일과 사람이 판단할 일로 나뉘고, 역할·목표·도구가 그에 맞게 바뀐 상태.',
-      ex: 'AI에게 맡길 과업과 사람이 확인할 단계가 정해져 있다',
-      owner: '구성원과 리더', basis: '디지털 시대의 일 설계 (Parker & Grote, 2022)' },
-    { key: 'T', name: '팀 협업', ref: '우리 팀은', icon: '🤝', q: '우리 팀은 AI와 함께 일하는 방식이 있나?', unk: false,
-      def: '팀의 업무 절차에 AI가 들어가 있고, 노하우를 나누며, 실패해도 다시 시도할 수 있는 상태.',
-      ex: '팀 업무 절차에 AI를 쓰는 단계가 있고, 활용 노하우를 서로 나눈다',
-      owner: '팀 리더', basis: '집단 수준 변화 준비도 (Rafferty 외, 2013)' },
-    { key: 'O', name: '조직 기반', ref: '우리 회사는', icon: '🏢', q: '회사는 AX를 이끌 체계를 갖췄나?', unk: true,
-      def: '회사가 AX 목표를 밝히고, 자원·지침·교육·인정 제도로 전환을 뒷받침하는 상태.',
-      ex: 'AX 목표가 알려져 있고, AI 사용 지침과 직무별 교육이 있다',
-      owner: '경영진과 지원 부서', basis: '조직 AI 준비 요인: 전략·자원·지식·문화 (Jöhnk 외, 2021)' },
-    { key: 'S', name: '전사 시스템', ref: '우리 회사의 업무 체계는', icon: '⚙️', q: 'AI가 회사의 업무 체계에 녹아들었나?', unk: true,
-      def: '데이터와 업무 시스템이 연결되고, 부서를 넘는 프로세스가 AI를 전제로 다시 설계되어, AI가 업무 일부를 직접 처리하는 상태.',
-      ex: '부서 데이터가 연결되어 있고, AI가 사람의 감독 아래 업무 일부를 처리한다',
-      owner: '전사 (경영진·IT·현업)', basis: '기업 AI 성숙도 3~4단계 (Weill 외, 2024) · 프런티어 기업 (Microsoft, 2025)' }
+    { key: 'F', name: '기반 마련', ref: '우리 회사는', icon: '🧱', q: '회사는 AX를 시작할 바탕을 깔았나?', unk: true,
+      def: '회사가 AX 목표를 밝히고, 자원·사용 지침·공식 도구·기초 교육으로 출발선을 마련한 상태.',
+      ex: 'AX 목표가 업무 성과로 제시되어 있고, 공식 지침과 보안 검토를 거친 도구가 있다',
+      owner: '경영진과 지원 부서', basis: 'MIT CISR 1단계 · McKinsey 경영진 의지 · NIST AI RMF 거버넌스 · 기보 기초·준비' },
+    { key: 'P', name: '개인 활용', ref: '나는', icon: '🙋', q: '나는 업무에 AI를 쓰고 있나?', unk: false,
+      def: '구성원 한 사람 한 사람이 반복 업무에 AI를 쓰고, 요청을 구체화하며, 결과를 확인하고, 효과를 설명할 수 있는 상태.',
+      ex: '반복 업무 하나 이상을 AI로 처리하고, 결과를 원자료와 대조한다',
+      owner: '구성원 개인', basis: 'Microsoft 1국면(AI 비서) · Gartner Active · 개인 변화 준비도(Holt 외, 2007)' },
+    { key: 'W', name: '업무 재설계', ref: '우리 팀은', icon: '🧩', q: '팀의 일하는 방식이 AI를 넣어 바뀌었나?', unk: false,
+      def: '팀이 과업을 AI와 사람에게 나누고, 사람 검토 단계를 둔 채 업무 절차 자체를 바꾸어, 효과를 지표로 확인하고 방법을 공유하는 상태.',
+      ex: 'AI와 사람의 과업이 나뉘어 있고, 절차를 바꾸어 효과를 지표로 확인한다',
+      owner: '팀 리더와 팀원', basis: 'McKinsey 업무 흐름 재설계 · MIT CISR 2단계 · Microsoft 2국면 · 일 설계(Parker & Grote, 2022)' },
+    { key: 'E', name: '전사 확산', ref: '우리 회사는', icon: '🔗', q: '좋은 사례가 회사 전체로 퍼지고 있나?', unk: true,
+      def: '검증된 사례가 다른 부서로 퍼지고, 공통 플랫폼과 통합 데이터 위에서 기능을 재사용하며, 성과를 전사 지표로 재고 평가·보상에 반영하는 상태.',
+      ex: '검증된 사례가 다른 부서로 퍼지고, 데이터가 통합되어 있으며, 성과를 전사 지표로 잰다',
+      owner: '경영진·IT·현업 부서', basis: 'MIT CISR 3단계 · McKinsey 성과 측정 · Cisco 데이터 · Gartner Operational · 기보 확산' },
+    { key: 'N', name: 'AI 내재화', ref: '우리 회사의 업무 체계는', icon: '⚙️', q: 'AI가 회사의 업무 체계에 녹아들었나?', unk: true,
+      def: '사람과 AI의 역할을 처음부터 함께 설계한 프로세스에서 AI가 감독 아래 일하고, 책임 담당자가 관리하며, 의사결정과 고객 서비스에 AI가 들어간 상태.',
+      ex: 'AI가 감독 아래 부서를 넘는 프로세스를 처리하고, 의사결정에 AI 분석이 들어간다',
+      owner: '전사 (경영진·IT·현업)', basis: 'MIT CISR 4단계 · Microsoft 3국면 · NIST AI RMF · Gartner Transformational · 기보 선도' }
   ];
   var RAW = [
-    ['P1', '나는 업무에 쓸 수 있는 AI 도구의 기본 기능을 익혔다.'],
-    ['P2', '나는 내 업무 가운데 AI를 정기적으로 활용하는 일이 있다.'],
-    ['P3', '나는 AI가 내 업무에 어떤 도움이 되는지 구체적인 예를 들 수 있다.'],
-    ['P4', '나는 AI 도입으로 내 업무 방식이 바뀌는 것을 받아들일 마음이 있다.'],
-    ['P5', '나는 AI 활용 능력을 키우려고 스스로 시간을 내어 배우고 있다.'],
-    ['J1', '내 업무 가운데 AI에게 맡길 과업이 구체적으로 정해져 있다.'],
-    ['J2', '내 업무에서 AI 결과를 사람이 확인해야 하는 단계가 정해져 있다.'],
-    ['J3', 'AI 도입에 맞추어 내 역할(맡는 일의 범위)이 다시 정해졌다.'],
-    ['J4', '내가 받는 업무 목표에 AI 활용이 반영되어 있다.'],
-    ['J5', '내 업무에 맞는 AI 도구를 회사가 허용한 범위 안에서 바로 쓸 수 있다.'],
-    ['T1', '우리 팀의 업무 절차에는 AI를 쓰는 단계가 정해져 있다.'],
-    ['T2', '우리 팀원들은 AI 활용 노하우를 서로 공유한다.'],
-    ['T3', '우리 팀은 AI를 새로 시도하다 생긴 실패를 배움의 기회로 다룬다.'],
-    ['T4', '우리 팀의 리더는 팀원들이 AI 활용을 시도하도록 지원한다.'],
-    ['T5', '우리 팀은 AI를 쓸 때 지킬 기준(예: 입력하면 안 되는 정보, 검토 절차)을 정해 두었다.'],
-    ['O1', '우리 회사는 AX로 이루려는 목표를 구성원에게 분명히 알렸다.'],
-    ['O2', '우리 회사 경영진은 AX 추진에 필요한 자원(예: 예산, 인력)을 배정하고 있다.'],
-    ['O3', '우리 회사는 AI 사용에 관한 공식 지침(예: 보안, 개인정보, 책임 범위)을 갖추고 있다.'],
-    ['O4', '우리 회사는 직무에 맞는 AI 교육 기회를 제공한다.'],
-    ['O5', '우리 회사는 AI 활용으로 성과를 낸 구성원을 공식적으로 인정한다.'],
-    ['S1', '우리 회사의 업무 데이터는 부서 구분 없이 AI가 활용할 수 있도록 연결되어 있다.'],
-    ['S2', '우리 회사의 핵심 업무 시스템(예: ERP, 그룹웨어)에는 AI 기능이 연동되어 있다.'],
-    ['S3', '우리 회사는 여러 부서에 걸친 업무 프로세스를 AI 활용을 전제로 다시 설계했다.'],
-    ['S4', '우리 회사는 AI가 만든 성과(예: 절감된 시간, 비용, 품질 개선)를 전사 차원에서 측정한다.'],
-    ['S5', '우리 회사에서는 AI가 사람의 감독 아래 업무 프로세스의 일부 단계를 직접 처리한다.'],
+    ['F1', '우리 회사는 AX로 달성하려는 목표를 구체적인 업무 성과(예: 처리 시간 단축, 품질 향상)로 제시했다.'],
+    ['F2', '우리 회사 경영진은 AX 과제에 필요한 자원(예: 예산, 전담 인력)을 배정하고 있다.'],
+    ['F3', '우리 회사는 AI 사용 기준(예: 입력하면 안 되는 정보, 결과 검토 책임)을 담은 공식 지침을 갖추고 있다.'],
+    ['F4', '우리 회사는 보안 검토를 거친 AI 도구를 구성원이 업무에 쓸 수 있도록 제공한다.'],
+    ['F5', '우리 회사는 직무별 AI 활용 교육을 운영한다.'],
+    ['P1', '나는 매주 반복되는 내 업무 가운데 적어도 한 가지를 AI로 처리하고 있다.'],
+    ['P2', '나는 AI에게 요청할 때 결과물이 갖출 조건(예: 목적, 분량, 형식)을 구체적으로 제시한다.'],
+    ['P3', '나는 AI 결과를 업무에 쓰기 전에 원자료와 대조해 확인한다.'],
+    ['P4', '나는 AI가 내 업무 성과를 어떻게 높였는지 구체적인 예(예: 줄어든 시간, 줄어든 오류)를 들 수 있다.'],
+    ['P5', '나는 새로 알게 된 AI 기능을 내 업무에 직접 적용해 본다.'],
+    ['W1', '우리 팀은 업무를 과업 단위로 나누어 AI가 맡을 부분과 사람이 맡을 부분을 정해 두었다.'],
+    ['W2', '우리 팀의 업무 절차에는 AI 결과를 사람이 검토하는 단계가 명시되어 있다.'],
+    ['W3', '우리 팀은 AI를 활용하기 위해 기존 업무 절차 자체를 바꾸었다(예: 단계 통합, 순서 변경).'],
+    ['W4', '우리 팀은 AI를 적용한 업무의 효과를 전후 비교 지표(예: 처리 시간, 오류 건수)로 확인한다.'],
+    ['W5', '우리 팀에는 효과가 확인된 AI 활용 방법이 누구나 쓸 수 있는 형태(예: 공용 요청문, 작업 안내서)로 정리되어 있다.'],
+    ['E1', '우리 회사는 한 부서에서 효과가 확인된 AI 활용 사례를 다른 부서가 도입하도록 지원하는 체계(예: 전담 조직, 사례 공유 플랫폼)를 운영한다.'],
+    ['E2', '우리 회사는 여러 부서가 함께 쓰는 공통 AI 플랫폼에서 검증된 기능을 재사용한다.'],
+    ['E3', '우리 회사의 업무 데이터는 부서 구분 없이 AI가 안전하게 활용할 수 있도록 통합되어 있다.'],
+    ['E4', '우리 회사는 AI 과제의 성과를 전사 공통 지표로 정기적으로 측정한다.'],
+    ['E5', '우리 회사의 평가·보상 제도는 AI를 활용한 업무 혁신을 성과로 인정한다.'],
+    ['N1', '우리 회사에서는 AI가 사람의 감독 아래 부서를 넘는 업무 프로세스의 여러 단계를 처리한다.'],
+    ['N2', '우리 회사는 업무 프로세스를 설계할 때 사람과 AI가 각각 맡을 역할을 처음부터 함께 정한다.'],
+    ['N3', '우리 회사는 운영 중인 AI 시스템마다 책임지는 담당자를 지정해 관리한다.'],
+    ['N4', '우리 회사의 주요 의사결정 자료에는 AI 분석 결과가 기본적으로 포함된다.'],
+    ['N5', '우리 회사는 AI를 활용해 고객에게 제공하는 상품이나 서비스의 방식을 바꾸었다.'],
     ['G1', '우리 회사 구성원들은 AX 전환을 해내려는 의지가 강하다.'],
     ['G2', '우리 회사는 AX 전환을 해낼 역량을 갖추고 있다.']
   ];
@@ -76,36 +76,60 @@
   var SCALE = ['전혀 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'];
   var UNK = '잘 모르겠다';
   var ROLES = ['실무자(팀원)', '팀장·파트장', '임원·경영진', '기타'];
-  // 제시 순서: 주어가 같은 단계끼리 한 쪽에. 개인 → 직무 → 팀 → 조직 → 전사 → 전반 인식
+  // 제시 순서: 단계 순서대로, 한 쪽에 한 단계(주어가 같은 문항끼리) → 전반 인식
   var PAGES = STAGES.map(function (_, s) { return ITEMS.slice(s * 5, s * 5 + 5); });
   PAGES.push(ITEMS.slice(NS));
-  var PAGE_HEAD = ['나 자신에 대한 문장입니다.', '내가 맡은 직무에 대한 문장입니다.', '내가 속한 팀에 대한 문장입니다.', '우리 회사 전체에 대한 문장입니다.', '우리 회사의 데이터·시스템·업무 프로세스에 대한 문장입니다.', '마지막으로, 우리 회사 전체를 떠올려 주세요.'];
+  var PAGE_HEAD = ['우리 회사 전체에 대한 문장입니다.', '나 자신에 대한 문장입니다.', '내가 속한 팀에 대한 문장입니다.', '우리 회사 전체에 대한 문장입니다.', '우리 회사의 업무 시스템과 프로세스에 대한 문장입니다.', '마지막으로, 우리 회사 전체를 떠올려 주세요.'];
 
   // ---------- 수준·단계 ----------
   var LEVELS = [{ min: 80, t: '주도' }, { min: 60, t: '정착' }, { min: 40, t: '형성' }, { min: 0, t: '시작' }];
   var CUT = 60;      // 단계 '준비 완료' 기준점(잠정)
   var MIN_ITEMS = 4; // 단계 점수를 내려면 5문항 중 이만큼 응답(모르겠다 제외)해야 함
-  var STAGE_NAMES = ['출발 전', '1단계 · 개인 준비', '2단계 · 직무 재설계', '3단계 · 팀 협업', '4단계 · 조직 기반', '5단계 · 전사 시스템'];
+  var GAP_NOTE = 10, GAP_BIG = 20; // 나와 다른 응답자의 차이: 눈여겨볼 차이, 큰 차이(점)
+  var STAGE_NAMES = ['출발 전', '1단계 · 기반 마련', '2단계 · 개인 활용', '3단계 · 업무 재설계', '4단계 · 전사 확산', '5단계 · AI 내재화'];
   var STAGE_DESC = [
-    '아직 구성원 개인의 준비부터 갖추어야 하는 단계입니다. AX의 출발점은 사람입니다.',
-    '구성원 개인은 준비되었지만, 각자의 직무가 아직 AI를 전제로 다시 짜이지 않았습니다.',
-    '직무 수준까지 준비되었지만, 팀의 일하는 방식으로는 아직 자리 잡지 않았습니다.',
-    '팀 수준까지 준비되었지만, 회사 차원의 목표·자원·지침이 뒤따르지 못하고 있습니다.',
-    '조직 기반까지 갖추었지만, 데이터와 업무 체계가 아직 AI를 중심으로 연결되지 않았습니다.',
+    'AX를 시작할 바탕(목표·지침·도구·교육)부터 갖추어야 하는 단계입니다.',
+    '회사가 출발선은 마련했지만, 구성원이 업무에 AI를 쓰는 일이 아직 자리 잡지 않았습니다.',
+    '구성원 개인은 AI를 쓰고 있지만, 팀의 일하는 방식은 아직 AI를 넣어 바뀌지 않았습니다.',
+    '팀 단위로 일하는 방식이 바뀌었지만, 좋은 사례와 데이터가 회사 전체로 이어지지 않았습니다.',
+    '전사로 확산되었지만, 핵심 시스템과 의사결정에 AI가 아직 녹아들지 않았습니다.',
     '다섯 단계를 모두 갖추어, AI를 전제로 일하는 회사로 전환할 준비가 된 상태입니다.'
   ];
   // 단계별로 회사(또는 팀)가 해 볼 일
   var ACTIONS = {
+    F: ['AX로 이루려는 목표와 일정을 전 구성원에게 알리고, 진행 상황을 정기적으로 공유합니다.', 'AI 사용 지침(보안·개인정보·책임 범위)을 공식화하고 쉽게 찾을 수 있는 곳에 둡니다.', '업무에 쓸 수 있는 AI 도구를 공식적으로 제공하고, 직무별 기초 교육을 엽니다.'],
     P: ['직무별 실제 업무 자료로 하는 AI 실습을 열어, 모든 구성원이 기본 기능을 익히게 합니다.', '부서별로 "AI로 이만큼 줄었다"는 업무 사례를 모아 공유합니다.', '근무 시간 안에 AI를 배우고 시험해 볼 시간을 공식적으로 보장합니다.'],
-    J: ['직무별 과업 목록을 만들고, AI에게 맡길 과업과 사람이 판단할 과업을 표시합니다.', 'AI 결과를 사람이 확인해야 하는 단계를 업무 절차에 명시합니다.', '바뀐 역할에 맞추어 업무 목표와 평가 기준을 다시 정합니다.'],
-    T: ['팀 업무 절차서에 AI를 쓰는 단계와 검토 단계를 적어 넣습니다.', '주간 회의에 짧은 AI 활용 사례 공유 시간을 둡니다.', '팀이 지킬 AI 사용 기준(입력 금지 정보, 검토 절차)을 함께 정합니다.'],
-    O: ['AX로 이루려는 목표와 일정을 전 구성원에게 알리고, 진행 상황을 정기적으로 공유합니다.', 'AI 사용 지침(보안·개인정보·책임 범위)을 공식화하고 쉽게 찾을 수 있게 둡니다.', '직무별 AI 교육 과정과 AI 활용 성과를 인정하는 제도를 마련합니다.'],
-    S: ['부서별로 흩어진 업무 데이터를 AI가 안전하게 쓸 수 있도록 연결합니다.', '부서를 넘는 핵심 프로세스 하나를 골라 AI를 전제로 처음부터 다시 설계해 봅니다.', 'AI가 만든 성과(시간·비용·품질)를 전사 지표로 측정해 투자 판단에 씁니다.']
+    W: ['팀별로 과업 목록을 만들고, AI에게 맡길 과업과 사람이 확인할 단계를 표시합니다.', '팀 업무 절차서에 AI를 쓰는 단계와 검토 단계를 적어 넣습니다.', 'AI를 적용한 업무의 전후(걸린 시간, 오류 수)를 비교해 효과를 확인합니다.'],
+    E: ['효과가 확인된 팀 사례를 모아 다른 부서가 그대로 따라 할 수 있는 형태로 공유합니다.', '부서별로 흩어진 업무 데이터를 AI가 안전하게 쓸 수 있도록 연결합니다.', 'AI 시도와 성과를 공식적으로 인정하고, 전사 성과 지표로 측정합니다.'],
+    N: ['부서를 넘는 핵심 프로세스 하나를 골라 AI를 전제로 처음부터 다시 설계합니다.', '핵심 업무 시스템에 AI를 연동하고, 사람이 감독할 지점을 정해 일부 단계를 맡겨 봅니다.', '주요 의사결정 회의에 AI 분석 결과를 기본 자료로 올리는 절차를 만듭니다.']
   };
-  // 개인이 직접 해 볼 일 (개인 준비·직무 단계)
+  // 개인이 직접 해 볼 일 (개인 활용·업무 재설계 단계)
   var MY_TIPS = {
     P: ['지금 하는 일 하나를 골라, 이번 주에 AI로 처리해 보세요.', 'AI가 내 업무에 도움이 된 예를 한 줄씩 기록해 두세요.', '한 주에 30분, AI 활용법을 배우는 시간을 일정에 넣어 보세요.'],
-    J: ['내 업무를 과업 단위로 적고, AI에게 맡길 수 있는 것을 표시해 보세요.', 'AI 결과를 반드시 내가 확인해야 하는 지점을 정해 두세요.', '리더와 함께 AI 활용을 업무 목표에 어떻게 반영할지 이야기해 보세요.']
+    W: ['팀 회의에서 AI에게 맡길 과업 하나를 함께 정해 보자고 제안하세요.', 'AI 결과를 사람이 반드시 확인해야 하는 지점을 팀원과 정해 두세요.', '내가 써 본 AI 활용법을 팀에 짧게 공유해 보세요.']
+  };
+  // 나와 다른 응답자의 인식 차이를 풀이하는 말. hi = 내가 더 높게 봄, lo = 내가 더 낮게 봄
+  var GAP_READ = {
+    F: { hi: { why: '내가 알고 있는 목표·지침·도구·교육을 다른 구성원은 모르거나 체감하지 못하고 있을 수 있습니다.',
+          act: ['내가 알고 있는 AI 사용 지침과 공식 도구의 위치를 팀에 공유하세요.', '구성원이 잘 모르는 항목을 리더에게 알려, 공지 방식을 바꾸자고 제안하세요.', '교육 기회가 있다면 신청 방법을 동료에게 알려 주세요.'] },
+        lo: { why: '다른 구성원은 아는 목표·지침·도구를 내가 놓치고 있거나, 내 부서까지 닿지 않았을 수 있습니다.',
+          act: ['사내 공지와 게시판에서 AX 목표와 AI 사용 지침을 찾아 읽어 보세요.', '회사가 공식 제공하는 AI 도구와 교육이 무엇인지 리더나 담당 부서에 물어보세요.', '찾아봐도 없다면, 우리 부서에 닿지 않았다는 점을 리더에게 알리세요.'] } },
+    P: { hi: { why: '나는 다른 구성원보다 AI를 더 익숙하게 쓰고 있습니다. 회사 안에서 앞서 가는 쪽입니다.',
+          act: ['내가 쓰는 활용법을 동료에게 보여 주는 짧은 시간을 만들어 보세요.', '팀에서 AI 활용을 돕는 역할을 맡아 보세요.', '내가 효과를 본 사례를 기록해, 팀 업무 재설계의 재료로 쓰세요.'] },
+        lo: { why: '다른 구성원보다 AI를 업무에 덜 쓰고 있습니다. 출발이 조금 늦었을 뿐, 따라잡기 가장 쉬운 단계입니다.',
+          act: ['지금 하는 일 하나를 골라, 이번 주에 AI로 처리해 보세요.', 'AI를 잘 쓰는 동료에게 실제로 쓰는 장면을 보여 달라고 부탁해 보세요.', '회사가 제공하는 교육이나 공식 도구부터 써 보세요.'] } },
+    W: { hi: { why: '우리 팀이 다른 팀보다 앞서 있거나, 내가 팀의 상태를 다른 구성원보다 좋게 보고 있습니다.',
+          act: ['우리 팀이 AI를 쓰는 방식을 문서로 정리해 다른 팀에 공유하세요.', '팀원들도 같은 생각인지 팀 회의에서 확인해 보세요.', '효과를 숫자(걸린 시간, 오류 수)로 남겨 전사 확산의 근거로 쓰세요.'] },
+        lo: { why: '우리 팀이 다른 팀보다 뒤처져 있거나, 내가 팀 안의 변화를 다른 구성원보다 덜 체감하고 있습니다.',
+          act: ['팀 회의에서 AI에게 맡길 과업 하나를 함께 정해 보자고 제안하세요.', '앞서 있는 다른 팀의 업무 절차를 빌려 와 우리 팀에 맞춰 보세요.', '팀원 한 명과 짝을 지어 같은 업무에 AI를 써 보고 결과를 나눠 보세요.'] } },
+    E: { hi: { why: '내 부서나 내 자리에서는 사례 확산·데이터 연결·성과 인정이 보이지만, 다른 구성원에게는 보이지 않을 수 있습니다.',
+          act: ['내가 알고 있는 확산 사례와 데이터 활용 경로를 다른 부서와 나누세요.', '확산이 일부 부서에만 머무는지 리더와 함께 점검해 보세요.', 'AI 성과 인정 제도가 있다면 동료가 신청하도록 알려 주세요.'] },
+        lo: { why: '다른 구성원이 보는 사례 확산·데이터 연결·성과 인정이 내 부서에는 닿지 않았을 수 있습니다.',
+          act: ['다른 부서에서 효과를 본 AI 사례가 무엇인지 찾아보거나 물어보세요.', '내 업무에 필요한 데이터를 AI에 쓸 수 있는지 담당 부서에 문의하세요.', '우리 부서가 확산에서 빠져 있다면 리더를 통해 참여를 요청하세요.'] } },
+    N: { hi: { why: '내가 다루는 시스템이나 업무에서는 AI 내재화가 보이지만, 회사 전체로는 아직 그렇지 않을 수 있습니다.',
+          act: ['내가 아는 AI 연동 시스템과 활용 방식을 다른 부서에 알려 주세요.', '감독 아래 AI가 처리하는 단계가 있다면, 사람이 확인하는 지점을 문서로 남겨 두세요.', '이 경험을 다른 프로세스로 넓힐 수 있는지 리더에게 제안하세요.'] },
+        lo: { why: '다른 구성원이 보는 시스템 연동과 AI 기반 의사결정이 내 업무에는 아직 닿지 않았을 수 있습니다.',
+          act: ['회사의 핵심 시스템에 어떤 AI 기능이 있는지 IT 담당 부서에 물어보세요.', '내 업무 중 시스템 연동으로 줄일 수 있는 반복 작업을 정리해 제안하세요.', '의사결정 자료에 AI 분석을 어떻게 쓰는지 다른 부서 사례를 찾아보세요.'] } }
   };
 
   // ---------- 상태 ----------
@@ -282,7 +306,7 @@
     var me = load(LS_ME);
     root.innerHTML = previewNote() +
       '<section class="aidx-home">' +
-      '<p class="aidx-lead">우리 회사는 AI를 전제로 일하는 회사로 바뀔 준비가 얼마나 되어 있을까요?<br>개인에서 전사 시스템까지, 다섯 단계로 AX 전환 준비도를 진단합니다.</p>' +
+      '<p class="aidx-lead">우리 회사는 AI를 전제로 일하는 회사로 바뀔 준비가 얼마나 되어 있을까요?<br>기반 마련에서 AI 내재화까지, 다섯 단계로 AX 전환 준비도를 진단합니다.</p>' +
       '<ul class="aidx-meta"><li class="beta">BETA</li><li>27문항</li><li>약 6분</li><li>익명</li></ul>' +
       (GROUP ? '<p class="aidx-group">응답 회사(그룹) <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
@@ -298,7 +322,7 @@
       '</section>' +
       '<section class="aidx-model"><h2 class="aidx-h">무엇을 진단하나요</h2>' +
       '<p><strong>AX(AI 전환)</strong>는 AI 도구를 들여오는 데서 끝나지 않고, 사람이 일하는 방식부터 회사의 업무 체계까지 AI를 전제로 다시 짜는 일입니다. ' +
-      '이 진단은 그 준비가 <strong>나 → 내 직무 → 우리 팀 → 우리 회사 → 전사 시스템</strong>의 순서로 어디까지 갖추어졌는지 봅니다.</p>' +
+      '이 진단은 여러 기업 AI 성숙도 모델이 공통으로 제시하는 <strong>기반 마련 → 개인 활용 → 업무 재설계 → 전사 확산 → AI 내재화</strong>의 순서로, 준비가 어디까지 갖추어졌는지 봅니다.</p>' +
       '<ol class="aidx-flow">' + STAGES.map(function (st, i) {
         return '<li><span class="aidx-when"><b>' + (i + 1) + '</b>' + st.ref.replace(/는$/, '') + '</span>' +
           '<span class="aidx-ficon" aria-hidden="true">' + st.icon + '</span>' +
@@ -321,7 +345,7 @@
       h += '<h2 class="aidx-h">응답하기 전에</h2>' +
         '<ol class="aidx-guide">' +
         '<li><span class="aidx-gicon" aria-hidden="true">📍</span><strong>지금 상태를 떠올리세요</strong><span>앞으로의 계획이 아니라, 오늘 실제로 갖추어져 있는 것을 기준으로</span></li>' +
-        '<li><span class="aidx-gicon" aria-hidden="true">🔁</span><strong>주어가 바뀝니다</strong><span>나 → 내 직무 → 우리 팀 → 우리 회사 순서로, 쪽마다 대상이 다릅니다</span></li>' +
+        '<li><span class="aidx-gicon" aria-hidden="true">🔁</span><strong>주어가 바뀝니다</strong><span>우리 회사 → 나 → 우리 팀 → 우리 회사 순서로, 쪽마다 문장의 주어가 다릅니다</span></li>' +
         '<li><span class="aidx-gicon" aria-hidden="true">🤷</span><strong>모르면 "잘 모르겠다"</strong><span>회사 전체에 관한 문항은 잘 모르면 짐작하지 말고 "잘 모르겠다"를 고르세요</span></li>' +
         '</ol>' +
         '<fieldset class="aidx-role"><legend>먼저, 나는</legend><div class="aidx-roles">' +
@@ -394,65 +418,127 @@
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
   }
 
+  // 나와 다른 응답자 비교: 단계별 차이(나 − 다른 응답자 평균), 표준화 차이, 차이가 가장 큰 단계와 문항
+  function gapLabel(d) {
+    if (d === null) return '–';
+    var a = Math.abs(d);
+    return a < GAP_NOTE ? '비슷함' : (d > 0 ? (a >= GAP_BIG ? '크게 높게 봄' : '높게 봄') : (a >= GAP_BIG ? '크게 낮게 봄' : '낮게 봄'));
+  }
+  function gapBars(diffs) {
+    var R = 50; // 막대 끝 = ±50점
+    return '<div class="axr-div">' + STAGES.map(function (st, i) {
+      var d = diffs[i], w = d === null ? 0 : Math.min(Math.abs(d), R) / R * 50;
+      var cls = d === null ? '' : Math.abs(d) < GAP_NOTE ? 'same' : d > 0 ? 'hi' : 'lo';
+      return '<div class="axr-drow ' + cls + '"><span class="axr-dname">' + (i + 1) + '. ' + st.name + '</span>' +
+        '<span class="axr-dtrack"><i class="axr-dzero"></i>' + (d === null ? '' : '<span class="axr-dbar" style="' + (d >= 0 ? 'left:50%' : 'right:50%') + ';width:' + w + '%" data-tip="' + esc(st.name + ' · 나 − 다른 응답자 = ' + signed(d) + '점') + '"></span>') + '</span>' +
+        '<span class="axr-dval">' + (d === null ? '–' : signed(d)) + '</span><span class="axr-dtag">' + gapLabel(d) + '</span></div>';
+    }).join('') + '<div class="axr-drow axr-daxis"><span></span><span class="axr-daxis-in"><i>← 내가 더 낮게 봄</i><i>0</i><i>내가 더 높게 봄 →</i></span><span></span><span></span></div></div>';
+  }
+  function itemMeanOf(rows, idx) { var v = rows.map(function (r) { return r.a[idx]; }).filter(function (x) { return x > 0; }); return v.length ? mean(v) : null; }
+
   function personal() {
     var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
     if (!me) {
       return '<section class="aidx-home"><p>아직 이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p>' +
         '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="my">결과 코드 입력</button></div></section>';
     }
-    var rows = P.rows, n = rows.length, few = n < MIN_N, A = aggregate(rows);
-    var h = '';
+    var others = P.rows.filter(function (r) { return !r.mine; }), no = others.length, enough = no >= MIN_N - 1;
+    var O = no ? aggregate(others) : null;
+    var diffs = STAGES.map(function (_, s) { return O && me.lv[s] !== null && O.lvMean[s] !== null ? me.lv[s] - O.lvMean[s] : null; });
+    var unkStages = STAGES.map(function (st, s) { return st.unk ? s : -1; }).filter(function (s) { return s >= 0; });
+    var myUnk = unkStages.reduce(function (t, s) { return t + me.unk[s]; }, 0), unkItems = unkStages.length * 5;
+    var othersUnk = no ? mean(others.map(function (r) { return unkStages.reduce(function (t, s) { return t + r.unk[s]; }, 0); })) : 0;
+    var stageCnt = [0, 0, 0, 0, 0, 0]; others.forEach(function (r) { stageCnt[r.stage]++; });
+    var modeStage = stageCnt.indexOf(Math.max.apply(null, stageCnt));
+    var higher = others.filter(function (r) { return r.stage > me.stage; }).length, same = others.filter(function (r) { return r.stage === me.stage; }).length;
+    var order = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); });
+    var top = order[0], h = '';
+
     // 1. 내가 본 단계
     var bott = me.stage < 5 ? me.stage : -1;
     h += '<section class="aidx-type"><p class="aidx-eyebrow">내가 본 우리 회사의 AX 준비 단계</p>' +
-      '<h2>' + stageTitle(me.stage) + '</h2>' +
-      '<p>' + STAGE_DESC[me.stage] + '</p>' +
+      '<h2>' + stageTitle(me.stage) + '</h2><p>' + STAGE_DESC[me.stage] + '</p>' +
       (bott >= 0 ? '<p>다음 관문은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>입니다. "' + STAGES[bott].q + '"</p>' : '') +
+      (no ? '<p>다른 응답자 ' + no + '명 가운데 <strong>' + r0(same / no * 100) + '%</strong>는 나와 같은 단계로, ' + r0(higher / no * 100) + '%는 더 높은 단계로, ' + r0((no - same - higher) / no * 100) + '%는 더 낮은 단계로 보았습니다.</p>' : '') +
       '<div class="axr-stairs-box">' + stairs(me.stage, '내가 본 준비 단계 ' + me.stage + '단계') + '</div></section>';
+    if (!no) return h + '<p class="aidx-note">아직 다른 응답자가 없어 비교할 수 없습니다. 같은 회사(그룹) 링크로 다른 구성원이 응답하면 인식 차이 분석이 나타납니다.</p>' + myPlan(me, null);
+    if (!enough) h += '<p class="aidx-note">다른 응답자가 ' + no + '명입니다. ' + (MIN_N - 1) + '명 이상 모이면 비교가 안정됩니다. 지금은 참고용으로 보세요.</p>';
 
     // 2. 핵심 숫자
-    var myUnk = me.unk[3] + me.unk[4];
     h += '<div class="kpis aidx-kpis">' +
       kpi('내가 본 단계', me.stage + '<small>/ 5단계</small>', STAGE_NAMES[me.stage]) +
-      (few ? kpi('회사 전체 단계', '–', '응답 ' + MIN_N + '명 이상 모이면 표시 (현재 ' + n + '명)')
-        : kpi('회사 전체 단계', A.stage + '<small>/ 5단계</small>', esc(groupLabel(P.group)) + ' ' + n + '명 평균 기준')) +
-      kpi('개인 준비', sc(me.lv[0]) + '<small>/ 100</small>', lvlChip(me.lv[0]) + (few ? '' : ' 회사 평균 ' + sc(A.lvMean[0]))) +
-      kpi('"잘 모르겠다"', myUnk + '<small>/ 10문항</small>', '조직·전사 시스템 문항 중') +
+      kpi('다른 응답자가 가장 많이 본 단계', modeStage + '<small>/ 5단계</small>', r0(stageCnt[modeStage] / no * 100) + '%가 ' + STAGE_NAMES[modeStage]) +
+      kpi('인식 차이가 가장 큰 단계', top ? STAGES[top.s].name : '–', top ? signed(top.d) + '점 · ' + gapLabel(top.d) : '비교할 단계 없음') +
+      kpi('"잘 모르겠다"', myUnk + '<small>/ ' + unkItems + '문항</small>', '다른 응답자 평균 ' + f1(othersUnk) + '문항') +
       '</div>';
 
-    // 3. 단계별 점수
-    h += '<section class="panel"><h3 class="panel-title">단계별 점수</h3>' +
-      '<p class="panel-sub">내 응답 · 진한 눈금은 ' + (few ? '응답자' : '회사') + ' 평균 · 점선은 준비 기준 60점</p>' +
-      stageBars(me.lv, n > 1 ? A.lvMean : null, (few ? '응답자' : '회사') + ' 평균') +
-      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>나</th><th>' + (few ? '응답자' : '회사') + ' 평균</th><th>차이</th><th>나의 "모르겠다"</th></tr></thead><tbody>' +
-      STAGES.map(function (st, i) {
-        var d = me.lv[i] !== null && A.lvMean[i] !== null ? me.lv[i] - A.lvMean[i] : null;
-        return '<tr><td>' + (i + 1) + '. ' + st.name + '</td><td><strong>' + sc(me.lv[i]) + '</strong> ' + lvlChip(me.lv[i]) + '</td><td>' + sc(A.lvMean[i]) + '</td>' +
-          '<td class="' + (d === null ? '' : d >= 5 ? 'up' : d <= -5 ? 'down' : '') + '">' + (d === null ? '–' : signed(d)) + '</td><td>' + (st.unk ? me.unk[i] + '개' : '–') + '</td></tr>';
-      }).join('') + '</tbody></table></div>' +
-      '<p class="aidx-small">수준: 시작 0~39 · 형성 40~59 · 정착 60~79 · 주도 80~100. 1~2단계는 나 자신과 내 직무, 3~5단계는 팀과 회사를 내가 어떻게 보는지에 대한 점수입니다.</p></section>';
+    // 3. 단계별 인식 차이
+    h += '<section class="report-grid">' +
+      '<div class="panel"><h3 class="panel-title">단계별 인식 차이</h3><p class="panel-sub">나 − 다른 응답자 평균 (점) · 가운데 선이 같음 · ±' + GAP_NOTE + '점 안은 비슷함</p>' + gapBars(diffs) + '</div>' +
+      '<div class="panel"><h3 class="panel-title">다른 응답자가 본 준비 단계</h3><p class="panel-sub">다른 응답자 ' + no + '명의 단계 분포 · 진한 막대가 내가 본 단계</p>' +
+      '<div class="axr-dist">' + STAGE_NAMES.map(function (nm, k) {
+        var p = stageCnt[k] / no * 100;
+        return '<div class="axr-distrow' + (k === me.stage ? ' me' : '') + '"><span>' + nm + (k === me.stage ? ' <b>나</b>' : '') + '</span><span class="axr-disttrack"><span style="width:' + p + '%"></span></span><span class="axr-distval">' + stageCnt[k] + '명</span></div>';
+      }).join('') + '</div></div></section>';
 
-    // 4. 해 볼 일
+    h += '<div class="panel"><h3 class="panel-title">단계별 비교표</h3><p class="panel-sub">표준화 차이 = 차이 ÷ 다른 응답자 표준편차 (±0.5 이상이면 뚜렷한 차이) · 위치 = 다른 응답자 중 나보다 낮게 본 비율</p>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>나</th><th>다른 응답자 평균 (SD)</th><th>차이</th><th>표준화 차이</th><th>위치</th></tr></thead><tbody>' +
+      STAGES.map(function (st, s) {
+        var col = nn(others.map(function (r) { return r.lv[s]; })), d = diffs[s], sdv = O.lvSd[s];
+        var below = me.lv[s] === null || !col.length ? null : col.filter(function (v) { return v < me.lv[s]; }).length / col.length * 100;
+        return '<tr><td>' + (s + 1) + '. ' + st.name + '</td><td><strong>' + sc(me.lv[s]) + '</strong> ' + lvlChip(me.lv[s]) + '</td><td>' + sc(O.lvMean[s]) + ' (' + r0(sdv) + ')</td>' +
+          '<td class="' + (d === null ? '' : d >= GAP_NOTE ? 'up' : d <= -GAP_NOTE ? 'down' : '') + '">' + (d === null ? '–' : signed(d)) + '</td>' +
+          '<td>' + (d === null || !sdv ? '–' : f1(d / sdv)) + '</td><td>' + (below === null ? '–' : r0(below) + '%') + '</td></tr>';
+      }).join('') + '</tbody></table></div></div>';
+
+    // 4. 차이가 가장 큰 영역과 행동지침
+    if (top && Math.abs(top.d) >= GAP_NOTE) {
+      var st = STAGES[top.s], dir = top.d > 0 ? 'hi' : 'lo', R = GAP_READ[st.key][dir];
+      var itemGaps = ITEMS.slice(top.s * 5, top.s * 5 + 5).map(function (it) {
+        var om = itemMeanOf(others, it.idx), my = me.a[it.idx];
+        return { it: it, my: my, om: om, d: my > 0 && om !== null ? my - om : null };
+      });
+      var big = itemGaps.filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); }).slice(0, 3);
+      var unkHere = itemGaps.filter(function (x) { return x.my === 0; });
+      var second = order[1] && Math.abs(order[1].d) >= GAP_NOTE ? order[1] : null;
+      h += '<section class="aidx-gap ' + (dir === 'hi' ? 'ahead' : 'behind') + '"><p class="aidx-eyebrow">인식 차이가 가장 큰 영역</p>' +
+        '<h3>' + st.icon + ' ' + (top.s + 1) + '단계 ' + st.name + ': 다른 응답자보다 ' + r0(Math.abs(top.d)) + '점 ' + (dir === 'hi' ? '높게' : '낮게') + ' 봅니다</h3>' +
+        '<div class="aidx-gbars">' +
+        '<div class="aidx-grow"><span>나</span><span class="aidx-gtrack"><span style="width:' + me.lv[top.s] + '%"></span></span><b>' + r0(me.lv[top.s]) + '</b></div>' +
+        '<div class="aidx-grow act"><span><small>다른 응답자</small></span><span class="aidx-gtrack"><span style="width:' + O.lvMean[top.s] + '%"></span></span><b>' + r0(O.lvMean[top.s]) + '</b></div></div>' +
+        '<p><strong>무엇을 뜻하나요?</strong> ' + R.why + '</p>' +
+        (big.length ? '<p class="aidx-small">차이가 큰 문항 (나 / 다른 응답자 평균, 1~5점)</p><ul class="aidx-list">' + big.map(function (x) {
+          return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">나 ' + x.my + ' / ' + f1(x.om) + ' (' + (x.d > 0 ? '+' : '−') + f1(Math.abs(x.d)) + ')</span></li>';
+        }).join('') + '</ul>' : '') +
+        (unkHere.length ? '<p class="aidx-small">이 단계에서 내가 "잘 모르겠다"고 답한 문항이 ' + unkHere.length + '개 있습니다. 이 문항들은 점수에서 빠졌으므로, 먼저 사실을 확인해 보세요.</p>' : '') +
+        '<p class="aidx-small">행동지침</p><ol class="aidx-list axr-steps">' + R.act.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>' +
+        (second ? '<p class="aidx-small">두 번째로 차이가 큰 단계는 <strong>' + STAGES[second.s].name + '</strong>(' + signed(second.d) + '점, ' + gapLabel(second.d) + ')입니다. ' + GAP_READ[STAGES[second.s].key][second.d > 0 ? 'hi' : 'lo'].why + '</p>' : '') +
+        '</section>';
+    } else {
+      h += '<section class="aidx-gap match"><p class="aidx-eyebrow">인식 차이</p><h3>다른 응답자와 비슷하게 보고 있습니다</h3>' +
+        '<p>모든 단계에서 차이가 ' + GAP_NOTE + '점 미만입니다. 회사의 상태를 다른 구성원과 같은 눈으로 보고 있으므로, 회사 전체의 병목 단계를 함께 채우는 데 힘을 보태면 됩니다.</p></section>';
+    }
+    return h + myPlan(me, aggregate(P.rows));
+  }
+
+  // 내가 직접 해 볼 일: 개인 활용·업무 재설계 점수가 낮을 때, 그리고 회사 병목 단계
+  function myPlan(me, A) {
     var tips = '';
-    [0, 1].forEach(function (s) {
+    [1, 2].forEach(function (s) {
       if (me.lv[s] === null || me.lv[s] >= 80) return;
       var low = ITEMS.slice(s * 5, s * 5 + 5).filter(function (it) { return me.a[it.idx] > 0 && me.a[it.idx] <= 3; }).slice(0, 2);
       tips += '<li class="aidx-plan-card"><p class="aidx-plan-h">' + STAGES[s].icon + ' ' + STAGES[s].name + ' <span class="aidx-muted">' + sc(me.lv[s]) + '점</span></p>' +
         '<ul class="aidx-list">' + MY_TIPS[STAGES[s].key].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
         (low.length ? '<p class="aidx-small">아직 갖추지 못했다고 답한 것</p><ul class="aidx-list aidx-check">' + low.map(function (it) { return '<li>' + esc(it.text) + '</li>'; }).join('') + '</ul>' : '') + '</li>';
     });
-    var weakOrg = [2, 3, 4].filter(function (s) { return me.lv[s] !== null && me.lv[s] < CUT; })[0];
-    if (weakOrg !== undefined) {
-      tips += '<li class="aidx-plan-card keep"><p class="aidx-plan-h">' + STAGES[weakOrg].icon + ' 팀·회사에 제안해 볼 것 · ' + STAGES[weakOrg].name + '</p>' +
-        '<ul class="aidx-list">' + ACTIONS[STAGES[weakOrg].key].slice(0, 2).map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></li>';
+    if (A && A.stage < 5) {
+      var b = A.stage;
+      tips += '<li class="aidx-plan-card keep"><p class="aidx-plan-h">' + STAGES[b].icon + ' 회사 전체의 병목 · ' + (b + 1) + '단계 ' + STAGES[b].name + '</p>' +
+        '<p class="aidx-small">응답자 전체 평균으로 본 병목입니다. 팀과 회사에 이렇게 제안해 보세요.</p>' +
+        '<ul class="aidx-list">' + ACTIONS[STAGES[b].key].slice(0, 2).map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></li>';
     }
-    if (myUnk >= 4) {
-      tips += '<li class="aidx-plan-card"><p class="aidx-plan-h">🤷 회사의 AX 계획을 알아보기</p>' +
-        '<p>조직·전사 시스템 문항 10개 중 ' + myUnk + '개에 "잘 모르겠다"고 답했습니다. 회사의 AX 목표, AI 사용 지침, 교육 기회가 어디에 안내되어 있는지 리더에게 물어보세요. 모르는 구성원이 많다면 그 자체가 회사가 소통을 보완해야 한다는 신호입니다.</p></li>';
-    }
-    if (tips) h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">나의 행동 추천</p><h3>지금 내가 해 볼 수 있는 것</h3>' +
-      '<p>1~2단계는 내가 직접 바꿀 수 있는 부분이고, 3~5단계는 팀과 회사에 제안할 부분입니다.</p></div><ol class="aidx-plan-list">' + tips + '</ol></section>';
-    return h;
+    return tips ? '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">나의 행동 추천</p><h3>지금 내가 해 볼 수 있는 것</h3>' +
+      '<p>개인 활용과 업무 재설계는 내가 직접 바꿀 수 있는 부분이고, 나머지 단계는 팀과 회사에 제안할 부분입니다.</p></div><ol class="aidx-plan-list">' + tips + '</ol></section>' : '';
   }
 
   function companyReport() {
@@ -471,12 +557,12 @@
 
     // 2. 핵심 숫자
     var g = nn(rows.map(function (r) { return r.g; }));
-    var unkOrg = (A.unkPct[3] + A.unkPct[4]) / 2;
+    var unkOrg = mean(STAGES.map(function (st, s) { return st.unk ? A.unkPct[s] : null; }).filter(function (v) { return v !== null; }));
     h += '<div class="kpis aidx-kpis">' +
       kpi('응답자', n + '<small>명</small>', esc(groupLabel(P.group))) +
       kpi('준비된 단계', A.stage + '<small>/ 5단계</small>', bott >= 0 ? '병목: ' + STAGES[bott].name : '전 단계 준비') +
       kpi('전반 인식', g.length ? r0(mean(g)) + '<small>/ 100</small>' : '–', 'AX 의지·역량에 대한 인식 (G1·G2)') +
-      kpi('"잘 모르겠다"', r0(unkOrg) + '<small>%</small>', '조직·전사 시스템 문항 평균') +
+      kpi('"잘 모르겠다"', r0(unkOrg) + '<small>%</small>', '회사 주어 문항(1·4·5단계) 평균') +
       '</div>';
 
     // 3. 단계별 프로파일
@@ -497,7 +583,7 @@
 
     // 4. 기초 통계
     h += '<div class="panel"><h3 class="panel-title">단계별 기초 통계</h3>' +
-      '<p class="panel-sub">합의도 rwg(j)는 회사 수준 단계(조직·전사 시스템)에서, 신뢰도 α는 "모르겠다" 없이 응답한 사람이 10명 이상일 때 표시</p>' +
+      '<p class="panel-sub">합의도 rwg(j)는 회사를 주어로 묻는 단계(1·4·5단계)에서, 신뢰도 α는 "모르겠다" 없이 응답한 사람이 10명 이상일 때 표시</p>' +
       '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>평균</th><th>SD</th><th>준비됨</th><th>모르겠다</th><th>합의도</th><th>α</th></tr></thead><tbody>' +
       STAGES.map(function (st, s) {
         var rw = st.unk && n >= MIN_N ? rwgj(rows, s * 5, s * 5 + 5) : null, al = alpha(rows, s * 5, s * 5 + 5);

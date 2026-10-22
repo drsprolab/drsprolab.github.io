@@ -1516,3 +1516,30 @@ main.container { overflow-x: clip; }
 .axr-bars { margin-bottom: 14px; }
 .axr .aidx-rrow { grid-template-columns: 128px 1fr 36px 76px; }
 @media (max-width: 760px) { .axr .aidx-rrow { grid-template-columns: 104px 1fr 30px 64px; } }
+/* 나와 다른 응답자의 인식 차이: 가운데 0을 기준으로 좌우로 뻗는 막대 */
+.axr-div { display: grid; gap: 10px; }
+.axr-drow { display: grid; grid-template-columns: 112px 1fr 40px 84px; gap: 10px; align-items: center; font-size: 14px; }
+.axr-dname { font-weight: 500; }
+.axr-dtrack { position: relative; height: 18px; border-radius: 4px; background: var(--tint); }
+.axr-dzero { position: absolute; left: 50%; top: -4px; bottom: -4px; border-left: 1.5px solid var(--muted); opacity: .7; }
+.axr-dbar { position: absolute; top: 0; bottom: 0; border-radius: 3px; background: color-mix(in srgb, var(--series-1) 45%, var(--paper)); }
+.axr-drow.hi .axr-dbar { background: var(--series-1); }
+.axr-drow.lo .axr-dbar { background: var(--warn); }
+.axr-dval { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.axr-dtag { font-size: 12px; font-weight: 600; color: var(--muted); }
+.axr-drow.hi .axr-dtag { color: var(--series-1); } .axr-drow.lo .axr-dtag { color: var(--warn); }
+.axr-daxis { font-size: 11.5px; color: var(--muted); }
+.axr-daxis-in { display: flex; justify-content: space-between; }
+.axr-daxis-in i { font-style: normal; }
+.axr-dist { display: grid; gap: 8px; }
+.axr-distrow { display: grid; grid-template-columns: 150px 1fr 40px; gap: 10px; align-items: center; font-size: 13.5px; }
+.axr-distrow b { font-size: 11px; color: var(--paper); background: var(--accent); border-radius: 999px; padding: 0 6px; margin-left: 4px; }
+.axr-disttrack { height: 14px; border-radius: 3px; background: var(--tint); overflow: hidden; }
+.axr-disttrack span { display: block; height: 100%; background: color-mix(in srgb, var(--series-1) 40%, var(--paper)); }
+.axr-distrow.me .axr-disttrack span { background: var(--accent); }
+.axr-distval { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.axr-steps { padding-left: 1.3em; }
+@media (max-width: 760px) {
+  .axr-drow { grid-template-columns: 92px 1fr 34px 70px; gap: 6px; font-size: 13px; }
+  .axr-distrow { grid-template-columns: 120px 1fr 34px; }
+}
