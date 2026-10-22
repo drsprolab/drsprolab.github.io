@@ -1,5 +1,6 @@
-# Weekly Insight 글과 Measurement(측정도구) 글마다 공유용 미리보기 이미지(Open Graph, 1200×630)를 만든다.
-#   ruby tools/og_images.rb            → assets/og/insights/<파일이름>.png, assets/og/measurement/<파일이름>.png
+# Weekly Insight 글, Measurement(측정도구) 글, In progress 진단 페이지마다 공유용 미리보기 이미지(Open Graph, 1200×630)를 만든다.
+#   ruby tools/og_images.rb            → assets/og/insights/<파일이름>.png, assets/og/measurement/<파일이름>.png,
+#                                        assets/og/in-progress/<폴더이름>.png
 # 같은 이미지가 목록 페이지(/weekly-insight/, /blog/)의 썸네일로도 쓰인다.
 # 배포(GitHub Actions)에서 jekyll build 전에 실행되므로, 새 글을 올리면 이미지도 저절로 생긴다.
 # 로컬에서는 CHROME 환경변수로 크롬 경로를 바꿀 수 있다(기본: macOS Chrome 또는 google-chrome).
@@ -31,11 +32,15 @@ BANNERS = {
   "insights" => b64(File.join(ROOT, "assets/images/banners/daily-insight.jpg")),
   "measurement" => b64(File.join(ROOT, "assets/images/banners/measurement-diagnosis-solutions.jpg"))
 }
+BANNERS["in-progress"] = BANNERS["measurement"]
 LAB_LOGO = b64(File.join(ROOT, "assets/images/logo/lockup-dark.png"))
 
 def html(fm, kind)
   title = CGI.escapeHTML(fm["title"].to_s)
-  if kind == "measurement"
+  if kind == "in-progress"
+    eyebrow = "In progress 진단 · #{CGI.escapeHTML((fm["og_badge"] || "지금 참여하기").to_s)}"
+    chip_texts = Array(fm["og_chips"])
+  elsif kind == "measurement"
     eyebrow = "Measurement · #{CGI.escapeHTML((fm["measurement_badge"] || "역량 진단").to_s)}"
     chip_texts = [fm["measurement_target"], fm["measurement_factors"]]
   else
@@ -78,7 +83,9 @@ end
 # [종류, 원본 글, 조건] — 측정도구 글은 category: 측정도구 인 _posts 만
 SOURCES = [
   ["insights", Dir[File.join(ROOT, "_insights/*.md")], ->(fm) { true }],
-  ["measurement", Dir[File.join(ROOT, "_posts/*.md")], ->(fm) { fm["category"].to_s == "측정도구" }]
+  ["measurement", Dir[File.join(ROOT, "_posts/*.md")], ->(fm) { fm["category"].to_s == "측정도구" }],
+  # In progress 진단: in-progress/<폴더>/index.html, 이름은 폴더 이름
+  ["in-progress", Dir[File.join(ROOT, "in-progress/*/index.html")], ->(fm) { true }]
 ]
 
 made = 0
@@ -89,7 +96,7 @@ Dir.mktmpdir do |tmp|
     files.sort.each do |md|
       fm = front_matter(md)
       next if fm["title"].to_s.empty? || !keep.call(fm)
-      name = File.basename(md, ".md")
+      name = File.basename(md) == "index.html" ? File.basename(File.dirname(md)) : File.basename(md, ".md")
       png = File.join(out, "#{name}.png")
       next if File.exist?(png) && File.mtime(png) > File.mtime(md) && ENV["OG_FORCE"].nil?
       page = File.join(tmp, "#{kind}-#{name}.html")
@@ -101,4 +108,4 @@ Dir.mktmpdir do |tmp|
     end
   end
 end
-puts "og_images: #{made}개 생성 → assets/og/insights/, assets/og/measurement/"
+puts "og_images: #{made}개 생성 → assets/og/insights/, assets/og/measurement/, assets/og/in-progress/"

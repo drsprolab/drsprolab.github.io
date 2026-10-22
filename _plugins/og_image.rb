@@ -1,5 +1,5 @@
-# Weekly Insight 글과 Measurement(측정도구) 글의 Open Graph 이미지를 jekyll-seo-tag 에 넘긴다 (page.image).
-# 이미지는 tools/og_images.rb 가 assets/og/insights/<파일이름>.png, assets/og/measurement/<파일이름>.png 로 만든다.
+# Weekly Insight 글, Measurement(측정도구) 글, In progress 진단 페이지의 Open Graph 이미지를 jekyll-seo-tag 에 넘긴다 (page.image).
+# 이미지는 tools/og_images.rb 가 assets/og/insights/, assets/og/measurement/, assets/og/in-progress/ 에 만든다.
 # 같은 page.image.path 가 목록 페이지 썸네일(.inst-thumb)로도 쓰인다.
 module OgImage
   SITE_DEFAULT = "/assets/images/og-share-20261021.jpg"
@@ -31,6 +31,14 @@ module OgImage
         rel = "/assets/og/measurement/#{basename(doc)}.png"
         next unless File.exist?(File.join(site.source, rel))
         doc.data["image"] = { "path" => rel, "width" => 1200, "height" => 630, "alt" => doc.data["title"].to_s }
+      end
+
+      # In progress 진단: in-progress/<폴더>/index.html
+      site.pages.each do |page|
+        m = page.path.match(%r{\Ain-progress/([^/]+)/index\.html\z}) or next
+        rel = "/assets/og/in-progress/#{m[1]}.png"
+        next unless File.exist?(File.join(site.source, rel))
+        page.data["image"] = { "path" => rel, "width" => 1200, "height" => 630, "alt" => page.data["title"].to_s }
       end
     end
 
