@@ -1266,7 +1266,7 @@ main.container { overflow-x: clip; }
 .aidx-btn:disabled { opacity: .5; cursor: wait; }
 .aidx-link { all: unset; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .prose .aidx-small { margin: 0; font-size: 13px; color: var(--muted); }
-.aidx-muted { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.aidx-muted { color: var(--muted); font-size: 12.5px; }
 .aidx-err { color: var(--warn); font-size: 13.5px; }
 .aidx-code { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; font-size: 14px; }
 .aidx-code input { font: inherit; font-family: var(--f-mono); font-size: 15px; width: 130px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); text-transform: uppercase; }
@@ -1420,3 +1420,73 @@ main.container { overflow-x: clip; }
 .aidx-copy:hover { background: var(--accent-soft); }
 .aidx-copy.is-done { background: var(--accent); color: var(--paper); }
 .aidx-copy.small { font-size: 12px; padding: 1px 10px; margin-left: 4px; }
+/* 나의 결과: 강점·약점 순위 막대 */
+.aidx-sw-panel { display: grid; gap: 14px; }
+.aidx-rank { display: grid; gap: 10px; }
+.aidx-rrow { display: grid; grid-template-columns: 120px 1fr 36px 72px; gap: 12px; align-items: center; font-size: 14.5px; }
+.aidx-rname { font-weight: 500; }
+.aidx-rtrack { position: relative; height: 18px; border-radius: 4px; background: var(--tint); }
+.aidx-rbar { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: color-mix(in srgb, var(--series-1) 55%, var(--paper)); }
+.aidx-rrow.good .aidx-rbar { background: var(--good); }
+.aidx-rrow.warn .aidx-rbar { background: var(--warn); }
+.aidx-rcut { position: absolute; top: -3px; bottom: -3px; border-left: 1.5px dashed var(--muted); opacity: .6; }
+.aidx-rmean { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--ink); opacity: .55; }
+.aidx-rval { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.aidx-rtag { font-size: 12px; font-weight: 600; }
+.aidx-rrow.good .aidx-rtag { color: var(--good); } .aidx-rrow.warn .aidx-rtag { color: var(--warn); }
+.aidx-swgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.aidx-swcard { border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+.aidx-swcard.good { background: color-mix(in srgb, var(--good) 8%, var(--paper)); border: 1px solid color-mix(in srgb, var(--good) 30%, transparent); }
+.aidx-swcard.warn { background: color-mix(in srgb, var(--warn) 8%, var(--paper)); border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent); }
+.prose .aidx-swh { margin: 0; font-weight: 700; font-size: 16px; }
+.aidx-switem strong { font-size: 15.5px; }
+.aidx-switem strong span { font-weight: 500; color: var(--muted); font-size: 13.5px; margin-left: 4px; }
+.aidx .aidx-switem p { margin: 2px 0 0; font-size: 14px; }
+@media (max-width: 760px) { .aidx-swgrid { grid-template-columns: 1fr; } .aidx-rrow { grid-template-columns: 96px 1fr 30px 58px; gap: 8px; font-size: 13.5px; } }
+/* 생각과 행동의 차이 */
+.aidx-gap { border-radius: 12px; padding: 24px 26px; display: grid; gap: 10px; border: 2px solid var(--accent); background: var(--accent-soft); }
+.aidx-gap.ahead { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 7%, var(--paper)); }
+.prose .aidx-gap h3 { margin: 0; font-size: 22px; }
+.aidx-gap.ahead h3 { color: var(--warn); } .aidx-gap.behind h3, .aidx-gap.match h3 { color: var(--accent); }
+.aidx .aidx-gap p { margin: 0; font-size: 15px; }
+.aidx-gbars { display: grid; gap: 8px; max-width: 640px; }
+.aidx-grow { display: grid; grid-template-columns: 92px 1fr 44px; gap: 12px; align-items: center; font-weight: 600; }
+.aidx-grow small { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 2px; }
+.aidx-gtrack { height: 22px; border-radius: 5px; background: var(--paper); overflow: hidden; }
+.aidx-gtrack span { display: block; height: 100%; background: var(--muted); opacity: .55; border-radius: 5px; }
+.aidx-grow.act .aidx-gtrack span { background: var(--accent); opacity: 1; }
+.aidx-grow b { font-size: 20px; font-variant-numeric: tabular-nums; text-align: right; }
+.prose .aidx-gnum { font-size: 15px; }
+.aidx-gnum strong { font-size: 26px; margin-left: 4px; }
+.aidx-gap.ahead .aidx-gnum strong { color: var(--warn); }
+/* 나의 행동 추천 */
+.aidx-plan { display: grid; gap: 14px; padding-top: 6px; border-top: 3px solid var(--ink); }
+.aidx-plan-top { display: grid; gap: 4px; }
+.prose .aidx-plan-top h3 { margin: 0; font-size: 22px; }
+.aidx .aidx-plan-top p { margin: 0; }
+.aidx-plan-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.aidx-plan-card { border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 6px; align-content: start; max-width: none; }
+.aidx-plan-card.keep { background: var(--tint); }
+.prose .aidx-plan-h { margin: 0 0 4px; font-weight: 700; font-size: 16.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.aidx-prio { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--paper); font-size: 13px; font-family: var(--f-mono); }
+.aidx-plan-card.keep .aidx-prio { background: var(--good); }
+.aidx .aidx-plan-card p { margin: 0; font-size: 14.5px; }
+/* 그룹별 비교 */
+.aidx-cmp-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.prose .aidx-cmp-lead { margin: 0; font-size: 16px; line-height: 1.7; }
+.aidx-cmp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.aidx-cmp-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px; }
+.aidx .aidx-cmp-card p { margin: 0; }
+.aidx-cmp-name { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.aidx-cmp-total { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.aidx-cmp-total small { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 2px; }
+.aidx-sig { display: inline-block; font-size: 11px; font-weight: 700; padding: 0 7px; border-radius: 999px; background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+@media (max-width: 420px) { .aidx-tabs button { font-size: 13.5px; padding: 10px 4px; } }
+.aidx-dl { display: flex; justify-content: flex-end; align-items: center; gap: 10px; flex-wrap: wrap; }
+.aidx-dl .aidx-btn { font-size: 14px; padding: 8px 16px; }
+.page-badge { display: inline-block; vertical-align: .55em; margin-left: .35em; font-family: var(--f-mono); font-size: 13px; font-weight: 600; letter-spacing: .1em; line-height: 1; padding: 5px 8px; border-radius: 5px; border: 1.5px solid #e0312b; color: #e0312b; }
+.title-row .page-badge { margin-right: .1em; }
+.aidx-meta li.beta, .badge.beta { color: #e0312b; background: color-mix(in srgb, #e0312b 10%, transparent); font-weight: 600; }
+/* 휴대폰: 긴 낱말·코드가 화면 밖으로 밀리지 않게 */
+.aidx, .aidx * { min-width: 0; }
+.aidx p, .aidx li, .aidx dd, .aidx strong { overflow-wrap: anywhere; }

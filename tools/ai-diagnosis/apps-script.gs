@@ -1,6 +1,6 @@
 // AI 역량 수준 진단: 응답 저장소 (Google Apps Script 웹앱, 스프레드시트에 붙여서 사용)
 // POST  응답 저장       body: {id, group, role, answers[31], seconds}
-// GET   ?action=all&group=G&me=ID  그룹 응답 목록 (코드는 내보내지 않고, me와 같은 행만 m:1 표시)
+// GET   ?action=all&group=G&me=ID  그룹 응답 목록 (결과 코드는 내보내지 않고, 그룹 코드 g와 me와 같은 행의 m:1 표시)
 // GET   ?action=one&id=ID           결과 코드로 내 응답 1건
 
 var SHEET = 'responses';
@@ -55,7 +55,7 @@ function doGet(e) {
   }
   var g = cleanGroup_(p.group);
   var out = data.filter(function (x) { return !g || x[2] === g; }).map(function (x) {
-    var o = { role: x[3], a: x.slice(5).map(Number) };
+    var o = { role: x[3], g: x[2], a: x.slice(5).map(Number) };
     if (p.me && x[1] === p.me) o.m = 1;
     return o;
   });
