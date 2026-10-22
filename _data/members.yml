@@ -306,7 +306,7 @@ alumni_phd:
     degree: "Ph.D."
   - name: "소병한"
     name_en: "byung han So"
-    affiliation: "한국전문대학교육협의회 산학교육혁신연구원"
+    affiliation: "산업안정상생재단/안전상생교육팀장"
     degree: "Ph.D."
 alumni_ma:
   - name: "박상용"
@@ -366,7 +366,7 @@ alumni_ma:
     degree: "M.A."
   - name: "송진영"
     name_en: "Jin Young Song"
-    affiliation: "국가임상시험지원재단 임상교육원"
+    affiliation: "한국의료분쟁조정중재원"
     degree: "M.A."
   - name: "김찬주"
     name_en: "Chan Ju Kim"
