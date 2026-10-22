@@ -1492,3 +1492,27 @@ main.container { overflow-x: clip; }
 .aidx p, .aidx li, .aidx dd, .aidx strong { overflow-wrap: anywhere; }
 .aidx-ts { display: none; }
 @media (max-width: 480px) { .aidx-tl { display: none; } .aidx-ts { display: inline; } .aidx-tabs button { font-size: 14.5px; } }
+
+/* AX 전환 준비도 진단 (in-progress/ax-readiness, assets/js/ax-readiness.js). 나머지 모양은 .aidx-* 를 그대로 쓴다. */
+.prose .axr-pagehead { margin: 0 0 4px; color: var(--muted); font-size: 15px; }
+.axr-has-unk { grid-template-columns: auto auto auto auto; }
+.axr-unk { cursor: pointer; }
+.axr-unk span { display: inline-grid; place-items: center; height: 36px; padding: 0 14px; border-radius: 999px; border: 1.5px dashed var(--line); font-size: 13px; color: var(--muted); white-space: nowrap; transition: border-color .12s, background .12s; }
+.axr-unk:hover span { border-color: var(--accent); color: var(--accent); }
+.axr-unk input:checked + span { background: var(--muted); border-color: var(--muted); border-style: solid; color: var(--paper); }
+@media (max-width: 760px) {
+  .axr-has-unk { grid-template-columns: 1fr 1fr; }
+  .axr-unk { grid-column: 1 / -1; justify-self: center; }
+}
+.axr-stairs-box { margin-top: 10px; background: var(--paper); border-radius: 10px; padding: 8px 8px 0; }
+.axr-stairs { display: block; width: 100%; max-width: 560px; margin: 0 auto; }
+.axr-step { fill: var(--tint); stroke: var(--line); stroke-width: 1; }
+.axr-step.on { fill: var(--accent); stroke: var(--accent); }
+.axr-step.next { fill: var(--paper); stroke: var(--warn); stroke-width: 2; stroke-dasharray: 5 4; }
+.axr-snum { fill: var(--muted); font-size: 11px; font-family: var(--f-mono); }
+.axr-sname { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.axr-sicon { font-size: 18px; }
+.axr-base { stroke: var(--muted); stroke-width: 1.5; }
+.axr-bars { margin-bottom: 14px; }
+.axr .aidx-rrow { grid-template-columns: 128px 1fr 36px 76px; }
+@media (max-width: 760px) { .axr .aidx-rrow { grid-template-columns: 104px 1fr 30px 64px; } }
