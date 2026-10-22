@@ -319,25 +319,20 @@
     viewAnalyzing(tab === 'me' ? '응답을 분석하고 있습니다' : '그룹 응답을 모으고 있습니다');
     var t0 = Date.now();
     fetchPool(group, me).then(function (rows) {
-      state.pool = { group: group, rows: rows.map(scored) }; state.allPool = null;
+      state.pool = { group: group, rows: rows.map(scored) };
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
     }).catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
   }
 
-  // 그룹 코드끼리 비교할 때는 코드와 관계없이 전체 응답을 불러온다.
-  function loadAll() {
-    state.tab = 'compare'; viewAnalyzing('전체 응답을 모으고 있습니다');
-    fetchPool('', state.me).then(function (rows) { state.allPool = rows.map(scored); viewResult(); })
-      .catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
-  }
-
   // ---------- 화면: 결과 ----------
+  // 결과 탭 이름: 좁은 휴대폰에서는 짧은 이름으로
+  function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
   function viewResult() {
     var h = previewNote() +
       '<div class="aidx-tabs" role="tablist">' +
-      '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">나의 분석결과</button>' +
-      '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">우리 그룹 분석결과</button>' +
-      '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">그룹별 비교</button></div>' +
+      '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('나의 분석결과', '나의 결과') + '</button>' +
+      '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 그룹 분석결과', '우리 그룹') + '</button>' +
+      '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 그룹별 비교', '그룹별 비교') + '</button></div>' +
       '<div role="tabpanel">' + (state.tab === 'me' ? personal() : state.tab === 'group' ? groupReport() : compareReport()) + '</div>' +
       '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 유형 구분과 기준점(정착 60점)은 타당화 전의 잠정 기준입니다. 점수 = (문항 평균 − 1) × 25, 0~100점. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
@@ -776,7 +771,7 @@
       .then(function () { if (host && host.parentNode) host.parentNode.removeChild(host); });
   }
 
-  // ---------- 그룹별 비교: 응답자 구분 또는 그룹 코드별 평균과 일원분산분석 ----------
+  // ---------- 응답자 그룹별 비교: 응답할 때 고른 구분(학생·교사(교수)·직장인·기타)별 평균과 일원분산분석 ----------
   function lgamma(x) {
     var c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
     var y = x, t = x + 5.5, s = 1.000000000190015;
@@ -815,22 +810,14 @@
   function fmtP(p) { return p < 0.001 ? '< .001' : p.toFixed(3).replace(/^0/, ''); }
 
   function compareReport() {
-    var by = state.cmpBy || 'role';
-    var rows = by === 'code' ? state.allPool : state.pool.rows;
-    var h = '<div class="aidx-cmp-head"><div class="seg" role="radiogroup" aria-label="비교 기준"><span class="seg-label">비교 기준</span>' +
-      '<button type="button" role="radio" data-cmp="role" aria-checked="' + (by === 'role') + '">응답자 구분</button>' +
-      '<button type="button" role="radio" data-cmp="code" aria-checked="' + (by === 'code') + '">그룹 코드</button></div></div>';
-    if (by === 'code' && rows && !rows.some(function (r) { return r.g; })) {
-      return h + '<p class="aidx-note">그룹 코드가 붙은 응답이 아직 없습니다. <code>?group=코드</code>를 붙인 링크로 응답이 모이면 그룹끼리 비교할 수 있습니다.</p>';
-    }
-    var keyOf = by === 'code' ? function (r) { return r.g || '코드 없음'; } : function (r) { return r.role || '기타'; };
-    var map = {};
-    rows.forEach(function (r) { var k = keyOf(r); (map[k] = map[k] || []).push(r); });
-    var keys = Object.keys(map).sort(function (a, b) { return map[b].length - map[a].length; });
+    var rows = state.pool.rows, map = {};
+    var h = '<p class="aidx-context">응답할 때 고른 구분(' + ROLES.join('·') + ')으로 응답자를 자동으로 묶어 비교합니다. ' +
+      esc(groupLabel(state.pool.group)) + ' ' + rows.length + '명 기준.</p>';
+    rows.forEach(function (r) { var k = r.role || '기타'; (map[k] = map[k] || []).push(r); });
+    var keys = ROLES.filter(function (k) { return map[k]; }).concat(Object.keys(map).filter(function (k) { return ROLES.indexOf(k) < 0; }));
     var inc = keys.filter(function (k) { return map[k].length >= 3; }), exc = keys.filter(function (k) { return map[k].length < 3; });
-    h += '<p class="aidx-context">' + (by === 'code' ? '전체 응답 ' : esc(groupLabel(state.pool.group)) + ' · 응답 ') + rows.length + '명을 ' + (by === 'code' ? '그룹 코드' : '응답자 구분') + '별로 비교' +
-      (exc.length ? ' · 3명 미만이라 제외: ' + exc.map(function (k) { return esc(k) + '(' + map[k].length + ')'; }).join(', ') : '') + '</p>';
-    if (inc.length < 2) return h + '<p class="aidx-note">비교하려면 3명 이상인 ' + (by === 'code' ? '그룹' : '구분') + '이 둘 이상 필요합니다. 응답이 더 모이면 이 화면이 채워집니다.</p>';
+    if (exc.length) h += '<p class="aidx-context">응답이 3명 미만이라 비교에서 빠진 그룹: ' + exc.map(function (k) { return esc(k) + '(' + map[k].length + '명)'; }).join(', ') + '</p>';
+    if (inc.length < 2) return h + '<p class="aidx-note">비교하려면 응답이 3명 이상인 그룹이 둘 이상 필요합니다. 응답이 더 모이면 이 화면이 자동으로 채워집니다.</p>';
 
     var G = inc.map(function (k) { var rs = map[k]; return { k: k, rs: rs, n: rs.length, m: DOMAINS.map(function (_, d) { return mean(rs.map(function (r) { return r.dom[d]; })); }) }; });
     var measures = DOMAINS.map(function (dm, d) { return { name: dm.name, get: function (r) { return r.dom[d]; } }; })
@@ -843,18 +830,18 @@
     var sig = stats.filter(function (s) { return s.a && s.a.p < 0.05; }).sort(function (a, b) { return a.a.p - b.a.p; });
     var biggest = stats.slice(0, 5).slice().sort(function (a, b) { return b.diff - a.diff; })[0];
     var lead = sig.length
-      ? '<strong>' + sig.map(function (s) { return s.ms.name; }).join(', ') + '</strong>에서 ' + (by === 'code' ? '그룹' : '응답자 구분') + ' 간 차이가 통계적으로 의미 있습니다(p < .05). ' +
+      ? '<strong>' + sig.map(function (s) { return s.ms.name; }).join(', ') + '</strong>에서 ' + '응답자 그룹' + ' 간 차이가 통계적으로 의미 있습니다(p < .05). ' +
         '가장 뚜렷한 곳은 ' + josa(sig[0].ms.name.replace(/ \(.*\)$/, ''), '으로', '로') + ', ' + esc(josa(G[sig[0].hi].k, '이', '가')) + ' ' + r0(sig[0].means[sig[0].hi]) + '점으로 ' + esc(G[sig[0].lo].k) + '(' + r0(sig[0].means[sig[0].lo]) + '점)보다 ' + r0(sig[0].diff) + '점 높습니다.'
-      : '아직 ' + (by === 'code' ? '그룹' : '응답자 구분') + ' 간 통계적으로 의미 있는 차이는 없습니다(모두 p ≥ .05). 점수 차이가 가장 큰 영역은 ' + biggest.ms.name + '(' + esc(G[biggest.hi].k) + ' ' + r0(biggest.means[biggest.hi]) + '점, ' + esc(G[biggest.lo].k) + ' ' + r0(biggest.means[biggest.lo]) + '점)입니다.';
+      : '아직 ' + '응답자 그룹' + ' 간 통계적으로 의미 있는 차이는 없습니다(모두 p ≥ .05). 점수 차이가 가장 큰 영역은 ' + biggest.ms.name + '(' + esc(G[biggest.hi].k) + ' ' + r0(biggest.means[biggest.hi]) + '점, ' + esc(G[biggest.lo].k) + ' ' + r0(biggest.means[biggest.lo]) + '점)입니다.';
     h += '<section class="aidx-type"><p class="aidx-eyebrow">그룹 간 차이 한 줄 요약</p><p class="aidx-cmp-lead">' + lead + '</p></section>';
 
     var cls = ['s1', 's2', 's3', 's4'], shown = G.slice(0, 4);
     var series = shown.map(function (g, i) { return { label: g.k + ' (' + g.n + '명)', values: g.m, cls: cls[i] }; });
     var tc = G.map(function (g) { var c = {}; g.rs.forEach(function (r) { c[r.type] = (c[r.type] || 0) + 1; }); var best = Object.keys(c).sort(function (a, b) { return c[b] - c[a]; })[0]; return { t: TYPES[best], p: Math.round(c[best] / g.n * 100) }; });
     h += '<section class="report-grid">' +
-      '<div class="panel"><h3 class="panel-title">' + (by === 'code' ? '그룹' : '구분') + '별 영역 프로파일</h3><p class="panel-sub">영역별 평균 · 0~100점' + (G.length > 4 ? ' · 응답이 많은 4개만 표시' : '') + '</p>' +
+      '<div class="panel"><h3 class="panel-title">' + '그룹' + '별 영역 프로파일</h3><p class="panel-sub">영역별 평균 · 0~100점' + (G.length > 4 ? ' · 응답이 많은 4개만 표시' : '') + '</p>' +
       legend(series) + '<div class="radar-box">' + radar(series, '그룹별 영역 평균') + '</div></div>' +
-      '<div class="panel"><h3 class="panel-title">' + (by === 'code' ? '그룹' : '구분') + '별 요약</h3><p class="panel-sub">응답 수, 종합 평균, 가장 많은 AI 활용 유형</p>' +
+      '<div class="panel"><h3 class="panel-title">' + '그룹' + '별 요약</h3><p class="panel-sub">응답 수, 종합 평균, 가장 많은 AI 활용 유형</p>' +
       '<div class="aidx-cmp-cards">' + G.map(function (g, i) {
         return '<div class="aidx-cmp-card"><p class="aidx-cmp-name">' + (i < 4 ? '<span class="lg-key ' + cls[i] + '"></span>' : '') + esc(g.k) + ' <span class="aidx-muted">' + g.n + '명</span></p>' +
           '<p class="aidx-cmp-total">' + r0(mean(g.rs.map(function (r) { return r.total; }))) + '<small>점</small></p>' +
@@ -905,11 +892,8 @@
     var tb = e.target.closest('[data-tab]');
     if (tb) {
       if (!state.pool) { analyze(tb.dataset.tab); return; }
-      if (tb.dataset.tab === 'compare' && state.cmpBy === 'code' && !state.allPool) { loadAll(); return; }
       state.tab = tb.dataset.tab; viewResult(); return;
     }
-    var cb = e.target.closest('[data-cmp]');
-    if (cb) { state.cmpBy = cb.dataset.cmp; if (state.cmpBy === 'code' && !state.allPool) loadAll(); else viewResult(); return; }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.dataset.act;
     if (act === 'start') { state.answers = {}; state.role = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }

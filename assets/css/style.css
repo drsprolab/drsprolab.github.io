@@ -1490,3 +1490,5 @@ main.container { overflow-x: clip; }
 /* 휴대폰: 긴 낱말·코드가 화면 밖으로 밀리지 않게 */
 .aidx, .aidx * { min-width: 0; }
 .aidx p, .aidx li, .aidx dd, .aidx strong { overflow-wrap: anywhere; }
+.aidx-ts { display: none; }
+@media (max-width: 480px) { .aidx-tl { display: none; } .aidx-ts { display: inline; } .aidx-tabs button { font-size: 14.5px; } }
