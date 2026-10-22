@@ -1398,3 +1398,8 @@ main.container { overflow-x: clip; }
 .aidx-gate { display: grid; gap: 6px; justify-items: center; padding: 14px 20px; border-radius: 10px; background: color-mix(in srgb, var(--warn) 10%, var(--paper)); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); }
 .prose .aidx-gate p { margin: 0; color: var(--warn); }
 .aidx-gate .aidx-link { font-size: 13.5px; }
+/* 휴대폰: 탭할 때 파란 사각형 강조 없애고, 좁은 화면에서도 결과 탭이 한 줄에 들어가게 */
+.aidx label, .aidx button { -webkit-tap-highlight-color: transparent; }
+@media (max-width: 420px) {
+  .aidx-tabs button { flex: 1; padding: 10px 6px; font-size: 14.5px; white-space: nowrap; letter-spacing: -.02em; }
+}
