@@ -15,11 +15,11 @@
 
   // ---------- 문항 ----------
   var DOMAINS = [
-    { key: 'D', def: '일의 위험, 확인 가능성, 효율을 따져 AI를 쓸지, 얼마나 쓸지 정한다.', name: '위임 판단', q: '이 일을 AI에게 맡길까?', risk: '과의존·과소의존' },
-    { key: 'L', def: '목적과 조건을 전달하고, 단계를 나눠 진행하며, AI가 행동할 범위를 정한다.', name: 'AI 협업 지휘', q: '어떻게 맡길까?', risk: '엉뚱한 결과, 과도한 권한 위임' },
-    { key: 'V', def: '사실, 근거, 출처, 완료 여부를 원자료로 확인한다.', name: '검증', q: '결과를 믿어도 될까?', risk: '허위 정보 수용, 확증 편향' },
-    { key: 'R', def: '개인정보, 저작권, 공정성, 사용 공개를 지키고 결과를 내 책임으로 다룬다.', name: '책임 있는 사용', q: '이대로 내보내도 될까?', risk: '정보 유출, 표절, 차별' },
-    { key: 'H', def: '스스로 먼저 생각하고, 기본기를 유지하며, 사용 습관을 돌아보고 배운다.', name: '인간 역량 지키기', q: '내 힘은 그대로인가?', risk: '사고력 약화, 기술 퇴화' }
+    { key: 'D', when: '맡기기 전', icon: '🤔', ex: '틀리면 얼마나 곤란한지, 직접 하는 게 더 빠른지 따져 본다', def: '일의 위험, 확인 가능성, 효율을 따져 AI를 쓸지, 얼마나 쓸지 정한다.', name: '위임 판단', q: '이 일을 AI에게 맡길까?', risk: '과의존·과소의존' },
+    { key: 'L', when: '맡길 때', icon: '🗣️', ex: '결과물을 어디에 쓸지, 지킬 조건은 무엇인지 함께 알려 준다', def: '목적과 조건을 전달하고, 단계를 나눠 진행하며, AI가 행동할 범위를 정한다.', name: 'AI 협업 지휘', q: '어떻게 맡길까?', risk: '엉뚱한 결과, 과도한 권한 위임' },
+    { key: 'V', when: '결과를 받으면', icon: '🔍', ex: 'AI가 준 수치와 출처를 원래 자료에서 확인한다', def: '사실, 근거, 출처, 완료 여부를 원자료로 확인한다.', name: '검증', q: '결과를 믿어도 될까?', risk: '허위 정보 수용, 확증 편향' },
+    { key: 'R', when: '내보내기 전', icon: '📤', ex: '개인정보·저작권을 살피고, AI를 썼다면 밝힌다', def: '개인정보, 저작권, 공정성, 사용 공개를 지키고 결과를 내 책임으로 다룬다.', name: '책임 있는 사용', q: '이대로 내보내도 될까?', risk: '정보 유출, 표절, 차별' },
+    { key: 'H', when: '쓰는 내내', icon: '🧠', ex: 'AI에게 묻기 전에 내 생각부터 정리한다', def: '스스로 먼저 생각하고, 기본기를 유지하며, 사용 습관을 돌아보고 배운다.', name: '인간 역량 지키기', q: '내 힘은 그대로인가?', risk: '사고력 약화, 기술 퇴화' }
   ];
   var ITEMS = [
     ['D1', 'AI에게 일을 맡기기 전에, AI가 틀렸을 때 생길 피해가 얼마나 클지 따져 본다.'],
@@ -126,6 +126,7 @@
   function fmtId(id) { return id.slice(0, 4) + '-' + id.slice(4); }
   // 받침에 맞는 조사: josa('검증', '은', '는') → '검증은'
   function josa(w, a, b) { var c = w.charCodeAt(w.length - 1); return w + ((c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28) ? a : b); }
+  function copyBtn(id, small) { return '<button type="button" class="aidx-copy' + (small ? ' small' : '') + '" data-act="copycode" data-code="' + fmtId(id) + '">복사</button>'; }
   function groupLabel(g) { return g ? '그룹 ' + g : '전체 응답자'; }
 
   // ---------- 점수 ----------
@@ -145,6 +146,12 @@
   }
 
   // ---------- 데이터 ----------
+  // 응답 저장소 호출. 구글 쪽이 멈춰도 화면이 '저장하는 중'에 머물지 않도록 25초 뒤 실패로 끝낸다.
+  function call(url, opts) {
+    var ctl = window.AbortController ? new AbortController() : null, o = opts || {};
+    if (ctl) { o.signal = ctl.signal; setTimeout(function () { ctl.abort(); }, 25000); }
+    return fetch(url, o).then(function (r) { return r.json(); });
+  }
   function localRows() { return load(LS_DATA) || []; }
 
   function submit(rec) {
@@ -153,9 +160,9 @@
       return Promise.resolve();
     }
     // text/plain으로 보내야 Apps Script가 사전 요청(CORS preflight) 없이 받는다.
-    return fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
-      .then(function (r) { return r.json(); })
-      .then(function (j) { if (!j.ok) throw new Error(j.error || '저장 실패'); });
+    return call(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
+      // 시간 초과 뒤 다시 누르면 같은 코드로 보낸다. 앞선 요청이 이미 저장됐다면 duplicate가 오니 성공으로 본다.
+      .then(function (j) { if (!j.ok && j.error !== 'duplicate') throw new Error(j.error || '저장 실패'); });
   }
   // 비교 집단의 응답을 모두 불러온다. me가 있으면 그 응답에 mine 표시.
   function fetchPool(group, me) {
@@ -166,7 +173,7 @@
       return Promise.resolve(withMine(rows, me));
     }
     var u = ENDPOINT + '?action=all&group=' + encodeURIComponent(group) + (me ? '&me=' + encodeURIComponent(me.id) : '');
-    return fetch(u).then(function (r) { return r.json(); }).then(function (j) {
+    return call(u).then(function (j) {
       if (!j.ok) throw new Error(j.error || '불러오기 실패');
       return withMine(j.rows.map(function (r) { return { role: r.role, a: r.a, mine: !!r.m }; }), me);
     });
@@ -177,7 +184,7 @@
   }
   function fetchOne(id) {
     if (PREVIEW) return Promise.resolve(localRows().filter(function (r) { return r.id === id; })[0] || null);
-    return fetch(ENDPOINT + '?action=one&id=' + encodeURIComponent(id)).then(function (r) { return r.json(); })
+    return call(ENDPOINT + '?action=one&id=' + encodeURIComponent(id))
       .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, answers: j.row.a } : null; });
   }
 
@@ -225,7 +232,7 @@
       '<div class="aidx-actions sub">' +
       '<button type="button" class="aidx-btn" data-act="my">나의 분석결과 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="group">우리 그룹 분석결과 보기</button></div>' +
-      (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code></p>' : '') +
+      (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="aidx-gate" role="alert" hidden><p><strong id="aidx-gate-msg"></strong></p>' +
       '<button type="button" class="aidx-link" data-act="code">다른 기기에서 이미 응답했다면 결과 코드 입력</button></div>' +
       '<form class="aidx-code" id="aidx-code" hidden><label for="aidx-code-in">결과 코드</label>' +
@@ -233,11 +240,15 @@
       '<button type="submit" class="aidx-btn">결과 보기</button><span class="aidx-err" id="aidx-code-err"></span></form>' +
       '</section>' +
       '<section class="aidx-model"><h2 class="aidx-h">무엇을 진단하나요</h2>' +
-      '<p>AI와 함께 일하는 한 번의 흐름을 다섯 단계로 나누고, 단계마다 실제로 하는 행동을 묻습니다. ' +
-      '영역별 5문항씩 실천 25문항, 그리고 AI 활용에 대한 생각을 묻는 태도 6문항으로 구성됩니다.</p>' +
-      '<ol class="aidx-domains">' + DOMAINS.map(function (dm, i) {
-        return '<li><span class="aidx-dno">0' + (i + 1) + '</span><strong>' + dm.name + '</strong><em>' + dm.q + '</em><span>' + dm.def + '</span></li>';
-      }).join('') + '</ol></section>';
+      '<p>AI와 일하는 한 번의 흐름에서, 다섯 순간마다 내가 <strong>실제로 하는 행동</strong>을 봅니다.</p>' +
+      '<ol class="aidx-flow">' + DOMAINS.map(function (dm, i) {
+        return '<li><span class="aidx-when"><b>' + (i + 1) + '</b>' + dm.when + '</span>' +
+          '<span class="aidx-ficon" aria-hidden="true">' + dm.icon + '</span>' +
+          '<strong class="aidx-fname">' + dm.name + '</strong>' +
+          '<span class="aidx-fq">' + dm.q + '</span>' +
+          '<span class="aidx-fex">예) ' + dm.ex + '</span></li>';
+      }).join('') + '</ol>' +
+      '<p class="aidx-fsum"><span>영역별 5문항 → 실천 25문항</span><span>+ AI에 대한 생각 6문항</span><span>= 31문항</span></p></section>';
     root.innerHTML = h;
   }
   function previewNote() {
@@ -289,8 +300,8 @@
     var me = state.me;
     root.innerHTML = previewNote() + '<section class="aidx-home">' +
       '<h2 class="aidx-h">응답이 저장되었습니다</h2>' +
-      '<p>결과 코드 <code class="aidx-bigcode">' + fmtId(me.id) + '</code></p>' +
-      '<p class="aidx-small">다른 기기에서 결과를 다시 볼 때 이 코드가 필요합니다. 따로 적어 두세요.</p>' +
+      '<p class="aidx-codeline">결과 코드 <code class="aidx-bigcode">' + fmtId(me.id) + '</code>' + copyBtn(me.id) + '</p>' +
+      '<p class="aidx-small">다른 기기에서 결과를 다시 볼 때 이 코드가 필요합니다. 복사해 두세요.</p>' +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="analyze">분석 실시</button></div></section>';
   }
   function viewAnalyzing(msg) {
@@ -535,6 +546,7 @@
 
   root.addEventListener('change', function (e) {
     var t = e.target;
+    state.pending = null; // 응답을 바꾸면 새 코드로 다시 보낸다
     if (t.name === 'role') state.role = t.value;
     else if (t.type === 'radio') {
       state.answers[t.name] = +t.value;
@@ -552,7 +564,7 @@
     }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.dataset.act;
-    if (act === 'start') { state.answers = {}; state.role = ''; state.page = -1; state.started = Date.now(); go('survey'); }
+    if (act === 'start') { state.answers = {}; state.role = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
@@ -566,13 +578,19 @@
         return;
       }
       if (state.page < PAGES.length - 1) { state.page++; go('survey'); return; }
-      var rec = { id: newId(), group: GROUP, role: state.role, answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
-      b.disabled = true; err.textContent = '저장하는 중…';
+      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
+      state.pending = rec; b.disabled = true; err.textContent = '저장하는 중…';
       submit(rec).then(function () {
-        state.me = rec; state.pool = null; save(LS_ME, rec); viewDone();
-      }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 네트워크를 확인하고 다시 눌러 주세요.'; });
+        state.me = rec; state.pending = null; state.pool = null; save(LS_ME, rec); viewDone();
+      }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
     else if (act === 'analyze') { analyze('me'); }
+    else if (act === 'copycode') {
+      var code = b.dataset.code;
+      var done = function () { b.textContent = '복사했습니다'; b.classList.add('is-done'); setTimeout(function () { b.textContent = '복사'; b.classList.remove('is-done'); }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () { window.prompt('결과 코드를 복사하세요', code); });
+      else window.prompt('결과 코드를 복사하세요', code);
+    }
     else if (act === 'my' || act === 'group') {
       // 결과는 진단을 마친 사람만 본다. 이 기기에 응답이 없으면 안내를 띄운다.
       var me = load(LS_ME), tab = act === 'my' ? 'me' : 'group';
