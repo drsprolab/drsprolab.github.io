@@ -69,7 +69,7 @@
   function viewHome() {
     var me = state.me;
     var html = previewNote() +
-      '<section class="aidx-home"><p class="aidx-lead">대학생에게 어떤 AI 기술을 먼저 가르칠지<br>필요성과 현재 수행수준으로 확인합니다.</p>' +
+      '<section class="aidx-home"><p class="aidx-lead">미래 필수역량인 AI·Agent 활용 역량 교육을 위해<br>어떤 기술과 학습 과정을 먼저 가르칠지 요구도를 분석해 교육과정을 설계합니다.</p>' +
       '<ul class="aidx-meta"><li class="beta">개발안</li><li>공통 15문항</li><li>Agent 심화 6문항</li><li>중요도 × 수행수준</li></ul>' +
       (GROUP ? '<p class="aidx-group">응답 그룹 <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions">' + cta('start','진단 시작',true) + '</div>' +
