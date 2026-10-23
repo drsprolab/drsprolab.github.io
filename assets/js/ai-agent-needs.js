@@ -117,7 +117,7 @@
     var h=progress(Object.keys(state.background).length,4,1,PAGES.length+2+ADVANCED_PAGES.length);
     h+='<h2 class="aidx-h">응답하기 전에</h2><ol class="aidx-guide"><li><span class="aidx-gicon">⭐</span><strong>교육 필요성과 현재 능력</strong><span>중요도는 향후 1년 안에 대학에서 배울 필요성, 수행수준은 최근 한 학기 경험을 바탕으로 현재 혼자 할 수 있는 정도입니다. 두 항목 모두 1~5점으로 응답합니다.</span></li><li><span class="aidx-gicon">🧑‍🎓</span><strong>경험이 적어도 응답할 수 있어요</strong><span>직접 해 본 경험이 적거나 없어도 현재 할 수 있는 정도를 판단해 가장 가까운 점수를 선택해 주세요.</span></li></ol>';
     h+='<div class="agn-fields">'+BG.slice(0, 4).map(function (b, i) { return choice(b[0], b[0]==='agent_experience'?'직접 사용해 본 Agent 경험':b[1], b[2], i===3?2:3); }).join('')+'</div>';
-    h+='<p class="agn-no-collect">응답은 익명으로 저장되며, 대학생 AI 교육 과정을 설계하는 연구 목적으로만 사용합니다. 이름·학번 같은 개인정보는 묻지 않습니다.</p>';
+    h+='<p class="agn-no-collect">응답은 익명으로 저장되며, AI 교육 과정을 설계하는 연구 목적으로만 사용합니다. 이름·학번 같은 개인정보는 묻지 않습니다.</p>';
     h+='<div class="aidx-nav">'+cta('home','처음으로',false)+'<span class="aidx-err" id="aidx-err"></span>'+cta('next','공통 문항 시작',true)+'</div>';
     root.innerHTML=previewNote()+'<section class="aidx-survey">'+h+'</section>';
   }
