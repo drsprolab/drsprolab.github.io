@@ -5,8 +5,8 @@
   if (!root) return;
   var source = root.dataset.source;
   var data = null, items = [], state = { view: 'home', page: -1, answers: {}, background: {}, advanced: false };
-  var I_SCALE = [[1,'전혀 필요하지 않다'],[2,'별로 필요하지 않다'],[3,'보통이다'],[4,'필요하다'],[5,'매우 필요하다'],[98,'판단하기 어렵다'],[99,'해당 없음']];
-  var P_SCALE = [[1,'혼자서는 하기 어렵다'],[2,'단계별 안내가 필요하다'],[3,'가끔 도움을 받아 할 수 있다'],[4,'익숙한 과제는 혼자 할 수 있다'],[5,'새로운 과제에도 혼자 적용할 수 있다'],[97,'직접 해 본 적 없음'],[98,'판단하기 어렵다'],[99,'해당 없음']];
+  var I_SCALE = [[1,'전혀 필요하지 않다'],[2,'별로 필요하지 않다'],[3,'보통이다'],[4,'필요하다'],[5,'매우 필요하다']];
+  var P_SCALE = [[1,'혼자서는 하기 어렵다'],[2,'단계별 안내가 필요하다'],[3,'가끔 도움을 받아 할 수 있다'],[4,'익숙한 과제는 혼자 할 수 있다'],[5,'새로운 과제에도 혼자 적용할 수 있다']];
   var COMMON = [], ADVANCED = [], PAGES = [], ADVANCED_PAGES = [];
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
   var cta = function (act, text, primary) { return '<button type="button" class="aidx-btn' + (primary ? ' primary' : '') + '" data-act="' + act + '">' + text + '</button>'; };
@@ -57,7 +57,7 @@
   function viewSurvey() {
     var p=state.page, totalSteps=PAGES.length+2+ADVANCED_PAGES.length, total=(COMMON.length+(state.advanced?ADVANCED.length:0))*2+5, done=Object.keys(state.answers).length+Object.keys(state.background).length;
     var h=progress(done,total,p+2,totalSteps), list=PAGES[p], domain=list[0].domain;
-    h += '<h2 class="aidx-h">'+esc(domain.name)+' · '+(p+1)+' / '+PAGES.length+'</h2><p>각 기술을 향후 1년 안에 대학에서 배울 필요성과 현재 할 수 있는 정도를 골라 주세요. 최근 한 학기 경험을 떠올리고, 해 본 적이 없다면 ‘직접 해 본 적 없음’을 선택하세요.</p>';
+    h += '<h2 class="aidx-h">'+esc(domain.name)+' · '+(p+1)+' / '+PAGES.length+'</h2><p>각 기술을 향후 1년 안에 대학에서 배울 필요성과 현재 할 수 있는 정도를 각각 1~5점으로 골라 주세요. 수행수준은 최근 한 학기 경험을 바탕으로, 경험이 없다면 현재 혼자 할 수 있는 정도를 판단해 응답해 주세요.</p>';
     h += itemList(list);
     h += '<div class="aidx-nav">'+cta('prev','이전',false)+'<span class="aidx-err" id="aidx-err"></span>'+cta('next',p===PAGES.length-1?'다음':'다음',true)+'</div>';
     root.innerHTML='<p class="aidx-preview">검토 모드 · 답변은 현재 화면에서만 유지됩니다.</p><section class="aidx-survey">'+h+'</section>';
@@ -68,7 +68,7 @@
   }
   function viewGuide() {
     var h=progress(Object.keys(state.background).length,4,1,PAGES.length+2+ADVANCED_PAGES.length);
-    h+='<h2 class="aidx-h">응답하기 전에</h2><ol class="aidx-guide"><li><span class="aidx-gicon">⭐</span><strong>교육 필요성과 현재 능력</strong><span>중요도는 향후 1년 안에 대학에서 배울 필요성, 수행수준은 최근 한 학기 동안 실제로 해 본 정도입니다.</span></li><li><span class="aidx-gicon">🧑‍🎓</span><strong>경험이 없어도 응답할 수 있어요</strong><span>중요도는 경험이 없어도 답할 수 있습니다. 수행 경험이 없으면 ‘직접 해 본 적 없음’을 선택하세요.</span></li></ol>';
+    h+='<h2 class="aidx-h">응답하기 전에</h2><ol class="aidx-guide"><li><span class="aidx-gicon">⭐</span><strong>교육 필요성과 현재 능력</strong><span>중요도는 향후 1년 안에 대학에서 배울 필요성, 수행수준은 최근 한 학기 경험을 바탕으로 현재 혼자 할 수 있는 정도입니다. 두 항목 모두 1~5점으로 응답합니다.</span></li><li><span class="aidx-gicon">🧑‍🎓</span><strong>경험이 적어도 응답할 수 있어요</strong><span>직접 해 본 경험이 적거나 없어도 현재 할 수 있는 정도를 판단해 가장 가까운 점수를 선택해 주세요.</span></li></ol>';
     h+='<div class="agn-fields">'+choice('major','전공 계열',[['1','인문·사회'],['2','자연과학'],['3','공학·ICT'],['4','보건·의료'],['5','예술·체육'],['6','기타'],['9','응답하지 않음']],3)+
       choice('year','학년',[['1','1학년'],['2','2학년'],['3','3학년'],['4','4학년 이상'],['9','응답하지 않음']],3)+
       choice('ai_frequency','최근 4주 AI 사용 빈도',[['0','없음'],['1','월 1~3일'],['2','주 1~2일'],['3','주 3~4일'],['4','주 5일 이상']],3)+
@@ -87,7 +87,7 @@
   }
   function viewAdvanced() {
     var idx=state.page-PAGES.length, group=ADVANCED_PAGES[idx], dm=group[0].domain;
-    var h=progress(Object.keys(state.answers).length+Object.keys(state.background).length,COMMON.length*2+ADVANCED.length*2+5,PAGES.length+3+idx,PAGES.length+2+ADVANCED_PAGES.length)+'<h2 class="aidx-h">Agent 심화 · '+esc(dm.name)+'</h2><p>향후 1년 안에 대학에서 배울 필요성과 현재 할 수 있는 정도를 골라 주세요. 직접 해 본 적이 없다면 ‘직접 해 본 적 없음’을 선택하세요.</p>';
+    var h=progress(Object.keys(state.answers).length+Object.keys(state.background).length,COMMON.length*2+ADVANCED.length*2+5,PAGES.length+3+idx,PAGES.length+2+ADVANCED_PAGES.length)+'<h2 class="aidx-h">Agent 심화 · '+esc(dm.name)+'</h2><p>향후 1년 안에 대학에서 배울 필요성과 현재 할 수 있는 정도를 각각 1~5점으로 골라 주세요. 수행수준은 경험이 적거나 없어도 현재 혼자 할 수 있는 정도를 판단해 응답해 주세요.</p>';
     h+=itemList(group)+'<div class="aidx-nav">'+cta('prev','이전',false)+'<span class="aidx-err" id="aidx-err"></span>'+cta('next','다음',true)+'</div>';
     root.innerHTML='<p class="aidx-preview">Agent 심화 문항 · 조건에 해당하는 응답자에게만 제시</p><section class="aidx-survey">'+h+'</section>';
   }
