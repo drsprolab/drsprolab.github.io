@@ -122,7 +122,6 @@
     const pageCount=Math.ceil(qs.length/4), likert=['전혀 그렇지 않다','그렇지 않다','보통이다','그렇다','매우 그렇다'];
     function renderQ(){const start=state.q*4,items=qs.slice(start,start+4),area=items[0][0],step=state.q+2,total=pageCount+1;document.getElementById('q-area').textContent=area;document.getElementById('q-count').textContent=`${step} / ${total}`;document.getElementById('progress-bar').style.width=`${(step/total)*100}%`;document.getElementById('prev-q').disabled=false;document.getElementById('next-q').textContent=state.q===pageCount-1?'결과 보기':'다음';document.getElementById('question-list').innerHTML=items.map(([group,text],j)=>{const n=start+j;return `<li class="sb-item" id="q-${n}"><p class="sb-question"><span class="sb-no">${String(n+1).padStart(2,'0')}</span><span>${text}</span></p><div class="sb-scale"><span class="sb-end">전혀 그렇지 않다</span><div class="sb-dots" role="radiogroup" aria-label="문항 ${n+1}: ${text}">${likert.map((label,i)=>`<label title="${label}"><input type="radio" name="answer-${n}" value="${i+1}" aria-label="${i+1} ${label}" ${state.answers[n]===i+1?'checked':''}><span>${i+1}</span></label>`).join('')}</div><span class="sb-end">매우 그렇다</span></div></li>`}).join('');document.querySelectorAll('.sb-dots input').forEach(input=>input.onchange=()=>{const n=Number(input.name.slice(7));state.answers[n]=Number(input.value);document.getElementById(`q-${n}`).classList.remove('is-miss')})}
     document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{show(b.dataset.go);if(b.dataset.go==='profile')renderJobs()});
-    document.getElementById('share-page').onclick=async()=>{const data={title:config.title,text:config.copy,url:location.href};if(navigator.share){try{await navigator.share(data)}catch(e){}}else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);alert('진단 링크를 복사했습니다.')}};
     document.querySelectorAll('[data-exp]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-exp]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.exp=b.dataset.exp});
     document.getElementById('prev-profile').onclick=()=>show('intro');
     document.getElementById('start-survey').onclick=()=>{show('survey');state.q=0;state.answers=Array(qs.length).fill(null);renderQ()};
@@ -131,6 +130,6 @@
     renderRoles();renderJobs();renderQ();
   </script>
   <!-- 응답 저장·결과 코드·실제 응답으로 계산한 결과·결과지 PDF (매장용·본사용 공통) -->
-  <script src="/assets/js/starbucks-ai.js?v=20261023f"></script>
+  <script src="/assets/js/starbucks-ai.js?v=20261023g"></script>
 </body>
 </html>

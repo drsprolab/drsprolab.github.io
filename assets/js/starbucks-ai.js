@@ -12,6 +12,46 @@
   var NAME = TRACK === 'store' ? '매장용' : '본사용';
   var DEMO_CODE = 'DEMO2026', demoSession = null;
 
+  // 두 진단 모두 연구실 페이지와 같은 공유 메뉴를 사용한다.
+  var shareBtn = document.getElementById('share-page');
+  if (shareBtn) {
+    var shareBox = document.createElement('div'), shareMenu = document.createElement('div');
+    var shareUrl = location.origin + location.pathname, encodedUrl = encodeURIComponent(shareUrl);
+    shareBox.className = 'sbx-share';
+    shareBtn.parentNode.insertBefore(shareBox, shareBtn);
+    shareBox.appendChild(shareBtn);
+    shareBtn.setAttribute('aria-haspopup', 'true');
+    shareBtn.setAttribute('aria-expanded', 'false');
+    shareBtn.setAttribute('aria-controls', 'sbx-share-menu');
+    shareMenu.id = 'sbx-share-menu'; shareMenu.className = 'sbx-share-menu';
+    shareMenu.setAttribute('role', 'menu'); shareMenu.hidden = true;
+    shareMenu.innerHTML = '<button type="button" role="menuitem" data-share="copy">링크 복사</button>' +
+      '<a role="menuitem" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '">Facebook</a>' +
+      '<a role="menuitem" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodedUrl + '">LinkedIn</a>' +
+      '<a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=' + encodedUrl + '&amp;text=' + encodeURIComponent(CFG.title) + '">X</a>' +
+      '<a role="menuitem" href="mailto:?subject=' + encodeURIComponent(CFG.title) + '&amp;body=' + encodedUrl + '">이메일</a>' +
+      '<span class="sbx-share-done" role="status" aria-live="polite"></span>';
+    shareBox.appendChild(shareMenu);
+    var shareDone = shareMenu.querySelector('.sbx-share-done');
+    function toggleShare(open) {
+      shareMenu.hidden = !open; shareBtn.setAttribute('aria-expanded', String(open));
+      if (!open) shareDone.textContent = '';
+      if (open) {
+        shareMenu.classList.remove('to-left');
+        if (shareMenu.getBoundingClientRect().right > document.documentElement.clientWidth - 8) shareMenu.classList.add('to-left');
+      }
+    }
+    shareBtn.addEventListener('click', function () { toggleShare(shareMenu.hidden); });
+    shareMenu.querySelector('[data-share="copy"]').addEventListener('click', function () {
+      function copied() { shareDone.textContent = '링크를 복사했습니다'; setTimeout(function () { toggleShare(false); }, 1200); }
+      if (navigator.clipboard) navigator.clipboard.writeText(shareUrl).then(copied, function () { window.prompt('링크를 복사하세요', shareUrl); });
+      else window.prompt('링크를 복사하세요', shareUrl);
+    });
+    shareMenu.addEventListener('click', function (e) { if (e.target.tagName === 'A') toggleShare(false); });
+    document.addEventListener('click', function (e) { if (!shareBox.contains(e.target)) toggleShare(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !shareMenu.hidden) { toggleShare(false); shareBtn.focus(); } });
+  }
+
   // 공개 시연용 결과. 실제 응답 저장소·통계·이 브라우저의 응답 기록과 분리한다.
   function demoRecord() {
     return { id: DEMO_CODE, demo: true, role: TRACK === 'store' ? 'partner' : 'practitioner',
@@ -87,6 +127,10 @@
   // ---------- 화면 보조 스타일 ----------
   var css = document.createElement('style');
   css.textContent = '.sbx-code{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:#cfebdd}' +
+    '.sbx-share{position:relative}.sbx-share-menu{position:absolute;left:0;top:calc(100% + 8px);z-index:20;min-width:168px;display:grid;padding:6px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.12)}' +
+    '.sbx-share-menu[hidden]{display:none}.sbx-share-menu.to-left{left:auto;right:0}' +
+    '.sbx-share-menu a,.sbx-share-menu button{font:inherit;font-size:14px;text-align:left;padding:8px 12px;border:0;border-radius:6px;background:none;color:var(--ink);text-decoration:none;cursor:pointer;white-space:nowrap}' +
+    '.sbx-share-menu a:hover,.sbx-share-menu button:hover{background:var(--mint)}.sbx-share-done{font-size:12.5px;color:var(--green-dark);padding:0 12px}.sbx-share-done:empty{display:none}' +
     '.sbx-demo{margin:0 0 14px;padding:12px 16px;border:1px solid #e6cd90;border-radius:9px;background:#fff8e8;color:#6d4d13;font-size:13px;font-weight:700;line-height:1.5}' +
     '.sbx-code code{font:700 20px ui-monospace,monospace;letter-spacing:.08em;color:#fff;background:rgba(255,255,255,.12);border-radius:6px;padding:2px 10px}' +
     '.sbx-copy{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}' +
