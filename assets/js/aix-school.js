@@ -144,7 +144,7 @@
   };
 
   // ---------- 상태 ----------
-  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', started: 0, tab: 'me', me: null, pool: null };
+  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', org: '', started: 0, tab: 'me', me: null, pool: null };
 
   // ---------- 유틸 ----------
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -363,7 +363,11 @@
         BG.map(function (b) {
           return '<fieldset class="aidx-role" id="bg-' + b.key + '"><legend>' + b.label + '</legend><div class="aidx-roles">' +
             b.opts.map(function (r) { return '<label><input type="radio" name="' + b.key + '" value="' + r + '"' + (state[b.key] === r ? ' checked' : '') + '><span>' + r + '</span></label>'; }).join('') +
-            '</div></fieldset>';
+            '</div></fieldset>' +
+            // 학교급 바로 아래에 학교 이름(필수)
+            (b.key === 'job' ? '<div class="aidx-org"><label for="axr-org-in">학교 이름</label>' +
+              '<input id="axr-org-in" name="org" maxlength="40" autocomplete="organization" value="' + esc(state.org) + '">' +
+              '<p class="aidx-hint">예) 대한초등학교 / 대한중학교 / 대한고등학교</p></div>' : '');
         }).join('');
     } else {
       var items = PAGES[p], st = STAGES[p];
@@ -386,7 +390,14 @@
     root.innerHTML = previewNote() + '<section class="aidx-survey">' + h + '</section>';
   }
   function pageComplete() {
-    if (state.page === -1) { var m = BG.filter(function (b) { return !state[b.key]; })[0]; return m ? 'bg:' + m.label : null; }
+    if (state.page === -1) {
+      // 화면 순서대로 확인: 직위 → 학교급 → 학교 이름 → AI 사용 빈도
+      for (var i = 0; i < BG.length; i++) {
+        if (!state[BG[i].key]) return 'bg:' + BG[i].label;
+        if (BG[i].key === 'job' && !state.org.trim()) return 'org';
+      }
+      return null;
+    }
     var miss = PAGES[state.page].filter(function (it) { return state.answers[it.code] === undefined; });
     return miss.length ? miss[0].code : null;
   }
@@ -696,6 +707,10 @@
   function render() { if (state.view === 'home') viewHome(); else if (state.view === 'survey') viewSurvey(); }
   function go(view) { state.view = view; render(); window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 }); }
 
+  root.addEventListener('input', function (e) {
+    if (e.target.name === 'org') { state.org = e.target.value; state.pending = null; }
+  });
+
   root.addEventListener('change', function (e) {
     var t = e.target;
     state.pending = null;
@@ -713,21 +728,22 @@
     if (tb) { if (!state.pool) { analyze(tb.dataset.tab); return; } state.tab = tb.dataset.tab; viewResult(); return; }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.dataset.act;
-    if (act === 'start') { state.answers = {}; state.role = ''; state.job = ''; state.freq = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
+    if (act === 'start') { state.answers = {}; state.role = ''; state.job = ''; state.freq = ''; state.org = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
       var miss = pageComplete(), err = document.getElementById('axr-err');
       if (miss) {
-        err.textContent = miss.indexOf('bg:') === 0 ? josa(miss.slice(3), '을', '를') + ' 골라 주세요.' : '응답하지 않은 문항이 있습니다.';
-        if (miss.indexOf('bg:') !== 0) {
+        err.textContent = miss === 'org' ? '학교 이름을 적어 주세요.' : miss.indexOf('bg:') === 0 ? josa(miss.slice(3), '을', '를') + ' 골라 주세요.' : '응답하지 않은 문항이 있습니다.';
+        if (miss === 'org') document.getElementById('axr-org-in').focus();
+        else if (miss.indexOf('bg:') !== 0) {
           PAGES[state.page].forEach(function (it) { if (state.answers[it.code] === undefined) document.getElementById('q-' + it.code).classList.add('is-miss'); });
           document.getElementById('q-' + miss).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         return;
       }
       if (state.page < PAGES.length - 1) { state.page++; go('survey'); return; }
-      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, job: state.job, freq: state.freq, answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
+      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, job: state.job, freq: state.freq, org: state.org.trim().slice(0, 40), answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
       state.pending = rec; b.disabled = true; err.textContent = '저장하는 중…';
       submit(rec).then(function () {
         state.me = rec; state.pending = null; state.pool = null; save(LS_ME, rec); viewDone();

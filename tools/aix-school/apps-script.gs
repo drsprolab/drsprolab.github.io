@@ -12,8 +12,9 @@ function unkOk_(i) { return i < 6 || i >= 18; }
 var ROLES = ['교사', '부장교사', '교감·교장', '기타 교원'];
 var JOBS = ['초등학교', '중학교', '고등학교', '특수학교', '기타']; // 학교급
 var FREQS = ['거의 쓰지 않음', '월 1~3회', '주 1~2회', '주 3회 이상', '매일'];
-var HEAD = ['submitted_at', 'id', 'group', 'role', 'job', 'freq', 'seconds'].concat(ITEMS);
-var A0 = 7; // 응답값이 시작하는 열 위치
+// 학교 이름(org)은 맨 끝 열에 저장하고, GET 응답으로는 내보내지 않는다.
+var HEAD = ['submitted_at', 'id', 'group', 'role', 'job', 'freq', 'seconds'].concat(ITEMS, ['org']);
+var A0 = 7, A1 = A0 + ITEMS.length; // 응답값 열 범위
 
 function sheet_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -45,7 +46,10 @@ function doPost(e) {
     if (!validAnswers_(d.answers)) return json_({ ok: false, error: 'bad answers' });
     if (rows_().some(function (r) { return r[1] === d.id; })) return json_({ ok: false, error: 'duplicate' });
     var sec = Math.max(0, Math.min(86400, parseInt(d.seconds, 10) || 0));
-    sheet_().appendRow([new Date(), d.id, cleanGroup_(d.group), d.role, d.job, d.freq, sec].concat(d.answers));
+    // 학교 이름은 필수. 수식으로 해석되지 않도록 앞에 '를 붙인다.
+    var org = String(d.org || '').replace(/[\u0000-\u001f]/g, '').trim().slice(0, 40);
+    if (!org) return json_({ ok: false, error: 'bad org' });
+    sheet_().appendRow([new Date(), d.id, cleanGroup_(d.group), d.role, d.job, d.freq, sec].concat(d.answers, ["'" + org]));
     return json_({ ok: true });
   } catch (err) {
     return json_({ ok: false, error: 'bad request' });
@@ -58,11 +62,11 @@ function doGet(e) {
   var p = e.parameter || {}, data = rows_();
   if (p.action === 'one') {
     var r = data.filter(function (x) { return x[1] === p.id; })[0];
-    return json_({ ok: true, row: r ? { id: r[1], group: r[2], role: r[3], j: r[4], f: r[5], a: r.slice(A0).map(Number) } : null });
+    return json_({ ok: true, row: r ? { id: r[1], group: r[2], role: r[3], j: r[4], f: r[5], a: r.slice(A0, A1).map(Number) } : null });
   }
   var g = cleanGroup_(p.group);
   var out = data.filter(function (x) { return !g || x[2] === g; }).map(function (x) {
-    var o = { role: x[3], j: x[4], f: x[5], g: x[2], a: x.slice(A0).map(Number) };
+    var o = { role: x[3], j: x[4], f: x[5], g: x[2], a: x.slice(A0, A1).map(Number) };
     if (p.me && x[1] === p.me) o.m = 1;
     return o;
   });
