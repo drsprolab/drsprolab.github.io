@@ -127,8 +127,10 @@
     document.getElementById('prev-profile').onclick=()=>show('intro');
     document.getElementById('start-survey').onclick=()=>{show('survey');state.q=0;state.answers=Array(qs.length).fill(null);renderQ()};
     document.getElementById('prev-q').onclick=()=>{if(state.q>0){state.q--;renderQ();window.scrollTo({top:0,behavior:'smooth'})}else show('profile')};
-    document.getElementById('next-q').onclick=()=>{const start=state.q*4,missing=state.answers.slice(start,start+4).findIndex(a=>!a);if(missing>=0){const n=start+missing,el=document.getElementById(`q-${n}`);el.classList.add('is-miss');el.scrollIntoView({behavior:'smooth',block:'center'});return}if(state.q<pageCount-1){state.q++;renderQ();window.scrollTo({top:0,behavior:'smooth'})}else{document.getElementById('result-sub').textContent=`${roleLabels[state.role]} · ${state.job} / ${config.title}`;show('results')}};
+    document.getElementById('next-q').onclick=()=>{const start=state.q*4,missing=state.answers.slice(start,start+4).findIndex(a=>!a);if(missing>=0){const n=start+missing,el=document.getElementById(`q-${n}`);el.classList.add('is-miss');el.scrollIntoView({behavior:'smooth',block:'center'});return}if(state.q<pageCount-1){state.q++;renderQ();window.scrollTo({top:0,behavior:'smooth'})}else{window.sbxFinish()}};
     renderRoles();renderJobs();renderQ();
   </script>
+  <!-- 응답 저장·결과 코드·실제 응답으로 계산한 결과·결과지 PDF (매장용·본사용 공통) -->
+  <script src="/assets/js/starbucks-ai.js?v=20261023c"></script>
 </body>
 </html>
