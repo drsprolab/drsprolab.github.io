@@ -6,6 +6,18 @@ permalink: /in-progress/
 lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의 결과와 우리 그룹의 결과를 볼 수 있습니다.
 ---
 <div class="inst-grid">
+  {% assign agent_needs = site.pages | where: "url", "/in-progress/ai-agent-needs/" | first %}
+  <a class="inst" href="{{ '/in-progress/ai-agent-needs/' | relative_url }}">
+    {% if agent_needs.image.path and agent_needs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ agent_needs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    <div class="tags"><span class="badge">개발안</span><span class="badge beta">BETA</span><span class="badge">요구도 분석</span></div>
+    <h3>AI Agent 구축 및 활용에 대한 요구도 분석</h3>
+    <p>대학생의 수업·학습·과제·프로젝트에서 필요한 AI 및 Agent 역량의 중요도와 수행수준을 살펴봅니다.</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>대학생</dd>
+      <dt>문항 구성</dt><dd>공통 40문항 · Agent 심화 12문항</dd>
+      <dt>분석 방법</dt><dd>Borich 요구도 · IPA · Locus for Focus</dd>
+    </dl>
+  </a>
   {% assign aidx = site.pages | where: "url", "/in-progress/ai-competency/" | first %}
   <div class="inst inst--multi">
     {% if aidx.image.path and aidx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aidx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
