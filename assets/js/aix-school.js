@@ -116,6 +116,64 @@
     E: ['AI 활용 수업을 주제로 한 교원 학습공동체를 만들고, 학기마다 수업 공개를 엽니다.', '공문 초안·가정통신문처럼 반복되는 행정 업무의 AI 활용 방법을 학교 공통으로 정합니다.', '학교 자체 평가에 AI 활용 교육 효과 지표를 넣고, 결과를 학부모에게 안내합니다.'],
     N: ['학년별 AI 리터러시(원리·윤리·책임 있는 사용) 교육 내용을 교육과정에 편성합니다.', '사용 중인 AI 도구의 위험(부적절한 콘텐츠·편향·개인정보)을 학기마다 점검하는 절차를 만듭니다.', '기기 대여와 방과 후 이용 공간으로 가정 환경에 따른 AI 활용 격차를 줄입니다.']
   };
+  // 학교 발전 전략(종합 결과 6번): 단계마다 3개. 담당·기간·행동 요령 3단계·점검 지표를 함께 둔다.
+  var STRATEGIES = {
+    F: [
+      { t: 'AI 활용 교육 목표를 학교 교육계획에 넣기', who: '교장·교감, 교육과정부', when: '다음 학기 교육계획 수립 전 2~4주',
+        steps: ['교원 의견과 협의회 논의를 모아 "AI로 무엇을 바꿀지" 학교 목표 2~3개로 정합니다(예: 수업 준비 시간 20% 절감, 과정 중심 평가 확대).', '목표마다 담당 부서와 학기 말 확인 방법을 정해 교육계획서에 적습니다.', '교직원 회의에서 목표를 발표하고 학교 누리집과 공유 폴더에 게시합니다.'],
+        kpi: '교육계획서에 측정할 수 있는 AI 활용 목표 2개 이상' },
+      { t: '한 쪽짜리 학교 AI 사용 지침 만들기', who: '교감, 정보부장, 학생부', when: '4주',
+        steps: ['교육청 지침과 승인 도구 목록을 바탕으로 학생 개인정보 입력 금지, 학생 사용 연령, 과제 허용 범위를 한 쪽으로 정리합니다.', '부장 회의와 학생·학부모 의견 수렴을 거쳐 확정합니다.', '교무실·교실·누리집에 게시하고, 학기 초 교직원 연수와 학생 오리엔테이션에서 안내합니다.'],
+        kpi: '1단계 "잘 모르겠다" 응답 비율 10% 이하' },
+      { t: '승인 도구·기기·기초 연수 정비', who: '정보부, 행정실', when: '한 학기',
+        steps: ['승인된 AI 도구 목록과 계정 발급 방법을 한 장 안내문으로 만들어 배포합니다.', '학생용 기기와 무선망이 부족한 교실을 점검해 보완 계획을 세웁니다.', '교과별 2시간 기초 연수를 학기 초에 엽니다.'],
+        kpi: '승인 도구 계정 보유 교원 비율, 기초 연수 이수율 80% 이상' }
+    ],
+    P: [
+      { t: '교과별 실습형 AI 연수 열기', who: '연구부, 교과 대표 교사', when: '월 1회, 한 학기',
+        steps: ['다음 주에 쓸 실제 수업 자료(활동지·평가 문항)를 AI로 만들어 보는 90분 실습을 교과별로 엽니다.', '학년 수준과 성취기준을 넣어 요청하는 법, 교과서와 대조해 확인하는 법을 함께 연습합니다.', '만든 자료를 공유 폴더에 올려 서로 써 보고 고칩니다.'],
+        kpi: '매주 수업 준비에 AI를 쓰는 교원 비율' },
+      { t: '"AI로 줄인 시간" 사례 모으고 나누기', who: '부장교사', when: '학기 중 상시',
+        steps: ['교원마다 AI로 처리한 업무와 줄어든 시간을 한 줄씩 적는 공유 시트를 만듭니다.', '월말 교직원 회의에서 사례 3개를 5분씩 소개합니다.', '효과가 큰 사례는 학교 공통 방법으로 정리해 신규·전입 교원에게 안내합니다.'],
+        kpi: '공유된 사례 수, 교원 1인당 월 절감 시간' },
+      { t: '학생 개인정보 보호 습관 들이기', who: '정보부장', when: '학기 초, 이후 분기마다',
+        steps: ['AI에 넣으면 안 되는 정보(이름·성적·상담 내용) 예시를 한 장으로 만들어 교무실에 붙입니다.', '연수 첫 10분에 익명화(이름 → 학생A) 실습을 합니다.', '분기마다 짧은 점검 문항으로 실천 여부를 확인합니다.'],
+        kpi: 'P5 문항 학교 평균 4점 이상' }
+    ],
+    W: [
+      { t: '단원별 AI 활용 지도안 함께 설계하기', who: '학년·교과 협의회', when: '협의회 월 1회',
+        steps: ['다음 단원 하나를 골라 AI가 맡을 활동과 교사가 판단할 활동을 표시한 지도안을 함께 만듭니다.', '한 교사가 먼저 수업하고, 협의회에서 학생 결과물을 보며 고칩니다.', '고친 지도안과 활동지를 협의회 공유 폴더에 올립니다.'],
+        kpi: '협의회별 학기당 공동 설계 지도안 2개 이상' },
+      { t: '과제마다 AI 사용 허용 범위 정하기', who: '교과 협의회', when: '학기 초',
+        steps: ['수행평가와 과제마다 AI 사용을 "금지 / 아이디어만 / 초안까지 / 자유" 가운데 하나로 정합니다.', '허용 범위와 AI 사용 기록 방법을 과제 안내문에 적어 학생에게 미리 알립니다.', '학기 말에 위반·혼란 사례를 모아 기준을 고칩니다.'],
+        kpi: 'AI 허용 범위가 적힌 과제 비율 100%' },
+      { t: '과정 중심 평가로 바꾸기', who: '교과 협의회, 연구부', when: '한 학기',
+        steps: ['결과물만 보는 과제 하나를 골라 초안·수정 과정·구술 확인을 평가에 넣습니다.', '평가 기준표에 "자기 말로 설명하기" 항목을 추가합니다.', '바꾼 평가의 학생 성취를 이전 학기와 비교해 협의회에서 검토합니다.'],
+        kpi: '과정 중심 평가를 적용한 과목 수' }
+    ],
+    E: [
+      { t: 'AI 수업 교원 학습공동체 운영하기', who: '교감, 학습공동체 대표 교사', when: '격주, 한 학기',
+        steps: ['관심 있는 교원 5~8명으로 학습공동체를 만들고 학기 주제를 하나 정합니다.', '모임마다 한 명이 AI 활용 수업을 시연하고 함께 고칩니다.', '학기 말 수업 공개로 다른 교원에게 결과를 나눕니다.'],
+        kpi: '학습공동체 참여 교원 비율, 학기당 수업 공개 횟수' },
+      { t: '행정 업무 AI 활용 방법을 학교 공통으로 정하기', who: '교무부, 행정실', when: '2개월',
+        steps: ['공문 초안·가정통신문·회의록처럼 반복되는 업무 3가지를 고릅니다.', '업무마다 검증된 요청문과 확인 절차(개인정보 확인 포함)를 한 장으로 정리합니다.', '공유 폴더에 두고 신규·전입 교원 연수에 넣습니다.'],
+        kpi: '공통 방법이 있는 행정 업무 수, 업무 처리 시간' },
+      { t: '학교 자체 평가에 넣고 학부모에게 알리기', who: '교육과정부', when: '학기 말',
+        steps: ['학교 자체 평가에 AI 활용 교육 지표(수업 적용 수, 학생 만족도)를 넣습니다.', '이 진단을 학기마다 다시 실시해 단계 점수의 변화를 확인합니다.', '결과와 다음 학기 계획을 가정통신문으로 학부모에게 안내합니다.'],
+        kpi: '자체 평가 지표 포함 여부, 진단 재실시 응답률' }
+    ],
+    N: [
+      { t: '학년별 AI 리터러시 교육과정 편성하기', who: '교육과정부, 정보 교사', when: '다음 학년도 교육과정 편성 시기',
+        steps: ['학년별로 AI의 원리·윤리·책임 있는 사용 가운데 다룰 내용을 정합니다.', '창의적 체험활동·정보·교과 연계 가운데 어느 시간에 넣을지 배정합니다.', '학기 말에 학생 AI 리터러시를 점검해 효과를 확인합니다.'],
+        kpi: '학년별 AI 리터러시 편성 시수' },
+      { t: '사용 중인 AI 도구의 위험 정기 점검', who: '정보부, 학교운영위원회', when: '학기마다',
+        steps: ['학교에서 쓰는 AI 도구 목록과 도구별 담당 교원을 정리합니다.', '부적절한 콘텐츠·편향·개인정보 위험을 점검표로 확인합니다.', '문제가 있으면 사용 중단이나 대체 도구를 정해 공지합니다.'],
+        kpi: '점검을 마친 도구 비율 100%' },
+      { t: '가정 환경에 따른 AI 활용 격차 줄이기', who: '교육복지 담당, 행정실', when: '한 학기',
+        steps: ['가정에 기기나 인터넷이 없는 학생을 파악합니다.', '기기 대여와 방과 후 이용 공간(도서실·컴퓨터실)을 운영합니다.', '지원받은 학생의 AI 활용 수업 참여를 확인합니다.'],
+        kpi: '지원 대상 학생의 기기 확보 비율' }
+    ]
+  };
   // 교원이 직접 해 볼 일 (교원 활용·수업·평가 재설계 단계)
   var MY_TIPS = {
     P: ['이번 주 수업 자료 하나를 AI의 도움을 받아 만들어 보세요.', 'AI에게 요청할 때 학년 수준과 성취기준을 꼭 함께 적어 보세요.', 'AI가 만든 자료는 교과서나 원자료와 한 번 대조한 뒤 쓰세요.'],
@@ -444,7 +502,10 @@
     var me = state.me, org = me && normOrg(me.org) ? me.org : '', group = org ? '' : me ? (me.group || '') : GROUP;
     viewAnalyzing(tab === 'me' ? '응답을 분석하고 있습니다' : '학교 응답을 모으고 있습니다');
     var t0 = Date.now();
-    Promise.all([fetchPool(group, me, org), org && me.job ? fetchPeers(me.job, org) : Promise.resolve([])]).then(function (res) {
+    // 다른 학교 응답은 학교급마다 받아 합친다. 학교 번호(s)는 학교급마다 따로 매겨지므로 앞에 학교급을 붙여 구분한다.
+    var peersP = org ? Promise.all(JOBS.map(function (j) { return fetchPeers(j, org).then(function (rs) { rs.forEach(function (r) { r.s = j + ':' + r.s; }); return rs; }); }))
+      .then(function (lists) { return [].concat.apply([], lists); }) : Promise.resolve([]);
+    Promise.all([fetchPool(group, me, org), peersP]).then(function (res) {
       state.pool = { group: group, org: org, rows: res[0].map(scored) };
       state.peers = res[1].map(scored);
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
@@ -576,59 +637,97 @@
     h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">4 · 행동 조언 5가지</p><h3>내가 할 일과 학교가 할 일</h3>' +
       '<p>내 점수가 낮은 단계(교원 활용·수업·평가 재설계)와 학교와의 인식 차이에서 내가 할 일을, 우리 학교의 병목 단계에서 학교가 할 일을 골랐습니다.</p></div>' + adviceList(advice) + '</section>';
 
-    // 5. 같은 학교급 다른 학교와 비교
-    var peerTxt = '', schoolAdvice;
-    var schools = {};
-    (state.peers || []).forEach(function (r) { (schools[r.s] = schools[r.s] || []).push(r); });
-    var peerList = Object.keys(schools).map(function (k) { return schools[k]; }).filter(function (rs) { return rs.length >= MIN_SCHOOL; }).map(aggregate);
-    var peerMean = null, pdiff = null;
-    if (!P.org || !me.job) {
-      peerTxt = '<p>학교 이름과 학교급이 있는 응답에서만 다른 학교와 비교할 수 있습니다.</p>';
-    } else if (!peerList.length) {
-      peerTxt = '<p>아직 같은 학교급(' + esc(me.job) + ')에서 응답이 ' + MIN_SCHOOL + '명 이상 모인 다른 학교가 없습니다. 다른 학교의 응답이 쌓이면 이 자리에 비교 결과가 나타납니다.</p>';
-    } else {
-      peerMean = STAGES.map(function (_, s) { var v = nn(peerList.map(function (A) { return A.lvMean[s]; })); return v.length ? mean(v) : null; });
-      pdiff = STAGES.map(function (_, s) { return S.lvMean[s] !== null && peerMean[s] !== null ? S.lvMean[s] - peerMean[s] : null; });
-      var idx = function (lv) { var v = nn(lv); return v.length ? mean(v) : null; };
-      var mineIdx = idx(S.lvMean), peerIdx = nn(peerList.map(function (A) { return idx(A.lvMean); }));
-      var below = mineIdx === null ? null : peerIdx.filter(function (v) { return v < mineIdx; }).length;
-      var ahead = pdiff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return b.d - a.d; });
-      var best = ahead[0], worst = ahead[ahead.length - 1];
-      peerTxt = '<p>같은 학교급(' + esc(me.job) + ')에서 응답이 ' + MIN_SCHOOL + '명 이상인 다른 학교 <strong>' + peerList.length + '곳</strong>의 평균과 비교했습니다(학교마다 같은 무게).' +
-        (below !== null ? ' 다섯 단계 평균으로 보면 우리 학교는 이 학교들 가운데 <strong>' + below + '곳보다 높습니다</strong>.' : '') + '</p>' +
-        (best && best.d >= GAP_NOTE ? '<p>가장 앞선 단계는 <strong>' + STAGES[best.s].name + '</strong>(' + signed(best.d) + '점)입니다.</p>' : '') +
-        (worst && worst.d <= -GAP_NOTE ? '<p>가장 뒤처진 단계는 <strong>' + STAGES[worst.s].name + '</strong>(' + signed(worst.d) + '점)입니다.</p>' : '') +
-        stageBars(S.lvMean, peerMean, '다른 학교 평균') +
-        '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>우리 학교</th><th>다른 학교 평균</th><th>차이</th></tr></thead><tbody>' +
+    // 5. 우리 학교는 어느 수준인가: 같은 학교급 학교들, 전체 학교와 비교
+    // 다른 학교는 응답이 MIN_SCHOOL명 이상인 학교만, 학교마다 같은 무게로 평균한다.
+    function schoolsOf(list) {
+      var by = {};
+      list.forEach(function (r) { (by[r.s] = by[r.s] || []).push(r); });
+      return Object.keys(by).map(function (k) { return by[k]; }).filter(function (rs) { return rs.length >= MIN_SCHOOL; }).map(aggregate);
+    }
+    function idxOf(lv) { var v = nn(lv); return v.length ? mean(v) : null; }
+    function cmpOf(list) {
+      if (!list.length) return null;
+      var m = STAGES.map(function (_, s) { var v = nn(list.map(function (A) { return A.lvMean[s]; })); return v.length ? mean(v) : null; });
+      var d = STAGES.map(function (_, s) { return S.lvMean[s] !== null && m[s] !== null ? S.lvMean[s] - m[s] : null; });
+      var mine = idxOf(S.lvMean), ix = nn(list.map(function (A) { return idxOf(A.lvMean); }));
+      // 우리 학교를 포함한 순위: 우리보다 높은 학교 수 + 1
+      var rank = mine === null ? null : ix.filter(function (v) { return v > mine; }).length + 1;
+      return { n: list.length, mean: m, diff: d, rank: rank, of: ix.length + 1, idx: idxOf(m) };
+    }
+    var peersAll = state.peers || [];
+    var SL = P.org && me.job ? cmpOf(schoolsOf(peersAll.filter(function (r) { return r.job === me.job; }))) : null;
+    var AL = P.org ? cmpOf(schoolsOf(peersAll)) : null;
+    var myIdx = idxOf(S.lvMean);
+    var posTxt = function (C) { return C && C.rank ? C.of + '곳 중 ' + C.rank + '위' : '–'; };
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">5 · 우리 학교는 어느 수준인가</p>' +
+      '<h2>' + stageTitle(S.stage) + (myIdx !== null ? ' · 종합 ' + r0(myIdx) + '점(' + level(myIdx) + ')' : '') + '</h2>' +
+      '<p>' + (SL ? '같은 학교급(' + esc(me.job) + ') ' + SL.of + '곳 가운데 <strong>' + SL.rank + '위</strong>' : '같은 학교급 비교는 다른 학교 응답이 모이면 나타납니다') +
+      (AL ? ', 전체 학교 ' + AL.of + '곳 가운데 <strong>' + AL.rank + '위</strong>입니다.' : '.') + ' 종합 점수는 다섯 단계 평균입니다.</p></section>';
+    h += '<div class="kpis aidx-kpis">' +
+      kpi('준비된 단계', S.stage + '<small>/ 5단계</small>', STAGE_NAMES[S.stage]) +
+      kpi('종합 점수', myIdx === null ? '–' : r0(myIdx) + '<small>/ 100</small>', myIdx === null ? '' : lvlChip(myIdx) + ' 다섯 단계 평균') +
+      kpi('같은 학교급 안에서', posTxt(SL), SL ? '평균 ' + sc(SL.idx) + '점 · 우리 ' + signed(myIdx - SL.idx) + '점' : esc(me.job || '') + ' 비교 학교 없음') +
+      kpi('전체 학교 안에서', posTxt(AL), AL ? '평균 ' + sc(AL.idx) + '점 · 우리 ' + signed(myIdx - AL.idx) + '점' : '비교 학교 없음') +
+      '</div>';
+    function cmpPanel(title, C, emptyTxt, label) {
+      if (!C) return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p>' + emptyTxt + '</p></div>';
+      var o = C.diff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return b.d - a.d; });
+      var best = o[0], worst = o[o.length - 1];
+      return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p class="panel-sub">다른 학교 ' + C.n + '곳(학교마다 같은 무게) · 회색 눈금은 ' + label + ' 평균</p>' +
+        stageBars(S.lvMean, C.mean, label + ' 평균') +
+        '<p class="aidx-small">' + (best && best.d >= GAP_NOTE ? '앞선 단계: <strong>' + STAGES[best.s].name + '</strong> ' + signed(best.d) + '점. ' : '뚜렷하게 앞선 단계는 없습니다. ') +
+        (worst && worst.d <= -GAP_NOTE ? '뒤처진 단계: <strong>' + STAGES[worst.s].name + '</strong> ' + signed(worst.d) + '점.' : '뚜렷하게 뒤처진 단계는 없습니다.') + '</p></div>';
+    }
+    h += '<section class="report-grid">' +
+      cmpPanel('같은 학교급(' + esc(me.job || '–') + ') 학교들과 비교', SL, P.org && me.job ? '아직 같은 학교급에서 응답이 ' + MIN_SCHOOL + '명 이상 모인 다른 학교가 없습니다. 응답이 쌓이면 이 자리에 비교 결과가 나타납니다.' : '학교 이름과 학교급이 있는 응답에서만 비교할 수 있습니다.', '같은 학교급') +
+      cmpPanel('전체 학교와 비교', AL, P.org ? '아직 응답이 ' + MIN_SCHOOL + '명 이상 모인 다른 학교가 없습니다.' : '학교 이름이 있는 응답에서만 비교할 수 있습니다.', '전체 학교') + '</section>';
+    if (SL || AL) {
+      h += '<div class="panel"><h3 class="panel-title">단계별 비교표</h3><p class="panel-sub">0~100점 · 차이 = 우리 학교 − 비교 학교 평균 · 다른 학교 이름은 보이지 않으며, 응답이 ' + MIN_SCHOOL + '명 미만인 학교는 뺍니다</p>' +
+        '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>우리 학교</th><th>같은 학교급</th><th>차이</th><th>전체 학교</th><th>차이</th></tr></thead><tbody>' +
         STAGES.map(function (st, s) {
-          var d = pdiff[s];
-          return '<tr><td>' + (s + 1) + '. ' + st.name + '</td><td><strong>' + sc(S.lvMean[s]) + '</strong></td><td>' + sc(peerMean[s]) + '</td>' +
-            '<td class="' + (d === null ? '' : d >= GAP_NOTE ? 'up' : d <= -GAP_NOTE ? 'down' : '') + '">' + (d === null ? '–' : signed(d)) + '</td></tr>';
-        }).join('') + '</tbody></table></div>' +
-        '<p class="aidx-small">다른 학교의 이름은 보이지 않으며, 응답이 ' + MIN_SCHOOL + '명 미만인 학교는 비교에서 뺍니다.</p>';
+          var cell = function (C) {
+            if (!C) return '<td>–</td><td>–</td>';
+            var d = C.diff[s];
+            return '<td>' + sc(C.mean[s]) + '</td><td class="' + (d === null ? '' : d >= GAP_NOTE ? 'up' : d <= -GAP_NOTE ? 'down' : '') + '">' + (d === null ? '–' : signed(d)) + '</td>';
+          };
+          return '<tr><td>' + (s + 1) + '. ' + st.name + '</td><td><strong>' + sc(S.lvMean[s]) + '</strong></td>' + cell(SL) + cell(AL) + '</tr>';
+        }).join('') + '</tbody></table></div></div>';
     }
-    h += '<div class="panel"><h3 class="panel-title">5 · 같은 학교급 다른 학교와의 준비도 차이</h3><p class="panel-sub">회색 눈금은 다른 학교 평균 · 점선은 준비 기준 60점</p>' + peerTxt + '</div>';
 
-    // 6. 우리 학교가 할 일 5: 병목 단계 → 다른 학교보다 가장 뒤처진 단계 → 다음 단계 → 나머지 낮은 단계 순
-    var stOrder = [sb];
-    if (pdiff) {
-      var lag = pdiff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null && x.d <= -GAP_NOTE; }).sort(function (a, b) { return a.d - b.d; })[0];
-      if (lag) stOrder.push(lag.s);
-    }
-    if (sb + 1 < 5) stOrder.push(sb + 1);
-    S.lvMean.map(function (v, s) { return { v: v === null ? 999 : v, s: s }; }).sort(function (a, b) { return a.v - b.v; }).forEach(function (x) { stOrder.push(x.s); });
-    stOrder = stOrder.filter(function (s, i) { return stOrder.indexOf(s) === i; });
-    var quota = [2, 2, 1, 1, 1], used2 = {}, cands = [];
-    stOrder.forEach(function (s, i) {
-      var why = s === sb ? sbWhy
-        : pdiff && pdiff[s] !== null && pdiff[s] <= -GAP_NOTE ? STAGES[s].name + ' · 같은 학교급 다른 학교보다 ' + r0(Math.abs(pdiff[s])) + '점 낮음'
-        : s === sb + 1 ? '병목 다음 단계 · ' + STAGES[s].name + ' 평균 ' + sc(S.lvMean[s]) + '점'
-        : STAGES[s].name + ' 평균 ' + sc(S.lvMean[s]) + '점';
-      cands = cands.concat(takeUnique(ACTIONS[STAGES[s].key].map(function (t) { return { who: 'school', t: t, why: why }; }), quota[i] || 0, used2));
+    // 6. 발전 전략 5가지: 병목 단계 → 같은 학교급보다 뒤처진 단계 → 전체 학교보다 뒤처진 단계 → 병목 다음 단계 → 나머지 낮은 단계
+    var lagOf = function (C) {
+      if (!C) return null;
+      var x = C.diff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null && x.d <= -GAP_NOTE; }).sort(function (a, b) { return a.d - b.d; })[0];
+      return x ? x.s : null;
+    };
+    var why = {};
+    var stOrder = [sb]; why[sb] = sbWhy;
+    [[lagOf(SL), SL, '같은 학교급'], [lagOf(AL), AL, '전체 학교']].forEach(function (x) {
+      if (x[0] === null) return;
+      stOrder.push(x[0]);
+      if (!why[x[0]]) why[x[0]] = STAGES[x[0]].name + ' · ' + x[2] + ' 평균보다 ' + r0(Math.abs(x[1].diff[x[0]])) + '점 낮음';
     });
-    schoolAdvice = cands.slice(0, 5);
-    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">6 · 우리 학교 행동 조언 5가지</p><h3>우리 학교가 할 일</h3>' +
-      '<p>앞 단계가 비어 있으면 뒤 단계에 투자해도 효과가 작습니다. 병목 단계부터, 그리고 같은 학교급 다른 학교보다 뒤처진 단계를 우선했습니다.</p></div>' + adviceList(schoolAdvice) + '</section>';
+    if (sb + 1 < 5) { stOrder.push(sb + 1); if (!why[sb + 1]) why[sb + 1] = '병목 다음 단계 · ' + STAGES[sb + 1].name + ' 평균 ' + sc(S.lvMean[sb + 1]) + '점'; }
+    S.lvMean.map(function (v, s) { return { v: v === null ? 999 : v, s: s }; }).sort(function (a, b) { return a.v - b.v; }).forEach(function (x) {
+      stOrder.push(x.s); if (!why[x.s]) why[x.s] = STAGES[x.s].name + ' 평균 ' + sc(S.lvMean[x.s]) + '점';
+    });
+    stOrder = stOrder.filter(function (s, i) { return stOrder.indexOf(s) === i; });
+    var quota = [2, 1, 1, 1, 1], plan = [];
+    stOrder.forEach(function (s, i) {
+      STRATEGIES[STAGES[s].key].slice(0, quota[i] || 0).forEach(function (g) { if (plan.length < 5) plan.push({ g: g, s: s }); });
+    });
+    // 단계 수가 적어 5개가 안 되면 우선순위 단계의 남은 전략으로 채운다
+    stOrder.forEach(function (s) { STRATEGIES[STAGES[s].key].forEach(function (g) { if (plan.length < 5 && !plan.some(function (p) { return p.g === g; })) plan.push({ g: g, s: s }); }); });
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">6 · 우리 학교 발전 전략 5가지</p><h3>앞으로 무엇을 어떻게 할까</h3>' +
+      '<p>앞 단계가 비어 있으면 뒤 단계에 투자해도 효과가 작습니다. 병목 단계를 먼저, 그다음 다른 학교보다 뒤처진 단계를 우선했습니다. 전략마다 담당, 기간, 행동 요령, 점검 지표를 함께 제시합니다.</p></div>' +
+      '<ol class="aidx-plan-list">' + plan.map(function (p, i) {
+        var g = p.g;
+        return '<li class="aidx-plan-card' + (i ? ' keep' : '') + '"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + STAGES[p.s].icon + ' ' + g.t + '</p>' +
+          '<p class="aidx-small">근거: ' + why[p.s] + '</p>' +
+          '<p class="aidx-small">담당: ' + g.who + ' · 기간: ' + g.when + '</p>' +
+          '<ol class="aidx-list axr-steps">' + g.steps.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>' +
+          '<p class="aidx-small">점검 지표: ' + g.kpi + '</p></li>';
+      }).join('') + '</ol></section>';
     return h;
   }
 
