@@ -7,35 +7,37 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
 ---
 <div class="inst-grid">
   {% assign aidx = site.pages | where: "url", "/in-progress/ai-competency/" | first %}
-  <a class="inst" href="{{ '/in-progress/ai-competency/' | relative_url }}">
+  <div class="inst inst--multi">
     {% if aidx.image.path and aidx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aidx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·그룹</span></div>
-    <h3>기본 AI 활용 역량 진단</h3>
+    <h3><a class="inst-main" href="{{ '/in-progress/ai-competency/' | relative_url }}">기본 AI 활용 역량 진단</a></h3>
+    <a class="inst-doc" href="{{ '/assets/files/ai-competency-structure.pdf' | relative_url }}" download="기본AI활용역량진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
     <p>AI에게 무엇을 맡기고, 어떻게 지휘하고, 결과를 어떻게 확인하는지 실제 행동으로 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학생·교사(교수)·직장인</dd>
       <dt>측정 요인</dt><dd>5개 실천 영역 · 태도 · 31문항</dd>
       <dt>결과</dt><dd>나의 AI 활용 유형, 강점과 보완점, 우리 그룹 분석</dd>
     </dl>
-  </a>
+  </div>
   {% assign tadx = site.pages | where: "url", "/in-progress/teacher-ai-competency/" | first %}
-  <a class="inst" href="{{ '/in-progress/teacher-ai-competency/' | relative_url }}">
+  <div class="inst inst--multi">
     {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tadx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·학교</span></div>
-    <h3>나와 우리학교 AI 역량 수준 진단</h3>
+    <h3><a class="inst-main" href="{{ '/in-progress/teacher-ai-competency/' | relative_url }}">나와 우리학교 AI 역량 수준 진단</a></h3>
+    <a class="inst-doc" href="{{ '/assets/files/teacher-ai-competency-structure.pdf' | relative_url }}" download="나와우리학교AI역량수준진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
     <p>나의 AI 역량을 우리 학교, 같은 학교급의 다른 학교, 전체 응답자와 비교하고 우리 학교의 강점과 보완점을 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학생·교사·보직교사·행정직원 (학교급·소속 학교 입력)</dd>
       <dt>측정 요인</dt><dd>5개 실천 영역 · 태도 · 31문항</dd>
       <dt>결과</dt><dd>나의 역량 수준, 우리 학교 역량 수준, 타학교·학교급별 비교, 전체 학교 수준</dd>
     </dl>
-  </a>
+  </div>
   {% assign axr = site.pages | where: "url", "/in-progress/ax-readiness/" | first %}
   <div class="inst inst--multi">
     {% if axr.image.path and axr.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ axr.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">조직</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ax-readiness/' | relative_url }}">AX 전환 준비도 진단 (기업용)</a></h3>
-    <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure.pdf' | relative_url }}" download="AX전환준비도진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
+    <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure.pdf' | relative_url }}" download="AX전환준비도진단_기업용_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
     <p>기반 마련에서 AI 내재화까지, 우리 회사가 AI를 전제로 일하는 회사로 바뀔 준비가 어디까지 되었는지 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>회사 구성원 (실무자·리더·경영진)</dd>
@@ -44,15 +46,16 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     </dl>
   </div>
   {% assign aixs = site.pages | where: "url", "/in-progress/aix-school/" | first %}
-  <a class="inst" href="{{ '/in-progress/aix-school/' | relative_url }}">
+  <div class="inst inst--multi">
     {% if aixs.image.path and aixs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aixs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">학교</span></div>
-    <h3>우리학교 AIX 전환 준비·성숙도 진단</h3>
+    <h3><a class="inst-main" href="{{ '/in-progress/aix-school/' | relative_url }}">우리학교 AIX 전환 준비·성숙도 진단</a></h3>
+    <a class="inst-doc" href="{{ '/assets/files/aix-school-structure.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
     <p>기반 마련에서 AI 내재화까지, 우리 학교가 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 어디까지 되었는지 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학교 교원 (교사·부장교사·교감·교장)</dd>
       <dt>측정 요인</dt><dd>5단계 준비도 · 전반 인식 · 32문항</dd>
       <dt>결과</dt><dd>우리 학교의 준비 수준, 같은 학교급·전체 학교와 비교, 발전 전략 5가지</dd>
     </dl>
-  </a>
+  </div>
 </div>

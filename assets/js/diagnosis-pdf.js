@@ -24,6 +24,26 @@
     ]).catch(function (err) { libraries = null; throw err; });
     return libraries;
   }
+  // 결과지 글꼴: 제목·표는 Pretendard, 본문은 Noto Serif KR. PDF를 만들 때만 불러온다.
+  var FONT_CSS = ['https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css',
+    'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap'];
+  var fontsReady;
+  function fonts() {
+    if (!fontsReady) fontsReady = Promise.all(FONT_CSS.map(function (href) {
+      if (document.querySelector('link[href="' + href + '"]')) return Promise.resolve();
+      return new Promise(function (resolve) {
+        var link = document.createElement('link'); link.rel = 'stylesheet'; link.href = href;
+        link.onload = link.onerror = function () { resolve(); };
+        document.head.appendChild(link);
+      });
+    })).then(function () {
+      if (!document.fonts) return;
+      var t = setTimeout.bind(window);
+      return Promise.race([Promise.all(['400 15px Pretendard', '700 15px Pretendard', '600 15px Pretendard', '400 15px "Noto Serif KR"', '600 15px "Noto Serif KR"']
+        .map(function (f) { return document.fonts.load(f, '가나다 ABC 123'); })), new Promise(function (r) { t(r, 8000); })]);
+    }).catch(function () { /* 글꼴을 못 불러오면 기본 글꼴로 만든다 */ });
+    return fontsReady;
+  }
   function toolbar() {
     return '<div class="aidx-dl diagnosis-pdf-toolbar"><button type="button" class="aidx-btn primary" data-act="pdf">PDF 저장하기</button>' +
       '<span class="aidx-small">현재 선택한 결과 탭을 PDF로 저장합니다.</span>' +
@@ -331,7 +351,7 @@
     status.textContent = 'PDF를 만드는 중…';
     try {
       saved = snapshot(root, options.title, options.code);
-      await tools();
+      await Promise.all([tools(), fonts()]);
       if (document.fonts) await document.fonts.ready;
       normalizeColors(saved.host);
       await charts(saved.host);
