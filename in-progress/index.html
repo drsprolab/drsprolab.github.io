@@ -30,4 +30,16 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
       <dt>결과</dt><dd>우리 회사의 AX 준비 단계와 병목, 나와 동료의 인식 차이, 행동지침</dd>
     </dl>
   </a>
+  {% assign aixs = site.pages | where: "url", "/in-progress/aix-school/" | first %}
+  <a class="inst" href="{{ '/in-progress/aix-school/' | relative_url }}">
+    {% if aixs.image.path and aixs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aixs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">학교</span></div>
+    <h3>학교 AIX 준비 성숙도 진단</h3>
+    <p>기반 마련에서 AI 내재화까지, 우리 학교가 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 어디까지 되었는지 진단합니다.</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>학교 교원 (교사·부장교사·교감·교장)</dd>
+      <dt>측정 요인</dt><dd>5단계 준비도 · 전반 인식 · 32문항</dd>
+      <dt>결과</dt><dd>우리 학교의 AIX 준비 단계와 병목, 나와 동료의 인식 차이, 행동지침</dd>
+    </dl>
+  </a>
 </div>

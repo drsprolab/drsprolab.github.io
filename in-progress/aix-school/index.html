@@ -1,0 +1,20 @@
+---
+layout: page
+title: "학교 AIX 준비 성숙도 진단"
+eyebrow: In progress 진단
+permalink: /in-progress/aix-school/
+share: true
+badge: BETA
+og_badge: BETA · 지금 참여하기
+description: 우리 학교는 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 얼마나 되어 있을까요? 기반 마련에서 AI 내재화까지 다섯 단계로 학교 AIX 준비 성숙도를 진단합니다.
+# 공유 미리보기 이미지(tools/og_images.rb)에 들어갈 문구
+og_chips: [5단계 · 32문항, 약 7분 · 익명, 우리 학교의 AIX 준비 단계]
+# 응답 저장소: Google Apps Script 웹앱 URL (tools/aix-school/README.md). 비워 두면 시험 모드로, 응답이 이 브라우저에만 저장된다.
+endpoint: ""
+---
+<div class="aidx axr" id="axr" data-endpoint="{{ page.endpoint }}" aria-live="polite">
+  <noscript><p>이 진단은 JavaScript를 켜야 응답할 수 있습니다.</p></noscript>
+</div>
+<div class="viz-tip" id="axr-tip" role="tooltip" hidden></div>
+
+<script src="{{ '/assets/js/aix-school.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
