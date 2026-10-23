@@ -516,7 +516,7 @@
   // ---------- 화면: 결과 ----------
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
   function viewResult() {
-    root.innerHTML = previewNote() +
+    root.innerHTML = previewNote() + window.DiagnosisPdf.toolbar() +
       '<div class="aidx-tabs aidx-tabs5" role="tablist">' +
       '<button type="button" role="tab" data-tab="report" aria-selected="' + (state.tab === 'report') + '">' + tabLabel('종합 결과', '종합') + '</button>' +
       '<button type="button" role="tab" data-tab="peers" aria-selected="' + (state.tab === 'peers') + '">' + tabLabel('타 학교 비교', '타 학교') + '</button>' +
@@ -1015,6 +1015,7 @@
     var act = b.dataset.act;
     if (act === 'start') { state.answers = {}; state.role = ''; state.job = ''; state.freq = ''; state.org = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
+    else if (act === 'pdf') { window.DiagnosisPdf.save({ root: root, button: b, title: '우리학교 AIX 전환 준비·성숙도 진단', code: state.me && state.me.id }); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
       var miss = pageComplete(), err = document.getElementById('axr-err');

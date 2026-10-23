@@ -36,6 +36,18 @@ bundle exec jekyll serve
 ```
 http://127.0.0.1:4000 에서 확인합니다.
 
+## 진단 결과 PDF
+
+In progress의 네 진단은 분석 결과 상단의 **PDF 저장하기**로 현재 선택한 결과 탭을 저장합니다. 개인 결과, 학교·회사·그룹 분석, 비교 탭을 각각 저장할 수 있습니다. 차트·표·행동 권고와 BETA 안내를 A4에 담으며 파일 이름에 진단명·결과 탭·저장 날짜를 넣습니다. PDF는 브라우저 안에서 생성합니다.
+
+공통 저장 기능은 `assets/js/diagnosis-pdf.js`, 출력 스타일은 `assets/css/style.css`의 `diagnosis-pdf-*`에 있습니다. PDF 라이브러리는 `assets/js/pdf-libs/`에서 저장할 때만 불러옵니다.
+
+브라우저 검증은 로컬 Jekyll 서버에서 합성 응답을 사용하며 실제 응답을 제출하지 않습니다. 설치된 Chrome과 개발용 Playwright가 필요합니다.
+
+```bash
+PLAYWRIGHT_MODULE=/path/to/playwright node tests/check_diagnosis_pdf_browser.cjs http://127.0.0.1:4000 /tmp/diagnosis-pdf-qa
+```
+
 ## Research Map 자동 갱신
 
 - **논문 원본은 `_data/publications.yml` 하나입니다.** 논문을 추가·수정·삭제하고 `main`에 반영하면 기존 GitHub Pages 배포 과정에서 키워드, 논문–키워드 연결, Papers / Keywords / Links를 다시 생성합니다. Visible은 현재 분야·선택 필터에 보이는 논문과 키워드 노드 수이며 브라우저에서 즉시 바뀝니다.

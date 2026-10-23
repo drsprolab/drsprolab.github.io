@@ -1592,3 +1592,36 @@ main.container { overflow-x: clip; }
 .aidx-school-bars .is-mine .aidx-hname { font-weight: 700; color: var(--accent); }
 .aidx-school-bars .is-mine .aidx-htrack span { background: var(--accent); }
 .aidx-table tr.aidx-mine-row td { background: var(--accent-soft); font-weight: 600; }
+
+/* A4 결과지: 화면과 독립된 복사본. 휴대폰·다크 모드에서도 같은 출력 크기를 쓴다. */
+.diagnosis-pdf-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.diagnosis-pdf-status { flex-basis: 100%; }
+.diagnosis-pdf-host {
+  position: fixed; left: -20000px; top: 0; width: 720px; padding: 0;
+  background: #fff; color: #16202b; color-scheme: light; pointer-events: none;
+  --ink: #16202b; --muted: #5a6573; --paper: #fff; --tint: #f3f5f8;
+  --line: #dde2e8; --accent: #1d4f86; --accent-soft: #e6edf6;
+  --series-1: #2a78d6; --series-2: #eb6834; --good: #1a7f37; --warn: #b54708;
+  font-size: 15px; line-height: 1.7; max-width: none;
+}
+.diagnosis-pdf-report.aidx { display: grid; gap: 14px; width: 720px; margin: 0; }
+.diagnosis-pdf-heading { border-bottom: 2px solid #1d4f86; padding: 4px 0 18px; }
+.diagnosis-pdf-host .diagnosis-pdf-heading h1 { font-size: 26px; margin: 8px 0; }
+.diagnosis-pdf-host .diagnosis-pdf-heading h2 { font-size: 19px; margin: 8px 0; }
+.diagnosis-pdf-host .diagnosis-pdf-kicker, .diagnosis-pdf-host .diagnosis-pdf-meta { font-size: 12px; color: #5a6573; margin: 0; }
+.diagnosis-pdf-host .panel { padding: 18px; }
+.diagnosis-pdf-host .report-foot { font-size: 11px; line-height: 1.5; margin: 0; }
+.diagnosis-pdf-tail { display: grid; gap: 14px; }
+.diagnosis-pdf-host .report-grid { grid-template-columns: 1fr; }
+.diagnosis-pdf-host .kpis, .diagnosis-pdf-host .aidx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.diagnosis-pdf-host .aidx-persona { grid-template-columns: auto 1fr; padding: 22px; }
+.diagnosis-pdf-host .aidx-pfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.diagnosis-pdf-host .table-wrap { overflow: visible; }
+.diagnosis-pdf-host table { width: 100%; table-layout: auto; font-size: 12px; }
+.diagnosis-pdf-host table th, .diagnosis-pdf-host table td { white-space: normal; overflow-wrap: anywhere; padding: 6px; }
+.diagnosis-pdf-host svg { max-width: 100%; max-height: 700px; }
+.diagnosis-pdf-host .aidx-hrow { grid-template-columns: 120px 1fr 86px; }
+.diagnosis-pdf-host .aidx-srow { grid-template-columns: 104px 1fr; }
+.diagnosis-pdf-host .axr-stairs { min-width: 0; }
+.diagnosis-pdf-host .axr-stairs-box { overflow: visible; }
+.diagnosis-pdf-host * { animation: none !important; transition: none !important; }

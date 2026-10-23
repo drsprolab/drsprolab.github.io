@@ -420,7 +420,7 @@
   // ---------- 화면: 결과 ----------
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
   function viewResult() {
-    root.innerHTML = previewNote() +
+    root.innerHTML = previewNote() + window.DiagnosisPdf.toolbar() +
       '<div class="aidx-tabs" role="tablist">' +
       '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('내가 본 우리 회사', '나의 응답') + '</button>' +
       '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 회사 분석결과', '우리 회사') + '</button>' +
@@ -714,6 +714,7 @@
     var act = b.dataset.act;
     if (act === 'start') { state.answers = {}; state.role = ''; state.job = ''; state.freq = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
+    else if (act === 'pdf') { window.DiagnosisPdf.save({ root: root, button: b, title: 'AX 전환 준비도 진단 (기업용)', code: state.me && state.me.id }); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
       var miss = pageComplete(), err = document.getElementById('axr-err');

@@ -365,7 +365,7 @@
   var RESULT_TABS = [['me', '나의 역량 수준', '나의 역량'], ['school', '우리 학교 역량 수준', '우리 학교'], ['others', '타학교 비교', '타학교'],
     ['level', '학교급별 비교', '학교급별'], ['all', '전체 학교 수준', '전체']];
   function viewResult() {
-    var h = previewNote() +
+    var h = previewNote() + window.DiagnosisPdf.toolbar() +
       '<div class="aidx-tabs aidx-tabs5" role="tablist">' + RESULT_TABS.map(function (t) {
         return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (state.tab === t[0]) + '">' + tabLabel(t[1], t[2]) + '</button>';
       }).join('') + '</div>' +
@@ -402,7 +402,7 @@
     var z = me.dom.map(function (v, d) { return gs[d] > 0 ? (v - gm[d]) / gs[d] : 0; });
     var totals = rows.map(function (r) { return r.total; });
     var goal = me.dom.map(function (v) { return Math.max(v, 80); });
-    var h = '<div class="aidx-dl"><button type="button" class="aidx-btn" data-act="pdf">⬇ 검사결과 다운로드 <span class="aidx-muted">PDF</span></button><span class="aidx-err" id="aidx-pdf-msg" role="status"></span></div>';
+    var h = '';
 
     // 1. 유형
     // 짝꿍: 내가 가장 약한 영역이 강점인 유형. 이미 모든 영역이 높으면 새내기 탐험가의 멘토로.
@@ -525,9 +525,6 @@
           '<p class="aidx-small">체크할 행동: ☐ ' + esc(item.text) + '</p></li>';
       }).join('') + '</ol></section>';
     var keep = DOMAINS[strong.length ? strong[0].d : myTop];
-    // PDF 보고서가 화면과 같은 계산 결과를 쓰도록 남겨 둔다.
-    state.model = { P: P, me: me, rows: rows, n: n, few: few, gm: gm, gs: gs, z: z, T: T, M: M, mateWhy: mateWhy, weak: weak, mode: mode,
-      strong: strong, standout: standout, itemMeans: itemMeans, gap: gap, gapH: gapH, gapP: gapP, keep: keep, myTop: myTop };
     return h;
   }
 
@@ -614,204 +611,6 @@
     }
     return h;
   }
-  // ---------- 검사결과 PDF: 나의 분석결과만, 연구실 의견서(국방AI 검토의견서) 양식 ----------
-  var H2C_LIB = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-  var JSPDF_LIB = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-  function loadScript(src, ready) {
-    return new Promise(function (ok, fail) {
-      if (ready()) return ok();
-      var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s);
-    });
-  }
-  function loadFonts() {
-    if (!document.getElementById('aidx-rep-font')) {
-      var l = document.createElement('link'); l.id = 'aidx-rep-font'; l.rel = 'stylesheet';
-      l.href = 'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=block';
-      document.head.appendChild(l);
-    }
-    if (!document.fonts || !document.fonts.load) return Promise.resolve();
-    return Promise.all([document.fonts.load('400 14px "Noto Serif KR"', '가'), document.fonts.load('600 14px "Noto Serif KR"', '가'),
-      document.fonts.load('600 14px "IBM Plex Sans KR"', '가')]).catch(function () {});
-  }
-  // 방사형 차트를 색을 직접 지정한 SVG로 그려 PNG로 바꾼다(PDF 캡처는 페이지 CSS 변수를 읽지 못한다).
-  function radarPng(M) {
-    var n = DOMAINS.length, W = 560, H = 440, cx = W / 2, cy = H / 2 + 10, R = 150;
-    function pt(i, v) { var a = -Math.PI / 2 + i * 2 * Math.PI / n, r = R * v / 100; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
-    var s = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W * 2 + '" height="' + H * 2 + '" viewBox="0 0 ' + W + ' ' + H + '" font-family="Apple SD Gothic Neo, Malgun Gothic, Noto Sans KR, sans-serif">' +
-      '<rect width="100%" height="100%" fill="#fff"/>';
-    [20, 40, 60, 80, 100].forEach(function (g) {
-      s += '<polygon points="' + DOMAINS.map(function (_, i) { return pt(i, g).join(','); }).join(' ') + '" fill="none" stroke="' + (g === CUT ? '#888' : '#d6d6d6') + '" stroke-width="' + (g === CUT ? 1.6 : 1) + '"/>';
-      var p0 = pt(0, g); s += '<text x="' + (p0[0] + 5) + '" y="' + (p0[1] + 4) + '" font-size="11" fill="#888">' + g + '</text>';
-    });
-    DOMAINS.forEach(function (dm, i) {
-      var e = pt(i, 100), l = pt(i, 117), anchor = Math.abs(l[0] - cx) < 8 ? 'middle' : (l[0] > cx ? 'start' : 'end');
-      s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + e[0] + '" y2="' + e[1] + '" stroke="#e2e2e2"/>' +
-        '<text x="' + l[0] + '" y="' + (l[1] + (i === 0 ? -2 : 6)) + '" text-anchor="' + anchor + '" font-size="15" font-weight="600" fill="#222">' + dm.name + '</text>';
-    });
-    function poly(vals, stroke, fill, dash) { return '<polygon points="' + vals.map(function (v, i) { return pt(i, v).join(','); }).join(' ') + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="2.2"' + (dash ? ' stroke-dasharray="6 5"' : '') + '/>'; }
-    if (M.n > 1) s += poly(M.gm, '#9a9a9a', 'none', true);
-    s += poly(M.me.dom, '#8e1b2c', 'rgba(142,27,44,.12)');
-    M.me.dom.forEach(function (v, i) { var p = pt(i, v); s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4.5" fill="#8e1b2c" stroke="#fff" stroke-width="2"/>'; });
-    s += '</svg>';
-    return new Promise(function (ok) {
-      var img = new Image();
-      img.onload = function () { var c = document.createElement('canvas'); c.width = W * 2; c.height = H * 2; c.getContext('2d').drawImage(img, 0, 0); ok(c.toDataURL('image/png')); };
-      img.onerror = function () { ok(''); };
-      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
-    });
-  }
-  function repHtml(M, png) {
-    var me = M.me, T = M.T, now = new Date(), totals = M.rows.map(function (r) { return r.total; });
-    var date = now.getFullYear() + '. ' + (now.getMonth() + 1) + '. ' + now.getDate() + '.';
-    var target = M.mode === 'cut' ? CUT : 80;
-    var css = '<style>' +
-      '.rep{width:680px;color:#222;font-family:"Noto Serif KR","AppleMyungjo","Batang",serif;font-size:13.5px;line-height:1.75;word-break:keep-all;background:#fff}' +
-      '.rep *{box-sizing:border-box;margin:0}' +
-      '.rep .hd{border-top:3px solid #222;padding-top:26px;text-align:center}' +
-      '.rep h1{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:25px;font-weight:700;letter-spacing:-.02em}' +
-      '.rep .beta{display:inline-block;vertical-align:5px;margin-left:8px;font-size:11px;font-weight:700;letter-spacing:.08em;color:#8e1b2c;border:1.5px solid #8e1b2c;border-radius:4px;padding:0 6px;line-height:1.6}' +
-      '.rep .sub{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:12.5px;color:#444;margin-top:12px;padding-bottom:16px;border-bottom:1px solid #222}' +
-      '.rep .date{text-align:right;font-size:12.5px;color:#444;margin:12px 0 6px}' +
-      '.rep h2{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:17px;font-weight:700;margin:26px 0 12px;padding-bottom:7px;border-bottom:1px solid #222}' +
-      '.rep h3{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:14.5px;font-weight:700;margin:16px 0 8px}' +
-      '.rep p.b{padding-left:1.2em;text-indent:-1.2em;margin:4px 0}' +
-      '.rep p.c{padding-left:2.4em;text-indent:-1.2em;margin:2px 0}' +
-      '.rep p.d{padding-left:3.4em;text-indent:-1em;margin:1px 0;color:#333}' +
-      '.rep p.e{padding-left:4.6em;text-indent:-1.2em;margin:1px 0;color:#333}' +
-      '.rep strong{font-weight:600}' +
-      '.rep .flow{display:flex;align-items:center;gap:6px;margin:12px 0 4px}' +
-      '.rep .flow div{flex:1;border:1px solid #333;text-align:center;padding:6px 2px;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:11.5px;line-height:1.45}' +
-      '.rep .flow b{display:block;font-size:12.5px}' +
-      '.rep .flow i{font-style:normal;font-size:12px}' +
-      '.rep .cap{text-align:center;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-weight:700;font-size:12.5px;margin:14px 0 6px}' +
-      '.rep table{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5}' +
-      '.rep th{background:#f1f1f1;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-weight:600;border-top:1.5px solid #222;border-bottom:1px solid #999;padding:6px 6px;text-align:center}' +
-      '.rep td{border-bottom:1px solid #d4d4d4;padding:6px 6px;text-align:center}' +
-      '.rep td:first-child{text-align:left;font-weight:600}' +
-      '.rep tr:last-child td{border-bottom:1.5px solid #222}' +
-      '.rep .fig{text-align:center;margin:4px 0}' +
-      '.rep .fig img{width:400px}' +
-      '.rep .lg{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:11.5px;color:#555;text-align:center}' +
-      '.rep .type{border:1px solid #333;padding:12px 16px;margin:8px 0}' +
-      '.rep .type .nm{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:18px;font-weight:700;color:#8e1b2c}' +
-      '.rep .note{margin-top:22px;padding-top:10px;border-top:1px solid #999;font-size:11.5px;color:#555}' +
-      '.rep .avoid{page-break-inside:avoid;break-inside:avoid}' +
-      '</style>';
-    var h = css + '<div class="rep">' +
-      '<div class="hd"><h1>나와 우리학교 AI 역량 수준 진단 결과 보고서<span class="beta">BETA</span></h1>' +
-      '<p class="sub">나의 분석결과 · 결과 코드 ' + fmtId(me.id || (state.me && state.me.id) || '') + ' · 응답자 구분 ' + esc((state.me && state.me.role) || me.role || '-') + '</p></div>' +
-      '<p class="date">' + date + '</p>';
-    // Ⅰ. 진단 개요
-    h += '<h2>Ⅰ. 진단 개요</h2>' +
-      '<p class="b">□ 진단 목적: AI와 함께 일하는 한 번의 흐름에서, 다섯 순간마다 실제로 하는 행동을 진단함</p>' +
-      '<div class="flow avoid">' + DOMAINS.map(function (dm, i) { return (i ? '<i>▶</i>' : '') + '<div>' + (i + 1) + ' ' + dm.when + '<b>' + dm.name + '</b>' + dm.q + '</div>'; }).join('') + '</div>' +
-      '<p class="b">□ 진단 구성: 실천 5개 영역 25문항(영역별 5문항)과 태도 6문항, 5점 척도(1 전혀 그렇지 않다 ~ 5 매우 그렇다)</p>' +
-      '<p class="b">□ 비교 집단: ' + esc(groupLabel(M.P)) + ' ' + M.n + '명' + (M.few ? ' (응답이 ' + MIN_N + '명 미만이라 그룹 내 위치는 표시하지 않음)' : '') + '</p>' +
-      '<p class="b">□ 점수 산출: 영역 점수 = (문항 평균 − 1) × 25, 0~100점</p>' +
-      '<p class="c">○ 수준 구분: 시작 0~39 · 형성 40~59 · 정착 60~79 · 주도 80~100 (정착 기준 60점)</p>';
-    // Ⅱ. 종합 결과
-    h += '<h2>Ⅱ. 종합 결과</h2><h3>1. AI 활용 유형</h3>' +
-      '<div class="type avoid"><p class="nm">' + T.icon + ' ' + T.name + '</p><p>“' + T.quote + '” — ' + T.tag + '</p></div>' +
-      '<p class="b">□ ' + T.desc + '</p>' +
-      '<p class="c">○ AI는 나에게: ' + T.ai + '</p>' +
-      '<p class="c">○ ' + (me.type === 'master' ? '내가 이끌어 주면 좋은 유형' : '나와 환상의 짝꿍') + ': ' + M.M.icon + ' ' + M.M.name + ' — ' + M.mateWhy + '</p>' +
-      '<h3>2. 영역별 점수</h3>' +
-      '<p class="b">□ 종합 점수 <strong>' + r0(me.total) + '점(' + level(me.total) + ')</strong>, 그룹 평균 ' + r0(mean(totals)) + '점' +
-      (M.few ? '' : ', 그룹 내 위치 상위 ' + topPct(totals, me.total) + '%') + ', 태도 점수 ' + r0(me.att) + '점</p>' +
-      '<div class="avoid"><p class="cap">&lt;표 1&gt; 영역별 점수와 그룹 비교</p><table><thead><tr><th>영역</th><th>나</th><th>수준</th><th>그룹 평균 (SD)</th><th>차이</th><th>그룹 내 위치</th></tr></thead><tbody>' +
-      DOMAINS.map(function (dm, d) {
-        return '<tr><td>' + dm.name + '</td><td><strong>' + r0(me.dom[d]) + '</strong></td><td>' + level(me.dom[d]) + '</td><td>' + r0(M.gm[d]) + ' (' + r0(M.gs[d]) + ')</td><td>' + signed(me.dom[d] - M.gm[d]) + '</td><td>' + rank(M.rows.map(function (r) { return r.dom[d]; }), me.dom[d]) + '</td></tr>';
-      }).join('') +
-      '<tr><td>태도</td><td><strong>' + r0(me.att) + '</strong></td><td>' + level(me.att) + '</td><td>' + r0(mean(M.rows.map(function (r) { return r.att; }))) + ' (' + r0(sd(M.rows.map(function (r) { return r.att; }))) + ')</td><td>' + signed(me.att - mean(M.rows.map(function (r) { return r.att; }))) + '</td><td>' + rank(M.rows.map(function (r) { return r.att; }), me.att) + '</td></tr>' +
-      '</tbody></table></div>' +
-      (png ? '<div class="avoid"><p class="cap">[그림 1] 나와 그룹의 영역별 점수</p><div class="fig"><img src="' + png + '"></div><p class="lg" style="text-align:center">— 나(진한 선)　 - - 그룹 평균(점선)　 ── 정착 기준 60점(굵은 회색 선)</p></div>' : '');
-    // Ⅲ. 강점과 보완점
-    h += '<h2>Ⅲ. 강점과 보완점</h2>' +
-      '<p class="b">□ 강점</p>' +
-      (M.strong.length ? '' : '<p class="c">○ ' + DOMAINS[M.myTop].name + ' ' + r0(me.dom[M.myTop]) + '점: 정착 기준(60점)을 넘은 영역은 아직 없지만 다섯 영역 중 가장 앞선 곳임</p>') +
-      M.strong.map(function (x) {
-        var diff = me.dom[x.d] - M.gm[x.d];
-        return '<p class="c">○ ' + DOMAINS[x.d].name + ' ' + r0(x.v) + '점: “' + DOMAINS[x.d].q + '”에 ' + (M.few || diff < 5 ? '가장 자신 있게' : '그룹보다 ' + r0(diff) + '점 높게') + ' 답함</p>';
-      }).join('') +
-      M.standout.map(function (x) { return '<p class="d">- ' + esc(x.it.text) + '</p>'; }).join('') +
-      '<p class="b">□ 보완이 필요한 영역</p>' +
-      (M.weak.length ? M.weak.map(function (x) { return '<p class="c">○ ' + DOMAINS[x.d].name + ' ' + r0(x.v) + '점 → 목표 ' + target + '점: 놓치기 쉬운 위험은 ' + DOMAINS[x.d].risk + '</p>'; }).join('')
-        : '<p class="c">○ 다섯 영역이 모두 주도 수준(80점 이상)으로 보완할 영역이 없음</p>') +
-      '<p class="b">□ 생각과 행동의 차이: 생각(태도) ' + r0(me.att) + '점, 행동(실천) ' + r0(me.total) + '점, 차이 ' + (M.gap > 0 ? '+' : M.gap < 0 ? '−' : '') + r0(Math.abs(M.gap)) + '점</p>' +
-      '<p class="c">○ <strong>' + M.gapH + '</strong>. ' + M.gapP + '</p>';
-    // Ⅳ. 행동 제언
-    h += '<h2>Ⅳ. 행동 제언 (다음 4주)</h2>' +
-      M.weak.slice(0, 3).map(function (x, i) {
-        var dm = DOMAINS[x.d];
-        var low = ITEMS.slice(x.d * 5, x.d * 5 + 5).filter(function (it) { return me.a[it.idx] <= 3; }).sort(function (a, b) { return me.a[a.idx] - me.a[b.idx]; }).slice(0, 2);
-        return '<div class="avoid"><p class="b">□ 우선순위 ' + (i + 1) + '. ' + dm.name + ' (' + r0(x.v) + '점 → ' + target + '점)</p>' +
-          TIPS[dm.key].map(function (t) { return '<p class="c">○ ' + t + '</p>'; }).join('') +
-          (low.length ? '<p class="d">- 지금 덜 하고 있는 행동(4주 동안 체크)</p>' + low.map(function (it) { return '<p class="e">☐ ' + esc(it.text) + '</p>'; }).join('') : '') + '</div>';
-      }).join('') +
-      '<div class="avoid"><p class="b">□ 강점 살리기: ' + M.keep.name + '</p>' +
-      '<p class="c">○ 지금처럼 “' + M.keep.q + '”를 습관처럼 묻는 것을 유지하고, ' + (M.standout.length ? '“' + esc(M.standout[0].it.text.replace(/\.$/, '')) + '”는 동료에게 알려 주면 그룹 전체의 수준이 올라감' : '내가 잘하는 방식을 동료에게 보여 주면 그룹 전체의 수준이 올라감') + '</p></div>' +
-      '<p class="note">※ 본 진단은 BETA 버전입니다. 유형 구분과 기준점(정착 60점)은 타당화 전의 잠정 기준이며, 결과는 응답자의 자기 보고에 기반합니다.<br>' +
-      '※ PRO AnalytiX Lab, 한양대학교 교육공학과 · hrdpro.hanyang.ac.kr/in-progress/teacher-ai-competency/</p></div>';
-    return h;
-  }
-  // 보고서 블록(문단·표·그림)을 재어 A4 쪽에 나눠 담고, 쪽마다 이미지로 떠서 PDF에 붙인다.
-  // 블록 중간에서 쪽이 갈리지 않고, 제목이 쪽 맨 아래에 홀로 남지 않는다.
-  var PAGE_W = 680, PAGE_H = 990; // 본문 영역(px): A4 210×297mm에서 좌우 15mm, 위 16mm, 아래 19mm를 뺀 180×262mm
-  function paginate(rep) {
-    var blocks = Array.prototype.slice.call(rep.children), pages = [], cur = [], start = 0;
-    blocks.forEach(function (el) {
-      var top = el.offsetTop - (parseFloat(getComputedStyle(el).marginTop) || 0), bottom = el.offsetTop + el.offsetHeight;
-      if (cur.length && bottom - start > PAGE_H) {
-        var carry = [];
-        while (cur.length > 1 && /^H[23]$/.test(cur[cur.length - 1].tagName)) carry.unshift(cur.pop());
-        pages.push(cur); cur = carry;
-        start = (carry[0] || el).offsetTop;
-      }
-      if (!cur.length && !pages.length) start = top;
-      cur.push(el);
-    });
-    if (cur.length) pages.push(cur);
-    return pages;
-  }
-  function downloadPdf(btn) {
-    var M = state.model, msg = document.getElementById('aidx-pdf-msg'), host;
-    if (!M) return;
-    btn.disabled = true; msg.textContent = 'PDF를 만드는 중…';
-    Promise.all([loadScript(H2C_LIB, function () { return !!window.html2canvas; }), loadScript(JSPDF_LIB, function () { return !!(window.jspdf && window.jspdf.jsPDF); }),
-      loadFonts(), radarPng(M)]).then(function (res) {
-      host = document.createElement('div');
-      host.setAttribute('aria-hidden', 'true');
-      host.style.cssText = 'position:fixed;left:-20000px;top:0;width:' + PAGE_W + 'px;background:#fff';
-      host.innerHTML = repHtml(M, res[3]);
-      document.body.appendChild(host);
-      var img = host.querySelector('img');
-      return (img && img.decode ? img.decode().catch(function () {}) : Promise.resolve()).then(function () {
-        var rep = host.querySelector('.rep'), pages = paginate(rep);
-        var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-        var chain = Promise.resolve();
-        pages.forEach(function (blocks, i) {
-          chain = chain.then(function () {
-            var page = document.createElement('div');
-            page.className = 'rep';
-            page.style.cssText = 'width:' + PAGE_W + 'px;height:' + PAGE_H + 'px;overflow:hidden;background:#fff';
-            blocks.forEach(function (el, k) { var c = el.cloneNode(true); if (k === 0) c.style.marginTop = '0'; page.appendChild(c); });
-            host.appendChild(page);
-            return window.html2canvas(page, { scale: 2, backgroundColor: '#ffffff', logging: false }).then(function (canvas) {
-              if (i) pdf.addPage();
-              pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 15, 16, 180, 180 * PAGE_H / PAGE_W);
-              pdf.setFontSize(9); pdf.setTextColor(90);
-              pdf.text('- ' + (i + 1) + ' -', 105, 289, { align: 'center' });
-              host.removeChild(page);
-            });
-          });
-        });
-        return chain.then(function () { pdf.save('나와우리학교AI역량진단_결과_' + fmtId((state.me && state.me.id) || 'RESULT00') + '.pdf'); });
-      });
-    }).then(function () { msg.textContent = ''; btn.disabled = false; })
-      .catch(function () { msg.textContent = 'PDF를 만들지 못했습니다. 잠시 뒤 다시 눌러 주세요.'; btn.disabled = false; })
-      .then(function () { if (host && host.parentNode) host.parentNode.removeChild(host); });
-  }
-
   // ---------- 응답자 그룹별 비교: 응답할 때 고른 구분(학생·교사·보직교사·행정직원)별 평균과 일원분산분석 ----------
   function lgamma(x) {
     var c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
@@ -1068,7 +867,7 @@
       }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
     else if (act === 'analyze') { analyze('me'); }
-    else if (act === 'pdf') { downloadPdf(b); }
+    else if (act === 'pdf') { window.DiagnosisPdf.save({ root: root, button: b, title: '나와 우리학교 AI 역량 수준 진단', code: state.me && state.me.id }); }
     else if (act === 'copycode') {
       var code = b.dataset.code;
       var done = function () { b.textContent = '복사했습니다'; b.classList.add('is-done'); setTimeout(function () { b.textContent = '복사'; b.classList.remove('is-done'); }, 1800); };
