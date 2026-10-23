@@ -1,4 +1,4 @@
-# 학교 AIX 준비 성숙도 진단: 설계 근거와 응답 저장소 연결
+# 우리학교 AIX 전환 준비·성숙도 진단: 설계 근거와 응답 저장소 연결
 
 페이지: `in-progress/aix-school/index.html` · 스크립트: `assets/js/aix-school.js` · 저장소: `apps-script.gs`
 

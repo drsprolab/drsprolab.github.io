@@ -1,4 +1,5 @@
-// 학교 AIX 준비 성숙도 진단: 설문 응답 수집 → 분석 실시 → 내가 본 우리 학교 / 우리 학교 분석결과 / 응답자 구분별 비교.
+// 우리학교 AIX 전환 준비·성숙도 진단: 설문 응답 수집 → 분석 실시 → 종합 결과 / 내가 본 우리 학교 / 우리 학교 분석결과 / 응답자 구분별 비교.
+// 우리 학교 = 같은 학교 이름으로 응답한 사람들. 종합 결과는 같은 학교급의 다른 학교(학교 이름은 받지 않고 번호만)와도 비교한다.
 // 문항: 기반 마련 → 교원 활용 → 수업·평가 재설계 → 학교 확산 → AI 내재화, 5단계 × 6문항 + 전반 인식 2문항 = 32문항, 5점 동의 척도.
 // 학교를 주어로 묻는 단계(기반 마련·학교 확산·AI 내재화)와 전반 인식 문항에는 '잘 모르겠다'(값 0)를 둔다. 0은 점수 계산에서 빼고, 단계별 '모르겠다' 비율로 따로 보고한다.
 // 응답 저장: #axr의 data-endpoint(Google Apps Script 웹앱, tools/aix-school/)가 있으면 그곳에,
@@ -14,6 +15,7 @@
   var LS_ME = 'aixs-v1-me' + (PREVIEW ? '-test' : ''), LS_DATA = 'aixs-v1-test-responses';
   var MIN_N = 5;   // 학교 결과·비교를 보여 줄 최소 응답 수
   var MIN_ROLE = 3; // 응답자 구분별 비교에 넣을 최소 인원
+  var MIN_SCHOOL = 3; // 같은 학교급 비교에 넣을 다른 학교의 최소 응답 수
 
   // ---------- 단계와 문항 ----------
   // ref: 문항의 주어(참조 대상). 한 단계 안에서는 주어를 통일한다.
@@ -144,7 +146,7 @@
   };
 
   // ---------- 상태 ----------
-  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', org: '', started: 0, tab: 'me', me: null, pool: null };
+  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', org: '', started: 0, tab: 'report', me: null, pool: null, peers: null };
 
   // ---------- 유틸 ----------
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -170,7 +172,10 @@
   function fmtId(id) { return id.slice(0, 4) + '-' + id.slice(4); }
   function josa(w, a, b) { var c = w.charCodeAt(w.length - 1); return w + ((c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28) ? a : b); }
   function copyBtn(id, small) { return '<button type="button" class="aidx-copy' + (small ? ' small' : '') + '" data-act="copycode" data-code="' + fmtId(id) + '">복사</button>'; }
-  function groupLabel(g) { return g ? '학교(그룹) ' + g : '전체 응답자'; }
+  // 비교 집단 이름: 학교 이름이 있으면 같은 학교, 없으면 링크의 그룹, 둘 다 없으면 전체
+  function groupLabel(P) { return P.org ? '우리 학교 ' + P.org : P.group ? '학교(그룹) ' + P.group : '전체 응답자'; }
+  // 같은 학교 판단: 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(apps-script.gs의 normOrg_와 같은 규칙).
+  function normOrg(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
   function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비됨' : '출발 전 · 1단계 준비 중'; }
   function sc(v) { return v === null ? '–' : r0(v); }
 
@@ -204,14 +209,15 @@
     return call(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
       .then(function (j) { if (!j.ok && j.error !== 'duplicate') throw new Error(j.error || '저장 실패'); });
   }
-  function fetchPool(group, me) {
+  // org가 있으면 같은 학교 응답만, 없으면 group(비면 전체).
+  function fetchPool(group, me, org) {
     if (PREVIEW) {
-      var rows = localRows().filter(function (r) { return !group || (r.group || '') === group; }).map(function (r) {
+      var rows = localRows().filter(function (r) { return org ? normOrg(r.org) === normOrg(org) : !group || (r.group || '') === group; }).map(function (r) {
         return { role: r.role, job: r.job || '', freq: r.freq || '', g: r.group || '', a: r.answers, mine: !!(me && r.id === me.id) };
       });
       return Promise.resolve(withMine(rows, me));
     }
-    var u = ENDPOINT + '?action=all&group=' + encodeURIComponent(group) + (me ? '&me=' + encodeURIComponent(me.id) : '');
+    var u = ENDPOINT + '?action=all' + (org ? '&org=' + encodeURIComponent(org) : '&group=' + encodeURIComponent(group)) + (me ? '&me=' + encodeURIComponent(me.id) : '');
     return call(u).then(function (j) {
       if (!j.ok) throw new Error(j.error || '불러오기 실패');
       return withMine(j.rows.map(function (r) { return { role: r.role, job: r.j || '', freq: r.f || '', g: r.g || '', a: r.a, mine: !!r.m }; }), me);
@@ -221,10 +227,24 @@
     if (me && !rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, job: me.job || '', freq: me.freq || '', g: me.group || '', a: me.answers, mine: true });
     return rows;
   }
+  // 같은 학교급의 다른 학교 응답. 학교 이름 대신 학교 번호(s)만 받는다.
+  function fetchPeers(job, org) {
+    if (PREVIEW) {
+      var ids = {}, k = 0;
+      return Promise.resolve(localRows().filter(function (r) { var o = normOrg(r.org); return r.job === job && o && o !== normOrg(org); }).map(function (r) {
+        var o = normOrg(r.org); if (!(o in ids)) ids[o] = ++k;
+        return { role: r.role, job: r.job, freq: r.freq || '', a: r.answers, s: ids[o] };
+      }));
+    }
+    return call(ENDPOINT + '?action=peers&job=' + encodeURIComponent(job) + '&org=' + encodeURIComponent(org)).then(function (j) {
+      if (!j.ok) throw new Error(j.error || '불러오기 실패');
+      return j.rows.map(function (r) { return { role: r.role, job: r.j || '', freq: r.f || '', a: r.a, s: r.s }; });
+    });
+  }
   function fetchOne(id) {
     if (PREVIEW) return Promise.resolve(localRows().filter(function (r) { return r.id === id; })[0] || null);
     return call(ENDPOINT + '?action=one&id=' + encodeURIComponent(id))
-      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, job: j.row.j || '', freq: j.row.f || '', answers: j.row.a } : null; });
+      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, job: j.row.j || '', freq: j.row.f || '', org: j.row.org || '', answers: j.row.a } : null; });
   }
 
   // ---------- 학교(집단) 집계 ----------
@@ -322,7 +342,7 @@
       (GROUP ? '<p class="aidx-group">응답 학교(그룹) <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
-      '<button type="button" class="aidx-btn" data-act="my">내가 본 우리 학교</button>' +
+      '<button type="button" class="aidx-btn" data-act="report">나의 종합 결과 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="group">우리 학교 분석결과 보기</button></div>' +
       (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="axr-gate" role="alert" hidden><p><strong id="axr-gate-msg"></strong></p>' +
@@ -417,14 +437,16 @@
   }
 
   // ---------- 분석 실행 ----------
-  function scored(r) { var s = score(r.a); s.role = r.role; s.job = r.job; s.freq = r.freq; s.g0 = r.g || ''; s.mine = r.mine; return s; }
+  function scored(r) { var s = score(r.a); s.role = r.role; s.job = r.job; s.freq = r.freq; s.g0 = r.g || ''; s.mine = r.mine; s.s = r.s; return s; }
+  // 우리 학교 = 나와 같은 학교 이름으로 응답한 사람들(학교 이름이 없는 응답은 링크의 그룹). 같은 학교급의 다른 학교 응답도 함께 불러온다.
   function analyze(tab) {
     state.tab = tab;
-    var me = state.me, group = me ? (me.group || '') : GROUP;
+    var me = state.me, org = me && normOrg(me.org) ? me.org : '', group = org ? '' : me ? (me.group || '') : GROUP;
     viewAnalyzing(tab === 'me' ? '응답을 분석하고 있습니다' : '학교 응답을 모으고 있습니다');
     var t0 = Date.now();
-    fetchPool(group, me).then(function (rows) {
-      state.pool = { group: group, rows: rows.map(scored) };
+    Promise.all([fetchPool(group, me, org), org && me.job ? fetchPeers(me.job, org) : Promise.resolve([])]).then(function (res) {
+      state.pool = { group: group, org: org, rows: res[0].map(scored) };
+      state.peers = res[1].map(scored);
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
     }).catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
   }
@@ -434,10 +456,11 @@
   function viewResult() {
     root.innerHTML = previewNote() +
       '<div class="aidx-tabs" role="tablist">' +
+      '<button type="button" role="tab" data-tab="report" aria-selected="' + (state.tab === 'report') + '">' + tabLabel('종합 결과', '종합') + '</button>' +
       '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('내가 본 우리 학교', '나의 응답') + '</button>' +
       '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 학교 분석결과', '우리 학교') + '</button>' +
       '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 구분별 비교', '구분별 비교') + '</button></div>' +
-      '<div role="tabpanel">' + (state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
+      '<div role="tabpanel">' + (state.tab === 'report' ? fullReport() : state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
       '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 준비 기준점(60점)과 단계 순서는 타당화 전의 잠정 기준이며, 단계는 교원 인식을 바탕으로 한 추정입니다. 공식 성숙도 판정에는 문서·지표 같은 증거 확인을 함께 쓰세요. 점수 = (응답한 문항 평균 − 1) × 25, 0~100점, "잘 모르겠다"는 점수에서 제외. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
@@ -461,11 +484,159 @@
   }
   function itemMeanOf(rows, idx) { var v = rows.map(function (r) { return r.a[idx]; }).filter(function (x) { return x > 0; }); return v.length ? mean(v) : null; }
 
+  // ---------- 종합 결과: 나의 준비도 → 우리 학교 준비도 → 나와 학교의 차이 → 행동 조언 → 같은 학교급 다른 학교와 비교 → 학교 행동 조언 ----------
+  // 점수가 있는 단계를 높은 순으로 정렬해 강점 2개, 약점 2개를 고른다(단계가 적으면 겹치지 않게 줄인다).
+  function strongWeak(lv) {
+    var o = lv.map(function (v, s) { return { v: v, s: s }; }).filter(function (x) { return x.v !== null; }).sort(function (a, b) { return b.v - a.v; });
+    return { strong: o.slice(0, 2), weak: o.slice(Math.max(2, o.length - 2)).reverse() };
+  }
+  // 한 단계 안에서 값이 가장 높은(또는 낮은) 문항. valOf(idx)가 null이면 뺀다.
+  function pickItem(s, valOf, low) {
+    var c = ITEMS.slice(s * K, s * K + K).map(function (it) { return { it: it, v: valOf(it.idx) }; }).filter(function (x) { return x.v !== null && x.v > 0; });
+    c.sort(function (a, b) { return low ? a.v - b.v : b.v - a.v; });
+    return c[0] || null;
+  }
+  function swPanel(title, sub, sw, valOf, scale) {
+    function li(x, low) {
+      var p = pickItem(x.s, valOf, low);
+      return '<li><strong>' + STAGES[x.s].icon + ' ' + (x.s + 1) + '단계 ' + STAGES[x.s].name + '</strong> <span class="aidx-muted">' + r0(x.v) + '점</span> ' + lvlChip(x.v) +
+        (p ? '<br><span class="aidx-muted">' + (low ? '가장 낮은 문항: ' : '가장 높은 문항: ') + esc(p.it.text) + ' (' + (scale ? f1(p.v) : p.v) + ')</span>' : '') + '</li>';
+    }
+    return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p class="panel-sub">' + sub + '</p>' +
+      '<p class="aidx-small">강점</p><ul class="aidx-list">' + (sw.strong.length ? sw.strong.map(function (x) { return li(x, false); }).join('') : '<li>점수를 낼 수 있는 단계가 없습니다.</li>') + '</ul>' +
+      '<p class="aidx-small">약점</p><ul class="aidx-list">' + (sw.weak.length ? sw.weak.map(function (x) { return li(x, true); }).join('') : '<li>강점과 겹쳐 따로 표시할 약점이 없습니다.</li>') + '</ul></div>';
+  }
+  // 행동 조언 카드 목록. who: 'me' | 'school'
+  function adviceList(list) {
+    return '<ol class="aidx-list axr-advice">' + list.map(function (x) {
+      return '<li><span class="axr-who' + (x.who === 'school' ? ' school' : '') + '">' + (x.who === 'school' ? '학교' : '나') + '</span>' + x.t +
+        '<br><span class="aidx-muted">근거: ' + x.why + '</span></li>';
+    }).join('') + '</ol>';
+  }
+  // 후보를 차례로 보며 같은 문장은 한 번만 넣는다.
+  function takeUnique(cands, n, used) {
+    var out = [];
+    cands.forEach(function (c) { if (out.length < n && c && c.t && !used[c.t]) { used[c.t] = 1; out.push(c); } });
+    return out;
+  }
+  function weakestStage(lv) { var o = strongWeak(lv).weak; return o.length ? o[0].s : 0; }
+
+  function fullReport() {
+    var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
+    if (!me) {
+      return '<section class="aidx-home"><p>아직 이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p>' +
+        '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="report">결과 코드 입력</button></div></section>';
+    }
+    var rows = P.rows, n = rows.length, S = aggregate(rows), h = '';
+    var schoolItem = function (idx) { return itemMeanOf(rows, idx); }, myItem = function (idx) { return me.a[idx] || null; };
+    h += '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + n + '명 (나 포함)' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>';
+    if (n < MIN_N) h += '<p class="aidx-note">우리 학교 응답이 ' + n + '명입니다. ' + MIN_N + '명 이상 모이면 학교 결과가 안정됩니다. 지금은 참고용으로 보세요.</p>';
+
+    // 1. 나의 준비도
+    var mySW = strongWeak(me.lv);
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">1 · 나의 준비도</p><h2>' + stageTitle(me.stage) + '</h2>' +
+      '<p>내 응답으로 계산한 다섯 단계 점수입니다. 2단계는 나 자신, 3단계는 내 협의회, 1·4·5단계는 내가 본 우리 학교에 대한 평가입니다.</p>' +
+      '<div class="axr-stairs-box">' + stairs(me.stage, '나의 준비 단계 ' + me.stage + '단계') + '</div></section>';
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">나의 단계별 점수</h3><p class="panel-sub">0~100점 · 회색 눈금은 우리 학교 평균 · 점선은 준비 기준 60점</p>' +
+      stageBars(me.lv, S.lvMean, '우리 학교 평균') + '</div>' +
+      swPanel('나의 강점과 약점', '내 단계 점수가 높은 단계와 낮은 단계 · 괄호는 내 응답(1~5)', mySW, myItem, false) + '</section>';
+
+    // 2. 우리 학교의 준비도
+    var schSW = strongWeak(S.lvMean);
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">2 · 우리 학교의 준비도 (같은 학교 응답 ' + n + '명)</p><h2>' + stageTitle(S.stage) + '</h2><p>' + STAGE_DESC[S.stage] + '</p>' +
+      '<div class="axr-stairs-box">' + stairs(S.stage, '우리 학교 준비 단계 ' + S.stage + '단계') + '</div></section>';
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">우리 학교 단계별 평균</h3><p class="panel-sub">0~100점 · 오른쪽은 그 단계를 60점 이상으로 본 응답자 비율</p>' +
+      stageBars(S.lvMean, null, '', S.lvMean.map(function (v, i) { return v === null ? '판단 보류' : r0(S.ready[i]) + '% 준비'; })) + '</div>' +
+      swPanel('우리 학교의 강점과 약점', '학교 평균이 높은 단계와 낮은 단계 · 괄호는 문항 평균(1~5)', schSW, schoolItem, true) + '</section>';
+
+    // 3. 나와 우리 학교의 차이
+    var diffs = STAGES.map(function (_, s) { return me.lv[s] !== null && S.lvMean[s] !== null ? me.lv[s] - S.lvMean[s] : null; });
+    var order = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); });
+    var top = order[0] && Math.abs(order[0].d) >= GAP_NOTE ? order[0] : null;
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">3 · 나와 우리 학교 준비도의 차이</h3><p class="panel-sub">나 − 우리 학교 평균 (점) · ±' + GAP_NOTE + '점 안은 비슷함</p>' + gapBars(diffs) + '</div>' +
+      '<div class="panel"><h3 class="panel-title">차이가 가장 큰 단계</h3>' +
+      (n < 2 ? '<p>아직 같은 학교의 다른 응답이 없어 차이를 볼 수 없습니다. 같은 학교 교원이 응답하면 나타납니다.</p>'
+        : top ? '<p><strong>' + (top.s + 1) + '단계 ' + STAGES[top.s].name + '</strong>을(를) 우리 학교 평균보다 <strong>' + r0(Math.abs(top.d)) + '점 ' + (top.d > 0 ? '높게' : '낮게') + '</strong> 봅니다.</p><p>' + GAP_READ[STAGES[top.s].key][top.d > 0 ? 'hi' : 'lo'].why + '</p>'
+        : '<p>모든 단계에서 차이가 ' + GAP_NOTE + '점 미만입니다. 학교의 상태를 다른 교원과 비슷하게 보고 있으므로, 학교의 약점 단계를 함께 채우는 데 힘을 보태면 됩니다.</p>') + '</div></section>';
+
+    // 4. 내가 할 일 3 + 학교가 할 일 2
+    var used = {};
+    var ctrl = [1, 2].filter(function (s) { return me.lv[s] !== null; }).sort(function (a, b) { return me.lv[a] - me.lv[b]; });
+    if (!ctrl.length) ctrl = [1];
+    var c0 = STAGES[ctrl[0]], c1 = STAGES[ctrl[1] !== undefined ? ctrl[1] : ctrl[0]];
+    var ctrlWhy = function (st) { var s = STAGES.indexOf(st); return st.name + ' ' + sc(me.lv[s]) + '점 · 내가 직접 바꿀 수 있는 단계' + (s === ctrl[0] ? ' 중 더 낮은 쪽' : ''); };
+    var gapCands = top ? GAP_READ[STAGES[top.s].key][top.d > 0 ? 'hi' : 'lo'].act.map(function (t) {
+      return { who: 'me', t: t, why: STAGES[top.s].name + '을(를) 학교 평균보다 ' + r0(Math.abs(top.d)) + '점 ' + (top.d > 0 ? '높게' : '낮게') + ' 봄' };
+    }) : [];
+    var myCands = [{ who: 'me', t: MY_TIPS[c0.key][0], why: ctrlWhy(c0) }, gapCands[0], { who: 'me', t: MY_TIPS[c0.key][1], why: ctrlWhy(c0) }, gapCands[1],
+      { who: 'me', t: MY_TIPS[c1.key][0], why: ctrlWhy(c1) }, { who: 'me', t: MY_TIPS[c0.key][2], why: ctrlWhy(c0) }, { who: 'me', t: MY_TIPS[c1.key][1], why: ctrlWhy(c1) }];
+    var sb = S.stage < 5 ? S.stage : weakestStage(S.lvMean);
+    var sbWhy = (S.stage < 5 ? '우리 학교의 병목 단계' : '우리 학교에서 가장 낮은 단계') + ' · ' + STAGES[sb].name + ' 평균 ' + sc(S.lvMean[sb]) + '점';
+    var advice = takeUnique(myCands, 3, used).concat(takeUnique(ACTIONS[STAGES[sb].key].map(function (t) { return { who: 'school', t: t, why: sbWhy }; }), 2, used));
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">4 · 행동 조언 5가지</p><h3>내가 할 일과 학교가 할 일</h3>' +
+      '<p>내 점수가 낮은 단계(교원 활용·수업·평가 재설계)와 학교와의 인식 차이에서 내가 할 일을, 우리 학교의 병목 단계에서 학교가 할 일을 골랐습니다.</p></div>' + adviceList(advice) + '</section>';
+
+    // 5. 같은 학교급 다른 학교와 비교
+    var peerTxt = '', schoolAdvice;
+    var schools = {};
+    (state.peers || []).forEach(function (r) { (schools[r.s] = schools[r.s] || []).push(r); });
+    var peerList = Object.keys(schools).map(function (k) { return schools[k]; }).filter(function (rs) { return rs.length >= MIN_SCHOOL; }).map(aggregate);
+    var peerMean = null, pdiff = null;
+    if (!P.org || !me.job) {
+      peerTxt = '<p>학교 이름과 학교급이 있는 응답에서만 다른 학교와 비교할 수 있습니다.</p>';
+    } else if (!peerList.length) {
+      peerTxt = '<p>아직 같은 학교급(' + esc(me.job) + ')에서 응답이 ' + MIN_SCHOOL + '명 이상 모인 다른 학교가 없습니다. 다른 학교의 응답이 쌓이면 이 자리에 비교 결과가 나타납니다.</p>';
+    } else {
+      peerMean = STAGES.map(function (_, s) { var v = nn(peerList.map(function (A) { return A.lvMean[s]; })); return v.length ? mean(v) : null; });
+      pdiff = STAGES.map(function (_, s) { return S.lvMean[s] !== null && peerMean[s] !== null ? S.lvMean[s] - peerMean[s] : null; });
+      var idx = function (lv) { var v = nn(lv); return v.length ? mean(v) : null; };
+      var mineIdx = idx(S.lvMean), peerIdx = nn(peerList.map(function (A) { return idx(A.lvMean); }));
+      var below = mineIdx === null ? null : peerIdx.filter(function (v) { return v < mineIdx; }).length;
+      var ahead = pdiff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return b.d - a.d; });
+      var best = ahead[0], worst = ahead[ahead.length - 1];
+      peerTxt = '<p>같은 학교급(' + esc(me.job) + ')에서 응답이 ' + MIN_SCHOOL + '명 이상인 다른 학교 <strong>' + peerList.length + '곳</strong>의 평균과 비교했습니다(학교마다 같은 무게).' +
+        (below !== null ? ' 다섯 단계 평균으로 보면 우리 학교는 이 학교들 가운데 <strong>' + below + '곳보다 높습니다</strong>.' : '') + '</p>' +
+        (best && best.d >= GAP_NOTE ? '<p>가장 앞선 단계는 <strong>' + STAGES[best.s].name + '</strong>(' + signed(best.d) + '점)입니다.</p>' : '') +
+        (worst && worst.d <= -GAP_NOTE ? '<p>가장 뒤처진 단계는 <strong>' + STAGES[worst.s].name + '</strong>(' + signed(worst.d) + '점)입니다.</p>' : '') +
+        stageBars(S.lvMean, peerMean, '다른 학교 평균') +
+        '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>우리 학교</th><th>다른 학교 평균</th><th>차이</th></tr></thead><tbody>' +
+        STAGES.map(function (st, s) {
+          var d = pdiff[s];
+          return '<tr><td>' + (s + 1) + '. ' + st.name + '</td><td><strong>' + sc(S.lvMean[s]) + '</strong></td><td>' + sc(peerMean[s]) + '</td>' +
+            '<td class="' + (d === null ? '' : d >= GAP_NOTE ? 'up' : d <= -GAP_NOTE ? 'down' : '') + '">' + (d === null ? '–' : signed(d)) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<p class="aidx-small">다른 학교의 이름은 보이지 않으며, 응답이 ' + MIN_SCHOOL + '명 미만인 학교는 비교에서 뺍니다.</p>';
+    }
+    h += '<div class="panel"><h3 class="panel-title">5 · 같은 학교급 다른 학교와의 준비도 차이</h3><p class="panel-sub">회색 눈금은 다른 학교 평균 · 점선은 준비 기준 60점</p>' + peerTxt + '</div>';
+
+    // 6. 우리 학교가 할 일 5: 병목 단계 → 다른 학교보다 가장 뒤처진 단계 → 다음 단계 → 나머지 낮은 단계 순
+    var stOrder = [sb];
+    if (pdiff) {
+      var lag = pdiff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null && x.d <= -GAP_NOTE; }).sort(function (a, b) { return a.d - b.d; })[0];
+      if (lag) stOrder.push(lag.s);
+    }
+    if (sb + 1 < 5) stOrder.push(sb + 1);
+    S.lvMean.map(function (v, s) { return { v: v === null ? 999 : v, s: s }; }).sort(function (a, b) { return a.v - b.v; }).forEach(function (x) { stOrder.push(x.s); });
+    stOrder = stOrder.filter(function (s, i) { return stOrder.indexOf(s) === i; });
+    var quota = [2, 2, 1, 1, 1], used2 = {}, cands = [];
+    stOrder.forEach(function (s, i) {
+      var why = s === sb ? sbWhy
+        : pdiff && pdiff[s] !== null && pdiff[s] <= -GAP_NOTE ? STAGES[s].name + ' · 같은 학교급 다른 학교보다 ' + r0(Math.abs(pdiff[s])) + '점 낮음'
+        : s === sb + 1 ? '병목 다음 단계 · ' + STAGES[s].name + ' 평균 ' + sc(S.lvMean[s]) + '점'
+        : STAGES[s].name + ' 평균 ' + sc(S.lvMean[s]) + '점';
+      cands = cands.concat(takeUnique(ACTIONS[STAGES[s].key].map(function (t) { return { who: 'school', t: t, why: why }; }), quota[i] || 0, used2));
+    });
+    schoolAdvice = cands.slice(0, 5);
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">6 · 우리 학교 행동 조언 5가지</p><h3>우리 학교가 할 일</h3>' +
+      '<p>앞 단계가 비어 있으면 뒤 단계에 투자해도 효과가 작습니다. 병목 단계부터, 그리고 같은 학교급 다른 학교보다 뒤처진 단계를 우선했습니다.</p></div>' + adviceList(schoolAdvice) + '</section>';
+    return h;
+  }
+
   function personal() {
     var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
     if (!me) {
       return '<section class="aidx-home"><p>아직 이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p>' +
-        '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="my">결과 코드 입력</button></div></section>';
+        '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="report">결과 코드 입력</button></div></section>';
     }
     var others = P.rows.filter(function (r) { return !r.mine; }), no = others.length, enough = no >= MIN_N - 1;
     var O = no ? aggregate(others) : null;
@@ -570,7 +741,7 @@
     var P = state.pool, rows = P.rows, n = rows.length;
     if (!n) return '<section class="aidx-home"><p>아직 응답이 없습니다.</p></section>';
     var A = aggregate(rows), h = '';
-    h += '<p class="aidx-context">' + esc(groupLabel(P.group)) + ' · 응답 ' + n + '명' + (PREVIEW ? ' (시험 모드: 이 브라우저의 응답만)' : '') + '</p>';
+    h += '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + n + '명' + (PREVIEW ? ' (시험 모드: 이 브라우저의 응답만)' : '') + '</p>';
     if (n < MIN_N) h += '<p class="aidx-note">아직 응답이 ' + n + '명입니다. ' + MIN_N + '명 이상 모이면 학교 결과가 안정됩니다. 학교 전체를 대표하려면 학년·교과와 직위가 고르게 응답해야 합니다.</p>';
 
     // 1. 한 줄 요약
@@ -584,7 +755,7 @@
     var g = nn(rows.map(function (r) { return r.g; }));
     var unkOrg = mean(STAGES.map(function (st, s) { return st.unk ? A.unkPct[s] : null; }).filter(function (v) { return v !== null; }));
     h += '<div class="kpis aidx-kpis">' +
-      kpi('응답자', n + '<small>명</small>', esc(groupLabel(P.group))) +
+      kpi('응답자', n + '<small>명</small>', esc(groupLabel(P))) +
       kpi('준비된 단계', A.stage + '<small>/ 5단계</small>', bott >= 0 ? '병목: ' + STAGES[bott].name : '전 단계 준비') +
       kpi('전반 인식', g.length ? r0(mean(g)) + '<small>/ 100</small>' : '–', 'AIX 의지·역량에 대한 인식 (G1·G2)') +
       kpi('"잘 모르겠다"', r0(unkOrg) + '<small>%</small>', '학교 주어 문항(1·4·5단계) 평균') +
@@ -663,7 +834,7 @@
   function compareReport() {
     var P = state.pool, rows = P.rows, n = rows.length;
     var groups = ROLES.map(function (rl) { return { rl: rl, rs: rows.filter(function (r) { return r.role === rl; }) }; }).filter(function (x) { return x.rs.length >= MIN_ROLE; });
-    var h = '<p class="aidx-context">' + esc(groupLabel(P.group)) + ' · 응답 ' + n + '명</p>';
+    var h = '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + n + '명</p>';
     if (groups.length < 2) {
       return h + '<section class="aidx-home"><p>응답자 구분별 비교는 두 구분 이상에서 각각 ' + MIN_ROLE + '명 이상 응답해야 볼 수 있습니다. 응답자를 알아볼 수 없도록 인원이 적은 구분은 표시하지 않습니다.</p></section>';
     }
@@ -749,19 +920,19 @@
         state.me = rec; state.pending = null; state.pool = null; save(LS_ME, rec); viewDone();
       }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
-    else if (act === 'analyze') { analyze('me'); }
+    else if (act === 'analyze') { analyze('report'); }
     else if (act === 'copycode') {
       var code = b.dataset.code;
       var ok = function () { b.textContent = '복사했습니다'; b.classList.add('is-done'); setTimeout(function () { b.textContent = '복사'; b.classList.remove('is-done'); }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'group') {
-      var me = load(LS_ME), tab = act === 'my' ? 'me' : 'group';
+    else if (act === 'my' || act === 'report' || act === 'group') {
+      var me = load(LS_ME), tab = act === 'my' ? 'me' : act;
       if (me) { state.me = me; state.pool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('axr-gate')) go('home');
-      document.getElementById('axr-gate-msg').textContent = (tab === 'me' ? '내 결과는' : '우리 학교 분석결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('axr-gate-msg').textContent = (tab === 'group' ? '우리 학교 분석결과는' : '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('axr-gate').hidden = false;
       document.getElementById('axr-code').hidden = true;
     }
@@ -776,7 +947,7 @@
     err.textContent = '찾는 중…';
     fetchOne(id).then(function (rec) {
       if (!rec) { err.textContent = '해당 코드의 응답이 없습니다.'; return; }
-      state.me = rec; state.pool = null; save(LS_ME, rec); analyze(state.gateTab || 'me');
+      state.me = rec; state.pool = null; save(LS_ME, rec); analyze(state.gateTab || 'report');
     }).catch(function () { err.textContent = '불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'; });
   });
 

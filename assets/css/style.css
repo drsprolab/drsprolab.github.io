@@ -1410,6 +1410,10 @@ main.container { overflow-x: clip; }
 /* 작은 설명이 붙은 버튼이 있어도 한 줄의 버튼 높이를 맞춘다 */
 .aidx-roles label { display: flex; }
 .aidx-roles label > span { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+/* 학교 AIX 진단 종합 결과: 행동 조언의 주체 표시(나 / 학교) */
+.axr-advice > li { margin-bottom: 10px; }
+.axr-who { display: inline-block; margin-right: 8px; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent); vertical-align: 1px; }
+.axr-who.school { background: color-mix(in srgb, var(--warn) 12%, var(--paper)); color: var(--warn); }
 .aidx-role-note { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; opacity: .75; }
 .aidx-hint { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 .aidx-pfacts { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }

@@ -1,7 +1,9 @@
-// 학교 AIX 준비 성숙도 진단: 응답 저장소 (Google Apps Script 웹앱, 스프레드시트에 붙여서 사용)
+// 우리학교 AIX 전환 준비·성숙도 진단: 응답 저장소 (Google Apps Script 웹앱, 스프레드시트에 붙여서 사용)
 // POST  응답 저장       body: {id, group, role, job, freq, answers[32], seconds}
 //       answers 값: 1~5, '잘 모르겠다'는 0 (기반 마련·학교 확산·AI 내재화·전반 인식 문항에서만 허용)
 // GET   ?action=all&group=G&me=ID  학교(그룹) 응답 목록 (결과 코드는 내보내지 않고, me와 같은 행에 m:1 표시)
+// GET   ?action=all&org=O&me=ID    같은 학교 이름(org)으로 응답한 사람들만
+// GET   ?action=peers&job=J&org=O  같은 학교급(job)의 다른 학교 응답. 학교 이름 대신 학교 번호 s만 내보낸다.
 // GET   ?action=one&id=ID           결과 코드로 내 응답 1건
 
 var SHEET = 'responses';
@@ -29,6 +31,8 @@ function rows_() {
   var sh = sheet_(), n = sh.getLastRow() - 1;
   return n > 0 ? sh.getRange(2, 1, n, HEAD.length).getDisplayValues() : [];
 }
+// 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(aix-school.js의 normOrg와 같은 규칙).
+function normOrg_(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
 function cleanGroup_(g) { return String(g || '').trim().replace(/[^\w가-힣-]/g, '').slice(0, 40); }
 function validAnswers_(a) {
   if (!Array.isArray(a) || a.length !== ITEMS.length) return false;
@@ -62,10 +66,18 @@ function doGet(e) {
   var p = e.parameter || {}, data = rows_();
   if (p.action === 'one') {
     var r = data.filter(function (x) { return x[1] === p.id; })[0];
-    return json_({ ok: true, row: r ? { id: r[1], group: r[2], role: r[3], j: r[4], f: r[5], a: r.slice(A0, A1).map(Number) } : null });
+    return json_({ ok: true, row: r ? { id: r[1], group: r[2], role: r[3], j: r[4], f: r[5], org: r[A1], a: r.slice(A0, A1).map(Number) } : null });
   }
-  var g = cleanGroup_(p.group);
-  var out = data.filter(function (x) { return !g || x[2] === g; }).map(function (x) {
+  if (p.action === 'peers') {
+    var mine = normOrg_(p.org), ids = {}, k = 0;
+    var peers = data.filter(function (x) { var o = normOrg_(x[A1]); return x[4] === p.job && o && o !== mine; }).map(function (x) {
+      var o = normOrg_(x[A1]); if (!(o in ids)) ids[o] = ++k;
+      return { role: x[3], j: x[4], f: x[5], a: x.slice(A0, A1).map(Number), s: ids[o] };
+    });
+    return json_({ ok: true, rows: peers });
+  }
+  var g = cleanGroup_(p.group), org = normOrg_(p.org);
+  var out = data.filter(function (x) { return org ? normOrg_(x[A1]) === org : !g || x[2] === g; }).map(function (x) {
     var o = { role: x[3], j: x[4], f: x[5], g: x[2], a: x.slice(A0, A1).map(Number) };
     if (p.me && x[1] === p.me) o.m = 1;
     return o;
