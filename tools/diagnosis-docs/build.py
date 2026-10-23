@@ -6,6 +6,8 @@
 - Google Chrome(헤드리스)으로 인쇄한다. 글꼴(Pretendard, Noto Serif KR)은 CDN에서 불러온다.
 """
 import html, os, re, subprocess, sys, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import charts as C
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'out')
@@ -54,8 +56,24 @@ def item_table(items, groups):
             '<thead><tr><th>코드</th><th>문항</th><th>측정 내용</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table>')
 
 
+def fig(svg, cap):
+    return f'<figure class="fg">{svg}<figcaption>{cap}</figcaption></figure>'
+
+
+def figs(*fs):
+    return '<div class="fgs">' + ''.join(fs) + '</div>'
+
+
+def lvl(v):
+    return '주도' if v >= 80 else '정착' if v >= 60 else '형성' if v >= 40 else '시작'
+
+
+def sgn(d):
+    return ('+' if d > 0 else '−' if d < 0 else '±') + str(abs(d))
+
+
 def doc(title, sub, chapters):
-    body = ''.join(f'<section class="ch"><h2>{h}</h2>{c}</section>' for h, c in chapters)
+    body = ''.join(f'<section class="ch{" newpage" if h.startswith("Ⅵ") else ""}"><h2>{h}</h2>{c}</section>' for h, c in chapters)
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{E(title)}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap">
@@ -77,6 +95,7 @@ body { font-family: "Noto Serif KR", "AppleMyungjo", serif; font-size: 10.3pt; l
 .date { text-align: right; margin: 4mm 0 2mm; font-size: 10pt; }
 .ch { margin-top: 7mm; }
 .ch:first-of-type { margin-top: 5mm; }
+.ch.newpage { break-before: page; margin-top: 0; }
 h2 { font-family: Pretendard, sans-serif; font-weight: 700; font-size: 13.5pt; margin: 0 0 3mm; padding-bottom: 2.4mm; border-bottom: 0.8pt solid #111; break-after: avoid; }
 h3 { font-family: Pretendard, sans-serif; font-weight: 700; font-size: 11.2pt; margin: 5mm 0 2mm; break-after: avoid; }
 .sq { margin: 1.6mm 0 0.6mm; padding-left: 1.25em; text-indent: -1.25em; }
@@ -101,6 +120,11 @@ table.items td.cd { background: #f6f7f8; font-weight: 600; }
 .flow div { flex: 1; border: 0.8pt solid #111; padding: 2mm 1.5mm; text-align: center; line-height: 1.45; }
 .flow div b { display: block; font-size: 9.6pt; margin-bottom: 0.6mm; }
 .flow span { align-self: center; font-size: 9pt; }
+.fgs { display: flex; gap: 4mm; justify-content: space-between; align-items: flex-end; margin: 3mm 0 1mm; break-inside: avoid; }
+.fg { margin: 0; flex: 1; text-align: center; break-inside: avoid; }
+.fg svg { max-width: 100%; height: auto; }
+.fg figcaption { font-family: Pretendard, sans-serif; font-weight: 600; font-size: 9.3pt; margin-top: 1.5mm; }
+.ex { border: 0.8pt solid #111; padding: 2.5mm 4mm; margin: 2.5mm 0; break-inside: avoid; }
 .org { margin-top: 9mm; padding-top: 2.5mm; border-top: 0.6pt solid #999; font-family: Pretendard, sans-serif; font-size: 8.6pt; color: #444; text-align: right; }
 b { font-weight: 600; }
 '''
@@ -124,7 +148,7 @@ def readiness(spec):
         sq('진단 구성', ci('5단계 준비도 30문항(단계별 6문항)과 전반 인식 2문항, 총 <b>32문항</b>, 5점 동의 척도'),
            ci('배경 문항: ' + spec['bg'] + '. 개인을 식별할 수 있는 정보는 묻지 않음'),
            ci('소요 시간 약 7분, 익명 웹 응답, 응답 직후 결과 확인(결과 코드 발급)')) +
-        sq('작성 방식: 진단의 관점 → 구조 → 문항 → 점수와 판정 → 결과의 구성과 활용 순으로 정리하고, 각 장의 기준이 실제 진단 화면의 계산 방식과 일치하도록 작성함')))
+        sq('작성 방식: 진단의 관점 → 구조 → 문항 → 점수와 판정 → 결과의 구성과 활용 → 결과 예시 순으로 정리하고, 각 장의 기준이 실제 진단 화면의 계산 방식과 일치하도록 작성함')))
     ch.append(('Ⅱ. 진단의 관점과 구조',
         '<h3>1. 진단의 관점</h3>' +
         sq(spec['view'][0], *[ci(t) for t in spec['view'][1:]]) +
@@ -180,6 +204,7 @@ def readiness(spec):
         sq(f'합의도가 .70보다 낮은 단계: {U} 평균 하나로 읽지 않고, 응답자 구분별 비교에서 어느 구분이 다르게 보는지 확인함') +
         sq('뒤 단계 점수가 앞 단계보다 높은 경우: 판정은 앞 단계에서 멈춤. 일부의 앞선 사례가 바탕 없이 운영되고 있을 수 있음') +
         sq('이 진단은 BETA임. 단계는 <b>구성원 인식</b>으로 추정한 것이므로, 공식 성숙도 판정에는 문서·지표 같은 증거 확인을 함께 사용함')))
+    ch.append(('Ⅵ. 결과 예시', readiness_example(spec)))
     return doc(spec['title'] + ' 문항과 구조', spec['sub'], ch)
 
 
@@ -231,6 +256,12 @@ AXR = dict(
            ['팀장', '3단계 업무 재설계 점수, 직급별 차이, 다음 단계로 가려면', '팀 과업 목록에서 AI가 맡을 부분과 사람 검토 단계를 정함'],
            ['구성원', '내가 본 우리 회사, 인식 차이가 가장 큰 단계', '지금 내가 해 볼 수 있는 것 가운데 하나를 이번 주에 실행함']],
 )
+
+AXR['ex'] = dict(who='팀장·파트장', n=40, me=[72, 80, 63, 44, 36], grp=[67, 65, 52, 38, 32], ready=33,
+    gap_read='나는 팀의 AI 활용 상태를 회사 평균보다 좋게 보고 있음. 앞서 있는 팀이라면 방법을 정리해 다른 팀에 공유할 근거가 됨',
+    read2='회사 전체로는 기반 마련·개인 활용은 갖추었으나(60점 이상), 팀 단위 업무 재설계에서 막혀 있음. 전사 확산·AI 내재화 투자보다 업무 재설계를 먼저 채워야 함',
+    advice=[('회사가 할 일(병목: 3단계 업무 재설계)', ['팀별로 과업 목록을 만들고, AI에게 맡길 과업과 사람이 확인할 단계를 표시함', '팀 업무 절차서에 AI를 쓰는 단계와 검토 단계를 적어 넣음']),
+            ('내가 할 일', ['우리 팀이 AI를 쓰는 방식을 문서로 정리해 다른 팀에 공유함', '효과를 숫자(걸린 시간, 오류 수)로 남겨 전사 확산의 근거로 씀'])])
 
 AIXS = dict(
     js='aix-school.js', unit='학교', gname='AIX', title='우리학교 AIX 전환 준비·성숙도 진단',
@@ -285,6 +316,61 @@ AIXS = dict(
 
 
 # ---------- 공통: AI 활용 역량 진단 (기본형·학교용) ----------
+def readiness_example(spec):
+    ex, U = spec['ex'], spec['unit']
+    names = [st[0] for st in spec['stages']]
+    me, gp = ex['me'], ex['grp']
+    stage = lambda v: next((i for i, x in enumerate(v) if x < 60), 5)
+    ms, gs = stage(me), stage(gp)
+    diffs = [a - b for a, b in zip(me, gp)]
+    big = max(range(5), key=lambda i: abs(diffs[i]))
+    G = f'우리 {U} 평균'
+    h = sq(f'아래는 응답자 한 사람({ex["who"]})이 받는 결과 화면을 <b>가상 수치</b>로 재구성한 예시임. 같은 {U} 응답 {ex["n"]}명을 가정함') + note('수치는 이해를 돕기 위한 가상 예시이며 실제 진단 결과가 아님')
+    h += '<h3>1. 준비 단계와 단계별 점수</h3>'
+    h += figs(fig(C.stairs(names, gs), f'[그림 1] {U}의 준비 단계(계단 그림)'), fig(C.radar(names, [('나', me, C.ME), (G, gp, C.CMP)]), f'[그림 2] 단계별 점수 방사형: 나와 {G}'))
+    h += sq(f'판정 예시', ci(f'({U}) {gs}단계까지 준비됨. 병목은 {gs + 1}단계 {names[gs]}(평균 {gp[gs]}점)이며, 이 단계에서 “준비됨”(60점 이상)이라고 본 응답자는 {ex["ready"]}%임'),
+               ci(f'(나) {ms}단계까지 준비됨으로 봄. {U} 판정보다 {"한 단계 높게" if ms > gs else "같게" if ms == gs else "낮게"} 보고 있음'))
+    h += '<h3>2. 나와 ' + U + '의 인식 차이</h3>'
+    h += figs(fig(C.bars(names, [('나', me, C.ME), (G, gp, C.CMP)]), '[그림 3] 단계별 점수 비교(0~100점)'), fig(C.diverging(names, diffs), f'[그림 4] 단계별 인식 차이(나 − {G})'))
+    rows = [[f'{i + 1}. {names[i]}', str(me[i]), str(gp[i]), sgn(diffs[i]), lvl(gp[i])] for i in range(5)]
+    h += '<p class="cap">&lt;표 7&gt; 단계별 비교표 예시</p>' + table(['단계', '나', G, '차이', f'{U} 수준'], rows, ['26%', '14%', '20%', '16%', '24%'])
+    h += sq('해석 예시', ci(f'인식 차이가 가장 큰 단계는 {names[big]}({sgn(diffs[big])}점)로, ' + ex['gap_read']), ci(ex['read2']))
+    if 'rank' in ex:
+        h += '<h3>3. 다른 학교와의 비교</h3>'
+        h += figs(fig(C.ranking(ex['rank'], ex['avg'], ex['avg_label']), '[그림 5] 같은 학교급 학교의 종합 점수(학교 이름은 번호로 표시)'))
+        h += sq('비교 예시', *[ci(t) for t in ex['rank_read']])
+    h += '<h3>' + ('4' if 'rank' in ex else '3') + '. 행동 제안 예시</h3>'
+    h += '<div class="ex">' + ''.join(sq(t, *[ci(x) for x in xs]) for t, xs in ex['advice']) + '</div>'
+    return h
+
+
+def competency_example(spec):
+    ex = spec['ex']
+    names = [d[0] for d in spec['domains']]
+    me, gp = ex['me'], ex['grp']
+    total = round(sum(me) / 5)
+    diffs = [a - b for a, b in zip(me, gp)]
+    lo, hi = me.index(min(me)), me.index(max(me))
+    G = ex['grp_label']
+    h = sq(f'아래는 응답자 한 사람({ex["who"]})이 받는 결과 화면을 <b>가상 수치</b>로 재구성한 예시임. 비교 집단 응답 {ex["n"]}명을 가정함') + note('수치는 이해를 돕기 위한 가상 예시이며 실제 진단 결과가 아님')
+    h += '<h3>1. 영역별 역량 프로파일</h3>'
+    h += figs(fig(C.radar(names, [('나', me, C.ME), (G, gp, C.CMP)]), f'[그림 1] 영역별 점수 방사형: 나와 {G}'), fig(C.bars(names, [('나', me, C.ME), (G, gp, C.CMP)]), '[그림 2] 영역별 점수 비교(0~100점)'))
+    h += sq('판정 예시', ci(f'종합 {total}점({lvl(total)}), 태도 {ex["att"]}점. 가장 높은 영역은 {names[hi]}({me[hi]}점), 가장 낮은 영역은 {names[lo]}({me[lo]}점)'),
+            ci(f'AI 활용 유형: <b>{ex["type"]}</b> — {ex["type_why"]}'))
+    h += '<h3>2. 비교 집단과의 차이</h3>'
+    h += figs(fig(C.diverging(names, diffs), f'[그림 3] 영역별 차이(나 − {G})'), fig(C.bars(['실천(종합)', '태도'], [('나', [total, ex['att']], C.ME)], cut=60), '[그림 4] 실천과 태도'))
+    rows = [[names[i], str(me[i]), str(gp[i]), sgn(diffs[i]), lvl(me[i])] for i in range(5)]
+    h += '<p class="cap">&lt;표 7&gt; 영역별 비교표 예시</p>' + table(['영역', '나', G, '차이', '나의 수준'], rows, ['26%', '14%', '20%', '16%', '24%'])
+    h += sq('해석 예시', *[ci(t) for t in ex['read']])
+    if 'rank' in ex:
+        h += '<h3>3. 다른 학교와의 비교</h3>'
+        h += figs(fig(C.ranking(ex['rank'], ex['avg'], ex['avg_label']), '[그림 5] 같은 학교급 학교의 종합 점수(학교 이름은 학교 A·B·C로 표시)'))
+        h += sq('비교 예시', *[ci(t) for t in ex['rank_read']])
+    h += '<h3>' + ('4' if 'rank' in ex else '3') + '. 행동 제안 예시</h3>'
+    h += '<div class="ex">' + ''.join(sq(t, *[ci(x) for x in xs]) for t, xs in ex['advice']) + '</div>'
+    return h
+
+
 def competency(spec):
     items = items_of(spec['js'])
     D = spec['domains']
@@ -296,7 +382,7 @@ def competency(spec):
         sq('진단 구성', ci('실천 5개 영역 25문항(영역별 5문항)과 태도 6문항, 총 <b>31문항</b>, 5점 동의 척도'),
            ci('배경 문항: ' + spec['bg']),
            ci('소요 시간 약 6분, 익명 웹 응답, 응답 직후 결과 확인(결과 코드 발급)')) +
-        sq('작성 방식: 진단의 관점 → 구조 → 문항 → 점수와 유형 판정 → 결과의 구성과 활용 순으로 정리하고, 각 장의 기준이 실제 진단 화면의 계산 방식과 일치하도록 작성함')))
+        sq('작성 방식: 진단의 관점 → 구조 → 문항 → 점수와 유형 판정 → 결과의 구성과 활용 → 결과 예시 순으로 정리하고, 각 장의 기준이 실제 진단 화면의 계산 방식과 일치하도록 작성함')))
     ch.append(('Ⅱ. 진단의 관점과 구조',
         '<h3>1. 진단의 관점</h3>' +
         sq('AI 활용 역량은 AI를 “얼마나 많이 쓰는가”가 아니라, AI와 일하는 과정에서 <b>판단하고, 지휘하고, 확인하고, 책임지는</b> 행동이 습관으로 자리 잡았는가로 봄',
@@ -348,6 +434,7 @@ def competency(spec):
         sq('자기 보고 응답이므로 실제 행동보다 높게 응답할 수 있음. 개인 평가나 인사·성적 자료로 쓰지 않음') +
         sq('응답 수가 적은 집단의 평균과 차이는 참고용으로 보고, 차이 검정(p &lt; .05)으로 의미 있는 차이인지 함께 확인함') +
         sq('이 진단은 BETA임. 수준 기준점(60점)과 유형 규칙은 타당화 전의 잠정 기준임')))
+    ch.append(('Ⅵ. 결과 예시', competency_example(spec)))
     return doc(spec['title'] + ' 문항과 구조', spec['sub'], ch)
 
 
@@ -357,6 +444,14 @@ FOCUS_C = {'D1': '틀렸을 때의 피해', 'D2': '확인 가능성', 'D3': 'AI 
            'R1': '개인정보 보호', 'R2': '설명 책임', 'R3': 'AI 사용 공개', 'R4': '차별 표현 점검', 'R5': '저작권 확인',
            'H1': '먼저 생각하기', 'H2': '기본기 유지', 'H3': '배움 성찰', 'H4': 'AI 없이 수행 가능성', 'H5': '내 표현으로 다시 쓰기',
            'T1': '위임 판단 태도', 'T2': '사람 판단 우선', 'T3': '확인의 가치', 'T4': '사용자 책임', 'T5': '자발적 공개', 'T6': '직접 익힘의 가치'}
+
+AIXS['ex'] = dict(who='교사, 가상중학교', n=30, me=[62, 74, 58, 40, 30], grp=[65, 63, 50, 36, 28], ready=30,
+    gap_read='나는 교원 활용 수준을 우리 학교 평균보다 높게 보고 있음. 학교 안에서 앞서 있는 쪽이므로 동료와 활용 방법을 나누는 역할을 맡을 수 있음',
+    read2='우리 학교는 기반 마련·교원 활용은 갖추었으나(60점 이상), 협의회 단위의 수업·평가 재설계에서 막혀 있음',
+    rank=[('학교 A', 56, False), ('우리 학교', 48, True), ('학교 B', 45, False), ('학교 C', 39, False)], avg=47, avg_label='중학교 평균 47점',
+    rank_read=['우리 학교는 같은 학교급(중학교) 4곳 가운데 2위이며, 학교급 평균보다 1점 높음', '1위 학교와의 차이는 8점이며, 가장 크게 뒤처진 단계는 수업·평가 재설계임'],
+    advice=[('나의 행동 조언(3가지 중 예시)', ['협의회에서 다음 단원 과제 하나의 학생 AI 사용 허용 범위를 함께 정하자고 제안함', '내가 써 본 수업 준비 활용법을 동료 교사에게 짧게 공유함']),
+            ('우리 학교 발전 전략(5가지 중 예시)', ['[담당] 교감·부장교사 [기간] 1학기 — 학년·교과 협의회별로 과제마다 AI 사용 범위를 정하고, 과정 중심 평가 사례를 1건 이상 만듦. [점검 지표] AI 사용 범위가 정해진 과제 비율'])])
 
 AIDX = dict(
     js='ai-diagnosis.js', title='기본 AI 활용 역량 진단',
@@ -388,6 +483,12 @@ AIDX = dict(
            ['교수자·강사', '그룹 프로파일, 그룹이 놓치는 행동, 유형 분포', '수업·연수에서 보완 영역의 실습 비중을 높임'],
            ['기관 담당자', '응답자 그룹별 비교와 차이 검정', '집단별 맞춤 교육과 지침을 설계함']],
 )
+
+AIDX['ex'] = dict(who='직장인', n=24, grp_label='우리 그룹 평균', me=[72, 58, 45, 80, 66], grp=[63, 60, 55, 68, 58], att=78,
+    type='디지털 양심 지킴이', type_why='가장 높은 영역이 책임 있는 사용이고, 다른 유형 조건(드림팀·스피드레이서·장인·오각형)에 해당하지 않음',
+    read=['검증이 그룹 평균보다 10점 낮고, 기준(60점)에도 못 미침. 다음 4주 과제의 첫 번째 영역이 됨', '태도(78점)가 실천(64점)보다 14점 높음. 중요하다고 생각하는 만큼 행동으로 옮기지 못하는 부분이 있음'],
+    advice=[('다음 4주, 이것부터(검증 45점 → 60점)', ['AI가 제시한 수치는 쓰기 전에 원래 출처에서 한 번 확인함', 'AI가 알려 준 논문·기사가 실제로 있는지 검색해 봄']),
+            ('강점 살리기(책임 있는 사용)', ['개인정보·저작권을 살피는 나의 습관을 동료에게 알려 그룹 전체의 수준을 높임'])])
 
 TADX = dict(
     js='teacher-ai-diagnosis.js', title='나와 우리학교 AI 역량 수준 진단',
@@ -422,6 +523,14 @@ TADX = dict(
            ['교장·교감·부장', '우리 학교 역량 수준, 타학교 비교, 구분별 차이', '학교 우선순위를 연수 계획과 학교 지침에 반영함'],
            ['교육청·지원 기관', '학교급별 비교, 전체 학교 수준', '학교급별 지원 프로그램의 우선순위를 정함']],
 )
+
+TADX['ex'] = dict(who='교사, 가상중학교', n=36, grp_label='우리 학교 평균', me=[72, 58, 45, 80, 66], grp=[63, 60, 55, 68, 58], att=78,
+    type='디지털 양심 지킴이', type_why='가장 높은 영역이 책임 있게 쓰기이고, 다른 유형 조건에 해당하지 않음',
+    read=['확인하기가 우리 학교 평균보다 10점 낮고, 기준(60점)에도 못 미침. 우선순위 1번 영역이 됨', '태도(78점)가 실천(64점)보다 14점 높음'],
+    rank=[('학교 A', 66, False), ('우리 학교', 61, True), ('학교 B', 58, False), ('학교 C', 52, False)], avg=59, avg_label='중학교 평균 59점',
+    rank_read=['우리 학교는 같은 학교급(중학교) 4곳 가운데 2위이며, 학교급 평균보다 2점 높음', '1위 학교와의 차이는 5점'],
+    advice=[('나의 우선순위(3가지 중 예시)', ['AI가 알려 준 숫자나 날짜는 교과서나 믿을 만한 자료에서 확인한 뒤 씀']),
+            ('우리 학교 우선순위(5가지 중 예시)', ['수업·연수에서 AI 답의 출처를 확인하는 활동을 정례화함'])])
 
 DOCS = {'ax-readiness': (readiness, AXR), 'aix-school': (readiness, AIXS),
         'ai-competency': (competency, AIDX), 'teacher-ai-competency': (competency, TADX)}
