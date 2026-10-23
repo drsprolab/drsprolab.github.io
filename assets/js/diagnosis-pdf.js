@@ -172,11 +172,17 @@
       report.appendChild(section); counters.subsections = 0; return section;
     }
     var overview = section('진단 개요');
-    var readiness = /준비/.test(title), school = /학교/.test(title);
+    var readiness = /준비/.test(title), school = /학교/.test(title), needs = /요구도/.test(title);
+    if (needs) {
+      paragraph(overview, '조사 목적: 대학생에게 우선 가르칠 AI·AI Agent 기술을 교육 필요성(중요도)과 현재 수행수준의 차이로 도출함.', 'square');
+      paragraph(overview, '조사 구성: 공통 5개 영역 15문항 및 Agent 심화 2개 영역 6문항(조건부), 문항마다 중요도·수행수준 5점 척도.', 'square');
+      paragraph(overview, '분석 범위: ' + tab + '. Borich 요구도, IPA, Locus for Focus로 우선순위를 판단함.', 'square');
+    } else {
     paragraph(overview, '진단 목적: ' + (readiness ? (school ? '우리 학교의 AI 전환 준비 수준과 인식 차이를 진단하고, 발전 과제를 도출함.' : '우리 회사의 AX 준비 수준과 구성원 간 인식 차이를 진단하고, 실행 과제를 도출함.') : 'AI 활용 과정에서의 실천과 태도를 진단하고, 강점·보완점과 행동 과제를 도출함.'), 'square');
     paragraph(overview, '진단 구성: ' + (readiness ? '5단계 준비도 30문항 및 전반 인식 2문항, 총 32문항.' : '실천 5개 영역 25문항 및 태도 6문항, 총 31문항.'), 'square');
     paragraph(overview, '분석 범위: ' + tab + '. 점수는 자기 보고 응답을 바탕으로 산출함.', 'square');
     paragraph(overview, '점수 산출: (문항 평균 − 1) × 25, 0~100점.' + (readiness ? ' “잘 모르겠다” 응답은 평균에서 제외함.' : ''), 'square');
+    }
     var clone = panel.cloneNode(true), selects = panel.querySelectorAll('select');
     clone.querySelectorAll('select').forEach(function (el, i) {
       var value = document.createElement('span'); value.textContent = selects[i].selectedOptions[0] ? selects[i].selectedOptions[0].textContent : ''; el.replaceWith(value);
