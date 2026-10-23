@@ -10,7 +10,7 @@ async function api(){
  const context={document:{getElementById:()=>root},localStorage:{getItem:()=>null},location:{search:''},URLSearchParams,window:{},fetch:async()=>({ok:true,json:async()=>data})};
  context.globalThis=context;
  let source=fs.readFileSync(path.join(rootDir,'assets/js/ai-agent-needs.js'),'utf8');
- source=source.replace(/  loadData\(\);\s*\}\)\(\);\s*$/, '  globalThis.testApi = { analyze, domainAnalysis, detailAnalysis, items }; loadData(); })();');
+ source=source.replace(/  loadData\(\);\s*\}\)\(\);\s*$/, '  globalThis.testApi = { analyze, domainAnalysis, detailAnalysis, curriculumPlan, curriculumReport, items }; loadData(); })();');
  vm.runInNewContext(source,context);
  await new Promise(resolve=>setImmediate(resolve));
  return context.testApi;
@@ -49,4 +49,21 @@ test('all 21 skills have unique short labels and retain original survey and stor
  const a=await api();assert.equal(a.items.length,21);assert.equal(new Set(a.items.map(x=>x.label)).size,21);
  assert.equal(a.items[3].code,'B01');assert.equal(a.items[3].label,'검색 도구 활용');
  assert.equal(a.items[3].text,data.domains[1].items[0][0]);
+});
+
+test('curriculum follows demand within each track, omits nonpositive gaps and insufficient data',async()=>{
+ const a=await api();
+ const rows=Array.from({length:5},()=>respondent(Array(21).fill(4),Array(21).fill(4)));
+ rows.forEach(r=>{r.P.splice(0,3,3,3,3);r.P.splice(3,3,1,2,3);r.P.splice(15,3,2,2,2);r.P.splice(18,3,1,1,1);});
+ const A=a.analyze(rows),D=a.domainAnalysis(rows,5),plan=a.curriculumPlan(A,D,5);
+ assert.deepEqual(Array.from(plan[0].steps,x=>x.domain.it.domain.id),['B','A']);
+ assert.deepEqual(Array.from(plan[1].steps,x=>x.domain.it.domain.id),['G','F']);
+ assert.deepEqual(Array.from(plan[0].steps[0].skills,x=>x.it.label),['검색 도구 활용','핵심정보 확인','참고자료 실재 확인']);
+ assert.match(a.curriculumReport(A,D),/교육과정 수립 제언/);
+ assert.match(a.curriculumReport(A,D),/실습·평가 결과물/);
+ assert.ok(!a.curriculumReport(A,D).includes('undefined'));
+ assert.equal(a.curriculumPlan(A,D,6)[0].steps[0].skills.length,0);
+ rows.forEach(r=>r.P.fill(5));
+ const empty=a.curriculumPlan(a.analyze(rows),a.domainAnalysis(rows,5),5);
+ assert.ok(empty.every(t=>t.steps.length===0));
 });

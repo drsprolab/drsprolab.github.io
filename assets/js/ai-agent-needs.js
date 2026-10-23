@@ -327,6 +327,39 @@
     h += '<div class="panel"><h3 class="panel-title">세부 기술 분석값</h3>' + detailTable(st) + '<p class="aidx-small">t·p는 같은 학생의 중요도와 수행수준에 대한 대응표본 검정입니다. 차이의 유의성이 교육 우선순위를 단독으로 결정하지 않습니다.</p></div></section>';
     return h;
   }
+  // 수요 순위와 수업 전 선수학습 안내를 분리한다. 공통·심화 간 점수는 비교하지 않는다.
+  function curriculumPlan(A, D, minimum) {
+    return ['공통', 'Agent 심화'].map(function (module) {
+      return { module: module, steps: D.st.filter(function (x) {
+        return x.it.domain.module === module && x.gap > 0;
+      }).slice().sort(function (a, b) { return b.borich - a.borich || a.k - b.k; }).map(function (x) {
+        var dm = x.it.domain, detail = detailAnalysis({ st: A.st.filter(function (v) { return v.n >= minimum; }) }, dm);
+        return { domain: x, skills: detail ? detail.st.filter(function (v) { return v.gap > 0; }).sort(function (a, b) { return b.borich - a.borich || a.k - b.k; }) : [] };
+      }) };
+    });
+  }
+  function curriculumReport(A, D) {
+    var plan = curriculumPlan(A, D, MIN_N);
+    var h = '<section class="panel agn-curriculum"><h2 class="aidx-h">교육과정 수립 제언</h2><p>현재 선택한 응답자 집단을 기준으로, 다음 순서로 교육을 개설하고 각 단계 안에서는 먼저 표시된 세부 기술부터 중점적으로 가르칠 것을 제안합니다.</p><p class="aidx-small">공통·Agent 심화 과정은 별도 경로입니다. 중요도보다 수행수준이 낮은 영역을 Borich 요구도순으로 배치하며, 같은 점수는 설문 영역 순서로 표시합니다. IPA·Locus for Focus는 집중 교육 여부를 판단하는 보조 근거입니다. 아래 순서는 자기보고 요구에 따른 개설 제안이며, 선수학습과 실제 수행 과제를 확인해 조정하세요.</p>';
+    h += '<div class="agn-curriculum-prep"><h3>수업 전 준비</h3><p>공통 과정: AI 사용 규칙·민감정보 보호를 먼저 안내하고 도구 접속과 기본 요청문 작성을 점검하세요. Agent 심화 과정: 목표·완료 기준 설정과 실행 검증을 점검한 뒤 구축·자동화로 진행하세요. 이 준비 순서는 통계 순위가 아닌 수업 설계상의 선수학습 안내입니다.</p></div>';
+    plan.forEach(function (track) {
+      h += '<h3>' + moduleLabel(track.module) + ' · 권장 교육 순서</h3>';
+      if (!track.steps.length) {
+        h += '<p class="aidx-note">' + (D.st.some(function (x) { return x.it.domain.module === track.module; }) ? '현재 자료에서 양의 영역 요구도 차이가 없습니다. 신규 집중 과정의 순위를 정하지 않고, 기존 역량 유지와 세부 기술별 보완 여부를 검토하세요.' : '유효 응답이 부족해 교육 순서 제안을 보류합니다.') + '</p>'; return;
+      }
+      h += '<p class="agn-curriculum-route">' + track.steps.map(function (step, i) { return (i + 1) + '. ' + esc(step.domain.it.label); }).join(' → ') + '</p>';
+      track.steps.forEach(function (step, i) {
+        var x = step.domain, dm = x.it.domain;
+        h += '<article class="agn-curriculum-step"><h4>' + (i + 1) + '단계 · ' + esc(dm.course) + '</h4><p><strong>선정 근거:</strong> 영역 Borich ' + f2(x.borich) + ' · 중요도 ' + f2(x.mI) + ' / 수행 ' + f2(x.mP) + ' · 차이 ' + f2(x.gap) + ' · n=' + x.n + ' · IPA ' + x.ipa + ' · LFF ' + x.lff + ' · ' + priorityLabel(x) + '</p><p><strong>가르칠 세부 내용 — 아래 순서로 중점 지도</strong></p><ol>';
+        step.skills.forEach(function (v) {
+          var pos = items.filter(function (it) { return it.domain.id === dm.id; }).map(function (it) { return it.idx; }).indexOf(v.k);
+          h += '<li><strong>' + esc(v.it.label) + '</strong>: ' + esc(dm.teaching_contents[pos]) + '<p class="aidx-small">세부 Borich ' + f2(v.borich) + ' · IPA ' + v.ipa + ' · LFF ' + v.lff + ' · ' + priorityLabel(v) + '</p></li>';
+        });
+        h += '</ol><p><strong>실습·평가 결과물:</strong> ' + esc(dm.learning_output) + '</p><p class="aidx-small">교수자는 해당 결과물을 직접 수행하게 하여 정확성·독립 수행·안전한 사용을 확인하고 보충학습을 결정하세요. 차이가 0 이하인 세부 기술은 집중 지도 목록에서 제외하며 유지·복습에 활용합니다.</p></article>';
+      });
+    });
+    return h + '<p class="aidx-small">운영 방법: 앞 단계의 실습 결과를 다음 단계 과제에 연결하고, 교육 후 같은 중요도·수행수준 문항과 실제 수행 과제로 변화를 확인하세요. 응답이 부족한 영역은 추가 조사 후 편성합니다.</p></section>';
+  }
   function allReport() {
     var rows = filtered(), n = rows.length, A = analyze(rows), D = domainAnalysis(rows, MIN_N);
     var h = filterBar() + '<p class="aidx-context">' + (GROUP ? '그룹 ' + esc(GROUP) : '전체 응답자') + ' · 응답 ' + n + '명 · Agent 심화 ' + rows.filter(function (r) { return r.adv; }).length + '명' + (PREVIEW ? ' · 시험 모드' : '') + '</p>';
@@ -334,6 +367,7 @@
     var priority = D.st.filter(function (x) { return x.prio === 1; });
     h += '<section class="aidx-type"><p class="aidx-eyebrow">교육과정 설계 요약</p><h2>7개 기술 영역에서 교육 우선순위를 찾습니다</h2><p>영역별 수요를 살펴보고, 아래에서 각 영역의 세부 기술을 Borich·IPA·Locus for Focus로 확인하세요.</p><div class="agn-summary-tags">' + (priority.length ? priority.map(function (x) { return '<span>' + esc(x.it.label) + ' · 우선 후보</span>'; }).join('') : '<span>겹치는 우선 후보가 없습니다. 세부 분석을 함께 검토하세요.</span>') + '</div></section>';
     h += '<div class="kpis aidx-kpis">' + kpi('전체 응답', n + '<small>명</small>', '공통 5개 영역') + kpi('Agent 심화 응답', rows.filter(function(r){return r.adv;}).length + '<small>명</small>', '심화 2개 영역 · 별도 비교') + kpi('분석 가능한 영역', D.st.length + '<small>개</small>', '영역별 유효 응답 ' + MIN_N + '명 이상') + kpi('우선 교육 후보', priority.length + '<small>개 영역</small>', 'Borich·LFF 교차 확인') + '</div>';
+    h += curriculumReport(A, D);
     h += '<div class="agn-domain-cards" data-report-domain-summary>' + data.domains.map(function (dm) {
       var x = D.st.filter(function (s) { return s.it.domain.id === dm.id; })[0];
       return '<article class="panel agn-domain-card' + (x && x.prio === 1 ? ' agn-priority' : '') + '"><span class="agn-module">' + moduleLabel(dm.module) + '</span><h3 class="panel-title">' + esc(dm.name) + '</h3><div class="agn-skill-tags">' + dm.skill_labels.map(function (label) { return '<span>' + esc(label) + '</span>'; }).join('') + '</div>' + (x ? '<div class="agn-domain-score"><strong>' + f2(x.borich) + '</strong><span>Borich · ' + priorityLabel(x) + '</span></div><p class="agn-domain-metrics">중요도 ' + f2(x.mI) + ' · 수행 ' + f2(x.mP) + ' · 차이 ' + f2(x.gap) + ' · n=' + x.n + '</p>' : '<p class="aidx-small">응답 부족으로 분석 대기</p>') + '<p class="agn-course"><strong>교육 주제</strong> ' + esc(dm.course) + '</p><p class="aidx-small">실습 결과물: ' + esc(dm.learning_output) + '</p><button type="button" class="aidx-btn" data-act="domain-detail" data-domain-id="' + dm.id + '">세부 기술 분석 보기</button></article>';
