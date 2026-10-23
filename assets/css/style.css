@@ -1403,6 +1403,11 @@ main.container { overflow-x: clip; }
 .aidx-roles label:hover input:checked + span { color: var(--paper); }
 @media (max-width: 700px) { .aidx-guide { grid-template-columns: 1fr; } .aidx-guide li { grid-template-columns: 34px 1fr; column-gap: 10px; } .aidx-guide li > :not(.aidx-gicon) { grid-column: 2; } .aidx-gicon { grid-row: 1 / span 2; } .aidx-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .aidx-roles { flex: 1 1 100%; max-width: 640px; }
+.aidx-org { margin-top: 22px; max-width: 640px; }
+.aidx-org label { display: block; font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.aidx-org input { box-sizing: border-box; width: 100%; font: inherit; font-size: 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: inherit; }
+.aidx-org input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.aidx-hint { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 .aidx-pfacts { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
 .aidx-pfacts .aidx-why { font-weight: 400; font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-top: 4px; }
 .aidx-pfacts .aidx-why strong { color: var(--ink); }
