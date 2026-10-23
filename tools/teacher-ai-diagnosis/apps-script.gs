@@ -8,7 +8,7 @@
 var SHEET = 'responses';
 var ITEMS = ['D1','D2','D3','D4','D5','L1','L2','L3','L4','L5','V1','V2','V3','V4','V5',
              'R1','R2','R3','R4','R5','H1','H2','H3','H4','H5','T1','T2','T3','T4','T5','T6'];
-var ROLES = ['학생', '교사(교수)', '직장인', '기타'];
+var ROLES = ['학생', '교사', '보직교사', '행정직원'];
 var HEAD = ['submitted_at', 'id', 'group', 'role', 'seconds'].concat(ITEMS, ['org']);
 var A0 = 5, A1 = A0 + ITEMS.length; // 응답값 열 범위
 

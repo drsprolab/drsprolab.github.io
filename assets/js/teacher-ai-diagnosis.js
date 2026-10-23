@@ -57,7 +57,8 @@
   ].map(function (r, i) { return { code: r[0], text: r[1], idx: i }; });
   var NP = 25, NI = ITEMS.length; // 실천 문항 수, 전체 문항 수
   var SCALE = ['전혀 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'];
-  var ROLES = ['학생', '교사(교수)', '직장인', '기타'];
+  var ROLES = ['학생', '교사', '보직교사', '행정직원'];
+  var ROLE_NOTE = { '보직교사': '부장·교감·교장 포함' }; // 응답 버튼에서 이름 아래 작은 글씨로 보인다
   // 제시 순서: 실천 문항은 영역을 섞어 한 쪽에 영역별 1문항씩(D1 L1 V1 R1 H1 …), 마지막 쪽은 태도
   var PAGES = [0, 1, 2, 3, 4].map(function (k) { return DOMAINS.map(function (_, d) { return ITEMS[d * 5 + k]; }); });
   PAGES.push(ITEMS.slice(NP));
@@ -275,7 +276,7 @@
         '<li><span class="aidx-gicon" aria-hidden="true">⏱️</span><strong>31문항 · 약 6분</strong><span>한 화면에 5문항씩, 1(전혀 그렇지 않다)~5(매우 그렇다) 중 하나</span></li>' +
         '</ol>' +
         '<fieldset class="aidx-role"><legend>먼저, 나는</legend><div class="aidx-roles">' +
-        ROLES.map(function (r) { return '<label><input type="radio" name="role" value="' + r + '"' + (state.role === r ? ' checked' : '') + '><span>' + r + '</span></label>'; }).join('') +
+        ROLES.map(function (r) { return '<label><input type="radio" name="role" value="' + r + '"' + (state.role === r ? ' checked' : '') + '><span>' + r + (ROLE_NOTE[r] ? '<small class="aidx-role-note">' + ROLE_NOTE[r] + '</small>' : '') + '</span></label>'; }).join('') +
         '</div></fieldset>' +
         '<div class="aidx-org"><label for="aidx-org-in">소속 학교</label>' +
         '<input id="aidx-org-in" name="org" maxlength="40" autocomplete="organization" value="' + esc(state.org) + '">' +
@@ -784,7 +785,7 @@
       .then(function () { if (host && host.parentNode) host.parentNode.removeChild(host); });
   }
 
-  // ---------- 응답자 그룹별 비교: 응답할 때 고른 구분(학생·교사(교수)·직장인·기타)별 평균과 일원분산분석 ----------
+  // ---------- 응답자 그룹별 비교: 응답할 때 고른 구분(학생·교사·보직교사·행정직원)별 평균과 일원분산분석 ----------
   function lgamma(x) {
     var c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
     var y = x, t = x + 5.5, s = 1.000000000190015;
