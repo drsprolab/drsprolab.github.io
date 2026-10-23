@@ -10,6 +10,30 @@
   var K = 4, AREAS = []; // 영역 6개 × 4문항
   for (var i = 0; i < QS.length; i += K) AREAS.push(QS[i][0]);
   var NAME = TRACK === 'store' ? '매장용' : '본사용';
+  var DEMO_CODE = 'DEMO2026', demoSession = null;
+
+  // 공개 시연용 결과. 실제 응답 저장소·통계·이 브라우저의 응답 기록과 분리한다.
+  function demoRecord() {
+    return { id: DEMO_CODE, demo: true, role: TRACK === 'store' ? 'partner' : 'practitioner',
+      job: TRACK === 'store' ? '고객 응대·매장 운영' : '전략·기획·PMO', exp: 'regular',
+      answers: [4, 5, 4, 4, 4, 3, 4, 4, 3, 3, 4, 3, 2, 2, 3, 2, 3, 3, 4, 3, 5, 4, 5, 5] };
+  }
+  function demoRows(me) {
+    var groups = TRACK === 'store'
+      ? [['partner', '고객 응대·매장 운영'], ['supervisor', '교대 운영·인수인계'], ['manager', '매장 성과·손익']]
+      : [['practitioner', '전략·기획·PMO'], ['senior', '브랜드·마케팅·CRM'], ['lead', '인사·조직문화·교육']];
+    var levels = [[3, 3, 3, 3, 3, 4], [4, 3, 3, 3, 3, 4],
+      [3, 4, 4, 3, 3, 4], [4, 4, 3, 3, 4, 4], [3, 3, 4, 2, 3, 4],
+      [4, 4, 4, 3, 4, 5], [3, 3, 3, 2, 4, 4], [4, 3, 4, 3, 4, 4]];
+    var rows = [{ role: me.role, job: me.job, a: me.answers, mine: true }];
+    levels.forEach(function (areas, i) {
+      var group = groups[Math.floor((i + 1) / 3)];
+      rows.push({ role: group[0], job: group[1], a: areas.reduce(function (out, v, d) {
+        return out.concat([v, v, Math.min(5, v + ((i + d) % 3 === 0 ? 1 : 0)), v]);
+      }, []), mine: false });
+    });
+    return rows;
+  }
 
   // 영역별 다음 행동(제목, 설명)과 교육 포인트. 영역 순서는 두 진단이 같다.
   var ACTIONS = [
@@ -48,6 +72,7 @@
       .then(function (j) { if (!j.ok && j.error !== 'duplicate') throw new Error(j.error || '저장 실패'); });
   }
   function fetchAll(me) {
+    if (me && me.demo) return Promise.resolve(demoRows(me));
     if (PREVIEW) return Promise.resolve((load(LS_DATA) || []).map(function (r) { return { role: r.role, job: r.job, a: r.answers, mine: !!(me && r.id === me.id) }; }));
     return call(ENDPOINT + '?action=all&track=' + TRACK + (me ? '&me=' + me.id : '')).then(function (j) {
       if (!j.ok) throw new Error(j.error || '불러오기 실패');
@@ -62,6 +87,7 @@
   // ---------- 화면 보조 스타일 ----------
   var css = document.createElement('style');
   css.textContent = '.sbx-code{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:#cfebdd}' +
+    '.sbx-demo{margin:0 0 14px;padding:12px 16px;border:1px solid #e6cd90;border-radius:9px;background:#fff8e8;color:#6d4d13;font-size:13px;font-weight:700;line-height:1.5}' +
     '.sbx-code code{font:700 20px ui-monospace,monospace;letter-spacing:.08em;color:#fff;background:rgba(255,255,255,.12);border-radius:6px;padding:2px 10px}' +
     '.sbx-copy{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}' +
     '.sbx-copy.done{background:#fff;color:#004f39}.sbx-msg{font-size:12px;color:var(--red);margin-top:8px;min-height:1em}' +
@@ -92,7 +118,7 @@
     acts.addEventListener('click', function (e) {
       var b = e.target.closest('[data-sbx]'); if (!b) return;
       // 결과는 진단을 마친 사람만: 이 기기에 내 응답(또는 결과 코드로 불러온 응답)이 있어야 한다.
-      var me = load(LS_ME), gate = document.getElementById('sbx-gate');
+      var me = demoSession || load(LS_ME), gate = document.getElementById('sbx-gate');
       if (!me) {
         gate.textContent = (b.dataset.sbx === 'me' ? '나의 진단 결과는' : '우리 그룹의 진단결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다. 다른 기기에서 진단했다면 아래 결과 코드로 불러오세요.';
         gate.hidden = false; return;
@@ -109,11 +135,12 @@
       e.preventDefault();
       var id = document.getElementById('sbx-code-in').value.toUpperCase().replace(/[^A-Z0-9]/g, ''), msg = document.getElementById('sbx-code-msg');
       if (id.length !== 8) { msg.textContent = '코드 8자리를 입력해 주세요.'; return; }
+      if (id === DEMO_CODE) { demoSession = demoRecord(); msg.textContent = ''; analyze(demoSession); return; }
       msg.textContent = '찾는 중…';
       fetchOne(id).then(function (r) {
         if (!r) { msg.textContent = '해당 코드의 응답이 없습니다.'; return; }
         var me = { id: r.id, role: r.role, job: r.job, exp: r.exp, answers: r.answers || r.a };
-        save(LS_ME, me); msg.textContent = ''; analyze(me);
+        demoSession = null; save(LS_ME, me); msg.textContent = ''; analyze(me);
       }).catch(function () { msg.textContent = '불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'; });
     };
   }
@@ -126,7 +153,7 @@
     var rec = pending || { id: newId(), track: TRACK, role: state.role, job: state.job, exp: state.exp, answers: state.answers.slice(), seconds: Math.round((Date.now() - started) / 1000) };
     pending = rec; btn.disabled = true; btn.textContent = '저장하는 중…';
     submit(rec).then(function () {
-      pending = null; save(LS_ME, rec); btn.disabled = false; btn.textContent = old; analyze(rec);
+      pending = null; demoSession = null; save(LS_ME, rec); btn.disabled = false; btn.textContent = old; analyze(rec);
     }).catch(function () { btn.disabled = false; btn.textContent = old; alert('응답을 저장하지 못했습니다. 잠시 뒤 다시 눌러 주세요.'); });
   };
   function analyze(me) {
@@ -187,7 +214,8 @@
       return { t: b[2], c: tots.filter(function (t) { var s = score100(t); return s >= b[0] && s < b[1]; }).length };
     });
     var allJobs = []; CFG.roles.forEach(function (r) { (CFG.jobs[r[0]] || []).forEach(function (j) { if (allJobs.indexOf(j) < 0) allJobs.push(j); }); });
-    var h = '<div class="results-hero"><div><div class="eyebrow">OUR STARBUCKS AI SNAPSHOT</div><h1>우리 그룹의 진단결과 (' + NAME + ')</h1>' +
+    var h = (me.demo ? '<p class="sbx-demo">데모 결과 · 아래 9명은 실제 응답자가 아닌 예시 데이터입니다.</p>' : '') +
+      '<div class="results-hero"><div><div class="eyebrow">OUR STARBUCKS AI SNAPSHOT</div><h1>우리 그룹의 진단결과 (' + NAME + ')</h1>' +
       '<p>' + NAME + ' 응답 ' + n + '명 전체 · 나는 ' + esc(roleLabels[me.role] || me.role) + ' · ' + esc(me.job) + (pos ? ' · 나의 위치 상위 ' + pos + '%' : '') + '</p></div>' +
       '<div class="score-ring" style="background:conic-gradient(#f4bd50 0 ' + sc + '%,rgba(255,255,255,.18) ' + sc + '% 100%)"><div><strong>' + sc + '</strong><small>그룹 종합</small></div></div></div>';
     if (n < MIN_N) h += '<p class="sbx-empty" style="margin-top:14px">아직 응답이 ' + n + '명입니다. ' + MIN_N + '명 이상 모이면 그룹 결과가 안정됩니다.</p>';
@@ -204,7 +232,7 @@
     h += '<article class="result-card"><h3>교육팀을 위한 요구도 분석</h3><p class="sub">그룹 전체의 영역 평균과 미흡 응답 비율로 정한 교육 우선순위</p>' + eduTable(eduOf(rows), n) + '</article>';
     h += byKey(function (r) { return r.role; }, CFG.roles.map(function (r) { return r[0]; }), function (k) { return roleLabels[k] || k; }, me.role, '직급별 비교');
     h += byKey(function (r) { return r.job; }, allJobs, function (k) { return k; }, me.job, '직무별 비교');
-    h += '</div><div class="result-footer"><p class="note">같은 진단(' + NAME + ')에 응답한 사람 전체의 결과입니다. 개인을 알아볼 수 없도록 ' + MIN_G + '명 미만인 그룹의 점수는 표시하지 않습니다.</p>' +
+    h += '</div><div class="result-footer"><p class="note">' + (me.demo ? '시연을 위한 가상 응답 9명의 결과입니다. 실제 스타벅스 구성원이나 회사 통계를 나타내지 않습니다.' : '같은 진단(' + NAME + ')에 응답한 사람 전체의 결과입니다. 개인을 알아볼 수 없도록 ' + MIN_G + '명 미만인 그룹의 점수는 표시하지 않습니다.') + '</p>' +
       '<div class="btns"><button type="button" class="btn btn-green" id="sbx-to-me">나의 진단 결과 보기</button><button type="button" class="btn btn-outline" id="sbx-home">처음으로</button></div></div>';
     gsec.innerHTML = h;
     document.getElementById('sbx-to-me').onclick = function () { analyze(me); };
@@ -234,6 +262,7 @@
     model = { me: me, am: am, tot: tot, sc: sc, cmp: cmp, diffs: diffs, lowD: lowD, highD: highD, strong: strong, weak: weak, low3: low3, edu: edu, n: rows.length };
 
     var maxV = 5, h = '';
+    if (me.demo) h += '<p class="sbx-demo">데모 결과 · 가상의 설문 응답과 비교 집단으로 만든 예시입니다. 실제 개인·조직의 진단 결과가 아닙니다.</p>';
     h += '<div class="results-hero"><div><div class="eyebrow">MY STARBUCKS AI SNAPSHOT</div><h1>나의 AI 활용 프로필 (' + NAME + ')</h1>' +
       '<p>' + esc(roleLabels[me.role] || me.role) + ' · ' + esc(me.job) + ' / ' + esc(CFG.title) + '</p>' +
       '<div class="sbx-code">결과 코드 <code>' + fmtId(me.id) + '</code><button type="button" class="sbx-copy" data-code="' + fmtId(me.id) + '">복사</button><span>다른 기기에서 결과를 다시 볼 때 필요합니다</span></div></div>' +
@@ -263,7 +292,7 @@
       ['직무 사례를 활용한 짧은 실습', '공통 기초 뒤에 직무별 마이크로러닝을 제공합니다.'],
       ['리더의 사용 시간과 공유 장치', '리더가 먼저 적용하고 정기 회의에서 한 가지 사례를 나누는 구조를 만듭니다.']
     ].map(function (x, i) { return '<div class="insight"><span class="num">0' + (i + 1) + '</span><div><strong>' + x[0] + '</strong><p>' + x[1] + '</p></div></div>'; }).join('') + '</article>';
-    h += '</div><div class="result-footer"><p class="note">본 결과는 자기보고 응답을 바탕으로 한 개인화된 학습 안내입니다. BETA 버전으로, 비교 결과는 응답이 쌓일수록 정확해집니다.</p>' +
+    h += '</div><div class="result-footer"><p class="note">' + (me.demo ? '시연용 가상 응답과 예시 비교 집단을 사용했습니다. 실제 개인·조직의 진단 결과가 아닙니다.' : '본 결과는 자기보고 응답을 바탕으로 한 개인화된 학습 안내입니다. BETA 버전으로, 비교 결과는 응답이 쌓일수록 정확해집니다.') + '</p>' +
       '<div class="btns"><button type="button" class="btn btn-green" id="sbx-pdf">⬇ 결과지 PDF 다운로드</button><button type="button" class="btn btn-outline" id="sbx-to-group">우리 그룹 결과 보기</button><button type="button" class="btn btn-outline" id="sbx-again">다시 진단하기</button></div></div><p class="sbx-msg" id="sbx-pdf-msg"></p>';
     var box = document.getElementById('sbx-results');
     box.innerHTML = h;
@@ -303,7 +332,7 @@
       '.rep .cap{text-align:center;font-family:' + sans + ';font-weight:700;font-size:12.5px;margin:14px 0 6px}.rep table{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5}' +
       '.rep th{background:#f1f1f1;font-family:' + sans + ';font-weight:600;border-top:1.5px solid #222;border-bottom:1px solid #999;padding:6px;text-align:center}.rep td{border-bottom:1px solid #d4d4d4;padding:6px;text-align:center}' +
       '.rep td:first-child{text-align:left;font-weight:600}.rep tr:last-child td{border-bottom:1.5px solid #222}.rep .note{margin-top:22px;padding-top:10px;border-top:1px solid #999;font-size:11.5px;color:#555}</style>';
-    var h = s + '<div class="rep"><div class="hd"><h1>' + esc(CFG.title) + ' 결과지<span class="beta">BETA</span></h1>' +
+    var h = s + '<div class="rep"><div class="hd"><h1>' + esc(CFG.title) + ' 결과지<span class="beta">' + (me.demo ? 'DEMO' : 'BETA') + '</span></h1>' +
       '<p class="sub">결과 코드 ' + fmtId(me.id) + ' · ' + esc(roleLabels[me.role] || me.role) + ' · ' + esc(me.job) + '</p></div><p class="date">' + date + '</p>';
     h += '<h2>Ⅰ. 진단 개요</h2><p class="b">□ 진단 목적: 업무에서 AI를 판단하고, 활용하고, 결과를 검증하며 책임 있게 쓰는 행동을 진단함</p>' +
       '<p class="b">□ 진단 구성: 6개 영역 × 4문항 = 24문항, 5점 척도(1 전혀 그렇지 않다 ~ 5 매우 그렇다)</p>' +
@@ -320,7 +349,7 @@
       return '<div><p class="b">□ ' + (i + 1) + '. ' + ACTIONS[x.d][0] + ' (' + WHEN[i] + ')</p><p class="c">○ ' + esc(AREAS[x.d]) + ' ' + f1(x.v) + '점: ' + ACTIONS[x.d][1] + '</p></div>';
     }).join('');
     if (M.edu) h += '<h2>Ⅴ. 교육 요구도 (' + NAME + ' 전체)</h2>' + M.edu.map(function (x, i) { return '<p class="b">□ P' + (i + 1) + '. ' + esc(AREAS[x.d]) + ': ' + EDU[x.d] + ' (평균 ' + f1(x.m) + ', 미흡 비율 ' + Math.round(x.low * 100) + '%)</p>'; }).join('');
-    h += '<p class="note">※ 본 결과는 자기보고 응답을 바탕으로 한 개인화된 학습 안내이며 BETA 버전입니다.<br>※ PRO AnalytiX Lab, 한양대학교 · hrdpro.hanyang.ac.kr/in-progress/starbucks-ai-' + TRACK + '/</p></div>';
+    h += '<p class="note">' + (me.demo ? '※ 데모: 가상 응답과 예시 비교 집단으로 만든 결과이며 실제 진단·조직 통계가 아닙니다.' : '※ 본 결과는 자기보고 응답을 바탕으로 한 개인화된 학습 안내이며 BETA 버전입니다.') + '<br>※ PRO AnalytiX Lab, 한양대학교 · hrdpro.hanyang.ac.kr/in-progress/starbucks-ai-' + TRACK + '/</p></div>';
     return h;
   }
   function paginate(rep) {
