@@ -5,25 +5,33 @@ eyebrow: Measurement
 permalink: /in-progress/
 lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의 결과와 우리 그룹의 결과를 볼 수 있습니다.
 ---
+<!-- 설명서 내려받기 규칙: 카드마다 제목 밑에 실무자용·보고용 두 버튼을 단다. PDF는 tools/diagnosis-docs/build.py로 만든다(README.md). -->
 <div class="inst-grid">
   {% assign agent_needs = site.pages | where: "url", "/in-progress/ai-agent-needs/" | first %}
-  <a class="inst" href="{{ '/in-progress/ai-agent-needs/' | relative_url }}">
+  <div class="inst inst--multi">
     {% if agent_needs.image.path and agent_needs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ agent_needs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">개발안</span><span class="badge beta">BETA</span><span class="badge">요구도 분석</span></div>
-    <h3>AI Agent 구축 및 활용에 대한 요구도 분석</h3>
+    <h3><a class="inst-main" href="{{ '/in-progress/ai-agent-needs/' | relative_url }}">AI Agent 구축 및 활용에 대한 요구도 분석</a></h3>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/ai-agent-needs-structure-report.pdf' | relative_url }}" download="AIAgent구축및활용에대한요구도분석_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/ai-agent-needs-structure.pdf' | relative_url }}" download="AIAgent구축및활용에대한요구도분석_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>대학생의 수업·학습·과제·프로젝트에서 필요한 AI 및 Agent 역량의 중요도와 수행수준을 살펴봅니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>대학생</dd>
       <dt>문항 구성</dt><dd>공통 40문항 · Agent 심화 12문항</dd>
       <dt>분석 방법</dt><dd>Borich 요구도 · IPA · Locus for Focus</dd>
     </dl>
-  </a>
+  </div>
   {% assign aidx = site.pages | where: "url", "/in-progress/ai-competency/" | first %}
   <div class="inst inst--multi">
     {% if aidx.image.path and aidx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aidx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·그룹</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ai-competency/' | relative_url }}">기본 AI 활용 역량 진단</a></h3>
-    <a class="inst-doc" href="{{ '/assets/files/ai-competency-structure.pdf' | relative_url }}" download="기본AI활용역량진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/ai-competency-structure-report.pdf' | relative_url }}" download="기본AI활용역량진단_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/ai-competency-structure.pdf' | relative_url }}" download="기본AI활용역량진단_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>AI에게 무엇을 맡기고, 어떻게 지휘하고, 결과를 어떻게 확인하는지 실제 행동으로 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학생·교사(교수)·직장인</dd>
@@ -35,6 +43,10 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     <img class="inst-thumb inst-thumb--compact" src="{{ '/assets/og/in-progress/starbucks-ai-store.png' | relative_url }}" alt="스타벅스 AI 기본 역량 진단 매장용 썸네일" width="1200" height="630" loading="lazy" decoding="async">
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">매장용 · 개인·그룹</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/starbucks-ai-store/' | relative_url }}">스타벅스 AI 기본 역량 진단 (매장용)</a></h3>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/starbucks-ai-store-structure-report.pdf' | relative_url }}" download="스타벅스AI기본역량진단매장용_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/starbucks-ai-store-structure.pdf' | relative_url }}" download="스타벅스AI기본역량진단매장용_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>바리스타부터 점장과 지역 운영 리더까지, 고객 응대·매장 운영·교대 협업에서 AI를 어떻게 활용하고 확인하는지 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>매장 파트너·슈퍼바이저·점장·지역 운영 리더</dd>
@@ -46,6 +58,10 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     <img class="inst-thumb inst-thumb--compact" src="{{ '/assets/og/in-progress/starbucks-ai-hq.png' | relative_url }}" alt="스타벅스 AI 기본 역량 진단 본사용 썸네일" width="1200" height="630" loading="lazy" decoding="async">
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">본사용 · 개인·그룹</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/starbucks-ai-hq/' | relative_url }}">스타벅스 AI 기본 역량 진단 (본사용)</a></h3>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/starbucks-ai-hq-structure-report.pdf' | relative_url }}" download="스타벅스AI기본역량진단본사용_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/starbucks-ai-hq-structure.pdf' | relative_url }}" download="스타벅스AI기본역량진단본사용_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>전략·마케팅·상품·인사·재무·공급망·IT 등 본사 직무에서 AI를 활용한 자료 분석, 기획, 검증과 업무 개선 역량을 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>본사 실무자·책임자·팀장·임원 및 경영진</dd>
@@ -58,7 +74,10 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tadx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·학교</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/teacher-ai-competency/' | relative_url }}">나와 우리학교 AI 역량 수준 진단</a></h3>
-    <a class="inst-doc" href="{{ '/assets/files/teacher-ai-competency-structure.pdf' | relative_url }}" download="나와우리학교AI역량수준진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/teacher-ai-competency-structure-report.pdf' | relative_url }}" download="나와우리학교AI역량수준진단_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/teacher-ai-competency-structure.pdf' | relative_url }}" download="나와우리학교AI역량수준진단_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>나의 AI 역량을 우리 학교, 같은 학교급의 다른 학교, 전체 응답자와 비교하고 우리 학교의 강점과 보완점을 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학생·교사·보직교사·행정직원 (학교급·소속 학교 입력)</dd>
@@ -72,8 +91,8 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">조직</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ax-readiness/' | relative_url }}">AX 전환 준비도 진단 (기업용)</a></h3>
     <div class="inst-docs">
-      <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure-report.pdf' | relative_url }}" download="AX전환준비도진단_기업용_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
-      <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure.pdf' | relative_url }}" download="AX전환준비도진단_기업용_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure-report.pdf' | relative_url }}" download="AX전환준비도진단기업용_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/ax-readiness-structure.pdf' | relative_url }}" download="AX전환준비도진단기업용_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
     </div>
     <p>기반 마련에서 AI 내재화까지, 우리 회사가 AI를 전제로 일하는 회사로 바뀔 준비가 어디까지 되었는지 진단합니다.</p>
     <dl class="kv">
@@ -87,7 +106,10 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
     {% if aixs.image.path and aixs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ aixs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">학교</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/aix-school/' | relative_url }}">우리학교 AIX 전환 준비·성숙도 진단</a></h3>
-    <a class="inst-doc" href="{{ '/assets/files/aix-school-structure.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조.pdf">설문 문항과 구조 설명 (PDF) 내려받기</a>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ '/assets/files/aix-school-structure-report.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ '/assets/files/aix-school-structure.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
     <p>기반 마련에서 AI 내재화까지, 우리 학교가 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 어디까지 되었는지 진단합니다.</p>
     <dl class="kv">
       <dt>진단 대상</dt><dd>학교 교원 (교사·부장교사·교감·교장)</dd>
