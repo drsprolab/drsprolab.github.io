@@ -72,7 +72,18 @@
       return;
     }
     if (source.nodeType !== Node.ELEMENT_NODE) return;
-    if (source.matches('button, script, [hidden], .aidx-icon, .aidx-tags, .aidx-dl')) return;
+    if (source.matches('button, script, [hidden], [data-report-control], .aidx-icon, .aidx-tags, .aidx-dl')) return;
+    if (source.matches('[data-report-domain-summary]')) {
+      var domains = document.createElement('table'); domains.className = 'dr-table';
+      var domainHead = domains.createTHead().insertRow();
+      ['기술 영역', '교육 구분', 'Borich', '중요도 · 수행 · 차이 · n', '교육 주제'].forEach(function (label) { var th = document.createElement('th'); th.textContent = label; domainHead.appendChild(th); });
+      var domainBody = domains.createTBody();
+      source.querySelectorAll('.agn-domain-card').forEach(function (card) {
+        var row = domainBody.insertRow();
+        ['.panel-title', '.agn-module', '.agn-domain-score strong', '.agn-domain-metrics', '.agn-course'].forEach(function (selector) { var cell = card.querySelector(selector); row.insertCell().textContent = cell ? cleanText(cell) : '분석 대기'; });
+      });
+      addTable(parent, domains, '7개 기술 영역과 교육과정 설계 요약', counters); return;
+    }
     if (source.matches('.kpis')) {
       var table = document.createElement('table'); table.className = 'dr-table';
       var head = table.createTHead().insertRow();
@@ -114,6 +125,7 @@
       figure.appendChild(graph);
       var title = source.closest('.panel'); title = title && title.querySelector('.panel-title');
       var svg = source.matches('svg') ? source : source.querySelector('svg');
+      if (svg) figure.classList.add('dr-plot');
       text(figure, 'figcaption', '[그림 ' + (++counters.figures) + '] ' + (title ? cleanText(title) : (svg && svg.getAttribute('aria-label')) || '진단 결과 비교'));
       parent.appendChild(figure); return;
     }

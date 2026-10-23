@@ -11,7 +11,7 @@ og_chips: [공통 15문항 · Agent 심화 6문항, 교육 필요성 × 현재 �
 # 응답 저장소: Google Apps Script 웹앱 URL (tools/ai-agent-needs/README.md). 비워 두면 시험 모드로, 응답이 이 브라우저에만 저장된다.
 endpoint: "https://script.google.com/macros/s/AKfycbwPZ61ySoqN4uL2fz_UbZD2c3z_p92a9RFnu5T3Xn83tFMCQ4_qTIFv1BVZJrT0_1ZK/exec"
 ---
-<div class="aidx" id="aidx" data-source="{{ '/assets/data/ai-agent-needs.json' | relative_url }}" data-endpoint="{{ page.endpoint }}" aria-live="polite">
+<div class="aidx agn-report" id="aidx" data-source="{{ '/assets/data/ai-agent-needs.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-endpoint="{{ page.endpoint }}" aria-live="polite">
   <noscript><p>이 설문은 JavaScript를 켜야 응답할 수 있습니다.</p></noscript>
 </div>
 <script src="{{ '/assets/js/diagnosis-pdf.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
@@ -20,5 +20,49 @@ endpoint: "https://script.google.com/macros/s/AKfycbwPZ61ySoqN4uL2fz_UbZD2c3z_p9
 <style>
 .agn-pairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.agn-answer{padding:10px 12px;border-radius:9px;background:var(--tint);display:grid;gap:7px}.agn-answer>strong{font-size:13px}.agn-scale{display:flex;flex-wrap:wrap;gap:6px}.agn-scale label{cursor:pointer}.agn-scale input{position:absolute;opacity:0;pointer-events:none}.agn-scale span{display:grid;place-items:center;width:32px;height:32px;border:1.5px solid var(--line);border-radius:50%;font:13px var(--f-mono);color:var(--muted)}.agn-scale input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--paper)}.agn-scale input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}.agn-scale-hints{display:flex;justify-content:space-between;gap:8px;font-size:11px;line-height:1.35;color:var(--muted)}.agn-evidence{font-size:12px;color:var(--muted)}.agn-evidence summary{cursor:pointer}.agn-evidence p{margin:5px 0}.agn-fields{display:grid;gap:12px}.agn-no-collect{font-size:13px;color:var(--muted);padding:10px;border-left:3px solid var(--accent);background:var(--tint)}
 .agn-filters{display:flex;flex-wrap:wrap;gap:10px 18px;margin:4px 0 10px}.agn-filter{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}.agn-filter select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:4px 8px}.agn-two{position:relative}.agn-two>span{height:50%!important;top:0}.agn-two>i{position:absolute;left:0;bottom:0;height:50%;background:var(--series-2);border-radius:0 3px 3px 0}
+.agn-gap-td{text-align:center;min-width:76px}.agn-gap-track{display:block;position:relative;width:72px;height:6px;margin:5px auto 0;border-radius:99px;background:var(--tint);overflow:hidden}.agn-gap-track:before{content:"";position:absolute;z-index:1;left:calc(50% - .5px);top:0;bottom:0;width:1px;background:var(--muted);opacity:.65}.agn-gap-track i{position:absolute;top:0;height:100%;border-radius:99px}.agn-gap-track i.positive{background:var(--accent)}.agn-gap-track i.negative{background:var(--series-2)}.agn-rank-entry{display:grid;gap:5px;min-width:150px;white-space:normal;line-height:1.45}.agn-rank-entry .agn-gap-track{width:100%;margin:0}
 @media(max-width:700px){.agn-pairs{grid-template-columns:1fr}.agn-scale{gap:5px}.agn-scale span{width:30px;height:30px}}
+/* 교육과정 요구도 결과: 기존 7개 영역과 영역별 세부 기술 */
+.agn-domain-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.agn-domain-card{display:flex;flex-direction:column;gap:10px;margin:0;min-width:0}
+.agn-module{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.03em}
+.agn-domain-card .panel-title{line-height:1.45;min-height:48px}
+.agn-domain-card.agn-priority{border-top:4px solid var(--accent)}
+.agn-skill-tags,.agn-summary-tags{display:flex;flex-wrap:wrap;gap:5px}
+.agn-skill-tags span{font-size:11px;color:var(--muted);background:var(--tint);padding:3px 7px;border-radius:5px}
+.agn-summary-tags{margin-top:10px}.agn-summary-tags span{font-size:13px;background:var(--paper);padding:6px 11px;border-radius:7px;color:var(--accent)}
+.agn-domain-score{display:flex;align-items:baseline;gap:9px;margin-top:6px;flex-wrap:wrap}
+.agn-domain-score strong{font-size:30px;font-variant-numeric:tabular-nums;line-height:1.25;color:var(--accent)}
+.agn-domain-score>span{font-size:12px;color:var(--muted)}
+.aidx .agn-domain-card p{margin:0;font-size:12px;line-height:1.6}
+.agn-course{border-top:1px solid var(--line);padding-top:10px;margin-top:4px!important}
+.agn-domain-card .aidx-btn{align-self:flex-start;margin-top:auto;font-size:12px;padding:5px 10px}
+.agn-rank-bars .aidx-hrow,.agn-paired-bars .aidx-hrow{grid-template-columns:minmax(110px,170px) minmax(70px,1fr) 85px;gap:10px}
+.agn-rank-bars .aidx-hname,.agn-paired-bars .aidx-hname{overflow-wrap:anywhere;line-height:1.45;min-width:0}
+.agn-rank-bars .is-mine .aidx-hname{font-weight:700;color:var(--accent)}
+.agn-rank-bars .agn-gap-track{width:100%;height:12px;margin:0}
+.agn-domain-detail{display:grid;gap:16px;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+.agn-detail-heading h3{margin:5px 0;font-size:21px;line-height:1.4}
+.aidx .agn-detail-heading p{margin:4px 0;font-size:13px;color:var(--muted)}
+.agn-domain-detail .panel{margin:0}.agn-detail-table td:first-child{font-weight:600}
+.agn-heatmap th,.agn-heatmap td{text-align:center;vertical-align:middle}
+.agn-heatmap td:first-child,.agn-heatmap th:first-child{text-align:left}
+.agn-heatmap td{padding:4px}.agn-heatmap td:first-child{padding:8px 12px}
+.agn-heatmap small{display:block;margin-top:4px;font-weight:400;font-size:10px;color:var(--muted)}
+.agn-heat-cell{padding:10px 8px;border-radius:7px;min-width:86px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.agn-heat-cell strong{font-size:17px}.agn-heat-cell .agn-gap-track{background:var(--paper)}
+.agn-heat-empty{font-size:11px;color:var(--muted)}
+.agn-heat-legend{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:11px;color:var(--muted);margin:10px 0}
+.agn-heat-legend i{width:110px;height:9px;border-radius:5px;background:linear-gradient(90deg,rgba(213,112,38,.5),transparent,rgba(38,113,194,.5))}
+.agn-group-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.agn-group-cards .panel{margin:0;min-width:0}.agn-group-sub{font-size:13px;margin:18px 0 10px;color:var(--muted)}
+#agn-detail{scroll-margin-top:95px}#agn-detail>h2{margin-top:0}
+@media(max-width:900px){.agn-domain-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.agn-domain-cards,.agn-group-cards{grid-template-columns:1fr}.agn-domain-card .panel-title{min-height:0}.agn-rank-bars .aidx-hrow,.agn-paired-bars .aidx-hrow{grid-template-columns:minmax(94px,130px) minmax(38px,1fr) 70px;gap:6px;font-size:12px}.agn-filter{max-width:100%;flex-wrap:wrap}.agn-filter select{max-width:100%}.agn-domain-detail .report-grid{grid-template-columns:1fr}}
+
+.agn-scatter-wrap{max-width:100%;min-width:0;overflow-x:auto;overscroll-behavior-x:contain}
+.agn-overview-matrix>summary{cursor:pointer;font-size:16px;font-weight:700;color:var(--accent)}
+.agn-overview-matrix[open]>summary{margin-bottom:12px}
+
+.diagnosis-pdf-host .agn-report .dr-plot{width:480px}
 </style>

@@ -196,7 +196,7 @@ td.nowrap { white-space: nowrap; color: var(--muted); }
 tfoot td { font-weight: 600; border-bottom: 0; }
 .tags.big li { font-size: 14px; padding: 5px 12px; }
 
-.inst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.inst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
 .inst { display: grid; gap: 10px; align-content: start; padding: 20px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); }
 .inst:hover { border-color: var(--accent); }
 .inst h3 { font-size: 18px; }
@@ -212,6 +212,11 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .inst-docs { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; margin-top: -4px; }
 .inst-docs .inst-doc { margin-top: 0; }
 .inst-doc:hover { background: #163e6b; border-color: #163e6b; }
+.inst { min-width: 0; }
+.inst h3, .inst p, .inst dd { overflow-wrap: anywhere; }
+.inst .kv { grid-template-columns: max-content minmax(0, 1fr); }
+.inst-docs { min-width: 0; }
+.inst-doc { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
 .gcard { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; gap: 6px; align-content: start; background: var(--paper); }
@@ -1162,6 +1167,7 @@ main.container { overflow-x: clip; }
 .inst { overflow: hidden; }
 /* Measurement·Weekly Insight 목록: 썸네일 윗부분(분류·제목·칩)만 보이게 낮게 자른다 */
 .inst-thumb--compact { aspect-ratio: 1200 / 360; object-position: top; }
+.inst-thumb--full { aspect-ratio: 1200 / 630; object-fit: contain; object-position: center; }
 
 /* Weekly Insight 글 제목 옆 공유 버튼 */
 /* 공유 버튼은 제목 마지막 글자 바로 뒤에 붙는다 */

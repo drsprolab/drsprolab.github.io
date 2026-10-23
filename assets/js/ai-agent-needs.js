@@ -11,7 +11,7 @@
   var GROUP = String(new URLSearchParams(location.search).get('group') || '').trim().replace(/[^\w가-힣-]/g, '').slice(0, 40);
   var LS_ME = 'agn-v1-me' + (PREVIEW ? '-test' : ''), LS_DATA = 'agn-v1-test-responses';
   var MIN_N = 5, MIN_GROUP = 3;
-  var data = null, items = [], state = { view: 'home', page: -1, answers: {}, background: {}, advanced: false, started: 0, tab: 'all', pool: null, me: load(LS_ME), filter: { major: '', year: '' }, dim: 'major' };
+  var data = null, items = [], state = { view: 'home', page: -1, answers: {}, background: {}, advanced: false, started: 0, tab: 'all', pool: null, me: load(LS_ME), filter: { major: '', year: '' }, dim: 'major', detailDomain: 'A' };
   var I_SCALE = [[1,'전혀 필요하지 않다'],[2,'별로 필요하지 않다'],[3,'보통이다'],[4,'필요하다'],[5,'매우 필요하다']];
   var P_SCALE = [[1,'혼자서는 하기 어렵다'],[2,'단계별 안내가 필요하다'],[3,'가끔 도움을 받아 할 수 있다'],[4,'익숙한 과제는 혼자 할 수 있다'],[5,'새로운 과제에도 혼자 적용할 수 있다']];
   var BG = [
@@ -52,7 +52,7 @@
       data = d; var n = 1;
       d.domains.forEach(function (dm) {
         dm.items.forEach(function (pair, i) {
-          var it = { code: dm.id + String(i + 1).padStart(2,'0'), number: n++, idx: items.length, domain: dm, text: pair[0], evidence: pair[1] };
+          var it = { code: dm.id + String(i + 1).padStart(2,'0'), number: n++, idx: items.length, domain: dm, text: pair[0], label: dm.skill_labels[i], evidence: pair[1] };
           items.push(it); (dm.module === '공통' ? COMMON : ADVANCED).push(it);
         });
       });
@@ -196,15 +196,41 @@
       return { it: it, k: k, n: n, mI: mI, mP: mP, gap: d, t: t, p: t === null ? null : tP(Math.abs(t), n - 1), borich: d * mI };
     }).filter(function (x) { return x.n > 0; });
     if (!st.length) return null;
-    var aI = mean(st.map(function (x) { return x.mI; })), aP = mean(st.map(function (x) { return x.mP; })), aG = mean(st.map(function (x) { return x.gap; }));
-    st.slice().sort(function (a, b) { return b.borich - a.borich; }).forEach(function (x, i) { x.rank = i + 1; });
-    st.forEach(function (x) {
-      x.lff = (x.mI >= aI ? 'H' : 'L') + (x.gap >= aG ? 'H' : 'L');
-      x.ipa = x.mI >= aI ? (x.mP < aP ? '집중 개선' : '유지') : (x.mP < aP ? '낮은 우선' : '과잉');
+    return classify(st);
+  }
+  // 상위 7개 영역은 같은 응답자의 세부 기술 평균으로 산출한다.
+  // 공통·심화는 응답 대상이 달라 순위와 IPA/LFF 기준선을 각각 계산한다.
+  function classify(st) {
+    var cuts = {};
+    ['공통', 'Agent 심화'].forEach(function (module) {
+      var set = st.filter(function (x) { return x.it.domain.module === module; });
+      if (!set.length) return;
+      var aI = mean(set.map(function (x) { return x.mI; })), aP = mean(set.map(function (x) { return x.mP; })), aG = mean(set.map(function (x) { return x.gap; }));
+      set.slice().sort(function (a, b) { return b.borich - a.borich || a.k - b.k; }).forEach(function (x, i) { x.rank = i + 1; });
+      set.forEach(function (x) {
+        x.lff = (x.mI >= aI ? 'H' : 'L') + (x.gap >= aG ? 'H' : 'L');
+        x.ipa = x.mI >= aI ? (x.mP < aP ? '집중 개선' : '유지') : (x.mP < aP ? '낮은 우선' : '과잉');
+      });
+      var K = set.filter(function (x) { return x.lff === 'HH'; }).length;
+      set.forEach(function (x) { var top = x.rank <= K, hh = x.lff === 'HH'; x.prio = x.gap > 0 ? (top && hh ? 1 : (top || hh ? 2 : 0)) : 0; });
+      cuts[module] = { aI: aI, aP: aP, aG: aG, K: K };
     });
-    var K = st.filter(function (x) { return x.lff === 'HH'; }).length;
-    st.forEach(function (x) { var top = x.rank <= K, hh = x.lff === 'HH'; x.prio = top && hh ? 1 : (top || hh ? 2 : 0); });
-    return { st: st, aI: aI, aP: aP, aG: aG, K: K };
+    return st.length ? { st: st, cuts: cuts } : null;
+  }
+  function domainAnalysis(rows, minimum) {
+    var st = data.domains.map(function (dm, k) {
+      var its = items.filter(function (it) { return it.domain.id === dm.id; });
+      var pr = rows.filter(function (r) { return its.every(function (it) { return r.I[it.idx] != null && r.P[it.idx] != null; }); });
+      var I = pr.map(function (r) { return mean(its.map(function (it) { return r.I[it.idx]; })); });
+      var P = pr.map(function (r) { return mean(its.map(function (it) { return r.P[it.idx]; })); });
+      var mI = mean(I), mP = mean(P);
+      return { it: { domain: dm, label: dm.report_name, text: dm.name }, k: k, n: pr.length, mI: mI, mP: mP, gap: mI - mP, borich: (mI - mP) * mI };
+    }).filter(function (x) { return x.n >= minimum; });
+    return classify(st);
+  }
+  function detailAnalysis(A, dm) {
+    // 세부 분석의 기준선·순위는 선택 영역 안의 세 기술만으로 다시 산출한다.
+    return classify(A.st.filter(function (x) { return x.it.domain.id === dm.id; }).map(function (x) { return Object.assign({}, x); }));
   }
   var PRIO = ['–', '최우선', '차우선'];
 
@@ -226,28 +252,35 @@
     [y0, yCut, y1].forEach(function (v) { g += '<text x="' + (l - 5) + '" y="' + (sy(v) + 3) + '" text-anchor="end" font-size="10" fill="var(--muted)">' + f2(v) + '</text>'; });
     g += '<text x="' + (l + r) / 2 + '" y="' + (H - 6) + '" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">' + xLab + '</text>' +
       '<text x="12" y="' + (t + b) / 2 + '" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)" transform="rotate(-90 12 ' + (t + b) / 2 + ')">' + yLab + '</text>';
+    var placed = [];
     st.forEach(function (x) {
-      var hi = x.prio === 1;
-      g += '<g><title>' + esc(x.it.code + ' ' + x.it.text) + ' · ' + xLab + ' ' + f2(x[xKey]) + ' · ' + yLab + ' ' + f2(x[yKey]) + '</title><circle cx="' + sx(x[xKey]) + '" cy="' + sy(x[yKey]) + '" r="' + (hi ? 5.5 : 4) + '" fill="' + (hi ? 'var(--series-1)' : 'var(--series-2)') + '" stroke="var(--paper)" stroke-width="1.5"/>' +
-        '<text x="' + (sx(x[xKey]) + 7) + '" y="' + (sy(x[yKey]) + 4) + '" font-size="10" font-weight="' + (hi ? 700 : 400) + '" fill="var(--ink)">' + x.it.code + '</text></g>';
+      var hi = x.prio === 1, cx = sx(x[xKey]), cy = sy(x[yKey]);
+      var labelWidth = Math.min(220, Array.from(x.it.label).reduce(function (n, c) { return n + (c.charCodeAt(0) > 255 ? 11 : 6); }, 0));
+      var anchor = cx > (l + r) / 2 ? 'end' : 'start';
+      var tx = anchor === 'end' ? Math.max(l + labelWidth + 4, cx - 9) : Math.min(r - labelWidth - 4, cx + 9);
+      var lx = anchor === 'end' ? tx - labelWidth : tx, ty = cy - 12;
+      var offsets = [-12, 20, -30, 38, -48, 56, -66, 74];
+      for (var j = 0; j < offsets.length; j++) {
+        ty = Math.max(t + 29, Math.min(b - 18, cy + offsets[j]));
+        if (!placed.some(function (p) { return lx < p.x + p.w + 3 && lx + labelWidth + 3 > p.x && ty - 12 < p.y + 4 && ty + 4 > p.y - 12; })) break;
+      }
+      placed.push({ x: lx, y: ty, w: labelWidth });
+      g += '<g><title>' + esc(x.it.label) + ' · ' + xLab + ' ' + f2(x[xKey]) + ' · ' + yLab + ' ' + f2(x[yKey]) + '</title><line x1="' + cx + '" y1="' + cy + '" x2="' + tx + '" y2="' + (ty - 4) + '" stroke="var(--muted)" stroke-opacity=".35"/><circle cx="' + cx + '" cy="' + cy + '" r="' + (hi ? 5.5 : 4) + '" fill="' + (hi ? 'var(--series-1)' : 'var(--series-2)') + '" stroke="var(--paper)" stroke-width="1.5"/><text x="' + tx + '" y="' + ty + '" text-anchor="' + anchor + '" font-size="11" font-weight="' + (hi ? 700 : 400) + '" fill="var(--ink)">' + esc(x.it.label) + '</text></g>';
     });
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '" style="width:100%;height:auto">' + g + '</svg>';
+    return '<div class="agn-scatter-wrap"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '" style="width:100%;min-width:380px;height:auto">' + g + '</svg></div>';
+  }
+  function signedBar(value, max, label) {
+    var w = Math.min(50, Math.abs(value) / max * 50), left = value >= 0 ? 50 : 50 - w;
+    return '<span class="agn-gap-track" aria-hidden="true"><i class="' + (value >= 0 ? 'positive' : 'negative') + '" style="left:' + left.toFixed(2) + '%;width:' + w.toFixed(2) + '%"></i></span>';
   }
   function rankBars(st) {
-    var list = st.slice().sort(function (a, b) { return a.rank - b.rank; }), mx = Math.max.apply(null, list.map(function (x) { return x.borich; }).concat([0.01]));
-    return '<div class="aidx-hbars">' + list.map(function (x) {
-      return '<div class="aidx-hrow' + (x.prio === 1 ? ' is-mine' : '') + '" title="' + esc(x.it.text) + '"><span class="aidx-hname">' + x.rank + '. ' + x.it.code + ' ' + esc(x.it.text.length > 16 ? x.it.text.slice(0, 16) + '…' : x.it.text) + '</span>' +
-        '<span class="aidx-htrack"><span style="width:' + Math.max(0, x.borich) / mx * 100 + '%"></span></span><span class="aidx-hval">' + f2(x.borich) + (x.prio ? ' · ' + PRIO[x.prio] : '') + '</span></div>';
+    return '<div class="aidx-hbars agn-rank-bars">' + st.slice().sort(function (a, b) { return a.rank - b.rank; }).map(function (x) {
+      return '<div class="aidx-hrow' + (x.prio === 1 ? ' is-mine' : '') + '"><span class="aidx-hname">' + esc(x.it.label) + '</span>' + signedBar(x.borich, 20) + '<span class="aidx-hval">' + f2(x.borich) + (x.prio === 1 ? ' · 우선' : '') + '</span></div>';
     }).join('') + '</div>';
   }
-  function domainBars(rows) {
-    var doms = data.domains;
-    return '<div class="aidx-hbars">' + doms.map(function (dm) {
-      var ks = items.filter(function (it) { return it.domain.id === dm.id; }).map(function (it) { return it.idx; });
-      var I = [], P = [];
-      rows.forEach(function (r) { ks.forEach(function (k) { if (r.I[k] != null && r.P[k] != null) { I.push(r.I[k]); P.push(r.P[k]); } }); });
-      if (!I.length) return '';
-      return '<div class="aidx-hrow"><span class="aidx-hname">' + dm.id + '. ' + esc(dm.name) + '</span><span class="aidx-htrack agn-two"><span style="width:' + mean(I) / 5 * 100 + '%"></span><i style="width:' + mean(P) / 5 * 100 + '%"></i></span><span class="aidx-hval">' + f2(mean(I)) + ' / ' + f2(mean(P)) + '</span></div>';
+  function pairedBars(st) {
+    return '<div class="aidx-hbars agn-paired-bars">' + st.map(function (x) {
+      return '<div class="aidx-hrow"><span class="aidx-hname">' + esc(x.it.label) + '</span><span class="aidx-htrack agn-two"><span style="width:' + x.mI / 5 * 100 + '%"></span><i style="width:' + x.mP / 5 * 100 + '%"></i></span><span class="aidx-hval">' + f2(x.mI) + ' / ' + f2(x.mP) + '</span></div>';
     }).join('') + '</div>';
   }
   function kpi(k, v, s) { return '<div class="kpi"><span class="kpi-k">' + k + '</span><span class="kpi-v">' + v + '</span><span class="kpi-s">' + s + '</span></div>'; }
@@ -262,85 +295,81 @@
       return '<label class="agn-filter">' + label + ' <select data-filter="' + key + '"><option value="">전체</option>' + opts.filter(function (o) { return o[0] !== '9'; }).map(function (o) {
         return '<option value="' + o[0] + '"' + (state.filter[key] === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>';
     }
-    return '<div class="agn-filters">' + sel('major', '전공 계열', BG[0][2]) + sel('year', '학년', BG[1][2]) + '</div>';
+    return '<div class="agn-filters" data-report-control>' + sel('major', '전공 계열', BG[0][2]) + sel('year', '학년', BG[1][2]) + '</div>';
+  }
+  function moduleLabel(module) { return module === '공통' ? '공통 교육' : 'Agent 심화 교육'; }
+  function priorityLabel(x) { return x.prio === 1 ? '우선 교육 후보' : x.prio === 2 ? '추가 검토' : '수요 참고'; }
+  function moduleRanks(A) {
+    return ['공통', 'Agent 심화'].map(function (module) {
+      var st = A.st.filter(function (x) { return x.it.domain.module === module; });
+      return '<div class="panel"><h3 class="panel-title">' + moduleLabel(module) + ' 우선순위</h3><p class="panel-sub">영역별 Borich 요구도 · 같은 교육 대상 안에서 비교 · 중앙선 0, 범위 −20~20</p>' + (st.length ? rankBars(st) : '<p class="aidx-note">분석 가능한 심화 응답이 부족합니다.</p>') + '</div>';
+    }).join('');
+  }
+  function overviewMatrices(D) {
+    return '<details class="panel agn-overview-matrix"><summary>7개 영역의 IPA·Locus for Focus 확인</summary><p class="aidx-small">공통 영역과 Agent 심화 영역은 각각 같은 모듈 안에서 평균 기준선을 정합니다.</p>' + ['공통','Agent 심화'].map(function(module) {
+      var st=D.st.filter(function(x){return x.it.domain.module===module;}),cut=D.cuts[module];
+      if(!st.length)return '';
+      return '<h3 class="agn-group-sub">'+moduleLabel(module)+'</h3><section class="report-grid"><div class="panel"><h3 class="panel-title">영역별 IPA</h3>'+scatter(st,'mP','mI','수행수준 평균','중요도 평균',cut.aP,cut.aI,['유지','집중 개선','낮은 우선','과잉'],true,moduleLabel(module)+' 영역별 IPA')+'</div><div class="panel"><h3 class="panel-title">영역별 Locus for Focus</h3>'+scatter(st,'mI','gap','중요도 평균','중요도 − 수행수준',cut.aI,cut.aG,['HH','LH','LL','HL'],false,moduleLabel(module)+' 영역별 Locus for Focus')+'</div></section>';
+    }).join('')+'</details>';
+  }
+  function detailTable(st) {
+    return '<div class="table-wrap"><table class="aidx-table agn-detail-table"><thead><tr><th>세부 기술</th><th>n</th><th>중요도</th><th>수행수준</th><th>차이</th><th>Borich</th><th>순위</th><th>IPA</th><th>LFF</th><th>검토 결과</th><th>t</th><th>p</th></tr></thead><tbody>' + st.slice().sort(function (a,b) { return a.rank-b.rank; }).map(function (x) {
+      return '<tr' + (x.prio === 1 ? ' class="aidx-mine-row"' : '') + '><td>' + esc(x.it.label) + '</td><td>' + x.n + '</td><td>' + f2(x.mI) + '</td><td>' + f2(x.mP) + '</td><td>' + f2(x.gap) + '</td><td><strong>' + f2(x.borich) + '</strong></td><td>' + x.rank + '</td><td>' + x.ipa + '</td><td>' + x.lff + '</td><td>' + priorityLabel(x) + '</td><td>' + (x.t === null ? '–' : f2(x.t)) + '</td><td>' + (x.p === null ? '–' : fmtP(x.p)) + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  }
+  function domainDetail(A, dm) {
+    var eligible = { st: A.st.filter(function (x) { return x.n >= MIN_N; }) }, D = detailAnalysis(eligible, dm);
+    var h = '<section class="agn-domain-detail"><div class="agn-detail-heading"><span class="agn-module">' + moduleLabel(dm.module) + '</span><h3>' + esc(dm.name) + '</h3><p>세부 기술 ' + dm.skill_labels.length + '개 · 이 영역 안에서 Borich 순위와 IPA·LFF 기준선을 산출합니다.</p></div>';
+    if (!D) return h + '<p class="aidx-note">세부 기술별 유효 응답이 ' + MIN_N + '명 이상 모이면 분석을 표시합니다.</p></section>';
+    var st = D.st, cut = D.cuts[dm.module];
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">세부 기술별 Borich 요구도</h3><p class="panel-sub">높을수록 우선 교육 수요가 큽니다. 진한 기술명은 우선 교육 후보입니다.</p>' + rankBars(st) + '</div><div class="panel"><h3 class="panel-title">세부 기술별 중요도·수행수준</h3><p class="panel-sub">위 파란 막대: 중요도 · 아래 주황 막대: 수행수준 · 1~5점</p>' + pairedBars(st) + '</div></section>';
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">세부 기술별 IPA</h3><p class="panel-sub">왼쪽 위: 중요도가 높고 수행수준이 낮은 기술 · 점선은 이 영역 기술들의 평균</p>' + scatter(st, 'mP', 'mI', '수행수준 평균', '중요도 평균', cut.aP, cut.aI, ['유지','집중 개선','낮은 우선','과잉'], true, dm.name + ' IPA') + '</div><div class="panel"><h3 class="panel-title">세부 기술별 Locus for Focus</h3><p class="panel-sub">오른쪽 위(HH): 중요도와 차이가 모두 높은 기술 · 점선은 이 영역 기술들의 평균</p>' + scatter(st, 'mI', 'gap', '중요도 평균', '중요도 − 수행수준', cut.aI, cut.aG, ['HH','LH','LL','HL'], false, dm.name + ' Locus for Focus') + '</div></section>';
+    h += '<div class="panel"><h3 class="panel-title">세부 기술 분석값</h3>' + detailTable(st) + '<p class="aidx-small">t·p는 같은 학생의 중요도와 수행수준에 대한 대응표본 검정입니다. 차이의 유의성이 교육 우선순위를 단독으로 결정하지 않습니다.</p></div></section>';
+    return h;
   }
   function allReport() {
-    var rows = filtered(), n = rows.length, A = analyze(rows);
-    var h = filterBar() + '<p class="aidx-context">' + (GROUP ? '그룹 ' + esc(GROUP) : '전체 응답자') + ' · 응답 ' + n + '명 (Agent 심화 응답 ' + rows.filter(function (r) { return r.adv; }).length + '명)' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>';
-    if (!A || n < MIN_N) return h + '<p class="aidx-note">응답이 ' + n + '명입니다. ' + MIN_N + '명 이상 모이면 요구도 분석결과가 나타납니다.</p>';
-    var st = A.st, top = st.filter(function (x) { return x.prio === 1; }).sort(function (a, b) { return a.rank - b.rank; });
-    var first = st.slice().sort(function (a, b) { return a.rank - b.rank; })[0];
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">요구도 분석 한 줄 요약</p><h2>' + (top.length ? '먼저 가르칠 기술 ' + top.length + '가지' : '최우선 기술 없음') + '</h2>' +
-      (top.length ? '<p>Borich 요구도 상위 ' + A.K + '위 안에 들면서 Locus for Focus 오른쪽 위(HH)에 함께 든 기술입니다.</p><ol class="aidx-list">' + top.map(function (x) { return '<li><strong>' + x.it.code + '</strong> ' + esc(x.it.text) + ' <span class="aidx-muted">' + esc(x.it.domain.name) + ' · Borich ' + f2(x.borich) + '</span></li>'; }).join('') + '</ol>' : '<p>Borich 상위 순위와 LFF 오른쪽 위 사분면이 겹치는 기술이 아직 없습니다.</p>') + '</section>';
-    h += '<div class="kpis aidx-kpis">' + kpi('응답자', n + '<small>명</small>', '심화 ' + rows.filter(function (r) { return r.adv; }).length + '명') +
-      kpi('최우선 기술', top.length + '<small>개</small>', '차우선 ' + st.filter(function (x) { return x.prio === 2; }).length + '개') +
-      kpi('요구도 1위', first.it.code, esc(first.it.domain.name) + ' · ' + f2(first.borich)) +
-      kpi('평균 차이', f2(A.aG) + '<small>점</small>', '중요도 ' + f2(A.aI) + ' · 수행 ' + f2(A.aP)) + '</div>';
-    h += '<div class="panel"><h3 class="panel-title">Borich 요구도 순위</h3><p class="panel-sub">(중요도 − 수행수준) 평균 × 중요도 평균 · 진한 막대 = 최우선</p>' + rankBars(st) + '</div>';
-    h += '<section class="report-grid">' +
-      '<div class="panel"><h3 class="panel-title">Locus for Focus</h3><p class="panel-sub">x 중요도 평균 · y 중요도 − 수행수준 · 점선 = 평균 · 오른쪽 위(HH)가 최우선 후보</p>' + scatter(st, 'mI', 'gap', '중요도 평균', '중요도 − 수행수준', A.aI, A.aG, ['HH', 'LH', 'LL', 'HL'], false, 'Locus for Focus') + '</div>' +
-      '<div class="panel"><h3 class="panel-title">IPA 매트릭스</h3><p class="panel-sub">x 수행수준 평균 · y 중요도 평균 · 점선 = 평균 · 왼쪽 위가 집중 개선</p>' + scatter(st, 'mP', 'mI', '수행수준 평균', '중요도 평균', A.aP, A.aI, ['유지', '집중 개선', '낮은 우선', '과잉'], true, 'IPA 매트릭스') + '</div></section>';
-    h += '<div class="panel"><h3 class="panel-title">문항별 요구도 분석표</h3><p class="panel-sub">t·p = 중요도와 수행수준의 대응표본 t 검정 · 순위 = Borich 순위</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>코드</th><th>기술</th><th>n</th><th>중요도</th><th>수행수준</th><th>차이</th><th>t</th><th>p</th><th>Borich</th><th>순위</th><th>LFF</th><th>IPA</th><th>우선순위</th></tr></thead><tbody>' +
-      st.map(function (x) {
-        return '<tr' + (x.prio === 1 ? ' class="aidx-mine-row"' : '') + '><td>' + x.it.code + '</td><td>' + esc(x.it.text) + '</td><td>' + x.n + '</td><td>' + f2(x.mI) + '</td><td>' + f2(x.mP) + '</td><td>' + f2(x.gap) + '</td><td>' + (x.t === null ? '–' : f2(x.t)) + '</td><td>' + (x.p === null ? '–' : fmtP(x.p) + (x.p < 0.05 ? '*' : '')) + '</td><td><strong>' + f2(x.borich) + '</strong></td><td>' + x.rank + '</td><td>' + x.lff + '</td><td>' + x.ipa + '</td><td>' + PRIO[x.prio] + '</td></tr>';
-      }).join('') + '</tbody></table></div><p class="aidx-small">* p &lt; .05. 공통 문항과 Agent 심화 문항은 응답자 수(n)가 다릅니다.</p></div>';
-    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">영역별 중요도와 수행수준</h3><p class="panel-sub">위 막대 중요도 · 아래 막대 수행수준 (1~5점)</p>' + domainBars(rows) + '</div>' +
-      '<div class="panel"><h3 class="panel-title">영역과 연결된 교육 프로그램</h3><div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>프로그램</th><th>최우선 문항</th></tr></thead><tbody>' +
-      data.domains.map(function (dm) {
-        var pg = data.programs.filter(function (p) { return p[0] === dm.program; })[0] || [];
-        var tops = st.filter(function (x) { return x.it.domain.id === dm.id && x.prio === 1; }).map(function (x) { return x.it.code; });
-        return '<tr' + (tops.length ? ' class="aidx-mine-row"' : '') + '><td>' + dm.id + '. ' + esc(dm.name) + '</td><td>' + esc(pg[0] + ' ' + pg[1]) + ' <span class="aidx-muted">' + esc(pg[3] + ' · ' + pg[4]) + '</span></td><td>' + (tops.join(', ') || '–') + '</td></tr>';
-      }).join('') + '</tbody></table></div></div></section>';
-    h += '<div class="panel"><h3 class="panel-title">응답자 구성</h3><div class="table-wrap"><table class="aidx-table"><thead><tr><th>구분</th><th>분포</th></tr></thead><tbody>' +
-      BG.slice(0, 4).map(function (b, i) {
-        var c = {}; rows.forEach(function (r) { c[r.bg[i]] = (c[r.bg[i]] || 0) + 1; });
-        return '<tr><td>' + b[1] + '</td><td>' + b[2].filter(function (o) { return c[o[0]]; }).map(function (o) { return esc(o[1]) + ' ' + c[o[0]] + '명'; }).join(' · ') + '</td></tr>';
-      }).join('') + '</tbody></table></div></div>';
+    var rows = filtered(), n = rows.length, A = analyze(rows), D = domainAnalysis(rows, MIN_N);
+    var h = filterBar() + '<p class="aidx-context">' + (GROUP ? '그룹 ' + esc(GROUP) : '전체 응답자') + ' · 응답 ' + n + '명 · Agent 심화 ' + rows.filter(function (r) { return r.adv; }).length + '명' + (PREVIEW ? ' · 시험 모드' : '') + '</p>';
+    if (!A || !D || n < MIN_N) return h + '<p class="aidx-note">영역별 유효 응답이 ' + MIN_N + '명 이상 모이면 결과를 표시합니다.</p>';
+    var priority = D.st.filter(function (x) { return x.prio === 1; });
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">교육과정 설계 요약</p><h2>7개 기술 영역에서 교육 우선순위를 찾습니다</h2><p>영역별 수요를 살펴보고, 아래에서 각 영역의 세부 기술을 Borich·IPA·Locus for Focus로 확인하세요.</p><div class="agn-summary-tags">' + (priority.length ? priority.map(function (x) { return '<span>' + esc(x.it.label) + ' · 우선 후보</span>'; }).join('') : '<span>겹치는 우선 후보가 없습니다. 세부 분석을 함께 검토하세요.</span>') + '</div></section>';
+    h += '<div class="kpis aidx-kpis">' + kpi('전체 응답', n + '<small>명</small>', '공통 5개 영역') + kpi('Agent 심화 응답', rows.filter(function(r){return r.adv;}).length + '<small>명</small>', '심화 2개 영역 · 별도 비교') + kpi('분석 가능한 영역', D.st.length + '<small>개</small>', '영역별 유효 응답 ' + MIN_N + '명 이상') + kpi('우선 교육 후보', priority.length + '<small>개 영역</small>', 'Borich·LFF 교차 확인') + '</div>';
+    h += '<div class="agn-domain-cards" data-report-domain-summary>' + data.domains.map(function (dm) {
+      var x = D.st.filter(function (s) { return s.it.domain.id === dm.id; })[0];
+      return '<article class="panel agn-domain-card' + (x && x.prio === 1 ? ' agn-priority' : '') + '"><span class="agn-module">' + moduleLabel(dm.module) + '</span><h3 class="panel-title">' + esc(dm.name) + '</h3><div class="agn-skill-tags">' + dm.skill_labels.map(function (label) { return '<span>' + esc(label) + '</span>'; }).join('') + '</div>' + (x ? '<div class="agn-domain-score"><strong>' + f2(x.borich) + '</strong><span>Borich · ' + priorityLabel(x) + '</span></div><p class="agn-domain-metrics">중요도 ' + f2(x.mI) + ' · 수행 ' + f2(x.mP) + ' · 차이 ' + f2(x.gap) + ' · n=' + x.n + '</p>' : '<p class="aidx-small">응답 부족으로 분석 대기</p>') + '<p class="agn-course"><strong>교육 주제</strong> ' + esc(dm.course) + '</p><p class="aidx-small">실습 결과물: ' + esc(dm.learning_output) + '</p><button type="button" class="aidx-btn" data-act="domain-detail" data-domain-id="' + dm.id + '">세부 기술 분석 보기</button></article>';
+    }).join('') + '</div>';
+    h += '<section class="report-grid">' + moduleRanks(D) + '</section><div class="panel"><h3 class="panel-title">7개 영역의 중요도와 수행수준</h3><p class="panel-sub">위 파란 막대: 중요도 · 아래 주황 막대: 수행수준 · 1~5점 · 각 영역의 세 기술 평균</p>' + pairedBars(D.st) + '</div>';
+    h += overviewMatrices(D);
+    h += '<section class="panel" id="agn-detail"><h2 class="aidx-h">영역별 세부 기술 분석</h2><div class="agn-filters" data-report-control><label class="agn-filter">분석할 영역 <select data-domain="1"><option value="all"' + (state.detailDomain === 'all' ? ' selected' : '') + '>전체 7개 영역</option>' + data.domains.map(function(dm) { return '<option value="' + dm.id + '"' + (state.detailDomain === dm.id ? ' selected' : '') + '>' + esc(dm.name) + '</option>'; }).join('') + '</select></label></div><p class="aidx-small">선택한 영역의 세부 분석을 표시합니다. 전체 7개 영역을 선택하면 모든 영역을 함께 확인하고 PDF로 저장할 수 있습니다.</p>' + data.domains.filter(function(dm) { return state.detailDomain === 'all' || state.detailDomain === dm.id; }).map(function(dm) { return domainDetail(A,dm); }).join('') + '</section>';
+    h += '<div class="panel"><h3 class="panel-title">응답자 구성</h3><div class="table-wrap"><table class="aidx-table"><thead><tr><th>구분</th><th>분포</th></tr></thead><tbody>' + BG.slice(0,4).map(function(b,i) { var c={}; rows.forEach(function(r){c[r.bg[i]]=(c[r.bg[i]]||0)+1;}); return '<tr><td>' + b[1] + '</td><td>' + b[2].filter(function(o){return c[o[0]];}).map(function(o){return esc(o[1])+' '+c[o[0]]+'명';}).join(' · ') + '</td></tr>'; }).join('') + '</tbody></table></div></div>';
     return h;
   }
   function compareReport() {
-    var rows = state.pool, dimI = BG.map(function (b) { return b[0]; }).indexOf(state.dim), b = BG[dimI];
-    var h = '<div class="agn-filters"><label class="agn-filter">비교 기준 <select data-dim="1">' + BG.slice(0, 4).map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === state.dim ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></label></div>' +
-      '<p class="aidx-context">' + b[1] + '별로 응답자를 묶어 영역별 요구(중요도 − 수행수준)와 요구도 상위 기술을 비교합니다. ' + MIN_GROUP + '명 이상인 구분만 표시합니다.</p>';
-    var groups = b[2].filter(function (o) { return o[0] !== '9'; }).map(function (o) { return { name: o[1], rs: rows.filter(function (r) { return r.bg[dimI] === Number(o[0]); }) }; }).filter(function (g) { return g.rs.length >= MIN_GROUP; });
-    if (groups.length < 2) return h + '<p class="aidx-note">비교하려면 두 구분 이상에서 각각 ' + MIN_GROUP + '명 이상 응답해야 합니다.</p>';
-    function gapOf(rs, dm) { var d = []; items.filter(function (it) { return it.domain.id === dm.id; }).forEach(function (it) { rs.forEach(function (r) { if (r.I[it.idx] != null && r.P[it.idx] != null) d.push(r.I[it.idx] - r.P[it.idx]); }); }); return d.length ? mean(d) : null; }
-    h += '<div class="panel"><h3 class="panel-title">' + b[1] + '별 영역 요구(중요도 − 수행수준)</h3><p class="panel-sub">값이 클수록 배울 필요에 비해 아직 못하는 영역 · 영역마다 가장 큰 값 굵게</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th>' + groups.map(function (g) { return '<th>' + esc(g.name) + ' <span class="aidx-muted">n=' + g.rs.length + '</span></th>'; }).join('') + '</tr></thead><tbody>' +
-      data.domains.map(function (dm) {
-        var v = groups.map(function (g) { return gapOf(g.rs, dm); }), mx = Math.max.apply(null, v.filter(function (x) { return x !== null; }));
-        return '<tr><td>' + dm.id + '. ' + esc(dm.name) + '</td>' + v.map(function (x) { return '<td>' + (x === null ? '–' : (x === mx ? '<strong>' + f2(x) + '</strong>' : f2(x))) + '</td>'; }).join('') + '</tr>';
-      }).join('') + '</tbody></table></div></div>';
-    h += '<div class="panel"><h3 class="panel-title">' + b[1] + '별 Borich 요구도 상위 3개 기술</h3><div class="table-wrap"><table class="aidx-table"><thead><tr><th>구분</th><th>1위</th><th>2위</th><th>3위</th></tr></thead><tbody>' +
-      groups.map(function (g) {
-        var A = analyze(g.rs), tops = A ? A.st.slice().sort(function (x, y) { return x.rank - y.rank; }).slice(0, 3) : [];
-        return '<tr><td>' + esc(g.name) + ' <span class="aidx-muted">n=' + g.rs.length + '</span></td>' + [0, 1, 2].map(function (i) { var x = tops[i]; return '<td>' + (x ? '<strong>' + x.it.code + '</strong> ' + esc(x.it.text.length > 18 ? x.it.text.slice(0, 18) + '…' : x.it.text) + ' <span class="aidx-muted">' + f2(x.borich) + '</span>' : '–') + '</td>'; }).join('') + '</tr>';
-      }).join('') + '</tbody></table></div><p class="aidx-small">구분별 응답 수가 적으면 순위가 쉽게 바뀝니다. 참고용으로 보세요.</p></div>';
+    var dimI = BG.map(function(b){return b[0];}).indexOf(state.dim), b=BG[dimI];
+    var h = '<div class="agn-filters" data-report-control><label class="agn-filter">비교 기준 <select data-dim="1">' + BG.slice(0,4).map(function(x){return '<option value="'+x[0]+'"'+(x[0]===state.dim?' selected':'')+'>'+x[1]+'</option>';}).join('') + '</select></label></div><p class="aidx-context">' + b[1] + '별로 7개 영역의 교육 요구와 우선 세부 기술을 비교합니다. 영역별 유효 응답이 ' + MIN_GROUP + '명 이상인 경우만 표시합니다.</p>';
+    var groups=b[2].filter(function(o){return o[0]!=='9';}).map(function(o){var rs=state.pool.filter(function(r){return r.bg[dimI]===Number(o[0]);});return {name:o[1],rs:rs,D:domainAnalysis(rs,MIN_GROUP),A:analyze(rs)};}).filter(function(g){return g.rs.length>=MIN_GROUP;});
+    if(groups.length<2)return h+'<p class="aidx-note">비교하려면 두 구분 이상에서 각각 '+MIN_GROUP+'명 이상 응답해야 합니다.</p>';
+    h += '<div class="panel"><h3 class="panel-title">7개 영역 교육 요구 지도</h3><p class="panel-sub">값은 중요도 − 수행수준입니다. 파란색이 진할수록 양수 차이가 크고, 주황색은 음수 차이입니다. 같은 −4~4점 기준을 적용합니다.</p><div class="agn-heat-legend"><span>수행 &gt; 중요도</span><i></i><span>중요도 &gt; 수행</span></div><div class="table-wrap"><table class="aidx-table agn-heatmap"><thead><tr><th>기술 영역</th>'+groups.map(function(g){return '<th>'+esc(g.name)+'<small>전체 '+g.rs.length+'명</small></th>';}).join('')+'</tr></thead><tbody>'+data.domains.map(function(dm){return '<tr><td>'+esc(dm.report_name)+'<small>'+moduleLabel(dm.module)+'</small></td>'+groups.map(function(g){var x=g.D&&g.D.st.filter(function(v){return v.it.domain.id===dm.id;})[0];if(!x)return '<td class="agn-heat-empty">응답 부족</td>';var alpha=(Math.abs(x.gap)/4*.5).toFixed(3),color=x.gap>=0?'38,113,194':'213,112,38';return '<td><div class="agn-heat-cell" style="background:rgba('+color+','+alpha+')"><strong>'+f2(x.gap)+'</strong>'+signedBar(x.gap,4)+'<small>n='+x.n+'</small></div></td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+    h += '<section class="agn-group-cards">'+groups.map(function(g){return '<div class="panel"><h3 class="panel-title">'+esc(g.name)+' <span class="aidx-muted">'+g.rs.length+'명</span></h3>'+['공통','Agent 심화'].map(function(module){var eligible=g.A?g.A.st.filter(function(x){return x.n>=MIN_GROUP&&x.it.domain.module===module;}).map(function(x){return Object.assign({},x);}):[], A=classify(eligible), top=A?A.st.slice().sort(function(a,b){return a.rank-b.rank;}).slice(0,3):[];return '<h4 class="agn-group-sub">'+moduleLabel(module)+' · 우선 세부 기술</h4>'+(top.length?rankBars(top):'<p class="aidx-small">유효 응답 부족</p>');}).join('')+'</div>';}).join('')+'</section><p class="aidx-small">집단별 순위는 각 집단의 공통·심화 기술 안에서 따로 계산합니다. 적은 표본의 차이와 순위는 탐색적으로 해석하세요.</p>';
     return h;
   }
   function mineReport() {
-    var me = state.pool.filter(function (r) { return r.mine; })[0];
-    if (!me) return '<section class="aidx-home"><p>이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p><div class="aidx-actions">' + cta('start','진단 시작',true) + cta('home','결과 코드 입력',false) + '</div></section>';
-    var A = analyze(state.pool), avg = {}; if (A) A.st.forEach(function (x) { avg[x.k] = x; });
-    var mine = items.map(function (it, k) { return me.I[k] == null ? null : { it: it, k: k, I: me.I[k], P: me.P[k], gap: me.I[k] - me.P[k] }; }).filter(Boolean);
-    var top = mine.slice().sort(function (a, b) { return (b.gap - a.gap) || (b.I - a.I); }).slice(0, 5).filter(function (x) { return x.gap > 0; });
-    var h = '<p class="aidx-context">나의 응답: ' + bgLabel('major', me.bg[0]) + ' · ' + bgLabel('year', me.bg[1]) + ' · AI 사용 ' + bgLabel('ai_frequency', me.bg[2]) + ' · Agent 경험 ' + bgLabel('agent_experience', me.bg[3]) + (state.me ? ' · 결과 코드 ' + fmtId(state.me.id) : '') + '</p>';
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">나에게 가장 필요한 기술</p><h2>' + (top.length ? '배울 필요에 비해 아직 어려운 기술 ' + top.length + '가지' : '중요도보다 수행수준이 낮은 기술이 없습니다') + '</h2>' +
-      (top.length ? '<ol class="aidx-list">' + top.map(function (x) {
-        var pg = data.programs.filter(function (p) { return p[0] === x.it.domain.program; })[0] || [];
-        return '<li><strong>' + x.it.code + '</strong> ' + esc(x.it.text) + ' <span class="aidx-muted">중요도 ' + x.I + ' · 수행수준 ' + x.P + ' · 추천 ' + esc(pg[0] + ' ' + pg[1]) + '</span></li>'; }).join('') + '</ol>' : '') + '</section>';
-    h += '<div class="panel"><h3 class="panel-title">문항별 나의 응답과 전체 평균</h3><p class="panel-sub">차이 = 중요도 − 수행수준 · 전체 = 모든 응답자 평균</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>코드</th><th>기술</th><th>나의 중요도</th><th>나의 수행수준</th><th>나의 차이</th><th>전체 차이</th></tr></thead><tbody>' +
-      mine.map(function (x) { var a = avg[x.k]; return '<tr' + (top.indexOf(x) >= 0 ? ' class="aidx-mine-row"' : '') + '><td>' + x.it.code + '</td><td>' + esc(x.it.text) + '</td><td>' + x.I + '</td><td>' + x.P + '</td><td><strong>' + x.gap + '</strong></td><td>' + (a ? f2(a.gap) : '–') + '</td></tr>'; }).join('') +
-      '</tbody></table></div></div>';
+    var me=state.pool.filter(function(r){return r.mine;})[0];
+    if(!me)return '<section class="aidx-home"><p>이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p><div class="aidx-actions">'+cta('start','진단 시작',true)+cta('home','결과 코드 입력',false)+'</div></section>';
+    var D=domainAnalysis([me],1), allD=domainAnalysis(state.pool,MIN_N), all=analyze(state.pool), avg={};if(all)all.st.forEach(function(x){avg[x.k]=x;});
+    var h='<p class="aidx-context">나의 학습 요구 · '+bgLabel('major',me.bg[0])+' · '+bgLabel('year',me.bg[1])+'</p><section class="aidx-type"><h2>내가 먼저 배울 영역과 세부 기술</h2><p>중요하게 생각하지만 현재 수행하기 어려운 영역을 살펴보세요. 아래 차이는 나의 자기평가이며 객관적인 능력 점수가 아닙니다.</p></section>';
+    if(!D)return h+'<p class="aidx-note">분석 가능한 응답이 없습니다.</p>';
+    h+='<div class="panel"><h3 class="panel-title">나의 영역별 중요도와 수행수준</h3><p class="panel-sub">위 파란 막대: 중요도 · 아래 주황 막대: 수행수준 · 1~5점</p>'+pairedBars(D.st)+'</div><div class="agn-domain-cards">'+D.st.map(function(x){var dm=x.it.domain, peers=allD&&allD.st.filter(function(a){return a.it.domain.id===dm.id;})[0];var skills=items.filter(function(it){return it.domain.id===dm.id;});return '<div class="panel agn-domain-card"><span class="agn-module">'+moduleLabel(dm.module)+'</span><h3 class="panel-title">'+esc(dm.name)+'</h3><div class="agn-domain-score"><strong>'+f2(x.gap)+'</strong><span>나의 중요도 − 수행수준</span></div><p class="aidx-small">응답자 평균 차이 '+(peers?f2(peers.gap)+' (n='+peers.n+')':'분석 대기')+'</p><p class="agn-course">추천 학습: '+esc(dm.course)+'</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>세부 기술</th><th>중요도</th><th>수행</th><th>차이</th></tr></thead><tbody>'+skills.map(function(it){return '<tr><td>'+esc(it.label)+'</td><td>'+me.I[it.idx]+'</td><td>'+me.P[it.idx]+'</td><td>'+f2(me.I[it.idx]-me.P[it.idx])+'</td></tr>';}).join('')+'</tbody></table></div></div>';}).join('')+'</div>';
     return h;
   }
+
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
   function viewResult() {
-    var tabs = [['all', '요구도 분석결과', '요구도'], ['compare', '응답자 구분별 비교', '구분별'], ['mine', '나의 응답', '나의 응답']];
+    var tabs = [['all', '교육과정 우선순위', '교육 우선순위'], ['compare', '응답자 구분별 비교', '구분별 비교'], ['mine', '나의 학습 요구', '나의 학습']];
     root.innerHTML = previewNote() + (window.DiagnosisPdf ? window.DiagnosisPdf.toolbar() : '') +
       '<div class="aidx-tabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (state.tab === t[0]) + '">' + tabLabel(t[1], t[2]) + '</button>'; }).join('') + '</div>' +
       '<div role="tabpanel">' + (state.tab === 'all' ? allReport() : state.tab === 'compare' ? compareReport() : mineReport()) + '</div>' +
-      '<p class="report-foot aidx-foot"><strong>개발안</strong>입니다. 요구도 = Σ(중요도 − 수행수준) × 중요도 평균 ÷ N(Borich). 최우선 = Borich 상위 순위(LFF 오른쪽 위 문항 수만큼)와 Locus for Focus 오른쪽 위에 함께 든 문항, 차우선 = 둘 중 하나에만 든 문항. 전문가 검토와 예비조사 전이므로 결과는 참고용입니다. ' +
-      '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
+      '<p class="report-foot aidx-foot"><strong>개발안</strong>입니다. 7개 영역은 설문에 정의된 기술 영역이며 교육과정 설계를 위한 내용별 묶음입니다. 영역 점수는 해당 영역의 세 기술에 모두 응답한 학생의 평균으로 산출합니다. Borich = (중요도 평균 − 수행수준 평균) × 중요도 평균. 공통·Agent 심화는 순위와 기준선을 따로 산출하고, 영역 안 세부 분석은 해당 영역의 기술만으로 순위·IPA·LFF 기준선을 다시 계산합니다. 표시된 우선 후보는 Borich 상위 순위와 LFF HH가 겹치고 차이가 양수인 항목입니다. 자기보고 기반 결과이므로 교육 설계 시 수업 규정과 실제 과제 수행도 함께 검토하세요. <a href="#" data-act="home">처음으로</a></p>' ;
   }
   function openResults(tab) {
     state.tab = tab;
@@ -399,6 +428,7 @@
   }
   root.addEventListener('change',function(e){
     var t=e.target;
+    if (t.dataset.domain) { state.detailDomain = t.value; viewResult(); return; }
     if (t.dataset.filter) { state.filter[t.dataset.filter] = t.value; viewResult(); return; }
     if (t.dataset.dim) { state.dim = t.value; viewResult(); return; }
     if(t.type==='radio'){if(/_[IP]$/.test(t.name)){state.answers[t.name]=Number(t.value);var li=t.closest('.aidx-item');if(li)li.classList.remove('is-miss');}else state.background[t.name]=Number(t.value);}
@@ -419,6 +449,7 @@
     var b=e.target.closest('[data-act],[data-tab]');if(!b)return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; viewResult(); return; }
     var a=b.dataset.act;
+    if(a==='domain-detail'){state.detailDomain=b.dataset.domainId;viewResult();document.getElementById('agn-detail').scrollIntoView({behavior:'smooth',block:'start'});return;}
     if(a==='start'){state.page=-1;go('guide');}
     else if(a==='home')go('home');
     else if(a==='results')openResults('all');
