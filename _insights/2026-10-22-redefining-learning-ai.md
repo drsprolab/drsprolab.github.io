@@ -1,117 +1,104 @@
 ---
 layout: insight
-title: "AI를 끄면 당신의 실력은 얼마나 남는가: AI 시대, 학습을 다시 정의하다"
+title: "AI로 보고서를 잘 쓰게 됐다. 내 실력도 늘었을까?"
 date: 2026-10-22 14:30:00 +0900
-summary: "AI를 쓰면 수행은 오르고 학습은 따라오지 않는다는 근거가 쌓이고 있습니다. 그런데 그 간극의 크기는 학습을 어떻게 정의하느냐에 따라 달라지므로, 고전적 정의와 확장된 정의를 함께 따져 보고 AI 시대 학습의 정의를 제안합니다."
-description: "2026년 10월 22일 Weekly Insight. Salomon, Perkins와 Globerson(1991)의 ‘기술과 함께한 효과(effects with)’와 ‘기술이 남긴 효과(effects of)’ 구분을 축으로, 학습-수행 구분, 확장된 마음, 최근 실증 연구를 엮어 AI 시대 학습의 정의를 다룹니다."
+summary: "AI 덕분에 일을 빨리 끝내는 것과 내 실력이 느는 것은 다를 수 있습니다. 보고서 작성과 팀 회의에서 바로 써 볼 수 있는, AI와 함께 일하며 실력도 키우는 방법을 이야기합니다."
+description: "AI로 만든 좋은 보고서가 곧 나의 실력은 아닙니다. 기본 지식, AI와 일하는 요령, 결과를 확인하는 눈을 함께 키우는 법을 실무자의 일상에 빗대어 쉽게 풀었습니다."
 source_count: 8
-reading_minutes: 5
-topics: [학습의 정의, 수행과 학습, 확장된 마음, HRD]
+reading_minutes: 6
+topics: [AI와 일하기, 실무 역량, 직원 교육, 학습]
 ---
 
 <div class="daily-takeaway" markdown="1">
-**핵심 요약**
+**이 글의 핵심**
 
-AI를 쓰면 수행(performance)은 오르고 학습(learning)은 따라오지 않는다는 근거가 쌓이고 있습니다. 그런데 이 간극은 학습을 **사람 머릿속에 남는 변화**로 볼 때 벌어지고, **사람과 AI가 함께 이루는 시스템의 변화**로 보면 상당 부분 사라집니다. 그렇다고 정의를 바꿔 간극을 지울 수는 없습니다. AI는 틀리고, 그 결과를 받아들일지는 사람이 정하기 때문입니다. AI 시대의 학습은 **AI 없이도 남는 이해, AI와 함께 더 잘 해내는 역량, AI가 틀렸을 때 알아차리는 판단**이 함께 자라는 것으로 정의되어야 합니다.
+AI로 좋은 결과물을 만들었더라도, 내가 그 내용을 이해했는지는 따로 확인해야 합니다. AI에게 일을 잘 맡기는 요령과 함께, 결과를 설명하고 잘못된 부분을 찾아내는 실력도 키워야 합니다.
 </div>
 
-<div class="daily-brief">
-  <h3>AI를 끄면 당신의 실력은 얼마나 남는가</h3>
-  <p class="daily-brief-cite">Salomon, G., Perkins, D. N., &amp; Globerson, T. (1991). Partners in cognition: Extending human intelligence with intelligent technologies. <em>Educational Researcher, 20</em>(3), 2–9. 외 7편</p>
-  <div class="daily-brief-body">
-    <p>한 편의 논문이 아니라 하나의 질문을 다룹니다. <strong>AI를 써서 배운다고 할 때, 그 ‘배움’은 고전적 의미의 학습과 같은가?</strong> 학습과 수행을 구분한 학습과학의 정의, 인지를 사람과 도구의 시스템으로 보는 관점, AI 사용 중과 사용 후의 수행을 비교한 최근 연구 세 편을 함께 읽었습니다.</p>
-    <p>정의를 다룬 문헌은 이론 논문이고, 실증 연구는 고등학생 현장 실험, 성인 실험, 의료 현장의 후향적 관찰 연구입니다. 어느 연구도 학습의 정의 자체를 검증하지는 않았으며, 둘을 엮어 읽는 것은 이 글의 해석입니다.</p>
-  </div>
-</div>
+월요일 오전, 오후 회의에 올릴 제안서가 아직 비어 있다. 예전 같으면 자료를 뒤지고 목차를 잡는 데만 반나절이 걸렸을 것이다. 이제는 AI에게 배경과 목적을 알려 주면 몇 분 만에 그럴듯한 초안이 나온다. 문장을 조금 다듬고 표를 붙이니 제법 잘 만든 보고서가 된다.
 
-## 01 · 고전적 정의로 보면 간극은 실제로 벌어진다
+그런데 회의에서 팀장이 묻는다. “시장 규모는 왜 이 숫자를 썼죠? 이 방법이 다른 방법보다 낫다는 근거는 뭔가요?”
 
-Soderstrom과 Bjork(2015)는 학습을 **장기적인 유지와 전이를 뒷받침하는 비교적 영속적인 변화**로, 배우는 동안 관찰되는 것을 수행으로 구분합니다. 수행이 올라도 학습은 일어나지 않을 수 있습니다. 이 정의는 학습이 개인에게 남고, 도움이 사라진 상태에서 확인된다고 전제합니다. 이 기준으로 보면 간극은 분명합니다.
+갑자기 말문이 막힌다. 보고서에는 분명히 적혀 있는데, 왜 그런 결론이 나왔는지 내 말로 설명하기는 어렵다. AI가 써 준 문장을 읽고 고개를 끄덕였을 뿐, 그 판단을 직접 해 본 적은 없기 때문이다.
 
-| 연구 | 대상·설계 | AI를 쓸 때 | AI가 없을 때 |
-| --- | --- | --- | --- |
-| Bastani et al. (2025) | 고등학생 약 1,000명, 현장 실험 | 연습 점수 GPT Base 48%, GPT Tutor 127% 향상 | GPT Base는 AI를 쓴 적 없는 학생보다 시험 점수 17% 낮음. GPT Tutor에서는 대부분 완화 |
-| Fernandes et al. (2026) | 성인 246명, 452명(재현), 논리추론 과제 | 기존 비사용 기준 집단보다 약 3점 높음 | 자신의 수행을 약 4점 과대평가 |
-| Budzyń et al. (2025) | 내시경 센터 4곳, AI 도입 전후 비교, AI 없이 시행한 내시경 1,443건 | AI 보조 내시경을 일상적으로 시행 | AI 없이 한 검사의 선종 발견율 28.4% → 22.4% (p=0.0089) |
+이 장면에는 우리가 AI를 쓰면서 놓치기 쉬운 문제가 담겨 있다. **보고서가 좋아졌다는 것과 내가 일을 더 잘 알게 됐다는 것은 같은 말이 아니다.**
 
-**지금 알아둘 점 · 근거의 성격:** Bastani 등은 한 학교의 수학 과목 결과이고, GPT Tutor는 힌트와 교사가 준비한 풀이 정보를 함께 넣어 어느 요소의 효과인지 분리할 수 없습니다. Fernandes 등의 수행 향상은 기존 연구의 기준 집단과 비교한 값입니다. Budzyń 등은 무작위 실험이 아닌 전후 비교 관찰 연구여서 저자들도 “감소시킬 수 있다(might reduce)”는 수준으로 결론을 제시합니다.
+물론 AI로 시간을 아낀 것은 분명한 성과다. 하루 걸리던 일을 두 시간에 끝냈다면 회사에도 도움이 된다. 다만 그 결과만 보고 “이제 이 직원의 실력도 늘었구나”라고 판단하면 중요한 부분을 놓칠 수 있다. 다음에 상황이 조금 달라졌을 때도 해낼 수 있는지, 보고서에 잘못된 내용이 들어가면 알아차릴 수 있는지는 아직 확인하지 않았기 때문이다.
 
-## 02 · 함정: 학습은 누구의 것인가
+이런 차이는 연구에서도 나타난다. 2025년에 발표된 고등학생 수학 수업 실험에서는, AI로 답을 쉽게 얻은 학생들이 연습 문제를 더 잘 풀었다. 하지만 AI 없이 시험을 보자 AI를 쓰지 않은 학생들보다 점수가 낮았다. 반면 답을 바로 주기보다 풀이를 생각하도록 돕는 AI를 썼을 때는 이 문제가 크게 줄었다. 같은 AI라도 어떻게 쓰게 하느냐에 따라 결과가 달라진 것이다.
 
-위의 결과는 학습을 **개인의 머릿속에 남는 것**으로 정의할 때 성립합니다. Salomon 등(1991)은 30년 전에 이미 이 문제를 짚었습니다. 사람이 기술과 협력하는 동안의 향상인 **‘기술과 함께한 효과(effects with)’**와, 협력이 끝난 뒤에도 남는 인지적 잔여인 **‘기술이 남긴 효과(effects of)’**를 나누고, 지능은 개인의 속성인가, 사람과 기계가 이루는 시스템의 속성인가를 물었습니다. 1절의 연구가 잰 것은 모두 뒤의 것입니다.
+2026년에 발표된 성인 논리추론 연구도 생각할 거리를 준다. AI를 활용해 얻은 점수는 높았지만, 사람들은 자신이 얼마나 잘했는지를 실제보다 높게 평가하는 모습을 보였다. 결과물이 좋아지면 “내가 잘하는구나”라고 느끼기 쉽지만, 그 느낌이 정확한 것은 아니라는 얘기다.
 
-Clark와 Chalmers(1998)의 확장된 마음(extended mind) 논증은 앞의 관점을 끝까지 밀고 갑니다. 기억에 문제가 있는 Otto가 늘 지니는 수첩은 그의 인지의 일부라는 것입니다. 이렇게 보면 AI 없이 시험을 치르게 하는 것은 목수의 연장을 빼앗고 실력을 재는 것과 같고, 간극은 **측정 방식이 만든 착시**가 됩니다. Sfard(1998)도 학습을 지식의 획득으로만 보는 은유와 실천에의 참여로 보는 은유 중 하나만 고르는 것이 위험하다고 경고합니다. 그러니 AI 시대의 학습을 고전적 정의와 같다고 말하기는 어렵습니다.
+이 연구들은 학교 수학과 논리추론 과제를 다뤘다. 회사의 모든 업무에서도 똑같은 일이 벌어진다고 단정할 수는 없다. 그래도 실무자가 돌아볼 질문은 분명하다. **AI 덕분에 잘 끝낸 일에서, 나는 무엇을 배웠을까?**
 
-## 03 · 그렇다고 정의를 바꾸면 끝나는가
+그렇다고 AI 없이 모든 일을 할 수 있어야만 실력이라고 볼 필요는 없다. 우리는 이미 엑셀로 계산하고, 검색으로 자료를 찾고, 동료에게 조언을 구하며 일한다. 엑셀을 쓰지 않고 손으로 계산하는 능력만으로 재무 담당자의 실력을 평가하지는 않는다. 필요한 도구를 골라 잘 쓰는 것도 업무 능력이다. AI도 마찬가지다.
 
-Clark와 Chalmers가 수첩을 마음의 일부로 인정한 조건은 늘 곁에 있고, 꺼낸 정보를 자동으로 믿으며, 그 정보를 과거에 스스로 확인했다는 것입니다. 생성형 AI는 이 조건을 채우지 못합니다. 쓸 수 있는 환경은 늘 바뀌고, 그럴듯하게 틀린 답을 내며, 매번 처음 보는 내용을 만듭니다. 자동으로 믿는 순간 위험해집니다. Bastani 등(2025)도 AI가 틀릴 수 있고 사용자가 결과를 확인해야 하기 때문에 학습이 중요하다고 봅니다. 시스템으로 보더라도, **AI를 감독하는 부분은 여전히 사람 안에 있어야** 한다는 뜻입니다. Fernandes 등(2026)에서 결과물은 좋아졌는데 사람의 자기 점검은 정확해지지 않은 것이 바로 그 부분이 약해진 모습입니다.
+다만 도구가 일을 도와줄수록, 사람에게 남아 있어야 할 능력을 더 분명하게 봐야 한다. AI가 내놓은 숫자가 우리 상황에 맞는지, 빠진 조건은 없는지 판단하는 일까지 저절로 해결되지는 않는다. 기본 지식이 없으면 틀린 답도 그럴듯하게 보일 수 있다.
 
-> **DrSong Opinion · 학습이론의 관점에서**
-> “학습의 정의가 바뀌었으니 간극은 걱정할 필요가 없다”는 주장은 재정의를 학습 실패의 알리바이로 만들고, “학습은 AI 없이 남는 것뿐”이라는 주장은 AI와 함께 일하는 능력이라는 새 학습을 지웁니다. 저는 AI 시대의 학습을 AI와 함께 일한 경험에서 비롯되는 세 층의 비교적 지속적인 변화로 정의하자고 제안합니다. ① AI 없이도 남는 이해와 기술(**잔여**), ② AI와 함께 더 나은 결과를 내는 역량(**협응**), ③ AI의 결과를 검증하고 맡길 일과 맡기지 않을 일을 가리는 능력(**판단**)입니다. 유지와 전이라는 고전적 기준은 버려지지 않고 대상만 넓어집니다. 그리고 ③은 ① 없이는 서지 못합니다. 모르는 분야에서 AI의 오류를 알아차릴 수는 없기 때문입니다. 그래서 질문은 “AI 없이 할 수 있는가”에서 **“AI가 틀렸을 때 알아차리고 고칠 수 있는가”**로 옮겨 가야 합니다. 앞서 제안한 [생성적 인지 멈춤(GCP)](/weekly-insight/2026-10-11-ai-paradox-hrd/)은 세 층을 함께 기르려는 설계입니다. 다만 이 정의는 개념적 제안이며, 세 층을 따로 측정해 검증한 연구는 아직 없습니다.
+그래서 AI 시대의 실력은 세 가지를 함께 봐야 한다.
+
+**첫째는 내가 이해하고 있는 내용이다.** 보고서의 핵심을 내 말로 설명할 수 있는가. 왜 이 방법을 택했는지 말할 수 있는가. 조건이 바뀌면 어떤 부분을 다시 살펴야 하는지 아는가. 이것이 일의 바탕이 되는 실력이다.
+
+**둘째는 AI에게 일을 잘 맡기는 요령이다.** 무엇을 만들려는지, 누가 읽을 자료인지, 반드시 지켜야 할 조건이 무엇인지 알려 주는 능력이다. 처음 나온 답을 그대로 받기보다 부족한 부분을 짚고 다시 고치게 하는 것도 여기에 들어간다. 이 역시 새롭게 배워야 할 실력이다.
+
+**셋째는 결과를 확인하는 눈이다.** 숫자의 출처를 찾아보고, 우리 회사의 상황과 맞지 않는 제안을 골라내고, 중요한 내용이 빠졌는지 살피는 능력이다. 잘 모르는 내용을 만났을 때 “이건 내가 확인해야겠다”거나 “담당자에게 물어봐야겠다”고 멈출 줄 아는 것도 포함된다.
 
 <figure class="lrn-fig" aria-labelledby="lrn-fig-cap">
 <style>
-.lrn-fig { margin: 28px 0 32px; }
+.lrn-fig { margin: 28px 0; }
 .lrn-fig svg { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto; }
-.lrn-h { fill: var(--accent); fill-opacity: .14; stroke: var(--accent); stroke-width: 2; }
-.lrn-a { fill: var(--muted); fill-opacity: .10; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
-.lrn-arc { fill: none; stroke: var(--accent); stroke-width: 2.5; }
-.lrn-ah { fill: var(--accent); }
-.lrn-br { fill: none; stroke: var(--muted); stroke-width: 1.5; }
-.lrn-k { fill: var(--ink); font-size: 19px; font-weight: 700; font-family: var(--f-body); }
-.lrn-kc { fill: var(--accent); font-size: 19px; font-weight: 700; font-family: var(--f-body); }
-.lrn-t { fill: var(--ink); font-size: 14px; font-family: var(--f-body); }
-.lrn-s { fill: var(--muted); font-size: 13px; font-family: var(--f-body); }
-.lrn-n { fill: var(--muted); font-size: 15px; font-weight: 700; font-family: var(--f-body); letter-spacing: .05em; }
+.lrn-box { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
+.lrn-number { fill: var(--accent); font-size: 24px; font-weight: 700; }
+.lrn-title { fill: var(--ink); font-size: 18px; font-weight: 700; }
+.lrn-text { fill: var(--muted); font-size: 14px; }
+.lrn-fig text { font-family: var(--f-body); }
 .lrn-fig figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+@media (max-width: 540px) { .lrn-fig .lrn-wide { display: none; } }
+@media (min-width: 541px) { .lrn-fig .lrn-small { display: none; } }
 </style>
-<svg viewBox="0 0 720 480" role="img" aria-label="사람과 AI 두 원이 겹친 그림. 사람만의 영역은 잔여, 겹친 영역은 협응이며, 잔여에서 출발한 화살표가 AI를 감독하는 판단을 나타낸다. 고전적 정의는 사람의 영역만, 시스템 관점은 두 원 전체를 잰다.">
-  <defs>
-    <marker id="lrn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="lrn-ah" d="M0,0 L10,5 L0,10 z"/></marker>
-  </defs>
-  <circle class="lrn-a" cx="450" cy="250" r="145"/>
-  <circle class="lrn-h" cx="270" cy="250" r="145"/>
-  <text class="lrn-n" x="205" y="360" text-anchor="middle">사람</text>
-  <text class="lrn-n" x="515" y="360" text-anchor="middle">AI</text>
-  <text class="lrn-k" x="200" y="245" text-anchor="middle">① 잔여</text>
-  <text class="lrn-t" x="200" y="270" text-anchor="middle">AI를 끄면</text>
-  <text class="lrn-t" x="200" y="289" text-anchor="middle">남는 것</text>
-  <text class="lrn-k" x="360" y="245" text-anchor="middle">② 협응</text>
-  <text class="lrn-t" x="360" y="270" text-anchor="middle">함께 더 잘</text>
-  <text class="lrn-t" x="360" y="289" text-anchor="middle">해내는 것</text>
-  <text class="lrn-s" x="522" y="262" text-anchor="middle">AI가 만든 결과</text>
-  <text class="lrn-s" x="522" y="281" text-anchor="middle">(틀릴 수 있음)</text>
-  <circle class="lrn-ah" cx="200" cy="208" r="5"/>
-  <path class="lrn-arc" d="M200,208 Q340,-25 482,182" marker-end="url(#lrn-arrow)"/>
-  <text class="lrn-kc" x="345" y="42" text-anchor="middle">③ 판단</text>
-  <text class="lrn-t" x="345" y="64" text-anchor="middle">AI가 틀렸을 때 알아차리는가</text>
-  <path class="lrn-br" d="M125,404 V412 H300 V404"/>
-  <text class="lrn-s" x="212" y="430" text-anchor="middle">고전적 정의가 재는 범위</text>
-  <path class="lrn-br" d="M125,440 V448 H595 V440"/>
-  <text class="lrn-s" x="360" y="468" text-anchor="middle">시스템 관점이 재는 범위</text>
+<svg class="lrn-wide" viewBox="0 0 720 190" role="img" aria-label="AI와 일하며 함께 키워야 할 세 가지 실력: 기본 지식, 일을 맡기는 요령, 결과를 확인하는 눈.">
+  <rect class="lrn-box" x="4" y="4" width="228" height="175" rx="10"/>
+  <rect class="lrn-box" x="246" y="4" width="228" height="175" rx="10"/>
+  <rect class="lrn-box" x="488" y="4" width="228" height="175" rx="10"/>
+  <text class="lrn-number" x="24" y="43">1</text><text class="lrn-title" x="24" y="78">기본 지식</text>
+  <text class="lrn-text" x="24" y="112">왜 그런 결론을 냈는지</text><text class="lrn-text" x="24" y="135">내 말로 설명할 수 있다</text>
+  <text class="lrn-number" x="266" y="43">2</text><text class="lrn-title" x="266" y="78">일을 맡기는 요령</text>
+  <text class="lrn-text" x="266" y="112">목적과 조건을 알려 주고</text><text class="lrn-text" x="266" y="135">AI의 답을 고쳐 나간다</text>
+  <text class="lrn-number" x="508" y="43">3</text><text class="lrn-title" x="508" y="78">결과를 확인하는 눈</text>
+  <text class="lrn-text" x="508" y="112">틀린 숫자와 빠진 내용을</text><text class="lrn-text" x="508" y="135">찾아내고 바로잡는다</text>
 </svg>
-<figcaption id="lrn-fig-cap"><strong>그림 1.</strong> AI 시대 학습의 세 층. 고전적 정의는 AI를 끈 뒤 사람에게 남는 ①만, 시스템 관점은 사람과 AI가 함께 낸 결과 전체를 잽니다. 이 글이 더하자는 것은 ③입니다. ③의 화살표가 ①에서 출발하는 것은, 모르는 분야에서는 AI의 오류를 알아차릴 수 없다는 뜻입니다. Salomon 등(1991)의 구분을 바탕으로 필자가 제안하는 개념적 틀이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
+<svg class="lrn-small" viewBox="0 0 360 372" role="img" aria-label="첫째 기본 지식: 내 말로 설명하기. 둘째 일을 맡기는 요령: 목적과 조건 알려 주기. 셋째 결과를 확인하는 눈: 잘못된 내용 찾아 고치기.">
+  <rect class="lrn-box" x="4" y="4" width="352" height="112" rx="10"/>
+  <rect class="lrn-box" x="4" y="128" width="352" height="112" rx="10"/>
+  <rect class="lrn-box" x="4" y="252" width="352" height="112" rx="10"/>
+  <text class="lrn-number" x="22" y="42">1</text><text class="lrn-title" x="55" y="41">기본 지식</text>
+  <text class="lrn-text" x="22" y="72">왜 그런 결론을 냈는지</text><text class="lrn-text" x="22" y="94">내 말로 설명할 수 있다</text>
+  <text class="lrn-number" x="22" y="166">2</text><text class="lrn-title" x="55" y="165">일을 맡기는 요령</text>
+  <text class="lrn-text" x="22" y="196">목적과 조건을 알려 주고</text><text class="lrn-text" x="22" y="218">AI의 답을 고쳐 나간다</text>
+  <text class="lrn-number" x="22" y="290">3</text><text class="lrn-title" x="55" y="289">결과를 확인하는 눈</text>
+  <text class="lrn-text" x="22" y="320">틀린 숫자와 빠진 내용을</text><text class="lrn-text" x="22" y="342">찾아내고 바로잡는다</text>
+</svg>
+<figcaption id="lrn-fig-cap">AI를 쓰며 함께 키워야 할 세 가지 실력. 이 글에서 제안하는 업무 점검의 틀입니다.</figcaption>
 </figure>
 
-> **DrSong Opinion · 조직학습의 관점에서**
-> Song과 Chermack(2008)은 개인의 학습이 축적되고 조직문화에 내재화되면서 조직의 지식이 형성된다고 봅니다. 역량이 구성원 안에 남지 않고 도구에만 있다면, 조직은 **성과는 소유하되 지식은 소유하지 못한** 상태가 됩니다. 도구가 바뀌거나 틀릴 때 그 역량은 함께 사라집니다.
+이 세 가지를 일하면서 어떻게 키울 수 있을까. 거창한 교육 과정을 새로 만들기 전에, 보고서를 쓰는 순서부터 조금 바꿔 볼 수 있다.
 
-## 04 · HRD가 할 수 있는 일: 세 층을 따로 재기
+예를 들어 고객 불만을 줄이는 제안서를 만든다고 하자. AI에게 묻기 전에 종이에 세 줄만 적어 본다. 고객이 가장 불편해하는 것은 무엇인지, 원인은 무엇이라고 생각하는지, 어떤 자료를 확인해야 하는지다. 정답일 필요는 없다. 내 생각이 먼저 있어야 나중에 AI의 답과 비교할 수 있다.
 
-- **잔여:** AI 활용 과제 후 시간을 두고, AI 없이 핵심 판단을 설명하게 합니다(Soderstrom &amp; Bjork, 2015).
-- **협응:** 결과물만 보지 말고 처음 다루는 유형의 과제에서도 AI를 잘 쓰는지 보고, 수정 이력과 버린 결과를 함께 남기게 합니다(Salomon et al., 1991).
-- **판단:** 오류가 든 AI 결과물을 주고 찾아내게 하고, 자기 점수 예측과 실제 점수의 차이를 봅니다(Fernandes et al., 2026).
-- **도구 없는 수행 점검:** AI가 일상화된 직무는 AI 없이 하는 업무의 질을 주기적으로 확인하고, 도입 전 기준 자료를 남겨 둡니다(Budzyń et al., 2025).
+그다음에는 그 세 줄과 실제 자료를 AI에게 주고 초안을 부탁한다. 답이 나오면 내가 미처 생각하지 못한 부분과, 근거가 부족해 받아들이기 어려운 부분을 나눠 본다. AI가 제시한 숫자는 원자료에서 확인한다. “이 문장은 괜찮아 보인다”에서 한 걸음 더 나아가 “이 문장을 써도 되는 이유는 무엇인가”를 묻는 것이다.
 
----
+마지막에는 화면을 잠시 덮고 결론을 말해 본다. “고객 불만의 가장 큰 원인은 이것이고, 그래서 이 방법부터 시도해야 한다.” 이 한 문장을 설명하다가 막히는 부분이 있다면, 그곳이 더 확인하고 배워야 할 지점이다. AI에게 다시 써 달라고 하기 전에 내가 무엇을 모르는지부터 알게 된다.
 
-### Insight Questions
+교육 담당자나 팀장도 결과물만 보는 평가에서 한 걸음 더 나아갈 수 있다. 잘 만든 보고서 옆에 짧은 설명을 붙여 보게 하는 것이다. “AI의 답에서 무엇을 고쳤나요? 왜 고쳤나요? 직접 확인한 근거는 무엇인가요?” 처음부터 다시 보고서를 쓰게 하지 않아도, 이 질문을 나누면 직원이 내용을 얼마나 이해했는지 살펴볼 수 있다.
 
-1. 우리 조직의 평가는 학습을 **개인에게 남는 것**으로 보는가, **사람과 AI가 함께 해내는 것**으로 보는가?
-2. 우리 구성원은 AI의 결과가 **틀렸을 때 알아차릴 만큼** 알고 있는가?
-3. AI를 쓸 수 없게 되는 날, 우리 조직에 **남아 있는 역량**은 무엇인가?
+팀에 남길 기록도 달라진다. 완성된 파일만 저장하는 대신, 중요한 판단과 확인한 근거를 한두 줄 함께 남긴다. 그러면 다음 담당자는 문서를 복사하는 데서 그치지 않고, 왜 그런 결정을 했는지 배울 수 있다. 팀 회의에서 서로 고친 부분을 보여 주면 한 사람이 배운 것을 다른 사람도 쓸 수 있다.
 
-### References
+AI는 앞으로 더 빠르고 매끄러운 결과물을 만들어 줄 것이다. 그럴수록 좋은 문서를 받았다는 만족감과 내가 일을 더 깊이 이해했다는 느낌을 구분할 필요가 있다. 직원 교육에서도 “AI로 얼마나 빨리 끝냈는가”와 함께 “이 일을 통해 무엇을 새로 알게 됐는가”를 물어야 한다.
+
+다음 보고서를 제출하기 전에 딱 한 번만 자문해 보자. **“이 결론을, AI의 문장을 읽지 않고 내 말로 설명할 수 있을까?”** 그 질문에 답하는 시간이 AI의 도움을 나의 실력으로 바꾸는 출발점이 될 수 있다.
+
+<details class="insight-references">
+<summary>참고한 연구와 출처 보기</summary>
 
 <div class="references" markdown="0">
 <p>Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., &amp; Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. <em>Proceedings of the National Academy of Sciences, 122</em>(26), e2422633122. https://doi.org/10.1073/pnas.2422633122</p>
@@ -123,3 +110,5 @@ Clark와 Chalmers가 수첩을 마음의 일부로 인정한 조건은 늘 곁�
 <p>Soderstrom, N. C., &amp; Bjork, R. A. (2015). Learning versus performance: An integrative review. <em>Perspectives on Psychological Science, 10</em>(2), 176–199. https://doi.org/10.1177/1745691615569000</p>
 <p>Song, J. H., &amp; Chermack, T. J. (2008). A theoretical approach to the organizational knowledge formation process: Integrating the concepts of individual learning and learning organization culture. <em>Human Resource Development Review, 7</em>(4), 424–442. https://doi.org/10.1177/1534484308324983</p>
 </div>
+
+</details>
