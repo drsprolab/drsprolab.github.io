@@ -1604,22 +1604,73 @@ main.container { overflow-x: clip; }
   --series-1: #2a78d6; --series-2: #eb6834; --good: #1a7f37; --warn: #b54708;
   font-size: 15px; line-height: 1.7; max-width: none;
 }
-.diagnosis-pdf-report.aidx { display: grid; gap: 14px; width: 720px; margin: 0; }
-.diagnosis-pdf-heading { border-bottom: 2px solid #1d4f86; padding: 4px 0 18px; }
-.diagnosis-pdf-host .diagnosis-pdf-heading h1 { font-size: 26px; margin: 8px 0; }
-.diagnosis-pdf-host .diagnosis-pdf-heading h2 { font-size: 19px; margin: 8px 0; }
-.diagnosis-pdf-host .diagnosis-pdf-kicker, .diagnosis-pdf-host .diagnosis-pdf-meta { font-size: 12px; color: #5a6573; margin: 0; }
-.diagnosis-pdf-host .panel { padding: 18px; }
-.diagnosis-pdf-host .report-foot { font-size: 11px; line-height: 1.5; margin: 0; }
-.diagnosis-pdf-tail { display: grid; gap: 14px; }
-.diagnosis-pdf-host .report-grid { grid-template-columns: 1fr; }
-.diagnosis-pdf-host .kpis, .diagnosis-pdf-host .aidx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.diagnosis-pdf-host .aidx-persona { grid-template-columns: auto 1fr; padding: 22px; }
-.diagnosis-pdf-host .aidx-pfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.diagnosis-pdf-host .table-wrap { overflow: visible; }
-.diagnosis-pdf-host table { width: 100%; table-layout: auto; font-size: 12px; }
-.diagnosis-pdf-host table th, .diagnosis-pdf-host table td { white-space: normal; overflow-wrap: anywhere; padding: 6px; }
-.diagnosis-pdf-host svg { max-width: 100%; max-height: 700px; }
+.diagnosis-pdf-host {
+  font-family: "Noto Serif KR", "AppleMyungjo", "Batang", serif;
+  color: #222; --ink: #222; --muted: #555; --accent: #8e1b2c;
+  --series-1: #8e1b2c; --series-2: #555; --good: #333; --warn: #785c21;
+  font-size: 14.5px; line-height: 1.85;
+}
+.diagnosis-pdf-report.aidx { display: grid; gap: 18px; width: 720px; margin: 0; }
+.diagnosis-pdf-host .diagnosis-pdf-heading { border-top: 3px solid #222; padding-top: 24px; text-align: center; }
+.diagnosis-pdf-host .diagnosis-pdf-heading h1 {
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  color: #222; font-size: 25px; font-weight: 700; line-height: 1.45; margin: 0 0 12px;
+}
+.diagnosis-pdf-host .dr-beta {
+  display: inline-block; vertical-align: 4px; margin-left: 8px; padding: 0 6px;
+  color: #8e1b2c; border: 1.5px solid #8e1b2c; border-radius: 3px;
+  font-size: 10px; line-height: 1.7; letter-spacing: .08em;
+}
+.diagnosis-pdf-host .diagnosis-pdf-meta {
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  margin: 0; padding-bottom: 15px; border-bottom: 1px solid #222; font-size: 12.5px; color: #444;
+}
+.diagnosis-pdf-host .dr-date { margin: 10px 0 0; text-align: right; font-size: 12px; color: #444; }
+.diagnosis-pdf-host .dr-section { display: grid; gap: 7px; }
+.diagnosis-pdf-host .dr-section-title {
+  margin: 9px 0 7px; padding: 0 0 7px; border-bottom: 1px solid #222;
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  font-size: 17px; font-weight: 700; color: #222; line-height: 1.5;
+}
+.diagnosis-pdf-host .dr-subtitle {
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  color: #222; font-size: 14.5px; font-weight: 700; line-height: 1.6; margin: 9px 0 2px;
+}
+.diagnosis-pdf-host .dr-paragraph { font-size: 14.5px; line-height: 1.85; margin: 0; }
+.diagnosis-pdf-host .dr-square { padding-left: 1.2em; text-indent: -1.2em; font-weight: 600; }
+.diagnosis-pdf-host .dr-square::before { content: "□ "; }
+.diagnosis-pdf-host .dr-circle { padding-left: 2.4em; text-indent: -1.2em; }
+.diagnosis-pdf-host .dr-circle::before { content: "○ "; }
+.diagnosis-pdf-host .dr-dash { padding-left: 3.4em; text-indent: -1em; }
+.diagnosis-pdf-host .dr-dash::before { content: "- "; }
+.diagnosis-pdf-host .dr-note { color: #555; font-size: 12px; padding-left: 1.4em; }
+.diagnosis-pdf-host .dr-item { display: grid; gap: 4px; margin: 5px 0; }
+.diagnosis-pdf-host .dr-item > .dr-square { margin-bottom: 3px; }
+.diagnosis-pdf-host .dr-caption, .diagnosis-pdf-host figcaption {
+  text-align: center; font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  font-size: 12.5px; font-weight: 600; color: #333; margin: 8px 0 5px;
+}
+.diagnosis-pdf-host .dr-table-block { margin: 6px 0; }
+.diagnosis-pdf-host .dr-table { width: 100%; border-collapse: collapse; table-layout: auto; font-size: 12.5px; line-height: 1.65; }
+.diagnosis-pdf-host .dr-table th, .diagnosis-pdf-host .dr-table td {
+  border: 0; border-bottom: 1px solid #d4d4d4; padding: 7px 8px;
+  white-space: normal; overflow-wrap: anywhere; color: #222; text-align: center;
+}
+.diagnosis-pdf-host .dr-table th {
+  background: #f1f1f1; border-top: 1.5px solid #222; border-bottom: 1px solid #999;
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif; font-weight: 600;
+}
+.diagnosis-pdf-host .dr-table td:first-child { text-align: left; font-weight: 600; }
+.diagnosis-pdf-host .dr-definition-table td:first-child { width: 24%; }
+.diagnosis-pdf-host .dr-table tr:last-child td { border-bottom: 1.5px solid #222; }
+.diagnosis-pdf-host .dr-figure { margin: 10px auto; padding: 0; width: 620px; max-width: 100%; }
+.diagnosis-pdf-host .dr-figure > * { max-width: 100%; }
+.diagnosis-pdf-host .dr-figure svg { width: 100%; max-height: 440px; }
+.diagnosis-pdf-host .dr-legend, .diagnosis-pdf-host .dr-figure {
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+}
+.diagnosis-pdf-host .dr-report-note { margin-top: 18px; padding-top: 10px; border-top: 1px solid #999; }
+.diagnosis-pdf-host .dr-report-note p { font-size: 11.5px; color: #555; margin: 2px 0; line-height: 1.7; }
 .diagnosis-pdf-host .aidx-hrow { grid-template-columns: 120px 1fr 86px; }
 .diagnosis-pdf-host .aidx-srow { grid-template-columns: 104px 1fr; }
 .diagnosis-pdf-host .axr-stairs { min-width: 0; }

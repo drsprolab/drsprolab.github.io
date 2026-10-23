@@ -37,6 +37,23 @@ const configs=[
   assert.equal(await page.locator('[data-act="pdf"]').count(),0,'No PDF button before analysis');
   await page.locator(`[data-act="${config.path==='aix-school'?'report':'my'}"]`).click();
   await page.waitForSelector('[data-act="pdf"]');
+  await page.evaluate(() => {
+   const save = window.DiagnosisPdf.save;
+   window.DiagnosisPdf.save = function(options) {
+    const values = Array.from(options.root.querySelectorAll('.kpi-v')).map(el=>el.textContent.replace(/\s+/g,''));
+    const result = save(options);
+    const host = document.querySelector('.diagnosis-pdf-host');
+    if (host) window.__reportCheck = {
+     heading: host.querySelector('h1').textContent,
+     centered: getComputedStyle(host.querySelector('.diagnosis-pdf-heading')).textAlign,
+     font: getComputedStyle(host.querySelector('.dr-paragraph')).fontFamily,
+     chapters: Array.from(host.querySelectorAll('.dr-section-title')).map(el=>el.textContent),
+     dashboardPanels: host.querySelectorAll('.panel, .kpi, .aidx-persona').length,
+     preservedValues: values.every(value=>host.textContent.replace(/\s+/g,'').includes(value))
+    };
+    return result;
+   };
+  });
   if(failPdf){
    await page.getByRole('button',{name:'PDF 저장하기',exact:true}).click();
    await page.waitForFunction(()=>document.querySelector('.diagnosis-pdf-status').textContent.includes('저장하지 못했습니다'));
@@ -53,6 +70,15 @@ const configs=[
    const download=await downloadPromise;
    await download.saveAs(`${outputDir}/${config.path}-${tab}.pdf`);
    assert.equal(await download.failure(),null);
+   const report = await page.evaluate(()=>window.__reportCheck);
+   assert(report.heading.includes('결과 보고서'));
+   assert.equal(report.centered, 'center');
+   assert(report.font.includes('AppleMyungjo'));
+   assert.equal(report.chapters[0], 'Ⅰ. 진단 개요');
+   assert(report.chapters.length >= 1);
+   if (tab === config.tabs[0]) assert(report.chapters.length >= 3);
+   assert.equal(report.dashboardPanels, 0);
+   assert.equal(report.preservedValues, true);
    await page.waitForFunction(()=>!document.querySelector('[data-act="pdf"]').disabled);
    assert((await page.locator('.diagnosis-pdf-status').innerText()).includes('저장했습니다'));
    assert.equal(await page.locator('.diagnosis-pdf-host').count(),0);

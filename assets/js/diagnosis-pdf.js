@@ -36,50 +36,153 @@
     parent.appendChild(el);
     return el;
   }
+  function cleanText(node) {
+    return (typeof node === 'string' ? node : node.textContent)
+      .replace(/\p{Extended_Pictographic}|[\uFE0F\u200D]/gu, '').replace(/\s+/g, ' ').trim();
+  }
+  function paragraph(parent, value, level) {
+    if (!value) return;
+    return text(parent, 'p', value, 'dr-paragraph dr-' + (level || 'circle'));
+  }
+  // 결과 화면의 계산값·해석을 가져와 의견서의 문단·표·그림 구조로 다시 편집한다.
+  function reportContent(parent, source, counters, depth) {
+    if (source.nodeType === Node.TEXT_NODE) {
+      var value = cleanText(source);
+      if (value) paragraph(parent, value, depth > 1 ? 'dash' : 'circle');
+      return;
+    }
+    if (source.nodeType !== Node.ELEMENT_NODE) return;
+    if (source.matches('button, script, [hidden], .aidx-icon, .aidx-tags, .aidx-dl')) return;
+    if (source.matches('.kpis')) {
+      var table = document.createElement('table'); table.className = 'dr-table';
+      var head = table.createTHead().insertRow();
+      ['항목', '진단 결과', '해석 및 비교'].forEach(function (label) { var th = document.createElement('th'); th.textContent = label; head.appendChild(th); });
+      var body = table.createTBody();
+      source.querySelectorAll('.kpi').forEach(function (kpi) {
+        var row = body.insertRow();
+        ['.kpi-k', '.kpi-v', '.kpi-s'].forEach(function (selector) {
+          var value = kpi.querySelector(selector); row.insertCell().textContent = value ? cleanText(value) : '-';
+        });
+      });
+      addTable(parent, table, '핵심 진단 결과', counters);
+      return;
+    }
+    if (source.matches('dl')) {
+      var table = document.createElement('table'); table.className = 'dr-table dr-definition-table';
+      source.querySelectorAll('dt').forEach(function (dt) {
+        var row = table.insertRow(); row.insertCell().textContent = cleanText(dt);
+        row.insertCell().textContent = Array.from(dt.parentElement.querySelectorAll('dd')).map(cleanText).join(' / ');
+      });
+      addTable(parent, table, '진단 결과 해석', counters);
+      return;
+    }
+    if (source.matches('table')) {
+      var table = source.cloneNode(true);
+      [table].concat(Array.from(table.querySelectorAll('*'))).forEach(function (el) {
+        el.removeAttribute('style'); el.removeAttribute('class'); el.removeAttribute('id');
+      });
+      table.className = 'dr-table';
+      var panelTitle = source.closest('.panel');
+      panelTitle = panelTitle && panelTitle.querySelector('.panel-title');
+      addTable(parent, table, panelTitle ? cleanText(panelTitle) : '분석 결과', counters);
+      return;
+    }
+    if (source.matches('.radar-box, .axr-stairs-box, .aidx-rank, .aidx-hbars, .aidx-stack, .aidx-gbars, .axr-dist, .axr-div, .axr-diffs, .aidx-school-bars, svg')) {
+      var figure = document.createElement('figure'); figure.className = 'dr-figure';
+      var graph = source.cloneNode(true);
+      graph.querySelectorAll('.axr-sicon').forEach(function (el) { el.remove(); });
+      figure.appendChild(graph);
+      var title = source.closest('.panel'); title = title && title.querySelector('.panel-title');
+      var svg = source.matches('svg') ? source : source.querySelector('svg');
+      text(figure, 'figcaption', '[그림 ' + (++counters.figures) + '] ' + (title ? cleanText(title) : (svg && svg.getAttribute('aria-label')) || '진단 결과 비교'));
+      parent.appendChild(figure); return;
+    }
+    if (source.matches('.legend')) { var legend = source.cloneNode(true); legend.classList.add('dr-legend'); parent.appendChild(legend); return; }
+    if (source.matches('h2, h3, h4')) {
+      text(parent, 'h3', (++counters.subsections) + '. ' + cleanText(source), 'dr-subtitle'); return;
+    }
+    if (source.matches('.aidx-switem')) {
+      var item = document.createElement('div'); item.className = 'dr-item'; parent.appendChild(item);
+      var label = source.querySelector('strong');
+      if (label) paragraph(item, cleanText(label), 'circle');
+      source.querySelectorAll('p').forEach(function (p) { paragraph(item, cleanText(p), label ? 'dash' : 'circle'); });
+      return;
+    }
+    if (source.matches('p')) {
+      var level = source.matches('.aidx-plan-h, .aidx-swh') ? 'square' : source.matches('.panel-sub, .aidx-eyebrow, .aidx-small') ? 'note' : 'circle';
+      paragraph(parent, cleanText(source), level); return;
+    }
+    if (source.matches('strong, b, em, span, small') && !source.querySelector('p, div, ul, ol, table, svg')) {
+      paragraph(parent, cleanText(source), depth > 1 ? 'dash' : 'circle'); return;
+    }
+    if (source.matches('li')) {
+      var group = document.createElement('div'); group.className = 'dr-item';
+      parent.appendChild(group);
+      if (!source.querySelector('p, ul, ol, h2, h3, h4')) { paragraph(group, cleanText(source), depth > 1 ? 'dash' : 'circle'); return; }
+      Array.from(source.childNodes).forEach(function (child) { reportContent(group, child, counters, depth); });
+      return;
+    }
+    var deeper = source.matches('ul, ol') ? depth + 1 : depth;
+    Array.from(source.childNodes).forEach(function (child) { reportContent(parent, child, counters, deeper); });
+  }
+  function addTable(parent, table, label, counters) {
+    var group = document.createElement('div'); group.className = 'dr-table-block';
+    text(group, 'p', '<표 ' + (++counters.tables) + '> ' + label, 'dr-caption');
+    group.appendChild(table); parent.appendChild(group);
+  }
   function snapshot(root, title, code) {
     var panel = root.querySelector('[role="tabpanel"]');
     if (!panel) throw new Error('먼저 진단 결과를 열어 주세요.');
     var selected = root.querySelector('[role="tab"][aria-selected="true"] .aidx-tl');
     var tab = selected ? selected.textContent : '진단 결과';
     var host = document.createElement('div');
-    host.className = 'diagnosis-pdf-host prose';
-    host.setAttribute('aria-hidden', 'true');
-    host.inert = true;
-    var report = document.createElement('div');
-    report.className = root.className + ' diagnosis-pdf-report';
-    var header = document.createElement('header');
-    header.className = 'diagnosis-pdf-heading';
-    text(header, 'p', 'PRO AnalytiX Lab · 진단 결과 보고서', 'diagnosis-pdf-kicker');
-    text(header, 'h1', title);
-    text(header, 'h2', tab);
-    text(header, 'p', new Date().toLocaleDateString('ko-KR') + (code ? ' · 결과 코드 ' + code : ''), 'diagnosis-pdf-meta');
+    host.className = 'diagnosis-pdf-host prose'; host.setAttribute('aria-hidden', 'true'); host.inert = true;
+    var report = document.createElement('div'); report.className = root.className + ' diagnosis-pdf-report';
+    var header = document.createElement('header'); header.className = 'diagnosis-pdf-heading';
+    var heading = text(header, 'h1', title + ' 결과 보고서');
+    text(heading, 'span', 'BETA', 'dr-beta');
+    text(header, 'p', tab + (code ? ' · 결과 코드 ' + code.slice(0, 4) + '-' + code.slice(4) : ''), 'diagnosis-pdf-meta');
+    text(header, 'p', new Date().toLocaleDateString('ko-KR'), 'dr-date');
     report.appendChild(header);
-    // 복사본을 즉시 만들어 저장 도중 다른 탭으로 이동해도 결과가 섞이지 않게 한다.
-    var clone = panel.cloneNode(true);
-    var sourceSelects = panel.querySelectorAll('select');
-    clone.querySelectorAll('select').forEach(function (select, i) {
-      var label = document.createElement('span');
-      var source = sourceSelects[i];
-      label.textContent = source && source.selectedOptions.length ? source.selectedOptions[0].textContent : '';
-      select.replaceWith(label);
+    var chapter = 0, counters = { tables: 0, figures: 0, subsections: 0 };
+    var numerals = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ'];
+    function section(label) {
+      var section = document.createElement('section'); section.className = 'dr-section';
+      text(section, 'h2', numerals[chapter++] + '. ' + label, 'dr-section-title');
+      report.appendChild(section); counters.subsections = 0; return section;
+    }
+    var overview = section('진단 개요');
+    var readiness = /준비/.test(title), school = /학교/.test(title);
+    paragraph(overview, '진단 목적: ' + (readiness ? (school ? '우리 학교의 AI 전환 준비 수준과 인식 차이를 진단하고, 발전 과제를 도출함.' : '우리 회사의 AX 준비 수준과 구성원 간 인식 차이를 진단하고, 실행 과제를 도출함.') : 'AI 활용 과정에서의 실천과 태도를 진단하고, 강점·보완점과 행동 과제를 도출함.'), 'square');
+    paragraph(overview, '진단 구성: ' + (readiness ? '5단계 준비도 30문항 및 전반 인식 2문항, 총 32문항.' : '실천 5개 영역 25문항 및 태도 6문항, 총 31문항.'), 'square');
+    paragraph(overview, '분석 범위: ' + tab + '. 점수는 자기 보고 응답을 바탕으로 산출함.', 'square');
+    paragraph(overview, '점수 산출: (문항 평균 − 1) × 25, 0~100점.' + (readiness ? ' “잘 모르겠다” 응답은 평균에서 제외함.' : ''), 'square');
+    var clone = panel.cloneNode(true), selects = panel.querySelectorAll('select');
+    clone.querySelectorAll('select').forEach(function (el, i) {
+      var value = document.createElement('span'); value.textContent = selects[i].selectedOptions[0] ? selects[i].selectedOptions[0].textContent : ''; el.replaceWith(value);
     });
     clone.querySelectorAll('button, script, [hidden], .aidx-dl').forEach(function (el) { el.remove(); });
-    clone.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
-    // 두 열의 패널을 한 열로 정리해 A4에서 표와 차트를 읽을 수 있게 한다.
     clone.querySelectorAll('.report-grid').forEach(function (grid) { grid.replaceWith.apply(grid, Array.from(grid.children)); });
-    while (clone.firstChild) report.appendChild(clone.firstChild);
+    var groups = { summary: [], details: [], advice: [] };
+    Array.from(clone.children).forEach(function (node) {
+      if (node.matches('.aidx-context, .aidx-note')) { paragraph(overview, cleanText(node), 'circle'); return; }
+      var group = node.matches('.aidx-plan') ? 'advice' : node.matches('.aidx-type, .kpis, .aidx-insight') ? 'summary' : 'details';
+      groups[group].push(node);
+    });
+    [['summary', '종합 결과'], ['details', '세부 분석'], ['advice', '행동 제언']].forEach(function (group) {
+      if (!groups[group[0]].length) return;
+      var target = section(group[1]);
+      groups[group[0]].forEach(function (node) { reportContent(target, node, counters, 0); });
+    });
     var foot = root.querySelector('.report-foot');
     if (foot) {
-      foot = foot.cloneNode(true);
-      foot.querySelectorAll('button').forEach(function (el) { el.remove(); });
-      var tail = document.createElement('div');
-      tail.className = 'diagnosis-pdf-tail';
-      if (report.lastElementChild !== header) tail.appendChild(report.lastElementChild);
-      tail.appendChild(foot);
-      report.appendChild(tail);
+      var note = document.createElement('div'); note.className = 'dr-report-note';
+      foot = foot.cloneNode(true); foot.querySelectorAll('button').forEach(function (el) { el.remove(); });
+      text(note, 'p', '※ ' + cleanText(foot));
+      text(note, 'p', '※ PRO AnalytiX Lab · 한양대학교 교육공학과');
+      report.lastElementChild.appendChild(note);
     }
-    host.appendChild(report);
-    document.body.appendChild(host);
+    host.appendChild(report); document.body.appendChild(host);
     return { host: host, report: report, tab: tab };
   }
 
@@ -151,13 +254,14 @@
       var range = document.createRange(); range.selectNodeContents(walker.currentNode);
       Array.from(range.getClientRects()).forEach(function (rect) { ranges.push([rect.top - base - 1, rect.bottom - base + 1]); });
     }
-    block.querySelectorAll('img, tr, h2, h3, h4, .aidx-plan-top, .aidx-plan-card, .aidx-prio-card, .aidx-swcard, .aidx-cmpbox').forEach(function (el) {
+    block.querySelectorAll('img, tr, h2, h3, h4, .aidx-plan-top, .aidx-plan-card, .aidx-prio-card, .aidx-swcard, .aidx-cmpbox, .dr-item, .dr-figure, .dr-table-block, .dr-subtitle').forEach(function (el) {
       var rect = el.getBoundingClientRect();
-      if (rect.height < PAGE_HEIGHT - 100) ranges.push([rect.top - base - 2, rect.bottom - base + (/^H/.test(el.tagName) ? 35 : 2)]);
+      var after = el.matches('.dr-section-title') ? 120 : /^H/.test(el.tagName) ? 55 : 2;
+      if (rect.height < PAGE_HEIGHT - 100) ranges.push([rect.top - base - 2, rect.bottom - base + after]);
     });
     // 마지막 안내 문구만 별도 페이지에 남지 않도록 마지막 권고 카드와 묶는다.
-    var foot = block.querySelector('.report-foot');
-    var cards = block.querySelectorAll('.aidx-plan-card, .aidx-prio-card');
+    var foot = block.querySelector('.report-foot, .dr-report-note');
+    var cards = block.querySelectorAll('.aidx-plan-card, .aidx-prio-card, .dr-item');
     if (foot && cards.length) {
       var last = cards[cards.length - 1].getBoundingClientRect();
       var bottom = foot.getBoundingClientRect().bottom;
@@ -215,8 +319,7 @@
     var count = pdf.getNumberOfPages();
     for (var page = 1; page <= count; page++) {
       pdf.setPage(page); pdf.setFontSize(9); pdf.setTextColor(95);
-      pdf.text('PRO AnalytiX Lab', 15, 289);
-      pdf.text(page + ' / ' + count, 195, 289, { align: 'right' });
+      pdf.text('- ' + page + ' -', 105, 289, { align: 'center' });
     }
     await pdf.save(filename, { returnPromise: true });
   }
