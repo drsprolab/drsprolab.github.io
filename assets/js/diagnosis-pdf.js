@@ -293,7 +293,7 @@
       var ranges = protectedRanges(block);
       var canvas = await window.html2canvas(block, { scale: SCALE, backgroundColor: '#ffffff', logging: false, windowWidth: 1200, scrollX: 0, scrollY: 0 });
       var offset = 0;
-      if (height <= PAGE_HEIGHT && cursor + height > PAGE_HEIGHT) nextPage();
+      if (!block.classList.contains('dr-section') && height <= PAGE_HEIGHT && cursor + height > PAGE_HEIGHT) nextPage();
       while (offset < height) {
         var remaining = PAGE_HEIGHT - cursor;
         if (remaining < 90) { nextPage(); remaining = PAGE_HEIGHT; }
