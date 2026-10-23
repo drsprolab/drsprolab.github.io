@@ -1556,3 +1556,39 @@ main.container { overflow-x: clip; }
   .axr-drow { grid-template-columns: 92px 1fr 34px 70px; gap: 6px; font-size: 13px; }
   .axr-distrow { grid-template-columns: 120px 1fr 34px; }
 }
+/* 나와 우리학교 AI 역량 수준 진단: 결과 탭 다섯 개(크기 고정), 비교 상자, 우선순위 카드 */
+.aidx-tabs.aidx-tabs5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; }
+.aidx-tabs5 button { height: 52px; padding: 0 6px; display: grid; place-items: center; text-align: center; line-height: 1.3; white-space: normal; font-weight: 500; }
+.aidx-tabs5 button[aria-selected="true"] { font-weight: 500; background: var(--accent-soft); }
+@media (max-width: 480px) { .aidx-tabs5 button { height: 48px; padding: 0 2px; font-size: 13px; letter-spacing: -.03em; } }
+.aidx-kpis.aidx-fixed .kpi { min-height: 116px; }
+.aidx-cmp3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.aidx-cmpbox { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-height: 108px; display: grid; align-content: start; gap: 2px; }
+.aidx .aidx-cmpbox p { margin: 0; }
+.prose .aidx-cmpk { font-size: 13px; color: var(--muted); }
+.prose .aidx-cmpv { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.aidx-cmpv small { font-size: 14px; font-weight: 400; color: var(--muted); margin-left: 2px; }
+.aidx-cmpv.up { color: var(--good); } .aidx-cmpv.down { color: var(--warn); }
+@media (max-width: 640px) { .aidx-cmp3 { grid-template-columns: 1fr; } .aidx-cmpbox { min-height: 0; } }
+.aidx .aidx-muted.up { color: var(--good); } .aidx .aidx-muted.down { color: var(--warn); }
+.aidx-prio3, .aidx-prio5 { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.aidx-prio3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.aidx-prio5 { grid-template-columns: 1fr; }
+@media (max-width: 860px) { .aidx-prio3 { grid-template-columns: 1fr; } }
+.aidx-prio-card { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; max-width: none; }
+.aidx-prio5 .aidx-prio-card { grid-template-columns: minmax(150px, 200px) 1fr; column-gap: 16px; align-items: start; }
+.aidx-prio5 .aidx-prio-card > :not(.aidx-plan-h) { grid-column: 2; }
+.aidx-prio5 .aidx-plan-h { grid-row: 1 / span 2; }
+@media (max-width: 640px) { .aidx-prio5 .aidx-prio-card { grid-template-columns: 1fr; } .aidx-prio5 .aidx-prio-card > * { grid-column: 1 !important; grid-row: auto !important; } }
+.prose .aidx-prio-act { margin: 0; font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+.aidx-sw3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 860px) { .aidx-sw3 { grid-template-columns: 1fr; } }
+.aidx-swcard:not(.good):not(.warn) { border: 1px solid var(--line); background: var(--tint); }
+.prose .aidx-subh { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 19px; }
+.aidx-school-bars .aidx-hrow { grid-template-columns: 90px 1fr 100px; }
+.aidx-school-bars .aidx-htrack { position: relative; height: 18px; overflow: visible; }
+.aidx-school-bars .aidx-htrack span { background: color-mix(in srgb, var(--series-1) 45%, var(--paper)); }
+.aidx-school-bars .aidx-htrack i { position: absolute; top: -3px; bottom: -3px; border-left: 1.5px dashed var(--ink); opacity: .5; }
+.aidx-school-bars .is-mine .aidx-hname { font-weight: 700; color: var(--accent); }
+.aidx-school-bars .is-mine .aidx-htrack span { background: var(--accent); }
+.aidx-table tr.aidx-mine-row td { background: var(--accent-soft); font-weight: 600; }

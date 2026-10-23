@@ -1,4 +1,5 @@
-// 우리학교 교사 AI 역량 수준 진단(AI 역량 수준 진단의 복제본, 소속 학교 입력 추가): 설문 응답 수집 → 분석 실시 → 나의 분석결과 / 우리 그룹 분석결과 / 전체 응답자 분석결과.
+// 나와 우리학교 AI 역량 수준 진단(AI 역량 수준 진단의 복제본, 학교급·소속 학교 입력): 설문 응답 수집 → 분석 실시 →
+// 나의 역량 수준 / 우리 학교 역량 수준 / 타학교 비교 / 학교급별 비교 / 전체 학교 수준.
 // 문항: AI 활용 역량 진단 도구(기본형)의 실천 25문항(5개 영역) + 태도 6문항을 5점 동의 척도로 묻는다.
 // 응답 저장: #aidx의 data-endpoint(Google Apps Script 웹앱, tools/teacher-ai-diagnosis/)가 있으면 그곳에,
 // 비어 있으면 연결 전 시험 모드로, 응답을 이 브라우저에만 저장하고 이 브라우저의 응답끼리만 분석한다.
@@ -61,7 +62,17 @@
   var NP = 25, NI = ITEMS.length; // 실천 문항 수, 전체 문항 수
   var SCALE = ['전혀 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'];
   var ROLES = ['학생', '교사', '보직교사', '행정직원'];
-  var ROLE_NOTE = { '보직교사': '부장·교감·교장 포함' }; // 응답 버튼에서 이름 아래 작은 글씨로 보인다
+  var ROLE_NOTE = { '보직교사': '부장·교감·교장 포함' };
+  var SCHOOL_LEVELS = ['초등학교', '중학교', '고등학교', '기타'];
+  var MIN_SCHOOL = 3; // 학교끼리 비교할 때 넣을 최소 응답 수
+  // 우리 학교 결과의 우선순위 제안: 영역마다 학교 차원에서 할 일 두 가지
+  var SCHOOL_TIPS = {
+    D: ['수업·업무별로 "AI에게 맡겨도 되는 일 / 확인하고 쓰는 일 / 맡기면 안 되는 일" 기준표를 만들어 학교 전체에 공유하세요.', '교과·부서별로 AI에게 맡겨서 잘 된 사례와 실패한 사례를 나누는 짧은 공유회를 여세요.'],
+    L: ['수업 준비·공문·생활기록부처럼 자주 하는 일의 AI 요청문(목적·조건·형식) 예시를 모아 학교 공용 자료로 만드세요.', '여러 단계로 된 일을 나눠 요청하고 중간 결과를 확인하는 실습형 연수를 운영하세요.'],
+    V: ['과제·보고서 양식에 "AI가 준 수치·출처를 원자료에서 확인했는가" 체크 칸을 넣으세요.', 'AI가 만든 그럴듯한 오류를 직접 찾아보는 팩트체크 수업·연수를 학기마다 한 번 이상 운영하세요.'],
+    R: ['학생 개인정보·성적·상담 기록을 AI에 넣지 않는다는 학교 지침을 정하고 교직원·학생에게 안내하세요.', '수행평가·과제에서 AI 사용을 밝히는 공통 양식(무엇에, 어떻게 썼는지)을 정해 함께 쓰세요.'],
+    H: ['AI를 쓰기 전에 자기 생각을 먼저 적게 하는 "먼저 생각하기" 단계를 수업 활동에 넣으세요.', 'AI를 활용한 수업·업무 뒤에 배운 점을 한 줄로 남기는 성찰 활동을 정례화하세요.']
+  }; // 응답 버튼에서 이름 아래 작은 글씨로 보인다
   // 제시 순서: 실천 문항은 영역을 섞어 한 쪽에 영역별 1문항씩(D1 L1 V1 R1 H1 …), 마지막 쪽은 태도
   var PAGES = [0, 1, 2, 3, 4].map(function (k) { return DOMAINS.map(function (_, d) { return ITEMS[d * 5 + k]; }); });
   PAGES.push(ITEMS.slice(NP));
@@ -133,7 +144,7 @@
   function josa(w, a, b) { var c = w.charCodeAt(w.length - 1); return w + ((c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28) ? a : b); }
   function copyBtn(id, small) { return '<button type="button" class="aidx-copy' + (small ? ' small' : '') + '" data-act="copycode" data-code="' + fmtId(id) + '">복사</button>'; }
   // 비교 집단 이름: 소속이 있으면 같은 소속, 없으면 링크의 그룹, 둘 다 없으면 전체
-  function groupLabel(P) { return P.org ? '소속 ' + P.org : P.group ? '그룹 ' + P.group : '전체 응답자'; }
+  function groupLabel(P) { return P.org ? '우리 학교(' + P.org + ')' : '전체 응답자'; }
   // 소속 비교용: 띄어쓰기·대소문자·문장부호 차이는 같은 소속으로 본다(서버의 normOrg_와 같은 규칙).
   function normOrg(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
 
@@ -172,28 +183,29 @@
       // 시간 초과 뒤 다시 누르면 같은 코드로 보낸다. 앞선 요청이 이미 저장됐다면 duplicate가 오니 성공으로 본다.
       .then(function (j) { if (!j.ok && j.error !== 'duplicate') throw new Error(j.error || '저장 실패'); });
   }
-  // 비교 집단의 응답을 모두 불러온다. org가 있으면 같은 소속만, 없으면 group(비면 전체). me가 있으면 그 응답에 mine 표시.
-  function fetchPool(group, me, org) {
+  // 모든 응답을 한 번에 불러온다. 학교 이름은 받지 않고, 서버가 준 익명 학교 키(k)와 내 학교 표시(s)만 쓴다.
+  function fetchAll(me) {
     if (PREVIEW) {
-      var rows = localRows().filter(function (r) { return org ? normOrg(r.org) === normOrg(org) : (r.group || '') === group || !group; }).map(function (r) {
-        return { role: r.role, g: r.group || '', a: r.answers, mine: !!(me && r.id === me.id) };
-      });
-      return Promise.resolve(withMine(rows, me));
+      var mine = me ? normOrg(me.org) : '';
+      return Promise.resolve(withMine(localRows().map(function (r) {
+        var k = normOrg(r.org);
+        return { role: r.role, lv: r.lv || '', k: k, same: !!(mine && k === mine), a: r.answers, mine: !!(me && r.id === me.id) };
+      }), me));
     }
-    var u = ENDPOINT + '?action=all' + (org ? '&org=' + encodeURIComponent(org) : '&group=' + encodeURIComponent(group)) + (me ? '&me=' + encodeURIComponent(me.id) : '');
+    var u = ENDPOINT + '?action=all' + (me ? '&me=' + encodeURIComponent(me.id) + '&org=' + encodeURIComponent(me.org || '') : '');
     return call(u).then(function (j) {
       if (!j.ok) throw new Error(j.error || '불러오기 실패');
-      return withMine(j.rows.map(function (r) { return { role: r.role, g: r.g || '', a: r.a, mine: !!r.m }; }), me);
+      return withMine(j.rows.map(function (r) { return { role: r.role, lv: r.lv || '', k: r.k || '', same: !!r.s, a: r.a, mine: !!r.m }; }), me);
     });
   }
   function withMine(rows, me) {
-    if (me && !rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, g: me.group || '', a: me.answers, mine: true });
+    if (me && !rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, lv: me.lv || '', k: 'me', same: true, a: me.answers, mine: true });
     return rows;
   }
   function fetchOne(id) {
     if (PREVIEW) return Promise.resolve(localRows().filter(function (r) { return r.id === id; })[0] || null);
     return call(ENDPOINT + '?action=one&id=' + encodeURIComponent(id))
-      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, org: j.row.org || '', answers: j.row.a } : null; });
+      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, lv: j.row.lv || '', org: j.row.org || '', answers: j.row.a } : null; });
   }
 
   // ---------- 그림: 방사형 차트 (0~100) ----------
@@ -238,9 +250,9 @@
       (GROUP ? '<p class="aidx-group">응답 그룹 <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
-      '<button type="button" class="aidx-btn" data-act="my">나의 분석결과 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="group">우리 그룹 분석결과 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="all">전체 응답자 분석결과 보기</button></div>' +
+      '<button type="button" class="aidx-btn" data-act="my">나의 역량 수준 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="school">우리 학교 역량 수준 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="all">전체 학교 수준 보기</button></div>' +
       (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="aidx-gate" role="alert" hidden><p><strong id="aidx-gate-msg"></strong></p>' +
       '<button type="button" class="aidx-link" data-act="code">다른 기기에서 이미 응답했다면 결과 코드 입력</button></div>' +
@@ -281,6 +293,9 @@
         '<fieldset class="aidx-role"><legend>먼저, 나는</legend><div class="aidx-roles">' +
         ROLES.map(function (r) { return '<label><input type="radio" name="role" value="' + r + '"' + (state.role === r ? ' checked' : '') + '><span>' + r + (ROLE_NOTE[r] ? '<small class="aidx-role-note">' + ROLE_NOTE[r] + '</small>' : '') + '</span></label>'; }).join('') +
         '</div></fieldset>' +
+        '<fieldset class="aidx-role"><legend>학교급</legend><div class="aidx-roles">' +
+        SCHOOL_LEVELS.map(function (v) { return '<label><input type="radio" name="lv" value="' + v + '"' + (state.lv === v ? ' checked' : '') + '><span>' + v + '</span></label>'; }).join('') +
+        '</div></fieldset>' +
         '<div class="aidx-org"><label for="aidx-org-in">소속 학교</label>' +
         '<input id="aidx-org-in" name="org" maxlength="40" autocomplete="organization" value="' + esc(state.org) + '">' +
         '<p class="aidx-hint">학교 이름을 정확히 적어 주세요. 예) 대한중학교 / 대한고등학교</p></div>';
@@ -302,7 +317,7 @@
     root.innerHTML = previewNote() + '<section class="aidx-survey">' + h + '</section>';
   }
   function pageComplete() {
-    if (state.page === -1) return !state.role ? 'role' : !state.org.trim() ? 'org' : null;
+    if (state.page === -1) return !state.role ? 'role' : !state.lv ? 'lv' : !state.org.trim() ? 'org' : null;
     var miss = PAGES[state.page].filter(function (it) { return !state.answers[it.code]; });
     return miss.length ? miss[0].code : null;
   }
@@ -324,18 +339,21 @@
   }
 
   // ---------- 분석 실행 ----------
-  function scored(r) { var s = score(r.a); s.role = r.role; s.g = r.g || ''; s.mine = r.mine; s.type = typeOf(s); return s; }
-  // 우리 그룹 = 나와 같은 소속으로 응답한 사람들(소속이 없는 예전 응답은 링크의 그룹).
-  // 전체 응답자 탭은 소속·그룹과 상관없이 모든 응답을 따로 불러온다. 둘 다 없으면 그룹 응답이 곧 전체 응답이다.
+  function scored(r) { var s = score(r.a); s.role = r.role; s.lv = r.lv || ''; s.k = r.k || ''; s.same = !!r.same; s.mine = r.mine; s.type = typeOf(s); return s; }
+  // 응답 전체를 불러와 나눈다: 우리 학교(같은 소속), 같은 학교급 다른 학교, 전체.
   function analyze(tab) {
     state.tab = tab;
-    var me = state.me, org = me && normOrg(me.org) ? me.org : '', group = org ? '' : me ? (me.group || '') : GROUP;
-    viewAnalyzing(tab === 'me' ? '응답을 분석하고 있습니다' : tab === 'all' ? '전체 응답을 모으고 있습니다' : '그룹 응답을 모으고 있습니다');
-    var t0 = Date.now(), whole = !group && !org, jobs = [fetchPool(group, me, org)];
-    if (tab === 'all' && !whole) jobs.push(fetchPool('', me));
-    Promise.all(jobs).then(function (res) {
-      state.pool = { group: group, org: org, rows: res[0].map(scored) };
-      state.allPool = whole ? state.pool : res[1] ? { group: '', org: '', rows: res[1].map(scored) } : null;
+    var me = state.me;
+    viewAnalyzing(tab === 'me' ? '응답을 분석하고 있습니다' : '학교별 응답을 모으고 있습니다');
+    var t0 = Date.now();
+    fetchAll(me).then(function (raw) {
+      var rows = raw.map(scored), org = me ? me.org || '' : '', lv = me ? me.lv || '' : '';
+      var S = rows.filter(function (r) { return r.same; });
+      state.data = { rows: rows, S: S, lv: lv, org: org,
+        LA: rows.filter(function (r) { return lv && r.lv === lv; }),
+        LO: rows.filter(function (r) { return lv && r.lv === lv && !r.same; }) };
+      state.pool = { org: org, rows: S };
+      state.allPool = { org: '', rows: rows };
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
     }).catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
   }
@@ -343,20 +361,35 @@
   // ---------- 화면: 결과 ----------
   // 결과 탭 이름: 좁은 휴대폰에서는 짧은 이름으로
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
+  // 결과 탭 다섯 개: 나 → 우리 학교 → 같은 학교급 다른 학교 → 학교급별 → 전체 학교
+  var RESULT_TABS = [['me', '나의 역량 수준', '나의 역량'], ['school', '우리 학교 역량 수준', '우리 학교'], ['others', '타학교 비교', '타학교'],
+    ['level', '학교급별 비교', '학교급별'], ['all', '전체 학교 수준', '전체']];
   function viewResult() {
     var h = previewNote() +
-      '<div class="aidx-tabs" role="tablist">' +
-      '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('나의 분석결과', '나의 결과') + '</button>' +
-      '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 그룹 분석결과', '우리 그룹') + '</button>' +
-      '<button type="button" role="tab" data-tab="all" aria-selected="' + (state.tab === 'all') + '">' + tabLabel('전체 응답자 분석결과', '전체') + '</button>' +
-      '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 그룹별 비교', '그룹별 비교') + '</button></div>' +
-      '<div role="tabpanel">' + (state.tab === 'me' ? personal() : state.tab === 'group' ? groupReport(state.pool) : state.tab === 'all' ? groupReport(state.allPool) : compareReport()) + '</div>' +
+      '<div class="aidx-tabs aidx-tabs5" role="tablist">' + RESULT_TABS.map(function (t) {
+        return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (state.tab === t[0]) + '">' + tabLabel(t[1], t[2]) + '</button>';
+      }).join('') + '</div>' +
+      '<div role="tabpanel">' + ({ me: personal, school: schoolReport, others: othersReport, level: levelReport, all: allReport })[state.tab]() + '</div>' +
       '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 유형 구분과 기준점(정착 60점)은 타당화 전의 잠정 기준입니다. 점수 = (문항 평균 − 1) × 25, 0~100점. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
     root.innerHTML = h;
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
   }
 
+  function domMeans(rs) { return DOMAINS.map(function (_, d) { return rs.length ? mean(rs.map(function (r) { return r.dom[d]; })) : null; }); }
+  function totOf(rs) { return rs.map(function (r) { return r.total; }); }
+  function n0(v) { return v == null ? '–' : r0(v); }
+  function diffCls(v) { return v == null ? '' : v >= 5 ? 'up' : v <= -5 ? 'down' : ''; }
+  function rankBox(label, rs, v, who) {
+    return rs.length < MIN_N ? kpi(label, '–', who + ' ' + rs.length + '명 · ' + MIN_N + '명 이상이면 표시') : kpi(label, '상위 ' + topPct(totOf(rs), v) + '<small>%</small>', who + ' ' + rs.length + '명 중');
+  }
+  // 학교별 묶음: 익명 키로 묶고 응답이 MIN_SCHOOL명 이상인 학교만. 우리 학교는 mine 표시.
+  function schoolsOf(rs) {
+    var map = {};
+    rs.forEach(function (r) { var k = r.same ? '__mine' : r.k || '?'; (map[k] = map[k] || []).push(r); });
+    return Object.keys(map).map(function (k) { var g = map[k]; return { mine: k === '__mine', rs: g, n: g.length, total: mean(totOf(g)), m: domMeans(g) }; })
+      .filter(function (x) { return x.n >= MIN_SCHOOL || x.mine; }).sort(function (a, b) { return b.total - a.total; });
+  }
   function personal() {
     var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
     if (!me) {
@@ -390,34 +423,32 @@
       '<dd class="aidx-why">' + mateWhy + '</dd></div></dl>' +
       '</div></section>';
 
-    // 2. 핵심 숫자
-    h += '<div class="kpis aidx-kpis">' +
-      kpi('종합 점수', r0(me.total) + '<small>/ 100</small>', lvlChip(me.total) + ' 그룹 평균 ' + r0(mean(totals))) +
-      (few ? kpi('그룹 내 위치', '–', '응답 ' + MIN_N + '명 이상 모이면 표시 (현재 ' + n + '명)')
-        : kpi('그룹 내 위치', '상위 ' + topPct(totals, me.total) + '<small>%</small>', groupLabel(P) + ' ' + n + '명 중')) +
-      kpi('태도 점수', r0(me.att) + '<small>/ 100</small>', '그룹 평균 ' + r0(mean(rows.map(function (r) { return r.att; })))) +
-      kpi('가장 높은 영역', DOMAINS[me.dom.indexOf(Math.max.apply(null, me.dom))].name, r0(Math.max.apply(null, me.dom)) + '점') +
-      '</div>';
-
-    // 3. 방사형 + 기초 통계
-    var series = [
-      { label: '나', values: me.dom, cls: 's1' },
-      { label: '그룹 평균', values: gm, cls: 's2' },
-      { label: '목표 (주도 80점)', values: goal, cls: 'ref', dashed: true }
-    ];
-    h += '<section class="report-grid">' +
-      '<div class="panel"><h3 class="panel-title">나와 그룹의 영역별 비교</h3><p class="panel-sub">0~100점 · 굵은 선은 정착 기준 60점</p>' +
-      legend(series) + '<div class="radar-box">' + radar(series, '나와 그룹 평균의 영역별 점수') + '</div></div>' +
-      '<div class="panel"><h3 class="panel-title">기초 통계</h3><p class="panel-sub">' + esc(groupLabel(P)) + ' ' + n + '명과 비교</p>' +
-      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>나</th><th>그룹 평균 (SD)</th><th>차이</th><th>위치</th></tr></thead><tbody>' +
+    // 2·3. 나의 수준과 위치: 우리 학교 · 같은 학교급(다른 학교 포함) · 전체
+    var D = state.data, A = D.rows, LA = D.LA, LO = D.LO, lvName = D.lv || '같은 학교급';
+    var sm = domMeans(rows), lom = domMeans(LO), am = domMeans(A);
+    var sT = mean(totOf(rows)), loT = LO.length ? mean(totOf(LO)) : null, aT = mean(totOf(A));
+    h += '<div class="kpis aidx-kpis aidx-fixed">' +
+      kpi('나의 종합 점수', r0(me.total) + '<small>/ 100</small>', lvlChip(me.total) + ' 태도 ' + r0(me.att) + '점') +
+      rankBox('우리 학교 안에서', rows, me.total, '우리 학교') +
+      rankBox(lvName + ' 안에서', LA, me.total, lvName) +
+      rankBox('전체 응답자 안에서', A, me.total, '전체') + '</div>';
+    h += '<div class="aidx-cmp3 aidx-fixed">' + [['우리 학교 평균', sT, rows.length], [lvName + ' 다른 학교 평균', loT, LO.length], ['전체 평균', aT, A.length]].map(function (c) {
+      var d = c[1] == null ? null : me.total - c[1];
+      return '<div class="aidx-cmpbox"><p class="aidx-cmpk">' + c[0] + ' 대비</p><p class="aidx-cmpv ' + diffCls(d) + '">' + (d == null ? '–' : signed(d) + '<small>점</small>') + '</p>' +
+        '<p class="aidx-small">' + (c[1] == null ? '아직 응답이 없습니다' : '평균 ' + r0(c[1]) + '점 · ' + c[2] + '명') + '</p></div>';
+    }).join('') + '</div>';
+    var series = [{ label: '나', values: me.dom, cls: 's1' }, { label: '우리 학교', values: sm, cls: 's2' }]
+      .concat(LO.length ? [{ label: lvName + ' 다른 학교', values: lom, cls: 's3' }] : [])
+      .concat([{ label: '전체', values: am, cls: 'ref', dashed: true }]);
+    h += '<section class="report-grid aidx-eqh">' +
+      '<div class="panel"><h3 class="panel-title">영역별 나의 수준 비교</h3><p class="panel-sub">0~100점 · 굵은 선은 정착 기준 60점</p>' +
+      legend(series) + '<div class="radar-box">' + radar(series, '나와 비교 집단의 영역별 점수') + '</div></div>' +
+      '<div class="panel"><h3 class="panel-title">영역별 점수</h3><p class="panel-sub">괄호는 나와의 차이(나 − 비교 집단)</p>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>나</th><th>우리 학교</th><th>' + esc(lvName) + ' 다른 학교</th><th>전체</th></tr></thead><tbody>' +
       DOMAINS.map(function (dm, d) {
-        var col = rows.map(function (r) { return r.dom[d]; }), diff = me.dom[d] - gm[d];
-        return '<tr><td>' + dm.name + '</td><td><strong>' + r0(me.dom[d]) + '</strong> ' + lvlChip(me.dom[d]) + '</td><td>' + r0(gm[d]) + ' (' + r0(gs[d]) + ')</td>' +
-          '<td class="' + (diff >= 5 ? 'up' : diff <= -5 ? 'down' : '') + '">' + signed(diff) + '</td><td>' + rank(col, me.dom[d]) + '</td></tr>';
-      }).join('') +
-      '<tr class="aidx-sep"><td>태도</td><td><strong>' + r0(me.att) + '</strong></td><td>' + r0(mean(rows.map(function (r) { return r.att; }))) + ' (' + r0(sd(rows.map(function (r) { return r.att; }))) + ')</td>' +
-      '<td>' + signed(me.att - mean(rows.map(function (r) { return r.att; }))) + '</td><td>' + rank(rows.map(function (r) { return r.att; }), me.att) + '</td></tr>' +
-      '</tbody></table></div>' +
+        function cell(v) { return v == null ? '–' : r0(v) + ' <span class="aidx-muted ' + diffCls(me.dom[d] - v) + '">(' + signed(me.dom[d] - v) + ')</span>'; }
+        return '<tr><td>' + dm.name + '</td><td><strong>' + r0(me.dom[d]) + '</strong> ' + lvlChip(me.dom[d]) + '</td><td>' + cell(sm[d]) + '</td><td>' + cell(lom[d]) + '</td><td>' + cell(am[d]) + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
       '<p class="aidx-small">수준: 시작 0~39 · 형성 40~59 · 정착 60~79 · 주도 80~100</p></div></section>';
 
     // 4. 한눈에 보는 강점과 약점 (진단만, 행동 추천은 6에서 따로)
@@ -481,26 +512,19 @@
       '<p class="aidx-gnum">차이 <strong>' + (gap > 0 ? '+' : gap < 0 ? '−' : '') + r0(Math.abs(gap)) + '점</strong></p>' +
       '<p>' + gapP + '</p></section>';
 
-    // 6. 나의 행동 추천: 진단과 나눠, 다음 4주 동안 할 일만 모은다
-    var plan = weak.slice(0, 3).map(function (x, i) {
-      var dm = DOMAINS[x.d];
-      var low = ITEMS.slice(x.d * 5, x.d * 5 + 5).filter(function (it) { return me.a[it.idx] <= 3; }).sort(function (a, b) { return me.a[a.idx] - me.a[b.idx]; }).slice(0, 2);
-      return '<li class="aidx-plan-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + dm.icon + ' ' + dm.name +
-        ' <span class="aidx-muted">' + r0(x.v) + '점 → ' + (mode === 'cut' ? CUT : 80) + '점</span></p>' +
-        '<p class="aidx-small">이렇게 해 보세요</p><ul class="aidx-list">' + TIPS[dm.key].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
-        (low.length ? '<p class="aidx-small">지금 덜 하고 있는 행동 · 4주 동안 체크해 보세요</p><ul class="aidx-list aidx-check">' + low.map(function (it) { return '<li>' + esc(it.text) + '</li>'; }).join('') + '</ul>' : '') +
-        '</li>';
-    });
+    // 6. 보완 우선순위 행동지침 3가지: 점수가 낮은 영역부터 한 가지씩
+    var low3 = me.dom.map(function (v, d) { return { d: d, v: v }; }).sort(function (a, b) { return a.v - b.v; }).slice(0, 3);
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">나의 보완 행동지침</p><h3>우선순위 3가지, 이것부터 하세요</h3>' +
+      '<p>점수가 낮은 영역부터 순서를 정했습니다. 한 가지씩 4주 동안 습관으로 만든 뒤 다음으로 넘어가세요.</p></div>' +
+      '<ol class="aidx-prio3">' + low3.map(function (x, i) {
+        var dm = DOMAINS[x.d];
+        var item = ITEMS.slice(x.d * 5, x.d * 5 + 5).slice().sort(function (a, b) { return me.a[a.idx] - me.a[b.idx]; })[0];
+        return '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + dm.icon + ' ' + dm.name + '</p>' +
+          '<p class="aidx-prio-act">' + TIPS[dm.key][0] + '</p>' +
+          '<p class="aidx-small">왜: 나 ' + r0(x.v) + '점 · 우리 학교 ' + n0(sm[x.d]) + '점 · 전체 ' + n0(am[x.d]) + '점</p>' +
+          '<p class="aidx-small">체크할 행동: ☐ ' + esc(item.text) + '</p></li>';
+      }).join('') + '</ol></section>';
     var keep = DOMAINS[strong.length ? strong[0].d : myTop];
-    plan.push('<li class="aidx-plan-card keep"><p class="aidx-plan-h"><span class="aidx-prio">✓</span>' + keep.icon + ' 강점 살리기 · ' + keep.name + '</p>' +
-      '<p>지금처럼 "' + keep.q + '"를 습관처럼 묻는 것을 유지하세요. ' +
-      (standout.length ? '특히 "' + esc(standout[0].it.text.replace(/\.$/, '')) + '"는 동료에게 알려 주면 그룹 전체의 수준이 올라갑니다.' : '내가 잘하는 방식을 동료에게 보여 주면 그룹 전체의 수준이 올라갑니다.') + '</p></li>');
-    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">나의 행동 추천</p><h3>다음 4주, 이것부터 해 보세요</h3>' +
-      '<p>' + (weak.length && mode === 'cut'
-        ? '보완이 필요한 영역부터 우선순위를 정했습니다. 이 영역을 60점 이상으로 올리면 다섯 영역이 모두 습관으로 자리 잡고, 80점까지 올리면 <strong>' + TYPES.master.icon + ' ' + TYPES.master.name + '</strong>에 이릅니다.'
-        : weak.length ? '모든 영역이 60점 이상입니다. 아래 영역을 80점까지 올리면 <strong>' + TYPES.master.icon + ' ' + TYPES.master.name + '</strong>이 됩니다.'
-        : '다섯 영역이 모두 주도 수준입니다. 이제는 내 방식을 주변에 나눌 차례입니다.') + '</p></div>' +
-      '<ol class="aidx-plan-list">' + plan.join('') + '</ol></section>';
     // PDF 보고서가 화면과 같은 계산 결과를 쓰도록 남겨 둔다.
     state.model = { P: P, me: me, rows: rows, n: n, few: few, gm: gm, gs: gs, z: z, T: T, M: M, mateWhy: mateWhy, weak: weak, mode: mode,
       strong: strong, standout: standout, itemMeans: itemMeans, gap: gap, gapH: gapH, gapP: gapP, keep: keep, myTop: myTop };
@@ -521,7 +545,7 @@
 
     // 요약
     var weakShare = Math.round(rows.filter(function (r) { return r.dom[weakD] < CUT; }).length / n * 100);
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">' + (P.group || P.org ? '우리 그룹' : '전체 응답자') + ' 한 줄 요약</p>' +
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">' + (P.org ? '우리 학교' : '전체 응답자') + ' 한 줄 요약</p>' +
       '<h2>' + josa(DOMAINS[strongD].name, '은', '는') + ' 강하고, ' + josa(DOMAINS[weakD].name, '이', '가') + ' 약합니다</h2>' +
       '<p>종합 평균은 ' + r0(mean(totals)) + '점(' + level(mean(totals)) + ')입니다. 가장 낮은 <strong>' + DOMAINS[weakD].name + '</strong> 영역은 응답자의 ' + weakShare + '%가 정착 기준(60점) 아래에 있어, 그룹 교육을 한다면 이 영역부터 다루는 것이 효과가 큽니다.</p></section>';
 
@@ -674,7 +698,7 @@
       '.rep .avoid{page-break-inside:avoid;break-inside:avoid}' +
       '</style>';
     var h = css + '<div class="rep">' +
-      '<div class="hd"><h1>우리학교 교사 AI 역량 수준 진단 결과 보고서<span class="beta">BETA</span></h1>' +
+      '<div class="hd"><h1>나와 우리학교 AI 역량 수준 진단 결과 보고서<span class="beta">BETA</span></h1>' +
       '<p class="sub">나의 분석결과 · 결과 코드 ' + fmtId(me.id || (state.me && state.me.id) || '') + ' · 응답자 구분 ' + esc((state.me && state.me.role) || me.role || '-') + '</p></div>' +
       '<p class="date">' + date + '</p>';
     // Ⅰ. 진단 개요
@@ -781,7 +805,7 @@
             });
           });
         });
-        return chain.then(function () { pdf.save('우리학교교사AI역량진단_결과_' + fmtId((state.me && state.me.id) || 'RESULT00') + '.pdf'); });
+        return chain.then(function () { pdf.save('나와우리학교AI역량진단_결과_' + fmtId((state.me && state.me.id) || 'RESULT00') + '.pdf'); });
       });
     }).then(function () { msg.textContent = ''; btn.disabled = false; })
       .catch(function () { msg.textContent = 'PDF를 만들지 못했습니다. 잠시 뒤 다시 눌러 주세요.'; btn.disabled = false; })
@@ -826,15 +850,119 @@
   }
   function fmtP(p) { return p < 0.001 ? '< .001' : p.toFixed(3).replace(/^0/, ''); }
 
-  function compareReport() {
-    var rows = state.pool.rows, map = {};
-    var h = '<p class="aidx-context">응답할 때 고른 구분(' + ROLES.join('·') + ')으로 응답자를 자동으로 묶어 비교합니다. ' +
-      esc(groupLabel(state.pool)) + ' ' + rows.length + '명 기준.</p>';
-    rows.forEach(function (r) { var k = r.role || '기타'; (map[k] = map[k] || []).push(r); });
-    var keys = ROLES.filter(function (k) { return map[k]; }).concat(Object.keys(map).filter(function (k) { return ROLES.indexOf(k) < 0; }));
+  // rows를 keyOf로 묶어(order 순서) 영역별 평균과 일원분산분석. noun은 묶음 이름(예: 학교급).
+  // ---------- 우리 학교 역량 수준: 같은 학교급 다른 학교·전체와 비교, 강점·약점·보완점, 우선순위 제안 5가지 ----------
+  function schoolReport() {
+    var D = state.data, S = D.S, LO = D.LO, LA = D.LA, A = D.rows, lvName = D.lv || '같은 학교급';
+    if (!S.length) return '<section class="aidx-home"><p>우리 학교 응답이 없습니다. 진단에 응답하면 우리 학교 결과를 볼 수 있습니다.</p></section>';
+    var sm = domMeans(S), lom = domMeans(LO), am = domMeans(A), sT = mean(totOf(S)), loT = LO.length ? mean(totOf(LO)) : null, aT = mean(totOf(A));
+    var lvSchools = schoolsOf(LA), allSchools = schoolsOf(A);
+    function place(list) { var i = list.findIndex(function (x) { return x.mine; }); return list.length < 2 ? '–' : (i + 1) + '<small>위 / ' + list.length + '개교</small>'; }
+    var h = '<p class="aidx-context">' + esc(groupLabel(state.pool)) + ' · ' + esc(lvName) + ' · 응답 ' + S.length + '명' + (PREVIEW ? ' (시험 모드: 이 브라우저의 응답만)' : '') + '</p>';
+    if (S.length < MIN_N) h += '<p class="aidx-note">우리 학교 응답이 아직 ' + S.length + '명입니다. ' + MIN_N + '명 이상 모이면 결과가 안정됩니다.</p>';
+    h += '<div class="kpis aidx-kpis aidx-fixed">' +
+      kpi('우리 학교 종합 점수', r0(sT) + '<small>/ 100</small>', lvlChip(sT) + ' 응답 ' + S.length + '명') +
+      kpi(lvName + ' 안에서', place(lvSchools), MIN_SCHOOL + '명 이상 응답한 학교 기준') +
+      kpi('전체 학교 안에서', place(allSchools), MIN_SCHOOL + '명 이상 응답한 학교 기준') +
+      kpi('정착 이상 비율', Math.round(S.filter(function (r) { return r.total >= CUT; }).length / S.length * 100) + '<small>%</small>', '종합 60점 이상인 구성원') + '</div>';
+    h += '<div class="aidx-cmp3 aidx-fixed">' + [['우리 학교', sT, S.length], [lvName + ' 다른 학교 평균', loT, LO.length], ['전체 평균', aT, A.length]].map(function (c, i) {
+      var d = i && c[1] != null ? sT - c[1] : null;
+      return '<div class="aidx-cmpbox"><p class="aidx-cmpk">' + c[0] + (i ? ' 대비' : '') + '</p><p class="aidx-cmpv ' + diffCls(d) + '">' + (i ? (d == null ? '–' : signed(d) + '<small>점</small>') : r0(c[1]) + '<small>점</small>') + '</p>' +
+        '<p class="aidx-small">' + (c[1] == null ? '아직 응답이 없습니다' : (i ? '평균 ' + r0(c[1]) + '점 · ' : '') + c[2] + '명') + '</p></div>';
+    }).join('') + '</div>';
+    var series = [{ label: '우리 학교', values: sm, cls: 's1' }].concat(LO.length ? [{ label: lvName + ' 다른 학교', values: lom, cls: 's3' }] : [])
+      .concat([{ label: '전체', values: am, cls: 'ref', dashed: true }]);
+    h += '<section class="report-grid aidx-eqh"><div class="panel"><h3 class="panel-title">영역별 우리 학교 수준</h3><p class="panel-sub">0~100점 · 굵은 선은 정착 기준 60점</p>' +
+      legend(series) + '<div class="radar-box">' + radar(series, '우리 학교와 비교 집단의 영역별 점수') + '</div></div>' +
+      '<div class="panel"><h3 class="panel-title">영역별 비교</h3><p class="panel-sub">괄호는 우리 학교와의 차이 · 정착 이상은 우리 학교 구성원 비율</p>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>우리 학교</th><th>' + esc(lvName) + ' 다른 학교</th><th>전체</th><th>정착 이상</th></tr></thead><tbody>' +
+      DOMAINS.map(function (dm, d) {
+        function cell(v) { return v == null ? '–' : r0(v) + ' <span class="aidx-muted ' + diffCls(sm[d] - v) + '">(' + signed(sm[d] - v) + ')</span>'; }
+        return '<tr><td>' + dm.name + '</td><td><strong>' + r0(sm[d]) + '</strong> ' + lvlChip(sm[d]) + '</td><td>' + cell(lom[d]) + '</td><td>' + cell(am[d]) + '</td>' +
+          '<td>' + Math.round(S.filter(function (r) { return r.dom[d] >= CUT; }).length / S.length * 100) + '%</td></tr>';
+      }).join('') + '</tbody></table></div></div></section>';
+
+    // 강점 · 약점 · 보완점
+    var ref = LO.length ? lom : am, refName = LO.length ? lvName + ' 다른 학교' : '전체';
+    var order = DOMAINS.map(function (_, d) { return { d: d, v: sm[d], gap: sm[d] - ref[d] }; });
+    var strong = order.slice().sort(function (a, b) { return (b.v + b.gap) - (a.v + a.gap); }).slice(0, 2);
+    var weak = order.slice().sort(function (a, b) { return (a.v + a.gap) - (b.v + b.gap); }).slice(0, 2);
+    var itemM = ITEMS.slice(0, NP).map(function (it) { return { it: it, m: mean(S.map(function (r) { return r.a[it.idx]; })) }; }).sort(function (a, b) { return a.m - b.m; }).slice(0, 3);
+    function line(x) { return '<div class="aidx-switem"><strong>' + DOMAINS[x.d].name + ' <span>' + r0(x.v) + '점 · ' + refName + ' ' + signed(x.gap) + '</span></strong><p>"' + DOMAINS[x.d].q + '"</p></div>'; }
+    h += '<section class="aidx-swgrid aidx-sw3">' +
+      '<div class="aidx-swcard good"><p class="aidx-swh">💪 우리 학교의 강점</p>' + strong.map(line).join('') + '</div>' +
+      '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 우리 학교의 약점</p>' + weak.map(line).join('') + '</div>' +
+      '<div class="aidx-swcard"><p class="aidx-swh">🧩 보완점: 가장 덜 하는 행동</p><ul class="aidx-list">' +
+      itemM.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 평균 ' + f1(x.m) + '</span></li>'; }).join('') + '</ul></div></section>';
+
+    // 우선순위 제안 5가지: 약한 영역부터 학교 차원의 할 일을 번갈아
+    var need = order.slice().sort(function (a, b) { return (a.v + a.gap) - (b.v + b.gap); });
+    var picks = [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1]].map(function (p) { return { x: need[p[0]], tip: SCHOOL_TIPS[DOMAINS[need[p[0]].d].key][p[1]] }; });
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">우리 학교 보완 제안</p><h3>우선순위 5가지</h3>' +
+      '<p>' + refName + '와 비교해 가장 약한 영역부터 순서를 정했습니다. 위에서부터 한 학기에 한두 가지씩 실행하세요.</p></div>' +
+      '<ol class="aidx-prio5">' + picks.map(function (pk, i) {
+        var d = pk.x.d, byRole = ROLES.map(function (rl) { var g = S.filter(function (r) { return r.role === rl; }); return { rl: rl, n: g.length, m: g.length ? mean(g.map(function (r) { return r.dom[d]; })) : 0 }; })
+          .filter(function (x) { return x.n >= 2; }).sort(function (a, b) { return a.m - b.m; })[0];
+        return '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + DOMAINS[d].icon + ' ' + DOMAINS[d].name + '</p>' +
+          '<p class="aidx-prio-act">' + pk.tip + '</p>' +
+          '<p class="aidx-small">근거: 우리 학교 ' + r0(sm[d]) + '점 · ' + refName + ' ' + r0(ref[d]) + '점(' + signed(pk.x.gap) + ')' + (byRole ? ' · 특히 ' + esc(byRole.rl) + '(평균 ' + r0(byRole.m) + '점)부터' : '') + '</p></li>';
+      }).join('') + '</ol></section>';
+    h += '<h3 class="aidx-subh">우리 학교 상세 통계</h3>' + groupReport(state.pool);
+    return h;
+  }
+
+  // ---------- 타학교 비교: 같은 학교급 학교끼리 종합·영역 점수 순위(다른 학교 이름은 익명) ----------
+  function othersReport() {
+    var D = state.data, lvName = D.lv || '같은 학교급', list = schoolsOf(D.LA);
+    var h = '<p class="aidx-context">' + esc(lvName) + '에서 응답이 ' + MIN_SCHOOL + '명 이상인 학교끼리 비교합니다. 다른 학교 이름은 공개하지 않고 순위대로 학교 A, B, C…로 표시합니다.</p>';
+    if (list.length < 2) return h + '<p class="aidx-note">비교할 ' + esc(lvName) + ' 다른 학교가 아직 없습니다. 다른 학교 응답이 ' + MIN_SCHOOL + '명 이상 모이면 이 화면이 자동으로 채워집니다.</p>';
+    var letter = 0;
+    list.forEach(function (x) { x.name = x.mine ? '우리 학교' : '학교 ' + String.fromCharCode(65 + letter++); });
+    var mineI = list.findIndex(function (x) { return x.mine; }), lvT = mean(totOf(D.LA));
+    h += '<div class="kpis aidx-kpis aidx-fixed">' +
+      kpi('비교 학교 수', list.length + '<small>개교</small>', esc(lvName) + ' · 응답 ' + D.LA.length + '명') +
+      kpi('우리 학교 순위', (mineI + 1) + '<small>위 / ' + list.length + '</small>', '종합 점수 기준') +
+      kpi('1위 학교와 차이', mineI === 0 ? '1위' : signed(list[mineI].total - list[0].total) + '<small>점</small>', '1위 ' + r0(list[0].total) + '점') +
+      kpi(lvName + ' 평균', r0(lvT) + '<small>/ 100</small>', '우리 학교 ' + signed(list[mineI].total - lvT) + '점') + '</div>';
+    h += '<div class="panel"><h3 class="panel-title">학교별 종합 점수</h3><p class="panel-sub">0~100점 · 점선은 ' + esc(lvName) + ' 평균</p><div class="aidx-hbars aidx-school-bars">' +
+      list.map(function (x) {
+        return '<div class="aidx-hrow' + (x.mine ? ' is-mine' : '') + '"><span class="aidx-hname">' + x.name + '</span><span class="aidx-htrack"><span style="width:' + x.total + '%"></span><i style="left:' + lvT + '%"></i></span>' +
+          '<span class="aidx-hval">' + r0(x.total) + '점 · ' + x.n + '명</span></div>';
+      }).join('') + '</div></div>';
+    h += '<div class="panel"><h3 class="panel-title">영역별 학교 비교</h3><p class="panel-sub">각 영역에서 가장 높은 학교 굵게</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>학교</th><th>응답</th>' +
+      DOMAINS.map(function (dm) { return '<th>' + dm.name + '</th>'; }).join('') + '<th>종합</th></tr></thead><tbody>' +
+      list.map(function (x) {
+        return '<tr' + (x.mine ? ' class="aidx-mine-row"' : '') + '><td>' + x.name + '</td><td>' + x.n + '</td>' + DOMAINS.map(function (_, d) {
+          var best = Math.max.apply(null, list.map(function (y) { return y.m[d]; }));
+          return '<td>' + (x.m[d] === best ? '<strong>' + r0(x.m[d]) + '</strong>' : r0(x.m[d])) + '</td>';
+        }).join('') + '<td><strong>' + r0(x.total) + '</strong></td></tr>';
+      }).join('') + '</tbody></table></div></div>';
+    return h;
+  }
+
+  // ---------- 학교급별 비교 / 전체 학교 수준 ----------
+  function levelReport() {
+    return compareReport(state.data.rows, function (r) { return r.lv || '기타'; }, SCHOOL_LEVELS, '학교급',
+      '응답할 때 고른 학교급(' + SCHOOL_LEVELS.join('·') + ')별로 전체 응답을 자동으로 묶어 비교합니다. 응답 ' + state.data.rows.length + '명 기준.');
+  }
+  function allReport() {
+    var A = state.data.rows, keys = {};
+    A.forEach(function (r) { keys[r.same ? '__mine' : r.k] = 1; });
+    var schools = schoolsOf(A);
+    var h = '<div class="kpis aidx-kpis aidx-fixed">' +
+      kpi('참여 학교', Object.keys(keys).length + '<small>개교</small>', MIN_SCHOOL + '명 이상 응답 ' + schools.length + '개교') +
+      SCHOOL_LEVELS.slice(0, 3).map(function (lv) { var g = A.filter(function (r) { return r.lv === lv; }); return kpi(lv, g.length + '<small>명</small>', g.length ? '종합 평균 ' + r0(mean(totOf(g))) + '점' : '응답 없음'); }).join('') + '</div>';
+    return h + groupReport(state.allPool);
+  }
+
+  function compareReport(rows, keyOf, order, noun, intro) {
+    var map = {};
+    var h = '<p class="aidx-context">' + intro + '</p>';
+    rows.forEach(function (r) { var k = keyOf(r); (map[k] = map[k] || []).push(r); });
+    var keys = order.filter(function (k) { return map[k]; }).concat(Object.keys(map).filter(function (k) { return order.indexOf(k) < 0; }));
     var inc = keys.filter(function (k) { return map[k].length >= 3; }), exc = keys.filter(function (k) { return map[k].length < 3; });
-    if (exc.length) h += '<p class="aidx-context">응답이 3명 미만이라 비교에서 빠진 그룹: ' + exc.map(function (k) { return esc(k) + '(' + map[k].length + '명)'; }).join(', ') + '</p>';
-    if (inc.length < 2) return h + '<p class="aidx-note">비교하려면 응답이 3명 이상인 그룹이 둘 이상 필요합니다. 응답이 더 모이면 이 화면이 자동으로 채워집니다.</p>';
+    if (exc.length) h += '<p class="aidx-context">응답이 3명 미만이라 비교에서 빠진 ' + noun + ': ' + exc.map(function (k) { return esc(k) + '(' + map[k].length + '명)'; }).join(', ') + '</p>';
+    if (inc.length < 2) return h + '<p class="aidx-note">비교하려면 응답이 3명 이상인 ' + noun + '이 둘 이상 필요합니다. 응답이 더 모이면 이 화면이 자동으로 채워집니다.</p>';
 
     var G = inc.map(function (k) { var rs = map[k]; return { k: k, rs: rs, n: rs.length, m: DOMAINS.map(function (_, d) { return mean(rs.map(function (r) { return r.dom[d]; })); }) }; });
     var measures = DOMAINS.map(function (dm, d) { return { name: dm.name, get: function (r) { return r.dom[d]; } }; })
@@ -847,18 +975,18 @@
     var sig = stats.filter(function (s) { return s.a && s.a.p < 0.05; }).sort(function (a, b) { return a.a.p - b.a.p; });
     var biggest = stats.slice(0, 5).slice().sort(function (a, b) { return b.diff - a.diff; })[0];
     var lead = sig.length
-      ? '<strong>' + sig.map(function (s) { return s.ms.name; }).join(', ') + '</strong>에서 ' + '응답자 그룹' + ' 간 차이가 통계적으로 의미 있습니다(p < .05). ' +
+      ? '<strong>' + sig.map(function (s) { return s.ms.name; }).join(', ') + '</strong>에서 ' + noun + ' 간 차이가 통계적으로 의미 있습니다(p < .05). ' +
         '가장 뚜렷한 곳은 ' + josa(sig[0].ms.name.replace(/ \(.*\)$/, ''), '으로', '로') + ', ' + esc(josa(G[sig[0].hi].k, '이', '가')) + ' ' + r0(sig[0].means[sig[0].hi]) + '점으로 ' + esc(G[sig[0].lo].k) + '(' + r0(sig[0].means[sig[0].lo]) + '점)보다 ' + r0(sig[0].diff) + '점 높습니다.'
-      : '아직 ' + '응답자 그룹' + ' 간 통계적으로 의미 있는 차이는 없습니다(모두 p ≥ .05). 점수 차이가 가장 큰 영역은 ' + biggest.ms.name + '(' + esc(G[biggest.hi].k) + ' ' + r0(biggest.means[biggest.hi]) + '점, ' + esc(G[biggest.lo].k) + ' ' + r0(biggest.means[biggest.lo]) + '점)입니다.';
+      : '아직 ' + noun + ' 간 통계적으로 의미 있는 차이는 없습니다(모두 p ≥ .05). 점수 차이가 가장 큰 영역은 ' + biggest.ms.name + '(' + esc(G[biggest.hi].k) + ' ' + r0(biggest.means[biggest.hi]) + '점, ' + esc(G[biggest.lo].k) + ' ' + r0(biggest.means[biggest.lo]) + '점)입니다.';
     h += '<section class="aidx-type"><p class="aidx-eyebrow">그룹 간 차이 한 줄 요약</p><p class="aidx-cmp-lead">' + lead + '</p></section>';
 
     var cls = ['s1', 's2', 's3', 's4'], shown = G.slice(0, 4);
     var series = shown.map(function (g, i) { return { label: g.k + ' (' + g.n + '명)', values: g.m, cls: cls[i] }; });
     var tc = G.map(function (g) { var c = {}; g.rs.forEach(function (r) { c[r.type] = (c[r.type] || 0) + 1; }); var best = Object.keys(c).sort(function (a, b) { return c[b] - c[a]; })[0]; return { t: TYPES[best], p: Math.round(c[best] / g.n * 100) }; });
     h += '<section class="report-grid">' +
-      '<div class="panel"><h3 class="panel-title">' + '그룹' + '별 영역 프로파일</h3><p class="panel-sub">영역별 평균 · 0~100점' + (G.length > 4 ? ' · 응답이 많은 4개만 표시' : '') + '</p>' +
-      legend(series) + '<div class="radar-box">' + radar(series, '그룹별 영역 평균') + '</div></div>' +
-      '<div class="panel"><h3 class="panel-title">' + '그룹' + '별 요약</h3><p class="panel-sub">응답 수, 종합 평균, 가장 많은 AI 활용 유형</p>' +
+      '<div class="panel"><h3 class="panel-title">' + noun + '별 영역 프로파일</h3><p class="panel-sub">영역별 평균 · 0~100점' + (G.length > 4 ? ' · 응답이 많은 4개만 표시' : '') + '</p>' +
+      legend(series) + '<div class="radar-box">' + radar(series, noun + '별 영역 평균') + '</div></div>' +
+      '<div class="panel"><h3 class="panel-title">' + noun + '별 요약</h3><p class="panel-sub">응답 수, 종합 평균, 가장 많은 AI 활용 유형</p>' +
       '<div class="aidx-cmp-cards">' + G.map(function (g, i) {
         return '<div class="aidx-cmp-card"><p class="aidx-cmp-name">' + (i < 4 ? '<span class="lg-key ' + cls[i] + '"></span>' : '') + esc(g.k) + ' <span class="aidx-muted">' + g.n + '명</span></p>' +
           '<p class="aidx-cmp-total">' + r0(mean(g.rs.map(function (r) { return r.total; }))) + '<small>점</small></p>' +
@@ -901,6 +1029,7 @@
     var t = e.target;
     state.pending = null; // 응답을 바꾸면 새 코드로 다시 보낸다
     if (t.name === 'role') state.role = t.value;
+    else if (t.name === 'lv') state.lv = t.value;
     else if (t.type === 'radio') {
       state.answers[t.name] = +t.value;
       var li = t.closest('.aidx-item'); if (li) li.classList.remove('is-miss');
@@ -912,30 +1041,30 @@
   root.addEventListener('click', function (e) {
     var tb = e.target.closest('[data-tab]');
     if (tb) {
-      if (!state.pool || (tb.dataset.tab === 'all' && !state.allPool)) { analyze(tb.dataset.tab); return; }
+      if (!state.data) { analyze(tb.dataset.tab); return; }
       state.tab = tb.dataset.tab; viewResult(); return;
     }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.dataset.act;
-    if (act === 'start') { state.answers = {}; state.role = ''; state.org = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
+    if (act === 'start') { state.answers = {}; state.role = ''; state.lv = ''; state.org = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
       var miss = pageComplete(), err = document.getElementById('aidx-err');
       if (miss) {
-        err.textContent = miss === 'role' ? '응답자 구분을 골라 주세요.' : miss === 'org' ? '소속 학교 이름을 적어 주세요.' : '응답하지 않은 문항이 있습니다.';
+        err.textContent = miss === 'role' ? '응답자 구분을 골라 주세요.' : miss === 'lv' ? '학교급을 골라 주세요.' : miss === 'org' ? '소속 학교 이름을 적어 주세요.' : '응답하지 않은 문항이 있습니다.';
         if (miss === 'org') document.getElementById('aidx-org-in').focus();
-        else if (miss !== 'role') {
+        else if (miss !== 'role' && miss !== 'lv') {
           PAGES[state.page].forEach(function (it) { if (!state.answers[it.code]) document.getElementById('q-' + it.code).classList.add('is-miss'); });
           document.getElementById('q-' + miss).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         return;
       }
       if (state.page < PAGES.length - 1) { state.page++; go('survey'); return; }
-      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, org: state.org.trim().slice(0, 40), answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
+      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, lv: state.lv, org: state.org.trim().slice(0, 40), answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
       state.pending = rec; b.disabled = true; err.textContent = '저장하는 중…';
       submit(rec).then(function () {
-        state.me = rec; state.pending = null; state.pool = state.allPool = null; save(LS_ME, rec); viewDone();
+        state.me = rec; state.pending = null; state.data = state.pool = state.allPool = null; save(LS_ME, rec); viewDone();
       }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
     else if (act === 'analyze') { analyze('me'); }
@@ -946,13 +1075,13 @@
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'group' || act === 'all') {
+    else if (act === 'my' || act === 'school' || act === 'all') {
       // 결과는 진단을 마친 사람만 본다. 이 기기에 응답이 없으면 안내를 띄운다.
       var me = load(LS_ME), tab = act === 'my' ? 'me' : act;
-      if (me) { state.me = me; state.pool = state.allPool = null; analyze(tab); return; }
+      if (me) { state.me = me; state.data = state.pool = state.allPool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('aidx-gate')) go('home');
-      document.getElementById('aidx-gate-msg').textContent = ({ me: '나의 분석결과는', group: '우리 그룹 분석결과는', all: '전체 응답자 분석결과는' })[tab] + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('aidx-gate-msg').textContent = ({ me: '나의 역량 수준은', school: '우리 학교 역량 수준은', all: '전체 학교 수준은' })[tab] + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('aidx-gate').hidden = false;
       document.getElementById('aidx-code').hidden = true;
     }
@@ -969,7 +1098,7 @@
     err.textContent = '찾는 중…';
     fetchOne(id).then(function (rec) {
       if (!rec) { err.textContent = '해당 코드의 응답이 없습니다.'; return; }
-      state.me = rec; state.pool = state.allPool = null; save(LS_ME, rec); analyze(state.gateTab || 'me');
+      state.me = rec; state.data = state.pool = state.allPool = null; save(LS_ME, rec); analyze(state.gateTab || 'me');
     }).catch(function () { err.textContent = '불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'; });
   });
 
