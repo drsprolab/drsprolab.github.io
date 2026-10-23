@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#006241"/><stop offset="1" stop-color="#00704a"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.8" height="1.8"><feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#00241c" flood-opacity=".3"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1000" cy="280" r="235" fill="#fff" opacity=".035"/><circle cx="1000" cy="280" r="185" fill="none" stroke="#d8bd78" stroke-opacity=".32" stroke-width="2"/>
+  <path d="M776 0h424v630H876c82-135 101-283 30-416C867 130 823 57 776 0Z" fill="#1e3932" opacity=".42"/>
+  <g filter="url(#shadow)" transform="translate(838 133)">
+    <rect x="20" y="25" width="320" height="330" rx="24" fill="#fffdf6"/>
+    <rect x="20" y="25" width="320" height="73" rx="24" fill="#e8eee5"/><path d="M20 74h320v24H20z" fill="#e8eee5"/>
+    <circle cx="55" cy="61" r="8" fill="#00704a"/><circle cx="82" cy="61" r="8" fill="#c7ad6d"/><circle cx="109" cy="61" r="8" fill="#b9c9bd"/>
+    <rect x="54" y="128" width="125" height="15" rx="7" fill="#244f40"/><rect x="54" y="155" width="237" height="8" rx="4" fill="#d7dfd7"/>
+    <rect x="54" y="190" width="72" height="112" rx="10" fill="#edf4ed"/><rect x="138" y="212" width="72" height="90" rx="10" fill="#d6e9dc"/><rect x="222" y="174" width="72" height="128" rx="10" fill="#00704a"/>
+    <path d="M69 278h42m43 0h42m43 0h42" stroke="#a8c4af" stroke-width="4" stroke-linecap="round"/>
+    <path d="M80 245 164 225l75-43" fill="none" stroke="#c5a45c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="245" r="6" fill="#c5a45c"/><circle cx="164" cy="225" r="6" fill="#c5a45c"/><circle cx="239" cy="182" r="6" fill="#c5a45c"/>
+  </g>
+  <g fill="#d4e9e2"><circle cx="780" cy="153" r="4"/><circle cx="1104" cy="96" r="4"/><circle cx="1114" cy="475" r="4"/><path d="M789 152 889 89l99 32" fill="none" stroke="#d4e9e2" stroke-opacity=".4" stroke-width="2"/></g>
+  <text x="78" y="100" fill="#d4e9e2" font-family="Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="5">STARBUCKS  ·  AI CAPABILITY</text>
+  <text x="78" y="232" fill="#fffdf6" font-family="Arial,'Noto Sans KR',sans-serif" font-size="58" font-weight="700">스타벅스 AI 기본</text>
+  <text x="78" y="310" fill="#fffdf6" font-family="Arial,'Noto Sans KR',sans-serif" font-size="58" font-weight="700">역량 진단</text>
+  <rect x="78" y="362" width="156" height="54" rx="27" fill="#fffdf6"/><text x="105" y="398" fill="#006241" font-family="Arial,'Noto Sans KR',sans-serif" font-size="26" font-weight="700">본사용</text>
+  <text x="78" y="493" fill="#d4e3d8" font-family="Arial,'Noto Sans KR',sans-serif" font-size="25">기획 · 데이터 · 협업 · 의사결정</text>
+  <text x="78" y="570" fill="#a9c6b5" font-family="Arial,sans-serif" font-size="16" letter-spacing="3">LEARN  ·  PRACTICE  ·  GROW</text>
+</svg>
