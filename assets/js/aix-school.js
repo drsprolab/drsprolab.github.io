@@ -401,7 +401,8 @@
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
       '<button type="button" class="aidx-btn" data-act="report">나의 종합 결과 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="group">우리 학교 분석결과 보기</button></div>' +
+      '<button type="button" class="aidx-btn" data-act="group">우리 학교 분석결과 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="peers">타 학교와 비교분석결과 보기</button></div>' +
       (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="axr-gate" role="alert" hidden><p><strong id="axr-gate-msg"></strong></p>' +
       '<button type="button" class="aidx-link" data-act="code">다른 기기에서 이미 응답했다면 결과 코드 입력</button></div>' +
@@ -516,12 +517,13 @@
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
   function viewResult() {
     root.innerHTML = previewNote() +
-      '<div class="aidx-tabs" role="tablist">' +
+      '<div class="aidx-tabs aidx-tabs5" role="tablist">' +
       '<button type="button" role="tab" data-tab="report" aria-selected="' + (state.tab === 'report') + '">' + tabLabel('종합 결과', '종합') + '</button>' +
+      '<button type="button" role="tab" data-tab="peers" aria-selected="' + (state.tab === 'peers') + '">' + tabLabel('타 학교 비교', '타 학교') + '</button>' +
       '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('내가 본 우리 학교', '나의 응답') + '</button>' +
       '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 학교 분석결과', '우리 학교') + '</button>' +
       '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 구분별 비교', '구분별 비교') + '</button></div>' +
-      '<div role="tabpanel">' + (state.tab === 'report' ? fullReport() : state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
+      '<div role="tabpanel">' + (state.tab === 'report' ? fullReport() : state.tab === 'peers' ? peerReport() : state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
       '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 준비 기준점(60점)과 단계 순서는 타당화 전의 잠정 기준이며, 단계는 교원 인식을 바탕으로 한 추정입니다. 공식 성숙도 판정에는 문서·지표 같은 증거 확인을 함께 쓰세요. 점수 = (응답한 문항 평균 − 1) × 25, 0~100점, "잘 모르겠다"는 점수에서 제외. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
@@ -637,6 +639,12 @@
     h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">4 · 행동 조언 5가지</p><h3>내가 할 일과 학교가 할 일</h3>' +
       '<p>내 점수가 낮은 단계(교원 활용·수업·평가 재설계)와 학교와의 인식 차이에서 내가 할 일을, 우리 학교의 병목 단계에서 학교가 할 일을 골랐습니다.</p></div>' + adviceList(advice) + '</section>';
 
+    return h + peerSections(P, me, S, sb, sbWhy);
+  }
+
+  // 종합 결과 5·6번(우리 학교 수준, 같은 학교급·전체 학교 비교, 발전 전략 5가지). '타 학교 비교' 탭에서도 따로 보여 준다.
+  function peerSections(P, me, S, sb, sbWhy) {
+    var h = '';
     // 5. 우리 학교는 어느 수준인가: 같은 학교급 학교들, 전체 학교와 비교
     // 다른 학교는 응답이 MIN_SCHOOL명 이상인 학교만, 학교마다 같은 무게로 평균한다.
     function schoolsOf(list) {
@@ -729,6 +737,13 @@
           '<p class="aidx-small">점검 지표: ' + g.kpi + '</p></li>';
       }).join('') + '</ol></section>';
     return h;
+  }
+  function peerReport() {
+    var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
+    if (!me) return fullReport();
+    var S = aggregate(P.rows), sb = S.stage < 5 ? S.stage : weakestStage(S.lvMean);
+    var sbWhy = (S.stage < 5 ? '우리 학교의 병목 단계' : '우리 학교에서 가장 낮은 단계') + ' · ' + STAGES[sb].name + ' 평균 ' + sc(S.lvMean[sb]) + '점';
+    return '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + P.rows.length + '명' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>' + peerSections(P, me, S, sb, sbWhy);
   }
 
   function personal() {
@@ -1026,12 +1041,12 @@
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'report' || act === 'group') {
+    else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers') {
       var me = load(LS_ME), tab = act === 'my' ? 'me' : act;
       if (me) { state.me = me; state.pool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('axr-gate')) go('home');
-      document.getElementById('axr-gate-msg').textContent = (tab === 'group' ? '우리 학교 분석결과는' : '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 분석결과는', peers: '타 학교와 비교분석결과는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('axr-gate').hidden = false;
       document.getElementById('axr-code').hidden = true;
     }
