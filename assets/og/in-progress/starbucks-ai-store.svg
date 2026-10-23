@@ -5,9 +5,9 @@
     <filter id="shadow" x="-.3" y="-.3" width="1.8" height="1.8"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#00241c" flood-opacity=".25"/></filter>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1010" cy="290" r="235" fill="#fff" opacity=".035"/><circle cx="1010" cy="290" r="185" fill="none" stroke="#d8bd78" stroke-opacity=".32" stroke-width="2"/>
+  <circle cx="1000" cy="175" r="165" fill="#fff" opacity=".035"/><circle cx="1000" cy="175" r="128" fill="none" stroke="#d8bd78" stroke-opacity=".32" stroke-width="2"/>
   <path d="M770 0h430v630H870c90-133 108-279 36-416C869 130 824 59 770 0Z" fill="#1e3932" opacity=".42"/>
-  <g filter="url(#shadow)" transform="translate(846 118)">
+  <g filter="url(#shadow)" transform="translate(870 18) scale(.62)">
     <path d="M54 92h238l-24 270c-3 35-28 60-63 60h-66c-35 0-60-25-63-60L54 92Z" fill="url(#cup)"/>
     <path d="M282 128h37c45 0 58 34 50 78-7 40-32 62-76 62" fill="none" stroke="#e8dfd0" stroke-width="24"/>
     <path d="M49 83h250v26H49z" rx="10" fill="#d7c9ae"/><path d="M98 195h151" stroke="#cbbd9f" stroke-width="3" opacity=".8"/>

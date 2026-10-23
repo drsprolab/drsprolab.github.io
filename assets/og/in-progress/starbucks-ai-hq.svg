@@ -4,9 +4,9 @@
     <filter id="shadow" x="-.3" y="-.3" width="1.8" height="1.8"><feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#00241c" flood-opacity=".3"/></filter>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1000" cy="280" r="235" fill="#fff" opacity=".035"/><circle cx="1000" cy="280" r="185" fill="none" stroke="#d8bd78" stroke-opacity=".32" stroke-width="2"/>
+  <circle cx="1000" cy="175" r="165" fill="#fff" opacity=".035"/><circle cx="1000" cy="175" r="128" fill="none" stroke="#d8bd78" stroke-opacity=".32" stroke-width="2"/>
   <path d="M776 0h424v630H876c82-135 101-283 30-416C867 130 823 57 776 0Z" fill="#1e3932" opacity=".42"/>
-  <g filter="url(#shadow)" transform="translate(838 133)">
+  <g filter="url(#shadow)" transform="translate(893 54) scale(.62)">
     <rect x="20" y="25" width="320" height="330" rx="24" fill="#fffdf6"/>
     <rect x="20" y="25" width="320" height="73" rx="24" fill="#e8eee5"/><path d="M20 74h320v24H20z" fill="#e8eee5"/>
     <circle cx="55" cy="61" r="8" fill="#00704a"/><circle cx="82" cy="61" r="8" fill="#c7ad6d"/><circle cx="109" cy="61" r="8" fill="#b9c9bd"/>
