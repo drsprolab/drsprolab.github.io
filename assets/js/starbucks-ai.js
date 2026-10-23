@@ -2,7 +2,7 @@
 // 페이지(in-progress/starbucks-ai-store, starbucks-ai-hq)의 인라인 스크립트가 만든 track·config·qs·state·roleLabels·show를 그대로 쓴다.
 // 응답 저장소: Google Apps Script 웹앱 하나(tools/starbucks-ai/), 매장용·본사용은 시트 안에서 탭(store, hq)으로 나뉜다.
 (function () {
-  var ENDPOINT = ''; // 비어 있으면 시험 모드: 이 브라우저에만 저장
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxjc2IfHPLMyIZRfeeQwJ2pvzOJ4F3P7zgeTBWSqTJLNNXnT_EEImWqGNiIwpuF186Yxw/exec'; // 비우면 시험 모드: 이 브라우저에만 저장
   var PREVIEW = !ENDPOINT;
   var TRACK = track, CFG = config, QS = qs;
   var LS_ME = 'sbx-v1-' + TRACK + '-me' + (PREVIEW ? '-test' : ''), LS_DATA = 'sbx-v1-' + TRACK + '-test-responses';
