@@ -657,7 +657,7 @@
       '.rep .avoid{page-break-inside:avoid;break-inside:avoid}' +
       '</style>';
     var h = css + '<div class="rep">' +
-      '<div class="hd"><h1>AI 역량 수준 진단 결과 보고서<span class="beta">BETA</span></h1>' +
+      '<div class="hd"><h1>우리학교 AI 역량 수준 진단 결과 보고서<span class="beta">BETA</span></h1>' +
       '<p class="sub">나의 분석결과 · 결과 코드 ' + fmtId(me.id || (state.me && state.me.id) || '') + ' · 응답자 구분 ' + esc((state.me && state.me.role) || me.role || '-') + '</p></div>' +
       '<p class="date">' + date + '</p>';
     // Ⅰ. 진단 개요
