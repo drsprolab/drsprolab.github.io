@@ -70,6 +70,9 @@
     '.sbx-lookup input{font:15px ui-monospace,monospace;width:130px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;text-transform:uppercase}' +
     '.sbx-empty{font-size:12px;color:var(--muted);line-height:1.6;padding:14px;background:#f7faf7;border-radius:11px}' +
     '.compare .col span{display:block;font-weight:700;color:var(--ink);font-size:12px;margin-bottom:4px}.compare .col.na i{background:#eef1ef}' +
+    '.sbx-acts{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:12px}.sbx-acts .sbx-gate{flex-basis:100%;margin:6px 0 0;font-size:13px;color:var(--red)}' +
+    '.bar.sbx-mkbar{overflow:visible;position:relative}.sbx-mk{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--ink)}' +
+    '.sbx-tbl{width:100%;border-collapse:collapse;font-size:12.5px}.sbx-tbl th{font-size:11px;color:var(--muted);font-weight:600;text-align:center;padding:0 4px 9px}.sbx-tbl td{padding:10px 4px;border-top:1px solid #edf0ee;text-align:center}.sbx-tbl td:first-child,.sbx-tbl th:first-child{text-align:left}.sbx-tbl tr.mine td{background:var(--mint);font-weight:700}.sbx-wrap{overflow-x:auto}' +
     '.pill{white-space:nowrap;flex:none}.result-footer .btns{display:flex;gap:9px;flex-wrap:wrap}.gap .left span:last-child{line-height:1.45}' +
     // 결과 격자가 내용 폭에 밀려 휴대폰 화면 밖으로 나가지 않게
     '.result-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}.result-card{min-width:0}.compare .col{flex:1;width:auto;min-width:0}' +
@@ -81,6 +84,22 @@
   // 대문: 결과 코드로 다시 보기
   var card = document.querySelector('.home-card');
   if (card) {
+    var acts = document.createElement('div'); acts.className = 'sbx-acts';
+    acts.innerHTML = '<button type="button" class="btn btn-outline" data-sbx="me">나의 진단 결과 보기</button>' +
+      '<button type="button" class="btn btn-outline" data-sbx="group">우리 그룹의 진단결과 보기</button>' +
+      '<p class="sbx-gate" id="sbx-gate" hidden></p>';
+    card.appendChild(acts);
+    acts.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-sbx]'); if (!b) return;
+      // 결과는 진단을 마친 사람만: 이 기기에 내 응답(또는 결과 코드로 불러온 응답)이 있어야 한다.
+      var me = load(LS_ME), gate = document.getElementById('sbx-gate');
+      if (!me) {
+        gate.textContent = (b.dataset.sbx === 'me' ? '나의 진단 결과는' : '우리 그룹의 진단결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다. 다른 기기에서 진단했다면 아래 결과 코드로 불러오세요.';
+        gate.hidden = false; return;
+      }
+      gate.hidden = true;
+      if (b.dataset.sbx === 'me') analyze(me); else groupView(me);
+    });
     var lk = document.createElement('div'); lk.className = 'sbx-lookup';
     lk.innerHTML = '<button type="button" class="link" id="sbx-open-code">이미 진단했다면 결과 코드로 내 결과 다시 보기</button>' +
       '<form id="sbx-code-form"><input id="sbx-code-in" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off"><button class="btn btn-green" type="submit">결과 보기</button><span class="sbx-msg" id="sbx-code-msg"></span></form>';
@@ -120,6 +139,78 @@
     }).catch(function () { box.innerHTML = '<div class="result-card">응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.</div>'; });
   }
 
+  // 교육 요구도: (5 − 영역 평균) + 2 × (1~2점 응답 비율), 응답 MIN_N명 이상일 때 상위 3개
+  function eduOf(rows) {
+    if (rows.length < MIN_N) return null;
+    return AREAS.map(function (n, d) {
+      var vals = []; rows.forEach(function (r) { vals = vals.concat(r.a.slice(d * K, d * K + K)); });
+      var low = vals.filter(function (v) { return v <= 2; }).length / vals.length;
+      return { d: d, m: mean(vals), low: low, need: (5 - mean(vals)) + 2 * low };
+    }).sort(function (x, y) { return y.need - x.need; }).slice(0, 3);
+  }
+  function eduTable(edu, n) {
+    return edu ? '<table class="priority-table"><thead><tr><th>우선</th><th>교육 주제</th><th>교육 포인트</th><th>평균 · 미흡 비율</th><th>요구도</th></tr></thead><tbody>' +
+      edu.map(function (x, i) { return '<tr><td>P' + (i + 1) + '</td><td>' + esc(AREAS[x.d]) + '</td><td>' + EDU[x.d] + '</td><td>' + f1(x.m) + ' · ' + Math.round(x.low * 100) + '%</td><td>' + f1(x.need) + '</td></tr>'; }).join('') + '</tbody></table>'
+      : '<p class="sbx-empty">' + NAME + ' 응답이 ' + MIN_N + '명 이상 모이면 영역별 교육 우선순위가 표시됩니다. (현재 ' + n + '명)</p>';
+  }
+
+  // ---------- 우리 그룹의 진단결과: 같은 진단(매장용 또는 본사용)에 응답한 전체 ----------
+  var gsec = document.createElement('section'); gsec.id = 'sbx-group'; gsec.className = 'screen';
+  document.getElementById('results').parentNode.insertBefore(gsec, document.getElementById('results').nextSibling);
+  function groupView(me) {
+    gsec.innerHTML = '<div class="result-card" style="text-align:center;padding:60px 20px">우리 그룹 결과를 모으고 있습니다…</div>';
+    show('sbx-group');
+    fetchAll(me).then(function (rows) {
+      if (!rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, job: me.job, a: me.answers, mine: true });
+      renderGroup(me, rows);
+    }).catch(function () { gsec.innerHTML = '<div class="result-card">응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.</div>'; });
+  }
+  function renderGroup(me, rows) {
+    var n = rows.length, tots = rows.map(function (r) { return total(r.a); }), avg = mean(tots), sc = score100(avg);
+    var gm = AREAS.map(function (_, d) { return mean(rows.map(function (r) { return mean(r.a.slice(d * K, d * K + K)); })); }), mm = areaMeans(me.answers);
+    var ord = gm.map(function (v, d) { return { d: d, v: v }; }).sort(function (x, y) { return y.v - x.v; });
+    var myTot = total(me.answers), pos = n >= MIN_N ? Math.max(1, Math.min(99, Math.round(tots.filter(function (t) { return t > myTot; }).length / n * 100 + 0.5))) : null;
+    function lowShare(d) { var v = []; rows.forEach(function (r) { v = v.concat(r.a.slice(d * K, d * K + K)); }); return Math.round(v.filter(function (x) { return x <= 2; }).length / v.length * 100); }
+    function byKey(keyOf, order, labelOf, mineKey, title) {
+      var map = {}; rows.forEach(function (r) { var k = keyOf(r); (map[k] = map[k] || []).push(r); });
+      var keys = order.filter(function (k) { return map[k]; }).concat(Object.keys(map).filter(function (k) { return order.indexOf(k) < 0; }));
+      return '<article class="result-card wide"><h3>' + title + '</h3><p class="sub">영역별 평균 · 5점 만점 · 응답 ' + MIN_G + '명 미만은 – 로 표시 · 나와 같은 그룹 강조</p><div class="sbx-wrap"><table class="sbx-tbl"><thead><tr><th>그룹</th><th>인원</th>' +
+        AREAS.map(function (a) { return '<th>' + esc(a) + '</th>'; }).join('') + '<th>종합</th></tr></thead><tbody>' +
+        keys.map(function (k) {
+          var g = map[k], ok = g.length >= MIN_G;
+          return '<tr' + (k === mineKey ? ' class="mine"' : '') + '><td>' + esc(labelOf(k)) + '</td><td>' + g.length + '</td>' +
+            AREAS.map(function (_, d) { return '<td>' + (ok ? f1(mean(g.map(function (r) { return mean(r.a.slice(d * K, d * K + K)); }))) : '–') + '</td>'; }).join('') +
+            '<td><strong>' + (ok ? f1(mean(g.map(function (r) { return total(r.a); }))) : '–') + '</strong></td></tr>';
+        }).join('') + '</tbody></table></div></article>';
+    }
+    var bands = [[80, 101, '주도 (80~100점)'], [60, 80, '정착 (60~79점)'], [40, 60, '형성 (40~59점)'], [0, 40, '시작 (0~39점)']].map(function (b) {
+      return { t: b[2], c: tots.filter(function (t) { var s = score100(t); return s >= b[0] && s < b[1]; }).length };
+    });
+    var allJobs = []; CFG.roles.forEach(function (r) { (CFG.jobs[r[0]] || []).forEach(function (j) { if (allJobs.indexOf(j) < 0) allJobs.push(j); }); });
+    var h = '<div class="results-hero"><div><div class="eyebrow">OUR STARBUCKS AI SNAPSHOT</div><h1>우리 그룹의 진단결과 (' + NAME + ')</h1>' +
+      '<p>' + NAME + ' 응답 ' + n + '명 전체 · 나는 ' + esc(roleLabels[me.role] || me.role) + ' · ' + esc(me.job) + (pos ? ' · 나의 위치 상위 ' + pos + '%' : '') + '</p></div>' +
+      '<div class="score-ring" style="background:conic-gradient(#f4bd50 0 ' + sc + '%,rgba(255,255,255,.18) ' + sc + '% 100%)"><div><strong>' + sc + '</strong><small>그룹 종합</small></div></div></div>';
+    if (n < MIN_N) h += '<p class="sbx-empty" style="margin-top:14px">아직 응답이 ' + n + '명입니다. ' + MIN_N + '명 이상 모이면 그룹 결과가 안정됩니다.</p>';
+    h += '<div class="result-grid">';
+    h += '<article class="result-card"><h3>그룹의 영역별 평균</h3><p class="sub">막대는 그룹 평균, 검은 눈금은 나 · 5점 만점</p><div class="bars">' + AREAS.map(function (a, d) {
+      return '<div class="bar-row"><span>' + esc(a) + '</span><div class="bar sbx-mkbar"><i style="width:' + (gm[d] / 5 * 100) + '%' + (d === ord[ord.length - 1].d ? ';background:var(--amber)' : '') + '"></i><b class="sbx-mk" style="left:' + (mm[d] / 5 * 100) + '%" title="나 ' + f1(mm[d]) + '"></b></div><em>' + f1(gm[d]) + '</em></div>';
+    }).join('') + '</div></article>';
+    h += '<article class="result-card"><h3>그룹의 강점과 보완점</h3><p class="sub">영역 평균과 1~2점(거의 안 함) 응답 비율</p><div class="gap-list">' +
+      ord.slice(0, 2).map(function (x) { return '<div class="gap"><div class="left"><span class="pill good">강점</span><span>' + esc(AREAS[x.d]) + '</span></div><strong>' + f1(x.v) + '</strong></div>'; }).join('') +
+      ord.slice(-2).reverse().map(function (x) { return '<div class="gap"><div class="left"><span class="pill">보완</span><span>' + esc(AREAS[x.d]) + ' · 미흡 응답 ' + lowShare(x.d) + '%</span></div><strong>' + f1(x.v) + '</strong></div>'; }).join('') + '</div></article>';
+    h += '<article class="result-card"><h3>수준별 인원</h3><p class="sub">종합 점수(0~100) 구간별 응답자 수</p><div class="bars">' + bands.map(function (b) {
+      return '<div class="bar-row"><span>' + b.t + '</span><div class="bar"><i style="width:' + (n ? b.c / n * 100 : 0) + '%"></i></div><em>' + b.c + '명</em></div>';
+    }).join('') + '</div></article>';
+    h += '<article class="result-card"><h3>교육팀을 위한 요구도 분석</h3><p class="sub">그룹 전체의 영역 평균과 미흡 응답 비율로 정한 교육 우선순위</p>' + eduTable(eduOf(rows), n) + '</article>';
+    h += byKey(function (r) { return r.role; }, CFG.roles.map(function (r) { return r[0]; }), function (k) { return roleLabels[k] || k; }, me.role, '직급별 비교');
+    h += byKey(function (r) { return r.job; }, allJobs, function (k) { return k; }, me.job, '직무별 비교');
+    h += '</div><div class="result-footer"><p class="note">같은 진단(' + NAME + ')에 응답한 사람 전체의 결과입니다. 개인을 알아볼 수 없도록 ' + MIN_G + '명 미만인 그룹의 점수는 표시하지 않습니다.</p>' +
+      '<div class="btns"><button type="button" class="btn btn-green" id="sbx-to-me">나의 진단 결과 보기</button><button type="button" class="btn btn-outline" id="sbx-home">처음으로</button></div></div>';
+    gsec.innerHTML = h;
+    document.getElementById('sbx-to-me').onclick = function () { analyze(me); };
+    document.getElementById('sbx-home').onclick = function () { show('intro'); };
+  }
+
   // ---------- 결과 ----------
   var model = null;
   function render(me, rows) {
@@ -139,11 +230,7 @@
     var low3 = am.map(function (v, d) { return { d: d, v: v }; }).sort(function (x, y) { return x.v - y.v; }).slice(0, 3);
     // 주황 막대: 가장 낮은 영역과 3.0점 미만인 영역
     var weakSet = am.map(function (v, d) { return d; }).filter(function (d) { return d === low3[0].d || am[d] < 3; });
-    var edu = rows.length >= MIN_N ? AREAS.map(function (n, d) {
-      var vals = []; rows.forEach(function (r) { vals = vals.concat(r.a.slice(d * K, d * K + K)); });
-      var low = vals.filter(function (v) { return v <= 2; }).length / vals.length;
-      return { d: d, m: mean(vals), low: low, need: (5 - mean(vals)) + 2 * low };
-    }).sort(function (x, y) { return y.need - x.need; }).slice(0, 3) : null;
+    var edu = eduOf(rows);
     model = { me: me, am: am, tot: tot, sc: sc, cmp: cmp, diffs: diffs, lowD: lowD, highD: highD, strong: strong, weak: weak, low3: low3, edu: edu, n: rows.length };
 
     var maxV = 5, h = '';
@@ -169,9 +256,7 @@
       return '<div class="action"><span class="check">' + (i + 1) + '</span><div><strong>' + ACTIONS[x.d][0] + '</strong><p>' + esc(AREAS[x.d]) + ' ' + f1(x.v) + '점 · ' + ACTIONS[x.d][1] + '</p></div><span class="owner">' + WHEN[i] + '</span></div>';
     }).join('') + '</article>';
     h += '<article class="result-card wide"><h3>교육팀을 위한 요구도 분석 · 우선순위</h3><p class="sub">' + NAME + ' 응답 전체의 영역 평균(낮을수록)과 1~2점 응답 비율(높을수록)을 합친 교육 후보</p>' +
-      (edu ? '<table class="priority-table"><thead><tr><th>우선</th><th>교육 주제</th><th>교육 포인트</th><th>평균 · 미흡 비율</th><th>요구도</th></tr></thead><tbody>' +
-        edu.map(function (x, i) { return '<tr><td>P' + (i + 1) + '</td><td>' + esc(AREAS[x.d]) + '</td><td>' + EDU[x.d] + '</td><td>' + f1(x.m) + ' · ' + Math.round(x.low * 100) + '%</td><td>' + f1(x.need) + '</td></tr>'; }).join('') + '</tbody></table>'
-        : '<p class="sbx-empty">' + NAME + ' 응답이 ' + MIN_N + '명 이상 모이면 영역별 교육 우선순위가 표시됩니다. (현재 ' + rows.length + '명)</p>') + '</article>';
+      eduTable(edu, rows.length) + '</article>';
     h += '<article class="result-card wide"><h3>조직이 지원하면 좋은 것</h3>' + [
       ['직무별 검증된 프롬프트 라이브러리', '매장과 본사의 각 직무가 바로 적용하되, 반드시 확인할 항목까지 포함합니다.'],
       ['업무 데이터 입력 기준과 안전 가이드', '무엇을 입력해도 되는지, 언제 사람의 승인이 필요한지 한 장으로 안내합니다.'],
@@ -179,7 +264,7 @@
       ['리더의 사용 시간과 공유 장치', '리더가 먼저 적용하고 정기 회의에서 한 가지 사례를 나누는 구조를 만듭니다.']
     ].map(function (x, i) { return '<div class="insight"><span class="num">0' + (i + 1) + '</span><div><strong>' + x[0] + '</strong><p>' + x[1] + '</p></div></div>'; }).join('') + '</article>';
     h += '</div><div class="result-footer"><p class="note">본 결과는 자기보고 응답을 바탕으로 한 개인화된 학습 안내입니다. BETA 버전으로, 비교 결과는 응답이 쌓일수록 정확해집니다.</p>' +
-      '<div class="btns"><button type="button" class="btn btn-green" id="sbx-pdf">⬇ 결과지 PDF 다운로드</button><button type="button" class="btn btn-outline" id="sbx-again">다시 진단하기</button></div></div><p class="sbx-msg" id="sbx-pdf-msg"></p>';
+      '<div class="btns"><button type="button" class="btn btn-green" id="sbx-pdf">⬇ 결과지 PDF 다운로드</button><button type="button" class="btn btn-outline" id="sbx-to-group">우리 그룹 결과 보기</button><button type="button" class="btn btn-outline" id="sbx-again">다시 진단하기</button></div></div><p class="sbx-msg" id="sbx-pdf-msg"></p>';
     var box = document.getElementById('sbx-results');
     box.innerHTML = h;
     box.querySelector('.sbx-copy').onclick = function (e) {
@@ -188,6 +273,7 @@
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { prompt('결과 코드를 복사하세요', code); }); else prompt('결과 코드를 복사하세요', code);
     };
     document.getElementById('sbx-again').onclick = function () { show('intro'); };
+    document.getElementById('sbx-to-group').onclick = function () { groupView(me); };
     document.getElementById('sbx-pdf').onclick = function (e) { downloadPdf(e.currentTarget); };
   }
   var results = document.getElementById('results');
