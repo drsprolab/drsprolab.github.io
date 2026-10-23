@@ -1,5 +1,5 @@
 // AX 전환 준비도 진단: 설문 응답 수집 → 분석 실시 → 내가 본 우리 회사 / 우리 회사 분석결과 / 응답자 구분별 비교.
-// 문항: 기반 마련 → 개인 활용 → 업무 재설계 → 전사 확산 → AI 내재화, 5단계 × 5문항 + 전반 인식 2문항 = 27문항, 5점 동의 척도.
+// 문항: 기반 마련 → 개인 활용 → 업무 재설계 → 전사 확산 → AI 내재화, 5단계 × 6문항 + 전반 인식 2문항 = 32문항, 5점 동의 척도.
 // 회사를 주어로 묻는 단계(기반 마련·전사 확산·AI 내재화)와 전반 인식 문항에는 '잘 모르겠다'(값 0)를 둔다. 0은 점수 계산에서 빼고, 단계별 '모르겠다' 비율로 따로 보고한다.
 // 응답 저장: #axr의 data-endpoint(Google Apps Script 웹앱, tools/ax-readiness/)가 있으면 그곳에,
 // 비어 있으면 시험 모드로, 응답을 이 브라우저에만 저장하고 이 브라우저의 응답끼리만 분석한다.
@@ -10,7 +10,7 @@
   var ENDPOINT = (root.dataset.endpoint || '').trim();
   var PREVIEW = !ENDPOINT;
   var GROUP = cleanGroup(new URLSearchParams(location.search).get('group'));
-  var LS_ME = 'axr-v1-me' + (PREVIEW ? '-test' : ''), LS_DATA = 'axr-v1-test-responses';
+  var LS_ME = 'axr-v2-me' + (PREVIEW ? '-test' : ''), LS_DATA = 'axr-v2-test-responses';
   var MIN_N = 5;   // 회사 결과·비교를 보여 줄 최소 응답 수
   var MIN_ROLE = 3; // 응답자 구분별 비교에 넣을 최소 인원
 
@@ -43,48 +43,58 @@
     ['F1', '우리 회사는 AX로 달성하려는 목표를 구체적인 업무 성과(예: 처리 시간 단축, 품질 향상)로 제시했다.'],
     ['F2', '우리 회사 경영진은 AX 과제에 필요한 자원(예: 예산, 전담 인력)을 배정하고 있다.'],
     ['F3', '우리 회사는 AI 사용 기준(예: 입력하면 안 되는 정보, 결과 검토 책임)을 담은 공식 지침을 갖추고 있다.'],
-    ['F4', '우리 회사는 보안 검토를 거친 AI 도구를 구성원이 업무에 쓸 수 있도록 제공한다.'],
+    ['F4', '우리 회사는 업무용으로 승인한 AI 도구를 구성원에게 제공한다.'],
     ['F5', '우리 회사는 직무별 AI 활용 교육을 운영한다.'],
+    ['F6', '우리 회사는 AX로 구성원의 역할이 어떻게 달라지는지 구성원에게 설명했다.'],
     ['P1', '나는 매주 반복되는 내 업무 가운데 적어도 한 가지를 AI로 처리하고 있다.'],
-    ['P2', '나는 AI에게 요청할 때 결과물이 갖출 조건(예: 목적, 분량, 형식)을 구체적으로 제시한다.'],
-    ['P3', '나는 AI 결과를 업무에 쓰기 전에 원자료와 대조해 확인한다.'],
-    ['P4', '나는 AI가 내 업무 성과를 어떻게 높였는지 구체적인 예(예: 줄어든 시간, 줄어든 오류)를 들 수 있다.'],
-    ['P5', '나는 새로 알게 된 AI 기능을 내 업무에 직접 적용해 본다.'],
+    ['P2', '나는 AI에게 일을 맡기기 전에 그 과업이 AI에 적합한지 따져 본다.'],
+    ['P3', '나는 AI에게 요청할 때 결과물이 갖출 조건(예: 목적, 분량, 형식)을 구체적으로 제시한다.'],
+    ['P4', '나는 AI 결과를 업무에 쓰기 전에 원자료와 대조해 확인한다.'],
+    ['P5', '나는 AI에 자료를 입력하기 전에 보호해야 할 정보(예: 기밀정보, 개인정보)가 들어 있는지 확인한다.'],
+    ['P6', '나는 AI 활용으로 달라진 내 업무 성과(예: 줄어든 시간, 줄어든 오류)를 확인한다.'],
     ['W1', '우리 팀은 업무를 과업 단위로 나누어 AI가 맡을 부분과 사람이 맡을 부분을 정해 두었다.'],
     ['W2', '우리 팀의 업무 절차에는 AI 결과를 사람이 검토하는 단계가 명시되어 있다.'],
     ['W3', '우리 팀은 AI를 활용하기 위해 기존 업무 절차 자체를 바꾸었다(예: 단계 통합, 순서 변경).'],
     ['W4', '우리 팀은 AI를 적용한 업무의 효과를 전후 비교 지표(예: 처리 시간, 오류 건수)로 확인한다.'],
     ['W5', '우리 팀에는 효과가 확인된 AI 활용 방법이 누구나 쓸 수 있는 형태(예: 공용 요청문, 작업 안내서)로 정리되어 있다.'],
+    ['W6', '우리 팀은 AI 활용 중 생긴 오류 사례를 팀원들이 함께 검토한다.'],
     ['E1', '우리 회사는 한 부서에서 효과가 확인된 AI 활용 사례를 다른 부서가 도입하도록 지원하는 체계(예: 전담 조직, 사례 공유 플랫폼)를 운영한다.'],
-    ['E2', '우리 회사는 여러 부서가 함께 쓰는 공통 AI 플랫폼에서 검증된 기능을 재사용한다.'],
+    ['E2', '우리 회사에서는 한 부서가 만든 AI 기능(예: 업무 자동화, 사내 AI 비서)을 다른 부서도 함께 쓴다.'],
     ['E3', '우리 회사의 업무 데이터는 부서 구분 없이 AI가 안전하게 활용할 수 있도록 통합되어 있다.'],
-    ['E4', '우리 회사는 AI 과제의 성과를 전사 공통 지표로 정기적으로 측정한다.'],
-    ['E5', '우리 회사의 평가·보상 제도는 AI를 활용한 업무 혁신을 성과로 인정한다.'],
+    ['E4', '우리 회사는 AI에 쓰이는 데이터의 품질(예: 정확성, 최신성)을 정해진 기준으로 관리한다.'],
+    ['E5', '우리 회사는 AI 과제의 성과를 전사 공통 지표로 정기적으로 측정한다.'],
+    ['E6', '우리 회사의 인사 평가는 AI를 활용한 업무 혁신을 성과로 반영한다.'],
     ['N1', '우리 회사에서는 AI가 사람의 감독 아래 부서를 넘는 업무 프로세스의 여러 단계를 처리한다.'],
     ['N2', '우리 회사는 업무 프로세스를 설계할 때 사람과 AI가 각각 맡을 역할을 처음부터 함께 정한다.'],
     ['N3', '우리 회사는 운영 중인 AI 시스템마다 책임지는 담당자를 지정해 관리한다.'],
-    ['N4', '우리 회사의 주요 의사결정 자료에는 AI 분석 결과가 기본적으로 포함된다.'],
-    ['N5', '우리 회사는 AI를 활용해 고객에게 제공하는 상품이나 서비스의 방식을 바꾸었다.'],
+    ['N4', '우리 회사는 운영 중인 AI 시스템의 위험(예: 오류, 보안, 윤리)을 정해진 주기로 점검한다.'],
+    ['N5', '우리 회사의 주요 의사결정 자료에는 AI 분석 결과가 기본적으로 포함된다.'],
+    ['N6', '우리 회사는 AI를 활용해 고객(또는 서비스 대상)에게 제공하는 상품이나 서비스의 방식을 바꾸었다.'],
     ['G1', '우리 회사 구성원들은 AX 전환을 해내려는 의지가 강하다.'],
     ['G2', '우리 회사는 AX 전환을 해낼 역량을 갖추고 있다.']
   ];
+  var K = 6, NS = 30; // 단계당 문항 수, 단계 문항 수
   var ITEMS = RAW.map(function (r, i) {
-    var s = i < 25 ? STAGES[Math.floor(i / 5)] : null;
+    var s = i < NS ? STAGES[Math.floor(i / K)] : null;
     return { code: r[0], text: r[1], idx: i, unk: s ? s.unk : true };
   });
-  var NS = 25, NI = ITEMS.length; // 단계 문항 수, 전체 문항 수
+  var NI = ITEMS.length; // 전체 문항 수
   var SCALE = ['전혀 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'];
   var UNK = '잘 모르겠다';
   var ROLES = ['실무자(팀원)', '팀장·파트장', '임원·경영진', '기타'];
+  // 배경 문항: 직무군과 AI 사용 빈도. 비교 분석의 보조 변수로만 쓰고, 개인을 식별할 수 있는 정보는 묻지 않는다.
+  var JOBS = ['경영지원', '영업·마케팅', '연구·개발', '생산·운영', '서비스·고객지원', '기타'];
+  var FREQS = ['거의 쓰지 않음', '월 1~3회', '주 1~2회', '주 3회 이상', '매일'];
+  var BG = [{ key: 'role', label: '직급', opts: ROLES }, { key: 'job', label: '직무군', opts: JOBS }, { key: 'freq', label: '최근 한 달 동안 업무에 AI를 쓴 빈도', opts: FREQS }];
   // 제시 순서: 단계 순서대로, 한 쪽에 한 단계(주어가 같은 문항끼리) → 전반 인식
-  var PAGES = STAGES.map(function (_, s) { return ITEMS.slice(s * 5, s * 5 + 5); });
+  var PAGES = STAGES.map(function (_, s) { return ITEMS.slice(s * K, s * K + K); });
   PAGES.push(ITEMS.slice(NS));
   var PAGE_HEAD = ['우리 회사 전체에 대한 문장입니다.', '나 자신에 대한 문장입니다.', '내가 속한 팀에 대한 문장입니다.', '우리 회사 전체에 대한 문장입니다.', '우리 회사의 업무 시스템과 프로세스에 대한 문장입니다.', '마지막으로, 우리 회사 전체를 떠올려 주세요.'];
 
   // ---------- 수준·단계 ----------
   var LEVELS = [{ min: 80, t: '주도' }, { min: 60, t: '정착' }, { min: 40, t: '형성' }, { min: 0, t: '시작' }];
   var CUT = 60;      // 단계 '준비 완료' 기준점(잠정)
-  var MIN_ITEMS = 4; // 단계 점수를 내려면 5문항 중 이만큼 응답(모르겠다 제외)해야 함
+  var MIN_ITEMS = 4; // 단계 점수를 내려면 6문항 중 이만큼 응답(모르겠다 제외)해야 함
   var GAP_NOTE = 10, GAP_BIG = 20; // 나와 다른 응답자의 차이: 눈여겨볼 차이, 큰 차이(점)
   var STAGE_NAMES = ['출발 전', '1단계 · 기반 마련', '2단계 · 개인 활용', '3단계 · 업무 재설계', '4단계 · 전사 확산', '5단계 · AI 내재화'];
   var STAGE_DESC = [
@@ -133,7 +143,7 @@
   };
 
   // ---------- 상태 ----------
-  var state = { view: 'home', page: -1, answers: {}, role: '', started: 0, tab: 'me', me: null, pool: null };
+  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', started: 0, tab: 'me', me: null, pool: null };
 
   // ---------- 유틸 ----------
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -176,8 +186,8 @@
     return k;
   }
   function score(a) {
-    var lv = STAGES.map(function (_, s) { return itemsScore(a.slice(s * 5, s * 5 + 5)); });
-    var unk = STAGES.map(function (_, s) { return a.slice(s * 5, s * 5 + 5).filter(function (v) { return v === 0; }).length; });
+    var lv = STAGES.map(function (_, s) { return itemsScore(a.slice(s * K, s * K + K)); });
+    var unk = STAGES.map(function (_, s) { return a.slice(s * K, s * K + K).filter(function (v) { return v === 0; }).length; });
     return { lv: lv, unk: unk, stage: stageOf(lv), g: itemsScore(a.slice(NS)), a: a };
   }
 
@@ -196,24 +206,24 @@
   function fetchPool(group, me) {
     if (PREVIEW) {
       var rows = localRows().filter(function (r) { return !group || (r.group || '') === group; }).map(function (r) {
-        return { role: r.role, g: r.group || '', a: r.answers, mine: !!(me && r.id === me.id) };
+        return { role: r.role, job: r.job || '', freq: r.freq || '', g: r.group || '', a: r.answers, mine: !!(me && r.id === me.id) };
       });
       return Promise.resolve(withMine(rows, me));
     }
     var u = ENDPOINT + '?action=all&group=' + encodeURIComponent(group) + (me ? '&me=' + encodeURIComponent(me.id) : '');
     return call(u).then(function (j) {
       if (!j.ok) throw new Error(j.error || '불러오기 실패');
-      return withMine(j.rows.map(function (r) { return { role: r.role, g: r.g || '', a: r.a, mine: !!r.m }; }), me);
+      return withMine(j.rows.map(function (r) { return { role: r.role, job: r.j || '', freq: r.f || '', g: r.g || '', a: r.a, mine: !!r.m }; }), me);
     });
   }
   function withMine(rows, me) {
-    if (me && !rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, g: me.group || '', a: me.answers, mine: true });
+    if (me && !rows.some(function (r) { return r.mine; })) rows.push({ role: me.role, job: me.job || '', freq: me.freq || '', g: me.group || '', a: me.answers, mine: true });
     return rows;
   }
   function fetchOne(id) {
     if (PREVIEW) return Promise.resolve(localRows().filter(function (r) { return r.id === id; })[0] || null);
     return call(ENDPOINT + '?action=one&id=' + encodeURIComponent(id))
-      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, answers: j.row.a } : null; });
+      .then(function (j) { return j.ok && j.row ? { id: j.row.id, group: j.row.group, role: j.row.role, job: j.row.j || '', freq: j.row.f || '', answers: j.row.a } : null; });
   }
 
   // ---------- 회사(집단) 집계 ----------
@@ -222,7 +232,7 @@
     var lvSd = STAGES.map(function (_, s) { return sd(nn(rows.map(function (r) { return r.lv[s]; }))); });
     var unkPct = STAGES.map(function (_, s) {
       var tot = 0, u = 0;
-      rows.forEach(function (r) { for (var i = s * 5; i < s * 5 + 5; i++) { tot++; if (r.a[i] === 0) u++; } });
+      rows.forEach(function (r) { for (var i = s * K; i < s * K + K; i++) { tot++; if (r.a[i] === 0) u++; } });
       return tot ? u / tot * 100 : 0;
     });
     var ready = STAGES.map(function (_, s) {
@@ -307,7 +317,7 @@
     root.innerHTML = previewNote() +
       '<section class="aidx-home">' +
       '<p class="aidx-lead">우리 회사는 AI를 전제로 일하는 회사로 바뀔 준비가 얼마나 되어 있을까요?<br>기반 마련에서 AI 내재화까지, 다섯 단계로 AX 전환 준비도를 진단합니다.</p>' +
-      '<ul class="aidx-meta"><li class="beta">BETA</li><li>27문항</li><li>약 6분</li><li>익명</li></ul>' +
+      '<ul class="aidx-meta"><li class="beta">BETA</li><li>32문항</li><li>약 7분</li><li>익명</li></ul>' +
       (GROUP ? '<p class="aidx-group">응답 회사(그룹) <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
@@ -330,27 +340,30 @@
           '<span class="aidx-fq">' + st.q + '</span>' +
           '<span class="aidx-fex">예) ' + st.ex + '</span></li>';
       }).join('') + '</ol>' +
-      '<p class="aidx-fsum"><span>단계별 5문항 → 25문항</span><span>+ 전반 인식 2문항</span><span>= 27문항</span></p>' +
+      '<p class="aidx-fsum"><span>단계별 6문항 → 30문항</span><span>+ 전반 인식 2문항</span><span>= 32문항</span></p>' +
       '<p class="aidx-small">앞 단계가 갖추어져야 다음 단계가 제대로 작동한다고 보고, 1단계부터 차례로 기준(60점)을 넘은 단계까지를 "준비된 단계"로 판정합니다.</p></section>';
   }
 
   // ---------- 화면: 설문 ----------
   function answered() { return Object.keys(state.answers).length; }
+  function bgDone() { return BG.filter(function (b) { return state[b.key]; }).length; }
   function viewSurvey() {
     var p = state.page, h = '';
-    var done = answered() + (state.role ? 1 : 0), total = NI + 1;
+    var done = answered() + bgDone(), total = NI + BG.length;
     h += '<div class="aidx-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + done + '"><span style="width:' + (done / total * 100) + '%"></span></div>';
     h += '<p class="aidx-step">' + (p + 2) + ' / ' + (PAGES.length + 1) + '</p>';
     if (p === -1) {
       h += '<h2 class="aidx-h">응답하기 전에</h2>' +
         '<ol class="aidx-guide">' +
-        '<li><span class="aidx-gicon" aria-hidden="true">📍</span><strong>지금 상태를 떠올리세요</strong><span>앞으로의 계획이 아니라, 오늘 실제로 갖추어져 있는 것을 기준으로</span></li>' +
+        '<li><span class="aidx-gicon" aria-hidden="true">📍</span><strong>지금 상태를 떠올리세요</strong><span>앞으로의 계획이 아니라, 최근 6개월 동안 직접 경험하거나 확인한 사실을 기준으로</span></li>' +
         '<li><span class="aidx-gicon" aria-hidden="true">🔁</span><strong>주어가 바뀝니다</strong><span>우리 회사 → 나 → 우리 팀 → 우리 회사 순서로, 쪽마다 문장의 주어가 다릅니다</span></li>' +
         '<li><span class="aidx-gicon" aria-hidden="true">🤷</span><strong>모르면 "잘 모르겠다"</strong><span>회사 전체에 관한 문항은 잘 모르면 짐작하지 말고 "잘 모르겠다"를 고르세요</span></li>' +
         '</ol>' +
-        '<fieldset class="aidx-role"><legend>먼저, 나는</legend><div class="aidx-roles">' +
-        ROLES.map(function (r) { return '<label><input type="radio" name="role" value="' + r + '"' + (state.role === r ? ' checked' : '') + '><span>' + r + '</span></label>'; }).join('') +
-        '</div></fieldset>';
+        BG.map(function (b) {
+          return '<fieldset class="aidx-role" id="bg-' + b.key + '"><legend>' + b.label + '</legend><div class="aidx-roles">' +
+            b.opts.map(function (r) { return '<label><input type="radio" name="' + b.key + '" value="' + r + '"' + (state[b.key] === r ? ' checked' : '') + '><span>' + r + '</span></label>'; }).join('') +
+            '</div></fieldset>';
+        }).join('');
     } else {
       var items = PAGES[p], st = STAGES[p];
       h += '<h2 class="aidx-h">' + (st ? (p + 1) + '단계 · ' + st.name : '전반 인식') + '</h2>' +
@@ -372,7 +385,7 @@
     root.innerHTML = previewNote() + '<section class="aidx-survey">' + h + '</section>';
   }
   function pageComplete() {
-    if (state.page === -1) return state.role ? null : 'role';
+    if (state.page === -1) { var m = BG.filter(function (b) { return !state[b.key]; })[0]; return m ? 'bg:' + m.label : null; }
     var miss = PAGES[state.page].filter(function (it) { return state.answers[it.code] === undefined; });
     return miss.length ? miss[0].code : null;
   }
@@ -392,7 +405,7 @@
   }
 
   // ---------- 분석 실행 ----------
-  function scored(r) { var s = score(r.a); s.role = r.role; s.g0 = r.g || ''; s.mine = r.mine; return s; }
+  function scored(r) { var s = score(r.a); s.role = r.role; s.job = r.job; s.freq = r.freq; s.g0 = r.g || ''; s.mine = r.mine; return s; }
   function analyze(tab) {
     state.tab = tab;
     var me = state.me, group = me ? (me.group || '') : GROUP;
@@ -413,7 +426,7 @@
       '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 회사 분석결과', '우리 회사') + '</button>' +
       '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 구분별 비교', '구분별 비교') + '</button></div>' +
       '<div role="tabpanel">' + (state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
-      '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 준비 기준점(60점)과 단계 순서는 타당화 전의 잠정 기준입니다. 점수 = (응답한 문항 평균 − 1) × 25, 0~100점, "잘 모르겠다"는 점수에서 제외. ' +
+      '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 준비 기준점(60점)과 단계 순서는 타당화 전의 잠정 기준이며, 단계는 구성원 인식을 바탕으로 한 추정입니다. 공식 성숙도 판정에는 문서·지표 같은 증거 확인을 함께 쓰세요. 점수 = (응답한 문항 평균 − 1) × 25, 0~100점, "잘 모르겠다"는 점수에서 제외. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
   }
@@ -446,7 +459,7 @@
     var O = no ? aggregate(others) : null;
     var diffs = STAGES.map(function (_, s) { return O && me.lv[s] !== null && O.lvMean[s] !== null ? me.lv[s] - O.lvMean[s] : null; });
     var unkStages = STAGES.map(function (st, s) { return st.unk ? s : -1; }).filter(function (s) { return s >= 0; });
-    var myUnk = unkStages.reduce(function (t, s) { return t + me.unk[s]; }, 0), unkItems = unkStages.length * 5;
+    var myUnk = unkStages.reduce(function (t, s) { return t + me.unk[s]; }, 0), unkItems = unkStages.length * K;
     var othersUnk = no ? mean(others.map(function (r) { return unkStages.reduce(function (t, s) { return t + r.unk[s]; }, 0); })) : 0;
     var stageCnt = [0, 0, 0, 0, 0, 0]; others.forEach(function (r) { stageCnt[r.stage]++; });
     var modeStage = stageCnt.indexOf(Math.max.apply(null, stageCnt));
@@ -456,7 +469,7 @@
 
     // 1. 내가 본 단계
     var bott = me.stage < 5 ? me.stage : -1;
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">내가 본 우리 회사의 AX 준비 단계</p>' +
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">내 응답으로 본 우리 회사의 AX 준비 단계</p>' +
       '<h2>' + stageTitle(me.stage) + '</h2><p>' + STAGE_DESC[me.stage] + '</p>' +
       (bott >= 0 ? '<p>다음 관문은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>입니다. "' + STAGES[bott].q + '"</p>' : '') +
       (no ? '<p>다른 응답자 ' + no + '명 가운데 <strong>' + r0(same / no * 100) + '%</strong>는 나와 같은 단계로, ' + r0(higher / no * 100) + '%는 더 높은 단계로, ' + r0((no - same - higher) / no * 100) + '%는 더 낮은 단계로 보았습니다.</p>' : '') +
@@ -494,7 +507,7 @@
     // 4. 차이가 가장 큰 영역과 행동지침
     if (top && Math.abs(top.d) >= GAP_NOTE) {
       var st = STAGES[top.s], dir = top.d > 0 ? 'hi' : 'lo', R = GAP_READ[st.key][dir];
-      var itemGaps = ITEMS.slice(top.s * 5, top.s * 5 + 5).map(function (it) {
+      var itemGaps = ITEMS.slice(top.s * K, top.s * K + K).map(function (it) {
         var om = itemMeanOf(others, it.idx), my = me.a[it.idx];
         return { it: it, my: my, om: om, d: my > 0 && om !== null ? my - om : null };
       });
@@ -526,7 +539,7 @@
     var tips = '';
     [1, 2].forEach(function (s) {
       if (me.lv[s] === null || me.lv[s] >= 80) return;
-      var low = ITEMS.slice(s * 5, s * 5 + 5).filter(function (it) { return me.a[it.idx] > 0 && me.a[it.idx] <= 3; }).slice(0, 2);
+      var low = ITEMS.slice(s * K, s * K + K).filter(function (it) { return me.a[it.idx] > 0 && me.a[it.idx] <= 3; }).slice(0, 2);
       tips += '<li class="aidx-plan-card"><p class="aidx-plan-h">' + STAGES[s].icon + ' ' + STAGES[s].name + ' <span class="aidx-muted">' + sc(me.lv[s]) + '점</span></p>' +
         '<ul class="aidx-list">' + MY_TIPS[STAGES[s].key].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
         (low.length ? '<p class="aidx-small">아직 갖추지 못했다고 답한 것</p><ul class="aidx-list aidx-check">' + low.map(function (it) { return '<li>' + esc(it.text) + '</li>'; }).join('') + '</ul>' : '') + '</li>';
@@ -550,7 +563,7 @@
 
     // 1. 한 줄 요약
     var bott = A.stage < 5 ? A.stage : -1;
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">우리 회사의 AX 준비 단계</p>' +
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">구성원 인식으로 본 우리 회사의 AX 준비 단계</p>' +
       '<h2>' + stageTitle(A.stage) + '</h2><p>' + STAGE_DESC[A.stage] + '</p>' +
       (bott >= 0 ? '<p>병목은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>(평균 ' + sc(A.lvMean[bott]) + '점)입니다. 이 단계에서 "준비됨"(60점 이상)이라고 본 응답자는 ' + r0(A.ready[bott]) + '%입니다.</p>' : '') +
       '<div class="axr-stairs-box">' + stairs(A.stage, '회사 준비 단계 ' + A.stage + '단계') + '</div></section>';
@@ -586,7 +599,7 @@
       '<p class="panel-sub">합의도 rwg(j)는 회사를 주어로 묻는 단계(1·4·5단계)에서, 신뢰도 α는 "모르겠다" 없이 응답한 사람이 10명 이상일 때 표시</p>' +
       '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>평균</th><th>SD</th><th>준비됨</th><th>모르겠다</th><th>합의도</th><th>α</th></tr></thead><tbody>' +
       STAGES.map(function (st, s) {
-        var rw = st.unk && n >= MIN_N ? rwgj(rows, s * 5, s * 5 + 5) : null, al = alpha(rows, s * 5, s * 5 + 5);
+        var rw = st.unk && n >= MIN_N ? rwgj(rows, s * K, s * K + K) : null, al = alpha(rows, s * K, s * K + K);
         return '<tr><td>' + (s + 1) + '. ' + st.name + '</td><td><strong>' + sc(A.lvMean[s]) + '</strong></td><td>' + r0(A.lvSd[s]) + '</td><td>' + r0(A.ready[s]) + '%</td>' +
           '<td>' + (st.unk ? r0(A.unkPct[s]) + '%' : '–') + '</td><td>' + (rw === null ? '–' : f2(rw)) + '</td><td>' + (al === null ? '–' : f2(al)) + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
@@ -597,7 +610,7 @@
       var v = rows.map(function (r) { return r.a[it.idx]; }).filter(function (x) { return x > 0; });
       return { it: it, m: v.length ? mean(v) : null };
     }).filter(function (x) { return x.m !== null; }).sort(function (a, b) { return b.m - a.m; });
-    function itemList(list) { return '<ul class="aidx-list">' + list.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + STAGES[Math.floor(x.it.idx / 5)].name + ' · ' + f1(x.m) + '</span></li>'; }).join('') + '</ul>'; }
+    function itemList(list) { return '<ul class="aidx-list">' + list.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + STAGES[Math.floor(x.it.idx / K)].name + ' · ' + f1(x.m) + '</span></li>'; }).join('') + '</ul>'; }
     var unkTop = ITEMS.slice(0, NS).filter(function (it) { return it.unk; }).map(function (it) {
       return { it: it, p: rows.filter(function (r) { return r.a[it.idx] === 0; }).length / n * 100 };
     }).sort(function (a, b) { return b.p - a.p; }).slice(0, 3).filter(function (x) { return x.p > 0; });
@@ -614,7 +627,7 @@
       h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">다음 단계로 가려면</p><h3>' + josa(STAGES[bott].name, '을', '를') + ' 먼저 채우세요</h3>' +
         '<p>앞 단계가 비어 있으면 뒤 단계에 투자해도 효과가 작습니다. 병목 단계부터 우선순위를 두세요.</p></div>' +
         '<ol class="aidx-plan-list">' + ahead.map(function (s, i) {
-          var low = ITEMS.slice(s * 5, s * 5 + 5).map(function (it) { var v = rows.map(function (r) { return r.a[it.idx]; }).filter(function (x) { return x > 0; }); return { it: it, m: v.length ? mean(v) : 9 }; })
+          var low = ITEMS.slice(s * K, s * K + K).map(function (it) { var v = rows.map(function (r) { return r.a[it.idx]; }).filter(function (x) { return x > 0; }); return { it: it, m: v.length ? mean(v) : 9 }; })
             .sort(function (a, b) { return a.m - b.m; }).slice(0, 2);
           return '<li class="aidx-plan-card' + (i ? ' keep' : '') + '"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + STAGES[s].icon + ' ' + (s + 1) + '단계 ' + STAGES[s].name +
             ' <span class="aidx-muted">평균 ' + sc(A.lvMean[s]) + '점 · 책임: ' + STAGES[s].owner + '</span></p>' +
@@ -665,6 +678,15 @@
           : big && big.d <= -15 ? '실무자가 리더보다 준비 상태를 높게 보고 있습니다. 현장의 준비가 리더에게 보이지 않거나, 리더가 기대하는 수준이 더 높을 수 있습니다.'
           : '같은 상태를 비슷하게 보고 있어, 회사 평균을 공통의 출발점으로 삼을 수 있습니다.') + '</p></section>';
     }
+    // 직무군별, AI 사용 빈도별 단계 평균 (각 구분 MIN_ROLE명 이상만)
+    [{ key: 'job', label: '직무군', opts: JOBS }, { key: 'freq', label: 'AI 사용 빈도', opts: FREQS }].forEach(function (dim) {
+      var gs = dim.opts.map(function (o) { return { o: o, rs: rows.filter(function (r) { return r[dim.key] === o; }) }; }).filter(function (x) { return x.rs.length >= MIN_ROLE; });
+      if (gs.length < 2) return;
+      h += '<div class="panel"><h3 class="panel-title">' + dim.label + '별 단계 평균</h3><p class="panel-sub">' + MIN_ROLE + '명 이상인 구분만 표시</p>' +
+        '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>' + dim.label + '</th><th>n</th>' + STAGES.map(function (st, i) { return '<th>' + (i + 1) + '. ' + st.name + '</th>'; }).join('') + '<th>준비 단계</th></tr></thead><tbody>' +
+        gs.map(function (x) { var A = aggregate(x.rs); return '<tr><td>' + x.o + '</td><td>' + x.rs.length + '</td>' + A.lvMean.map(function (v) { return '<td>' + sc(v) + '</td>'; }).join('') + '<td><strong>' + A.stage + '단계</strong></td></tr>'; }).join('') +
+        '</tbody></table></div></div>';
+    });
     h += '<p class="aidx-small">응답 수가 적으면 차이가 커 보여도 우연일 수 있습니다. 표본이 작을 때는 참고용으로 보세요.</p>';
     return h;
   }
@@ -676,13 +698,13 @@
   root.addEventListener('change', function (e) {
     var t = e.target;
     state.pending = null;
-    if (t.name === 'role') state.role = t.value;
+    if (t.name === 'role' || t.name === 'job' || t.name === 'freq') state[t.name] = t.value;
     else if (t.type === 'radio') {
       state.answers[t.name] = +t.value;
       var li = t.closest('.aidx-item'); if (li) li.classList.remove('is-miss');
     }
     var bar = root.querySelector('.aidx-progress');
-    if (bar) { var done = answered() + (state.role ? 1 : 0); bar.firstChild.style.width = (done / (NI + 1) * 100) + '%'; bar.setAttribute('aria-valuenow', done); }
+    if (bar) { var done = answered() + bgDone(); bar.firstChild.style.width = (done / (NI + BG.length) * 100) + '%'; bar.setAttribute('aria-valuenow', done); }
   });
 
   root.addEventListener('click', function (e) {
@@ -690,21 +712,21 @@
     if (tb) { if (!state.pool) { analyze(tb.dataset.tab); return; } state.tab = tb.dataset.tab; viewResult(); return; }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.dataset.act;
-    if (act === 'start') { state.answers = {}; state.role = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
+    if (act === 'start') { state.answers = {}; state.role = ''; state.job = ''; state.freq = ''; state.pending = null; state.page = -1; state.started = Date.now(); go('survey'); }
     else if (act === 'home') { go('home'); }
     else if (act === 'prev') { if (state.page === -1) go('home'); else { state.page--; go('survey'); } }
     else if (act === 'next') {
       var miss = pageComplete(), err = document.getElementById('axr-err');
       if (miss) {
-        err.textContent = miss === 'role' ? '응답자 구분을 골라 주세요.' : '응답하지 않은 문항이 있습니다.';
-        if (miss !== 'role') {
+        err.textContent = miss.indexOf('bg:') === 0 ? josa(miss.slice(3), '을', '를') + ' 골라 주세요.' : '응답하지 않은 문항이 있습니다.';
+        if (miss.indexOf('bg:') !== 0) {
           PAGES[state.page].forEach(function (it) { if (state.answers[it.code] === undefined) document.getElementById('q-' + it.code).classList.add('is-miss'); });
           document.getElementById('q-' + miss).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         return;
       }
       if (state.page < PAGES.length - 1) { state.page++; go('survey'); return; }
-      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
+      var rec = state.pending || { id: newId(), group: GROUP, role: state.role, job: state.job, freq: state.freq, answers: ITEMS.map(function (it) { return state.answers[it.code]; }), seconds: Math.round((Date.now() - state.started) / 1000) };
       state.pending = rec; b.disabled = true; err.textContent = '저장하는 중…';
       submit(rec).then(function () {
         state.me = rec; state.pending = null; state.pool = null; save(LS_ME, rec); viewDone();
