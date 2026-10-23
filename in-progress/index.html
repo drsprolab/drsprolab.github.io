@@ -19,6 +19,26 @@ lede: 지금 응답을 받고 있는 진단입니다. 참여하면 바로 나의
       <dt>결과</dt><dd>나의 AI 활용 유형, 강점과 보완점, 우리 그룹 분석</dd>
     </dl>
   </div>
+  <div class="inst inst--multi">
+    <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">매장용 · 개인·그룹</span></div>
+    <h3><a class="inst-main" href="{{ '/in-progress/starbucks-ai-store/' | relative_url }}">스타벅스 AI 기본 역량 진단 (매장용)</a></h3>
+    <p>바리스타부터 점장과 지역 운영 리더까지, 고객 응대·매장 운영·교대 협업에서 AI를 어떻게 활용하고 확인하는지 진단합니다.</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>매장 파트너·슈퍼바이저·점장·지역 운영 리더</dd>
+      <dt>측정 요인</dt><dd>6개 실천 영역 · 24문항</dd>
+      <dt>결과</dt><dd>나의 강점·보완점, 매장 직급·직무별 비교, 행동지침과 교육 우선순위</dd>
+    </dl>
+  </div>
+  <div class="inst inst--multi">
+    <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">본사용 · 개인·그룹</span></div>
+    <h3><a class="inst-main" href="{{ '/in-progress/starbucks-ai-hq/' | relative_url }}">스타벅스 AI 기본 역량 진단 (본사용)</a></h3>
+    <p>전략·마케팅·상품·인사·재무·공급망·IT 등 본사 직무에서 AI를 활용한 자료 분석, 기획, 검증과 업무 개선 역량을 진단합니다.</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>본사 실무자·책임자·팀장·임원 및 경영진</dd>
+      <dt>측정 요인</dt><dd>6개 실천 영역 · 24문항</dd>
+      <dt>결과</dt><dd>나의 강점·보완점, 본사 직급·직무별 비교, 행동지침과 교육 우선순위</dd>
+    </dl>
+  </div>
   {% assign tadx = site.pages | where: "url", "/in-progress/teacher-ai-competency/" | first %}
   <div class="inst inst--multi">
     {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tadx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
