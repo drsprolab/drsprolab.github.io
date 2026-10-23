@@ -1,0 +1,145 @@
+/* Course materials design system (HRD 개론 / 학습조직)
+   Portrait handout: <body class="handout"> with <section class="page"> per A4 page.
+   Landscape summary/diagram: <body class="sheet-doc"> with <section class="sheet"> per A4 landscape page.
+   Each page is a fixed-size box, so content that does not fit overflows
+   instead of flowing to a new page; render.py flags it. */
+
+:root {
+  --ink: #22262b;
+  --muted: #5a6470;
+  --faint: #9aa1ab;
+  --navy: #164e8c;
+  --navy-deep: #1b2f52;
+  --navy-night: #15233f;
+  --gold: #b8860b;
+  --gold-deep: #8a6408;
+  --gold-bright: #e5a93c;
+  --line: #d9dee6;
+  --line-soft: #e3e7ed;
+  --tint: #eef2f8;
+  --tint-2: #f5f7fa;
+  --cream: #fbf6ea;
+  --cream-line: #ecdcb5;
+  --f-sans: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --f-serif: "Noto Serif KR", "AppleMyungjo", serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; color: var(--ink); }
+body { font-family: var(--f-sans); font-size: 9.6pt; line-height: 1.62; -webkit-print-color-adjust: exact; print-color-adjust: exact; word-break: keep-all; }
+b, strong { color: var(--navy); font-weight: 700; }
+.gold { color: var(--gold-deep); font-weight: 700; }
+p { margin: 0 0 6px; }
+
+/* ---------- page boxes ---------- */
+@page { size: A4; margin: 0; }
+.handout .page { width: 210mm; height: 297mm; padding: 20mm 18mm 16mm; position: relative; overflow: hidden; page-break-after: always; break-after: page; }
+.page .run-head { position: absolute; top: 9mm; right: 18mm; font-size: 7.5pt; color: var(--faint); }
+.page .folio { position: absolute; bottom: 8mm; left: 0; right: 0; text-align: center; font-size: 7.5pt; color: var(--faint); }
+
+/* ---------- cover ---------- */
+.cover { background: radial-gradient(ellipse at 85% 0%, #4a5f80 0%, rgba(74,95,128,0) 45%), linear-gradient(160deg, #1d3a66 0%, #1b2f52 55%, #15233f 100%); color: #fff; padding: 22mm 20mm !important; }
+.cover .tag { display: inline-block; border: 1px solid var(--gold-bright); color: var(--gold-bright); border-radius: 999px; padding: 3px 12px; font-size: 9pt; letter-spacing: .04em; font-family: var(--f-serif); }
+.cover h1 { font-size: 28pt; line-height: 1.32; margin: 26mm 0 6mm; font-weight: 700; color: #fff; }
+.cover h1 .hl { color: var(--gold-bright); }
+.cover .sub { font-family: var(--f-serif); font-size: 10pt; color: #c9d2e0; line-height: 1.8; }
+.cover .rule { width: 34mm; height: 2px; background: linear-gradient(90deg, var(--gold-bright), rgba(229,169,60,0)); margin: 12mm 0 10mm; }
+.cover .quote { border-left: 2px solid var(--gold-bright); padding: 2px 0 2px 7mm; font-family: var(--f-serif); font-size: 10.5pt; line-height: 1.95; color: #fff; }
+.cover .quote .hl { color: var(--gold-bright); }
+.cover .orbit { position: absolute; right: 12mm; bottom: 30mm; width: 70mm; height: 70mm; }
+.cover .foot { position: absolute; left: 20mm; bottom: 14mm; font-family: var(--f-serif); font-size: 7.5pt; color: #9fb0c8; letter-spacing: .03em; }
+
+/* ---------- headings ---------- */
+h2.chap { font-size: 17pt; color: var(--navy); margin: 4mm 0 3mm; padding-bottom: 3mm; border-bottom: 1.5px solid var(--navy); font-weight: 700; }
+h2.chap .no { color: var(--gold); margin-right: 8px; }
+h2.chap .dia { color: var(--gold); margin-right: 8px; }
+.lead { color: var(--muted); font-size: 9pt; margin: 0 0 6mm; }
+h3 { color: var(--navy); font-size: 12pt; margin: 6mm 0 3mm; font-weight: 700; }
+h4 { color: var(--ink); font-size: 10pt; margin: 4mm 0 2mm; }
+
+/* ---------- table of contents ---------- */
+.toc { list-style: none; margin: 6mm 0 0; padding: 0; }
+.toc li { display: grid; grid-template-columns: 11mm 1fr 10mm; padding: 3.2mm 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.toc .no { color: var(--gold); font-weight: 700; }
+.toc .t { font-weight: 500; }
+.toc .d { display: block; color: var(--muted); font-size: 7.8pt; margin-top: 1px; }
+.toc .pg { text-align: right; color: var(--muted); }
+
+/* ---------- callouts ---------- */
+.box { border-radius: 4px; padding: 4mm 5mm; margin: 3mm 0 4mm; }
+.box .label { display: inline-block; border-radius: 4px; padding: 1px 8px; font-size: 7.8pt; font-weight: 700; margin-bottom: 2mm; color: #fff; }
+.box.def { background: var(--tint); border-left: 3px solid var(--navy); }
+.box.def .label { background: var(--navy); }
+.box.mine { background: var(--cream); border-left: 3px solid var(--gold); }
+.box.mine .label { background: var(--gold); }
+.box.note { background: var(--cream); border: 1px solid var(--cream-line); }
+.box.note .title { color: var(--gold-deep); font-weight: 700; display: block; margin-bottom: 1.5mm; }
+.box.key { background: var(--navy-deep); color: #fff; }
+.box.key b, .box.key strong { color: var(--gold-bright); }
+.box.key .title { color: var(--gold-bright); font-weight: 700; display: block; text-align: center; margin-bottom: 1mm; }
+.easy { background: var(--tint-2); border-radius: 4px; padding: 2.5mm 4mm; margin-top: 2mm; font-size: 8.8pt; }
+.easy::before { content: "쉬운 예"; color: var(--gold-deep); font-weight: 700; margin-right: 6px; }
+
+/* ---------- tables ---------- */
+table.std { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 8.6pt; }
+table.std th { background: var(--navy); color: #fff; text-align: left; padding: 2.2mm 3mm; font-weight: 700; }
+table.std td { padding: 2.2mm 3mm; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+table.std tr:nth-child(even) td { background: var(--tint-2); }
+table.std td:first-child { color: var(--navy); font-weight: 700; }
+table.std td .en { display: block; font-weight: 400; color: var(--muted); font-size: 7.6pt; }
+
+/* ---------- cards, flows, lists ---------- */
+.cards { display: grid; gap: 4mm; margin: 3mm 0; }
+.cards.c2 { grid-template-columns: 1fr 1fr; }
+.cards.c3 { grid-template-columns: 1fr 1fr 1fr; }
+.card { border: 1px solid var(--navy); border-radius: 6px; padding: 3.5mm; text-align: center; font-size: 8.4pt; }
+.card .q { color: var(--gold-deep); font-size: 7.8pt; }
+.card .h { color: var(--navy); font-weight: 700; font-size: 10.5pt; margin: 1mm 0 1.5mm; }
+.card.gold { border-color: var(--gold); }
+.card.fill { background: var(--navy); color: #fff; }
+.card.fill .h { color: #fff; }
+.card.fill .q { color: var(--gold-bright); }
+.card.fill b { color: var(--gold-bright); }
+
+.flow { display: flex; align-items: stretch; gap: 2mm; margin: 3mm 0; }
+.flow .step { flex: 1; border: 1px solid var(--navy); border-radius: 6px; padding: 3mm; text-align: center; font-size: 8.2pt; }
+.flow .step .h { color: var(--navy); font-weight: 700; font-size: 10pt; }
+.flow .step .en { color: var(--muted); font-size: 7.4pt; display: block; }
+.flow .arrow { align-self: center; color: var(--gold); font-size: 10pt; }
+.flow-note { text-align: center; color: var(--muted); font-size: 7.8pt; margin-top: -1mm; }
+
+.numlist { list-style: none; padding: 0; margin: 2mm 0; counter-reset: n; }
+.numlist li { counter-increment: n; position: relative; padding: 1.5mm 0 1.5mm 9mm; }
+.numlist li::before { content: counter(n); position: absolute; left: 0; top: 1.6mm; width: 5.5mm; height: 5.5mm; border-radius: 50%; background: var(--navy-deep); color: #fff; font-size: 7.6pt; text-align: center; line-height: 5.5mm; font-weight: 700; }
+
+.situations { list-style: none; padding: 0; margin: 2mm 0; counter-reset: s; }
+.situations li { counter-increment: s; position: relative; padding: 2.5mm 12mm 2.5mm 0; border-bottom: 1px solid var(--line-soft); }
+.situations li b:first-child { display: block; }
+.situations li::after { content: counter(s); position: absolute; right: 0; top: 2.5mm; width: 7mm; height: 7mm; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-deep); text-align: center; line-height: 7mm; font-weight: 700; font-size: 8pt; }
+
+.caption { text-align: center; color: var(--muted); font-size: 7.8pt; margin: 1mm 0 4mm; }
+.muted { color: var(--muted); }
+ul.dots { margin: 1mm 0 3mm; padding-left: 5mm; }
+ul.dots li { margin: 1mm 0; }
+
+/* ---------- landscape sheets (압축정리 / 도식화) ---------- */
+.sheet-doc { font-size: 8pt; line-height: 1.5; }
+.sheet-doc .sheet { width: 297mm; height: 210mm; padding: 8mm 9mm; position: relative; overflow: hidden; page-break-after: always; break-after: page; display: flex; flex-direction: column; gap: 3mm; }
+.banner { background: linear-gradient(90deg, var(--navy-deep), var(--navy)); color: #fff; border-radius: 6px; padding: 3mm 6mm; display: flex; align-items: center; gap: 5mm; }
+.banner .wk { border: 1.5px solid #fff; border-radius: 999px; padding: 1px 10px; font-weight: 700; font-size: 8pt; white-space: nowrap; }
+.banner h1 { font-size: 14pt; margin: 0; flex: 1; color: #fff; }
+.banner .refs { font-size: 7.4pt; color: #cdd6e4; text-align: right; }
+.strip { background: var(--tint); border: 1px solid #cdd6e4; border-radius: 6px; padding: 2.5mm 6mm; text-align: center; font-size: 8.6pt; }
+.grid { display: grid; gap: 3mm; flex: 1; min-height: 0; }
+.grid.g3 { grid-template-columns: repeat(3, 1fr); }
+.grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.panel { border: 1px solid var(--line); border-radius: 6px; padding: 3mm 3.5mm; background: #fff; overflow: hidden; }
+.panel h2 { font-size: 9.6pt; color: var(--navy); margin: 0 0 2mm; display: flex; align-items: center; gap: 2mm; }
+.panel h2 .n { width: 5mm; height: 5mm; border-radius: 50%; background: var(--navy-deep); color: #fff; font-size: 7.4pt; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.panel table.std { font-size: 7.4pt; margin: 0 0 2mm; }
+.panel table.std th { background: var(--tint); color: var(--navy); padding: 1.3mm 2mm; }
+.panel table.std td { padding: 1.3mm 2mm; }
+.panel .tip { background: var(--tint); border-radius: 4px; padding: 1.8mm 2.5mm; font-size: 7.4pt; color: var(--navy); font-weight: 500; }
+.bottom-bar { background: linear-gradient(90deg, var(--navy-deep), var(--navy)); color: #fff; border-radius: 6px; padding: 3mm 6mm; text-align: center; font-weight: 700; font-size: 8.8pt; }
+.bottom-bar .sub { display: block; font-weight: 400; color: #dbe3ef; font-size: 8pt; }
+@media print { .sheet-doc { } }
