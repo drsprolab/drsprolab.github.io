@@ -3,12 +3,22 @@
 # 같은 page.image.path 가 목록 페이지 썸네일(.inst-thumb)로도 쓰인다.
 module OgImage
   SITE_DEFAULT = "/assets/images/og-share-20261021.jpg"
+  SHARE_ATTRIBUTION = "출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab."
 
   class Generator < Jekyll::Generator
     safe true
     priority :low
 
     def generate(site)
+      # 모든 페이지 공유 미리보기 설명의 첫 문장에 출처를 붙인다.
+      (site.pages + site.posts.docs + site.collections.values.flat_map(&:docs)).each do |item|
+        data = item.data
+        description = data["description"] || data["summary"] || data["excerpt"] || site.config["description"]
+        description = description.to_s.gsub(/<[^>]*>/, " ").gsub(/\s+/, " ").strip
+        next if description.empty? || description.start_with?(SHARE_ATTRIBUTION)
+        data["description"] = "#{SHARE_ATTRIBUTION} #{description}"
+      end
+
       # Weekly Insight: 이미지가 없으면 배너로 대신한다.
       if (coll = site.collections["insights"])
         coll.docs.each do |doc|

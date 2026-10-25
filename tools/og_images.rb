@@ -36,7 +36,19 @@ BANNERS["in-progress"] = BANNERS["measurement"]
 LAB_LOGO = b64(File.join(ROOT, "assets/images/logo/lockup-dark.png"))
 
 def html(fm, kind)
-  title = CGI.escapeHTML(fm["title"].to_s)
+  raw_title = fm["title"].to_s
+  # Series metadata stays in the headline and page title; the small badge carries
+  # the full series name on thumbnails so the story title remains legible.
+  display_title = raw_title.sub(/\AAI Paradox 시리즈 10가지 이야기 · \d{2}\/10 · /, "")
+  title = CGI.escapeHTML(display_title)
+  series_badge = if kind == "insights" && fm["series"]
+    number = Integer(fm["series_number"] || 0)
+    count = Integer(fm["series_count"] || 0)
+    label = "#{fm["series"]} · #{format("%02d", number)}/#{format("%02d", count)}"
+    %(<div class="series-badge">#{CGI.escapeHTML(label)}</div>)
+  else
+    ""
+  end
   if kind == "in-progress"
     eyebrow = "In progress 진단 · #{CGI.escapeHTML((fm["og_badge"] || "지금 참여하기").to_s)}"
     chip_texts = Array(fm["og_chips"])
@@ -60,6 +72,8 @@ def html(fm, kind)
       .shade { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(7,16,32,.94) 0%, rgba(7,16,32,.86) 55%, rgba(7,16,32,.55) 100%); }
       .card { position: absolute; inset: 0; padding: 64px 72px; display: flex; flex-direction: column; }
       .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 22px; letter-spacing: .14em; color: #8fc3ff; text-transform: uppercase; }
+      .series-badge { position: absolute; top: 62px; right: 72px; font-size: 15px; font-weight: 600; letter-spacing: 0; color: #d6e6fb;
+        background: rgba(143,195,255,.16); border: 1px solid rgba(143,195,255,.35); border-radius: 999px; padding: 7px 14px; }
       h1 { margin-top: 26px; font-weight: 700; font-size: #{size}px; line-height: 1.28; letter-spacing: -.02em; max-width: 1000px;
         display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: keep-all; }
       .chips { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
@@ -72,6 +86,7 @@ def html(fm, kind)
       <div class="shade"></div>
       <div class="card">
         <div class="eyebrow">#{eyebrow}</div>
+        #{series_badge}
         <h1>#{title}</h1>
         <div class="chips">#{topics}</div>
         <div class="foot"><img class="lab" src="#{LAB_LOGO}" alt=""></div>
