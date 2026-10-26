@@ -27,7 +27,8 @@
     {%- assign gs = site.data.gallery.conferences | concat: site.data.gallery.workshops | concat: site.data.gallery.daily -%}
     [{% for g in gs %}[{{ g.title | jsonify }}]{% unless forloop.last %},{% endunless %}{% endfor %}]
   {%- when 'daily-insight' -%}
-    {{ site.insights | map: 'topics' | jsonify }}
+    {%- assign recent_issues = include.issues | slice: 0, 6 -%}
+    {{ recent_issues | map: 'topics' | jsonify }}
   {%- endcase -%}
   {%- endcapture -%}
   {%- if banner_key == 'research' %}
@@ -36,7 +37,7 @@
     data-map="{{ '/assets/data/keyword-map.json' | relative_url }}"></canvas>
   {%- elsif orbit_items != '' %}
   <script type="application/json" id="banner-orbit-items">{{ orbit_items }}</script>
-  <canvas class="banner-orbit" data-orbit="wide" data-items="banner-orbit-items" aria-hidden="true"></canvas>
+  <canvas class="banner-orbit" data-orbit="wide" data-items="banner-orbit-items"{% if banner_key == 'daily-insight' %} data-priority="recent"{% endif %} aria-hidden="true"></canvas>
   {%- endif %}
 </figure>
 {% endif %}

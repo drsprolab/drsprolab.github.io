@@ -12,7 +12,7 @@
   function words(s) { return s.toLowerCase().split(/[\s·,()\/&]+|(?:와|과|및)\s/).filter(function (w) { return w.length >= 2; }); }
 
   // 항목 목록 → 상위 키워드와 연결 쌍
-  function build(items, max) {
+  function build(items, max, priority) {
     var map = {}, order = [];
     items.forEach(function (list, i) {
       (list || []).forEach(function (raw) {
@@ -21,9 +21,21 @@
         if (map[name].ids.indexOf(i) < 0) map[name].ids.push(i);
       });
     });
-    var kws = order.map(function (n) { return map[n]; })
-      .sort(function (a, b) { return b.ids.length - a.ids.length || order.indexOf(a.name) - order.indexOf(b.name); })
-      .slice(0, max || 12);
+    // 최신 글마다 첫 키워드를 하나씩 고른 뒤 보조 키워드를 채운다.
+    // 오래된 연재의 반복 태그가 최신 글의 주제를 밀어내지 않도록 한다.
+    if (priority === 'recent') {
+      order = [];
+      var depth = items.reduce(function (n, list) { return Math.max(n, (list || []).length); }, 0);
+      for (var column = 0; column < depth; column++) {
+        items.forEach(function (list) {
+          var name = list && column < list.length ? clean(list[column]) : '';
+          if (name && order.indexOf(name) < 0) order.push(name);
+        });
+      }
+    }
+    var kws = order.map(function (n) { return map[n]; });
+    if (priority !== 'recent') kws.sort(function (a, b) { return b.ids.length - a.ids.length || order.indexOf(a.name) - order.indexOf(b.name); });
+    kws = kws.slice(0, max || 12);
     var pairs = [];
     for (var i = 0; i < kws.length; i++) for (var j = i + 1; j < kws.length; j++) {
       var n = kws[i].ids.filter(function (x) { return kws[j].ids.indexOf(x) >= 0; }).length;
@@ -39,10 +51,10 @@
   function run(cv, items, opts) {
     opts = opts || {};
     if (!cv || !cv.getContext) return;
-    var g = build(items, opts.max || (opts.wide ? (cv.clientWidth < 360 ? 5 : cv.clientWidth < 600 ? 8 : 12) : 12));
+    var g = build(items, opts.max || (opts.wide ? (cv.clientWidth < 360 ? 5 : cv.clientWidth < 600 ? 8 : 12) : 12), opts.priority);
     if (g.kws.length < 3) { cv.hidden = true; return; }
     var ctx = cv.getContext('2d'), wide = !!opts.wide, minPair = opts.minPair || 1;
-    var top = g.kws[0].ids.length;
+    var top = Math.max.apply(null, g.kws.map(function (k) { return k.ids.length; }));
     var orb = g.kws.map(function (k, i) {
       var ring = Math.min(3, Math.floor(i / 3));
       return { name: k.name.length > 24 ? k.name.slice(0, 23) + '…' : k.name, ring: ring, a0: (i % 3) / 3 * Math.PI * 2 + ring * .9,
@@ -144,7 +156,7 @@
       if (cv.dataset.map) return fromMap(cv, { wide: wide });
       var src = cv.dataset.items && document.getElementById(cv.dataset.items);
       var items; try { items = JSON.parse(src.textContent); } catch (e) { cv.hidden = true; return; }
-      run(cv, items, { wide: wide });
+      run(cv, items, { wide: wide, priority: cv.dataset.priority });
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

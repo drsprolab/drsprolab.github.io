@@ -13,7 +13,9 @@ Weekly Insight 목록 (DrS / Lab 공용). include.section: 'drs' 또는 'lab'
     <nav class="tabs insight-tabs" aria-label="Weekly Insight 구분"><a href="{{ '/weekly-insight/' | relative_url }}"{% unless include.section == 'lab' %} aria-current="page"{% endunless %}>DrS Weekly Insight</a><a href="{{ '/weekly-insight/lab/' | relative_url }}"{% if include.section == 'lab' %} aria-current="page"{% endif %}>Lab Weekly Insight</a></nav>
     <p class="lede">{% if include.section == 'lab' %}PRO-AX 연구실 연구원들의 insight 입니다.{% else %}HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.{% endif %}</p>
     {% include sharing-guidance.html class="daily-issue-notice" %}
-    {% include page-banner.html key="daily-insight" %}
+    {%- assign orbit_issues = '' | split: '' -%}
+    {%- for day in days -%}{%- assign orbit_issues = orbit_issues | concat: day.items -%}{%- endfor -%}
+    {% include page-banner.html key="daily-insight" issues=orbit_issues %}
   </header>
   {% if issues.size > 0 %}
   <div class="daily-archive">

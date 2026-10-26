@@ -34,6 +34,7 @@ jobs:
           bundle exec ruby tests/test_research_map.rb
           node --test tests/test_research_map_data.cjs
           node --test tests/test_ai_agent_needs.cjs
+          node --test tests/test_orbit.cjs
       - name: Weekly Insight·Measurement 공유 이미지(Open Graph·썸네일) 만들기
         run: |
           sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
@@ -44,7 +45,9 @@ jobs:
         env:
           JEKYLL_ENV: production
       - name: Verify generated Research Map and page metrics
-        run: python3 -m unittest discover -s tests -p 'test_research_map_*.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_research_map_*.py' -v
+          python3 -m unittest discover -s tests -p 'test_insight_orbit_site.py' -v
       - uses: actions/upload-pages-artifact@v3
 
   deploy:

@@ -78,6 +78,13 @@ bundle exec jekyll build
 python3 -m unittest discover -s tests -p 'test_research_map_*.py' -v
 ```
 
+## Weekly Insight 배너 키워드 자동 갱신
+
+- 돌아가는 키워드는 각 DrS / Lab 목록에 보이는 **최근 6편의 `topics`**에서 가져옵니다. 공개하지 않은 글과 다른 섹션의 글은 섞지 않습니다.
+- 각 글의 첫 키워드를 최신 목록 순서로 하나씩 고른 뒤 보조 키워드를 채웁니다. 과거 연재에서 반복된 태그가 최신 주제를 밀어내지 않습니다. 화면 폭에 따라 5·8·12개를 표시하며 기존 궤도 애니메이션은 유지합니다.
+- 글을 추가·수정하고 배포하면 자동으로 반영됩니다. 별도 키워드 파일을 수정할 필요가 없습니다. 다른 메뉴 배너는 기존 빈도순을 유지합니다.
+- 검증: `node --test tests/test_orbit.cjs`, 빌드 후 `python3 -m unittest discover -s tests -p 'test_insight_orbit_site.py' -v`.
+
 ## Scholar · Scopus 지표 자동 갱신
 
 - Scholar 자동 갱신: 사용자 Mac의 Hermes 예약 작업 `Google Scholar daily refresh`, **매일 09:00 한국시간** (`0 9 * * *`, 시스템 시간대 Asia/Seoul). Mac이 켜져 있고 인터넷과 Hermes 게이트웨이가 실행 중이어야 합니다. 수집·배포에 따라 실제 사이트 반영은 9시 이후일 수 있습니다.
