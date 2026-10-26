@@ -11,7 +11,7 @@ measurement_summary: 조직 내 목표설정과 구성원의 목표지향적 역
 measurement_use: 목표지향 역량 진단 및 조직 목표설정·성과 향상 지원
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>

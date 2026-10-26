@@ -11,7 +11,7 @@ measurement_summary: 구성원이 지금 직면한 마음의 상태를 진단하
 measurement_use: 구성원 마음 상태 진단 및 맞춤형 심리·조직 지원
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>

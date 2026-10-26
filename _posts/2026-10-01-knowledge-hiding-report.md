@@ -11,7 +11,7 @@ measurement_summary: 구성원이 왜, 어떤 상황에서, 어떤 방식으로 
 measurement_use: 지식은폐 원인 진단 및 조직학습·혁신 활성화
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>

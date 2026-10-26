@@ -3,7 +3,7 @@
 # 같은 page.image.path 가 목록 페이지 썸네일(.inst-thumb)로도 쓰인다.
 module OgImage
   SITE_DEFAULT = "/assets/images/og-share-20261021.jpg"
-  SHARE_ATTRIBUTION = "출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab."
+  SHARE_ATTRIBUTION = "출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab."
 
   class Generator < Jekyll::Generator
     safe true

@@ -9,7 +9,7 @@ measurement_summary: 낯선 환경에 도전하고 새로운 가치를 만들어
 wide: true
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>측정도구 소개</h2>

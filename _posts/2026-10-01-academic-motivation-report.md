@@ -11,7 +11,7 @@ measurement_summary: 구성원이 어느 정도의 학습동기를 지니고 있
 measurement_use: 구성원 학습동기 수준 진단 및 HRD 지원·교육환경 구축
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>

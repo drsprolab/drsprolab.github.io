@@ -11,7 +11,7 @@ measurement_summary: 누가, 왜 자신만 특별한 대우를 받아야 한다�
 measurement_use: 특권의식 수준과 원인 진단 및 개인·팀·조직 맞춤 처방
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>
