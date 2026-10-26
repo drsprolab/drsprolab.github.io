@@ -29,8 +29,7 @@ Weekly Insight 목록 (DrS / Lab 공용). include.section: 'drs' 또는 'lab'
       {% endfor %}{% endfor %}
     </div>
   </div>
-  {% elsif include.section == 'lab' %}
-  <p class="daily-method">연구원들의 첫 Insight를 준비하고 있습니다.</p>
+  {% elsif include.section == 'lab' %}{%- comment -%} Lab: 글이 없을 때는 아무것도 표시하지 않음 {%- endcomment -%}
   {% else %}
   <p class="daily-method">첫 Insights을 준비하고 있습니다.</p>
   {% endif %}
