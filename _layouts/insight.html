@@ -9,6 +9,7 @@ layout: default
       <h1>{{ page.title | escape }}</h1>
       {% include share.html %}
     </div>
+    <p class="daily-issue-notice">이곳은 누구나 읽고 공감하고 공유할 수 있는 공간입니다.<br><strong>출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab</strong></p>
     <p class="lede">{{ page.summary | escape }}</p>
     <ul class="tags" aria-label="주제">{% for topic in page.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
     <div class="daily-issue-meta">{% if page.news_count %}{{ page.news_count }}개 소식 · {% endif %}{% if page.source_count %}{{ page.source_count }}개 {% if page.news_count %}공식 출처{% else %}참고문헌{% endif %} · {% endif %}약 {{ page.reading_minutes }}분</div>
