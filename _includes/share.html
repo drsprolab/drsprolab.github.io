@@ -1,13 +1,13 @@
 {%- comment -%} 제목 옆 공유 버튼. 휴대폰은 기기 공유 창, 컴퓨터는 링크 복사·SNS 메뉴. 쓰는 곳: insight 레이아웃, share: true인 page {%- endcomment -%}
 {%- assign share_url = page.url | absolute_url -%}
-<div class="share" data-url="{{ share_url }}" data-title="{{ page.title | escape }}" data-attribution="출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab.">
+<div class="share" data-url="{{ share_url }}" data-title="{{ page.title | escape }}" data-attribution="출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab.">
   <button type="button" class="share-btn" aria-haspopup="true" aria-expanded="false" aria-controls="share-menu">공유</button>
   <div class="share-menu" id="share-menu" role="menu" hidden>
     <button type="button" role="menuitem" data-share="copy">링크 복사</button>
     <a role="menuitem" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | url_encode }}">Facebook</a>
     <a role="menuitem" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url | url_encode }}">LinkedIn</a>
-    <a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ '출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab. ' | append: page.title | url_encode }}">X</a>
-    <a role="menuitem" href="mailto:?subject={{ page.title | url_encode }}&amp;body={{ '출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab. ' | append: share_url | url_encode }}">이메일</a>
+    <a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ '출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab. ' | append: page.title | url_encode }}">X</a>
+    <a role="menuitem" href="mailto:?subject={{ page.title | url_encode }}&amp;body={{ '출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab. ' | append: share_url | url_encode }}">이메일</a>
     <span class="share-done" role="status" aria-live="polite"></span>
   </div>
 </div>

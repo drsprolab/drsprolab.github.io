@@ -11,7 +11,7 @@ measurement_summary: 구성원이 변화 속에서 최상의 성과를 내는 �
 measurement_use: 변화 주도·신기술 학습 환경 진단 및 맞춤형 학습·조직문화 구축
 ---
 
-<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: PRO AnalytiX Lab</p>
+<p class="report-source"><span class="chip">진단도구 활용 예시</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-Analtix (PRO-AX) Lab</p>
 
 <div class="report-intro">
   <h2>진단도구 소개</h2>

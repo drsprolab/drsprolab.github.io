@@ -8,7 +8,11 @@ layout: default
     <h1>{% if page.heading_main %}{{ page.heading_main }}{% if page.heading_suffix %} <span class="page-heading-suffix">{{ page.heading_suffix }}</span>{% endif %}{% else %}{{ page.title }}{% endif %}{% if page.badge %} <span class="page-badge">{{ page.badge }}</span>{% endif %}</h1>
     {% if page.share %}{% include share.html %}</div>{% endif %}
     {% if page.lede %}<p class="lede">{{ page.lede }}</p>{% endif %}
-    {% if page.header_notice %}<p class="page-header-notice">{{ page.header_notice }}{% if page.header_notice_source %}<br><strong>{{ page.header_notice_source }}</strong>{% endif %}</p>{% elsif page.eyebrow == 'In progress 진단' %}<p class="page-header-notice">아직 BETA test 중입니다.<br><strong>출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab</strong></p>{% endif %}
+    {% if page.header_notice %}<p class="page-header-notice">{{ page.header_notice }}</p>{% endif %}
+    {% if page.eyebrow == 'Measurement' or page.eyebrow == 'In progress 진단' %}
+      {% if page.eyebrow == 'In progress 진단' %}<p class="page-header-notice">아직 BETA test 중입니다.</p>{% endif %}
+      {% include sharing-guidance.html class="page-header-notice" %}
+    {% endif %}
   </header>
   {% include page-banner.html %}
   <div class="prose">

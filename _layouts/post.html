@@ -5,7 +5,7 @@ layout: default
   <header class="page-head">
     <div class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time>{% if page.category %} · {{ page.category }}{% endif %}</div>
     <h1>{{ page.title }}</h1>
-    {% if page.category == '측정도구' %}<p class="page-header-notice">출처를 반드시 밝혀 주시기 바랍니다.<br><strong>출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab</strong></p>{% endif %}
+    {% if page.category == '측정도구' %}{% include sharing-guidance.html class="page-header-notice" %}{% endif %}
   </header>
   <div class="prose">
     {{ content }}
