@@ -1697,3 +1697,6 @@ main.container { overflow-x: clip; }
 .diagnosis-pdf-host .axr-stairs { min-width: 0; }
 .diagnosis-pdf-host .axr-stairs-box { overflow: visible; }
 .diagnosis-pdf-host * { animation: none !important; transition: none !important; }
+
+/* Weekly Insight: DrS / Lab 탭 */
+.daily-hero .insight-tabs { margin: 14px 0 4px; }

@@ -1,0 +1,37 @@
+{%- comment -%}
+Weekly Insight 목록 (DrS / Lab 공용). include.section: 'drs' 또는 'lab'
+ - 글 머리말에 section: lab 이 있으면 Lab Weekly Insight(연구원 글), 없으면 DrS Weekly Insight
+{%- endcomment -%}
+{% assign all = site.insights | sort: 'date' %}
+{% if include.section == 'lab' %}{% assign issues = all | where: 'section', 'lab' %}{% else %}{% assign issues = all | where_exp: 'i', "i.section != 'lab'" %}{% endif %}
+{%- comment -%} 최신 날짜의 글이 가장 먼저, 같은 날 올린 연재(AI 역설 1~10 등)는 순서대로 {%- endcomment -%}
+{% assign days = issues | group_by_exp: 'i', "i.date | date: '%Y-%m-%d'" | reverse %}
+<section class="daily-index" aria-labelledby="daily-title">
+  <header class="daily-hero">
+    <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
+    <h1 id="daily-title">{% if include.section == 'lab' %}Lab Weekly Insight{% else %}DrS Weekly Insight{% endif %}</h1>
+    <nav class="tabs insight-tabs" aria-label="Weekly Insight 구분"><a href="{{ '/weekly-insight/' | relative_url }}"{% unless include.section == 'lab' %} aria-current="page"{% endunless %}>DrS Weekly Insight</a><a href="{{ '/weekly-insight/lab/' | relative_url }}"{% if include.section == 'lab' %} aria-current="page"{% endif %}>Lab Weekly Insight</a></nav>
+    <p class="lede">{% if include.section == 'lab' %}PRO-AX 연구실 연구원들의 insight 입니다.{% else %}HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.{% endif %}</p>
+    <p class="daily-issue-notice">여기에는 누구나 읽고 공감하고 공유할 수 있습니다. 단 모든 글들의 출처를 밝혀주시길 바랍니다.<br><strong>출처: 한양대학교 교육공학과 송지훈 교수 연구실 PRO-AnalytiX Lab</strong></p>
+    {% include page-banner.html key="daily-insight" %}
+  </header>
+  {% if issues.size > 0 %}
+  <div class="daily-archive">
+    <h2>Insights <span class="n">{{ issues.size }}</span></h2>
+    <div class="inst-grid">
+      {% for day in days %}{% for issue in day.items %}
+      <a class="inst" href="{{ issue.url | relative_url }}">
+        {% if issue.image.path %}<img class="inst-thumb inst-thumb--compact" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+        <div class="tags">{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
+        <h3>{{ issue.title | escape }}</h3>
+        <p>{{ issue.summary | escape }}</p>
+      </a>
+      {% endfor %}{% endfor %}
+    </div>
+  </div>
+  {% elsif include.section == 'lab' %}
+  <p class="daily-method">연구원들의 첫 Insight를 준비하고 있습니다.</p>
+  {% else %}
+  <p class="daily-method">첫 Insights을 준비하고 있습니다.</p>
+  {% endif %}
+</section>

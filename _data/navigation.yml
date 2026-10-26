@@ -44,3 +44,6 @@
 - title: Weekly Insight
   url: /weekly-insight/
   watch: [weekly-insight, daily-insight, _insights]
+  children:
+    - { title: DrS Weekly Insight, url: /weekly-insight/ }
+    - { title: Lab Weekly Insight, url: /weekly-insight/lab/ }
