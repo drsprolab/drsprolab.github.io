@@ -119,6 +119,8 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 /* Content pages */
 .page-head { display: grid; gap: 10px; margin-bottom: 40px; }
 .lede { margin: 0; color: var(--muted); max-width: 62ch; font-size: 17px; }
+.page-header-notice { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.page-header-notice strong { font-weight: 700; }
 .prose { max-width: none; }
 .prose h2 { margin-top: 48px; padding-top: 8px; }
 .prose h2:first-child { margin-top: 0; }
