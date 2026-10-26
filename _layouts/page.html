@@ -2,7 +2,7 @@
 layout: default
 ---
 <article class="page{% if page.wide %} page--wide{% endif %}">
-  <header class="page-head">
+  <header class="page-head page-head--menu">
     {% if page.eyebrow %}<div class="eyebrow">{{ page.eyebrow }}</div>{% endif %}
     {% if page.share %}<div class="title-row">{% endif %}
     <h1>{% if page.heading_main %}{{ page.heading_main }}{% if page.heading_suffix %} <span class="page-heading-suffix">{{ page.heading_suffix }}</span>{% endif %}{% else %}{{ page.title }}{% endif %}{% if page.badge %} <span class="page-badge">{{ page.badge }}</span>{% endif %}</h1>

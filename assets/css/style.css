@@ -524,6 +524,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
   background: #f0f0f0;
 }
 .profile-details { display: grid; gap: 24px; min-width: 0; }
+.profile-intro > .plain { font-size: 15px; }
 .profile .profile-name { margin: 0 0 12px; }
 .profile-name span { display: block; margin: 6px 0 0; }
 .profile .kv dd { min-width: 0; overflow-wrap: anywhere; }
@@ -747,6 +748,8 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 
 /* ---- Page titles (Members, Research 등 각 탭 제목): 원래(600)와 400의 중간 ---- */
 .page-head h1, .daily-hero h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 600; letter-spacing: -.022em; }
+.page-head--menu h1, .daily-index .daily-hero h1 { font-size: clamp(27px, 4vw, 36px); }
+.page-head--menu .lede, .daily-index .daily-hero > .lede { font-size: 16px; }
 .page-heading-suffix { font-size: .5em; }
 
 /* ---- Mobile hardening: 긴 URL·통계 칸 때문에 화면이 옆으로 넘치지 않게 ---- */
