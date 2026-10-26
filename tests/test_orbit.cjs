@@ -3,13 +3,13 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function renderedLabels(items, options) {
+function renderedText(items, options) {
   const labels = [];
   const gradient = { addColorStop() {} };
   const ctx = new Proxy({
     createRadialGradient: () => gradient,
     measureText: text => ({ width: text.length * 7 }),
-    fillText: text => labels.push(text),
+    fillText(text) { labels.push({ text, color: this.fillStyle }); },
   }, { get: (target, key) => key in target ? target[key] : () => {} });
   const canvas = { clientWidth: 500, width: 1000, height: 400, getContext: () => ctx,
     getBoundingClientRect: () => ({ width: 500, height: 200 }) };
@@ -20,6 +20,18 @@ function renderedLabels(items, options) {
   sandbox.window.PalOrbit.run(canvas, items, { wide: true, max: 8, ...options });
   return labels;
 }
+
+function renderedLabels(items, options) {
+  return renderedText(items, options).map(label => label.text);
+}
+
+test('Weekly Insight keywords use bright blue without recoloring other banners', () => {
+  const items = [['AI와 일하기', '학습의 정의', '문화지체']];
+  assert.deepEqual(renderedText(items, { priority: 'recent' }).map(label => label.color),
+    ['#72b7ff', '#72b7ff', '#72b7ff']);
+  assert.deepEqual(renderedText(items).map(label => label.color),
+    ['#d3e1f3', '#d3e1f3', '#d3e1f3']);
+});
 
 test('recent priority represents each recent article before filling secondary keywords', () => {
   const items = [

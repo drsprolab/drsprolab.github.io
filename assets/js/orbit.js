@@ -54,6 +54,7 @@
     var g = build(items, opts.max || (opts.wide ? (cv.clientWidth < 360 ? 5 : cv.clientWidth < 600 ? 8 : 12) : 12), opts.priority);
     if (g.kws.length < 3) { cv.hidden = true; return; }
     var ctx = cv.getContext('2d'), wide = !!opts.wide, minPair = opts.minPair || 1;
+    var labelColor = opts.priority === 'recent' ? '#72b7ff' : LABEL;
     var top = Math.max.apply(null, g.kws.map(function (k) { return k.ids.length; }));
     var orb = g.kws.map(function (k, i) {
       var ring = Math.min(3, Math.floor(i / 3));
@@ -117,7 +118,7 @@
         ctx.beginPath(); ctx.arc(o.x, o.y, r, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0; ctx.strokeStyle = GLOW; ctx.lineWidth = 2 * (wide ? dpr : 1); ctx.stroke();
         var half = ctx.measureText(o.name).width / 2 + 6, lx = Math.max(half, Math.min(W - half, o.x));
-        ctx.fillStyle = LABEL; ctx.fillText(o.name, lx, Math.max(fs + 2, o.y - r - 6 * (wide ? dpr : 1)));
+        ctx.fillStyle = labelColor; ctx.fillText(o.name, lx, Math.max(fs + 2, o.y - r - 6 * (wide ? dpr : 1)));
       });
       if (!reduce && visible) raf = requestAnimationFrame(frame);
     }
