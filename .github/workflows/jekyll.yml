@@ -50,6 +50,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_insight_orbit_site.py' -v
           python3 -m unittest discover -s tests -p 'test_professor_research_site.py' -v
           python3 -m unittest discover -s tests -p 'test_menu_typography_site.py' -v
+          python3 -m unittest discover -s tests -p 'test_sharing_guidance_site.py' -v
       - uses: actions/upload-pages-artifact@v3
 
   deploy:
