@@ -1420,7 +1420,7 @@ main.container { overflow-x: clip; }
 .aidx-guide strong { font-size: 16px; }
 .aidx-guide li > span:last-child { color: var(--muted); }
 .aidx-role { margin-top: 8px; }
-.aidx-roles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.aidx-roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .aidx-roles span { display: block; text-align: center; padding: 14px 8px; border-radius: 10px; font-size: 16px; font-weight: 500; }
 .aidx-roles label:hover span { border-color: var(--accent); color: var(--accent); }
 .aidx-roles label:hover input:checked + span { color: var(--paper); }
