@@ -7,10 +7,10 @@
   var originalParent = nav.parentNode;
   var originalNext = nav.nextSibling;
   function setOpen(open) {
-    if (open && window.innerWidth <= 1300 && nav.parentNode !== document.body) {
+    if (open && window.innerWidth <= 860 && nav.parentNode !== document.body) {
       document.body.appendChild(nav);
     }
-    if (open && window.innerWidth <= 1300) {
+    if (open && window.innerWidth <= 860) {
       var header = document.querySelector('.site-header');
       var height = header ? Math.ceil(header.getBoundingClientRect().height) : 60;
       document.documentElement.style.setProperty('--mobile-header-height', height + 'px');
@@ -33,7 +33,7 @@
     if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); }
   });
   // 화면을 넓히면(가로 회전 등) 데스크톱 메뉴로 돌아가므로 열림 상태 해제
-  window.addEventListener('resize', function () { if (window.innerWidth > 1300 && nav.classList.contains('open')) setOpen(false); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false); });
 })();
 
 // iOS Safari는 터치 리스너가 있어야 :active 스타일이 적용됨 (박스 확대 효과)

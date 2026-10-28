@@ -15,7 +15,7 @@ Jekyll로 만든 연구실 홈페이지입니다. `main` 브랜치에 push하면
 | 연구소·센터 | `_data/institutes.yml`, `_data/institute_details.yml` |
 | 구성원 수상, 갤러리 | `_data/member_awards.yml`, `_data/gallery.yml` |
 | 상단 메뉴 | `_data/navigation.yml` |
-| 미팅 예약 메뉴·폼 | `appointment.md`, `assets/js/appointment.js` |
+| 미팅 예약 버튼·폼 | `index.html`, `appointment.md`, `assets/js/appointment.js` |
 
 미팅 예약 메일·승인 기능은 [appointment-backend/README.md](appointment-backend/README.md)에 배포 절차가 있습니다. Apps Script 웹 앱의 `/exec` URL을 `_config.yml`에 연결해야 폼이 활성화됩니다.
 
