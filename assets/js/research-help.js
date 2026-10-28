@@ -24,7 +24,7 @@
   ];
   var FEEDBACK_FIELDS = FIELDS.slice(1);
   var STORE_KEY = 'research-help-v1';
-  var AI_NOTICE = 'DrS comments는 AI(OpenAI)가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
+  var AI_NOTICE = 'DrS comments는 외부 AI(현재 Google Gemini)가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
   var STEP_LABELS = ['작성', '1차 저장', '2차 저장', '3차 저장', '제출'];
 
   function emptyFields() {
@@ -341,7 +341,7 @@
       if (s.round === 0 && !s.id) {
         rootEl.appendChild(el('label', { class: 'rh-consent' }, [
           el('input', { type: 'checkbox', checked: s.consent, onchange: function (e) { app.setConsent(e.target.checked); } }),
-          el('span', { text: '1·2차 저장 시 작성한 이름과 연구 내용이 피드백 생성을 위해 외부 AI 서비스(OpenAI API)로 전송되는 것에 동의합니다. 저장 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
+          el('span', { text: '1·2차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
         ]));
       }
 

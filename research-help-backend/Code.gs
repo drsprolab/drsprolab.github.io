@@ -18,7 +18,6 @@ const WITHHELD = '검증된 근거 부족으로 판단 보류';
 const SOURCE_SCOPE = '초록·서지정보 확인 (원문 미확인)';
 const BLOCKED_DOI = /^10\.(3390|3389)\//; // MDPI, Frontiers
 const BLOCKED_PUBLISHER = /\bmdpi\b|frontiers/i;
-const DEFAULT_MODEL = 'gpt-5-mini';
 const DEFAULT_DAILY_AI_LIMIT = 40;
 const MAX_ATTEMPTS = 5;
 const ADMIN_SESSION_SECONDS = 7200;
@@ -220,8 +219,9 @@ function socraticFeedback_(fields) {
     ' 1차 피드백은 평가나 정답 제시가 아니라 소크라테스식 문답이다. 각 항목마다 작성자가 실제로 쓴 문장을 짚어 가며, ' +
     '주어진 기준에 따라 스스로 성찰하게 하는 열린 질문 2~4개를 만든다. 예/아니오로 끝나는 질문은 피한다. ' +
     '문헌·저자·연도·DOI를 언급하거나 지어내지 않는다. 항목 간 연결(문제의식→목적→RQ→모형→이론→방법→시사점)이 약한 곳은 질문으로 드러낸다.';
-  const user = JSON.stringify({ criteria: ROUND1_CRITERIA, labels: labels_(), manuscript: fields });
-  const raw = openai_(system, user, 'socratic_feedback', round1Schema_());
+  const user = JSON.stringify({ criteria: ROUND1_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields) });
+  const result = ai_(system, user, round1Schema_());
+  const raw = requireItems_(result.data);
   const out = {};
   FEEDBACK_KEYS.forEach(k => {
     const item = raw[k] || {};
@@ -230,7 +230,7 @@ function socraticFeedback_(fields) {
       questions: (item.questions || []).slice(0, 5).map(q => stripCitations_(clip_(q, 500), [])).filter(Boolean)
     };
   });
-  return { round: 1, kind: 'socratic', generatedBy: 'AI (OpenAI ' + model_() + ')', generatedAt: now_(), items: out };
+  return { round: 1, kind: 'socratic', generatedBy: result.by, generatedAt: now_(), items: out };
 }
 
 function round1Schema_() {
@@ -259,11 +259,11 @@ function literatureFeedback_(fields) {
     '각 문헌은 제공된 초록과 서지정보 범위에서만 근거로 쓰고 원문을 읽은 것처럼 서술하지 않는다. sources[].basis에는 그 초록에서 확인되는 근거 내용을 적는다. ' +
     '연구 모형·이론적 근거·문제의식·연구 방법 항목에서 적합한 후보 문헌이 없으면 status를 "withheld"로 하고 근거 없이 판단하지 않는다. ' +
     '목적·RQ·제목·시사점의 정렬 검토는 작성 내용 간 논리로 판단할 수 있으며, 이때 문헌을 꾸며 붙이지 않는다.';
-  const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: fields,
+  const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields),
     candidates: search.candidates.map(c => ({ id: c.id, title: c.title, authors: c.authors.slice(0, 6), year: c.year, journal: c.journal, abstract: c.abstract })) });
-  const raw = openai_(system, user, 'literature_feedback', round2Schema_());
-  return Object.assign(verifyRound2_(raw, search.candidates), {
-    round: 2, kind: 'literature', generatedBy: 'AI (OpenAI ' + model_() + ')', generatedAt: now_(),
+  const result = ai_(system, user, round2Schema_());
+  return Object.assign(verifyRound2_(requireItems_(result.data), search.candidates), {
+    round: 2, kind: 'literature', generatedBy: result.by, generatedAt: now_(),
     searchNote: search.note, candidateCount: search.candidates.length
   });
 }
@@ -337,14 +337,14 @@ function stripCitations_(text, allowed) {
 function literatureCandidates_(fields) {
   const journals = ssciIndex_();
   if (!journals.count) return { candidates: [], note: 'SSCI 저널 목록이 아직 등록되지 않아 문헌 근거를 사용할 수 없습니다.' };
-  const plan = openai_('당신은 학술 데이터베이스 검색 전문가다. ' + GUARD +
+  const plan = ai_('당신은 학술 데이터베이스 검색 전문가다. ' + GUARD +
     ' 원고의 각 항목을 검토하는 데 필요한 SSCI 학술지 논문을 찾기 위한 영어 검색어를 만든다. 검색어는 핵심 개념·변수·이론 이름 위주로 3~8단어.',
-    JSON.stringify({ targets: LITERATURE_KEYS.concat(['purpose', 'implications']), manuscript: fields }), 'search_plan', {
+    JSON.stringify({ targets: LITERATURE_KEYS.concat(['purpose', 'implications']), manuscript: aiManuscript_(fields) }), {
       type: 'object', additionalProperties: false, required: ['queries'],
       properties: { queries: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['field', 'query'],
         properties: { field: { type: 'string' }, query: { type: 'string' } } } } }
     });
-  const queries = (plan.queries || []).filter(q => q && q.query).slice(0, 10)
+  const queries = ((plan.data && plan.data.queries) || []).filter(q => q && q.query).slice(0, 10)
     .map(q => ({ field: String(q.field), query: String(q.query).replace(/[^\p{L}\p{N}\s\-']/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, 120) }))
     .filter(q => q.query);
   const props = PropertiesService.getScriptProperties();
@@ -448,36 +448,106 @@ function stripTags_(s) {
   return String(s || '').replace(/<[^>]+>/g, '');
 }
 
-// ---------- OpenAI ----------
-function model_() {
-  return PropertiesService.getScriptProperties().getProperty('OPENAI_MODEL') || DEFAULT_MODEL;
+// ---------- AI 호출 ----------
+// AI_PROVIDERS(기본 'gemini'): 'gemini,openai'처럼 적으면 앞 서비스가 한도 초과(429)·일시 오류(5xx)일 때 다음 서비스로 넘긴다.
+// API 키가 없는 서비스는 건너뛴다.
+const PROVIDERS = {
+  gemini: { keyProp: 'GEMINI_API_KEY', modelProp: 'GEMINI_MODEL', model: 'gemini-3.8-flash', label: 'Google Gemini', call: gemini_ },
+  openai: { keyProp: 'OPENAI_API_KEY', modelProp: 'OPENAI_MODEL', model: 'gpt-5-mini', label: 'OpenAI', call: openai_ }
+};
+
+function providers_() {
+  const props = PropertiesService.getScriptProperties();
+  return String(props.getProperty('AI_PROVIDERS') || 'gemini').split(',').map(s => s.trim()).filter(n => PROVIDERS[n])
+    .map(n => Object.assign({ name: n, key: props.getProperty(PROVIDERS[n].keyProp), modelId: props.getProperty(PROVIDERS[n].modelProp) || PROVIDERS[n].model }, PROVIDERS[n]))
+    .filter(p => p.key);
 }
 
-function openai_(system, user, name, schema) {
-  const props = PropertiesService.getScriptProperties();
-  const key = props.getProperty('OPENAI_API_KEY');
-  if (!key) fail_('ai_not_configured', 'AI 피드백 서버 설정이 아직 완료되지 않았습니다.');
-  const model = model_();
+function ai_(system, user, schema) {
+  const list = providers_();
+  if (!list.length) fail_('ai_not_configured', 'AI 피드백 서버 설정이 아직 완료되지 않았습니다.');
+  for (let i = 0; i < list.length; i++) {
+    const p = list[i];
+    try {
+      return { data: p.call(p.key, p.modelId, system, user, schema), by: 'AI (' + p.label + ' ' + p.modelId + ')' };
+    } catch (err) {
+      if (!err.retryable || i === list.length - 1) throw err;
+      console.error(p.name + ' 실패, 다음 서비스로 전환: ' + err.message);
+    }
+  }
+}
+
+function httpFail_(service, res) {
+  const code = res.getResponseCode();
+  console.error(service + ' ' + code + ': ' + res.getContentText().slice(0, 800));
+  const err = new Error(code === 429 ? 'AI 서비스 사용 한도를 초과했습니다. 잠시 후 다시 시도해 주세요.' : 'AI 피드백 생성에 실패했습니다(' + code + ').');
+  err.code = 'ai_failed';
+  err.retryable = code === 429 || code >= 500;
+  throw err;
+}
+
+function parseJson_(text) {
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    fail_('ai_failed', 'AI 피드백 형식이 올바르지 않습니다.');
+  }
+}
+
+function gemini_(key, model, system, user, schema) {
+  const res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
+    method: 'post', contentType: 'application/json', headers: { 'x-goog-api-key': key }, muteHttpExceptions: true,
+    payload: JSON.stringify({
+      systemInstruction: { parts: [{ text: system }] },
+      contents: [{ role: 'user', parts: [{ text: user }] }],
+      generationConfig: { responseMimeType: 'application/json', responseSchema: geminiSchema_(schema), maxOutputTokens: 16384 }
+    })
+  });
+  if (res.getResponseCode() !== 200) httpFail_('Gemini', res);
+  const cand = (JSON.parse(res.getContentText()).candidates || [])[0];
+  if (!cand || cand.finishReason !== 'STOP' || !cand.content) fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
+  return parseJson_((cand.content.parts || []).filter(p => !p.thought && p.text).map(p => p.text).join(''));
+}
+
+// Gemini의 응답 스키마는 OpenAPI 부분집합이라 additionalProperties를 받지 않고 형식 이름을 대문자로 쓴다.
+function geminiSchema_(s) {
+  const out = { type: String(s.type).toUpperCase() };
+  if (s.enum) out.enum = s.enum;
+  if (s.items) out.items = geminiSchema_(s.items);
+  if (s.properties) {
+    out.properties = {};
+    Object.keys(s.properties).forEach(k => { out.properties[k] = geminiSchema_(s.properties[k]); });
+    out.required = s.required;
+    out.propertyOrdering = Object.keys(s.properties);
+  }
+  return out;
+}
+
+function openai_(key, model, system, user, schema) {
   const payload = { model: model, messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
-    response_format: { type: 'json_schema', json_schema: { name: name, strict: true, schema: schema } } };
-  const effort = props.getProperty('OPENAI_REASONING_EFFORT') || (/^(gpt-5|o\d)/.test(model) ? 'low' : '');
-  if (effort) payload.reasoning_effort = effort;
+    response_format: { type: 'json_schema', json_schema: { name: 'feedback', strict: true, schema: schema } } };
+  if (/^(gpt-5|o\d)/.test(model)) payload.reasoning_effort = 'low';
   const res = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', {
     method: 'post', contentType: 'application/json', headers: { Authorization: 'Bearer ' + key },
     payload: JSON.stringify(payload), muteHttpExceptions: true
   });
-  const code = res.getResponseCode();
-  if (code !== 200) {
-    console.error('OpenAI ' + code + ': ' + res.getContentText().slice(0, 800));
-    fail_('ai_failed', 'AI 피드백 생성에 실패했습니다(' + code + ').');
-  }
+  if (res.getResponseCode() !== 200) httpFail_('OpenAI', res);
   const choice = (JSON.parse(res.getContentText()).choices || [])[0];
   if (!choice || choice.message.refusal || choice.finish_reason !== 'stop') fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
-  try {
-    return JSON.parse(choice.message.content);
-  } catch (err) {
-    fail_('ai_failed', 'AI 피드백 형식이 올바르지 않습니다.');
-  }
+  return parseJson_(choice.message.content);
+}
+
+// AI가 일부 항목을 빠뜨리면 빈 피드백을 성공으로 보여 주지 않고 실패로 처리한다.
+function requireItems_(raw) {
+  if (!raw || FEEDBACK_KEYS.some(k => !raw[k] || typeof raw[k] !== 'object')) fail_('ai_failed', 'AI 피드백에 빠진 항목이 있습니다.');
+  return raw;
+}
+
+// 이름 등 개인정보는 피드백에 필요 없으므로 외부 AI로 보내지 않는다.
+function aiManuscript_(fields) {
+  const out = Object.assign({}, fields);
+  delete out.name;
+  return out;
 }
 
 function objectOf_(keys, item) {
@@ -670,8 +740,7 @@ function setupCheck() {
   adminHash_();
   console.log(JSON.stringify({
     spreadsheet: spreadsheet_().getUrl(),
-    openaiKey: !!p.getProperty('OPENAI_API_KEY'),
-    model: model_(),
+    aiProviders: providers_().map(x => x.name + ':' + x.modelId),
     adminPassword: !!p.getProperty('ADMIN_PASSWORD_HASH'),
     ssciJournals: ssciIndex_().count,
     dailyAiLimit: Number(p.getProperty('DAILY_AI_LIMIT')) || DEFAULT_DAILY_AI_LIMIT

@@ -27,10 +27,10 @@ function fakeSheet(name) {
 
 function setup(opts) {
   opts = opts || {};
-  const props = Object.assign({ OPENAI_API_KEY: 'sk-test', ADMIN_PASSWORD: 'test-admin-pass' }, opts.props);
+  const props = Object.assign({ GEMINI_API_KEY: 'test-gemini-key', ADMIN_PASSWORD: 'test-admin-pass' }, opts.props);
   const cache = new Map();
   const sheets = {};
-  const calls = { openai: [], fetchAll: [] };
+  const calls = { ai: [], fetchAll: [] };
   let clock = Date.parse('2026-10-29T03:00:00Z');
   const ai = opts.ai || {};
   const ctx = {
@@ -54,15 +54,25 @@ function setup(opts) {
     },
     ContentService: { createTextOutput: t => ({ setMimeType: () => t }), MimeType: { JSON: 'json' } },
     UrlFetchApp: {
+      // Gemini·OpenAI 호출을 흉내 낸다. 응답 스키마 모양으로 어떤 요청인지 구분한다.
       fetch: (url, o) => {
         const body = JSON.parse(o.payload);
-        calls.openai.push(body);
-        const name = body.response_format.json_schema.name;
+        const provider = url.startsWith('https://generativelanguage.googleapis.com/') ? 'gemini' : url.startsWith('https://api.openai.com/') ? 'openai' : null;
+        if (!provider) throw new Error('unexpected fetch ' + url);
+        const gem = provider === 'gemini';
+        const schema = gem ? body.generationConfig.responseSchema : body.response_format.json_schema.schema;
+        const system = gem ? body.systemInstruction.parts[0].text : body.messages[0].content;
+        const user = gem ? body.contents[0].parts[0].text : body.messages[1].content;
+        const name = schema.properties.queries ? 'search_plan' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
+        calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
         if (!handler) throw new Error('unexpected AI call ' + name);
-        const out = handler(body);
+        const out = handler(body, provider);
         if (out && out.httpError) return res(out.httpError, '{"error":"x"}');
-        return res(200, JSON.stringify({ choices: [{ finish_reason: 'stop', message: { content: JSON.stringify(out) } }] }));
+        const text = JSON.stringify(out);
+        return res(200, JSON.stringify(gem
+          ? { candidates: [{ finishReason: 'STOP', content: { parts: [{ text: 'thinking', thought: true }, { text }] } }] }
+          : { choices: [{ finish_reason: 'stop', message: { content: text } }] }));
       },
       fetchAll: reqs => { calls.fetchAll.push(reqs.map(r => r.url)); return reqs.map(r => (opts.web || (() => res(404, '{}')))(r.url)); }
     }

@@ -7,7 +7,7 @@ const RH = require(path.join(__dirname, '../assets/js/research-help.js'));
 
 const KEYS = ['name', 'title', 'problem', 'purpose', 'model', 'rq', 'theory', 'method', 'implications'];
 const fields = extra => Object.assign(Object.fromEntries(KEYS.map(k => [k, k === 'name' ? '테스트 작성자' : `${k} 연구 내용`])), extra);
-const feedback = round => ({ round, kind: round === 1 ? 'socratic' : 'literature', generatedBy: 'AI (OpenAI test)',
+const feedback = round => ({ round, kind: round === 1 ? 'socratic' : 'literature', generatedBy: 'AI (test)',
   items: Object.fromEntries(KEYS.slice(1).map(k => [k, round === 1 ? { focus: 'f', questions: ['q'] } : { status: 'reviewed', assessment: 'a', suggestions: [], sources: [] }])) });
 
 function memoryStorage() {
@@ -133,7 +133,7 @@ test('PDF 문서: 작성자용은 최종본, 관리자용은 1·2·3차 저장�
   const h2 = all.blocks.filter(b => b.type === 'h2').map(b => b.text);
   assert.ok(h2.some(t => t.startsWith('1차 저장본')) && h2.some(t => t.startsWith('3차 저장본')));
   assert.ok(h2.includes('1차 DrS comments (AI 생성)'));
-  assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('AI(OpenAI)')));
+  assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('외부 AI(현재 Google Gemini)')));
   assert.equal(RH.pdfFileName(record), 'research-plan-테스트_작성자-RH261029ABCDEF12.pdf');
 });
 

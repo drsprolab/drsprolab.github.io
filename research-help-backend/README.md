@@ -17,10 +17,12 @@ Google Cloud 콘솔의 OAuth 클라이언트는 필요하지 않습니다. 웹 �
 
 | 속성 | 필수 | 내용 |
 | --- | --- | --- |
-| `OPENAI_API_KEY` | 예 | platform.openai.com에서 만든 API 키. ChatGPT 구독과 별도로 API 크레딧이 필요합니다. |
+| `GEMINI_API_KEY` | 예 | Google AI Studio(aistudio.google.com)에서 만든 API 키. 무료 등급은 결제 등록이 필요 없습니다. |
 | `ADMIN_PASSWORD` | 예 | 제출물 열람 비밀번호. 첫 로그인(또는 `setupCheck` 실행) 때 솔트+SHA-256 해시로 바뀌고 원문 속성은 삭제됩니다. |
-| `OPENAI_MODEL` | 아니요 | 기본 `gpt-5-mini`. 다른 모델을 쓰려면 모델 ID를 넣습니다. |
-| `DAILY_AI_LIMIT` | 아니요 | 하루 OpenAI 호출 상한(기본 40). 1차 저장 1회, 2차 저장 2회를 씁니다. |
+| `GEMINI_MODEL` | 아니요 | 기본 `gemini-3.8-flash`(2026-10 기준 무료 등급 대상). |
+| `AI_PROVIDERS` | 아니요 | 기본 `gemini`. `gemini,openai`로 두고 `OPENAI_API_KEY`를 넣으면 Gemini 한도 초과(429)·일시 오류 때 OpenAI(유료)로 넘깁니다. |
+| `OPENAI_API_KEY`, `OPENAI_MODEL` | 아니요 | 유료 OpenAI를 쓸 때만. 기본 모델 `gpt-5-mini`. |
+| `DAILY_AI_LIMIT` | 아니요 | 하루 AI 호출 상한(기본 40). 1차 저장 1회, 2차 저장 2회를 씁니다. |
 | `CONTACT_EMAIL` | 아니요 | OpenAlex·Crossref 요청에 붙이는 연락 이메일(두 서비스가 권장). |
 | `OPENALEX_API_KEY` | 아니요 | OpenAlex가 키를 요구하거나 사용량이 많을 때. |
 
@@ -67,7 +69,10 @@ mjl.clarivate.com에 무료 계정으로 로그인한 뒤 컬렉션 목록 다�
 - 작성자는 첫 저장 때 받은 무작위 토큰(브라우저에 보관)으로만 자기 기록을 이어 쓸 수 있습니다.
 - 수식 주입을 막기 위해 시트에는 모든 값을 텍스트로 저장합니다.
 
-## 비용
+## 비용과 개인정보
 
-OpenAI API는 사용량만큼 과금됩니다. 학생 1명(1차 1회 + 2차 2회 호출)에 소형 모델 기준 대략 수십 원 수준으로 예상되지만, 단가는 OpenAI 가격 페이지에서 확인해야 합니다.
-OpenAI 대시보드(Settings → Limits/Budgets)에서 월 예산 한도도 함께 설정하세요. OpenAlex·Crossref는 무료입니다.
+기본 설정(Gemini 무료 등급)은 비용이 들지 않습니다. 무료 등급의 분당·일일 한도는 AI Studio의 사용량 화면에서 확인하며, 한도를 넘으면 저장이 실패로 처리되고(작성 내용은 보존) 잠시 뒤 다시 저장하면 됩니다.
+
+Gemini 무료 등급 약관(Unpaid Services)은 제출 내용과 응답을 Google이 서비스 개선에 사용하고 사람 검토자가 읽을 수 있으며, 민감·기밀·개인정보를 보내지 말라고 안내합니다.
+그래서 이름은 AI로 보내지 않고, 작성 화면의 동의 문구에 이 조건을 적어 두었습니다. 미발표 연구 아이디어 보호가 중요해지면 Gemini 유료 등급(결제 연결 시 학습에 쓰지 않음)이나 OpenAI 유료로 바꾸세요.
+OpenAlex·Crossref는 무료입니다.
