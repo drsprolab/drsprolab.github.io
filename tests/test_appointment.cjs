@@ -128,11 +128,19 @@ test('research request requires a file and forwards valid attachments to owner',
 
 test('unsafe attachments are rejected before sending email', () => {
   const { context, emails } = backend();
-  const result = context.doPost({ parameter: {
+  const details = {
     action: 'request', name: '학생', email: 'student@example.edu',
-    date: '2026-10-29', time: '14:00', meetingType: 'general',
-    attachments: JSON.stringify([{ name: 'program.exe', data: 'YWJj' }])
-  } });
-  assert.match(result.html, /첨부파일 오류/);
+    date: '2026-10-29', time: '14:00', meetingType: 'general'
+  };
+  for (const file of [
+    { name: '자료.docx', data: Buffer.from('not a PDF').toString('base64') },
+    { name: '가짜.pdf', data: Buffer.from('not a PDF').toString('base64') }
+  ]) {
+    const result = context.doPost({ parameter: {
+      ...details, attachments: JSON.stringify([file])
+    } });
+    assert.match(result.html, /첨부파일 오류/);
+    assert.match(result.html, /PDF로 변환/);
+  }
   assert.equal(emails.length, 0);
 });

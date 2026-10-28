@@ -45,7 +45,7 @@ function request_(p) {
   try {
     attachments = parseAttachments_(p.attachments);
   } catch (err) {
-    return page_('첨부파일 오류', 'PDF·문서·발표자료·텍스트·이미지 파일을 최대 3개, 합계 4MB까지 첨부해 주세요.');
+    return page_('첨부파일 오류', 'PDF 파일만 최대 3개, 합계 4MB까지 첨부할 수 있습니다. 다른 형식은 PDF로 변환한 뒤 제출해 주세요.');
   }
   if (meetingType === 'research' && !attachments.length) {
     return page_('첨부파일 필요', '연구 관련 미팅은 미리 확인할 수 있는 간단한 자료를 첨부해 주세요.');
@@ -99,25 +99,21 @@ function parseAttachments_(value) {
   if (raw.length > 6 * 1024 * 1024) throw new Error('첨부파일 용량 초과');
   const items = JSON.parse(raw);
   if (!Array.isArray(items) || items.length > 3) throw new Error('첨부파일 개수 초과');
-  const types = {
-    pdf: 'application/pdf', doc: 'application/msword',
-    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    ppt: 'application/vnd.ms-powerpoint',
-    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    txt: 'text/plain', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg'
-  };
   let total = 0;
   return items.map(item => {
     if (!item || typeof item.name !== 'string' || typeof item.data !== 'string' ||
         !item.name || item.name.length > 100 || /[\\/\x00-\x1f\x7f]/.test(item.name) ||
-        !/^[A-Za-z0-9+/]+={0,2}$/.test(item.data)) throw new Error('첨부파일 형식 오류');
-    const extension = (item.name.match(/\.([^.]+)$/) || [])[1];
-    const type = types[String(extension).toLowerCase()];
-    if (!type) throw new Error('지원하지 않는 첨부파일');
+        !/\.pdf$/i.test(item.name) || !/^[A-Za-z0-9+/]+={0,2}$/.test(item.data)) {
+      throw new Error('PDF 파일만 허용');
+    }
     const bytes = Utilities.base64Decode(item.data);
+    if (bytes.length < 5 || bytes[0] !== 37 || bytes[1] !== 80 ||
+        bytes[2] !== 68 || bytes[3] !== 70 || bytes[4] !== 45) {
+      throw new Error('PDF 파일 내용 확인 필요');
+    }
     total += bytes.length;
     if (total > 4 * 1024 * 1024) throw new Error('첨부파일 용량 초과');
-    return Utilities.newBlob(bytes, type, item.name);
+    return Utilities.newBlob(bytes, 'application/pdf', item.name);
   });
 }
 

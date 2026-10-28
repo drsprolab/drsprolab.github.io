@@ -8,7 +8,8 @@
   var monthLabel = document.getElementById('appointment-month');
   var previous = document.getElementById('appointment-prev-month');
   var next = document.getElementById('appointment-next-month');
-  var filesInput = document.getElementById('appointment-files');
+  var dropzone = document.getElementById('appointment-dropzone');
+  var fileList = document.getElementById('appointment-file-list');
   var attachmentsInput = document.getElementById('appointment-attachments');
   var error = document.getElementById('appointment-error');
   var submit = form.querySelector('.appointment-submit');
@@ -26,6 +27,7 @@
   var lastDate = new Date(last);
   var lastMonth = lastDate.getUTCFullYear() * 12 + lastDate.getUTCMonth();
   var weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+  var droppedFiles = [];
 
   function showError(message) {
     error.textContent = message;
@@ -90,6 +92,53 @@
   });
   renderCalendar();
 
+  function renderFiles() {
+    fileList.textContent = '';
+    droppedFiles.forEach(function (file, index) {
+      var item = document.createElement('li');
+      var name = document.createElement('span');
+      name.textContent = file.name + ' (' + Math.ceil(file.size / 1024) + 'KB)';
+      var remove = document.createElement('button');
+      remove.type = 'button';
+      remove.textContent = '삭제';
+      remove.setAttribute('aria-label', file.name + ' 삭제');
+      remove.addEventListener('click', function () {
+        droppedFiles.splice(index, 1);
+        renderFiles();
+      });
+      item.appendChild(name);
+      item.appendChild(remove);
+      fileList.appendChild(item);
+    });
+  }
+
+  dropzone.addEventListener('dragover', function (event) {
+    event.preventDefault();
+    dropzone.classList.add('is-dragging');
+  });
+  dropzone.addEventListener('dragleave', function () {
+    dropzone.classList.remove('is-dragging');
+  });
+  dropzone.addEventListener('drop', function (event) {
+    event.preventDefault();
+    dropzone.classList.remove('is-dragging');
+    var incoming = Array.from(event.dataTransfer.files);
+    if (!incoming.length) return;
+    if (incoming.some(function (file) { return !/\.pdf$/i.test(file.name) || (file.type && file.type !== 'application/pdf'); })) {
+      showError('PDF 파일만 첨부할 수 있습니다. 다른 형식은 PDF로 변환한 뒤 제출해 주세요.');
+      return;
+    }
+    var combined = droppedFiles.concat(incoming);
+    if (combined.length > 3 || combined.some(function (file) { return !file.size; }) ||
+        combined.reduce(function (sum, file) { return sum + file.size; }, 0) > 4 * 1024 * 1024) {
+      showError('PDF 파일은 최대 3개, 합계 4MB까지 첨부할 수 있습니다.');
+      return;
+    }
+    droppedFiles = combined;
+    showError('');
+    renderFiles();
+  });
+
   function readFile(file) {
     return new Promise(function (resolve, reject) {
       var reader = new FileReader();
@@ -108,17 +157,15 @@
       showError('달력에서 날짜와 시간을 선택해 주세요.');
       return;
     }
-    var files = Array.from(filesInput.files);
+    var files = droppedFiles;
     var meetingType = form.querySelector('input[name="meetingType"]:checked').value;
     if (meetingType === 'research' && !files.length) {
       showError('연구 관련 미팅은 미리 볼 수 있는 자료를 첨부해 주세요.');
-      filesInput.focus();
       return;
     }
     if (files.length > 3 || files.reduce(function (sum, file) { return sum + file.size; }, 0) > 4 * 1024 * 1024 ||
-        files.some(function (file) { return !file.size || !/\.(pdf|doc|docx|ppt|pptx|txt|png|jpe?g)$/i.test(file.name); })) {
-      showError('첨부파일은 PDF·문서·발표자료·텍스트·이미지 최대 3개, 합계 4MB까지 가능합니다.');
-      filesInput.focus();
+        files.some(function (file) { return !file.size || !/\.pdf$/i.test(file.name) || (file.type && file.type !== 'application/pdf'); })) {
+      showError('PDF 파일은 최대 3개, 합계 4MB까지 첨부할 수 있습니다. 다른 형식은 PDF로 변환해 주세요.');
       return;
     }
     showError('');

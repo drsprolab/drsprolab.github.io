@@ -51,10 +51,14 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
       <textarea id="appointment-message" name="message" rows="4" maxlength="1000"></textarea>
     </div>
     <div class="appointment-field">
-      <label for="appointment-files">첨부파일 <span class="appointment-optional">(일반 미팅은 선택)</span></label>
-      <input id="appointment-files" type="file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg">
+      <span class="appointment-label">첨부파일 <span class="appointment-optional">(일반 미팅은 선택)</span></span>
+      <div class="appointment-dropzone" id="appointment-dropzone" aria-label="PDF 첨부파일 드래그 앤 드롭 영역">
+        <strong>PDF 파일을 이곳에 드래그해 놓아 주세요</strong>
+        <span>PDF만 가능 · 최대 3개 · 합계 4MB</span>
+      </div>
+      <ul class="appointment-file-list" id="appointment-file-list" aria-live="polite"></ul>
       <input id="appointment-attachments" name="attachments" type="hidden">
-      <span class="appointment-note">연구 관련 미팅은 미리 확인할 수 있도록 연구 주제·질문을 간단히 정리한 파일을 첨부해 주세요. PDF·문서·발표자료·텍스트·이미지, 최대 3개 / 합계 4MB.</span>
+      <span class="appointment-note">연구 관련 미팅은 연구 주제·질문을 간단히 정리한 PDF를 첨부해 주세요. 다른 형식의 파일은 PDF로 변환한 뒤 제출해 주세요.</span>
     </div>
     <div class="appointment-trap" aria-hidden="true">
       <label for="appointment-website">Website</label>
