@@ -141,7 +141,8 @@ function pdfPages(buf) {
     await dl.saveAs(pdfPath);
     const pdf = await fsp.readFile(pdfPath);
     assert.equal(pdf.subarray(0, 4).toString(), '%PDF');
-    assert.equal(pdfPages(pdf), laid.pages, 'PDF 페이지 수 일치');
+    // 실제 PDF에는 2차 단계의 추천 논문(참고문헌) 쪽이 더 붙는다.
+    assert.equal(pdfPages(pdf), laid.pages + 1, 'PDF = 본문 쪽수 + 참고문헌 쪽');
 
     await p.click('.rh-actions button:has-text("제출")');
     await p.waitForSelector('.rh-done');
