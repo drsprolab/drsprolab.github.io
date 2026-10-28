@@ -3,12 +3,19 @@
   var nav = document.getElementById('site-nav');
   if (!btn || !nav) return;
   var label = btn.querySelector('.menu-label');
+  // iOS Safari: keep the mobile panel outside the sticky header's stacking context.
+  var originalParent = nav.parentNode;
+  var originalNext = nav.nextSibling;
   function setOpen(open) {
+    if (open && window.innerWidth <= 860 && nav.parentNode !== document.body) {
+      document.body.appendChild(nav);
+    }
     nav.classList.toggle('open', open);
     document.documentElement.classList.toggle('nav-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     btn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
     if (label) label.textContent = open ? '닫기' : '메뉴';
+    if (!open && nav.parentNode !== originalParent) originalParent.insertBefore(nav, originalNext);
   }
   btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
   // 모바일: 메뉴 항목(같은 페이지 #앵커 포함)을 누르거나, 바깥을 누르거나, Esc를 누르면 닫힘
