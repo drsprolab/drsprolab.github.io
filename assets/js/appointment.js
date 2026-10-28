@@ -28,6 +28,30 @@
   var lastMonth = lastDate.getUTCFullYear() * 12 + lastDate.getUTCMonth();
   var weekdays = ['일', '월', '화', '수', '목', '금', '토'];
   var droppedFiles = [];
+  var inquiryMode = new URLSearchParams(window.location.search).get('inquiry') === '1';
+  if (inquiryMode) {
+    document.querySelector('.page-head h1').textContent = '학업 및 대학원진학 문의';
+    document.querySelector('.page-head .lede').textContent = '진학문의 또는 컨설팅 문의 미팅을 요청하세요. 요청은 승인 후 확정됩니다.';
+    document.getElementById('appointment-availability').innerHTML = '가능 시간은 <strong>월–금, 오후 1–6시</strong>입니다. 한국시간(KST) 기준 1시간 단위로 선택해 주세요.';
+    document.getElementById('appointment-date-note').textContent = '예약 가능한 월–금 날짜를 선택해 주세요.';
+    document.getElementById('appointment-attachment-note').textContent = '참고 자료가 있으면 PDF로 첨부해 주세요. 다른 형식의 파일은 PDF로 변환한 뒤 제출해 주세요.';
+    var standardTypes = document.getElementById('appointment-standard-types');
+    var inquiryTypes = document.getElementById('appointment-inquiry-types');
+    standardTypes.hidden = true;
+    standardTypes.querySelectorAll('input').forEach(function (input) { input.disabled = true; input.checked = false; });
+    inquiryTypes.hidden = false;
+    inquiryTypes.querySelectorAll('input').forEach(function (input) { input.disabled = false; });
+    inquiryTypes.querySelector('input').checked = true;
+    var times = document.getElementById('appointment-time-options');
+    ['15:00', '16:00', '17:00'].forEach(function (start) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.time = start;
+      button.setAttribute('aria-pressed', 'false');
+      button.textContent = start + '–' + String(Number(start.slice(0, 2)) + 1).padStart(2, '0') + ':00';
+      times.appendChild(button);
+    });
+  }
 
   function showError(message) {
     error.textContent = message;
@@ -54,7 +78,7 @@
       var date = new Date(Date.UTC(year, month, day));
       var value = date.toISOString().slice(0, 10);
       var allowed = date.getTime() >= first && date.getTime() <= last &&
-        [1, 2, 4].indexOf(date.getUTCDay()) !== -1;
+        (inquiryMode ? [1, 2, 3, 4, 5] : [1, 2, 4]).indexOf(date.getUTCDay()) !== -1;
       var button = document.createElement('button');
       button.type = 'button';
       button.textContent = day;

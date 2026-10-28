@@ -9,6 +9,7 @@ function backend() {
   const emails = [];
   const events = [];
   const props = {};
+  let uuidSequence = 0;
   const sheet = {
     getLastRow: () => rows.length,
     appendRow: values => rows.push(values),
@@ -22,7 +23,7 @@ function backend() {
   const context = {
     Utilities: {
       formatDate: () => '2026-10-28',
-      getUuid: () => '00000000-0000-4000-8000-000000000000',
+      getUuid: () => '00000000-0000-4000-8000-' + String(++uuidSequence).padStart(12, '0'),
       base64Decode: value => Array.from(Buffer.from(value, 'base64')),
       newBlob: (bytes, type, name) => ({ bytes, type, name })
     },
@@ -143,4 +144,29 @@ test('unsafe attachments are rejected before sending email', () => {
     assert.match(result.html, /PDF로 변환/);
   }
   assert.equal(emails.length, 0);
+});
+
+test('admissions and consulting inquiries allow weekdays from 13:00 to 18:00 and send the requested approval message', () => {
+  const { context, rows, emails, events } = backend();
+  assert.equal(context.validSlot_('2026-10-30', '17:00', 'admissions'), true);
+  assert.equal(context.validSlot_('2026-10-31', '17:00', 'admissions'), false);
+  assert.equal(context.validSlot_('2026-10-30', '18:00', 'consulting'), false);
+  assert.equal(context.validSlot_('2026-10-30', '17:00', 'general'), false);
+  for (const meetingType of ['admissions', 'consulting']) {
+    const request = context.doPost({ parameter: {
+      action: 'request', name: '학생', email: meetingType + '@example.edu',
+      date: '2026-10-30', time: meetingType === 'admissions' ? '15:00' : '17:00', meetingType
+    } });
+    assert.match(request.html, /요청 접수 완료/);
+    const row = rows[rows.length - 1];
+    assert.match(emails[emails.length - 1].body, meetingType === 'admissions' ? /진학문의/ : /컨설팅 문의/);
+    assert.match(context.doPost({ parameter: { action: 'approve', token: row[7] } }).html, /미팅 확정/);
+    const confirmation = emails[emails.length - 1];
+    assert.match(confirmation.body, /안녕하세요\. 한양대학교 송지훈 교수입니다\./);
+    assert.match(confirmation.body, /한양대학교 사범대학 504호 교수 연구실에서 뵙도록 하겠습니다\./);
+    assert.match(confirmation.body, /감사합니다\.\n송지훈 드림/);
+  }
+  assert.match(emails[3].body, /17:00–18:00 이 시간에 미팅을 하도록 하겠습니다/);
+  assert.equal(events[1].end.toISOString(), '2026-10-30T09:00:00.000Z');
+  assert.equal(events[1].options.location, '한양대학교 사범대학 504호 교수 연구실');
 });

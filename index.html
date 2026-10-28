@@ -27,7 +27,7 @@ image:
     <h2 class="solution-title" id="admissions-dialog-title">학업 및 대학원진학 문의</h2>
     <p class="solution-desc">학업과 대학원 진학에 관한 문의는 송지훈 교수에게 연락해 주세요.</p>
     <dl class="solution-contact">
-      <dt>E-mail</dt><dd><a href="mailto:{{ prof.email }}">{{ prof.email }}</a></dd>
+      <dt>E-mail</dt><dd><a href="{{ '/appointment/' | relative_url }}?inquiry=1" aria-label="{{ prof.email }} 이메일 문의 미팅 신청">{{ prof.email }}</a></dd>
       <dt>Tel</dt><dd><a href="tel:{{ prof.tel | remove: '-' }}">{{ prof.tel }}</a></dd>
       <dt>Office</dt><dd>한양대학교 사범대학 504호 PRO AnalytiX Lab<br>서울시 성동구 왕십리로 222 (04763)</dd>
     </dl>

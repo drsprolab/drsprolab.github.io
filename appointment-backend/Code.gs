@@ -11,7 +11,7 @@ function doGet(e) {
   const action = escape_(ScriptApp.getService().getUrl());
   const content = '<p><strong>' + escape_(r[2]) + '</strong> (' + escape_(r[3]) +
     ')님의 미팅 요청</p><p>' + escape_(r[4]) + ' ' + escape_(r[5]) +
-    '–' + (r[5] === '13:00' ? '14:00' : '15:00') + ' KST</p>' +
+    '–' + endTime_(r[5]) + ' KST</p>' +
     '<form method="post" target="_top" action="' + action + '">' +
     '<input type="hidden" name="action" value="approve">' +
     '<input type="hidden" name="token" value="' + escape_(token) + '">' +
@@ -38,7 +38,7 @@ function request_(p) {
   if (!name || name.length > 80 || /[\x00-\x1f\x7f]/.test(name) ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
       email.length > 254 || message.length > 1000 ||
-      !['general', 'research'].includes(meetingType) || !validSlot_(date, time)) {
+      !['general', 'research', 'admissions', 'consulting'].includes(meetingType) || !validSlot_(date, time, meetingType)) {
     return page_('입력 오류', '이름, 이메일, 날짜와 시간을 확인한 후 다시 요청해 주세요.');
   }
   let attachments;
@@ -50,7 +50,7 @@ function request_(p) {
   if (meetingType === 'research' && !attachments.length) {
     return page_('첨부파일 필요', '연구 관련 미팅은 미리 확인할 수 있는 간단한 자료를 첨부해 주세요.');
   }
-  const meetingTypeLabel = meetingType === 'research' ? '연구 관련 미팅' : '일반 미팅';
+  const meetingTypeLabel = { general: '일반 미팅', research: '연구 관련 미팅', admissions: '진학문의', consulting: '컨설팅 문의' }[meetingType];
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
@@ -79,7 +79,7 @@ function request_(p) {
       replyTo: email,
       subject: '[미팅 요청] ' + date + ' ' + time + ' · ' + name,
       body: '새 미팅 요청이 있습니다.\n\n이름: ' + name + '\n이메일: ' + email +
-        '\n희망 시간: ' + date + ' ' + time + '–' + (time === '13:00' ? '14:00' : '15:00') +
+        '\n희망 시간: ' + date + ' ' + time + '–' + endTime_(time) +
         ' (한국시간)\n미팅 종류: ' + meetingTypeLabel + '\n미팅 목적: ' + (message || '미입력') +
         '\n\n승인 링크: ' + approveUrl +
         '\n\n요청을 승인하면 학생에게 확정 메일이 발송됩니다.',
@@ -132,7 +132,8 @@ function approve_(p) {
       index + 2 !== row.index && other[4] === r[4] && other[5] === r[5] && other[8] === 'approved'
     );
     if (conflict) return page_('시간 중복', '이 시간에는 이미 승인된 미팅이 있습니다. 학생에게 다른 시간을 요청해 주세요.');
-    if (!validSlot_(String(r[4]), String(r[5]))) return page_('지난 요청', '이미 지난 시간이거나 예약 범위를 벗어났습니다.');
+    const meetingType = typeFromRow_(r);
+    if (!validSlot_(String(r[4]), String(r[5]), meetingType)) return page_('지난 요청', '이미 지난 시간이거나 예약 범위를 벗어났습니다.');
     if (calendarBusy_(String(r[4]), String(r[5]))) {
       return page_('캘린더 일정 중복', '이 시간에는 이미 캘린더 일정이 있습니다. 학생에게 다른 시간을 요청해 주세요.');
     }
@@ -142,16 +143,21 @@ function approve_(p) {
       const [start, end] = slotDates_(String(r[4]), String(r[5]));
       event = CalendarApp.getDefaultCalendar().createEvent(
         '학생 미팅 · ' + String(r[2]), start, end,
-        { description: '요청 학생: ' + r[2] + '\n이메일: ' + r[3] +
+        { location: '한양대학교 사범대학 504호 교수 연구실',
+          description: '요청 학생: ' + r[2] + '\n이메일: ' + r[3] +
           '\n미팅 목적: ' + (r[6] || '미입력') }
       );
       sheet.getRange(row.index, 11).setValue(event.getId());
       MailApp.sendEmail({
         to: String(r[3]),
         subject: '[미팅 확정] 송지훈 교수님 · ' + r[4] + ' ' + r[5],
-        body: r[2] + '님,\n\n송지훈 교수님과의 미팅이 확정되었습니다.\n\n' +
-          '일시: ' + r[4] + ' ' + r[5] + '–' + (r[5] === '13:00' ? '14:00' : '15:00') +
-          ' (한국시간)\n\n감사합니다.'
+        body: ['admissions', 'consulting'].includes(meetingType) ?
+          '안녕하세요. 한양대학교 송지훈 교수입니다.\n\n' +
+          r[4] + ' ' + r[5] + '–' + endTime_(r[5]) + ' 이 시간에 미팅을 하도록 하겠습니다.\n' +
+          '한양대학교 사범대학 504호 교수 연구실에서 뵙도록 하겠습니다.\n\n' +
+          '감사합니다.\n송지훈 드림' :
+          r[2] + '님,\n\n송지훈 교수님과의 미팅이 확정되었습니다.\n\n' +
+          '일시: ' + r[4] + ' ' + r[5] + '–' + endTime_(r[5]) + ' (한국시간)\n\n감사합니다.'
       });
       sheet.getRange(row.index, 9, 1, 2).setValues([[
         'approved', Utilities.formatDate(new Date(), ZONE, "yyyy-MM-dd'T'HH:mm:ss")
@@ -172,20 +178,34 @@ function approve_(p) {
   }
 }
 
-function validSlot_(date, time) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !['13:00', '14:00'].includes(time)) return false;
+function validSlot_(date, time, meetingType) {
+  const inquiry = ['admissions', 'consulting'].includes(meetingType);
+  const times = inquiry ? ['13:00', '14:00', '15:00', '16:00', '17:00'] : ['13:00', '14:00'];
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !times.includes(time)) return false;
   const parsed = new Date(date + 'T00:00:00Z');
   if (isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date ||
-      ![1, 2, 4].includes(parsed.getUTCDay())) return false;
+      !(inquiry ? [1, 2, 3, 4, 5] : [1, 2, 4]).includes(parsed.getUTCDay())) return false;
   const today = Utilities.formatDate(new Date(), ZONE, 'yyyy-MM-dd');
   const days = (parsed.getTime() - new Date(today + 'T00:00:00Z').getTime()) / 86400000;
   return days >= 1 && days <= 56;
 }
 
 function slotDates_(date, time) {
-  const hour = time === '13:00' ? 13 : 14;
+  const hour = Number(time.slice(0, 2));
   return [new Date(date + 'T' + String(hour).padStart(2, '0') + ':00:00+09:00'),
     new Date(date + 'T' + String(hour + 1).padStart(2, '0') + ':00:00+09:00')];
+}
+
+function endTime_(time) {
+  return String(Number(String(time).slice(0, 2)) + 1).padStart(2, '0') + ':00';
+}
+
+function typeFromRow_(row) {
+  const message = String(row[6] || '');
+  if (message.indexOf('[진학문의]') === 0) return 'admissions';
+  if (message.indexOf('[컨설팅 문의]') === 0) return 'consulting';
+  if (message.indexOf('[연구 관련 미팅]') === 0) return 'research';
+  return 'general';
 }
 
 function calendarBusy_(date, time) {

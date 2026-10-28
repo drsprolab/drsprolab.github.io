@@ -6,7 +6,7 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
 ---
 
 <div class="appointment-panel">
-  <p>가능 시간은 <strong>월·화·목, 오후 1–3시</strong>입니다. 한국시간(KST) 기준 1시간 단위로 선택해 주세요.</p>
+  <p id="appointment-availability">가능 시간은 <strong>월·화·목, 오후 1–3시</strong>입니다. 한국시간(KST) 기준 1시간 단위로 선택해 주세요.</p>
   {% if site.appointment_script_url != "" %}
   <form id="appointment-form" action="{{ site.appointment_script_url | escape }}" method="post">
     <input type="hidden" name="action" value="request">
@@ -20,9 +20,13 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
     </div>
     <div class="appointment-field">
       <span class="appointment-label">미팅 종류</span>
-      <div class="appointment-type-options">
+      <div class="appointment-type-options" id="appointment-standard-types">
         <label><input type="radio" name="meetingType" value="general" checked> 일반 미팅</label>
         <label><input type="radio" name="meetingType" value="research"> 연구 관련 미팅</label>
+      </div>
+      <div class="appointment-type-options" id="appointment-inquiry-types" hidden>
+        <label><input type="radio" name="meetingType" value="admissions" disabled> 진학문의</label>
+        <label><input type="radio" name="meetingType" value="consulting" disabled> 컨설팅 문의</label>
       </div>
     </div>
     <div class="appointment-field" id="appointment-calendar-field">
@@ -36,7 +40,7 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
         <div class="appointment-calendar-grid" id="appointment-calendar-grid"></div>
       </div>
       <input id="appointment-date" name="date" type="hidden">
-      <span class="appointment-note">예약 가능한 월·화·목 날짜를 선택해 주세요.</span>
+      <span class="appointment-note" id="appointment-date-note">예약 가능한 월·화·목 날짜를 선택해 주세요.</span>
     </div>
     <div class="appointment-field">
       <span class="appointment-label">희망 시간</span>
@@ -58,7 +62,7 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
       </div>
       <ul class="appointment-file-list" id="appointment-file-list" aria-live="polite"></ul>
       <input id="appointment-attachments" name="attachments" type="hidden">
-      <span class="appointment-note">연구 관련 미팅은 연구 주제·질문을 간단히 정리한 PDF를 첨부해 주세요. 다른 형식의 파일은 PDF로 변환한 뒤 제출해 주세요.</span>
+      <span class="appointment-note" id="appointment-attachment-note">연구 관련 미팅은 연구 주제·질문을 간단히 정리한 PDF를 첨부해 주세요. 다른 형식의 파일은 PDF로 변환한 뒤 제출해 주세요.</span>
     </div>
     <div class="appointment-trap" aria-hidden="true">
       <label for="appointment-website">Website</label>
