@@ -10,6 +10,12 @@
     if (open && window.innerWidth <= 860 && nav.parentNode !== document.body) {
       document.body.appendChild(nav);
     }
+    if (open && window.innerWidth <= 860) {
+      var header = document.querySelector('.site-header');
+      var height = header ? Math.ceil(header.getBoundingClientRect().height) : 60;
+      document.documentElement.style.setProperty('--mobile-header-height', height + 'px');
+      nav.scrollTop = 0;
+    }
     nav.classList.toggle('open', open);
     document.documentElement.classList.toggle('nav-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
