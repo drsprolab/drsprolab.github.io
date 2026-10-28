@@ -979,10 +979,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 
 .inquiry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; align-items: stretch; max-width: 600px; margin-top: 20px; }
 .inquiry-actions .solution-btn { width: 100%; min-width: 0; white-space: normal; text-align: center; font-size: 12px; padding: 10px 16px; }
-.inquiry-actions #admissions-btn { grid-column: 1; grid-row: 1; }
-.inquiry-actions .appointment-home-btn { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-.inquiry-actions #solution-btn { grid-column: 2; grid-row: 1; }
-.inquiry-actions .solution-link { grid-column: 2; grid-row: 2; text-align: center; }
+.inquiry-actions .solution-link { grid-column: 2; text-align: center; }
 @media (max-width: 600px) {
   .inquiry-actions { column-gap: 10px; }
   .inquiry-actions .solution-btn { font-size: 11px; padding: 9px 8px; }
@@ -1304,7 +1301,6 @@ main.container { overflow-x: clip; }
   .hero-intro h1 .expand { margin-top: 6px; }
   .hero-intro p { font-size: 15.5px; line-height: 1.7; }
   .inquiry-actions { grid-template-columns: 1fr; gap: 10px; max-width: none; margin-top: 6px; }
-  .inquiry-actions > * { grid-column: 1 !important; grid-row: auto !important; }
   .inquiry-actions .solution-btn { font-size: 15px; padding: 14px 18px; text-align: center; line-height: 1.35; }
   .inquiry-actions .solution-link { grid-column: 1; justify-self: center; font-size: 13px; padding: 2px 6px; }
 }
