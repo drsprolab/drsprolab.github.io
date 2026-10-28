@@ -15,6 +15,7 @@
     - { title: Teaching, url: /teaching/ }
     - { title: PRO-AX Lab Review, url: /proax-lab-review/ }
     - { title: Appointment request, url: /appointment/ }
+    - { title: Research help, url: /research-help/ }
 - title: Measurement & Solution
   url: /blog/
   watch: [blog, _posts, in-progress, assets/data/academic-motivation-personas.json, assets/data/academic-motivation-sample.json, assets/data/adaptive-performance-personas.json, assets/data/adaptive-performance-sample.json, assets/data/ap-teams.json, assets/data/ee-data.json, assets/data/employee-engagement-personas.json, assets/data/employee-engagement-sample.json, assets/data/gl-profiles.json, assets/data/goal-orientation-personas.json, assets/data/goal-orientation-sample.json, assets/data/kh-data.json, assets/data/knowledge-hiding-personas.json, assets/data/knowledge-hiding-sample.json, assets/data/la-personas.json, assets/data/la-teams.json, assets/data/learning-agility-sample.json, assets/data/lm-profiles.json, assets/data/pe-data.json, assets/data/psychological-entitlement-personas.json, assets/data/psychological-entitlement-sample.json, assets/data/sc-profiles.json, assets/data/self-compassion-personas.json, assets/data/self-compassion-sample.json, assets/data/ye-personas.json, assets/data/youth-entrepreneurship-sample.json]
