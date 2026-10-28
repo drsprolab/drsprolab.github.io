@@ -8,3 +8,5 @@ __pycache__/
 *.pyc
 # tools/og_images.rb 가 배포 때 만드는 공유 이미지
 assets/og/
+# clasp 연결 정보(로컬 전용)
+research-help-backend/.clasp.json
