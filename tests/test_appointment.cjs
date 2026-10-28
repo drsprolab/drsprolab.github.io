@@ -162,7 +162,7 @@ test('admissions and consulting inquiries allow weekdays from 13:00 to 18:00 and
     assert.match(emails[emails.length - 1].body, meetingType === 'admissions' ? /진학문의/ : /컨설팅 문의/);
     assert.match(context.doPost({ parameter: { action: 'approve', token: row[7] } }).html, /미팅 확정/);
     const confirmation = emails[emails.length - 1];
-    assert.match(confirmation.body, /안녕하세요\. 한양대학교 송지훈 교수입니다\./);
+    assert.match(confirmation.body, /안녕하세요 한양대학교 송지훈 교수 입니다\./);
     assert.match(confirmation.body, /한양대학교 사범대학 504호 교수 연구실에서 뵙도록 하겠습니다\./);
     assert.match(confirmation.body, /감사합니다\.\n송지훈 드림/);
   }

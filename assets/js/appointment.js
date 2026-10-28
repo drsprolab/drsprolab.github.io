@@ -30,7 +30,7 @@
   var droppedFiles = [];
   var inquiryMode = new URLSearchParams(window.location.search).get('inquiry') === '1';
   if (inquiryMode) {
-    document.querySelector('.page-head h1').textContent = '학업 및 대학원진학 문의';
+    document.querySelector('.page-head h1').textContent = '대학원진학 및 컨설팅 문의';
     document.querySelector('.page-head .lede').textContent = '진학문의 또는 컨설팅 문의 미팅을 요청하세요. 요청은 승인 후 확정됩니다.';
     document.getElementById('appointment-availability').innerHTML = '가능 시간은 <strong>월–금, 오후 1–6시</strong>입니다. 한국시간(KST) 기준 1시간 단위로 선택해 주세요.';
     document.getElementById('appointment-date-note').textContent = '예약 가능한 월–금 날짜를 선택해 주세요.';
@@ -41,7 +41,8 @@
     standardTypes.querySelectorAll('input').forEach(function (input) { input.disabled = true; input.checked = false; });
     inquiryTypes.hidden = false;
     inquiryTypes.querySelectorAll('input').forEach(function (input) { input.disabled = false; });
-    inquiryTypes.querySelector('input').checked = true;
+    var requestedType = new URLSearchParams(window.location.search).get('type');
+    inquiryTypes.querySelector('input[value="' + (requestedType === 'consulting' ? 'consulting' : 'admissions') + '"]').checked = true;
     var times = document.getElementById('appointment-time-options');
     ['15:00', '16:00', '17:00'].forEach(function (start) {
       var button = document.createElement('button');

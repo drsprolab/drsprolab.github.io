@@ -152,7 +152,7 @@ function approve_(p) {
         to: String(r[3]),
         subject: '[미팅 확정] 송지훈 교수님 · ' + r[4] + ' ' + r[5],
         body: ['admissions', 'consulting'].includes(meetingType) ?
-          '안녕하세요. 한양대학교 송지훈 교수입니다.\n\n' +
+          '안녕하세요 한양대학교 송지훈 교수 입니다.\n\n' +
           r[4] + ' ' + r[5] + '–' + endTime_(r[5]) + ' 이 시간에 미팅을 하도록 하겠습니다.\n' +
           '한양대학교 사범대학 504호 교수 연구실에서 뵙도록 하겠습니다.\n\n' +
           '감사합니다.\n송지훈 드림' :
