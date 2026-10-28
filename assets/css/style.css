@@ -1704,3 +1704,20 @@ main.container { overflow-x: clip; }
 
 /* Weekly Insight: DrS / Lab 탭 */
 .daily-hero .insight-tabs { margin: 14px 0 4px; }
+
+/* Mobile navigation: keep the expanded menu above every page element and
+   scroll inside the menu instead of exposing content behind it. */
+@media (max-width: 860px) {
+  .site-header { z-index: 10000; isolation: isolate; }
+  html.nav-open .site-header { position: fixed; inset: 0 0 auto; width: 100%; }
+  html.nav-open .site-nav.open {
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    width: 100%; height: calc(100dvh - 64px); max-height: none;
+    display: block; overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+    background: var(--paper); padding: 14px 20px max(32px, env(safe-area-inset-bottom));
+    border: 0; box-shadow: none; z-index: 10001;
+  }
+  html.nav-open main, html.nav-open .site-footer { filter: none; }
+  html.nav-open, html.nav-open body { overflow: hidden; }
+}
