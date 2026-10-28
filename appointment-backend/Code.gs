@@ -1,6 +1,6 @@
 const OWNER_EMAIL = 'jhsong77@hanyang.ac.kr';
 const ZONE = 'Asia/Seoul';
-const HEADERS = ['id', 'createdAt', 'name', 'email', 'date', 'time', 'message', 'token', 'status', 'decidedAt'];
+const HEADERS = ['id', 'createdAt', 'name', 'email', 'date', 'time', 'message', 'token', 'status', 'decidedAt', 'calendarEventId'];
 
 function doGet(e) {
   const token = String((e && e.parameter && e.parameter.token) || '');
@@ -53,11 +53,14 @@ function request_(p) {
     if (rows.slice(1).some(r => r[4] === date && r[5] === time && r[8] === 'approved')) {
       return page_('시간 마감', '선택한 시간은 이미 확정되었습니다. 다른 시간을 선택해 주세요.');
     }
+    if (calendarBusy_(date, time)) {
+      return page_('시간 마감', '선택한 시간에는 이미 일정이 있습니다. 다른 시간을 선택해 주세요.');
+    }
     const token = Utilities.getUuid() + Utilities.getUuid();
     const id = Utilities.getUuid();
     const created = Utilities.formatDate(new Date(), ZONE, "yyyy-MM-dd'T'HH:mm:ss");
     sheet.appendRow([id, created, sheetText_(name), sheetText_(email), date, time,
-      sheetText_(message), token, 'pending', '']);
+      sheetText_(message), token, 'pending', '', '']);
     const approveUrl = ScriptApp.getService().getUrl() + '?token=' + encodeURIComponent(token);
     MailApp.sendEmail({
       to: OWNER_EMAIL,
@@ -93,8 +96,19 @@ function approve_(p) {
     );
     if (conflict) return page_('시간 중복', '이 시간에는 이미 승인된 미팅이 있습니다. 학생에게 다른 시간을 요청해 주세요.');
     if (!validSlot_(String(r[4]), String(r[5]))) return page_('지난 요청', '이미 지난 시간이거나 예약 범위를 벗어났습니다.');
+    if (calendarBusy_(String(r[4]), String(r[5]))) {
+      return page_('캘린더 일정 중복', '이 시간에는 이미 캘린더 일정이 있습니다. 학생에게 다른 시간을 요청해 주세요.');
+    }
     sheet.getRange(row.index, 9).setValue('sending');
+    let event = null;
     try {
+      const [start, end] = slotDates_(String(r[4]), String(r[5]));
+      event = CalendarApp.getDefaultCalendar().createEvent(
+        '학생 미팅 · ' + String(r[2]), start, end,
+        { description: '요청 학생: ' + r[2] + '\n이메일: ' + r[3] +
+          '\n미팅 목적: ' + (r[6] || '미입력') }
+      );
+      sheet.getRange(row.index, 11).setValue(event.getId());
       MailApp.sendEmail({
         to: String(r[3]),
         subject: '[미팅 확정] 송지훈 교수님 · ' + r[4] + ' ' + r[5],
@@ -107,8 +121,14 @@ function approve_(p) {
       ]]);
       return page_('미팅 확정', '학생에게 확정 이메일을 발송했습니다.');
     } catch (err) {
+      if (event) {
+        try { event.deleteEvent(); } catch (cleanupError) {
+          return page_('캘린더 확인 필요', '확정 메일 발송에 실패했습니다. 캘린더에 남은 일정을 확인해 주세요.');
+        }
+        sheet.getRange(row.index, 11).setValue('');
+      }
       sheet.getRange(row.index, 9).setValue('pending');
-      return page_('메일 발송 오류', '학생에게 메일을 보내지 못했습니다. 잠시 후 승인 링크에서 다시 시도해 주세요.');
+      return page_('처리 오류', '캘린더 등록 또는 메일 발송에 실패했습니다. 잠시 후 승인 링크에서 다시 시도해 주세요.');
     }
   } finally {
     lock.releaseLock();
@@ -125,6 +145,17 @@ function validSlot_(date, time) {
   return days >= 1 && days <= 56;
 }
 
+function slotDates_(date, time) {
+  const hour = time === '13:00' ? 13 : 14;
+  return [new Date(date + 'T' + String(hour).padStart(2, '0') + ':00:00+09:00'),
+    new Date(date + 'T' + String(hour + 1).padStart(2, '0') + ':00:00+09:00')];
+}
+
+function calendarBusy_(date, time) {
+  const [start, end] = slotDates_(date, time);
+  return CalendarApp.getDefaultCalendar().getEvents(start, end).length > 0;
+}
+
 function sheet_() {
   const props = PropertiesService.getScriptProperties();
   let id = props.getProperty('APPOINTMENT_SHEET_ID');
@@ -135,7 +166,7 @@ function sheet_() {
   }
   const sheet = SpreadsheetApp.openById(id).getSheets()[0];
   if (sheet.getLastRow() === 0) {
-    sheet.getRange('A:J').setNumberFormat('@');
+    sheet.getRange('A:K').setNumberFormat('@');
     sheet.appendRow(HEADERS);
   }
   return sheet;

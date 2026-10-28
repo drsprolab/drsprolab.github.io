@@ -7,6 +7,7 @@ const path = require('node:path');
 function backend() {
   const rows = [];
   const emails = [];
+  const events = [];
   const props = {};
   const sheet = {
     getLastRow: () => rows.length,
@@ -32,12 +33,26 @@ function backend() {
       openById: () => ({ getSheets: () => [sheet] })
     },
     MailApp: { sendEmail: mail => emails.push(mail) },
+    CalendarApp: { getDefaultCalendar: () => ({
+      getEvents: (start, end) => events.filter(event =>
+        !event.deleted && event.start < end && event.end > start
+      ),
+      createEvent: (title, start, end, options) => {
+        const event = {
+          title, start, end, options, deleted: false,
+          getId: () => 'calendar-event-1',
+          deleteEvent() { this.deleted = true; }
+        };
+        events.push(event);
+        return event;
+      }
+    }) },
     ScriptApp: { getService: () => ({ getUrl: () => 'https://script.google.com/macros/s/test/exec' }) },
     HtmlService: { createHtmlOutput: html => ({ html, setTitle() { return this; } }) }
   };
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../appointment-backend/Code.gs'), 'utf8'), context);
-  return { context, rows, emails };
+  return { context, rows, emails, events };
 }
 
 test('only future Monday, Tuesday, Thursday one-hour slots are accepted', () => {
@@ -51,7 +66,7 @@ test('only future Monday, Tuesday, Thursday one-hour slots are accepted', () => 
 });
 
 test('request emails owner; explicit approval emails student once', () => {
-  const { context, rows, emails } = backend();
+  const { context, rows, emails, events } = backend();
   const request = context.doPost({ parameter: {
     action: 'request', name: '학생', email: 'student@example.edu',
     date: '2026-10-29', time: '13:00', message: '연구 상담'
@@ -67,6 +82,27 @@ test('request emails owner; explicit approval emails student once', () => {
   assert.match(context.doPost({ parameter: { action: 'approve', token } }).html, /미팅 확정/);
   assert.equal(rows[1][8], 'approved');
   assert.equal(emails[1].to, 'student@example.edu');
+  assert.equal(events.length, 1);
+  assert.equal(events[0].title, '학생 미팅 · 학생');
+  assert.equal(events[0].start.toISOString(), '2026-10-29T04:00:00.000Z');
+  assert.equal(events[0].end.toISOString(), '2026-10-29T05:00:00.000Z');
+  assert.equal(rows[1][10], 'calendar-event-1');
   context.doPost({ parameter: { action: 'approve', token } });
   assert.equal(emails.length, 2);
+  assert.equal(events.length, 1);
+});
+
+test('an existing calendar event blocks a request for the same hour', () => {
+  const { context, emails, events } = backend();
+  events.push({
+    start: new Date('2026-10-29T04:00:00Z'),
+    end: new Date('2026-10-29T05:00:00Z'),
+    deleted: false
+  });
+  const result = context.doPost({ parameter: {
+    action: 'request', name: '학생', email: 'student@example.edu',
+    date: '2026-10-29', time: '13:00'
+  } });
+  assert.match(result.html, /시간 마감/);
+  assert.equal(emails.length, 0);
 });
