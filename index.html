@@ -31,6 +31,7 @@ image:
       <dt>Tel</dt><dd><a href="tel:{{ prof.tel | remove: '-' }}">{{ prof.tel }}</a></dd>
       <dt>Office</dt><dd>한양대학교 사범대학 504호 PRO AnalytiX Lab<br>서울시 성동구 왕십리로 222 (04763)</dd>
     </dl>
+    <a class="solution-booking" href="{{ '/appointment/' | relative_url }}?inquiry=1">미팅 신청하기</a>
   </dialog>
   <dialog class="solution-dialog" id="solution-dialog" aria-labelledby="solution-dialog-title">
     <button type="button" class="solution-close" id="solution-close" aria-label="닫기">×</button>
