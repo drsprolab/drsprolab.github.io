@@ -10,3 +10,4 @@ __pycache__/
 assets/og/
 # clasp 연결 정보(로컬 전용)
 research-help-backend/.clasp.json
+research-help-backend/SsciData.gs

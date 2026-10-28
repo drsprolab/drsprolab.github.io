@@ -27,7 +27,7 @@ const work = {
 };
 const backend = setup({
   ai: {
-    socratic_feedback: () => (aiFail-- > 0 ? { httpError: 500 } : fb1()),
+    socratic_feedback: () => (aiFail-- > 0 ? { httpError: 400 } : fb1()),
     search_plan: () => ({ queries: [{ field: 'model', query: 'supervisor support training transfer' }] }),
     literature_feedback: fb2
   },

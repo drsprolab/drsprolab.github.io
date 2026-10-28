@@ -19,12 +19,12 @@ Google Cloud 콘솔의 OAuth 클라이언트는 필요하지 않습니다. 웹 �
 | --- | --- | --- |
 | `GEMINI_API_KEY` | 예 | Google AI Studio(aistudio.google.com)에서 만든 API 키. 무료 등급은 결제 등록이 필요 없습니다. |
 | `ADMIN_PASSWORD` | 예 | 제출물 열람 비밀번호. 첫 로그인(또는 `setupCheck` 실행) 때 솔트+SHA-256 해시로 바뀌고 원문 속성은 삭제됩니다. |
-| `GEMINI_MODEL` | 아니요 | 기본 `gemini-3.8-flash`(2026-10 기준 무료 등급 대상). |
+| `GEMINI_MODEL` | 아니요 | 기본 `gemini-3.8-flash,gemini-3.6-flash,gemini-3.5-flash-lite`. 앞 모델이 과부하·한도 초과면 다음 모델로 넘깁니다(Interactions API, `store:false`). |
 | `AI_PROVIDERS` | 아니요 | 기본 `gemini`. `gemini,openai`로 두고 `OPENAI_API_KEY`를 넣으면 Gemini 한도 초과(429)·일시 오류 때 OpenAI(유료)로 넘깁니다. |
 | `OPENAI_API_KEY`, `OPENAI_MODEL` | 아니요 | 유료 OpenAI를 쓸 때만. 기본 모델 `gpt-5-mini`. |
 | `DAILY_AI_LIMIT` | 아니요 | 하루 AI 호출 상한(기본 40). 1차 저장 1회, 2차 저장 2회를 씁니다. |
 | `CONTACT_EMAIL` | 아니요 | OpenAlex·Crossref 요청에 붙이는 연락 이메일(두 서비스가 권장). |
-| `OPENALEX_API_KEY` | 아니요 | OpenAlex가 키를 요구하거나 사용량이 많을 때. |
+| `OPENALEX_API_KEY` | 사실상 예 | OpenAlex 무료 키(하루 $1 한도). 키가 없으면 Apps Script 서버들이 공유하는 IP 한도가 바닥나 문헌 검색이 0건이 됩니다. |
 
 비밀번호를 바꾸려면 `ADMIN_PASSWORD`를 다시 추가하면 됩니다(다음 로그인 때 새 해시로 교체).
 
