@@ -39,6 +39,7 @@ header_notice: 아직 BETA test 중입니다.
       <dt>결과</dt><dd>나의 AI 활용 유형, 강점과 보완점, 우리 그룹 분석</dd>
     </dl>
   </div>
+  {% if site.sb_diagnostics_published == true %}
   <div class="inst inst--multi">
     <img class="inst-thumb inst-thumb--compact" src="{{ '/assets/og/in-progress/sb-enterprise-ai-store-thumb.svg' | relative_url }}" alt="SB 기업 AI 기본 역량 진단 매장용 썸네일" width="1200" height="360" loading="lazy" decoding="async">
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">매장용 · 개인·그룹</span></div>
@@ -69,6 +70,7 @@ header_notice: 아직 BETA test 중입니다.
       <dt>결과</dt><dd>나의 강점·보완점, 본사 직급·직무별 비교, 행동지침과 교육 우선순위</dd>
     </dl>
   </div>
+  {% endif %}
   {% assign tadx = site.pages | where: "url", "/in-progress/teacher-ai-competency/" | first %}
   <div class="inst inst--multi">
     {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tadx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}

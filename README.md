@@ -51,6 +51,14 @@ In progress의 네 진단은 분석 결과 상단의 **PDF 저장하기**로 현
 PLAYWRIGHT_MODULE=/path/to/playwright node tests/check_diagnosis_pdf_browser.cjs http://127.0.0.1:4000 /tmp/diagnosis-pdf-qa
 ```
 
+## SB 진단도구 배포 보류·재개
+
+- SB 기업 AI 기본 역량 진단 **매장용·본사용은 현재 공개 배포 보류**입니다. `_config.yml`의 `sb_diagnostics_published: false`가 유일한 배포 스위치입니다.
+- `_plugins/sb_diagnostics_publication.rb`가 진단 HTML, 전용 JavaScript, 문항·구조 PDF, 공유 이미지·썸네일을 빌드 결과에서 제외합니다. `/in-progress/`의 두 카드도 같은 스위치로 감춥니다. 단순 CSS 숨김이 아니므로 기존 페이지·파일 주소는 배포 후 404가 됩니다.
+- **원본 파일, 문항, 응답 저장소 연결은 삭제하거나 변경하지 않습니다.** 사용자가 재배포를 요청하면 스위치를 YAML 불리언 `true`로 변경하고 테스트·빌드 후 `main`에 반영합니다. 두 카드와 원래 주소·파일이 함께 복원됩니다. 다시 보류할 때는 `false`로 되돌립니다. 누락되거나 문자열로 적힌 값은 배포하지 않습니다.
+- GitHub 저장소의 원본·커밋 기록 및 이미 내려받은 사본을 비공개로 만드는 기능은 아닙니다. Google Apps Script 웹 앱과 기존 응답 데이터는 그대로 보존하며 이 스위치로 별도 서버를 중지하지 않습니다.
+- 검증: `bundle exec ruby tests/test_sb_diagnostics_publication.rb` — 실제 Jekyll 빌드로 보류, 원본 그대로 재개, 동일 출력 폴더의 재보류와 다른 진단 유지까지 확인합니다. Pages CI에서도 실행합니다.
+
 ## Research Map 자동 갱신
 
 - **논문 원본은 `_data/publications.yml` 하나입니다.** 논문을 추가·수정·삭제하고 `main`에 반영하면 기존 GitHub Pages 배포 과정에서 키워드, 논문–키워드 연결, Papers / Keywords / Links를 다시 생성합니다. Visible은 현재 분야·선택 필터에 보이는 논문과 키워드 노드 수이며 브라우저에서 즉시 바뀝니다.

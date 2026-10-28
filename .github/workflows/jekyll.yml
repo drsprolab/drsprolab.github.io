@@ -32,6 +32,7 @@ jobs:
       - name: Test Research Map generation and browser data
         run: |
           bundle exec ruby tests/test_research_map.rb
+          bundle exec ruby tests/test_sb_diagnostics_publication.rb
           node --test tests/test_research_map_data.cjs
           node --test tests/test_ai_agent_needs.cjs
           node --test tests/test_orbit.cjs
