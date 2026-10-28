@@ -86,6 +86,8 @@ test('request emails owner; explicit approval emails student once', () => {
   assert.match(context.doPost({ parameter: { action: 'approve', token } }).html, /미팅 확정/);
   assert.equal(rows[1][8], 'approved');
   assert.equal(emails[1].to, 'student@example.edu');
+  assert.equal(emails[1].cc, 'jhsong77@hanyang.ac.kr');
+  assert.equal(emails[1].replyTo, 'jhsong77@hanyang.ac.kr');
   assert.equal(events.length, 1);
   assert.equal(events[0].title, '학생 미팅 · 학생');
   assert.equal(events[0].start.toISOString(), '2026-10-29T04:00:00.000Z');
@@ -162,6 +164,8 @@ test('admissions and consulting inquiries allow weekdays from 13:00 to 18:00 and
     assert.match(emails[emails.length - 1].body, meetingType === 'admissions' ? /진학문의/ : /컨설팅 문의/);
     assert.match(context.doPost({ parameter: { action: 'approve', token: row[7] } }).html, /미팅 확정/);
     const confirmation = emails[emails.length - 1];
+    assert.equal(confirmation.cc, 'jhsong77@hanyang.ac.kr');
+    assert.equal(confirmation.replyTo, 'jhsong77@hanyang.ac.kr');
     assert.match(confirmation.body, /안녕하세요 한양대학교 송지훈 교수 입니다\./);
     assert.match(confirmation.body, /한양대학교 사범대학 504호 교수 연구실에서 뵙도록 하겠습니다\./);
     assert.match(confirmation.body, /감사합니다\.\n송지훈 드림/);

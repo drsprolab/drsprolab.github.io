@@ -150,6 +150,8 @@ function approve_(p) {
       sheet.getRange(row.index, 11).setValue(event.getId());
       MailApp.sendEmail({
         to: String(r[3]),
+        cc: OWNER_EMAIL,
+        replyTo: OWNER_EMAIL,
         subject: '[미팅 확정] 송지훈 교수님 · ' + r[4] + ' ' + r[5],
         body: ['admissions', 'consulting'].includes(meetingType) ?
           '안녕하세요 한양대학교 송지훈 교수 입니다.\n\n' +
