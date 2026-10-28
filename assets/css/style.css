@@ -1715,10 +1715,11 @@ main.container { overflow-x: clip; }
     background: var(--paper);
   }
   html.nav-open body > #site-nav.open {
-    position: fixed !important; inset: 0 !important;
-    width: 100vw !important; height: 100dvh !important;
+    position: fixed !important; top: var(--mobile-header-height, 60px) !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100% !important; height: calc(100dvh - var(--mobile-header-height, 60px)) !important;
     max-height: none !important; margin: 0 !important;
-    padding: 76px 20px max(32px, env(safe-area-inset-bottom)) !important;
+    padding: 12px 20px max(32px, env(safe-area-inset-bottom)) !important;
     display: block !important; overflow-y: auto !important; overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
     background: var(--paper) !important; opacity: 1 !important;
