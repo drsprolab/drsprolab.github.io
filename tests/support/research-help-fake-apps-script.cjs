@@ -36,6 +36,7 @@ function setup(opts) {
   const ctx = {
     console: { log() {}, error() {} },
     Utilities: {
+      sleep: () => {},
       formatDate: (d, z, f) => f === 'yyMMdd' ? '261029' : f === 'yyyy-MM-dd' ? '2026-10-29' : new Date(clock).toISOString(),
       getUuid: () => crypto.randomUUID(),
       computeDigest: (a, s) => Array.from(crypto.createHash('sha256').update(String(s), 'utf8').digest()).map(b => b > 127 ? b - 256 : b),
@@ -60,9 +61,9 @@ function setup(opts) {
         const provider = url.startsWith('https://generativelanguage.googleapis.com/') ? 'gemini' : url.startsWith('https://api.openai.com/') ? 'openai' : null;
         if (!provider) throw new Error('unexpected fetch ' + url);
         const gem = provider === 'gemini';
-        const schema = gem ? body.generationConfig.responseSchema : body.response_format.json_schema.schema;
-        const system = gem ? body.systemInstruction.parts[0].text : body.messages[0].content;
-        const user = gem ? body.contents[0].parts[0].text : body.messages[1].content;
+        const schema = gem ? body.response_format.schema : body.response_format.json_schema.schema;
+        const system = gem ? body.system_instruction : body.messages[0].content;
+        const user = gem ? body.input : body.messages[1].content;
         const name = schema.properties.queries ? 'search_plan' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
         calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
@@ -71,7 +72,7 @@ function setup(opts) {
         if (out && out.httpError) return res(out.httpError, '{"error":"x"}');
         const text = JSON.stringify(out);
         return res(200, JSON.stringify(gem
-          ? { candidates: [{ finishReason: 'STOP', content: { parts: [{ text: 'thinking', thought: true }, { text }] } }] }
+          ? { status: 'completed', steps: [{ type: 'thought', signature: 'x' }, { type: 'model_output', content: [{ type: 'text', text }] }] }
           : { choices: [{ finish_reason: 'stop', message: { content: text } }] }));
       },
       fetchAll: reqs => { calls.fetchAll.push(reqs.map(r => r.url)); return reqs.map(r => (opts.web || (() => res(404, '{}')))(r.url)); }

@@ -452,7 +452,7 @@ function stripTags_(s) {
 // AI_PROVIDERS(기본 'gemini'): 'gemini,openai'처럼 적으면 앞 서비스가 한도 초과(429)·일시 오류(5xx)일 때 다음 서비스로 넘긴다.
 // API 키가 없는 서비스는 건너뛴다.
 const PROVIDERS = {
-  gemini: { keyProp: 'GEMINI_API_KEY', modelProp: 'GEMINI_MODEL', model: 'gemini-3.8-flash', label: 'Google Gemini', call: gemini_ },
+  gemini: { keyProp: 'GEMINI_API_KEY', modelProp: 'GEMINI_MODEL', model: 'gemini-3.8-flash,gemini-3.6-flash,gemini-3.5-flash-lite', label: 'Google Gemini', call: gemini_ },
   openai: { keyProp: 'OPENAI_API_KEY', modelProp: 'OPENAI_MODEL', model: 'gpt-5-mini', label: 'OpenAI', call: openai_ }
 };
 
@@ -469,7 +469,8 @@ function ai_(system, user, schema) {
   for (let i = 0; i < list.length; i++) {
     const p = list[i];
     try {
-      return { data: p.call(p.key, p.modelId, system, user, schema), by: 'AI (' + p.label + ' ' + p.modelId + ')' };
+      const r = p.call(p.key, p.modelId, system, user, schema);
+      return { data: r.data, by: 'AI (' + p.label + ' ' + r.model + ')' };
     } catch (err) {
       if (!err.retryable || i === list.length - 1) throw err;
       console.error(p.name + ' 실패, 다음 서비스로 전환: ' + err.message);
@@ -480,7 +481,9 @@ function ai_(system, user, schema) {
 function httpFail_(service, res) {
   const code = res.getResponseCode();
   console.error(service + ' ' + code + ': ' + res.getContentText().slice(0, 800));
-  const err = new Error(code === 429 ? 'AI 서비스 사용 한도를 초과했습니다. 잠시 후 다시 시도해 주세요.' : 'AI 피드백 생성에 실패했습니다(' + code + ').');
+  let detail = '';
+  try { const e = JSON.parse(res.getContentText()).error || {}; detail = [e.status || e.code, String(e.message || '').slice(0, 160)].filter(Boolean).join(' '); } catch (x) { detail = res.getContentText().replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160); }
+  const err = new Error(code === 429 ? 'AI 서비스 사용 한도를 초과했습니다. 잠시 후 다시 시도해 주세요.' : 'AI 피드백 생성에 실패했습니다(' + code + (detail ? ': ' + detail : '') + ').');
   err.code = 'ai_failed';
   err.retryable = code === 429 || code >= 500;
   throw err;
@@ -494,31 +497,53 @@ function parseJson_(text) {
   }
 }
 
-function gemini_(key, model, system, user, schema) {
-  const res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
-    method: 'post', contentType: 'application/json', headers: { 'x-goog-api-key': key }, muteHttpExceptions: true,
-    payload: JSON.stringify({
-      systemInstruction: { parts: [{ text: system }] },
-      contents: [{ role: 'user', parts: [{ text: user }] }],
-      generationConfig: { responseMimeType: 'application/json', responseSchema: geminiSchema_(schema), maxOutputTokens: 16384 }
-    })
-  });
-  if (res.getResponseCode() !== 200) httpFail_('Gemini', res);
-  const cand = (JSON.parse(res.getContentText()).candidates || [])[0];
-  if (!cand || cand.finishReason !== 'STOP' || !cand.content) fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
-  return parseJson_((cand.content.parts || []).filter(p => !p.thought && p.text).map(p => p.text).join(''));
+// Gemini Interactions API(Google 권장 방식). store:false로 Google 쪽에 대화 기록을 남기지 않는다.
+// GEMINI_MODEL에 쉼표로 여러 모델을 적으면 과부하(5xx)·한도(429) 때 다음 모델로 넘긴다.
+function gemini_(key, models, system, user, schema) {
+  const list = String(models).split(',').map(m => m.trim()).filter(Boolean);
+  for (let i = 0; i < list.length; i++) {
+    try {
+      return { data: geminiModel_(key, list[i], system, user, schema), model: list[i] };
+    } catch (err) {
+      if (!err.retryable || i === list.length - 1) throw err;
+      console.error(list[i] + ' 실패, 다음 모델로 전환: ' + err.message);
+    }
+  }
 }
 
-// Gemini의 응답 스키마는 OpenAPI 부분집합이라 additionalProperties를 받지 않고 형식 이름을 대문자로 쓴다.
+function geminiModel_(key, model, system, user, schema) {
+  const request = {
+    method: 'post', contentType: 'application/json', headers: { 'x-goog-api-key': key }, muteHttpExceptions: true,
+    payload: JSON.stringify({
+      model: model, store: false, system_instruction: system, input: user,
+      response_format: { type: 'text', mime_type: 'application/json', schema: geminiSchema_(schema) },
+      generation_config: { max_output_tokens: 16384, thinking_level: 'low' }
+    })
+  };
+  const url = 'https://generativelanguage.googleapis.com/v1beta/interactions';
+  let res = UrlFetchApp.fetch(url, request);
+  // 일시적 과부하(500·503)는 잠시 기다렸다 두 번까지 다시 시도한다.
+  for (let wait = 3000; (res.getResponseCode() === 503 || res.getResponseCode() === 500) && wait <= 6000; wait *= 2) {
+    Utilities.sleep(wait);
+    res = UrlFetchApp.fetch(url, request);
+  }
+  if (res.getResponseCode() !== 200) httpFail_('Gemini', res);
+  const data = JSON.parse(res.getContentText());
+  if (data.status !== 'completed') fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
+  const texts = [];
+  (data.steps || []).filter(st => st.type === 'model_output').forEach(st => (st.content || []).forEach(c => { if (c.type === 'text' && c.text) texts.push(c.text); }));
+  return parseJson_(texts.join(''));
+}
+
+// 문서에서 지원이 확인된 키워드(type·properties·items·required·enum)만 남긴다.
 function geminiSchema_(s) {
-  const out = { type: String(s.type).toUpperCase() };
+  const out = { type: s.type };
   if (s.enum) out.enum = s.enum;
   if (s.items) out.items = geminiSchema_(s.items);
   if (s.properties) {
     out.properties = {};
     Object.keys(s.properties).forEach(k => { out.properties[k] = geminiSchema_(s.properties[k]); });
     out.required = s.required;
-    out.propertyOrdering = Object.keys(s.properties);
   }
   return out;
 }
@@ -534,7 +559,7 @@ function openai_(key, model, system, user, schema) {
   if (res.getResponseCode() !== 200) httpFail_('OpenAI', res);
   const choice = (JSON.parse(res.getContentText()).choices || [])[0];
   if (!choice || choice.message.refusal || choice.finish_reason !== 'stop') fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
-  return parseJson_(choice.message.content);
+  return { data: parseJson_(choice.message.content), model: model };
 }
 
 // AI가 일부 항목을 빠뜨리면 빈 피드백을 성공으로 보여 주지 않고 실패로 처리한다.
@@ -746,3 +771,22 @@ function setupCheck() {
     dailyAiLimit: Number(p.getProperty('DAILY_AI_LIMIT')) || DEFAULT_DAILY_AI_LIMIT
   }));
 }
+
+// 편집기에서 실행: Gemini 연결 상태를 확인한다. 응답 코드와 오류 메시지만 출력하고 키는 출력하지 않는다.
+function diagnoseGemini() {
+  const p = PropertiesService.getScriptProperties();
+  const key = p.getProperty('GEMINI_API_KEY') || '';
+  const model = p.getProperty('GEMINI_MODEL') || PROVIDERS.gemini.model;
+  console.log('key: ' + (key ? key.length + '자, 앞 3자 ' + key.slice(0, 3) : '없음'));
+  const list = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', { headers: { 'x-goog-api-key': key }, muteHttpExceptions: true });
+  const names = list.getResponseCode() === 200 ? (JSON.parse(list.getContentText()).models || []).map(m => m.name.replace('models/', '')).filter(n => /flash/.test(n)) : [];
+  console.log('모델 목록 ' + list.getResponseCode() + ': ' + (names.length ? names.join(', ') : list.getContentText().slice(0, 500)));
+  [model].concat(names.filter(n => n !== model).slice(0, 2)).forEach(m => {
+    const r = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(m) + ':generateContent', {
+      method: 'post', contentType: 'application/json', headers: { 'x-goog-api-key': key }, muteHttpExceptions: true,
+      payload: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: '안녕하세요라고 한 단어로 답하세요.' }] }] })
+    });
+    console.log(m + ' → ' + r.getResponseCode() + ': ' + r.getContentText().slice(0, 400));
+  });
+}
+

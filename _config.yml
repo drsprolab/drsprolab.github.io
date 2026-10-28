@@ -21,7 +21,7 @@ sb_diagnostics_published: false
 # appointment-backend 배포 후 Google Apps Script /exec URL
 appointment_script_url: "https://script.google.com/macros/s/AKfycbxrhzkohF0pUkRjmvuJdeaGKb6t__NAbWQRR_H5PI7bf85PuHudwlMEfCb4lMnKTAGk9A/exec"
 # research-help-backend 배포 후 Google Apps Script /exec URL (비어 있으면 저장 버튼이 꺼지고 '서버 연결 준비 중'을 표시)
-research_help_script_url: ""
+research_help_script_url: "https://script.google.com/macros/s/AKfycbweFpw9xGCNbvxkfRbH_fru7OocRdpsBpdJCbjC2UTiQgZdbml4u3B_j_CFXqbydStr/exec"
 
 collections:
   insights:
