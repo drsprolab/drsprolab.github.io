@@ -111,12 +111,14 @@ function literatureWeb() {
   return url => {
     if (url.startsWith('https://api.openalex.org/')) return res(200, JSON.stringify({ results: works }));
     if (url.includes('10.1111%2Fgood.1')) return res(200, JSON.stringify({ message: { type: 'journal-article', DOI: '10.1111/good.1', title: ['Good SSCI paper'],
-      'container-title': ['Journal A'], ISSN: ['1234-5678'], publisher: 'Wiley', author: [{ given: 'Jane', family: 'Doe' }], issued: { 'date-parts': [[2020]] } } }));
+      'container-title': ['Journal A'], ISSN: ['1234-5678'], publisher: 'Wiley', author: [{ given: 'Jane', family: 'Doe' }], issued: { 'date-parts': [[2020]] },
+      volume: '31', issue: '2', page: '101-120' } }));
     return res(404, '{}');
   };
 }
 
-const round2 = () => Object.fromEntries(FB_KEYS.map(k => [k, {
+const round2 = () => Object.assign(round2Items(), { recommended: [{ id: 'S9', reason: '가짜' }, { id: 'S1', reason: '종단 자료로 상사 지원을 검증 (Fake, 2001)' }, { id: 'S1', reason: '중복' }] });
+const round2Items = () => Object.fromEntries(FB_KEYS.map(k => [k, {
   status: 'reviewed',
   assessment: k === 'theory' ? '근거 없이 판단 (Smith, 2018)' : `${k}는 [S1]과 비교해 보완이 필요합니다. 또한 [S9]와 Brown et al. (2017) 참고.`,
   suggestions: ['제안 [S1]'],
@@ -143,6 +145,13 @@ test('2차 저장: SSCI 목록·차단 출판사·Crossref 검증을 통과한 �
   assert.match(model.sources[0].scope, /원문 미확인/);
   assert.match(model.assessment, /\[1\]/);
   assert.doesNotMatch(model.assessment, /S9|Brown/);
+  assert.equal(r2.feedback.recommended.length, 1, '후보에 없는 S9와 중복은 제외');
+  const rec = r2.feedback.recommended[0];
+  assert.equal(rec.doi, '10.1111/good.1');
+  assert.deepEqual([rec.volume, rec.issue, rec.page], ['31', '2', '101-120']);
+  assert.deepEqual(rec.apaAuthors, [{ family: 'Doe', given: 'Jane' }]);
+  assert.doesNotMatch(rec.reason, /Fake, 2001/);
+  assert.ok(lit.system.includes('recommended'));
   const theory = r2.feedback.items.theory;
   assert.equal(theory.status, 'withheld');
   assert.equal(theory.assessment, '검증된 근거 부족으로 판단 보류');

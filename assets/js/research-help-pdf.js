@@ -18,6 +18,25 @@
       document.head.appendChild(tag);
     });
   }
+  // 의견서 글꼴: 제목은 Pretendard, 본문은 Noto Serif KR. PDF를 만들 때만 불러온다.
+  var FONT_CSS = ['https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css',
+    'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap'];
+  var fontsReady;
+  function fonts() {
+    if (!fontsReady) fontsReady = Promise.all(FONT_CSS.map(function (href) {
+      if (document.querySelector('link[href="' + href + '"]')) return Promise.resolve();
+      return new Promise(function (resolve) {
+        var link = document.createElement('link'); link.rel = 'stylesheet'; link.href = href;
+        link.onload = link.onerror = function () { resolve(); };
+        document.head.appendChild(link);
+      });
+    })).then(function () {
+      if (!document.fonts) return;
+      return Promise.race([Promise.all(['700 25px Pretendard', '400 14px "Noto Serif KR"'].map(function (f) { return document.fonts.load(f, '가나다 ABC'); })),
+        new Promise(function (r) { setTimeout(r, 8000); })]);
+    }).catch(function () { /* 글꼴을 못 불러오면 기본 글꼴로 만든다 */ });
+    return fontsReady;
+  }
   function tools() {
     if (!libraries) libraries = Promise.all([
       load('html2canvas-1.4.1.min.js', function () { return !!window.html2canvas; }),
@@ -49,15 +68,19 @@
     return node;
   }
 
-  // doc: { title, meta: [..], blocks: [{ type: 'h2'|'h3'|'p'|'note', text, pageBreak }] } → 화면 밖에 배치한 페이지 요소들
+  // doc: { title, subtitle, date, blocks: [{ type: 'h2'|'h3'|'p'|'sq'|'ci'|'dash'|'note', text, pageBreak }] } → 화면 밖에 배치한 페이지 요소들
   function layout(doc) {
     var host = document.createElement('div');
     host.className = 'rhp-host';
     document.body.appendChild(host);
     var pages = [];
     var body = newPage(host, pages);
-    body.appendChild(block('h1', 'rhp-title', doc.title));
-    (doc.meta || []).forEach(function (m) { body.appendChild(block('p', 'rhp-meta', m)); });
+    var head = document.createElement('header');
+    head.className = 'rhp-head';
+    head.appendChild(block('h1', 'rhp-title', doc.title));
+    if (doc.subtitle) head.appendChild(block('p', 'rhp-subtitle', doc.subtitle));
+    body.appendChild(head);
+    if (doc.date) body.appendChild(block('p', 'rhp-date', doc.date));
 
     function place(node, keepWithNext) {
       body.appendChild(node);
@@ -66,7 +89,7 @@
       var ok = fits(body);
       if (keepWithNext) node.style.marginBottom = '';
       if (ok) return;
-      if (keepWithNext || node.textContent.length < 2) {
+      if (keepWithNext || node.textContent.length < 2 || node.getAttribute('data-atomic')) {
         body.removeChild(node);
         if (body.childNodes.length) { body = newPage(host, pages); place(node, keepWithNext); } else body.appendChild(node);
         return;
@@ -98,16 +121,23 @@
     doc.blocks.forEach(function (b) {
       if (b.pageBreak && body.childNodes.length) body = newPage(host, pages);
       var tag = b.type === 'h2' ? 'h2' : b.type === 'h3' ? 'h3' : 'p';
+      if (b.type === 'sq') { place(block('p', 'rhp-sq', b.text), true); return; }
+      if (b.type === 'ref') {
+        var ref = document.createElement('p');
+        ref.className = 'rhp-ref';
+        ref.setAttribute('data-atomic', '1');
+        b.parts.forEach(function (part) { ref.appendChild(part.em ? block('em', '', part.text) : document.createTextNode(part.text)); });
+        place(ref, false);
+        return;
+      }
       place(block(tag, 'rhp-' + b.type, b.text || ' '), b.type === 'h2' || b.type === 'h3');
     });
-    pages.forEach(function (p, i) { p.lastChild.textContent = 'PRO AnalytiX Lab · Research help    ' + (i + 1) + ' / ' + pages.length; });
+    pages.forEach(function (p, i) { p.lastChild.textContent = '- ' + (i + 1) + ' -'; });
     return { host: host, pages: pages };
   }
 
   function save(doc, filename) {
-    return tools().then(function () {
-      return document.fonts && document.fonts.ready;
-    }).then(function () {
+    return Promise.all([tools(), fonts()]).then(function () {
       var laid = layout(doc);
       var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', compress: true });
       var chain = Promise.resolve();
@@ -131,18 +161,28 @@
   }
 
   var style = document.createElement('style');
+  var SANS = 'Pretendard,"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif';
   style.textContent =
     '.rhp-host{position:fixed;left:-20000px;top:0;z-index:-1}' +
-    '.rhp-page{width:' + PAGE_W + 'px;height:' + PAGE_H + 'px;padding:' + PAD + 'px ' + PAD + 'px 40px;box-sizing:border-box;background:#fff;color:#16202b;' +
-    'font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;display:flex;flex-direction:column;margin-bottom:16px}' +
+    '.rhp-page{width:' + PAGE_W + 'px;height:' + PAGE_H + 'px;padding:' + PAD + 'px ' + PAD + 'px 40px;box-sizing:border-box;background:#fff;color:#111;' +
+    'font-family:"Noto Serif KR","AppleMyungjo","Batang",serif;display:flex;flex-direction:column;margin-bottom:16px}' +
     '.rhp-body{flex:1;overflow:hidden;min-height:0}' +
-    '.rhp-foot{height:24px;font-size:11px;color:#5a6573;text-align:right;padding-top:8px;border-top:1px solid #dde2e8}' +
-    '.rhp-title{font-size:22px;line-height:1.4;margin:0 0 10px;color:#1d4f86}' +
-    '.rhp-meta{font-size:12.5px;color:#5a6573;margin:0 0 2px}' +
-    '.rhp-h2{font-size:17px;margin:26px 0 8px;padding-bottom:6px;border-bottom:2px solid #1d4f86;color:#1d4f86}' +
-    '.rhp-h3{font-size:14.5px;margin:16px 0 4px;color:#16202b}' +
-    '.rhp-p{font-size:13px;line-height:1.75;margin:0 0 6px;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
-    '.rhp-note{font-size:11.5px;line-height:1.6;margin:0 0 6px;color:#5a6573;white-space:pre-wrap;overflow-wrap:anywhere}';
+    '.rhp-foot{height:24px;font-family:' + SANS + ';font-size:10.5px;color:#666;text-align:center;padding-top:8px}' +
+    '.rhp-head{border-top:3.2px solid #111;padding-top:24px;text-align:center}' +
+    '.rhp-title{font-family:' + SANS + ';font-size:25px;font-weight:700;line-height:1.45;color:#222;margin:0 0 12px;word-break:keep-all}' +
+    '.rhp-subtitle{font-family:' + SANS + ';font-size:12.5px;color:#444;margin:0;padding-bottom:15px;border-bottom:1px solid #222}' +
+    '.rhp-date{margin:10px 0 18px;text-align:right;font-size:12px;color:#444}' +
+    '.rhp-h2{font-family:' + SANS + ';font-size:18px;font-weight:700;line-height:1.5;color:#111;margin:20px 0 10px;padding:0 0 7px;border-bottom:1px solid #222}' +
+    '.rhp-h3{font-family:' + SANS + ';font-size:14.5px;font-weight:700;line-height:1.6;color:#222;margin:14px 0 4px}' +
+    '.rhp-p{font-size:14px;line-height:1.85;margin:0 0 6px;text-indent:1em;text-align:justify;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
+    '.rhp-sq{font-size:14px;line-height:1.85;margin:8px 0 2px;padding-left:1.2em;text-indent:-1.2em;font-weight:600}' +
+    '.rhp-sq::before{content:"□ "}' +
+    '.rhp-ci{font-size:14px;line-height:1.85;margin:0 0 3px;padding-left:2.4em;text-indent:-1.2em;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
+    '.rhp-ci::before{content:"○ "}' +
+    '.rhp-dash{font-size:13.5px;line-height:1.8;margin:0 0 3px;padding-left:3.4em;text-indent:-1em;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
+    '.rhp-dash::before{content:"- "}' +
+    '.rhp-ref{font-size:13.5px;line-height:1.75;margin:10px 0 2px;padding-left:2em;text-indent:-2em;overflow-wrap:anywhere}' +
+    '.rhp-note{font-size:11.5px;line-height:1.65;margin:0 0 5px;padding-left:2.4em;color:#555;white-space:pre-wrap;overflow-wrap:anywhere}';
   document.head.appendChild(style);
 
   window.ResearchHelpPDF = { layout: layout, save: save };

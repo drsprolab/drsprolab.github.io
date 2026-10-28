@@ -258,7 +258,8 @@ function literatureFeedback_(fields) {
     '본문에서는 [S1]처럼 표기한다. 목록 밖의 논문·저자·연도·DOI·이론 출처를 언급하거나 지어내지 않는다. ' +
     '각 문헌은 제공된 초록과 서지정보 범위에서만 근거로 쓰고 원문을 읽은 것처럼 서술하지 않는다. sources[].basis에는 그 초록에서 확인되는 근거 내용을 적는다. ' +
     '연구 모형·이론적 근거·문제의식·연구 방법 항목에서 적합한 후보 문헌이 없으면 status를 "withheld"로 하고 근거 없이 판단하지 않는다. ' +
-    '목적·RQ·제목·시사점의 정렬 검토는 작성 내용 간 논리로 판단할 수 있으며, 이때 문헌을 꾸며 붙이지 않는다.';
+    '목적·RQ·제목·시사점의 정렬 검토는 작성 내용 간 논리로 판단할 수 있으며, 이때 문헌을 꾸며 붙이지 않는다. ' +
+    'recommended에는 작성자가 연구를 다듬기 위해 꼭 읽어야 할 논문을 candidates 중에서 최대 10편, 중요한 순서로 골라 id와 한두 문장의 추천 이유(초록 근거)를 적는다.';
   const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields),
     candidates: search.candidates.map(c => ({ id: c.id, title: c.title, authors: c.authors.slice(0, 6), year: c.year, journal: c.journal, abstract: c.abstract })) });
   const result = ai_(system, user, round2Schema_());
@@ -269,6 +270,14 @@ function literatureFeedback_(fields) {
 }
 
 function round2Schema_() {
+  const schema = round2ItemsSchema_();
+  schema.properties.recommended = { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'reason'],
+    properties: { id: { type: 'string' }, reason: { type: 'string' } } } };
+  schema.required = schema.required.concat(['recommended']);
+  return schema;
+}
+
+function round2ItemsSchema_() {
   const item = { type: 'object', additionalProperties: false, required: ['status', 'assessment', 'suggestions', 'sources'],
     properties: {
       status: { type: 'string', enum: ['reviewed', 'withheld'] },
@@ -306,11 +315,19 @@ function verifyRound2_(raw, candidates) {
       sources: sources.map((s, i) => Object.assign(citation_(byId[s.id]), { n: i + 1, basis: stripCitations_(clip_(s.basis, 500), allowed), scope: SOURCE_SCOPE }))
     };
   });
-  return { items: items };
+  // 추천 논문: AI가 고른 후보만 인정하고, 10편이 안 되면 검증된 후보 순서대로 채운다.
+  const picked = [], used = {};
+  ((raw && raw.recommended) || []).forEach(r => {
+    if (r && byId[r.id] && !used[r.id] && picked.length < 10) { used[r.id] = true; picked.push({ c: byId[r.id], reason: stripCitations_(clip_(r.reason, 400), [byId[r.id]]) }); }
+  });
+  candidates.forEach(c => { if (!used[c.id] && picked.length < 10) { used[c.id] = true; picked.push({ c: c, reason: '' }); } });
+  const recommended = picked.map(p => Object.assign(citation_(p.c), { reason: renumber_(p.reason, {}), scope: SOURCE_SCOPE }));
+  return { items: items, recommended: recommended };
 }
 
 function citation_(c) {
-  return { title: c.title, authors: c.authors, year: c.year, journal: c.journal, doi: c.doi, url: 'https://doi.org/' + c.doi, ssci: c.ssci };
+  return { title: c.title, authors: c.authors, apaAuthors: c.apaAuthors || [], year: c.year, journal: c.journal,
+    volume: c.volume || '', issue: c.issue || '', page: c.page || '', doi: c.doi, url: 'https://doi.org/' + c.doi, ssci: c.ssci };
 }
 
 // [S3] → [1]처럼 항목 안 번호로 바꾸고, 목록에 없는 [S#] 표기는 지운다.
@@ -407,8 +424,10 @@ function crossrefVerify_(pool, journals) {
     if (!sameTitle_(m.title && m.title[0], c.title)) return;
     const authors = (m.author || []).map(a => [a.given, a.family].filter(Boolean).join(' ')).filter(Boolean);
     const issued = m.issued && m.issued['date-parts'] && m.issued['date-parts'][0];
-    out.push(Object.assign(c, { title: stripTags_(m.title[0]), journal: (m['container-title'] || [])[0] || c.journal,
-      authors: authors.length ? authors : c.authors, year: (issued && issued[0]) || c.year, publisher: m.publisher }));
+    out.push(Object.assign(c, { title: stripTags_(m.title[0]), journal: stripTags_((m['container-title'] || [])[0] || c.journal),
+      authors: authors.length ? authors : c.authors, year: (issued && issued[0]) || c.year, publisher: m.publisher,
+      apaAuthors: (m.author || []).map(a => ({ family: String(a.family || a.name || ''), given: String(a.given || '') })).filter(a => a.family),
+      volume: String(m.volume || ''), issue: String(m.issue || ''), page: String(m.page || '') }));
   });
   return out;
 }
@@ -444,8 +463,10 @@ function sameTitle_(a, b) {
   return !!x && !!y && (x === y || x.indexOf(y) === 0 || y.indexOf(x) === 0);
 }
 
+// Crossref 제목·저널명에 섞인 태그, HTML 엔티티, 줄바꿈을 정리한다.
 function stripTags_(s) {
-  return String(s || '').replace(/<[^>]+>/g, '');
+  return String(s || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/\s+/g, ' ').trim();
 }
 
 // ---------- AI 호출 ----------

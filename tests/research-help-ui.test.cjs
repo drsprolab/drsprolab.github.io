@@ -128,11 +128,13 @@ test('PDF 문서: 작성자용은 최종본, 관리자용은 1·2·3차 저장�
   ] };
   const mine = RH.pdfDocument(record);
   assert.match(mine.title, /최종 제목/);
-  assert.equal(mine.blocks.filter(b => b.type === 'h3').length, 9);
+  assert.deepEqual(mine.blocks.filter(b => /^h[23]$/.test(b.type)).map(b => b.text),
+    ['1. 서론', '1-1. 연구의 문제의식', '1-2. 연구의 목적', '1-3. 연구 모형', '1-4. 연구 문제', '2. 이론적 근거', '3. 연구방법', '4. 기대시사점']);
+  assert.match(mine.subtitle, /테스트 작성자/);
   const all = RH.pdfDocument(record, { history: true });
   const h2 = all.blocks.filter(b => b.type === 'h2').map(b => b.text);
-  assert.ok(h2.some(t => t.startsWith('1차 저장본')) && h2.some(t => t.startsWith('3차 저장본')));
-  assert.ok(h2.includes('1차 DrS comments (AI 생성)'));
+  assert.ok(h2.some(t => /1차 저장본/.test(t)) && h2.some(t => /3차 저장본/.test(t)));
+  assert.ok(h2.some(t => /1차 DrS comments \(AI 생성\)/.test(t)));
   assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('외부 AI(현재 Google Gemini)')));
   assert.equal(RH.pdfFileName(record), 'research-plan-테스트_작성자-RH261029ABCDEF12.pdf');
 });
@@ -144,4 +146,20 @@ test('관리자: 세션이 만료되면 세션을 지운다', async () => {
   await assert.rejects(admin.list(), /만료/);
   assert.equal(admin.state.session, null);
   assert.equal(session.peek(), null);
+});
+
+test('추천 논문: APA 7판 형식으로 PDF 끝에 붙는다', () => {
+  const rec = { title: 'Social support in the workplace and training transfer: A longitudinal analysis', year: 2010, journal: 'International Journal of Selection and Assessment',
+    volume: '18', issue: '2', page: '187-200', doi: '10.1111/j.1468-2389.2010.00500.x', reason: '종단 자료',
+    apaAuthors: [{ family: 'Chiaburu', given: 'Dan S.' }, { family: 'Van Dam', given: 'Karen' }, { family: 'Hutchins', given: 'Holly M.' }] };
+  assert.equal(RH.apaText({ ...rec, title: 'A\n   B', journal: 'R &amp; P' }).includes('A B. R & P, 18(2)'), true);
+  assert.ok(RH.apaText({ ...rec, title: 'Do emotions matter?' }).includes('Do emotions matter? International'));
+  assert.equal(RH.apaText(rec), 'Chiaburu, D. S., Van Dam, K., & Hutchins, H. M. (2010). Social support in the workplace and training transfer: A longitudinal analysis. International Journal of Selection and Assessment, 18(2), 187–200. https://doi.org/10.1111/j.1468-2389.2010.00500.x');
+  const fb2 = Object.assign(feedback(2), { recommended: [rec] });
+  const doc = RH.pdfDocument({ submission: { id: 'X', name: 'n' }, revisions: [
+    { round: 2, status: 'ok', savedAt: 'b', fields: fields(), feedback: fb2 }, { round: 3, status: 'ok', savedAt: 'c', fields: fields(), feedback: null }] });
+  const refs = doc.blocks.filter(b => b.type === 'ref');
+  assert.equal(refs.length, 1);
+  assert.deepEqual(refs[0].parts.filter(p => p.em).map(p => p.text), ['International Journal of Selection and Assessment', '18']);
+  assert.equal(doc.blocks.filter(b => b.type === 'h2').pop().text, '참고문헌: 추천 논문 1편');
 });

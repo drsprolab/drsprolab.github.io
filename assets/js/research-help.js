@@ -185,27 +185,44 @@
   }
 
   // ---------- PDF 문서 구성 ----------
+  // 최종본은 논문 형식(1. 서론 1-1~1-4, 2. 이론적 근거, 3. 연구방법, 4. 기대시사점)으로 이어 쓴다.
+  var PAPER = [
+    { h2: '1. 서론' }, { h3: '1-1. 연구의 문제의식', key: 'problem' }, { h3: '1-2. 연구의 목적', key: 'purpose' },
+    { h3: '1-3. 연구 모형', key: 'model' }, { h3: '1-4. 연구 문제', key: 'rq' },
+    { h2: '2. 이론적 근거', key: 'theory' }, { h2: '3. 연구방법', key: 'method' }, { h2: '4. 기대시사점', key: 'implications' }
+  ];
+  function paragraphs(text, type) {
+    return String(text || '').split(/\n+/).map(function (t) { return t.trim(); }).filter(Boolean).map(function (t) { return { type: type || 'p', text: t }; });
+  }
+  function paperBlocks(fields) {
+    var blocks = [];
+    PAPER.forEach(function (s) {
+      blocks.push(s.h2 ? { type: 'h2', text: s.h2 } : { type: 'h3', text: s.h3 });
+      if (s.key) blocks = blocks.concat(paragraphs(fields[s.key]));
+    });
+    return blocks;
+  }
   function fieldBlocks(fields) {
     var blocks = [];
     FIELDS.forEach(function (f) {
-      blocks.push({ type: 'h3', text: f.label });
-      blocks.push({ type: 'p', text: fields[f.key] || '' });
+      blocks.push({ type: 'sq', text: f.label });
+      blocks = blocks.concat(paragraphs(fields[f.key], 'ci'));
     });
     return blocks;
   }
   function feedbackBlocks(feedback) {
     var blocks = [{ type: 'note', text: AI_NOTICE + ' (' + (feedback.generatedBy || 'AI') + ')' }];
-    if (feedback.searchNote) blocks.push({ type: 'note', text: feedback.searchNote });
+    if (feedback.searchNote) blocks.push({ type: 'note', text: '문헌 확인 절차: ' + feedback.searchNote });
     FEEDBACK_FIELDS.forEach(function (f) {
       var item = feedback.items && feedback.items[f.key];
       if (!item) return;
-      blocks.push({ type: 'h3', text: f.label });
+      blocks.push({ type: 'sq', text: f.label });
       if (feedback.kind === 'socratic') {
-        if (item.focus) blocks.push({ type: 'p', text: item.focus });
-        (item.questions || []).forEach(function (q, i) { blocks.push({ type: 'p', text: (i + 1) + '. ' + q }); });
+        if (item.focus) blocks.push({ type: 'ci', text: item.focus });
+        (item.questions || []).forEach(function (q, i) { blocks.push({ type: 'dash', text: '질문 ' + (i + 1) + '. ' + q }); });
       } else {
-        blocks.push({ type: 'p', text: (item.status === 'withheld' ? '[판단 보류] ' : '') + item.assessment });
-        (item.suggestions || []).forEach(function (s) { blocks.push({ type: 'p', text: '· ' + s }); });
+        blocks.push({ type: 'ci', text: (item.status === 'withheld' ? '[판단 보류] ' : '') + item.assessment });
+        (item.suggestions || []).forEach(function (s) { blocks.push({ type: 'dash', text: s }); });
         (item.sources || []).forEach(function (s) { blocks.push({ type: 'note', text: citationText(s) + ' — 근거 범위: ' + s.scope + '. ' + s.basis }); });
       }
     });
@@ -215,22 +232,63 @@
     return '[' + s.n + '] ' + (s.authors || []).slice(0, 6).join(', ') + (s.authors && s.authors.length > 6 ? ' 외' : '') +
       ' (' + s.year + '). ' + s.title + '. ' + s.journal + '. https://doi.org/' + s.doi;
   }
+  // APA 7판 참고문헌. 서지정보는 서버가 Crossref에서 확인한 값이며, 학술지명과 권은 기울임으로 표시한다.
+  function apaAuthor(a) {
+    var initials = String(a.given || '').split(/\s+/).filter(Boolean).map(function (g) {
+      return g.split('-').map(function (x) { return x.charAt(0).toUpperCase() + '.'; }).join('-');
+    }).join(' ');
+    return a.family + (initials ? ', ' + initials : '');
+  }
+  function apaAuthors(list) {
+    var names = (list || []).map(apaAuthor);
+    if (names.length > 20) return names.slice(0, 19).join(', ') + ', . . . ' + names[names.length - 1];
+    if (names.length < 2) return names[0] || '';
+    return names.slice(0, -1).join(', ') + ', & ' + names[names.length - 1];
+  }
+  function clean(t) {
+    return String(t || '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  }
+  function apaParts(s) {
+    var authors = s.apaAuthors && s.apaAuthors.length ? apaAuthors(s.apaAuthors) : (s.authors || []).join(', ');
+    var title = clean(s.title).replace(/[.\s]+$/, '');
+    var parts = [{ text: authors + ' (' + s.year + '). ' + title + (/[?!]$/.test(title) ? ' ' : '. ') }, { text: clean(s.journal), em: true }];
+    if (s.volume) { parts.push({ text: ', ' }); parts.push({ text: s.volume, em: true }); }
+    parts.push({ text: (s.issue ? '(' + s.issue + ')' : '') + (s.page ? ', ' + s.page.replace(/-/g, '–') : '') + '. https://doi.org/' + s.doi });
+    return parts;
+  }
+  function apaText(s) {
+    return apaParts(s).map(function (p) { return p.text; }).join('');
+  }
+  function recommendedBlocks(list) {
+    var blocks = [{ type: 'h2', text: '참고문헌: 추천 논문 ' + list.length + '편' },
+      { type: 'note', text: '2차 DrS comments 단계에서 OpenAlex 검색 → SSCI 등재 목록(ISSN) 대조 → Crossref DOI 확인을 통과한 논문 가운데 AI가 연구 주제와의 관련성 순으로 고른 목록입니다. 추천 이유는 초록과 서지정보에 근거하며 원문은 확인하지 않았습니다.' }];
+    list.forEach(function (s) {
+      blocks.push({ type: 'ref', parts: apaParts(s), text: apaText(s) });
+      if (s.reason) blocks.push({ type: 'note', text: '추천 이유: ' + s.reason });
+    });
+    return blocks;
+  }
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.';
+  }
   function pdfDocument(record, opts) {
     opts = opts || {};
     var oks = record.revisions.filter(function (r) { return r.status === 'ok'; });
     var final = oks[oks.length - 1];
     var sub = record.submission;
-    var doc = { title: '연구계획서 · ' + (final ? final.fields.title : ''), meta: [
-      '작성자: ' + sub.name, '최종 저장: ' + (final ? final.savedAt : '') + ' (' + (final ? final.round : 0) + '차)',
-      sub.submittedAt ? '제출: ' + sub.submittedAt : '미제출'], blocks: [] };
-    doc.blocks.push({ type: 'h2', text: '최종 연구계획' });
-    doc.blocks = doc.blocks.concat(fieldBlocks(final ? final.fields : {}));
+    var doc = { title: final ? final.fields.title : '연구계획서',
+      subtitle: '연구계획서 · ' + sub.name + (final ? ' · ' + final.round + '차 저장본' : '') + (sub.submittedAt ? ' · 제출 ' + sub.submittedAt : ''),
+      date: today(), blocks: final ? paperBlocks(final.fields) : [] };
+    var lit = oks.filter(function (r) { return r.feedback && r.feedback.recommended && r.feedback.recommended.length; }).pop();
+    if (lit) doc.blocks = doc.blocks.concat(recommendedBlocks(lit.feedback.recommended));
     if (opts.history) {
+      var n = 0;
       oks.forEach(function (r) {
-        doc.blocks.push({ type: 'h2', text: r.round + '차 저장본 (' + r.savedAt + ')', pageBreak: true });
+        doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 저장본 (' + r.savedAt + ')', pageBreak: true });
         doc.blocks = doc.blocks.concat(fieldBlocks(r.fields));
         if (r.feedback) {
-          doc.blocks.push({ type: 'h2', text: r.round + '차 DrS comments (AI 생성)' });
+          doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 DrS comments (AI 생성)' });
           doc.blocks = doc.blocks.concat(feedbackBlocks(r.feedback));
         }
       });
@@ -513,5 +571,5 @@
   }
 
   return { FIELDS: FIELDS, AI_NOTICE: AI_NOTICE, validateFields: validateFields, createController: createController, createAdmin: createAdmin,
-    pdfDocument: pdfDocument, pdfFileName: pdfFileName, mount: mount };
+    pdfDocument: pdfDocument, pdfFileName: pdfFileName, apaText: apaText, mount: mount };
 });
