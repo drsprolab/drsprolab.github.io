@@ -82,7 +82,7 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
   border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   .header-row { flex-wrap: wrap; }
   .menu-toggle { display: block; }
   .site-nav { display: none; width: 100%; padding-bottom: 12px; }
@@ -737,14 +737,12 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* ---- Header: smaller menu, centered ---- */
 .nav-item > a { font-size: 14px; padding: 22px 11px; letter-spacing: .005em; }
 .submenu a { font-size: 13.5px; }
-@media (min-width: 861px) {
+@media (min-width: 1301px) {
   /* 로고 오른쪽 남은 공간의 가운데에 메뉴를 둔다 */
+  .site-header .container { max-width: 1360px; }
   .header-row { display: grid; grid-template-columns: max-content 1fr; align-items: center; min-height: 64px; column-gap: 24px; }
   .site-nav { justify-self: center; }
   .site-nav > ul { gap: 2px; }
-}
-@media (min-width: 861px) and (max-width: 1100px) {
-  .nav-item > a { padding-inline: 8px; font-size: 13.5px; }
 }
 
 /* ---- Page titles (Members, Research 등 각 탭 제목): 원래(600)와 400의 중간 ---- */
@@ -757,6 +755,24 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .hero { grid-template-columns: minmax(0, 1fr); }
 .hero > *, .report-grid > *, .rmap-body > *, .pr-grid > *, .profile-grid > * { min-width: 0; }
 .prose p, .prose li, .prose dd, .pubs .cite, .report-intro, .kp-list, .rm-d-list, .solution-contact dd { overflow-wrap: anywhere; }
+.appointment-panel { max-width: 660px; border: 1px solid var(--line); border-radius: 8px; padding: clamp(20px, 4vw, 32px); }
+.appointment-panel > p:first-child { margin-top: 0; }
+#appointment-form { display: grid; gap: 18px; margin-top: 24px; }
+.appointment-field { display: grid; gap: 6px; }
+.appointment-field label { font-weight: 600; font-size: 14px; }
+.appointment-field input, .appointment-field select, .appointment-field textarea {
+  width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--paper); color: var(--ink); font: inherit;
+}
+.appointment-field textarea { resize: vertical; }
+.appointment-field input:focus-visible, .appointment-field select:focus-visible, .appointment-field textarea:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.appointment-optional, .appointment-note { color: var(--muted); font-size: 13px; font-weight: 400; }
+.appointment-note { margin: 0; }
+.appointment-submit { justify-self: start; padding: 11px 20px; border: 0; border-radius: 6px; background: var(--accent); color: var(--paper); font: inherit; font-weight: 600; cursor: pointer; }
+.appointment-submit:hover { opacity: .88; }
+.appointment-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 @media (max-width: 560px) {
   .rmap-top { padding: 18px; }
   .rmap-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
@@ -1020,19 +1036,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 }
 
 /* 상단 메뉴: 한양대 로고가 들어간 뒤에도 한 줄로 */
-@media (min-width: 861px) {
+@media (min-width: 1301px) {
   .header-row { column-gap: 16px; }
   .nav-item > a { white-space: nowrap; padding-inline: 8px; font-size: 13.5px; }
-}
-@media (min-width: 861px) and (max-width: 1100px) {
-  .header-row { column-gap: 10px; }
-  .nav-item > a { padding-inline: 5px; font-size: 12px; }
-}
-@media (min-width: 861px) and (max-width: 980px) {
-  .nav-item > a { padding-inline: 4px; font-size: 11px; letter-spacing: 0; }
-  .brand-mark { width: 32px; height: 32px; }
-  .brand-logo { height: 30px; }
-  .brand .brand-mark { width: 30px; height: 30px; }
 }
 
 /* 사이트 전체: 마우스를 올리면 해당 항목의 제목 옆에 빨간 점이 깜빡임 (berl.hanyang.ac.kr 참고)
@@ -1109,7 +1115,7 @@ main.container { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) { .rmap-stats div:hover, .rmap-orcid:hover { transform: none; } }
 
 /* 상단 메뉴: 마우스를 올리면 살짝 커짐 (데스크톱) */
-@media (min-width: 861px) {
+@media (min-width: 1301px) {
   .nav-item > a { transition: transform .18s ease, color .18s ease; }
   .nav-item > a:hover, .nav-item > a:focus-visible { transform: scale(1.1); }
 }
@@ -1126,7 +1132,7 @@ main.container { overflow-x: clip; }
   animation: nav-new-blink 1.4s ease-in-out infinite;
 }
 @keyframes nav-new-blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
-@media (max-width: 860px) { .nav-new { position: static; display: inline-block; margin-left: 6px; vertical-align: 2px; } }
+@media (max-width: 1300px) { .nav-new { position: static; display: inline-block; margin-left: 6px; vertical-align: 2px; } }
 @media (prefers-reduced-motion: reduce) { .nav-new { animation: none; } }
 
 /* 메뉴 안의 NEW: 페이지 위 '최근 업데이트' 안내와 바뀐 항목 옆 배지 (assets/js/nav.js) */
@@ -1151,7 +1157,7 @@ main.container { overflow-x: clip; }
 @media (max-width: 640px) { .banner-orbit { width: 72%; } }
 
 /* 모바일 메뉴: 펼쳤을 때 스크롤 없이 한 화면에 Weekly Insight까지 보이게 — 큰 메뉴는 한 줄씩, 하위 메뉴는 그 아래 줄바꿈 나열 */
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   .site-nav { padding-bottom: 8px; }
   .site-nav.open { max-height: calc(100dvh - 64px); overflow-y: auto; overscroll-behavior: contain; }
   .nav-item { padding: 5px 0; border-top: 1px solid var(--line); }
@@ -1222,7 +1228,7 @@ main.container { overflow-x: clip; }
 .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(2) { opacity: 0; }
 .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
 
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   .header-row { flex-wrap: nowrap; min-height: 60px; }
   .brand-logo { height: 30px; }
   .menu-toggle { display: inline-flex; flex: none; }
@@ -1268,7 +1274,7 @@ main.container { overflow-x: clip; }
   .rmap-metrics-label { flex-wrap: wrap; white-space: normal; gap: 0 6px; }
 }
 /* 메뉴 버튼이 보이는 폭에서는 헤더 아래 빈 공간을 줄인다 */
-@media (min-width: 681px) and (max-width: 860px) {
+@media (min-width: 681px) and (max-width: 1300px) {
   main.container { padding-block: 28px 72px; }
   .hero { padding-block: 0 44px; }
 }
@@ -1707,7 +1713,7 @@ main.container { overflow-x: clip; }
 
 /* Mobile menu overlay: full-viewport layer independent of scroll position.
    The nav is portaled to body by nav.js to avoid sticky/transform stacking contexts. */
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   html.nav-open .site-header {
     position: fixed !important; top: 0 !important; left: 0 !important;
     right: 0 !important; bottom: auto !important; width: 100%;
