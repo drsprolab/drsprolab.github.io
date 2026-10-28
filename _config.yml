@@ -16,7 +16,7 @@ permalink: /blog/:year/:month/:title/
 markdown: kramdown
 timezone: Asia/Seoul
 # appointment-backend 배포 후 Google Apps Script /exec URL
-appointment_script_url: "https://script.google.com/macros/s/AKfycbzixZ-GtRPXXQLkJc83Cv3aJHYJ37fZca0cCqDz9Fd-AMCaCxLpBMIdiI4u3PFDgB8New/exec"
+appointment_script_url: "https://script.google.com/macros/s/AKfycbxrhzkohF0pUkRjmvuJdeaGKb6t__NAbWQRR_H5PI7bf85PuHudwlMEfCb4lMnKTAGk9A/exec"
 
 collections:
   insights:

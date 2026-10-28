@@ -12,7 +12,7 @@ function doGet(e) {
   const content = '<p><strong>' + escape_(r[2]) + '</strong> (' + escape_(r[3]) +
     ')님의 미팅 요청</p><p>' + escape_(r[4]) + ' ' + escape_(r[5]) +
     '–' + (r[5] === '13:00' ? '14:00' : '15:00') + ' KST</p>' +
-    '<form method="post" action="' + action + '">' +
+    '<form method="post" target="_top" action="' + action + '">' +
     '<input type="hidden" name="action" value="approve">' +
     '<input type="hidden" name="token" value="' + escape_(token) + '">' +
     '<button type="submit">이 시간 승인하기</button></form>' +
@@ -34,11 +34,23 @@ function request_(p) {
   const date = String(p.date || '');
   const time = String(p.time || '');
   const message = String(p.message || '').trim();
+  const meetingType = String(p.meetingType || 'general');
   if (!name || name.length > 80 || /[\x00-\x1f\x7f]/.test(name) ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-      email.length > 254 || message.length > 1000 || !validSlot_(date, time)) {
+      email.length > 254 || message.length > 1000 ||
+      !['general', 'research'].includes(meetingType) || !validSlot_(date, time)) {
     return page_('입력 오류', '이름, 이메일, 날짜와 시간을 확인한 후 다시 요청해 주세요.');
   }
+  let attachments;
+  try {
+    attachments = parseAttachments_(p.attachments);
+  } catch (err) {
+    return page_('첨부파일 오류', 'PDF·문서·발표자료·텍스트·이미지 파일을 최대 3개, 합계 4MB까지 첨부해 주세요.');
+  }
+  if (meetingType === 'research' && !attachments.length) {
+    return page_('첨부파일 필요', '연구 관련 미팅은 미리 확인할 수 있는 간단한 자료를 첨부해 주세요.');
+  }
+  const meetingTypeLabel = meetingType === 'research' ? '연구 관련 미팅' : '일반 미팅';
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
@@ -60,7 +72,7 @@ function request_(p) {
     const id = Utilities.getUuid();
     const created = Utilities.formatDate(new Date(), ZONE, "yyyy-MM-dd'T'HH:mm:ss");
     sheet.appendRow([id, created, sheetText_(name), sheetText_(email), date, time,
-      sheetText_(message), token, 'pending', '', '']);
+      sheetText_('[' + meetingTypeLabel + '] ' + message), token, 'pending', '', '']);
     const approveUrl = ScriptApp.getService().getUrl() + '?token=' + encodeURIComponent(token);
     MailApp.sendEmail({
       to: OWNER_EMAIL,
@@ -68,9 +80,10 @@ function request_(p) {
       subject: '[미팅 요청] ' + date + ' ' + time + ' · ' + name,
       body: '새 미팅 요청이 있습니다.\n\n이름: ' + name + '\n이메일: ' + email +
         '\n희망 시간: ' + date + ' ' + time + '–' + (time === '13:00' ? '14:00' : '15:00') +
-        ' (한국시간)\n미팅 목적: ' + (message || '미입력') +
+        ' (한국시간)\n미팅 종류: ' + meetingTypeLabel + '\n미팅 목적: ' + (message || '미입력') +
         '\n\n승인 링크: ' + approveUrl +
-        '\n\n요청을 승인하면 학생에게 확정 메일이 발송됩니다.'
+        '\n\n요청을 승인하면 학생에게 확정 메일이 발송됩니다.',
+      attachments: attachments
     });
     return page_('요청 접수 완료', '요청이 전달되었습니다. 승인되면 ' + escape_(email) + ' 주소로 확정 메일을 보내드립니다.');
   } catch (err) {
@@ -78,6 +91,34 @@ function request_(p) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function parseAttachments_(value) {
+  if (!value) return [];
+  const raw = String(value);
+  if (raw.length > 6 * 1024 * 1024) throw new Error('첨부파일 용량 초과');
+  const items = JSON.parse(raw);
+  if (!Array.isArray(items) || items.length > 3) throw new Error('첨부파일 개수 초과');
+  const types = {
+    pdf: 'application/pdf', doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ppt: 'application/vnd.ms-powerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    txt: 'text/plain', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg'
+  };
+  let total = 0;
+  return items.map(item => {
+    if (!item || typeof item.name !== 'string' || typeof item.data !== 'string' ||
+        !item.name || item.name.length > 100 || /[\\/\x00-\x1f\x7f]/.test(item.name) ||
+        !/^[A-Za-z0-9+/]+={0,2}$/.test(item.data)) throw new Error('첨부파일 형식 오류');
+    const extension = (item.name.match(/\.([^.]+)$/) || [])[1];
+    const type = types[String(extension).toLowerCase()];
+    if (!type) throw new Error('지원하지 않는 첨부파일');
+    const bytes = Utilities.base64Decode(item.data);
+    total += bytes.length;
+    if (total > 4 * 1024 * 1024) throw new Error('첨부파일 용량 초과');
+    return Utilities.newBlob(bytes, type, item.name);
+  });
 }
 
 function approve_(p) {
@@ -193,7 +234,7 @@ function sheetText_(value) {
 }
 
 function page_(title, content, raw) {
-  const html = '<!doctype html><html lang="ko"><head><meta charset="utf-8">' +
+  const html = '<!doctype html><html lang="ko"><head><meta charset="utf-8"><base target="_top">' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<title>' + escape_(title) + '</title><style>' +
     'body{font:16px/1.7 system-ui,sans-serif;max-width:620px;margin:64px auto;padding:0 20px;color:#16202b}' +

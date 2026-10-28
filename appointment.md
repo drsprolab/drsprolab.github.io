@@ -19,28 +19,49 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
       <input id="appointment-email" name="email" type="email" maxlength="254" autocomplete="email" required>
     </div>
     <div class="appointment-field">
-      <label for="appointment-date">희망 날짜</label>
-      <select id="appointment-date" name="date" required>
-        <option value="">날짜를 선택해 주세요</option>
-      </select>
+      <span class="appointment-label">미팅 종류</span>
+      <div class="appointment-type-options">
+        <label><input type="radio" name="meetingType" value="general" checked> 일반 미팅</label>
+        <label><input type="radio" name="meetingType" value="research"> 연구 관련 미팅</label>
+      </div>
+    </div>
+    <div class="appointment-field" id="appointment-calendar-field">
+      <span class="appointment-label">희망 날짜</span>
+      <div class="appointment-calendar" aria-label="미팅 날짜 선택">
+        <div class="appointment-calendar-head">
+          <button type="button" id="appointment-prev-month" aria-label="이전 달">‹</button>
+          <strong id="appointment-month"></strong>
+          <button type="button" id="appointment-next-month" aria-label="다음 달">›</button>
+        </div>
+        <div class="appointment-calendar-grid" id="appointment-calendar-grid"></div>
+      </div>
+      <input id="appointment-date" name="date" type="hidden">
+      <span class="appointment-note">예약 가능한 월·화·목 날짜를 선택해 주세요.</span>
     </div>
     <div class="appointment-field">
-      <label for="appointment-time">희망 시간</label>
-      <select id="appointment-time" name="time" required>
-        <option value="">시간을 선택해 주세요</option>
-        <option value="13:00">13:00–14:00</option>
-        <option value="14:00">14:00–15:00</option>
-      </select>
+      <span class="appointment-label">희망 시간</span>
+      <div class="appointment-time-options" id="appointment-time-options" role="group" aria-label="희망 시간">
+        <button type="button" data-time="13:00" aria-pressed="false">13:00–14:00</button>
+        <button type="button" data-time="14:00" aria-pressed="false">14:00–15:00</button>
+      </div>
+      <input id="appointment-time" name="time" type="hidden">
     </div>
     <div class="appointment-field">
       <label for="appointment-message">미팅 목적 <span class="appointment-optional">(선택)</span></label>
       <textarea id="appointment-message" name="message" rows="4" maxlength="1000"></textarea>
+    </div>
+    <div class="appointment-field">
+      <label for="appointment-files">첨부파일 <span class="appointment-optional">(일반 미팅은 선택)</span></label>
+      <input id="appointment-files" type="file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg">
+      <input id="appointment-attachments" name="attachments" type="hidden">
+      <span class="appointment-note">연구 관련 미팅은 미리 확인할 수 있도록 연구 주제·질문을 간단히 정리한 파일을 첨부해 주세요. PDF·문서·발표자료·텍스트·이미지, 최대 3개 / 합계 4MB.</span>
     </div>
     <div class="appointment-trap" aria-hidden="true">
       <label for="appointment-website">Website</label>
       <input id="appointment-website" name="website" type="text" tabindex="-1" autocomplete="off">
     </div>
     <button class="appointment-submit" type="submit">미팅 요청 보내기</button>
+    <p class="appointment-error" id="appointment-error" role="alert" hidden></p>
     <p class="appointment-note">요청이 교수님께 이메일로 전달됩니다. 승인 후 입력한 이메일로 확정 알림을 보내드립니다.</p>
   </form>
   <script src="{{ '/assets/js/appointment.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

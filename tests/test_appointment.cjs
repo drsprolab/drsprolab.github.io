@@ -22,7 +22,9 @@ function backend() {
   const context = {
     Utilities: {
       formatDate: () => '2026-10-28',
-      getUuid: () => '00000000-0000-4000-8000-000000000000'
+      getUuid: () => '00000000-0000-4000-8000-000000000000',
+      base64Decode: value => Array.from(Buffer.from(value, 'base64')),
+      newBlob: (bytes, type, name) => ({ bytes, type, name })
     },
     LockService: { getScriptLock: () => ({ waitLock: () => {}, releaseLock: () => {} }) },
     PropertiesService: { getScriptProperties: () => ({
@@ -78,6 +80,7 @@ test('request emails owner; explicit approval emails student once', () => {
 
   const token = rows[1][7];
   assert.match(context.doGet({ parameter: { token } }).html, /이 시간 승인하기/);
+  assert.match(context.doGet({ parameter: { token } }).html, /<form method="post" target="_top"/);
   assert.equal(emails.length, 1);
   assert.match(context.doPost({ parameter: { action: 'approve', token } }).html, /미팅 확정/);
   assert.equal(rows[1][8], 'approved');
@@ -104,5 +107,32 @@ test('an existing calendar event blocks a request for the same hour', () => {
     date: '2026-10-29', time: '13:00'
   } });
   assert.match(result.html, /시간 마감/);
+  assert.equal(emails.length, 0);
+});
+
+test('research request requires a file and forwards valid attachments to owner', () => {
+  const { context, emails } = backend();
+  const details = {
+    action: 'request', name: '학생', email: 'student@example.edu',
+    date: '2026-10-29', time: '14:00', meetingType: 'research', message: '연구계획 논의'
+  };
+  assert.match(context.doPost({ parameter: details }).html, /첨부파일 필요/);
+  assert.equal(emails.length, 0);
+  const file = { name: '연구계획.pdf', data: Buffer.from('%PDF-test').toString('base64') };
+  assert.match(context.doPost({ parameter: { ...details, attachments: JSON.stringify([file]) } }).html, /요청 접수 완료/);
+  assert.equal(emails[0].attachments.length, 1);
+  assert.equal(emails[0].attachments[0].name, '연구계획.pdf');
+  assert.equal(emails[0].attachments[0].type, 'application/pdf');
+  assert.match(emails[0].body, /연구 관련 미팅/);
+});
+
+test('unsafe attachments are rejected before sending email', () => {
+  const { context, emails } = backend();
+  const result = context.doPost({ parameter: {
+    action: 'request', name: '학생', email: 'student@example.edu',
+    date: '2026-10-29', time: '14:00', meetingType: 'general',
+    attachments: JSON.stringify([{ name: 'program.exe', data: 'YWJj' }])
+  } });
+  assert.match(result.html, /첨부파일 오류/);
   assert.equal(emails.length, 0);
 });
