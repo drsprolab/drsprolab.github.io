@@ -21,6 +21,11 @@ const BLOCKED_PUBLISHER = /\bmdpi\b|frontiers/i;
 const DEFAULT_DAILY_AI_LIMIT = 40;
 const MAX_ATTEMPTS = 5;
 const ADMIN_SESSION_SECONDS = 7200;
+// 연구 모형은 글 대신(또는 글과 함께) 그림 파일로도 낼 수 있다. 그림은 실행 계정 드라이브의 비공개 폴더에 저장하고,
+// 작성 내용(fieldsJson)에는 파일 id(modelImage)만 남긴다. 파일 이름은 제출 id로 시작해 소유자를 확인한다.
+const MODEL_IMAGE_FOLDER = 'Research help 연구모형 그림 (비공개)';
+const MODEL_IMAGE_TYPES = /^image\/(png|jpeg|webp|gif)$/;
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const SHEETS = {
   Submissions: ['id', 'createdAt', 'updatedAt', 'name', 'round', 'status', 'tokenHash', 'submittedAt'],
   Revisions: ['submissionId', 'round', 'attempt', 'savedAt', 'status', 'fieldsJson', 'feedbackJson', 'error', 'requestId'],
@@ -42,7 +47,7 @@ function doPost(e) {
 }
 
 function handle_(body) {
-  const handlers = { save: save_, load: load_, submit: submit_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_ };
+  const handlers = { save: save_, load: load_, submit: submit_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_ };
   const handler = handlers[body && body.action];
   if (!handler) return { ok: false, error: 'unsupported', message: '지원하지 않는 요청입니다.' };
   try {
@@ -67,7 +72,9 @@ function fail_(code, message, extra) {
 function save_(b) {
   const round = Number(b.round);
   if ([1, 2, 3].indexOf(round) < 0) fail_('bad_round', '저장 단계가 올바르지 않습니다.');
-  const fields = validateFields_(b.fields);
+  const imageData = String(b.modelImageData || '');
+  const keepImage = String((b.fields && b.fields.modelImage) || '');
+  const fields = validateFields_(b.fields, !!(imageData || keepImage));
   const requestId = String(b.requestId || '').slice(0, 64);
   if (!/^[A-Za-z0-9-]{8,64}$/.test(requestId)) fail_('bad_request', '요청 식별값이 올바르지 않습니다.');
   let sub, token;
@@ -90,6 +97,12 @@ function save_(b) {
     if (sub.round !== round - 1) fail_('stale_round', '저장 단계가 서버 기록과 다릅니다. 페이지를 새로 고쳐 주세요.', { round: sub.round });
     if (revisions_(sub.id).filter(r => r.round === round).length >= MAX_ATTEMPTS) {
       fail_('too_many_attempts', '이 단계의 저장 시도 횟수를 넘었습니다. 연구실에 문의해 주세요.', identity_(sub, token));
+    }
+    // 연구 모형 그림: 새로 올린 그림은 저장하고, 이전 저장본의 그림은 이 제출물의 것인지 확인한다.
+    if (imageData) fields.modelImage = storeModelImage_(sub.id, round, imageData);
+    else if (keepImage) {
+      if (!ownedImage_(sub.id, keepImage)) fail_('invalid_fields', '연구 모형 그림을 확인할 수 없습니다. 그림을 다시 넣어 주세요.', identity_(sub, token));
+      fields.modelImage = keepImage;
     }
     if (round < 3) reserveAi_(round === 2 ? 2 : 1, sub, token);
   } finally {
@@ -149,11 +162,11 @@ function submit_(b) {
   }
 }
 
-function validateFields_(raw) {
+function validateFields_(raw, hasImage) {
   const out = {}, missing = [];
   FIELDS.forEach(f => {
     const value = String((raw && raw[f.key]) || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').trim();
-    if (!value) missing.push(f.label);
+    if (!value && !(f.key === 'model' && hasImage)) missing.push(f.label);
     if (value.length > f.max) fail_('invalid_fields', f.label + '은(는) ' + f.max + '자 이내로 작성해 주세요.');
     if (f.key === 'name' && /\n/.test(value)) fail_('invalid_fields', '이름을 한 줄로 입력해 주세요.');
     out[f.key] = value;
@@ -177,7 +190,8 @@ function identity_(sub, token) {
 }
 
 function revisionResponse_(sub, rev, token) {
-  return Object.assign(identity_(sub, token), { round: rev.round, savedAt: rev.savedAt, feedback: rev.feedback, submission: publicSubmission_(sub) });
+  return Object.assign(identity_(sub, token), { round: rev.round, savedAt: rev.savedAt, feedback: rev.feedback,
+    modelImage: (rev.fields && rev.fields.modelImage) || '', submission: publicSubmission_(sub) });
 }
 
 function publicSubmission_(s) {
@@ -220,7 +234,7 @@ function socraticFeedback_(fields) {
     '주어진 기준에 따라 스스로 성찰하게 하는 열린 질문 2~4개를 만든다. 예/아니오로 끝나는 질문은 피한다. ' +
     '문헌·저자·연도·DOI를 언급하거나 지어내지 않는다. 항목 간 연결(문제의식→목적→RQ→모형→이론→방법→시사점)이 약한 곳은 질문으로 드러낸다.';
   const user = JSON.stringify({ criteria: ROUND1_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields) });
-  const result = ai_(system, user, round1Schema_());
+  const result = ai_(system, user, round1Schema_(), modelImage_(fields));
   const raw = requireItems_(result.data);
   const out = {};
   FEEDBACK_KEYS.forEach(k => {
@@ -262,7 +276,7 @@ function literatureFeedback_(fields) {
     'recommended에는 작성자가 연구를 다듬기 위해 꼭 읽어야 할 논문을 candidates 중에서 최대 10편, 중요한 순서로 골라 id와 한두 문장의 추천 이유(초록 근거)를 적는다.';
   const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields),
     candidates: search.candidates.map(c => ({ id: c.id, title: c.title, authors: c.authors.slice(0, 6), year: c.year, journal: c.journal, abstract: c.abstract })) });
-  const result = ai_(system, user, round2Schema_());
+  const result = ai_(system, user, round2Schema_(), modelImage_(fields));
   return Object.assign(verifyRound2_(requireItems_(result.data), search.candidates), {
     round: 2, kind: 'literature', generatedBy: result.by, generatedAt: now_(),
     searchNote: search.note, candidateCount: search.candidates.length
@@ -484,13 +498,13 @@ function providers_() {
     .filter(p => p.key);
 }
 
-function ai_(system, user, schema) {
+function ai_(system, user, schema, image) {
   const list = providers_();
   if (!list.length) fail_('ai_not_configured', 'AI 피드백 서버 설정이 아직 완료되지 않았습니다.');
   for (let i = 0; i < list.length; i++) {
     const p = list[i];
     try {
-      const r = p.call(p.key, p.modelId, system, user, schema);
+      const r = p.call(p.key, p.modelId, system, user, schema, image);
       return { data: r.data, by: 'AI (' + p.label + ' ' + r.model + ')' };
     } catch (err) {
       if (!err.retryable || i === list.length - 1) throw err;
@@ -520,11 +534,11 @@ function parseJson_(text) {
 
 // Gemini Interactions API(Google 권장 방식). store:false로 Google 쪽에 대화 기록을 남기지 않는다.
 // GEMINI_MODEL에 쉼표로 여러 모델을 적으면 과부하(5xx)·한도(429) 때 다음 모델로 넘긴다.
-function gemini_(key, models, system, user, schema) {
+function gemini_(key, models, system, user, schema, image) {
   const list = String(models).split(',').map(m => m.trim()).filter(Boolean);
   for (let i = 0; i < list.length; i++) {
     try {
-      return { data: geminiModel_(key, list[i], system, user, schema), model: list[i] };
+      return { data: geminiModel_(key, list[i], system, user, schema, image), model: list[i] };
     } catch (err) {
       if (!err.retryable || i === list.length - 1) throw err;
       console.error(list[i] + ' 실패, 다음 모델로 전환: ' + err.message);
@@ -532,17 +546,26 @@ function gemini_(key, models, system, user, schema) {
   }
 }
 
-function geminiModel_(key, model, system, user, schema) {
-  const request = {
+function geminiModel_(key, model, system, user, schema, image) {
+  const build = withImage => ({
     method: 'post', contentType: 'application/json', headers: { 'x-goog-api-key': key }, muteHttpExceptions: true,
     payload: JSON.stringify({
-      model: model, store: false, system_instruction: system, input: user,
+      model: model, store: false, system_instruction: system,
+      // 연구 모형 그림이 있으면 글과 함께 이미지로 보낸다.
+      input: withImage ? [{ type: 'text', text: user }, { type: 'image', data: image.data, mime_type: image.mimeType }] : user,
       response_format: { type: 'text', mime_type: 'application/json', schema: geminiSchema_(schema) },
       generation_config: { max_output_tokens: 16384, thinking_level: 'low' }
     })
-  };
+  });
+  let request = build(!!image);
   const url = 'https://generativelanguage.googleapis.com/v1beta/interactions';
   let res = UrlFetchApp.fetch(url, request);
+  // 그림을 받지 못하는 모델이면 글만으로 다시 보낸다(그림 설명은 원고에 남아 있다).
+  if (image && res.getResponseCode() === 400) {
+    console.error('Gemini 그림 입력 거부, 글만으로 재시도: ' + res.getContentText().slice(0, 300));
+    request = build(false);
+    res = UrlFetchApp.fetch(url, request);
+  }
   // 일시적 과부하(500·503)는 잠시 기다렸다 두 번까지 다시 시도한다.
   for (let wait = 3000; (res.getResponseCode() === 503 || res.getResponseCode() === 500) && wait <= 6000; wait *= 2) {
     Utilities.sleep(wait);
@@ -569,8 +592,9 @@ function geminiSchema_(s) {
   return out;
 }
 
-function openai_(key, model, system, user, schema) {
-  const payload = { model: model, messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
+function openai_(key, model, system, user, schema, image) {
+  const content = image ? [{ type: 'text', text: user }, { type: 'image_url', image_url: { url: 'data:' + image.mimeType + ';base64,' + image.data } }] : user;
+  const payload = { model: model, messages: [{ role: 'system', content: system }, { role: 'user', content: content }],
     response_format: { type: 'json_schema', json_schema: { name: 'feedback', strict: true, schema: schema } } };
   if (/^(gpt-5|o\d)/.test(model)) payload.reasoning_effort = 'low';
   const res = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', {
@@ -593,7 +617,52 @@ function requireItems_(raw) {
 function aiManuscript_(fields) {
   const out = Object.assign({}, fields);
   delete out.name;
+  delete out.modelImage;
+  if (fields.modelImage) out.model = (out.model ? out.model + '\n\n' : '') + '[연구 모형 그림이 함께 첨부됨: 첨부 이미지를 연구 모형으로 보고 검토할 것]';
   return out;
+}
+
+// ---------- 연구 모형 그림 ----------
+function modelImageFolder_() {
+  const it = DriveApp.getFoldersByName(MODEL_IMAGE_FOLDER);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(MODEL_IMAGE_FOLDER);
+}
+
+function storeModelImage_(subId, round, dataUrl) {
+  const m = String(dataUrl).match(/^data:(image\/[a-z+]+);base64,([A-Za-z0-9+/=]+)$/);
+  if (!m || !MODEL_IMAGE_TYPES.test(m[1])) fail_('invalid_fields', '연구 모형 그림은 PNG·JPG·WEBP·GIF 파일만 넣을 수 있습니다.');
+  const bytes = Utilities.base64Decode(m[2]);
+  if (!bytes.length || bytes.length > MAX_IMAGE_BYTES) fail_('invalid_fields', '연구 모형 그림은 5MB 이하로 넣어 주세요.');
+  const ext = m[1].split('/')[1].replace('jpeg', 'jpg');
+  const file = modelImageFolder_().createFile(Utilities.newBlob(bytes, m[1], subId + '-model-r' + round + '-' + Date.now() + '.' + ext));
+  return file.getId(); // 공유 설정을 바꾸지 않으므로 실행 계정만 볼 수 있다
+}
+
+function ownedImage_(subId, fileId) {
+  if (!/^[A-Za-z0-9_-]{10,100}$/.test(fileId)) return false;
+  try { return DriveApp.getFileById(fileId).getName().indexOf(subId + '-model-') === 0; } catch (err) { return false; }
+}
+
+function modelImage_(fields) {
+  if (!fields || !fields.modelImage) return null;
+  try {
+    const blob = DriveApp.getFileById(fields.modelImage).getBlob();
+    return { mimeType: blob.getContentType(), data: Utilities.base64Encode(blob.getBytes()) };
+  } catch (err) {
+    console.error('연구 모형 그림을 읽지 못함: ' + err);
+    return null;
+  }
+}
+
+// 작성자(id+token) 또는 관리자(session)가 연구 모형 그림을 화면·PDF에 보여 주려고 받아 간다.
+function image_(b) {
+  let subId;
+  if (b.session) { requireAdmin_(b); subId = String(b.id || ''); } else { subId = authorize_(b.id, b.token).id; }
+  const fileId = String(b.fileId || '');
+  if (!ownedImage_(subId, fileId)) fail_('not_found', '그림을 찾을 수 없습니다.');
+  const img = modelImage_({ modelImage: fileId });
+  if (!img) fail_('not_found', '그림을 찾을 수 없습니다.');
+  return { dataUrl: 'data:' + img.mimeType + ';base64,' + img.data };
 }
 
 function objectOf_(keys, item) {

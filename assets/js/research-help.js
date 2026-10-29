@@ -16,7 +16,7 @@
     { key: 'title', label: '연구제목', max: 300, hint: '연구의 핵심 변수·대상·관계가 드러나도록 작성합니다.' },
     { key: 'problem', label: '연구의 문제의식', max: 4000, hint: '왜 이 연구를 시작했는지, 기존 연구와 무엇이 다른지 적습니다.' },
     { key: 'purpose', label: '연구의 목적', max: 4000, hint: '문제의식에서 도출한 목적을 분명하게 적습니다.' },
-    { key: 'model', label: '연구 모형', max: 4000, hint: '변수와 관계(예: X → M → Y, 조절변수 W)를 글로 설명합니다.' },
+    { key: 'model', label: '연구 모형', max: 4000, hint: '변수와 관계(예: X → M → Y, 조절변수 W)를 글로 쓰거나, 연구 모형 그림 파일을 붙여넣기(⌘V/Ctrl+V)·끌어다 놓기로 넣습니다. 둘 다 써도 됩니다.' },
     { key: 'rq', label: 'RQ', max: 4000, hint: '연구문제를 번호를 붙여 적습니다.' },
     { key: 'theory', label: '이론적 근거', max: 4000, hint: '이 모형을 설명하는 이론과 그 논리를 적습니다.' },
     { key: 'method', label: '연구 방법', max: 4000, hint: '대상·표집·자료 구조·측정·분석 방법을 적습니다.' },
@@ -33,15 +33,16 @@
     return o;
   }
 
-  function validateFields(value) {
+  function validateFields(value, hasImage) {
     var out = {}, missing = [];
     FIELDS.forEach(function (f) {
       var v = String((value && value[f.key]) || '').trim();
-      if (!v) missing.push(f.label);
+      if (!v && !(f.key === 'model' && hasImage)) missing.push(f.label);
       if (v.length > f.max) throw new Error(f.label + '은(는) ' + f.max + '자 이내로 작성해 주세요.');
       out[f.key] = v;
     });
     if (missing.length) throw new Error('다음 항목을 작성해 주세요: ' + missing.join(', '));
+    if (value && value.modelImage) out.modelImage = String(value.modelImage);
     return out;
   }
 
@@ -62,7 +63,9 @@
     opts = opts || {};
     var transport = opts.transport, storage = opts.storage || { get: function () { return null; }, set: function () {}, remove: function () {} };
     var state = { fields: emptyFields(), round: 0, status: 'draft', id: null, token: null, consent: false,
-      history: [], feedback: {}, busy: false, pending: null };
+      history: [], feedback: {}, busy: false, pending: null,
+      // 연구 모형 그림: imagePending = 아직 서버에 안 보낸 새 그림(data URL), images = 파일 id → 화면용 data URL
+      imagePending: null, images: {} };
 
     function call(body) {
       if (!transport) return Promise.reject(serverError({ error: 'not_configured', message: '서버 연결이 아직 설정되지 않아 저장할 수 없습니다.' }));
@@ -86,14 +89,22 @@
       var round = state.round + 1;
       if (round > 3) return Promise.reject(new Error('3차 저장까지 완료되었습니다. 제출해 주세요.'));
       var fields;
-      try { fields = validateFields(state.fields); } catch (err) { return Promise.reject(err); }
+      try { fields = validateFields(state.fields, !!(state.imagePending || state.fields.modelImage)); } catch (err) { return Promise.reject(err); }
       if (round === 1 && !state.id && !state.consent) return Promise.reject(new Error('외부 AI 전송 안내를 읽고 동의해 주세요.'));
       // 시간 초과 뒤 다시 누르면 같은 요청 번호로 보낸다. 서버가 이미 저장했다면 그 결과를 돌려준다.
       if (!state.pending || state.pending.round !== round) state.pending = { round: round, id: requestId() };
       state.busy = true;
-      return call({ action: 'save', round: round, fields: fields, id: state.id, token: state.token, consent: state.consent, requestId: state.pending.id })
+      var body = { action: 'save', round: round, fields: fields, id: state.id, token: state.token, consent: state.consent, requestId: state.pending.id };
+      if (state.imagePending) { body.modelImageData = state.imagePending; delete body.fields.modelImage; }
+      return call(body)
         .then(function (res) {
           remember(res.id, res.token);
+          if (res.modelImage) {
+            if (state.imagePending) state.images[res.modelImage] = state.imagePending;
+            fields.modelImage = res.modelImage;
+          } else delete fields.modelImage;
+          state.fields.modelImage = res.modelImage || '';
+          state.imagePending = null;
           state.history.push(snapshot(round, res.savedAt, fields, res.feedback));
           if (res.feedback) state.feedback[round] = res.feedback;
           state.round = round;
@@ -124,7 +135,7 @@
       return call({ action: 'load', id: saved.id, token: saved.token }).then(function (res) {
         state.id = saved.id; state.token = saved.token;
         applyRecord(res);
-        return true;
+        return loadImages().then(function () { return true; });
       }, function (err) {
         if (err.code === 'unauthorized') storage.remove();
         throw err;
@@ -142,10 +153,22 @@
       if (latest) state.fields = Object.assign(emptyFields(), latest.fields);
     }
 
+    // 저장본에 들어 있는 연구 모형 그림을 화면·PDF용으로 받아 둔다.
+    function loadImages() {
+      var ids = {};
+      state.history.forEach(function (h) { if (h.fields.modelImage) ids[h.fields.modelImage] = 1; });
+      if (state.fields.modelImage) ids[state.fields.modelImage] = 1;
+      return Promise.all(Object.keys(ids).filter(function (id) { return !state.images[id]; }).map(function (fileId) {
+        return call({ action: 'image', id: state.id, token: state.token, fileId: fileId })
+          .then(function (r) { state.images[fileId] = r.dataUrl; }, function () { /* 그림을 못 받아도 글은 그대로 보인다 */ });
+      }));
+    }
+
     function reset() {
       storage.remove();
       state.fields = emptyFields(); state.round = 0; state.status = 'draft'; state.id = null; state.token = null;
       state.consent = false; state.history = []; state.feedback = {}; state.pending = null;
+      state.imagePending = null; state.images = {};
     }
 
     return {
@@ -153,6 +176,9 @@
       setFields: function (v) { state.fields = Object.assign(emptyFields(), v); },
       setField: function (k, v) { state.fields[k] = v; },
       setConsent: function (v) { state.consent = !!v; },
+      setImage: function (dataUrl) { state.imagePending = dataUrl; },
+      clearImage: function () { state.imagePending = null; state.fields.modelImage = ''; },
+      imageUrl: function () { return state.imagePending || state.images[state.fields.modelImage] || null; },
       save: save, submit: submit, resume: resume, reset: reset
     };
   }
@@ -179,7 +205,16 @@
         });
       },
       list: function () { return call({ action: 'adminList', session: state.session }).then(function (r) { state.list = r.submissions; return r.submissions; }); },
-      get: function (id) { return call({ action: 'adminGet', session: state.session, id: id }).then(function (r) { state.detail = r; return r; }); },
+      get: function (id) {
+        return call({ action: 'adminGet', session: state.session, id: id }).then(function (r) {
+          // 저장본의 연구 모형 그림을 받아 둔다(화면·PDF용)
+          var ids = {}; r.images = {};
+          (r.revisions || []).forEach(function (v) { if (v.fields && v.fields.modelImage) ids[v.fields.modelImage] = 1; });
+          return Promise.all(Object.keys(ids).map(function (fileId) {
+            return call({ action: 'image', session: state.session, id: id, fileId: fileId }).then(function (x) { r.images[fileId] = x.dataUrl; }, function () {});
+          })).then(function () { state.detail = r; return r; });
+        });
+      },
       logout: function () { state.session = null; if (opts.session) opts.session.remove(); }
     };
   }
@@ -194,18 +229,24 @@
   function paragraphs(text, type) {
     return String(text || '').split(/\n+/).map(function (t) { return t.trim(); }).filter(Boolean).map(function (t) { return { type: type || 'p', text: t }; });
   }
-  function paperBlocks(fields) {
+  function imageBlock(fields, images) {
+    var src = fields.modelImage && images && images[fields.modelImage];
+    return src ? [{ type: 'img', src: src, text: '연구 모형 그림' }] : [];
+  }
+  function paperBlocks(fields, images) {
     var blocks = [];
     PAPER.forEach(function (s) {
       blocks.push(s.h2 ? { type: 'h2', text: s.h2 } : { type: 'h3', text: s.h3 });
+      if (s.key === 'model') blocks = blocks.concat(imageBlock(fields, images));
       if (s.key) blocks = blocks.concat(paragraphs(fields[s.key]));
     });
     return blocks;
   }
-  function fieldBlocks(fields) {
+  function fieldBlocks(fields, images) {
     var blocks = [];
     FIELDS.forEach(function (f) {
       blocks.push({ type: 'sq', text: f.label });
+      if (f.key === 'model') blocks = blocks.concat(imageBlock(fields, images));
       blocks = blocks.concat(paragraphs(fields[f.key], 'ci'));
     });
     return blocks;
@@ -279,14 +320,14 @@
     var sub = record.submission;
     var doc = { title: final ? final.fields.title : '연구계획서',
       subtitle: '연구계획서 · ' + sub.name + (final ? ' · ' + final.round + '차 저장본' : '') + (sub.submittedAt ? ' · 제출 ' + sub.submittedAt : ''),
-      date: today(), blocks: final ? paperBlocks(final.fields) : [] };
+      date: today(), blocks: final ? paperBlocks(final.fields, record.images) : [] };
     var lit = oks.filter(function (r) { return r.feedback && r.feedback.recommended && r.feedback.recommended.length; }).pop();
     if (lit) doc.blocks = doc.blocks.concat(recommendedBlocks(lit.feedback.recommended));
     if (opts.history) {
       var n = 0;
       oks.forEach(function (r) {
         doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 저장본 (' + r.savedAt + ')', pageBreak: true });
-        doc.blocks = doc.blocks.concat(fieldBlocks(r.fields));
+        doc.blocks = doc.blocks.concat(fieldBlocks(r.fields, record.images));
         if (r.feedback) {
           doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 DrS comments (AI 생성)' });
           doc.blocks = doc.blocks.concat(feedbackBlocks(r.feedback));
@@ -331,6 +372,42 @@
     [].concat(children || []).forEach(function (c) { if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
     return node;
   }
+  // 연구 모형 그림 파일 → data URL. 긴 변이 2000px를 넘거나 2MB가 넘으면 줄여서 보낸다.
+  var IMAGE_TYPES = /^image\/(png|jpeg|webp|gif)$/;
+  function readImage(file) {
+    return new Promise(function (resolve, reject) {
+      if (!file || !IMAGE_TYPES.test(file.type)) { reject(new Error('연구 모형 그림은 PNG·JPG·WEBP·GIF 파일만 넣을 수 있습니다.')); return; }
+      if (file.size > 15 * 1024 * 1024) { reject(new Error('그림 파일이 너무 큽니다(15MB 이하).')); return; }
+      var reader = new FileReader();
+      reader.onerror = function () { reject(new Error('그림 파일을 읽지 못했습니다.')); };
+      reader.onload = function () {
+        var src = reader.result, img = new Image();
+        img.onerror = function () { reject(new Error('그림 파일을 열지 못했습니다.')); };
+        img.onload = function () {
+          var max = 2000, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
+          if (k === 1 && file.size <= 2 * 1024 * 1024) { resolve(src); return; }
+          var c = document.createElement('canvas');
+          c.width = Math.round(w * k); c.height = Math.round(h * k);
+          var g = c.getContext('2d');
+          var png = /png|gif/.test(file.type);
+          if (!png) { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
+          g.drawImage(img, 0, 0, c.width, c.height);
+          resolve(png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.9));
+        };
+        img.src = src;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  function imageFrom(list) {
+    var files = [].slice.call((list && (list.files || list.items)) || []);
+    for (var i = 0; i < files.length; i++) {
+      var f = files[i].kind === 'file' ? files[i].getAsFile() : files[i];
+      if (f && /^image\//.test(f.type)) return f;
+    }
+    return null;
+  }
+
   function savePdf(record, opts, status) {
     if (!window.ResearchHelpPDF) { status('PDF 도구를 불러오지 못했습니다.', true); return Promise.resolve(); }
     status('PDF를 만드는 중입니다…');
@@ -384,7 +461,8 @@
     }
     function record() {
       return { submission: { id: app.state.id || 'draft', name: app.state.fields.name, round: app.state.round, status: app.state.status, submittedAt: '' },
-        revisions: app.state.history.map(function (h) { return { round: h.round, savedAt: h.savedAt, status: 'ok', fields: h.fields, feedback: h.feedback }; }) };
+        revisions: app.state.history.map(function (h) { return { round: h.round, savedAt: h.savedAt, status: 'ok', fields: h.fields, feedback: h.feedback }; }),
+        images: app.state.images };
     }
 
     function render() {
@@ -423,6 +501,24 @@
             oninput: function (e) { app.setField(f.key, e.target.value); counter.textContent = e.target.value.length + ' / ' + f.max; } }, [s.fields[f.key]]),
           counter
         ]);
+        if (f.key === 'model') {
+          var textarea = mine.querySelector('textarea');
+          mine.appendChild(modelImageArea(locked));
+          if (!locked) {
+            // 글 칸에 그림을 붙여 넣으면 그림으로 넣는다(글 붙여넣기는 그대로)
+            textarea.addEventListener('paste', function (e) {
+              var file = imageFrom(e.clipboardData);
+              if (file) { e.preventDefault(); takeImage(file); }
+            });
+            ['dragover', 'drop'].forEach(function (type) {
+              mine.addEventListener(type, function (e) {
+                if (!e.dataTransfer || [].indexOf.call(e.dataTransfer.types || [], 'Files') < 0) return;
+                e.preventDefault();
+                if (type === 'drop') { var file = imageFrom(e.dataTransfer); if (file) takeImage(file); else status('그림 파일(PNG·JPG·WEBP·GIF)을 넣어 주세요.', true); }
+              });
+            });
+          }
+        }
         var row = el('section', { class: 'rh-row', 'aria-label': f.label }, [mine]);
         if (latest) {
           var c = commentsNode(latest, latestRound);
@@ -459,6 +555,33 @@
             if (window.confirm('이 기기에서 이어쓰기 기록을 지우고 새로 작성할까요? 서버에 저장된 내용은 삭제되지 않습니다.')) { app.reset(); render(); }
           }, text: '새로 작성하기' })]));
       }
+    }
+
+    function takeImage(file) {
+      status('그림을 넣는 중…');
+      readImage(file).then(function (dataUrl) {
+        app.setImage(dataUrl);
+        render();
+        status('연구 모형 그림을 넣었습니다. 저장하면 함께 저장됩니다.');
+      }, function (err) { status(err.message, true); });
+    }
+    function modelImageArea(locked) {
+      var url = app.imageUrl();
+      var input = el('input', { type: 'file', accept: 'image/png,image/jpeg,image/webp,image/gif', class: 'rh-file', 'aria-label': '연구 모형 그림 파일 선택',
+        onchange: function (e) { var file = e.target.files && e.target.files[0]; if (file) takeImage(file); } });
+      var box = el('div', { class: 'rh-drop' + (url ? ' has-image' : '') + (locked ? ' is-locked' : '') });
+      if (url) {
+        box.appendChild(el('img', { src: url, alt: '연구 모형 그림' }));
+        if (!locked) box.appendChild(el('div', { class: 'rh-drop-actions' }, [
+          el('button', { type: 'button', class: 'rh-link', onclick: function () { input.click(); }, text: '그림 바꾸기' }),
+          el('button', { type: 'button', class: 'rh-link', onclick: function () { app.clearImage(); render(); status('연구 모형 그림을 뺐습니다.'); }, text: '그림 빼기' })
+        ]));
+      } else if (!locked) {
+        box.appendChild(el('p', { text: '연구 모형 그림을 여기로 끌어다 놓거나, 위 글 칸에 붙여넣기(⌘V/Ctrl+V) 하세요. ' }, [
+          el('button', { type: 'button', class: 'rh-link', onclick: function () { input.click(); }, text: '파일 선택' })]));
+      } else return el('span');
+      if (!locked) box.appendChild(input);
+      return box;
     }
 
     function doSave() {
@@ -535,7 +658,10 @@
           body.innerHTML = '';
           var grid = el('div', { class: 'rh-grid' + (rev.feedback ? ' has-comments' : '') });
           FIELDS.forEach(function (f) {
-            var row = el('section', { class: 'rh-row' }, [el('div', { class: 'rh-mine' }, [el('h3', { text: f.label }), el('p', { class: 'rh-text', text: rev.fields[f.key] })])]);
+            var img = f.key === 'model' && rev.fields.modelImage && rec.images && rec.images[rev.fields.modelImage];
+            var row = el('section', { class: 'rh-row' }, [el('div', { class: 'rh-mine' }, [el('h3', { text: f.label }),
+              img ? el('div', { class: 'rh-drop has-image is-locked' }, [el('img', { src: img, alt: '연구 모형 그림' })]) : null,
+              el('p', { class: 'rh-text', text: rev.fields[f.key] })])]);
             if (rev.feedback && f.key !== 'name') { var c = commentsNode(rev.feedback, rev.round); c.appendChild(itemNode(rev.feedback, f.key)); row.appendChild(c); }
             grid.appendChild(row);
           });

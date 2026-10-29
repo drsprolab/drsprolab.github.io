@@ -31,6 +31,7 @@ function setup(opts) {
   const cache = new Map();
   const sheets = {};
   const calls = { ai: [], fetchAll: [] };
+  const drive = { folder: null, files: {}, n: 0 };
   let clock = Date.parse('2026-10-29T03:00:00Z');
   const ai = opts.ai || {};
   const ctx = {
@@ -40,7 +41,21 @@ function setup(opts) {
       formatDate: (d, z, f) => f === 'yyMMdd' ? '261029' : f === 'yyyy-MM-dd' ? '2026-10-29' : new Date(clock).toISOString(),
       getUuid: () => crypto.randomUUID(),
       computeDigest: (a, s) => Array.from(crypto.createHash('sha256').update(String(s), 'utf8').digest()).map(b => b > 127 ? b - 256 : b),
-      DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' }
+      DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' },
+      base64Decode: t => Array.from(Buffer.from(String(t), 'base64')),
+      base64Encode: b => Buffer.from(b.map ? b.map(x => x & 255) : b).toString('base64'),
+      newBlob: (bytes, type, name) => ({ bytes, type, name })
+    },
+    // 연구 모형 그림 저장용 가짜 드라이브
+    DriveApp: {
+      getFoldersByName: () => { const f = drive.folder; return { hasNext: () => !!f, next: () => f }; },
+      createFolder: name => (drive.folder = { name, createFile: blob => {
+        const id = 'file' + String(++drive.n).padStart(8, '0');
+        const file = { id, blob, getId: () => id, getName: () => blob.name,
+          getBlob: () => ({ getContentType: () => blob.type, getBytes: () => blob.bytes }) };
+        drive.files[id] = file; return file;
+      } }),
+      getFileById: id => { if (!drive.files[id]) throw new Error('no file'); return drive.files[id]; }
     },
     PropertiesService: { getScriptProperties: () => ({
       getProperty: k => (k in props ? props[k] : null),
@@ -63,7 +78,8 @@ function setup(opts) {
         const gem = provider === 'gemini';
         const schema = gem ? body.response_format.schema : body.response_format.json_schema.schema;
         const system = gem ? body.system_instruction : body.messages[0].content;
-        const user = gem ? body.input : body.messages[1].content;
+        const raw = gem ? body.input : body.messages[1].content;
+        const user = Array.isArray(raw) ? raw.find(p => p.type === 'text').text : raw;
         const name = schema.properties.queries ? 'search_plan' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
         calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
@@ -89,7 +105,7 @@ function setup(opts) {
   vm.createContext(ctx);
   vm.runInContext(CODE + '\n;this.__api = { handle_, sheet_ };', ctx);
   return {
-    props, sheets, calls, api: ctx.__api,
+    props, sheets, calls, drive, api: ctx.__api,
     call: body => JSON.parse(JSON.stringify(ctx.__api.handle_(body))),
     advance: ms => { clock += ms; },
     rows: n => (sheets[n] ? sheets[n].data.slice(1) : [])

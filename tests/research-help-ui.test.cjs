@@ -163,3 +163,27 @@ test('추천 논문: APA 7판 형식으로 PDF 끝에 붙는다', () => {
   assert.deepEqual(refs[0].parts.filter(p => p.em).map(p => p.text), ['International Journal of Selection and Assessment', '18']);
   assert.equal(doc.blocks.filter(b => b.type === 'h2').pop().text, '참고문헌: 추천 논문 1편');
 });
+
+test('연구 모형 그림: 글 없이 그림만 넣어도 저장되고, 새 그림은 한 번만 보낸 뒤 파일 id로 이어진다', async () => {
+  const server = fakeServer();
+  const inner = server.transport;
+  server.transport = async body => { const r = await inner(body); if (r.ok && body.action === 'save') r.modelImage = body.modelImageData ? 'file00000001' : (body.fields.modelImage || ''); return r; };
+  const app = RH.createController({ transport: server.transport, storage: memoryStorage() });
+  app.setFields(fields({ model: '' }));
+  app.setConsent(true);
+  await assert.rejects(app.save(), /연구 모형/);
+  app.setImage('data:image/png;base64,QUJD');
+  assert.equal(app.imageUrl(), 'data:image/png;base64,QUJD');
+  await app.save();
+  const first = server.calls.filter(c => c.action === 'save').pop();
+  assert.equal(first.modelImageData, 'data:image/png;base64,QUJD');
+  assert.equal(app.state.fields.modelImage, 'file00000001');
+  assert.equal(app.imageUrl(), 'data:image/png;base64,QUJD');
+  await app.save();
+  const second = server.calls.filter(c => c.action === 'save').pop();
+  assert.equal(second.modelImageData, undefined, '같은 그림을 다시 보내지 않는다');
+  assert.equal(second.fields.modelImage, 'file00000001');
+  const doc = RH.pdfDocument({ submission: { id: 'x', name: 'n', round: 2, status: 'draft' },
+    revisions: app.state.history.map(h => ({ round: h.round, savedAt: h.savedAt, status: 'ok', fields: h.fields, feedback: h.feedback })), images: app.state.images });
+  assert.ok(doc.blocks.some(b => b.type === 'img' && b.src === 'data:image/png;base64,QUJD'), 'PDF에 연구 모형 그림이 들어가야 한다');
+});

@@ -1868,3 +1868,13 @@ main.container { overflow-x: clip; }
 @media (prefers-color-scheme: dark) {
   .rh-status.is-error { background: #3a1d1d; color: #f3b4b4; }
 }
+
+/* Research help: 연구 모형 그림 넣기(붙여넣기·끌어다 놓기·파일 선택) */
+.rh-drop { border: 1.5px dashed var(--line); border-radius: 10px; padding: 14px; background: var(--tint); display: grid; gap: 10px; justify-items: start; }
+.rh-drop p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.rh-drop img { display: block; max-width: 100%; max-height: 420px; height: auto; border-radius: 6px; background: #fff; }
+.rh-drop.has-image { border-style: solid; background: var(--paper); }
+.rh-drop.is-locked { border-color: var(--line); }
+.rh-drop-actions { display: flex; gap: 14px; }
+.rh-mine.is-dragging .rh-drop, .rh-drop:hover { border-color: var(--accent); }
+.rh-file { display: none; }

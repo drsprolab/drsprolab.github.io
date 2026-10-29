@@ -122,6 +122,21 @@
       if (b.pageBreak && body.childNodes.length) body = newPage(host, pages);
       var tag = b.type === 'h2' ? 'h2' : b.type === 'h3' ? 'h3' : 'p';
       if (b.type === 'sq') { place(block('p', 'rhp-sq', b.text), true); return; }
+      if (b.type === 'img') {
+        // 연구 모형 그림: 쪽 너비에 맞추고 쪽 높이의 절반을 넘지 않게 줄인다. 크기를 미리 정해 두어 쪽 나눔 계산이 맞게 한다.
+        var maxW = PAGE_W - PAD * 2, maxH = Math.round(PAGE_H * 0.5);
+        var k = Math.min(1, maxW / (b.width || maxW), maxH / (b.height || maxH));
+        var fig = document.createElement('figure');
+        fig.className = 'rhp-fig';
+        fig.setAttribute('data-atomic', '1');
+        var im = document.createElement('img');
+        im.src = b.src; im.alt = b.text || '';
+        im.style.width = Math.round((b.width || maxW) * k) + 'px';
+        im.style.height = Math.round((b.height || maxH) * k) + 'px';
+        fig.appendChild(im);
+        place(fig, false);
+        return;
+      }
       if (b.type === 'ref') {
         var ref = document.createElement('p');
         ref.className = 'rhp-ref';
@@ -136,8 +151,19 @@
     return { host: host, pages: pages };
   }
 
+  function measure(doc) {
+    return Promise.all(doc.blocks.filter(function (b) { return b.type === 'img' && b.src; }).map(function (b) {
+      return new Promise(function (resolve) {
+        var im = new Image();
+        im.onload = function () { b.width = im.naturalWidth; b.height = im.naturalHeight; resolve(); };
+        im.onerror = function () { b.type = 'note'; b.text = '(연구 모형 그림을 불러오지 못했습니다)'; resolve(); };
+        im.src = b.src;
+      });
+    }));
+  }
+
   function save(doc, filename) {
-    return Promise.all([tools(), fonts()]).then(function () {
+    return Promise.all([tools(), fonts(), measure(doc)]).then(function () {
       var laid = layout(doc);
       var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', compress: true });
       var chain = Promise.resolve();
@@ -177,6 +203,7 @@
     '.rhp-p{font-size:14px;line-height:1.85;margin:0 0 6px;text-indent:1em;text-align:justify;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
     '.rhp-sq{font-size:14px;line-height:1.85;margin:8px 0 2px;padding-left:1.2em;text-indent:-1.2em;font-weight:600}' +
     '.rhp-sq::before{content:"□ "}' +
+    '.rhp-fig{margin:10px 0 14px;text-align:center}.rhp-fig img{display:inline-block;max-width:100%}' +
     '.rhp-ci{font-size:14px;line-height:1.85;margin:0 0 3px;padding-left:2.4em;text-indent:-1.2em;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +
     '.rhp-ci::before{content:"○ "}' +
     '.rhp-dash{font-size:13.5px;line-height:1.8;margin:0 0 3px;padding-left:3.4em;text-indent:-1em;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}' +

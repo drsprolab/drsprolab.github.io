@@ -284,3 +284,47 @@ test('AI 키가 하나도 없으면 설정 미완료로 실패한다', () => {
   assert.equal(r.error, 'feedback_failed');
   assert.match(r.message, /설정이 아직 완료되지/);
 });
+
+// ---------- 연구 모형 그림 ----------
+const PNG = 'data:image/png;base64,' + Buffer.from('fake-png-bytes').toString('base64');
+
+test('연구 모형: 글 없이 그림만 넣어도 저장되고, 그림은 비공개 폴더에 저장돼 AI에도 함께 보낸다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic } });
+  const r = t.call({ action: 'save', round: 1, consent: true, fields: fields({ model: '' }), modelImageData: PNG, requestId: reqId() });
+  assert.equal(r.ok, true, r.message);
+  assert.match(r.modelImage, /^file\d+$/);
+  const file = t.drive.files[r.modelImage];
+  assert.ok(file.getName().startsWith(r.id + '-model-'), '파일 이름이 제출 id로 시작해야 한다');
+  assert.equal(t.drive.folder.name, 'Research help 연구모형 그림 (비공개)');
+  const saved = JSON.parse(t.rows('Revisions')[0][5]);
+  assert.equal(saved.modelImage, r.modelImage);
+  const input = t.calls.ai[0].body.input;
+  assert.ok(Array.isArray(input) && input.some(p => p.type === 'image' && p.mime_type === 'image/png'), 'Gemini에 그림을 함께 보내야 한다');
+  assert.ok(!JSON.stringify(input).includes(r.modelImage), '파일 id는 AI로 보내지 않는다');
+});
+
+test('연구 모형: 글도 그림도 없으면 저장하지 않는다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic } });
+  const r = t.call({ action: 'save', round: 1, consent: true, fields: fields({ model: ' ' }), requestId: reqId() });
+  assert.equal(r.error, 'invalid_fields');
+  assert.match(r.message, /연구 모형/);
+});
+
+test('연구 모형: 그림이 아닌 파일·다른 제출물의 그림은 쓸 수 없고, 그림은 작성자·관리자만 받는다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic } });
+  const bad = t.call({ action: 'save', round: 1, consent: true, fields: fields(), modelImageData: 'data:text/html;base64,PGI+', requestId: reqId() });
+  assert.equal(bad.error, 'invalid_fields');
+  const a = t.call({ action: 'save', round: 1, consent: true, fields: fields(), modelImageData: PNG, requestId: reqId() });
+  const b = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  // b가 a의 그림을 자기 것처럼 쓰려 하면 거절
+  const steal = t.call({ action: 'save', round: 2, id: b.id, token: b.token, fields: fields({ modelImage: a.modelImage }), requestId: reqId() });
+  assert.equal(steal.error, 'invalid_fields');
+  // 그림 받기: 작성자는 되고, 다른 사람 토큰은 안 된다
+  const own = t.call({ action: 'image', id: a.id, token: a.token, fileId: a.modelImage });
+  assert.equal(own.ok, true);
+  assert.equal(own.dataUrl, PNG);
+  const other = t.call({ action: 'image', id: b.id, token: b.token, fileId: a.modelImage });
+  assert.equal(other.ok, false);
+  const anon = t.call({ action: 'image', id: a.id, token: 'x'.repeat(64), fileId: a.modelImage });
+  assert.equal(anon.ok, false);
+});
