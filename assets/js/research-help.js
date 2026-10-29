@@ -313,12 +313,29 @@
     var d = new Date();
     return d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.';
   }
+  // 제목 칸에 본문 첫머리까지 붙여 넣은 경우 제목 부분만 보여 준다(저장된 원문은 그대로 둔다).
+  function shortTitle(title, fields) {
+    var t = String(title || '').replace(/\s+/g, ' ').trim(), cut = -1;
+    ['problem', 'purpose'].forEach(function (k) {
+      var head = String((fields && fields[k]) || '').replace(/\s+/g, ' ').trim().slice(0, 12);
+      var i = head.length >= 6 ? t.indexOf(head) : -1;
+      if (i > 0 && (cut < 0 || i < cut)) cut = i;
+    });
+    if (cut < 0) {
+      var end = t.search(/다\.(\s|$)/);
+      if (end > 0) {
+        var re = /(분석|연구|탐색|검증|효과|영향|역할|관계|비교|개발|설계|적용)(?=[가-힣])/g, m;
+        while ((m = re.exec(t.slice(0, end)))) cut = m.index + m[1].length;
+      }
+    }
+    return (cut > 0 ? t.slice(0, cut) : t).trim();
+  }
   function pdfDocument(record, opts) {
     opts = opts || {};
     var oks = record.revisions.filter(function (r) { return r.status === 'ok'; });
     var final = oks[oks.length - 1];
     var sub = record.submission;
-    var doc = { title: final ? final.fields.title : '연구계획서',
+    var doc = { title: final ? shortTitle(final.fields.title, final.fields) : '연구계획서',
       subtitle: '연구계획서 · ' + sub.name + (final ? ' · ' + final.round + '차 저장본' : '') + (sub.submittedAt ? ' · 제출 ' + sub.submittedAt : ''),
       date: today(), blocks: final ? paperBlocks(final.fields, record.images) : [] };
     var lit = oks.filter(function (r) { return r.feedback && r.feedback.recommended && r.feedback.recommended.length; }).pop();
@@ -639,7 +656,7 @@
           el('div', { class: 'rh-admin-bar' }, [el('strong', { text: '제출물 ' + subs.length + '건' }), el('button', { type: 'button', class: 'rh-link', onclick: function () { admin.logout(); loginView(); }, text: '로그아웃' })]),
           el('ul', { class: 'rh-list' }, subs.map(function (s) {
             return el('li', {}, [el('button', { type: 'button', class: 'rh-list-item', onclick: function () { detailView(s.id); } }, [
-              el('strong', { text: s.title || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id })
+              el('strong', { text: shortTitle(s.title) || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id })
             ]), el('button', { type: 'button', class: 'rh-btn rh-list-download', 'aria-label': s.name + ' 제출물 PDF 다운로드', onclick: function () {
               status('제출물을 불러오는 중…');
               admin.get(s.id).then(function (rec) { return savePdf(rec, { history: true }, status); }, failed);
@@ -676,7 +693,7 @@
         view(el('div', {}, [
           el('div', { class: 'rh-admin-bar' }, [el('button', { type: 'button', class: 'rh-link', onclick: listView, text: '← 목록' }),
             el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(rec, { history: true }, status); }, text: 'PDF 다운로드 (수정 이력 포함)' })]),
-          el('h2', { text: (oks.length ? oks[oks.length - 1].fields.title : '') }),
+          el('h2', { text: (oks.length ? shortTitle(oks[oks.length - 1].fields.title, oks[oks.length - 1].fields) : '') }),
           el('p', { class: 'rh-small', text: rec.submission.name + ' · 제출 ' + rec.submission.submittedAt + ' · ' + rec.submission.id }),
           el('p', { class: 'rh-notice', text: AI_NOTICE }),
           tabs, body
@@ -699,6 +716,6 @@
     if (admin) mountAdmin(admin);
   }
 
-  return { FIELDS: FIELDS, AI_NOTICE: AI_NOTICE, validateFields: validateFields, createController: createController, createAdmin: createAdmin,
+  return { FIELDS: FIELDS, AI_NOTICE: AI_NOTICE, shortTitle: shortTitle, validateFields: validateFields, createController: createController, createAdmin: createAdmin,
     pdfDocument: pdfDocument, pdfFileName: pdfFileName, apaText: apaText, mount: mount };
 });
