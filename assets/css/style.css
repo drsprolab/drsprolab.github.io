@@ -1834,11 +1834,16 @@ main.container { overflow-x: clip; }
 .rh-status.is-empty { display: none; }
 .rh-done { margin: 0; font-weight: 600; color: var(--accent); }
 .rh-login { display: grid; gap: 10px; max-width: 320px; }
+.rh-admin-entry { text-align: right; margin: 0 0 16px; font-size: 14px; }
+.rh-admin-entry a { display: inline-flex; align-items: center; text-decoration: none; }
 .rh-admin-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
 .rh-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.rh-list-item { width: 100%; display: grid; gap: 2px; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+.rh-list li { display: flex; align-items: stretch; gap: 8px; }
+.rh-list-item { flex: 1; min-width: 0; display: grid; gap: 2px; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+.rh-list-download { flex: none; }
 .rh-list-item span { color: var(--muted); font-size: 13px; }
 .rh-list-item:hover { border-color: var(--accent); }
+@media (max-width: 600px) { .rh-list li { flex-direction: column; } }
 .rh-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
 .rh-tabs button { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
 .rh-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }

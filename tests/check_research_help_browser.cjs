@@ -43,7 +43,8 @@ backend.api.sheet_('SSCI_Journals').data.push(['1234-5678', '', 'Test Journal of
 function page(md) {
   const body = fs.readFileSync(path.join(root, md), 'utf8').replace(/^---[\s\S]*?---/, '')
     .replace(/\{\{ site\.research_help_script_url \| escape \}\}/g, '/exec')
-    .replace(/\{\{ '([^']+)' \| relative_url \}\}\?v=\{\{[^}]+\}\}/g, '$1');
+    .replace(/\{\{ '([^']+)' \| relative_url \}\}\?v=\{\{[^}]+\}\}/g, '$1')
+    .replace(/\{\{ '([^']+)' \| relative_url \}\}/g, '$1');
   return '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
     '<link rel="stylesheet" href="/assets/css/style.css"></head><body><main class="container"><article class="page page--wide"><div class="prose">' + body + '</div></article></main></body></html>';
 }
@@ -80,6 +81,7 @@ function pdfPages(buf) {
     p.on('dialog', d => d.accept());
     await p.goto(base + '/research-help/');
     await p.waitForSelector('#rh-title');
+    assert.equal(await p.locator('.rh-admin-entry a').getAttribute('href'), '/research-help/admin/');
     assert.equal(await p.locator('.rh-row').count(), 8);
     assert.equal(await p.locator('.rh-comments').count(), 0);
 
@@ -162,6 +164,10 @@ function pdfPages(buf) {
     await a.fill('#rh-admin-pw', 'test-admin-pass');
     await a.click('.rh-login button');
     await a.waitForSelector('.rh-list-item');
+    const [listDl] = await Promise.all([a.waitForEvent('download'), a.click('.rh-list-download')]);
+    await listDl.saveAs(outputDir + '/admin-from-list.pdf');
+    const listPdf = await fsp.readFile(outputDir + '/admin-from-list.pdf');
+    assert.ok(pdfPages(listPdf) > laid.pages, '목록 PDF는 수정 이력 포함');
     await a.click('.rh-list-item');
     await a.waitForSelector('.rh-tabs');
     assert.equal(await a.locator('.rh-tabs button').count(), 3);

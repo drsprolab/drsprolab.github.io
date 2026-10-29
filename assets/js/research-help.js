@@ -517,7 +517,10 @@
           el('ul', { class: 'rh-list' }, subs.map(function (s) {
             return el('li', {}, [el('button', { type: 'button', class: 'rh-list-item', onclick: function () { detailView(s.id); } }, [
               el('strong', { text: s.title || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id })
-            ])]);
+            ]), el('button', { type: 'button', class: 'rh-btn rh-list-download', 'aria-label': s.name + ' 제출물 PDF 다운로드', onclick: function () {
+              status('제출물을 불러오는 중…');
+              admin.get(s.id).then(function (rec) { return savePdf(rec, { history: true }, status); }, failed);
+            }, text: 'PDF 다운로드' })]);
           }))
         ]));
       }, failed);
