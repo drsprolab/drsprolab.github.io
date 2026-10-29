@@ -1887,3 +1887,24 @@ main.container { overflow-x: clip; }
 .rh-drop-actions { display: flex; gap: 14px; }
 .rh-mine.is-dragging .rh-drop, .rh-drop:hover { border-color: var(--accent); }
 .rh-file { display: none; }
+
+/* Mobile touch stability: prevent inherited desktop hover scaling and sticky hover states. */
+@media (max-width: 860px) {
+  html.nav-open body > #site-nav.open .nav-item > a,
+  html.nav-open body > #site-nav.open .nav-item > a:hover,
+  html.nav-open body > #site-nav.open .nav-item > a:active,
+  html.nav-open body > #site-nav.open .nav-item > a:focus {
+    transform: none !important;
+    scale: 1 !important;
+    transition: color .15s ease, background-color .15s ease !important;
+  }
+  html.nav-open body > #site-nav.open .submenu a {
+    transform: none !important;
+    scale: 1 !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.nav-open body > #site-nav.open .submenu a:active {
+    background: var(--accent-soft) !important;
+    color: var(--accent) !important;
+  }
+}
