@@ -1800,6 +1800,7 @@ main.container { overflow-x: clip; }
 
 /* ---- Research help ---- */
 .rh { display: grid; gap: 18px; max-width: 100%; }
+.rh[hidden] { display: none; }
 .rh-steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .rh-steps li { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); }
 .rh-steps li.is-done { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
@@ -1848,6 +1849,10 @@ main.container { overflow-x: clip; }
 .rh-status.is-empty { display: none; }
 .rh-done { margin: 0; font-weight: 600; color: var(--accent); }
 .rh-login { display: grid; gap: 10px; max-width: 320px; }
+.rh-intro { text-align: center; padding: 56px 16px 72px; }
+.rh-intro[hidden] { display: none; }
+.rh-intro-msg { font-size: clamp(19px, 2.6vw, 26px); font-weight: 600; line-height: 1.7; margin: 0 0 32px; word-break: keep-all; }
+.rh-intro-go { display: inline-flex; align-items: center; text-decoration: none; padding: 12px 28px; font-size: 17px; }
 .rh-admin-entry { text-align: right; margin: 0 0 16px; font-size: 14px; }
 .rh-admin-entry a { display: inline-flex; align-items: center; text-decoration: none; }
 .rh-admin-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
