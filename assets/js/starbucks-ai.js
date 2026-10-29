@@ -17,6 +17,8 @@
   if (shareBtn) {
     var shareBox = document.createElement('div'), shareMenu = document.createElement('div');
     var shareUrl = location.origin + location.pathname, encodedUrl = encodeURIComponent(shareUrl);
+    var attribution = '출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab.';
+    var shareText = CFG.title + '\n' + shareUrl + '\n' + attribution; // 복사한 글에도 출처를 붙인다
     shareBox.className = 'sbx-share';
     shareBtn.parentNode.insertBefore(shareBox, shareBtn);
     shareBox.appendChild(shareBtn);
@@ -28,8 +30,8 @@
     shareMenu.innerHTML = '<button type="button" role="menuitem" data-share="copy">링크 복사</button>' +
       '<a role="menuitem" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '">Facebook</a>' +
       '<a role="menuitem" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodedUrl + '">LinkedIn</a>' +
-      '<a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=' + encodedUrl + '&amp;text=' + encodeURIComponent(CFG.title) + '">X</a>' +
-      '<a role="menuitem" href="mailto:?subject=' + encodeURIComponent(CFG.title) + '&amp;body=' + encodedUrl + '">이메일</a>' +
+      '<a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=' + encodedUrl + '&amp;text=' + encodeURIComponent(attribution + ' ' + CFG.title) + '">X</a>' +
+      '<a role="menuitem" href="mailto:?subject=' + encodeURIComponent(CFG.title) + '&amp;body=' + encodeURIComponent(attribution + ' ' + shareUrl) + '">이메일</a>' +
       '<span class="sbx-share-done" role="status" aria-live="polite"></span>';
     shareBox.appendChild(shareMenu);
     var shareDone = shareMenu.querySelector('.sbx-share-done');
@@ -44,8 +46,8 @@
     shareBtn.addEventListener('click', function () { toggleShare(shareMenu.hidden); });
     shareMenu.querySelector('[data-share="copy"]').addEventListener('click', function () {
       function copied() { shareDone.textContent = '링크를 복사했습니다'; setTimeout(function () { toggleShare(false); }, 1200); }
-      if (navigator.clipboard) navigator.clipboard.writeText(shareUrl).then(copied, function () { window.prompt('링크를 복사하세요', shareUrl); });
-      else window.prompt('링크를 복사하세요', shareUrl);
+      if (navigator.clipboard) navigator.clipboard.writeText(shareText).then(copied, function () { window.prompt('링크를 복사하세요', shareText); });
+      else window.prompt('링크를 복사하세요', shareText);
     });
     shareMenu.addEventListener('click', function (e) { if (e.target.tagName === 'A') toggleShare(false); });
     document.addEventListener('click', function (e) { if (!shareBox.contains(e.target)) toggleShare(false); });

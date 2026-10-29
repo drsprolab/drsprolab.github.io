@@ -25,9 +25,10 @@
     toggle(menu.hidden);
   });
   box.querySelector('[data-share="copy"]').addEventListener('click', function () {
+    var text = title + '\n' + url + '\n' + attribution; // 복사한 글에도 출처를 붙인다
     function ok() { done.textContent = '링크를 복사했습니다'; setTimeout(function () { toggle(false); }, 1200); }
-    if (navigator.clipboard) navigator.clipboard.writeText(url).then(ok, function () { window.prompt('링크를 복사하세요', url); });
-    else window.prompt('링크를 복사하세요', url);
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, function () { window.prompt('링크를 복사하세요', text); });
+    else window.prompt('링크를 복사하세요', text);
   });
   menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') toggle(false); });
   document.addEventListener('click', function (e) { if (!box.contains(e.target)) toggle(false); });
