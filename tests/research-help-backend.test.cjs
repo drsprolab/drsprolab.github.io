@@ -120,6 +120,9 @@ function literatureWeb() {
 const round2 = () => Object.assign(round2Items(), { recommended: [{ id: 'S9', reason: '가짜' }, { id: 'S1', reason: '종단 자료로 상사 지원을 검증 (Fake, 2001)' }, { id: 'S1', reason: '중복' }] });
 const round2Items = () => Object.fromEntries(FB_KEYS.map(k => [k, {
   status: 'reviewed',
+  checks: [{ point: '바꿔치기한 질문', basis: 'literature', finding: `${k} 첫 점검: [S1]과 대조하면 표본이 다릅니다. (Smith, 2018)` },
+    { point: 'x', basis: 'manuscript', finding: `${k} 둘째 점검: 문제의식의 "공백" 문장과 목적이 어긋납니다.` },
+    { point: 'y', basis: 'manuscript', finding: `${k} 셋째 점검` }],
   assessment: k === 'theory' ? '근거 없이 판단 (Smith, 2018)' : `${k}는 [S1]과 비교해 보완이 필요합니다. 또한 [S9]와 Brown et al. (2017) 참고.`,
   suggestions: ['제안 [S1]'],
   sources: k === 'theory' ? [] : [{ id: 'S1', basis: '종단 표본에서 지원과 동기 기제를 보고' }, { id: 'S9', basis: '가짜' }]
@@ -145,6 +148,13 @@ test('2차 저장: SSCI 목록·차단 출판사·Crossref 검증을 통과한 �
   assert.match(model.sources[0].scope, /원문 미확인/);
   assert.match(model.assessment, /\[1\]/);
   assert.doesNotMatch(model.assessment, /S9|Brown/);
+  const pchecks = r2.feedback.items.problem.checks;
+  assert.equal(pchecks.length, 2);
+  assert.match(pchecks[0].point, /다른 연구들에서도 고민/, '점검 질문은 서버 기준 문구');
+  assert.match(pchecks[0].finding, /\[1\]/);
+  assert.doesNotMatch(pchecks[0].finding, /Smith/);
+  const lit2 = JSON.parse(lit.user).criteria;
+  assert.ok(Array.isArray(lit2.purpose) && /기술적/.test(lit2.purpose[1].point));
   assert.equal(r2.feedback.recommended.length, 1, '후보에 없는 S9와 중복은 제외');
   const rec = r2.feedback.recommended[0];
   assert.equal(rec.doi, '10.1111/good.1');
@@ -166,7 +176,18 @@ test('2차 저장: SSCI 목록이 비어 있으면 문헌 기반 판단을 보�
   const r2 = t.call({ action: 'save', round: 2, fields: fields(), id: r1.id, token: r1.token, requestId: reqId() });
   assert.equal(r2.ok, true, r2.message);
   assert.match(r2.feedback.searchNote, /SSCI 저널 목록/);
-  for (const k of ['problem', 'model', 'theory', 'method']) assert.equal(r2.feedback.items[k].status, 'withheld');
+  for (const k of ['problem', 'theory']) assert.equal(r2.feedback.items[k].status, 'withheld');
+  for (const k of ['model', 'method', 'purpose', 'rq']) assert.equal(r2.feedback.items[k].status, 'reviewed', k + '는 작성 내용 대조로 판단');
+  // 문헌이 없으면 문헌 대조 점검은 보류, 작성 내용 대조 점검은 남긴다.
+  const theoryChecks = r2.feedback.items.theory.checks;
+  assert.equal(theoryChecks.length, 2);
+  assert.equal(theoryChecks[0].basis, 'manuscript');
+  assert.match(theoryChecks[0].finding, /theory 첫 점검/);
+  assert.doesNotMatch(theoryChecks[0].finding, /\[S1\]|Smith/, '문헌 없는 항목의 인용 표기는 지운다');
+  assert.equal(theoryChecks[1].basis, 'literature');
+  assert.equal(theoryChecks[1].finding, '검증된 근거 부족으로 판단 보류');
+  assert.equal(r2.feedback.items.problem.checks.every(c => c.finding === '검증된 근거 부족으로 판단 보류'), true);
+  assert.equal(r2.feedback.items.implications.checks.length, 3);
   assert.equal(r2.feedback.items.rq.sources.length, 0);
   assert.doesNotMatch(r2.feedback.items.rq.assessment, /\[S/);
 });

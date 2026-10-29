@@ -1828,7 +1828,11 @@ main.container { overflow-x: clip; }
 .rh-comments { min-width: 0; padding: 14px 16px; border-radius: 8px; background: var(--tint); border: 1px solid var(--line); font-size: 14.5px; }
 .rh-comments-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
 .rh-comments-head strong { color: var(--accent); }
-.rh-ai-badge, .rh-withheld { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--accent-soft); color: var(--accent); }
+.rh-ai-badge, .rh-checks { margin: 0 0 12px; }
+.rh-checks dt { font-weight: 600; margin-top: 10px; }
+.rh-checks dt::before { content: '✓ '; color: var(--accent); }
+.rh-checks dd { margin: 4px 0 0 18px; }
+.rh-withheld { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--accent-soft); color: var(--accent); }
 .rh-withheld { background: transparent; border: 1px solid var(--muted); color: var(--muted); margin-bottom: 4px; }
 .rh-comment p, .rh-comment li { overflow-wrap: anywhere; }
 .rh-comment p { margin: 0 0 8px; }

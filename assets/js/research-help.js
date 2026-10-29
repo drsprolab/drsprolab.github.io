@@ -262,7 +262,8 @@
         if (item.focus) blocks.push({ type: 'ci', text: item.focus });
         (item.questions || []).forEach(function (q, i) { blocks.push({ type: 'dash', text: '질문 ' + (i + 1) + '. ' + q }); });
       } else {
-        blocks.push({ type: 'ci', text: (item.status === 'withheld' ? '[판단 보류] ' : '') + item.assessment });
+        (item.checks || []).forEach(function (c) { blocks.push({ type: 'dash', text: '[점검] ' + c.point + ' → ' + c.finding }); });
+        blocks.push({ type: 'ci', text: '종합: ' + (item.status === 'withheld' ? '[판단 보류] ' : '') + item.assessment });
         (item.suggestions || []).forEach(function (s) { blocks.push({ type: 'dash', text: s }); });
         (item.sources || []).forEach(function (s) { blocks.push({ type: 'note', text: citationText(s) + ' — 근거 범위: ' + s.scope + '. ' + s.basis }); });
       }
@@ -447,8 +448,13 @@
       wrap.appendChild(el('ol', {}, (item.questions || []).map(function (q) { return el('li', { text: q }); })));
       return wrap;
     }
+    if (item.checks && item.checks.length) {
+      wrap.appendChild(el('dl', { class: 'rh-checks' }, [].concat.apply([], item.checks.map(function (c) {
+        return [el('dt', { text: c.point }), el('dd', { text: c.finding })];
+      }))));
+    }
     if (item.status === 'withheld') wrap.appendChild(el('span', { class: 'rh-withheld', text: '판단 보류' }));
-    wrap.appendChild(el('p', { text: item.assessment }));
+    wrap.appendChild(el('p', {}, [el('strong', { text: '종합 ' }), item.assessment]));
     if (item.suggestions && item.suggestions.length) wrap.appendChild(el('ul', {}, item.suggestions.map(function (s) { return el('li', { text: s }); })));
     if (item.sources && item.sources.length) {
       wrap.appendChild(el('ol', { class: 'rh-sources' }, item.sources.map(function (s) {

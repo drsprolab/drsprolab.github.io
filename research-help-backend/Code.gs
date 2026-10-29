@@ -13,7 +13,8 @@ const FIELDS = [
 ];
 const FEEDBACK_KEYS = FIELDS.slice(1).map(f => f.key);
 // 2차 피드백에서 검증된 문헌 없이는 판단하지 않는 항목. 나머지는 작성 내용 간 정렬 검토가 중심이다.
-const LITERATURE_KEYS = ['problem', 'model', 'theory', 'method'];
+// 문헌과 대조해야 판단할 수 있는 항목. 검증된 문헌이 없으면 문헌 대조 부분은 보류하고, 작성 내용 간 대조만 남긴다.
+const LITERATURE_KEYS = ['problem', 'theory'];
 const WITHHELD = '검증된 근거 부족으로 판단 보류';
 const SOURCE_SCOPE = '초록·서지정보 확인 (원문 미확인)';
 const BLOCKED_DOI = /^10\.(3390|3389)\//; // MDPI, Frontiers
@@ -254,25 +255,54 @@ function round1Schema_() {
 }
 
 // ---------- 2차: 검증된 SSCI 문헌 기반 ----------
+// 항목마다 이 점검 질문 순서대로 하나씩 대조해 checks로 답한다. literature: 제공된 문헌과 대조, manuscript: 작성 내용끼리 대조.
 const ROUND2_CRITERIA = {
-  title: '1·2차 수정 내용이 연구의 핵심(문제의식·목적·모형)을 반영하는지 정렬 관점에서 검토한다.',
-  problem: '제공된 관련 연구를 근거로 이 문제의식이 타당한지, 기존 연구와 비교해 차별성이 있는지 검토한다.',
-  purpose: '문제의식을 잘 담아낸 연구목적인지, 기술적(descriptive) 목적과 궁극적 연구목적의 관계가 명확한지 검토한다.',
-  model: '제시한 변수와 연구목적에 관련된 문헌을 근거로 연구 모형과 변수 간 관계가 이론적으로 타당한지 검토한다.',
-  rq: '연구문제가 문제의식·연구목적과 정확하게 정렬되어 있는지 검토한다.',
-  theory: '제시한 이론이 실제 연구문제와 연구모형을 논리적·이론적으로 설명할 수 있는지 검토한다. 유명한 이론 이름만 붙인 경우는 지적한다.',
-  method: '통계·연구방법론 관점에서 변수 관계, 이론, 자료 구조, 연구문제에 비추어 타당한 방법인지, 더 적절한 대안 방법이 있는지 근거와 함께 제시한다.',
-  implications: '이론적 근거와 연구목적에 기반해 제시한 방법으로 답을 얻었을 때 이론적·실무적으로 의미 있는 시사점인지 검토한다. 설계가 허용하지 않는 인과 해석이나 과도한 시사점은 지적한다.'
+  title: [
+    { point: '제목이 문제의식·연구목적·연구 모형의 핵심 변수와 관계를 정확히 반영하는가?', basis: 'manuscript' }
+  ],
+  problem: [
+    { point: '이 문제의식이 실제 다른 연구들에서도 고민하는 쟁점과 관련되어 있는가? (제공된 논문들과 작성 내용을 대조)', basis: 'literature' },
+    { point: '기존 연구와 비교해 이 문제의식이 적절하고, 연구할 가치가 있는 공백(gap)을 짚고 있는가?', basis: 'literature' }
+  ],
+  purpose: [
+    { point: '연구목적이 문제의식과 관련되어 있는가? 문제의식에서 제기한 것과 목적 사이에 불일치하거나 빠진 부분이 있는가?', basis: 'manuscript' },
+    { point: '기술적(descriptive) 목적과 궁극적 목적으로 나누어 작성되어 있고, 둘의 관계가 분명한가?', basis: 'manuscript' }
+  ],
+  model: [
+    { point: '연구 모형이 연구목적에 기반해 설정되었는가? 목적에 나온 변수·관계가 모형에 빠짐없이, 또 군더더기 없이 들어 있는가?', basis: 'manuscript' },
+    { point: '변수 간 경로(직접·매개·조절 등)와 방향이 논리적으로 타당한가?', basis: 'manuscript' }
+  ],
+  rq: [
+    { point: '각 RQ가 연구목적에 기반해 연결되어 있는가? 목적과 RQ를 하나씩 대응시켜 빠지거나 어긋나는 것이 있는가?', basis: 'manuscript' },
+    { point: 'RQ에 모두 답하면 연구목적이 달성되는가? RQ가 목적 달성에 충분한가?', basis: 'manuscript' }
+  ],
+  theory: [
+    { point: '이론적 근거가 연구목적·연구 모형과 대조해 타당하고 논리적으로 모형의 경로를 설명하는가?', basis: 'manuscript' },
+    { point: '다른 논문들에서 이 이론을 어떻게 사용했는지에 비추어, 이론적으로 충분한 함의가 있는 이론을 적합하게 사용했는가? 유명한 이론 이름만 붙인 것은 아닌가?', basis: 'literature' }
+  ],
+  method: [
+    { point: '연구방법(표집·자료 구조·측정·분석)이 통계적으로 적합한가? 자료 구조(예: 다수준·종단)와 변수 관계에 맞는 분석인가? 더 적절한 대안이 있는가?', basis: 'manuscript' },
+    { point: '연구방법이 기술된 연구목적·연구 모형·RQ와 정렬(align)되어 있는가? 모형의 각 경로와 RQ를 이 방법으로 검증할 수 있는가?', basis: 'manuscript' }
+  ],
+  implications: [
+    { point: '기대시사점이 실제 문제의식에 기반하고 연구목적에 부합하는가?', basis: 'manuscript' },
+    { point: '이 연구의 결과로서 실제로 줄 수 있는 시사점인가? 설계가 허용하지 않는 인과 해석이나 과도한 주장은 없는가?', basis: 'manuscript' },
+    { point: '이론적 시사점과 실천적 시사점이 구분되어 있고, 각각 문제의식·목적과 정렬되어 작성되어 있는가?', basis: 'manuscript' }
+  ]
 };
 
 function literatureFeedback_(fields) {
   const search = literatureCandidates_(fields);
   const system = '당신은 SSCI급 학술지 심사 경험이 많은 교육공학·HRD·조직행동 연구방법 검토자다. ' + GUARD +
-    ' 2차 피드백은 작성자의 실제 수정 내용에 근거한 구체적 검토다. 문헌 근거는 반드시 candidates 목록의 id(S1, S2...)로만 인용하고, ' +
+    ' 2차 피드백은 작성자의 실제 수정 내용에 근거한 구체적이고 상세한 대조 검토다. ' +
+    '각 항목의 criteria에 있는 점검 질문(point)마다 checks에 하나씩, 같은 순서로 답한다. finding에는 작성자가 쓴 문장을 짧게 인용해 대조 대상(예: 문제의식의 어느 문장과 목적의 어느 문장)을 밝히고, ' +
+    '잘 맞는 부분, 불일치하거나 빠진 부분, 그 이유를 4~6문장으로 구체적으로 쓴다. 칭찬이나 일반론으로 채우지 않는다. ' +
+    'basis가 literature인 점검은 candidates 문헌과 작성 내용을 대조해 [S#]을 달고, manuscript인 점검은 작성 항목끼리 대조한다. ' +
+    'assessment에는 그 항목의 종합 판단을 2~3문장으로, suggestions에는 바로 고칠 수 있는 수정 제안을 3~5개 쓴다. 문헌 근거는 반드시 candidates 목록의 id(S1, S2...)로만 인용하고, ' +
     '본문에서는 [S1]처럼 표기한다. 목록 밖의 논문·저자·연도·DOI·이론 출처를 언급하거나 지어내지 않는다. ' +
     '각 문헌은 제공된 초록과 서지정보 범위에서만 근거로 쓰고 원문을 읽은 것처럼 서술하지 않는다. sources[].basis에는 그 초록에서 확인되는 근거 내용을 적는다. ' +
-    '연구 모형·이론적 근거·문제의식·연구 방법 항목에서 적합한 후보 문헌이 없으면 status를 "withheld"로 하고 근거 없이 판단하지 않는다. ' +
-    '목적·RQ·제목·시사점의 정렬 검토는 작성 내용 간 논리로 판단할 수 있으며, 이때 문헌을 꾸며 붙이지 않는다. ' +
+    '문제의식·이론적 근거 항목에서 적합한 후보 문헌이 없으면 status를 "withheld"로 하고 literature 점검은 근거 없이 판단하지 않는다(manuscript 점검은 그대로 답한다). ' +
+    '연구 모형·연구 방법·목적·RQ·제목·시사점은 작성 내용 간 논리와 연구방법론 지식으로 판단할 수 있으며, 문헌을 꾸며 붙이지 않는다. ' +
     'recommended에는 작성자가 연구를 다듬기 위해 꼭 읽어야 할 논문을 candidates 중에서 최대 10편, 중요한 순서로 골라 id와 한두 문장의 추천 이유(초록 근거)를 적는다.';
   const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields),
     candidates: search.candidates.map(c => ({ id: c.id, title: c.title, authors: c.authors.slice(0, 6), year: c.year, journal: c.journal, abstract: c.abstract })) });
@@ -292,9 +322,11 @@ function round2Schema_() {
 }
 
 function round2ItemsSchema_() {
-  const item = { type: 'object', additionalProperties: false, required: ['status', 'assessment', 'suggestions', 'sources'],
+  const item = { type: 'object', additionalProperties: false, required: ['status', 'checks', 'assessment', 'suggestions', 'sources'],
     properties: {
       status: { type: 'string', enum: ['reviewed', 'withheld'] },
+      checks: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['point', 'basis', 'finding'],
+        properties: { point: { type: 'string' }, basis: { type: 'string', enum: ['literature', 'manuscript'] }, finding: { type: 'string' } } } },
       assessment: { type: 'string' },
       suggestions: { type: 'array', items: { type: 'string' } },
       sources: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'basis'],
@@ -318,12 +350,20 @@ function verifyRound2_(raw, candidates) {
     const fix = text => renumber_(stripCitations_(clip_(text, 2500), allowed), numbering);
     let status = item.status === 'reviewed' ? 'reviewed' : 'withheld';
     if (LITERATURE_KEYS.indexOf(k) >= 0 && !sources.length) status = 'withheld';
+    // 점검 질문은 서버 기준(ROUND2_CRITERIA)의 문구를 쓰고, 문헌 근거가 없는 항목의 literature 점검은 보류한다.
+    const given = Array.isArray(item.checks) ? item.checks : [];
+    const checks = ROUND2_CRITERIA[k].map((c, i) => {
+      const literatureHeld = c.basis === 'literature' && !sources.length;
+      return { point: c.point, basis: c.basis,
+        finding: literatureHeld ? WITHHELD : (given[i] ? fix(clip_(given[i].finding, 1800)) : '') };
+    }).filter(c => c.finding);
     if (status === 'withheld' && LITERATURE_KEYS.indexOf(k) >= 0) {
-      items[k] = { status: status, assessment: WITHHELD, suggestions: [], sources: [] };
+      items[k] = { status: status, checks: checks, assessment: WITHHELD, suggestions: [], sources: [] };
       return;
     }
     items[k] = {
       status: status,
+      checks: checks,
       assessment: status === 'withheld' ? WITHHELD : fix(item.assessment),
       suggestions: status === 'withheld' ? [] : (item.suggestions || []).slice(0, 5).map(fix).filter(Boolean),
       sources: sources.map((s, i) => Object.assign(citation_(byId[s.id]), { n: i + 1, basis: stripCitations_(clip_(s.basis, 500), allowed), scope: SOURCE_SCOPE }))
@@ -554,7 +594,7 @@ function geminiModel_(key, model, system, user, schema, image) {
       // 연구 모형 그림이 있으면 글과 함께 이미지로 보낸다.
       input: withImage ? [{ type: 'text', text: user }, { type: 'image', data: image.data, mime_type: image.mimeType }] : user,
       response_format: { type: 'text', mime_type: 'application/json', schema: geminiSchema_(schema) },
-      generation_config: { max_output_tokens: 16384, thinking_level: 'low' }
+      generation_config: { max_output_tokens: 32768, thinking_level: 'low' }
     })
   });
   let request = build(!!image);
