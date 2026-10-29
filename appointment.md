@@ -77,3 +77,7 @@ lede: 송지훈 교수님과의 미팅을 요청하세요. 요청은 승인 후 
   <p class="appointment-note">온라인 예약 시스템을 준비 중입니다. 문의는 <a href="mailto:jhsong77@hanyang.ac.kr">jhsong77@hanyang.ac.kr</a>로 보내 주세요.</p>
   {% endif %}
 </div>
+
+{% if site.appointment_script_url != "" %}
+<p class="appointment-admin-link"><a href="{{ '/appointment/admin/' | relative_url }}">확정 미팅 확인</a></p>
+{% endif %}

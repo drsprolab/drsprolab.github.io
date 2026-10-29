@@ -1,6 +1,7 @@
 const OWNER_EMAIL = 'jhsong77@hanyang.ac.kr';
 const ZONE = 'Asia/Seoul';
-const HEADERS = ['id', 'createdAt', 'name', 'email', 'date', 'time', 'message', 'token', 'status', 'decidedAt', 'calendarEventId'];
+const HEADERS = ['id', 'createdAt', 'name', 'email', 'date', 'time', 'message', 'token', 'status', 'decidedAt', 'calendarEventId', 'attachmentIds'];
+const ADMIN_SESSION_SECONDS = 7200;
 
 function doGet(e) {
   const token = String((e && e.parameter && e.parameter.token) || '');
@@ -21,6 +22,10 @@ function doGet(e) {
 }
 
 function doPost(e) {
+  if (e && e.postData && /^\s*\{/.test(e.postData.contents || '')) {
+    try { return json_(adminAction_(JSON.parse(e.postData.contents))); }
+    catch (err) { return json_({ ok: false, error: 'bad_request', message: '요청을 처리하지 못했습니다.' }); }
+  }
   const p = (e && e.parameter) || {};
   if (p.action === 'request') return request_(p);
   if (p.action === 'approve') return approve_(p);
@@ -71,13 +76,15 @@ function request_(p) {
     const token = Utilities.getUuid() + Utilities.getUuid();
     const id = Utilities.getUuid();
     const created = Utilities.formatDate(new Date(), ZONE, "yyyy-MM-dd'T'HH:mm:ss");
+    const fileIds = saveAttachments_(attachments);
     sheet.appendRow([id, created, sheetText_(name), sheetText_(email), date, time,
-      sheetText_('[' + meetingTypeLabel + '] ' + message), token, 'pending', '', '']);
+      sheetText_('[' + meetingTypeLabel + '] ' + message), token, 'pending', '', '', JSON.stringify(fileIds)]);
     const approveUrl = ScriptApp.getService().getUrl() + '?token=' + encodeURIComponent(token);
     MailApp.sendEmail({
       to: OWNER_EMAIL,
+      name: name + ' (' + email + ')',
       replyTo: email,
-      subject: '[미팅 요청] ' + date + ' ' + time + ' · ' + name,
+      subject: '[미팅 요청] ' + name + ' <' + email + '> · ' + date + ' ' + time,
       body: '새 미팅 요청이 있습니다.\n\n이름: ' + name + '\n이메일: ' + email +
         '\n희망 시간: ' + date + ' ' + time + '–' + endTime_(time) +
         ' (한국시간)\n미팅 종류: ' + meetingTypeLabel + '\n미팅 목적: ' + (message || '미입력') +
@@ -225,10 +232,140 @@ function sheet_() {
   }
   const sheet = SpreadsheetApp.openById(id).getSheets()[0];
   if (sheet.getLastRow() === 0) {
-    sheet.getRange('A:K').setNumberFormat('@');
+    sheet.getRange('A:L').setNumberFormat('@');
     sheet.appendRow(HEADERS);
+  } else if (sheet.getRange(1, 12).getDisplayValue() !== 'attachmentIds') {
+    sheet.getRange(1, 12).setValue('attachmentIds');
   }
   return sheet;
+}
+
+function saveAttachments_(attachments) {
+  if (!attachments.length) return [];
+  const props = PropertiesService.getScriptProperties();
+  let folderId = props.getProperty('APPOINTMENT_FOLDER_ID');
+  if (!folderId) {
+    folderId = DriveApp.createFolder('PRO AnalytiX Lab · Appointment attachments (private)').getId();
+    props.setProperty('APPOINTMENT_FOLDER_ID', folderId);
+  }
+  const folder = DriveApp.getFolderById(folderId);
+  const ids = [];
+  try {
+    attachments.forEach(blob => { ids.push(folder.createFile(blob).getId()); });
+    return ids;
+  } catch (err) {
+    ids.forEach(id => { try { DriveApp.getFileById(id).setTrashed(true); } catch (_) {} });
+    throw err;
+  }
+}
+
+function json_(value) {
+  return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function adminAction_(body) {
+  const handlers = { adminLogin: adminLogin_, adminList: adminList_, adminFile: adminFile_ };
+  try {
+    if (!body || !handlers[body.action]) throw new Error('지원하지 않는 요청입니다.');
+    return Object.assign({ ok: true }, handlers[body.action](body));
+  } catch (err) {
+    return { ok: false, error: err.code || 'server_error', message: err.code ? err.message : '서버 오류가 발생했습니다.' };
+  }
+}
+
+function adminPassword_() {
+  const props = PropertiesService.getScriptProperties();
+  const plain = props.getProperty('ADMIN_PASSWORD');
+  if (plain) {
+    const salt = Utilities.getUuid() + Utilities.getUuid();
+    props.setProperties({ ADMIN_PASSWORD_SALT: salt, ADMIN_PASSWORD_HASH: sha256_(salt + plain) });
+    props.deleteProperty('ADMIN_PASSWORD');
+  }
+  const salt = props.getProperty('ADMIN_PASSWORD_SALT');
+  const hash = props.getProperty('ADMIN_PASSWORD_HASH');
+  if (!salt || !hash) {
+    const err = new Error('관리자 비밀번호가 설정되지 않았습니다.'); err.code = 'admin_not_configured'; throw err;
+  }
+  return { salt, hash };
+}
+
+function sha256_(value) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, value, Utilities.Charset.UTF_8)
+    .map(byte => ('0' + (byte & 255).toString(16)).slice(-2)).join('');
+}
+
+function adminLogin_(body) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const now = Date.now();
+    const today = Utilities.formatDate(new Date(), ZONE, 'yyyy-MM-dd');
+    const state = JSON.parse(props.getProperty('ADMIN_LOGIN_STATE') || '{}');
+    if (state.day !== today) { state.day = today; state.dayFails = 0; }
+    if (state.lockedUntil && now < state.lockedUntil) {
+      const err = new Error('로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.'); err.code = 'locked'; throw err;
+    }
+    const admin = adminPassword_();
+    const actual = sha256_(admin.salt + String(body.password || '').slice(0, 200));
+    if (!body.password || actual !== admin.hash) {
+      state.fails = (state.fails || 0) + 1;
+      state.dayFails = (state.dayFails || 0) + 1;
+      if (state.dayFails >= 20) state.lockedUntil = now + 86400000;
+      else if (state.fails >= 5) { state.lockedUntil = now + 900000; state.fails = 0; }
+      props.setProperty('ADMIN_LOGIN_STATE', JSON.stringify(state));
+      const err = new Error('비밀번호가 올바르지 않습니다.'); err.code = 'wrong_password'; throw err;
+    }
+    props.setProperty('ADMIN_LOGIN_STATE', JSON.stringify({ day: today, dayFails: state.dayFails, fails: 0 }));
+    const session = Utilities.getUuid() + Utilities.getUuid();
+    CacheService.getScriptCache().put('appointment-admin:' + sha256_(session), '1', ADMIN_SESSION_SECONDS);
+    return { session, expiresIn: ADMIN_SESSION_SECONDS };
+  } finally { lock.releaseLock(); }
+}
+
+function requireAdmin_(body) {
+  const session = String(body.session || '');
+  if (session.length < 32 || !CacheService.getScriptCache().get('appointment-admin:' + sha256_(session))) {
+    const err = new Error('로그인이 만료되었습니다. 다시 로그인해 주세요.'); err.code = 'admin_session'; throw err;
+  }
+}
+
+function adminList_(body) {
+  requireAdmin_(body);
+  const rows = sheet_().getDataRange().getDisplayValues().slice(1);
+  const meetings = rows.filter(r => r[8] === 'approved').map(r => ({
+    id: r[0], name: r[2], email: r[3], date: r[4], time: r[5],
+    message: r[6], decidedAt: r[9],
+    attachments: attachmentMeta_(r[11])
+  }));
+  meetings.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+  return { meetings };
+}
+
+function attachmentMeta_(value) {
+  let ids;
+  try { ids = JSON.parse(value || '[]'); } catch (_) { ids = []; }
+  if (!Array.isArray(ids)) return [];
+  return ids.map((id, index) => {
+    try { return { index, name: DriveApp.getFileById(id).getName() }; }
+    catch (_) { return null; }
+  }).filter(Boolean);
+}
+
+function adminFile_(body) {
+  requireAdmin_(body);
+  const id = String(body.id || '');
+  const index = Number(body.index);
+  const row = sheet_().getDataRange().getDisplayValues().slice(1)
+    .find(r => r[0] === id && r[8] === 'approved');
+  if (!row) { const err = new Error('확정된 미팅을 찾을 수 없습니다.'); err.code = 'not_found'; throw err; }
+  let ids;
+  try { ids = JSON.parse(row[11] || '[]'); } catch (_) { ids = []; }
+  if (!Array.isArray(ids) || !Number.isInteger(index) || index < 0 || index >= ids.length) {
+    const err = new Error('첨부파일을 찾을 수 없습니다.'); err.code = 'not_found'; throw err;
+  }
+  const file = DriveApp.getFileById(ids[index]);
+  return { name: file.getName(), data: Utilities.base64Encode(file.getBlob().getBytes()) };
 }
 
 function findByToken_(token) {

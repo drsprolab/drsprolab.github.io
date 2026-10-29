@@ -9,6 +9,8 @@ function backend() {
   const emails = [];
   const events = [];
   const props = {};
+  const files = new Map();
+  const cache = new Map();
   let uuidSequence = 0;
   const sheet = {
     getLastRow: () => rows.length,
@@ -16,6 +18,7 @@ function backend() {
     getDataRange: () => ({ getDisplayValues: () => rows.map(row => row.map(String)) }),
     getRange: (row, column) => ({
       setNumberFormat: () => {},
+      getDisplayValue: () => String((rows[row - 1] || [])[column - 1] || ''),
       setValue: value => { rows[row - 1][column - 1] = value; },
       setValues: values => { values[0].forEach((value, i) => { rows[row - 1][column - 1 + i] = value; }); }
     })
@@ -25,12 +28,29 @@ function backend() {
       formatDate: () => '2026-10-28',
       getUuid: () => '00000000-0000-4000-8000-' + String(++uuidSequence).padStart(12, '0'),
       base64Decode: value => Array.from(Buffer.from(value, 'base64')),
-      newBlob: (bytes, type, name) => ({ bytes, type, name })
+      newBlob: (bytes, type, name) => ({ bytes, type, name }),
+      base64Encode: bytes => Buffer.from(bytes).toString('base64'),
+      computeDigest: (_algorithm, value) => Array.from(require('node:crypto').createHash('sha256').update(value).digest()),
+      DigestAlgorithm: { SHA_256: 'SHA_256' }, Charset: { UTF_8: 'UTF_8' }
     },
     LockService: { getScriptLock: () => ({ waitLock: () => {}, releaseLock: () => {} }) },
     PropertiesService: { getScriptProperties: () => ({
-      getProperty: key => props[key], setProperty: (key, value) => { props[key] = value; }
+      getProperty: key => props[key], setProperty: (key, value) => { props[key] = value; },
+      setProperties: values => Object.assign(props, values), deleteProperty: key => { delete props[key]; }
     }) },
+    CacheService: { getScriptCache: () => ({ put: (key, value) => cache.set(key, value), get: key => cache.get(key) }) },
+    DriveApp: {
+      createFolder: () => ({ getId: () => 'folder-1' }),
+      getFolderById: () => ({ createFile: blob => {
+        const id = 'file-' + (files.size + 1);
+        const file = { getId: () => id, getName: () => blob.name,
+          getBlob: () => ({ getBytes: () => blob.bytes }), setTrashed: () => {} };
+        files.set(id, file);
+        return file;
+      } }),
+      getFileById: id => files.get(id)
+    },
+    ContentService: { MimeType: { JSON: 'json' }, createTextOutput: value => ({ value, setMimeType() { return this; } }) },
     SpreadsheetApp: {
       create: () => ({ getId: () => 'test-sheet' }),
       openById: () => ({ getSheets: () => [sheet] })
@@ -55,8 +75,29 @@ function backend() {
   };
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../appointment-backend/Code.gs'), 'utf8'), context);
-  return { context, rows, emails, events };
+  return { context, rows, emails, events, props, files };
 }
+
+test('admin sees approved meetings and can download their PDF after password login', () => {
+  const { context, rows, props } = backend();
+  props.ADMIN_PASSWORD = '7178';
+  const file = { name: '계획서.pdf', data: Buffer.from('%PDF-test').toString('base64') };
+  context.doPost({ parameter: { action: 'request', name: '학생', email: 'student@example.edu',
+    date: '2026-10-29', time: '13:00', attachments: JSON.stringify([file]) } });
+  const request = body => JSON.parse(context.doPost({ postData: { contents: JSON.stringify(body) } }).value);
+  assert.equal(request({ action: 'adminList', session: 'fake' }).ok, false);
+  assert.equal(request({ action: 'adminLogin', password: 'wrong' }).error, 'wrong_password');
+  const session = request({ action: 'adminLogin', password: '7178' }).session;
+  assert.ok(session);
+  assert.equal(props.ADMIN_PASSWORD, undefined);
+  assert.equal(request({ action: 'adminList', session }).meetings.length, 0);
+  context.doPost({ parameter: { action: 'approve', token: rows[1][7] } });
+  const meetings = request({ action: 'adminList', session }).meetings;
+  assert.equal(meetings.length, 1);
+  assert.equal(meetings[0].attachments[0].name, '계획서.pdf');
+  assert.equal(request({ action: 'adminFile', session: 'fake', id: meetings[0].id, index: 0 }).ok, false);
+  assert.equal(request({ action: 'adminFile', session, id: meetings[0].id, index: 0 }).data, file.data);
+});
 
 test('only future Monday, Tuesday, Thursday one-hour slots are accepted', () => {
   const { context } = backend();
