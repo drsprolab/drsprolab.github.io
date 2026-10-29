@@ -1908,3 +1908,28 @@ main.container { overflow-x: clip; }
     color: var(--accent) !important;
   }
 }
+
+/* iOS Safari: :hover/:focus-within must not override the mobile flex submenu with display:block. */
+@media (max-width: 860px) {
+  html.nav-open body > #site-nav.open .nav-item.has-children > .submenu,
+  html.nav-open body > #site-nav.open .nav-item.has-children:hover > .submenu,
+  html.nav-open body > #site-nav.open .nav-item.has-children:focus-within > .submenu {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 6px !important;
+    width: 100%;
+  }
+  html.nav-open body > #site-nav.open .submenu > li {
+    display: list-item;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: 100%;
+  }
+  html.nav-open body > #site-nav.open .submenu > li > a {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: 100%;
+  }
+}
