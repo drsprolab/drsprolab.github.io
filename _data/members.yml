@@ -126,11 +126,12 @@ phd:
     affiliation: "서울시교육청 장학사"
   - name: "홍진표"
     name_en: "Hong Jinpyo"
+    homepage: "https://www.braintooler.com/about"
     interests:
       - "Learning Sciences"
       - "Edu-tech"
       - "Information Processing Theory"
-    affiliation: "생각코딩연구소"
+    affiliation: "생각코딩연구소 대표"
   - name: "배재현"
     name_en: "Jae Hyeon Bae"
     interests:
