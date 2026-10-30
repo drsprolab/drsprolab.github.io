@@ -2014,5 +2014,19 @@ main.container { overflow-x: clip; }
   .rhb-flowline > .rhb-node:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
   .rhb-cols { grid-template-columns: minmax(0, 1fr); }
 }
+.rhb-def { margin: 12px 0 20px; padding: 16px 18px; border: 1.5px solid var(--accent); border-radius: 8px; line-height: 1.85; }
+.rhb-def strong { display: block; margin-bottom: 4px; color: var(--accent); }
+.rhb-def b { color: var(--accent); }
+.rhb-lens { position: relative; padding: 18px; border: 3px solid var(--accent); border-radius: 999px / 70px; background: radial-gradient(ellipse at center, var(--accent-soft), transparent 75%); display: grid; gap: 10px; }
+.rhb-lens-label { margin: 0; text-align: center; font-size: 13.5px; color: var(--muted); }
+.rhb-lens-label b { display: block; font-size: 15px; color: var(--accent); }
+.rhb-model { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); gap: 6px; align-items: center; padding: 10px; border: 1.5px dashed var(--ink); border-radius: 8px; background: var(--paper); }
+.rhb-model i { font-style: normal; text-align: center; color: var(--accent); font-weight: 700; }
+.rhb-lens-model { margin: 0; text-align: center; font-size: 13px; font-weight: 600; }
+@media (max-width: 640px) {
+  .rhb-lens { border-radius: 24px; }
+  .rhb-model { grid-template-columns: minmax(0, 1fr); }
+  .rhb-model i { transform: rotate(90deg); }
+}
 .rhb-cta { margin-top: 36px; }
 .rhb-cta .rh-btn { display: inline-block; text-decoration: none; }

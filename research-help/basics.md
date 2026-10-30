@@ -171,6 +171,8 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 
 <h2 id="ch2">2. 이론적 근거</h2>
 
+<p class="rhb-def"><strong>이론적 근거란</strong> 연구자가 제기한 문제의식을 바탕으로 제시한 연구 모형을 설득력 있게 타당화하는 근간입니다. 또한 연구자가 이 현상을 어떻게 바라보는지, 그리고 현상을 해석하는 틀이 무엇인지를 제시하는 것입니다. 즉, 이론적 근거는 <b>연구자가 가진 관점</b>, <b>연구자가 주장하는 것에 대한 근거</b>, 그리고 <b>이 연구 모형이 어떻게 도출되었는가에 대한 근거</b>가 되어야 합니다.</p>
+
 이론적 근거(Theoretical Foundation), 곧 이론적 배경과 문헌연구는 다음 두 가지 질문을 염두에 두고 작성해야 합니다.
 
 1. **타당화의 문제**: 연구의 목적에 맞게 연구문제가 설정되어 있고, 전체 연구 모형과 연구의 틀(개념들의 관계와 연구의 총체적 스케치)이 이론적으로 설명 가능한가?
@@ -217,15 +219,26 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 <p class="rhb-rule"><strong>핵심</strong> 이론은 연구 모형을 어떤 이론적 렌즈(틀)로 바라볼 것인가에 대한 연구자의 타당한 관점으로 작동해야 합니다. 동시에 연구자가 밝히고자 하는 가설의 타당성을 뒷받침하는 논리적 근거로 작동해야 합니다.</p>
 
 <figure class="rhb-fig" aria-labelledby="fig2">
-  <figcaption id="fig2">도식 2. 이론적 근거의 구성</figcaption>
-  <div class="rhb-cols">
-    <div class="rhb-col"><b>개념 1</b><span>정의 → 소결</span><span>구성 요소</span><span>문헌연구 · 측정도구</span></div>
-    <div class="rhb-col"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소</span><span>문헌연구 · 측정도구</span></div>
-    <div class="rhb-col"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소</span><span>문헌연구 · 측정도구</span></div>
+  <figcaption id="fig2">도식 2. 이론적 틀: 연구 모형의 개념 관계를 바라보고 조망하는 렌즈</figcaption>
+  <div class="rhb-node rhb-node--wide"><b>연구자의 문제의식</b><span>당연하다고 여겨 온 현상에 던지는 질문</span></div>
+  <div class="rhb-down" aria-hidden="true">↓ 이 질문으로 현상을 바라볼 틀을 세운다</div>
+  <div class="rhb-lens">
+    <p class="rhb-lens-label"><b>이론적 틀(렌즈)</b> 연구자가 현상을 바라보고 해석하는 관점 · 개념 간 관계를 조망하는 큰 틀</p>
+    <div class="rhb-model" aria-label="연구 모형">
+      <div class="rhb-col"><b>개념 1</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+      <i aria-hidden="true">→</i>
+      <div class="rhb-col"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+      <i aria-hidden="true">→</i>
+      <div class="rhb-col"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+    </div>
+    <p class="rhb-lens-model">연구 모형: 개념 간 모든 관계가 이 틀 안에서 설명된다</p>
   </div>
-  <div class="rhb-down" aria-hidden="true">↓</div>
-  <div class="rhb-node rhb-node--wide"><b>이론의 통합</b><span>개념 간 관계를 포괄하는 대표 이론 = 연구 모형을 보는 렌즈</span></div>
-  <div class="rhb-down" aria-hidden="true">↓</div>
+  <div class="rhb-down" aria-hidden="true">↓ 이론적 근거가 되어야 하는 세 가지</div>
+  <div class="rhb-fig-row">
+    <div class="rhb-chip"><b>연구자의 관점</b> 이 현상을 어떻게 바라보는가</div>
+    <div class="rhb-chip"><b>주장의 근거</b> 무엇을 근거로 이렇게 주장하는가</div>
+    <div class="rhb-chip"><b>모형 도출의 근거</b> 이 연구 모형은 어떻게 도출되었는가</div>
+  </div>
   <div class="rhb-fig-row">
     <div class="rhb-chip"><b>타당화</b> 모형과 RQ를 이론으로 설명할 수 있는가</div>
     <div class="rhb-chip"><b>실행 가능성</b> 관련 연구가 어떻게 이루어져 왔는가</div>
