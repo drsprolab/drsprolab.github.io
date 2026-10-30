@@ -79,7 +79,8 @@ function pdfPages(buf) {
     const errors = [];
     p.on('pageerror', e => errors.push(e.message));
     p.on('dialog', d => d.accept());
-    await p.goto(base + '/research-help/');
+    await ctx.route('https://**/*', route => route.abort());
+    await p.goto(base + '/research-help/#write');
     await p.waitForSelector('#rh-title');
     assert.equal(await p.locator('.rh-admin-entry a').getAttribute('href'), '/research-help/admin/');
     assert.equal(await p.locator('.rh-row').count(), 8);
@@ -107,6 +108,15 @@ function pdfPages(buf) {
     const box2 = await p.locator('.rh-row').first().locator('.rh-comments').boundingBox();
     assert.ok(box2.x > box1.x + box1.width - 1, 'DrS comments가 오른쪽에 표시');
     await p.screenshot({ path: outputDir + '/round1.png', fullPage: false });
+    const initial = await p.locator('.rh-mine textarea').evaluateAll(nodes => Object.fromEntries(nodes.map(n => [n.id, n.value])));
+    await p.reload();
+    await p.waitForSelector('.rh-comments');
+    for (const [id, value] of Object.entries(initial)) {
+      assert.equal(await p.inputValue('#' + id), value, '1차 피드백 뒤 새로고침해도 기존 작성문 유지');
+      assert.equal(await p.getAttribute('#' + id, 'readonly'), null, '1차 작성문에서 바로 수정 가능');
+    }
+    await p.fill('#rh-problem', initial['rh-problem'] + '\n1차 수정: 표집과 연구 대상의 범위를 명확히 한다.');
+
 
     await p.fill('#rh-title', '상사 지원과 학습 전이: 자기효능감의 매개 역할에 대한 종단 연구');
     await p.click('.rh-actions button:has-text("2차 저장")');
@@ -116,22 +126,52 @@ function pdfPages(buf) {
     assert.equal(await p.locator('.rh-sources a').first().getAttribute('href'), 'https://doi.org/10.1111/test.1');
     assert.match(await p.textContent('.rh-scope'), /원문 미확인/);
     await p.screenshot({ path: outputDir + '/round2.png', fullPage: false });
+    assert.equal(await p.inputValue('#rh-problem'), initial['rh-problem'] + '\n1차 수정: 표집과 연구 대상의 범위를 명확히 한다.');
+    assert.equal(await p.getAttribute('#rh-problem', 'readonly'), null, '2차 피드백을 보면서 1차 수정본을 계속 편집');
+    const secondLeft = await p.locator('.rh-row').first().locator('.rh-mine').boundingBox();
+    const secondRight = await p.locator('.rh-row').first().locator('.rh-comments').boundingBox();
+    assert.ok(secondRight.x > secondLeft.x + secondLeft.width - 1, '2차 피드백도 오른쪽에 표시');
+    await p.setViewportSize({ width: 390, height: 844 });
+    assert.equal(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    const mobileLeft = await p.locator('.rh-row').first().locator('.rh-mine').boundingBox();
+    const mobileRight = await p.locator('.rh-row').first().locator('.rh-comments').boundingBox();
+    assert.ok(mobileRight.y >= mobileLeft.y + mobileLeft.height, '휴대폰에서는 작성문 아래에 피드백을 표시');
+    assert.equal(await p.inputValue('#rh-problem'), initial['rh-problem'] + '\n1차 수정: 표집과 연구 대상의 범위를 명확히 한다.');
+    await p.locator('.rh-row').first().screenshot({ path: outputDir + '/round2-mobile.png' });
+    await p.setViewportSize({ width: 1280, height: 1000 });
+    await p.fill('#rh-problem', await p.inputValue('#rh-problem') + '\n2차 수정: 검증된 문헌과 측정 시점을 반영한다.');
+
 
     await p.click('.rh-actions button:has-text("3차 저장")');
     await p.waitForSelector('.rh-actions button:has-text("제출")');
     assert.equal(await p.getAttribute('#rh-problem', 'readonly'), '');
 
-    // PDF 배치: 넘침 없이 모든 글이 들어가는지 확인하고 한글 렌더링을 캡처한다.
-    const laid = await p.evaluate(() => {
-      const doc = window.ResearchHelp.pdfDocument({ submission: { id: 'X', name: 'n', submittedAt: '' },
-        revisions: [{ round: 3, status: 'ok', savedAt: 's', fields: Object.fromEntries(window.ResearchHelp.FIELDS.map(f => [f.key, document.getElementById('rh-' + f.key).value])) }] });
+    assert.equal(await p.locator('.rh-final-plan').isVisible(), true);
+    assert.match(await p.locator('.rh-final-plan').innerText(), /1-1\. 연구의 문제의식/);
+    assert.match(await p.locator('.rh-final-plan').innerText(), /2차 수정: 검증된 문헌과 측정 시점을 반영한다/);
+    await p.locator('.rh-final-plan').screenshot({ path: outputDir + '/final-proposal.png' });
+    const auth = await p.evaluate(() => JSON.parse(localStorage.getItem('research-help-v1')));
+    const record = backend.call({ action: 'load', ...auth });
+    assert.equal(record.ok, true);
+    const okRevisions = record.revisions.filter(r => r.status === 'ok');
+    assert.equal(okRevisions.length, 3);
+    assert(!okRevisions[0].fields.problem.includes('1차 수정:'));
+    assert(okRevisions[1].fields.problem.includes('1차 수정:'));
+    assert(!okRevisions[1].fields.problem.includes('2차 수정:'));
+    assert(okRevisions[2].fields.problem.includes('2차 수정:'));
+
+    // PDF 배치: 넘침 없이 최초 작성·양쪽 피드백·수정본이 모두 들어가는지 확인한다.
+    const laid = await p.evaluate(record => {
+      const clean = window.ResearchHelpPDF.layout(window.ResearchHelp.pdfDocument(record, { history: false }));
+      const planPages = clean.pages.length; clean.host.remove();
+      const doc = window.ResearchHelp.pdfDocument(record);
       const out = window.ResearchHelpPDF.layout(doc);
       const overflow = out.pages.some(pg => pg.firstChild.scrollHeight > pg.firstChild.clientHeight + 1);
       const text = out.pages.map(pg => pg.firstChild.textContent).join('').replace(/\s+/g, '');
       const expected = doc.blocks.map(b => b.text).join('').replace(/\s+/g, '');
       out.host.style.left = '0'; out.host.style.zIndex = '9999'; out.host.style.position = 'absolute';
-      return { pages: out.pages.length, overflow, complete: text.includes(expected) };
-    });
+      return { pages: out.pages.length, planPages, overflow, complete: text.includes(expected), headings: doc.blocks.filter(b => /^h[23]$/.test(b.type)).map(b => b.text) };
+    }, record);
     assert.ok(laid.pages >= 3, '긴 내용은 여러 페이지로 나뉨: ' + laid.pages);
     assert.equal(laid.overflow, false, '페이지 넘침 없음');
     assert.equal(laid.complete, true, '잘린 글 없음');
@@ -143,8 +183,11 @@ function pdfPages(buf) {
     await dl.saveAs(pdfPath);
     const pdf = await fsp.readFile(pdfPath);
     assert.equal(pdf.subarray(0, 4).toString(), '%PDF');
-    // 실제 PDF에는 2차 단계의 추천 논문(참고문헌) 쪽이 더 붙는다.
-    assert.equal(pdfPages(pdf), laid.pages + 1, 'PDF = 본문 쪽수 + 참고문헌 쪽');
+    assert.equal(pdfPages(pdf), laid.pages, '학생 PDF에 최종본·참고문헌·전체 피드백과 수정 이력이 포함');
+    assert.ok(laid.pages > laid.planPages, '최종 연구계획서 뒤에 수정 이력이 추가됨');
+    assert.ok(laid.headings.some(h => h.includes('최초 작성본')));
+    assert.ok(laid.headings.some(h => h.includes('1차 피드백 ·')));
+    assert.ok(laid.headings.some(h => h.includes('2차 피드백 ·')));
 
     await p.click('.rh-actions button:has-text("제출")');
     await p.waitForSelector('.rh-done');
@@ -167,7 +210,7 @@ function pdfPages(buf) {
     const [listDl] = await Promise.all([a.waitForEvent('download'), a.click('.rh-list-download')]);
     await listDl.saveAs(outputDir + '/admin-from-list.pdf');
     const listPdf = await fsp.readFile(outputDir + '/admin-from-list.pdf');
-    assert.ok(pdfPages(listPdf) > laid.pages, '목록 PDF는 수정 이력 포함');
+    assert.equal(pdfPages(listPdf), laid.pages, '작성자와 관리자 모두 전체 수정 이력 포함');
     await a.click('.rh-list-item');
     await a.waitForSelector('.rh-tabs');
     assert.equal(await a.locator('.rh-tabs button').count(), 3);
@@ -176,12 +219,12 @@ function pdfPages(buf) {
     const [adl] = await Promise.all([a.waitForEvent('download'), a.click('button:has-text("PDF 다운로드")')]);
     await adl.saveAs(outputDir + '/admin.pdf');
     const adminPdf = await fsp.readFile(outputDir + '/admin.pdf');
-    assert.ok(pdfPages(adminPdf) > laid.pages, '관리자 PDF는 수정 이력 포함');
+    assert.equal(pdfPages(adminPdf), laid.pages, '관리자 PDF도 같은 최종본·전체 수정 이력 포함');
     await a.screenshot({ path: outputDir + '/admin.png' });
 
     // 모바일 폭에서 가로 넘침 없음
     const m = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    await m.goto(base + '/research-help/');
+    await m.goto(base + '/research-help/#write');
     await m.waitForSelector('#rh-title');
     assert.equal(await m.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
     await m.screenshot({ path: outputDir + '/mobile.png' });

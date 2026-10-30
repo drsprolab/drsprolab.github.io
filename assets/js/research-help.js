@@ -333,7 +333,7 @@
   }
   function pdfDocument(record, opts) {
     opts = opts || {};
-    var oks = record.revisions.filter(function (r) { return r.status === 'ok'; });
+    var oks = record.revisions.filter(function (r) { return r.status === 'ok'; }).sort(function (a, b) { return a.round - b.round; });
     var final = oks[oks.length - 1];
     var sub = record.submission;
     var doc = { title: final ? shortTitle(final.fields.title, final.fields) : '연구계획서',
@@ -341,13 +341,16 @@
       date: today(), blocks: final ? paperBlocks(final.fields, record.images) : [] };
     var lit = oks.filter(function (r) { return r.feedback && r.feedback.recommended && r.feedback.recommended.length; }).pop();
     if (lit) doc.blocks = doc.blocks.concat(recommendedBlocks(lit.feedback.recommended));
-    if (opts.history) {
+    if (opts.history !== false && oks.length) {
+      doc.blocks.push({ type: 'h2', text: '부록. 연구계획 발전 과정', pageBreak: true });
+      doc.blocks.push({ type: 'note', text: '최초 작성본 → 1차 피드백 → 1차 수정본 → 2차 피드백 → 최종 수정본 순으로 수록했습니다. 각 작성본은 해당 차수에 저장한 원문이며, 피드백은 AI가 생성한 참고 의견입니다.' });
       var n = 0;
       oks.forEach(function (r) {
-        doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 저장본 (' + r.savedAt + ')', pageBreak: true });
+        var label = r.round === 1 ? '최초 작성본 (1차 저장)' : r.round === 2 ? '1차 피드백 반영 수정본 (2차 저장)' : '2차 피드백 반영 최종 수정본 (3차 저장)';
+        doc.blocks.push({ type: 'h3', text: (++n) + '. ' + label + ' · ' + r.savedAt, pageBreak: n > 1 });
         doc.blocks = doc.blocks.concat(fieldBlocks(r.fields, record.images));
         if (r.feedback) {
-          doc.blocks.push({ type: 'h2', text: '부록 ' + (++n) + '. ' + r.round + '차 DrS comments (AI 생성)' });
+          doc.blocks.push({ type: 'h3', text: (++n) + '. ' + r.round + '차 피드백 · DrS comments (AI 생성)' });
           doc.blocks = doc.blocks.concat(feedbackBlocks(r.feedback));
         }
       });
@@ -433,6 +436,32 @@
       .then(function () { status('PDF를 저장했습니다.'); }, function (err) { status((err && err.message) || 'PDF를 만들지 못했습니다.', true); });
   }
 
+  // 화면에서도 최종 작성문을 서론·이론·방법·시사점 순서의 연구계획서로 보여 준다.
+  function proposalPreview(record) {
+    var doc = pdfDocument(record, { history: false });
+    var article = el('article', { class: 'rh-final-plan', 'aria-label': '최종 연구계획서' }, [
+      el('p', { class: 'rh-final-kicker', text: '최종 연구계획서' }),
+      el('h2', { class: 'rh-final-title', text: doc.title }),
+      el('p', { class: 'rh-final-meta', text: doc.subtitle })
+    ]);
+    doc.blocks.forEach(function (block) {
+      var node;
+      if (block.type === 'img') {
+        node = el('figure', {}, [el('img', { src: block.src, alt: block.text || '연구 모형' })]);
+      } else if (block.type === 'ref') {
+        node = el('p', { class: 'rh-final-ref' }, (block.parts || []).map(function (part) {
+          return part.em ? el('em', { text: part.text }) : document.createTextNode(part.text);
+        }));
+      } else {
+        node = el(block.type === 'h2' ? 'h3' : block.type === 'h3' ? 'h4' : 'p', {
+          class: block.type === 'note' ? 'rh-note' : 'rh-final-text', text: block.text
+        });
+      }
+      article.appendChild(node);
+    });
+    return article;
+  }
+
   function commentsNode(feedback, round) {
     var box = el('div', { class: 'rh-comments' }, [
       el('div', { class: 'rh-comments-head' }, [el('strong', { text: 'DrS comments' }), el('span', { class: 'rh-ai-badge', text: 'AI 생성 · ' + round + '차' })])
@@ -497,6 +526,11 @@
       })));
       if (!endpoint) rootEl.appendChild(el('p', { class: 'rh-status is-error', text: '서버 연결 준비 중입니다. 지금은 작성 내용을 저장할 수 없습니다.' }));
       rootEl.appendChild(el('p', { class: 'rh-notice', text: AI_NOTICE }));
+      var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
+        : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
+        : s.round === 2 ? '2차 피드백을 반영하는 단계입니다. 오른쪽의 새 의견을 보면서 왼쪽의 1차 수정본을 다시 다듬은 뒤 3차 저장해 주세요. 새 빈 작성란에서 다시 쓰는 방식이 아닙니다.'
+        : '최종본이 연구계획서 형식으로 정리되었습니다. PDF에는 최종 연구계획서와 최초 작성본·1차 피드백·수정본·2차 피드백·최종 수정본이 모두 포함됩니다.';
+      rootEl.appendChild(el('p', { class: 'rh-revision-guide', text: guide }));
       if (s.round === 0 && !s.id) {
         rootEl.appendChild(el('label', { class: 'rh-consent' }, [
           el('input', { type: 'checkbox', checked: s.consent, onchange: function (e) { app.setConsent(e.target.checked); } }),
@@ -513,8 +547,9 @@
 
       var latest = s.feedback[2] || s.feedback[1] || null;
       var latestRound = s.feedback[2] ? 2 : 1;
+      if (s.round >= 3) rootEl.appendChild(proposalPreview(record()));
       var grid = el('div', { class: 'rh-grid' + (latest ? ' has-comments' : '') });
-      if (latest) grid.appendChild(el('div', { class: 'rh-grid-head', 'aria-hidden': 'true' }, [el('span', { text: '내가 작성한 내용 (수정 가능)' }), el('span', { text: 'DrS comments · AI 생성 ' + latestRound + '차' })]));
+      if (latest) grid.appendChild(el('div', { class: 'rh-grid-head', 'aria-hidden': 'true' }, [el('span', { text: s.round >= 3 ? '내가 작성한 내용 (최종 저장본)' : '내가 작성한 내용 (이 글을 이어서 수정)' }), el('span', { text: 'DrS comments · AI 생성 ' + latestRound + '차' })]));
       FEEDBACK_FIELDS.forEach(function (f) {
         var counter = el('span', { class: 'rh-count', text: s.fields[f.key].length + ' / ' + f.max });
         var mine = el('div', { class: 'rh-mine' }, [
@@ -553,7 +588,9 @@
         }
         grid.appendChild(row);
       });
-      rootEl.appendChild(grid);
+      if (s.round >= 3) {
+        rootEl.appendChild(el('details', { class: 'rh-saved-editor' }, [el('summary', { text: '작성 항목과 1·2차 피드백 다시 보기' }), grid]));
+      } else rootEl.appendChild(grid);
       if (latest && latest.searchNote) rootEl.appendChild(el('p', { class: 'rh-note', text: '문헌 확인 절차: ' + latest.searchNote + ' 문헌 근거는 초록과 서지정보 범위에서만 사용했으며, 원문 내용은 직접 확인해 주세요.' }));
 
       var actions = el('div', { class: 'rh-actions' });
@@ -570,6 +607,7 @@
         else actions.appendChild(el('span', { class: 'rh-hint', text: '3차 저장본이 최종본이 되며, PDF로 내려받고 제출할 수 있습니다.' }));
       }
       rootEl.appendChild(actions);
+      if (s.round >= 3) rootEl.appendChild(el('p', { class: 'rh-hint', text: 'PDF 앞부분에는 최종 연구계획서가, 뒤쪽 부록에는 최초 작성부터 두 차례 피드백과 수정 과정이 순서대로 담깁니다.' }));
       statusEl = el('p', { class: 'rh-status is-empty', role: 'status', 'aria-live': 'polite' });
       rootEl.appendChild(statusEl);
       if (s.id && s.status !== 'submitted') {

@@ -3,7 +3,7 @@ layout: page
 title: Research help
 permalink: /research-help/
 wide: true
-lede: 연구계획의 핵심 항목을 작성하고, 단계별 DrS comments를 참고해 세 차례 다듬은 뒤 제출합니다.
+lede: 최초 작성문을 1·2차 DrS comments를 보며 수정하고, 최종 연구계획서와 전체 수정 이력을 함께 제출합니다.
 ---
 
 <p class="rh-admin-entry"><a class="rh-btn" href="{{ '/research-help/admin/' | relative_url }}">제출목록 확인하기</a></p>

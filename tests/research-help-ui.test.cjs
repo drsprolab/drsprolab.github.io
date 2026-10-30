@@ -119,22 +119,28 @@ test('이어쓰기 권한이 없으면 기기 기록을 지운다', async () => 
   assert.equal(storage.peek(), null);
 });
 
-test('PDF 문서: 작성자용은 최종본, 관리자용은 1·2·3차 저장본과 AI 표시가 있는 피드백을 담는다', () => {
+test('PDF 문서: 작성자와 관리자 모두 최종 연구계획서와 1·2차 피드백·수정 이력을 기본으로 담는다', () => {
   const record = { submission: { id: 'RH261029ABCDEF12', name: '테스트 작성자', submittedAt: '2026-10-29' }, revisions: [
     { round: 1, status: 'ok', savedAt: 'a', fields: fields(), feedback: feedback(1) },
     { round: 2, status: 'failed', savedAt: 'b', fields: fields(), feedback: null },
     { round: 2, status: 'ok', savedAt: 'c', fields: fields(), feedback: feedback(2) },
     { round: 3, status: 'ok', savedAt: 'd', fields: fields({ title: '최종 제목' }), feedback: null }
   ] };
-  const mine = RH.pdfDocument(record);
+  const mine = RH.pdfDocument(record, { history: false });
   assert.match(mine.title, /최종 제목/);
   assert.deepEqual(mine.blocks.filter(b => /^h[23]$/.test(b.type)).map(b => b.text),
     ['1. 서론', '1-1. 연구의 문제의식', '1-2. 연구의 목적', '1-3. 연구 모형', '1-4. 연구 문제', '2. 이론적 근거', '3. 연구방법', '4. 기대시사점']);
   assert.match(mine.subtitle, /테스트 작성자/);
-  const all = RH.pdfDocument(record, { history: true });
-  const h2 = all.blocks.filter(b => b.type === 'h2').map(b => b.text);
-  assert.ok(h2.some(t => /1차 저장본/.test(t)) && h2.some(t => /3차 저장본/.test(t)));
-  assert.ok(h2.some(t => /1차 DrS comments \(AI 생성\)/.test(t)));
+  const all = RH.pdfDocument(record);
+  const history = all.blocks.slice(all.blocks.findIndex(b => b.text === '부록. 연구계획 발전 과정'));
+  assert.deepEqual(history.filter(b => b.type === 'h3').map(b => b.text), [
+    '1. 최초 작성본 (1차 저장) · a',
+    '2. 1차 피드백 · DrS comments (AI 생성)',
+    '3. 1차 피드백 반영 수정본 (2차 저장) · c',
+    '4. 2차 피드백 · DrS comments (AI 생성)',
+    '5. 2차 피드백 반영 최종 수정본 (3차 저장) · d'
+  ]);
+  assert.deepEqual(RH.pdfDocument(record, { history: true }), all);
   assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('외부 AI(현재 Google Gemini)')));
   assert.equal(RH.pdfFileName(record), 'research-plan-테스트_작성자-RH261029ABCDEF12.pdf');
 });
@@ -157,7 +163,7 @@ test('추천 논문: APA 7판 형식으로 PDF 끝에 붙는다', () => {
   assert.equal(RH.apaText(rec), 'Chiaburu, D. S., Van Dam, K., & Hutchins, H. M. (2010). Social support in the workplace and training transfer: A longitudinal analysis. International Journal of Selection and Assessment, 18(2), 187–200. https://doi.org/10.1111/j.1468-2389.2010.00500.x');
   const fb2 = Object.assign(feedback(2), { recommended: [rec] });
   const doc = RH.pdfDocument({ submission: { id: 'X', name: 'n' }, revisions: [
-    { round: 2, status: 'ok', savedAt: 'b', fields: fields(), feedback: fb2 }, { round: 3, status: 'ok', savedAt: 'c', fields: fields(), feedback: null }] });
+    { round: 2, status: 'ok', savedAt: 'b', fields: fields(), feedback: fb2 }, { round: 3, status: 'ok', savedAt: 'c', fields: fields(), feedback: null }] }, { history: false });
   const refs = doc.blocks.filter(b => b.type === 'ref');
   assert.equal(refs.length, 1);
   assert.deepEqual(refs[0].parts.filter(p => p.em).map(p => p.text), ['International Journal of Selection and Assessment', '18']);
@@ -186,4 +192,30 @@ test('연구 모형 그림: 글 없이 그림만 넣어도 저장되고, 새 그
   const doc = RH.pdfDocument({ submission: { id: 'x', name: 'n', round: 2, status: 'draft' },
     revisions: app.state.history.map(h => ({ round: h.round, savedAt: h.savedAt, status: 'ok', fields: h.fields, feedback: h.feedback })), images: app.state.images });
   assert.ok(doc.blocks.some(b => b.type === 'img' && b.src === 'data:image/png;base64,QUJD'), 'PDF에 연구 모형 그림이 들어가야 한다');
+});
+
+test('1·2차 피드백 뒤에도 모든 기존 작성 칸을 유지하고, 각 수정본은 독립된 원문으로 남긴다', async () => {
+  const server = fakeServer();
+  const app = RH.createController({ transport: server.transport });
+  const original = fields();
+  app.setFields(original); app.setConsent(true);
+  await app.save();
+  for (const key of KEYS) assert.equal(app.state.fields[key], original[key]);
+  const firstEdit = fields(Object.fromEntries(KEYS.slice(1).map(key => [key, original[key] + '\n1차 피드백을 반영한 수정'])));
+  app.setFields(firstEdit);
+  await app.save();
+  for (const key of KEYS) assert.equal(app.state.fields[key], firstEdit[key]);
+  assert.deepEqual(app.state.history[0].fields, original);
+  const finalEdit = fields(Object.fromEntries(KEYS.slice(1).map(key => [key, firstEdit[key] + '\n2차 피드백을 반영한 최종 수정'])));
+  app.setFields(finalEdit); await app.save();
+  assert.deepEqual(app.state.history[0].fields, original);
+  assert.deepEqual(app.state.history[1].fields, firstEdit);
+  assert.deepEqual(app.state.history[2].fields, finalEdit);
+  const doc = RH.pdfDocument({ submission: { id: 'test', name: original.name }, revisions: app.state.history.map(h => ({ ...h, status: 'ok' })) });
+  for (const version of [original, firstEdit, finalEdit]) {
+    for (const key of KEYS) {
+      const paragraphs = version[key].split('\n');
+      for (const paragraph of paragraphs) assert(doc.blocks.some(b => b.text === paragraph));
+    }
+  }
 });

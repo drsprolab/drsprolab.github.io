@@ -37,6 +37,7 @@ jobs:
           node --test tests/test_ai_agent_needs.cjs
           node --test tests/test_orbit.cjs
           node --test tests/test_appointment.cjs
+          node --test tests/research-help-ui.test.cjs tests/research-help-backend.test.cjs
       - name: Weekly Insight·Measurement 공유 이미지(Open Graph·썸네일) 만들기
         run: |
           sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
