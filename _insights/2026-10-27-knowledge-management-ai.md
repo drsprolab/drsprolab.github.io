@@ -72,8 +72,9 @@ topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
 <line class="km-dv" x1="346" y1="120" x2="414" y2="120"/>
 <text class="km-v" x="380" y="144" text-anchor="middle">AI가 재조합한</text>
 <text class="km-v" x="380" y="162" text-anchor="middle">지식 후보</text>
-<text class="km-qs" x="380" y="196" text-anchor="middle">“무엇을</text>
-<text class="km-qs" x="380" y="214" text-anchor="middle">믿을 수 있나?”</text>
+<text class="km-qs" x="380" y="186" text-anchor="middle">“그 지식을</text>
+<text class="km-qs" x="380" y="202" text-anchor="middle">어떻게</text>
+<text class="km-qs" x="380" y="218" text-anchor="middle">사용하지?”</text>
 <line class="km-ln" x1="426" y1="135" x2="441" y2="135" marker-end="url(#km-arrow0)"/>
 <rect class="km-h" x="444" y="40" width="92" height="190" rx="10"/>
 <text class="km-k" x="490" y="66" text-anchor="middle">4.5세대</text>
@@ -82,8 +83,9 @@ topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
 <line class="km-dv" x1="456" y1="120" x2="524" y2="120"/>
 <text class="km-v" x="490" y="144" text-anchor="middle">사람이 검증·</text>
 <text class="km-v" x="490" y="162" text-anchor="middle">공유한 지식</text>
-<text class="km-qs" x="490" y="196" text-anchor="middle">“누가</text>
-<text class="km-qs" x="490" y="214" text-anchor="middle">검증하나?”</text>
+<text class="km-qs" x="490" y="186" text-anchor="middle">“그 지식은</text>
+<text class="km-qs" x="490" y="202" text-anchor="middle">누구의</text>
+<text class="km-qs" x="490" y="218" text-anchor="middle">지식인가?”</text>
 <path class="km-ln" d="M490,230 L490,252 L380,252 L380,233" marker-end="url(#km-arrow0)"/>
 <text class="km-s" x="435" y="270" text-anchor="middle">검증된 지식이 다시 AI의 원천</text>
 <text class="km-hd" x="4" y="292">지식관의 이동</text>
