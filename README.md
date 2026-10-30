@@ -121,3 +121,17 @@ python3 scripts/update_scholar_metrics.py
 ```
 
 `--html` / `--json` 옵션은 로컬 파서 검증용입니다. 합성 fixture의 수치를 실제 연구 지표로 커밋하지 마세요.
+
+
+## 연구방법선택(중급) — 2026-10-30
+
+`/research-help/methods/`에서 연구목적·자료·원하는 결과·궁극적 질문을 입력하고 방법 후보와 추천 이유를 확인합니다. Research help 메뉴 및 학습 단계 탭은 기초 → 중급 → 실습 순서입니다.
+
+- 콘텐츠 원본: `_data/research_methods.json` — 양적 11, 질적 3, 문헌 5개 방법. 각 방법에 두 분야의 학습용 연구설계 사례, 데이터 구조 예시, 산출물·해석 범위, 선택 점검, 추천 논문 3–4편을 둡니다.
+- `_plugins/research_methods.rb`가 상세 페이지 19개를 생성합니다. 목록·상세 콘텐츠는 JavaScript 없이도 읽을 수 있습니다.
+- 추천은 `assets/js/research-method-selector.js`의 규칙과 자료 조건에 따른 후보 안내입니다. 확률이나 AI의 의미 이해를 표시하지 않습니다. 입력은 외부 전송·저장하지 않습니다. 배포 시 AI 키·서버 변경이 필요하지 않습니다.
+- SSCI 추천 문헌 56편(일부 방법에서 재사용)은 Crossref DOI 등록 서지와 사용자가 보유한 `Social Sciences Citation Index (SSCI).csv`의 ISSN을 대조했습니다. 스냅샷의 원본 추출일은 확인되지 않았으므로 현재 등재나 출판 당시 등재를 보증하지 않습니다. 확인일·ISSN·출판사·대조 목록 SHA-256은 데이터에 남겼습니다. MDPI·Frontiers는 제외했습니다.
+- 교수님 목록의 연결 논문 16편은 기존 `_data/publications.yml`의 레코드를 그대로 보관하고 원래 SSCI/ESCI/SCOPUS/KCI 구분을 표시합니다. 직접 적용이 제목·서지로 확인되지 않는 방법에는 억지로 연결하지 않았습니다.
+- 모든 사례는 방법론 근거를 적용한 학습용 설계입니다. 실제 연구 결과를 재현하거나 효과크기를 만들어 넣지 않았습니다. DOI 논문별 ‘읽을 초점’과 근거의 범위를 표시합니다.
+
+검증: `node --test tests/research-method-selector.test.cjs`, Jekyll build 후 `python3 -m unittest discover -s tests -p 'test_research_methods_site.py' -v`. SSCI 스냅샷 재대조: `python3 tools/verify_research_method_sources.py <CSV 경로>`.

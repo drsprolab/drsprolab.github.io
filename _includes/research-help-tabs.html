@@ -1,0 +1,5 @@
+<nav class="tabs" aria-label="Research help 학습 단계">
+  <a href="{{ '/research-help/basics/' | relative_url }}"{% if page.url == '/research-help/basics/' %} aria-current="page"{% endif %}>논문작성법(기초)</a>
+  <a href="{{ '/research-help/methods/' | relative_url }}"{% if page.url contains '/research-help/methods/' %} aria-current="page"{% endif %}>연구방법선택(중급)</a>
+  <a href="{{ '/research-help/' | relative_url }}"{% if page.url == '/research-help/' %} aria-current="page"{% endif %}>나의 연구 발전시키기(실습)</a>
+</nav>

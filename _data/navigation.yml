@@ -19,6 +19,7 @@
       url: /research-help/
       children:
         - { title: 논문작성법(기초), url: /research-help/basics/ }
+        - { title: 연구방법선택(중급), url: /research-help/methods/ }
         - { title: 나의 연구 발전시키기(실습), url: /research-help/ }
 - title: Measurement & Solution
   url: /blog/
