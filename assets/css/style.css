@@ -1964,11 +1964,44 @@ main.container { overflow-x: clip; }
   .submenu .has-sub:hover > .submenu-sub, .submenu .has-sub:focus-within > .submenu-sub { display: contents; }
 }
 
-/* 논문작성법(기초): 연구계획 흐름 */
-.rhb-flow { list-style: none; margin: 16px 0; padding: 0; display: grid; gap: 8px; counter-reset: rhb; }
-.rhb-flow li { counter-increment: rhb; display: grid; grid-template-columns: 28px 120px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
-.rhb-flow li::before { content: counter(rhb); font-family: var(--f-mono); font-size: 12px; color: var(--accent); }
-.rhb-flow span { color: var(--muted); font-size: 14px; }
-@media (max-width: 560px) { .rhb-flow li { grid-template-columns: 22px minmax(0, 1fr); } .rhb-flow span { grid-column: 2; } }
-.rhb-cta { margin-top: 28px; }
+/* 논문작성법(기초) */
+.rhb { max-width: 860px; }
+.rhb h2 { margin-top: 56px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); scroll-margin-top: 80px; }
+.rhb h3 { margin-top: 30px; }
+.rhb-toc { padding: 16px 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--tint); }
+.rhb-toc ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 8px 0; padding: 0; }
+.rhb-toc p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.rhb-rule { margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+.rhb-rule strong { display: inline-block; margin-right: 8px; color: var(--accent); }
+.rhb-table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+.rhb-table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 14.5px; }
+.rhb-table th, .rhb-table td { padding: 10px 12px; border: 1px solid var(--line); text-align: center; vertical-align: middle; }
+.rhb-table thead th, .rhb-table tbody th { background: var(--tint); font-weight: 600; }
+.rhb-fig { margin: 32px 0 8px; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); display: grid; gap: 12px; }
+.rhb-fig figcaption { font-weight: 700; font-size: 15px; color: var(--accent); }
+.rhb-flowline { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.rhb-flowline > .rhb-node { position: relative; flex: 1 1 140px; }
+.rhb-flowline > .rhb-node:not(:last-child)::after { content: "→"; position: absolute; right: -17px; top: 50%; transform: translateY(-50%); color: var(--accent); font-weight: 700; }
+.rhb-node { display: grid; gap: 2px; padding: 10px 12px; border: 1.5px solid var(--accent); border-radius: 8px; background: var(--accent-soft); text-align: center; }
+.rhb-node b { font-size: 14.5px; }
+.rhb-node span, .rhb-col span { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.rhb-node--wide { max-width: 520px; width: 100%; margin: 0 auto; }
+.rhb-fig-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.rhb-chip { flex: 1 1 200px; padding: 8px 12px; border: 1px dashed var(--line); border-radius: 8px; font-size: 13.5px; background: var(--tint); }
+.rhb-chip b { display: block; color: var(--ink); }
+.rhb-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.rhb-col { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; text-align: center; }
+.rhb-down { text-align: center; color: var(--accent); font-weight: 700; font-size: 14px; }
+.rhb-pairs { display: grid; gap: 6px; }
+.rhb-pair { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); gap: 6px; align-items: center; }
+.rhb-pair span { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; font-size: 13.5px; }
+.rhb-pair span:last-child { border-color: var(--accent); background: var(--accent-soft); }
+.rhb-pair i { font-style: normal; text-align: center; color: var(--accent); font-weight: 700; }
+.rhb-fig-note { margin: 0; font-size: 13px; color: var(--muted); }
+@media (max-width: 640px) {
+  .rhb-flowline { flex-direction: column; gap: 22px; }
+  .rhb-flowline > .rhb-node:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+  .rhb-cols { grid-template-columns: minmax(0, 1fr); }
+}
+.rhb-cta { margin-top: 36px; }
 .rhb-cta .rh-btn { display: inline-block; text-decoration: none; }
