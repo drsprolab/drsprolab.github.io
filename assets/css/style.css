@@ -1135,7 +1135,7 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 }
 
 /* 검색 비노출 구성원: 이름 이미지 */
-.member-name-img { display: block; width: 77px; height: auto; margin: -2px 0 0 -3px; }
+.member-name-img { display: block; width: 77px; height: auto; margin: -2px 0 9px -3px; }
 /* 이름 이미지 카드: 빨간 점이 줄을 차지해 이름이 아래로 밀리지 않도록 겹쳐 띄운다 */
 .member .member-name--img { position: relative; }
 .member .member-name--img::before { position: absolute; left: -14px; top: 8px; margin: 0; }
