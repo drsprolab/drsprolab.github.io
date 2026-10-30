@@ -1,9 +1,9 @@
 ---
 layout: insight
-title: "조직학습은 어디로 사라졌는가: 4·4.5세대 지식경영과 보이지 않는 조직학습"
+title: "조직학습은 어디로 사라졌는가: 4세대/4.5세대 지식경영과 보이지 않는 조직학습"
 date: 2026-10-27 09:00:00 +0900
 summary: "지식경영은 개인의 지식이 조직학습을 거쳐 학습조직의 문화가 되기까지를 잇는 실천입니다. 생성형 AI와 클라우드 협업 공간에서 그 조직학습이 알고리듬 안으로 숨어 버렸다면, 우리는 그것을 어떻게 찾아내고 지원해야 할까요?"
-description: "2026년 10월 27일 Weekly Insight. Lim, Song, & Yoon(2014)의 지식경영 세대 구분과 KM–OL 통합 모형, Song & Chermack(2008)의 조직 지식 형성 과정, Edgar & Albright(2023), Edwards & Lönnqvist(2023)를 엮어 4·4.5세대 지식경영에서 조직학습이 어떻게 일어나고 어떻게 탐지·지원해야 하는지 다룹니다."
+description: "2026년 10월 27일 Weekly Insight. Lim, Song, & Yoon(2014)의 지식경영 세대 구분과 KM–OL 통합 모형, Song & Chermack(2008)의 조직 지식 형성 과정, Edgar & Albright(2023), Edwards & Lönnqvist(2023)를 엮어 4세대/4.5세대 지식경영에서 조직학습이 어떻게 일어나고 어떻게 탐지·지원해야 하는지 다룹니다."
 source_count: 4
 reading_minutes: 6
 topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
@@ -12,19 +12,19 @@ topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
 <div class="daily-takeaway" markdown="1">
 **핵심 요약**
 
-지식경영을 저장 기술로만 보면 절반을 놓칩니다. 개인의 지식은 조직학습을 거쳐 공유된 믿음이 되고, 멘탈모델로 굳었다가 성찰과 더블루프 학습으로 다시 바뀝니다. 이 재생산이 조직의 역량이 되어 학습조직의 문화로 자리 잡기까지, 그 사이를 잇는 **시스템적·상호작용적 실천**이 지식경영입니다. 그런데 생성형 AI, GitHub, Second Brain 같은 클라우드 협업 공간이 쓰이는 4·4.5세대에는 개인의 지식이 사람 사이의 조직학습을 거치지 않고 곧바로 시스템에 저장되어 조직의 지식이 됩니다. 사람 사이의 학습은 알고리듬 안에서만 흔적을 남깁니다. 이런 환경에서 진짜 조직학습은 어디서 일어나고, 우리는 그것을 어떻게 탐지하고 지원해야 할까요?
+지식경영을 저장 기술로만 보면 절반을 놓칩니다. 개인의 지식은 조직학습을 거쳐 공유된 믿음이 되고, 멘탈모델로 굳었다가 성찰과 더블루프 학습으로 다시 바뀝니다. 이 재생산이 조직의 역량이 되어 학습조직의 문화로 자리 잡기까지, 그 사이를 잇는 **시스템적·상호작용적 실천**이 지식경영입니다. 그런데 생성형 AI, GitHub, Second Brain 같은 클라우드 협업 공간이 쓰이는 4세대/4.5세대에는 개인의 지식이 사람 사이의 조직학습을 거치지 않고 곧바로 시스템에 저장되어 조직의 지식이 됩니다. 사람 사이의 학습은 알고리듬 안에서만 흔적을 남깁니다. 이런 환경에서 진짜 조직학습은 어디서 일어나고, 우리는 그것을 어떻게 탐지하고 지원해야 할까요?
 </div>
 
 <div class="daily-brief">
   <h3>지식경영은 조직학습과 학습조직을 어떻게 잇는가</h3>
   <p class="daily-brief-cite">Lim, D. H., Song, J. H., &amp; Yoon, S. W. (2014). Trends and issues in integrating knowledge management and organizational learning for workplace performance improvement. In <em>Handbook of human resource development</em> (pp. 369–385). 외 3편</p>
   <div class="daily-brief-body">
-    <p>Lim 등(2014)은 지식경영의 1~3세대와 조직학습과의 통합 조건을, Song과 Chermack(2008)은 개인의 학습이 조직의 지식이 되는 과정을 정리합니다. Edgar와 Albright(2023)는 사람이 지식을 다룰 때 겪는 다섯 가지 문제를, Edwards와 Lönnqvist(2023)는 AI와 가짜 지식을 포함한 지식경영의 다음 의제를 다룹니다. 이 글은 여기에 생성형 AI 이후의 4·4.5세대 구분을 더했습니다.</p>
-    <p>네 편 모두 개념 정리와 이론 연구이며, 생성형 AI 환경의 조직학습을 실증한 연구는 아닙니다. 4·4.5세대와 ‘보이지 않는 조직학습’은 이 글이 제안하는 해석입니다.</p>
+    <p>Lim 등(2014)은 지식경영의 1~3세대와 조직학습과의 통합 조건을, Song과 Chermack(2008)은 개인의 학습이 조직의 지식이 되는 과정을 정리합니다. Edgar와 Albright(2023)는 사람이 지식을 다룰 때 겪는 다섯 가지 문제를, Edwards와 Lönnqvist(2023)는 AI와 가짜 지식을 포함한 지식경영의 다음 의제를 다룹니다. 이 글은 여기에 생성형 AI 이후의 4세대/4.5세대 구분을 더했습니다.</p>
+    <p>네 편 모두 개념 정리와 이론 연구이며, 생성형 AI 환경의 조직학습을 실증한 연구는 아닙니다. 4세대/4.5세대와 ‘보이지 않는 조직학습’은 이 글이 제안하는 해석입니다.</p>
   </div>
 </div>
 
-## 01 · 지식경영의 세대: 1·2·3세대에서 4·4.5세대로
+## 01 · 지식경영의 세대: 1·2·3세대에서 4세대/4.5세대로
 
 Lim 등(2014)은 지식경영을 세 세대로 나눕니다. 기술 지식을 모아 대형 데이터베이스를 만들던 1세대, 지식근로자와 ‘누가 아는가(know-where)’가 중요해진 2세대, 네트워크 속에서 시공간을 넘어 함께 지식을 만드는 3세대입니다. 생성형 AI 이후의 변화를 여기에 이으면 두 단계를 더 그릴 수 있습니다.
 
@@ -126,7 +126,7 @@ Song과 Chermack(2008)에 따르면 조직의 지식은 개인의 학습 결과�
 .km-br { fill: none; stroke: var(--muted); stroke-width: 1.2; }
 .km-fig figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; }
 </style>
-<svg viewBox="0 0 530 560" role="img" aria-label="두 경로의 비교. 위: 1~3세대에는 개인의 지식이 조직학습을 거쳐 멘탈모델로 굳고, 더블루프 학습으로 다시 바뀌며 학습조직 문화가 된다. 아래: 4·4.5세대에는 개인의 지식이 클라우드와 시스템에 바로 저장되어 조직의 지식이 되고, 사람 사이의 조직학습은 알고리듬 안에서만 흔적으로 보인다.">
+<svg viewBox="0 0 530 560" role="img" aria-label="두 경로의 비교. 위: 1~3세대에는 개인의 지식이 조직학습을 거쳐 멘탈모델로 굳고, 더블루프 학습으로 다시 바뀌며 학습조직 문화가 된다. 아래: 4세대/4.5세대에는 개인의 지식이 클라우드와 시스템에 바로 저장되어 조직의 지식이 되고, 사람 사이의 조직학습은 알고리듬 안에서만 흔적으로 보인다.">
 <defs><marker id="km-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="km-ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
 <text class="km-hd" x="4" y="22">A · 1~3세대: 조직학습이 보이는 경로</text>
 <rect class="km-n" x="4" y="44" width="108" height="64" rx="10"/>
@@ -150,7 +150,7 @@ Song과 Chermack(2008)에 따르면 조직의 지식은 개인의 학습 결과�
 <text class="km-kc" x="265" y="205" text-anchor="middle">학습조직 문화 · 다시 고칠 수 있는 역량</text>
 <text class="km-t" x="265" y="248" text-anchor="middle">지식경영 = 이 고리 전체를 잇는 시스템적·상호작용적 실천</text>
 <line class="km-ln" x1="4" y1="278" x2="526" y2="278" stroke-dasharray="2 6"/>
-<text class="km-hd" x="4" y="312">B · 4·4.5세대: 조직학습이 숨는 경로</text>
+<text class="km-hd" x="4" y="312">B · 4세대/4.5세대: 조직학습이 숨는 경로</text>
 <rect class="km-n" x="4" y="350" width="108" height="64" rx="10"/>
 <text class="km-k" x="58" y="378" text-anchor="middle">개인의 지식</text>
 <text class="km-t" x="58" y="400" text-anchor="middle">메모·커밋·질문</text>
@@ -166,10 +166,10 @@ Song과 Chermack(2008)에 따르면 조직의 지식은 개인의 학습 결과�
 <text class="km-t" x="386" y="470" text-anchor="middle">로그와 버전 이력으로만 보임</text>
 <text class="km-kc" x="265" y="542" text-anchor="middle">진짜 조직학습은 어디서 일어나고, 어떻게 찾아 지원할까?</text>
 </svg>
-<figcaption id="km-fig-cap"><strong>그림 2.</strong> 조직학습이 보이는 경로와 숨는 경로. 위는 Song과 Chermack(2008)과 Lim 등(2014)을 바탕으로 한 고전적 흐름이고, 아래는 4·4.5세대에 개인의 지식이 사람 사이의 학습을 건너뛰고 시스템에 바로 저장되는 흐름입니다. 필자가 제안하는 개념도이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
+<figcaption id="km-fig-cap"><strong>그림 2.</strong> 조직학습이 보이는 경로와 숨는 경로. 위는 Song과 Chermack(2008)과 Lim 등(2014)을 바탕으로 한 고전적 흐름이고, 아래는 4세대/4.5세대에 개인의 지식이 사람 사이의 학습을 건너뛰고 시스템에 바로 저장되는 흐름입니다. 필자가 제안하는 개념도이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
 </figure>
 
-## 03 · 4·4.5세대, 조직학습이 보이지 않게 되었다
+## 03 · 4세대/4.5세대, 조직학습이 보이지 않게 되었다
 
 생성형 AI, GitHub, Second Brain 같은 클라우드 공유 협력 공간에서는 사정이 달라집니다. 개인이 적은 메모와 커밋이 곧바로 공유 저장소에 들어가고, AI는 그것을 찾아 재조합해 다른 사람의 질문에 답합니다. 개인의 지식이 사람 사이의 공유와 대화, 협상을 거치지 않고 바로 조직의 지식으로 저장되는 셈입니다.
 
