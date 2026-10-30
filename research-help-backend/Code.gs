@@ -30,7 +30,8 @@ const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const SHEETS = {
   Submissions: ['id', 'createdAt', 'updatedAt', 'name', 'round', 'status', 'tokenHash', 'submittedAt'],
   Revisions: ['submissionId', 'round', 'attempt', 'savedAt', 'status', 'fieldsJson', 'feedbackJson', 'error', 'requestId'],
-  SSCI_Journals: ['issn', 'eissn', 'title', 'edition', 'checkedAt']
+  SSCI_Journals: ['issn', 'eissn', 'title', 'edition', 'checkedAt'],
+  QuizAttempts: ['id', 'submittedAt', 'name', 'score', 'total', 'result', 'wrong', 'answersJson']
 };
 
 function doGet() {
@@ -48,7 +49,8 @@ function doPost(e) {
 }
 
 function handle_(body) {
-  const handlers = { save: save_, load: load_, submit: submit_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_ };
+  const handlers = { save: save_, load: load_, submit: submit_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_,
+    quizQuestions: quizQuestions_, quizSubmit: quizSubmit_, adminQuizList: adminQuizList_ };
   const handler = handlers[body && body.action];
   if (!handler) return { ok: false, error: 'unsupported', message: '지원하지 않는 요청입니다.' };
   try {

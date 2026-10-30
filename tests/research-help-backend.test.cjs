@@ -4,6 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 const { setup, res } = require('./support/research-help-fake-apps-script.cjs');
 const KEYS = ['name', 'title', 'problem', 'purpose', 'model', 'rq', 'theory', 'method', 'implications'];
 const FB_KEYS = KEYS.slice(1);
@@ -348,4 +349,59 @@ test('연구 모형: 그림이 아닌 파일·다른 제출물의 그림은 쓸 
   assert.equal(other.ok, false);
   const anon = t.call({ action: 'image', id: a.id, token: 'x'.repeat(64), fileId: a.modelImage });
   assert.equal(anon.ok, false);
+});
+
+const QUIZ_KEY = (() => { const c = {}; vm.createContext(c); vm.runInContext(fs.readFileSync(path.join(__dirname, '../research-help-backend/Quiz.gs'), 'utf8') + ';this.Q = QUIZ', c); return c.Q; })();
+const answersWith = correctCount => Object.fromEntries(QUIZ_KEY.map((x, i) => [x.id, i < correctCount ? x.a : (x.a + 1) % 5]));
+
+test('퀴즈: 30문항·5지선다, 장별 배분, 정답 위치가 고르게 섞여 있다', () => {
+  assert.equal(QUIZ_KEY.length, 30);
+  assert.ok(QUIZ_KEY.every(x => x.o.length === 5 && x.a >= 0 && x.a <= 4 && x.e && new Set(x.o).size === 5));
+  assert.deepEqual([1, 2, 3, 4, 5].map(ch => QUIZ_KEY.filter(x => x.ch === ch).length), [12, 6, 5, 3, 4]);
+  assert.deepEqual([0, 1, 2, 3, 4].map(i => QUIZ_KEY.filter(x => x.a === i).length), [6, 6, 6, 6, 6]);
+  assert.equal(new Set(QUIZ_KEY.map(x => x.id)).size, 30);
+});
+
+test('퀴즈: 문제 목록에는 정답과 해설이 없다', () => {
+  const t = setup({});
+  const r = t.call({ action: 'quizQuestions' });
+  assert.equal(r.ok, true);
+  assert.equal(r.questions.length, 30);
+  assert.equal(r.pass, 18);
+  assert.ok(r.questions.every(q => !('a' in q) && !('e' in q)));
+});
+
+test('퀴즈: 18개 이상 Pass, 17개 이하 Fail, 틀린 문항에 정답과 해설을 돌려주고 기록한다', () => {
+  const t = setup({});
+  const pass = t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(18) });
+  assert.equal(pass.ok, true, pass.message);
+  assert.deepEqual([pass.score, pass.pass], [18, true]);
+  const wrong = pass.results.filter(r => !r.ok);
+  assert.equal(wrong.length, 12);
+  assert.ok(wrong.every(r => r.chosen !== r.correct && r.e));
+  const fail = t.call({ action: 'quizSubmit', name: '응시자B', answers: answersWith(17) });
+  assert.deepEqual([fail.score, fail.pass], [17, false]);
+  const rows = t.rows('QuizAttempts');
+  assert.deepEqual(rows.map(r => [r[2], r[3], r[5]]), [['응시자A', '18', 'Pass'], ['응시자B', '17', 'Fail']]);
+  assert.equal(rows[1][6], '18,19,20,21,22,23,24,25,26,27,28,29,30');
+});
+
+test('퀴즈: 이름이 없거나 빠진 문항이 있으면 기록하지 않는다', () => {
+  const t = setup({});
+  assert.equal(t.call({ action: 'quizSubmit', name: ' ', answers: answersWith(30) }).error, 'invalid_name');
+  const a = answersWith(30); delete a.Q07; a.Q12 = 9;
+  const r = t.call({ action: 'quizSubmit', name: 'C', answers: a });
+  assert.equal(r.error, 'incomplete');
+  assert.match(r.message, /7, 12번/);
+  assert.equal(t.rows('QuizAttempts').length, 0);
+});
+
+test('퀴즈 점수 열람은 관리자 로그인 후에만 된다', () => {
+  const t = setup({});
+  t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(20) });
+  assert.equal(t.call({ action: 'adminQuizList', session: 'x'.repeat(64) }).error, 'admin_session');
+  const login = t.call({ action: 'adminLogin', password: 'test-admin-pass' });
+  const list = t.call({ action: 'adminQuizList', session: login.session });
+  assert.equal(list.ok, true, list.message);
+  assert.deepEqual(list.attempts.map(a => [a.name, a.score, a.result, a.wrong.length]), [['응시자A', 20, 'Pass', 10]]);
 });

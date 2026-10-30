@@ -5,7 +5,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const crypto = require('node:crypto');
 
-const CODE = fs.readFileSync(path.join(__dirname, '../../research-help-backend/Code.gs'), 'utf8');
+// Apps Script는 프로젝트의 .gs 파일을 하나의 전역 공간에서 실행한다.
+const CODE = ['Code.gs', 'Quiz.gs'].map(f => fs.readFileSync(path.join(__dirname, '../../research-help-backend', f), 'utf8')).join('\n');
 
 function fakeSheet(name) {
   const data = [];
