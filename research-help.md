@@ -1,16 +1,18 @@
 ---
 layout: page
-title: Research help
+title: 나의 연구 발전시키기(실습)
 permalink: /research-help/
 wide: true
 lede: 최초 작성문을 1·2차 DrS comments를 보며 수정하고, 최종 연구계획서와 전체 수정 이력을 함께 제출합니다.
 ---
 
+<nav class="tabs"><a href="{{ '/research-help/basics/' | relative_url }}">논문작성법(기초)</a><a href="{{ '/research-help/' | relative_url }}" aria-current="page">나의 연구 발전시키기(실습)</a></nav>
 <p class="rh-admin-entry"><a class="rh-btn" href="{{ '/research-help/admin/' | relative_url }}">제출목록 확인하기</a></p>
 <section class="rh-intro" id="rh-intro">
   <p class="rh-intro-msg">여러분들의 연구는 깊은 문제의식에서 발산하여<br>실천적 이론적 시사점으로 수렴 되어야 합니다.</p>
   <a class="rh-btn primary rh-intro-go" href="#write">나의 연구 발전 시키기</a>
 </section>
+
 <div id="research-help" class="rh" hidden data-endpoint="{{ site.research_help_script_url | escape }}">
   <noscript><p>이 기능은 JavaScript가 켜져 있어야 사용할 수 있습니다.</p></noscript>
 </div>

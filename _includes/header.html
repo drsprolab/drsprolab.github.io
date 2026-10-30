@@ -14,7 +14,13 @@
           {% if item.children %}
           <ul class="submenu">
             {% for child in item.children %}
-            <li><a href="{{ child.url | relative_url }}">{{ child.title }}{% if child.badge %}<span class="submenu-beta">{{ child.badge }}</span>{% endif %}</a></li>
+            <li{% if child.children %} class="has-sub"{% endif %}><a href="{{ child.url | relative_url }}">{{ child.title }}{% if child.badge %}<span class="submenu-beta">{{ child.badge }}</span>{% endif %}</a>
+              {% if child.children %}
+              <ul class="submenu-sub">
+                {% for sub in child.children %}<li><a href="{{ sub.url | relative_url }}">{{ sub.title }}</a></li>{% endfor %}
+              </ul>
+              {% endif %}
+            </li>
             {% endfor %}
           </ul>
           {% endif %}

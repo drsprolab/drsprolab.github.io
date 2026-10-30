@@ -1948,3 +1948,27 @@ main.container { overflow-x: clip; }
     max-width: 100%;
   }
 }
+
+/* ---- 하위 메뉴 2단계(Research help → 기초·실습): 데스크톱은 오른쪽으로 펼치고, 모바일은 같은 줄의 버튼으로 이어 보인다 ---- */
+.submenu .has-sub { position: relative; }
+.submenu .has-sub > a::after { content: "›"; float: right; margin-left: 12px; color: var(--muted); }
+.submenu-sub {
+  list-style: none; margin: 0; padding: 8px 0; position: absolute; left: 100%; top: -9px;
+  min-width: 230px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(10, 20, 35, .08); display: none;
+}
+.submenu .has-sub:hover > .submenu-sub, .submenu .has-sub:focus-within > .submenu-sub { display: block; }
+@media (max-width: 860px) {
+  .submenu .has-sub, .submenu-sub { display: contents; }
+  .submenu .has-sub > a::after { content: none; }
+  .submenu .has-sub:hover > .submenu-sub, .submenu .has-sub:focus-within > .submenu-sub { display: contents; }
+}
+
+/* 논문작성법(기초): 연구계획 흐름 */
+.rhb-flow { list-style: none; margin: 16px 0; padding: 0; display: grid; gap: 8px; counter-reset: rhb; }
+.rhb-flow li { counter-increment: rhb; display: grid; grid-template-columns: 28px 120px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.rhb-flow li::before { content: counter(rhb); font-family: var(--f-mono); font-size: 12px; color: var(--accent); }
+.rhb-flow span { color: var(--muted); font-size: 14px; }
+@media (max-width: 560px) { .rhb-flow li { grid-template-columns: 22px minmax(0, 1fr); } .rhb-flow span { grid-column: 2; } }
+.rhb-cta { margin-top: 28px; }
+.rhb-cta .rh-btn { display: inline-block; text-decoration: none; }
