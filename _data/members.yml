@@ -155,6 +155,7 @@ ma:
       - "Motivational Design"
       - "Learner Engagement"
       - "Learning Analytics"
+    affiliation: "한양대학교"
   - name: "강서영"
     name_en: "Seo Yeong Kang"
     interests:
@@ -165,6 +166,7 @@ ma:
     name_en: "Ju Yeong Kwon"
     interests:
       - "Organization Development"
+    affiliation: "한양대학교"
   - name: "김규진"
     name_en: "Kim Gyu Jin"
     interests:
@@ -216,6 +218,7 @@ ma:
       - "Human Resource Development"
       - "Organization Development"
       - "Organizational Culture"
+    affiliation: "한양대학교"
   - name: "오선빈"
     name_en: "Seon Bin Oh"
     interests:
