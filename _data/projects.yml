@@ -150,8 +150,8 @@
   amount: 175000000
   period: "2022.07.01 ~ 2022.10.01"
 - year: 2022
-  title: "U사 예측모델링 기반 HR 채용 시스템 개발"
-  client: "U사"
+  title: "한국유베이스 예측모델링 기반 HR 채용 시스템 개발"
+  client: "한국유베이스"
   amount: 99000000
   period: "2022.06.27 ~ 2022.07.27"
 - year: 2022
@@ -185,8 +185,8 @@
   amount: 21000000
   period: "2022.03.01 ~ 2022.06.30"
 - year: 2022
-  title: "A사 Data/AI기반 내재역량검사 솔루션/시스템 구축"
-  client: "A사"
+  title: "Job Korea (잡코리아) Data/AI기반 내재역량검사 솔루션/시스템 구축"
+  client: "Job Korea (잡코리아)"
   amount: 275000000
   period: "2022.02.01 ~ 2022.04.30"
 - year: 2022
