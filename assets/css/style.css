@@ -1242,6 +1242,7 @@ main.container { overflow-x: clip; }
 .inst { overflow: hidden; }
 /* Measurement·Weekly Insight 목록: 썸네일 윗부분(분류·제목·칩)만 보이게 낮게 자른다 */
 .inst-thumb--compact { aspect-ratio: 1200 / 360; object-position: top; }
+.inst-thumb--in-progress { aspect-ratio: 1200 / 430; object-fit: cover; object-position: top; }
 .inst-thumb--full { aspect-ratio: 1200 / 630; object-fit: contain; object-position: center; }
 
 /* Weekly Insight 글 제목 옆 공유 버튼 */
