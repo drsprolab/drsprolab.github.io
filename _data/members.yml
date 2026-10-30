@@ -47,6 +47,7 @@ phd:
     affiliation: "루터대학교 교수학습역량개발센터"
   - name: "김재현"
     name_en: "Jaehyun Kim"
+    homepage: "https://takjakim.kr/"
     interests:
       - "Learning Analytics"
       - "Career Development"

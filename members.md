@@ -73,7 +73,7 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
     {% endif %}
     <div class="member-info">
     {% if m.name_image %}<div class="member-name" data-nosnippet><img class="member-name-img" src="{{ m.name_image | relative_url }}" alt="" width="77" height="46"></div>
-    {% else %}<div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>{% endif %}
+    {% else %}<div class="member-name">{{ m.name }}{% if m.credential %} ({{ m.credential }}){% endif %}{% if m.homepage %}<a class="member-home" href="{{ m.homepage | escape }}" target="_blank" rel="noopener" aria-label="{{ m.name | escape }} 홈페이지" title="홈페이지"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 9v11h5v-6h3v6h5V9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>{% endif %}{% if m.name_en %} <span>{{ m.name_en }}</span>{% endif %}</div>{% endif %}
     {% if m.affiliation %}<div class="sub">{{ m.affiliation }}</div>{% endif %}
     {% if m.interests %}<ul class="tags">{% for i in m.interests %}<li>{{ i }}</li>{% endfor %}</ul>{% endif %}
     </div>

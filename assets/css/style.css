@@ -2097,3 +2097,7 @@ main.container { overflow-x: clip; }
   .rhq-score.is-fail { background: #3a1d1d; color: #fecaca; }
   .rhq-mine { color: #fca5a5; } .rhq-answer { color: #86efac; }
 }
+
+/* 구성원 카드: 이름 옆 개인 홈페이지(집 아이콘) */
+.member-home { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin-left: 6px; vertical-align: -5px; border-radius: 6px; color: var(--accent); background: var(--accent-soft); text-decoration: none; transition: transform .15s ease, background-color .15s ease; }
+.member-home:hover, .member-home:focus-visible { background: var(--accent); color: #fff; transform: translateY(-1px); }
