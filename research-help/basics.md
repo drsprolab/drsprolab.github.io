@@ -3,6 +3,7 @@ layout: page
 title: 논문작성법(기초)
 permalink: /research-help/basics/
 wide: true
+research_basics: true
 lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·연구방법·연구결과·결론을 무엇을 위해, 어떤 순서와 원칙으로 써야 하는지 안내합니다.
 ---
 
