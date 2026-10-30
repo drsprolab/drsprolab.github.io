@@ -232,7 +232,7 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
     <div class="rhb-col rhb-tm-c2"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
     <div class="rhb-tm-rel rhb-tm-r2"><span>관계 ②</span><i aria-hidden="true">→</i></div>
     <div class="rhb-col rhb-tm-c3"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-    <p class="rhb-lens-model">연구 모형: 모든 개념 간 관계는 이론적 틀에 근거해 성립한다</p>
+    <p class="rhb-lens-model">연구 모형: 개념들의 통합적 관계는 이론적 틀로, 개별 관계 ①·②는 문헌연구와 레퍼런스로 설명된다</p>
   </div>
   <div class="rhb-down" aria-hidden="true">↓ 이론적 근거가 되어야 하는 세 가지</div>
   <div class="rhb-fig-row">
