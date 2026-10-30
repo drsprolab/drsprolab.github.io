@@ -379,6 +379,7 @@ test('퀴즈: 18개 이상 Pass, 17개 이하 Fail, 틀린 문항에 정답과 �
   const wrong = pass.results.filter(r => !r.ok);
   assert.equal(wrong.length, 12);
   assert.ok(wrong.every(r => r.chosen !== r.correct && r.e));
+  assert.match(pass.retakeMessage, /이후에 가능합니다\. 내용에 대한 학습을 실시 한 후 다시 도전하세요\./);
   const fail = t.call({ action: 'quizSubmit', name: '응시자B', answers: answersWith(17) });
   assert.deepEqual([fail.score, fail.pass], [17, false]);
   const rows = t.rows('QuizAttempts');
@@ -404,4 +405,18 @@ test('퀴즈 점수 열람은 관리자 로그인 후에만 된다', () => {
   const list = t.call({ action: 'adminQuizList', session: login.session });
   assert.equal(list.ok, true, list.message);
   assert.deepEqual(list.attempts.map(a => [a.name, a.score, a.result, a.wrong.length]), [['응시자A', 20, 'Pass', 10]]);
+});
+
+test('퀴즈: 같은 이름은 7일이 지나야 다시 풀 수 있다', () => {
+  const t = setup({});
+  assert.equal(t.call({ action: 'quizSubmit', name: '홍길동', answers: answersWith(10) }).ok, true);
+  t.advance(6 * 86400000);
+  const again = t.call({ action: 'quizSubmit', name: ' 홍길동 ', answers: answersWith(30) });
+  assert.equal(again.error, 'retake_wait');
+  assert.match(again.message, /다시 풀기는 .* 이후에 가능합니다\. 내용에 대한 학습을 실시 한 후 다시 도전하세요\./);
+  assert.ok(again.retakeAt);
+  assert.equal(t.rows('QuizAttempts').length, 1, '거절된 응시는 기록하지 않음');
+  assert.equal(t.call({ action: 'quizSubmit', name: '다른사람', answers: answersWith(30) }).ok, true);
+  t.advance(1 * 86400000 + 1000);
+  assert.equal(t.call({ action: 'quizSubmit', name: '홍길동', answers: answersWith(30) }).ok, true);
 });

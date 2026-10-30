@@ -378,7 +378,7 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 
 <section class="rhq" id="rhq" data-endpoint="{{ site.research_help_script_url | escape }}" aria-labelledby="rhq-title">
   <h2 id="rhq-title">Quiz 풀기</h2>
-  <p>이 페이지의 내용을 바탕으로 한 5지선다 30문항입니다. 18개 이상 맞으면 Pass입니다. 채점 후 틀린 문항의 정답과 해설을 보며 복습할 수 있으며, 이름과 점수는 연구실에 기록됩니다.</p>
+  <p>이 페이지의 내용을 바탕으로 한 5지선다 30문항입니다. 18개 이상 맞으면 Pass입니다. 채점 후 틀린 문항의 정답과 해설을 보며 복습할 수 있으며, 이름과 점수는 연구실에 기록됩니다. 다시 풀기는 응시 후 7일이 지나야 가능하니, 내용에 대한 학습을 실시 한 후 다시 도전하세요.</p>
   <button type="button" class="rh-btn primary rhq-start">Quiz 풀기</button>
   <div class="rhq-body"></div>
   <p class="rhq-admin-link"><a href="{{ '/research-help/quiz-admin/' | relative_url }}">응시자 점수 확인(비밀번호)</a></p>

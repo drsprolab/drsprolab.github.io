@@ -1,6 +1,8 @@
 // 논문작성법(기초) 퀴즈: /research-help/basics/ 내용 기반 5지선다 30문항.
 // 정답과 해설은 서버에만 두고, 채점·기록도 서버에서 한다. 18개 이상 맞으면 Pass.
 const QUIZ_PASS = 18;
+const QUIZ_RETAKE_DAYS = 7; // 같은 이름으로 다시 풀려면 마지막 응시 후 7일이 지나야 한다
+const QUIZ_RETAKE_MSG = '내용에 대한 학습을 실시 한 후 다시 도전하세요.';
 const QUIZ = [
   // 1장 서론 (12)
   { id: 'Q01', ch: 1, q: '연구에 대한 "문제의식"을 가장 바르게 설명한 것은?',
@@ -148,6 +150,8 @@ function quizSubmit_(b) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
+    const wait = quizRetakeAt_(name);
+    if (wait) fail_('retake_wait', '다시 풀기는 ' + quizDate_(wait) + ' 이후에 가능합니다. ' + QUIZ_RETAKE_MSG, { retakeAt: wait.toISOString() });
     appendRow_('QuizAttempts', { id: 'QZ' + randomToken_().slice(0, 10).toUpperCase(), submittedAt: now_(), name: name, score: graded.score,
       total: graded.total, result: graded.pass ? 'Pass' : 'Fail',
       wrong: graded.results.filter(r => !r.ok).map(r => Number(r.id.slice(1))).join(','),
@@ -155,7 +159,23 @@ function quizSubmit_(b) {
   } finally {
     lock.releaseLock();
   }
+  graded.retakeAt = new Date(Date.now() + QUIZ_RETAKE_DAYS * 86400000).toISOString();
+  graded.retakeMessage = '다시 풀기는 ' + quizDate_(new Date(graded.retakeAt)) + ' 이후에 가능합니다. ' + QUIZ_RETAKE_MSG;
   return graded;
+}
+
+// 같은 이름(공백·대소문자 무시)의 마지막 응시 후 7일이 지나지 않았으면 다시 풀 수 있는 시각을 돌려준다.
+function quizRetakeAt_(name) {
+  const key = n => String(n || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const last = rows_('QuizAttempts').filter(r => key(r.name) === key(name)).map(r => new Date(r.submittedAt).getTime()).filter(t => !isNaN(t))
+    .sort((a, b) => b - a)[0];
+  if (!last) return null;
+  const at = last + QUIZ_RETAKE_DAYS * 86400000;
+  return Date.now() < at ? new Date(at) : null;
+}
+
+function quizDate_(d) {
+  return Utilities.formatDate(d, 'Asia/Seoul', 'yyyy년 M월 d일 HH:mm');
 }
 
 function adminQuizList_(b) {

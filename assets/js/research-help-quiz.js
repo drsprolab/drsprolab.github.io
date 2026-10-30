@@ -4,6 +4,22 @@
   var CHAPTERS = { 1: '1. 서론', 2: '2. 이론적 근거', 3: '3. 연구방법', 4: '4. 연구결과', 5: '5. 결론' };
   var MARKS = ['①', '②', '③', '④', '⑤'];
   var SESSION_KEY = 'research-help-v1-admin'; // 제출물 열람 화면과 같은 로그인 세션을 쓴다
+  var RETAKE_KEY = 'research-help-quiz-retake'; // 이 기기에서 다시 풀 수 있는 시각(서버도 같은 이름은 7일 동안 막는다)
+  var RETAKE_MSG = '내용에 대한 학습을 실시 한 후 다시 도전하세요.';
+
+  function retakeAt(v) {
+    try {
+      if (v) { localStorage.setItem(RETAKE_KEY, v); return; }
+      var t = localStorage.getItem(RETAKE_KEY);
+      return t && Date.parse(t) > Date.now() ? new Date(t) : null;
+    } catch (e) { return null; }
+  }
+  function dateText(d) {
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function waitNotice(d) {
+    return el('p', { class: 'rhq-wait' }, [el('strong', { text: '다시 풀기는 ' + dateText(d) + ' 이후에 가능합니다.' }), ' ' + RETAKE_MSG]);
+  }
 
   function post(url, body, ms) {
     var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
@@ -14,7 +30,7 @@
       .catch(function () { return { ok: false, error: 'network', message: '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.' }; })
       .then(function (res) {
         if (timer) clearTimeout(timer);
-        if (!res || res.ok !== true) { var err = new Error((res && res.message) || '요청을 처리하지 못했습니다.'); err.code = res && res.error; throw err; }
+        if (!res || res.ok !== true) { var err = new Error((res && res.message) || '요청을 처리하지 못했습니다.'); err.code = res && res.error; err.retakeAt = res && res.retakeAt; throw err; }
         return res;
       });
   }
@@ -79,8 +95,11 @@
           return;
         }
         submit.disabled = true; submit.textContent = '채점 중…'; status.set('');
-        post(endpoint, { action: 'quizSubmit', name: name, answers: answers }).then(function (res) { renderResult(name, res); },
-          function (err) { submit.disabled = false; submit.textContent = '제출하고 채점하기'; status.set(err.message, true); });
+        post(endpoint, { action: 'quizSubmit', name: name, answers: answers }).then(function (res) { if (res.retakeAt) retakeAt(res.retakeAt); renderResult(name, res); },
+          function (err) {
+            submit.disabled = false; submit.textContent = '제출하고 채점하기'; status.set(err.message, true);
+            if (err.retakeAt) retakeAt(err.retakeAt);
+          });
       });
       body.appendChild(form);
     }
@@ -103,7 +122,7 @@
       if (right.length) {
         body.appendChild(el('details', { class: 'rhq-right' }, [el('summary', { text: '맞힌 문항 해설 보기 (' + right.length + '개)' })].concat(right.map(reviewItem))));
       }
-      body.appendChild(el('div', { class: 'rhq-actions' }, [el('button', { type: 'button', class: 'rh-btn', text: '다시 풀기', onclick: start })]));
+      body.appendChild(waitNotice(new Date(res.retakeAt || Date.now() + 7 * 86400000)));
       root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -117,7 +136,9 @@
       ]);
     }
 
-    root.querySelector('.rhq-start').addEventListener('click', function () {
+    var startBtn = root.querySelector('.rhq-start'), waitUntil = retakeAt();
+    if (waitUntil) { startBtn.hidden = true; startBtn.parentNode.insertBefore(waitNotice(waitUntil), startBtn); }
+    startBtn.addEventListener('click', function () {
       if (!endpoint) { status.set('서버 연결이 설정되지 않았습니다.', true); return; }
       this.hidden = true; start();
     });

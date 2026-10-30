@@ -2077,6 +2077,8 @@ main.container { overflow-x: clip; }
 .rhq-right { display: grid; gap: 8px; }
 .rhq-right summary { cursor: pointer; color: var(--muted); margin-bottom: 8px; }
 .rhq-admin-link { font-size: 13px; text-align: right; }
+.rhq-wait { margin: 0; padding: 14px 16px; border-radius: 8px; background: var(--accent-soft); line-height: 1.7; }
+.rhq-wait strong { color: var(--accent); }
 .rhq-table td.rhq-pass { color: #15803d; font-weight: 700; }
 .rhq-table td.rhq-fail { color: #b91c1c; font-weight: 700; }
 .rhq-table td.rhq-wrong { text-align: left; font-size: 13px; }
