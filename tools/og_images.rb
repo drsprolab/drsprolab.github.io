@@ -4,6 +4,7 @@
 # 같은 이미지가 목록 페이지(/weekly-insight/, /blog/)의 썸네일로도 쓰인다.
 # 배포(GitHub Actions)에서 jekyll build 전에 실행되므로, 새 글을 올리면 이미지도 저절로 생긴다.
 # 로컬에서는 CHROME 환경변수로 크롬 경로를 바꿀 수 있다(기본: macOS Chrome 또는 google-chrome).
+# 특정 종류의 썸네일만 만들 때 OG_ONLY=insights|measurement|in-progress 로 범위를 좁힐 수 있다.
 require "yaml"
 require "date"
 require "cgi"
@@ -61,7 +62,23 @@ def html(fm, kind)
     chip_texts = Array(fm["topics"])
   end
   topics = chip_texts.compact.first(4).map { |t| %(<span class="chip">#{CGI.escapeHTML(t.to_s)}</span>) }.join
-  size = title.length > 46 ? 50 : title.length > 30 ? 58 : 66
+  size = if kind == "in-progress"
+    # Hangul occupies roughly one em; shrink long Korean titles to fit one line.
+    units = display_title.each_char.sum do |char|
+      if char.match?(/[가-힣一-龯]/)
+        1.0
+      elsif char.match?(/[[:space:]]/)
+        0.32
+      elsif char.match?(/[A-Za-z0-9]/)
+        0.58
+      else
+        0.5
+      end
+    end
+    [[(1000 / [units, 1].max * 0.94).round, 34].max, 54].min
+  else
+    title.length > 46 ? 50 : title.length > 30 ? 58 : 66
+  end
   <<~HTML
     <!doctype html><html lang="ko"><head><meta charset="utf-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=block">
@@ -82,9 +99,12 @@ def html(fm, kind)
       .foot b { display: block; font-size: 26px; font-weight: 700; }
       .foot span { font-family: "IBM Plex Mono", monospace; font-size: 17px; letter-spacing: .12em; color: #a9bddb; }
       .foot .lab { width: auto; height: 56px; }
+      .card.in-progress h1 { margin-top: 20px; line-height: 1.15; white-space: nowrap; display: block; -webkit-line-clamp: initial; text-overflow: ellipsis; }
+      .card.in-progress .chips { margin-top: 20px; gap: 8px; }
+      .card.in-progress .chip { font-size: 20px; padding: 5px 13px; }
     </style></head><body>
       <div class="shade"></div>
-      <div class="card">
+      <div class="card #{kind}">
         <div class="eyebrow">#{eyebrow}</div>
         #{series_badge}
         <h1>#{title}</h1>
@@ -106,6 +126,7 @@ SOURCES = [
 made = 0
 Dir.mktmpdir do |tmp|
   SOURCES.each do |kind, files, keep|
+    next if ENV["OG_ONLY"] && ENV["OG_ONLY"] != kind
     out = File.join(OUT_ROOT, kind)
     FileUtils.mkdir_p(out)
     files.sort.each do |md|
