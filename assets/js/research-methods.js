@@ -21,7 +21,7 @@
     form.addEventListener('submit',event=>{
       event.preventDefault();clear();const input=Object.fromEntries(new FormData(form).entries());
       const output=window.ResearchMethodSelector.recommend(methods,input);
-      results.hidden=false;const heading=el('h2','나의 연구에서 검토할 방법 후보');heading.id='rm-results-title';results.append(heading);
+      results.hidden=false;const heading=el('h2','내 연구에서 먼저 살펴볼 방법');heading.id='rm-results-title';results.append(heading);
       const summary=el('details');summary.append(el('summary','내가 작성한 네 가지 질문 다시 보기'));
       const dl=el('dl',undefined,'rm-input-summary');[['purpose','목적'],['dataText','자료'],['desired','원하는 결과'],['ultimate','궁극적 질문']].forEach(([key,label])=>{dl.append(el('dt',label),el('dd',input[key]||'아직 작성하지 않았습니다.'));});summary.append(dl);results.append(summary);
       output.notes.forEach(n=>results.append(el('p',n,'rm-small')));
@@ -30,13 +30,13 @@
         const m=byId.get(r.id),card=el('article',undefined,'rm-result-card');
         card.append(el('span',i===0?'우선 검토 후보':'함께 비교할 후보','rm-tag'),el('h3',m.name),el('p',m.question));
         card.append(el('strong','추천 이유'),itemList(r.reasons));
-        card.append(el('strong','이 방법으로 보여 줄 결과'),el('p',m.outputs[0]));
-        card.append(el('strong','궁극적으로 묻는 것'),el('p',m.ultimate));
+        card.append(el('strong','얻을 수 있는 결과'),el('p',m.outputs[0]));
+        card.append(el('strong','끝내 밝히려는 내용'),el('p',m.ultimate));
         if(r.missing.length)card.append(itemList(r.missing,'rm-missing'));
         const link=el('a','목적·자료·결과·사례와 선택 조건 확인하기 →','rm-button');link.href=app.dataset.base+encodeURIComponent(m.id)+'/';card.append(link);results.append(card);
       });
       if(output.excluded.length){const box=el('details');box.append(el('summary','목적은 연결되지만 자료 조건을 먼저 확인할 방법'));output.excluded.forEach(r=>{box.append(el('h3',byId.get(r.id).name),itemList(r.excluded));const a=el('a','이 방법의 자료 조건 읽기');a.href=app.dataset.base+encodeURIComponent(r.id)+'/';box.append(a);});results.append(box);}
-      results.append(el('p','후보의 순서는 입력 표현과 조건의 일치 정도입니다. 최적 방법이 확정된 것은 아니며, 상세 페이지에서 맞는 조건과 해석 범위를 확인하세요.','rm-small'));
+      results.append(el('p','입력한 표현과 자료 조건에 가까운 방법부터 안내했습니다. 각 방법의 선택 조건과 해석 범위를 읽고 자신의 연구에 맞는지 판단해 보세요.','rm-small'));
       status.textContent=output.candidates.length+'개의 방법 후보를 제시했습니다.';results.focus();results.scrollIntoView({block:'start',behavior:'auto'});
     });
   }

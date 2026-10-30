@@ -79,14 +79,14 @@
     if(selectedKind!=='unknown' && inferred!=='unknown' && inferred!=='mixed' && selectedKind!==inferred && selectedKind!=='mixed') notes.push('자료 종류 선택과 작성한 자료 설명이 달라 보입니다. 실제로 분석할 자료를 확인하세요.');
     const rows=methods.map(m=>{
       let score=0; const reasons=[];
-      if(goal.includes(m.id)){score+=25;reasons.push('선택한 결과의 모습과 이 방법의 주된 목적이 연결됩니다.');}
+      if(goal.includes(m.id)){score+=25;reasons.push('선택한 결과를 확인하는 데 이 방법이 도움이 될 수 있습니다.');}
       const hits=[];
       fields.forEach(([key,weight])=>{
         const value=clean(input[key]);
         (m.signals||[]).forEach(s=>{if((/^[a-z][a-z -]*$/i.test(s) ? new RegExp('\\b'+s.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b').test(value) : value.includes(s.toLowerCase()))){score+=3*weight; if(key!=='dataText'&&!hits.includes(s))hits.push(s);}});
       });
       (patterns[m.id]||[]).forEach(p=>{const match=questionText.match(p); if(match){score+=5;hits.push(match[0]);}});
-      if(hits.length) reasons.push('목적·결과에 쓴 “'+Array.from(new Set(hits)).slice(0,3).join('”, “')+'” 표현이 이 방법의 질문과 연결됩니다.');
+      if(hits.length) reasons.push('목적·결과에 쓴 “'+Array.from(new Set(hits)).slice(0,3).join('”, “')+'” 표현을 바탕으로 이 방법을 검토할 수 있습니다.');
       // Data alone is insufficient to infer a research purpose.
       if(!hits.length && !goal.includes(m.id)) score=0;
       if(m.id==='moderated-mediation' && /매개|간접|경유|거쳐/.test(questionText) && /조절|상호작용|따라.{0,20}달라/.test(questionText)){score+=18;reasons.push('중간 경로와 그 경로가 달라지는 조건을 함께 묻고 있습니다.');}
@@ -106,7 +106,7 @@
     if(no) return {state:'revise',message:'현재 자료나 목적과 맞지 않는 조건이 '+no+'개 있습니다. 해당 조건을 보완하거나 아래 관련 방법의 목적·자료·결과를 비교해 보세요.'};
     if(unknown) return {state:'clarify',message:unknown+'개 조건을 더 확인해야 합니다. 아직 모르는 조건을 연구계획에 구체적으로 적고 필요한 자료와 설계를 정해 보세요.'};
     if(!list.length)return {state:'clarify',message:'각 조건을 확인한 뒤 선택해 주세요.'};
-    return {state:'consider',message:'기본 선택 조건은 목적·자료와 연결됩니다. 이제 위의 해석 범위와 분석 가정을 검토하고 표집·측정·시점·절차를 구체화해 연구방법을 결정하세요.'};
+    return {state:'consider',message:'기본 선택 조건은 현재 연구목적과 자료에 맞습니다. 이제 위의 해석 범위와 분석 가정을 검토하고 표집·측정·시점·절차를 구체화해 연구방법을 결정하세요.'};
   }
   return {recommend,evaluateChecklist};
 });

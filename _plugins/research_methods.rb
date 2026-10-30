@@ -11,7 +11,7 @@ module ResearchMethods
         page = Jekyll::PageWithoutAFile.new(site, site.source, path, 'index.html')
         page.content = ''
         page.data.merge!('layout' => 'research-method', 'title' => method.fetch('name'),
-                         'lede' => method.fetch('question'), 'wide' => true,
+                         'lede' => method.fetch('question'), 'wide' => true, 'research_methods' => true,
                          'research_method' => method)
         site.pages << page
       end

@@ -3,13 +3,14 @@ layout: page
 title: 연구방법선택(중급)
 permalink: /research-help/methods/
 wide: true
+research_methods: true
 lede: 나의 연구목적에 맞는 분석방법 알아보기
 ---
 {% include research-help-tabs.html %}
 <link rel="stylesheet" href="{{ '/assets/css/research-methods.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="rm" id="method-selector" data-base="{{ '/research-help/methods/' | relative_url }}">
   <section class="rm-intro" aria-labelledby="rm-start">
-    <div><span class="rm-eyebrow">RESEARCH METHOD GUIDE</span><h2 id="rm-start">“어떻게 분석할까?”가 먼저가 아니라,<br>“나는 무엇을 밝히고 싶은가?”를 먼저 고민해야 합니다.</h2><p>처음 연구를 준비한다면 아직 방법을 몰라도 괜찮습니다. 연구목적, 사용할 자료, 보여 주고 싶은 결과를 차례로 적어 보세요. 비슷해 보이는 질문도 원하는 답과 자료에 따라 방법이 달라집니다.</p></div>
+    <div><span class="rm-eyebrow">RESEARCH METHOD GUIDE</span><h2 id="rm-start">“어떻게 분석할까?”가 먼저가 아니라,<br>“나는 무엇을 밝히고 싶은가?”를 먼저 고민해야 합니다.</h2><p>연구방법을 고르기 전에 내가 알고 싶은 것을 먼저 분명히 해 보세요. 관계의 크기를 알고 싶은지, 중간 과정을 설명하고 싶은지, 경험의 의미를 이해하고 싶은지에 따라 필요한 자료와 분석방법이 달라집니다.</p></div>
     <ol class="rm-path"><li><b>01</b><span>나의 고민을 적기</span></li><li><b>02</b><span>방법 후보와 이유 읽기</span></li><li><b>03</b><span>사례·자료·결과 비교하기</span></li><li><b>04</b><span>선택 조건 스스로 확인하기</span></li></ol>
   </section>
   <details class="rm-primer"><summary>연구가 처음이라면: 자료와 결과를 이렇게 생각해 보세요</summary><div class="rm-primer-grid">
@@ -20,34 +21,34 @@ lede: 나의 연구목적에 맞는 분석방법 알아보기
   </div></details>
   {% include research-method-glossary.html %}
   <section class="rm-workbench" aria-labelledby="rm-form-title">
-    <div class="rm-section-heading"><div><span class="rm-eyebrow">01 · 나의 연구에서 출발하기</span><h2 id="rm-form-title">네 가지 질문으로 연구를 구체화해 보세요</h2></div><a href="#method-catalog">19개 방법 먼저 둘러보기 ↓</a></div>
-    <p>아는 만큼 적고 모르는 조건은 ‘아직 모르겠어요’로 두세요. 입력 내용은 이 브라우저에서만 처리하며 서버로 보내거나 저장하지 않습니다.</p>
+    <div class="rm-section-heading"><div><span class="rm-eyebrow">01 · 나의 연구에서 출발하기</span><h2 id="rm-form-title">네 가지 질문에 답하며 내 연구를 정리해 보세요</h2></div><a href="#method-catalog">19개 방법 먼저 둘러보기 ↓</a></div>
+    <p>아직 정하지 못한 내용은 비워 두어도 됩니다. 자료 조건은 아는 만큼 선택해 주세요. 입력 내용은 이 브라우저에서만 처리하며 서버로 보내거나 저장하지 않습니다.</p>
     <form id="rm-form">
       <div class="rm-input-grid">
         <div class="rm-field"><label for="rm-purpose"><b>1</b> 연구하려는 목적은 무엇인가요?</label><p id="rm-purpose-help">대상과 현상, 풀리지 않은 문제를 적어 보세요.</p><textarea id="rm-purpose" name="purpose" rows="4" maxlength="2500" aria-describedby="rm-purpose-help" placeholder="예: 기업교육을 받은 직원들이 배운 내용을 업무에 잘 적용하지 못하는 이유를 알고 싶습니다."></textarea></div>
         <div class="rm-field"><label for="rm-data"><b>2</b> 어떤 자료를 사용할 건가요?</label><p id="rm-data-help">누구에게서 무엇을, 언제 몇 번 모을지 적습니다. 예정인 자료도 괜찮습니다.</p><textarea id="rm-data" name="dataText" rows="4" maxlength="2500" aria-describedby="rm-data-help" placeholder="예: 같은 직원들에게 교육 직후 자기효능감, 1개월 뒤 전이동기, 3개월 뒤 현업 적용을 설문으로 조사하려고 합니다."></textarea></div>
-        <div class="rm-field"><label for="rm-result"><b>3</b> 어떤 결과까지 제시하고 싶나요?</label><p id="rm-result-help">관계의 크기, 경로, 사람 유형, 경험의 의미 등 원하는 답의 모양을 적습니다.</p><textarea id="rm-result" name="desired" rows="4" maxlength="2500" aria-describedby="rm-result-help" placeholder="예: 교육이 자기효능감과 전이동기를 거쳐 현업 적용으로 이어지는 경로와 각 간접효과를 제시하고 싶습니다."></textarea></div>
+        <div class="rm-field"><label for="rm-result"><b>3</b> 어떤 결과까지 제시하고 싶나요?</label><p id="rm-result-help">관계의 크기, 중간 경로, 구성원 유형, 경험의 의미 등 어떤 결과를 보여 주고 싶은지 적어 보세요.</p><textarea id="rm-result" name="desired" rows="4" maxlength="2500" aria-describedby="rm-result-help" placeholder="예: 교육이 자기효능감과 전이동기를 거쳐 현업 적용으로 이어지는 경로와 각 간접효과를 제시하고 싶습니다."></textarea></div>
         <div class="rm-field"><label for="rm-ultimate"><b>4</b> 궁극적으로 무엇을 밝히고 싶나요?</label><p id="rm-ultimate-help">결과를 통해 왜·언제·어떻게·어떤 의미인지 무엇을 설명하려 하나요?</p><textarea id="rm-ultimate" name="ultimate" rows="4" maxlength="2500" aria-describedby="rm-ultimate-help" placeholder="예: 교육 참여만으로 전이가 일어나지 않는 이유와 중간에 작동하는 심리적 기제를 밝히고 싶습니다."></textarea></div>
       </div>
-      <fieldset class="rm-conditions"><legend>자료 조건을 알면 후보를 더 좁힐 수 있어요 <span>선택 사항</span></legend>
+      <fieldset class="rm-conditions"><legend>자료 조건도 함께 살펴보세요 <span>선택 사항</span></legend>
         <div class="rm-select-grid">
           <div><label for="rm-kind">주로 사용할 자료</label><select id="rm-kind" name="kind"><option value="unknown">아직 모르겠어요</option><option value="quantitative">점수·응답범주·수치형 행동기록</option><option value="qualitative">면담·관찰·경험일지·이야기</option><option value="literature">기존 논문·연구보고서</option><option value="mixed">두 종류 이상을 함께 사용</option></select></div>
-          <div><label for="rm-indicators">핵심 지표의 모양</label><select id="rm-indicators" name="indicators"><option value="unknown">아직 모르겠어요 / 해당 없음</option><option value="continuous">점수·횟수·시간 등 연속형 중심</option><option value="categorical">예/아니오·선택범주 중심</option></select></div>
+          <div><label for="rm-indicators">분석할 지표의 형태</label><select id="rm-indicators" name="indicators"><option value="unknown">아직 모르겠어요 / 해당 없음</option><option value="continuous">점수·횟수·시간 등 연속형 중심</option><option value="categorical">예/아니오·선택범주 중심</option></select></div>
           <div><label for="rm-waves">같은 사람의 측정 시점</label><select id="rm-waves" name="waves"><option value="unknown">아직 모르겠어요 / 해당 없음</option><option value="1">한 번만 측정</option><option value="2">두 번 측정</option><option value="3">세 번 이상 측정</option></select></div>
-          <div><label for="rm-goal">가장 가까운 결과의 모습</label><select id="rm-goal" name="goal"><option value="unknown">글로 쓴 내용을 바탕으로 살펴보기</option><option value="relationship">여러 요인과 결과의 관계</option><option value="pathway">중간 경로와 간접효과</option><option value="conditional">관계가 달라지는 조건</option><option value="conditional-pathway">조건에 따라 달라지는 간접경로</option><option value="latent">측정과 개념 사이의 구조</option><option value="groups">이미 알려진 집단의 차이</option><option value="profiles">숨어 있는 사람 유형</option><option value="measurement">새로운 측정도구·타당도</option><option value="future">미래·새 사람의 결과 예측</option><option value="temporal">시간에 따른 상호 선행관계</option><option value="experience">체험의 의미</option><option value="process">자료에서 생성하는 과정 이론</option><option value="story">시간을 잇는 이야기와 정체성</option><option value="map">문헌의 범위·연구 지형</option><option value="integrate">개념·이론의 비판적 통합</option><option value="evidence">명확한 질문에 대한 문헌 근거</option><option value="pooled">연구들을 합친 평균효과</option><option value="theory">새로운 설명과 명제</option></select></div>
+          <div><label for="rm-goal">가장 중요하게 확인할 결과</label><select id="rm-goal" name="goal"><option value="unknown">작성한 내용을 바탕으로 살펴보기</option><option value="relationship">여러 요인과 결과의 관계</option><option value="pathway">중간 경로와 간접효과</option><option value="conditional">관계가 달라지는 조건</option><option value="conditional-pathway">조건에 따라 달라지는 간접경로</option><option value="latent">측정과 개념 사이의 구조</option><option value="groups">이미 알려진 집단의 차이</option><option value="profiles">숨어 있는 사람 유형</option><option value="measurement">새로운 측정도구·타당도</option><option value="future">미래·새 사람의 결과 예측</option><option value="temporal">시간에 따른 상호 선행관계</option><option value="experience">체험의 의미</option><option value="process">자료에서 생성하는 과정 이론</option><option value="story">시간을 잇는 이야기와 정체성</option><option value="map">문헌의 범위·연구 지형</option><option value="integrate">개념·이론의 비판적 통합</option><option value="evidence">명확한 질문에 대한 문헌 근거</option><option value="pooled">연구들을 합친 평균효과</option><option value="theory">새로운 설명과 명제</option></select></div>
         </div>
       </fieldset>
       <div class="rm-actions"><button class="rm-button primary" type="submit">내 연구에 맞는 방법 후보 알아보기 →</button><button class="rm-button" type="reset">다시 작성하기</button></div>
-      <p class="rm-rule-note">목적의 표현과 자료 조건을 대조하는 규칙 기반 학습 안내입니다. 점수는 적합 확률이 아니며, 후보의 선택 조건을 함께 확인해야 합니다.</p>
+      <p class="rm-rule-note">입력한 표현과 자료 조건을 바탕으로 검토할 방법을 안내합니다. 추천된 방법의 설명과 선택 조건을 읽고, 내 연구에 맞는지 직접 확인해 보세요.</p>
     </form>
-    <details class="rm-example-picker"><summary>어떻게 적을지 막막하다면: 연구 고민 예시 불러오기</summary><div id="rm-examples" class="rm-example-buttons"></div><p>예시를 누르면 네 질문의 입력 내용과 선택 조건이 바뀝니다.</p></details>
+    <details class="rm-example-picker"><summary>작성이 막막하다면 연구 고민 예시를 참고해 보세요</summary><div id="rm-examples" class="rm-example-buttons"></div><p>예시를 누르면 네 질문의 입력 내용과 선택 조건이 바뀝니다.</p></details>
     <div id="rm-results" class="rm-results" hidden tabindex="-1" role="region" aria-labelledby="rm-results-title"></div>
     <p id="rm-status" class="rm-sr-only" role="status" aria-live="polite"></p>
     <noscript><p>입력 기반 추천은 JavaScript가 필요합니다. 아래의 모든 방법과 상세 사례는 그대로 읽을 수 있습니다.</p></noscript>
   </section>
   <section id="method-catalog" class="rm-catalog" aria-labelledby="rm-catalog-title">
-    <span class="rm-eyebrow">02 · 목적·자료·결과 비교하기</span><h2 id="rm-catalog-title">내가 원하는 답은 어느 쪽에 가까운가요?</h2>
-    <p>방법을 누르면 자세한 설명, HRD·조직 연구와 학습분석 사례, 자료 예시, 결과의 범위, 선택 점검과 추천 논문을 볼 수 있습니다.</p>
+    <span class="rm-eyebrow">02 · 목적·자료·결과 비교하기</span><h2 id="rm-catalog-title">어떤 질문에 답하려는 연구인가요?</h2>
+    <p>각 방법을 누르면 어떤 연구에 잘 맞는지, 어떤 자료와 결과가 필요한지 자세히 볼 수 있습니다. HRD·조직 연구와 학습분석 사례를 읽고 선택 조건도 확인해 보세요.</p>
     <nav class="rm-category-links" aria-label="분석 분야">{% for cat in site.data.research_methods.categories %}<a href="#{{ cat.id }}">{{ cat.name }}</a>{% endfor %}</nav>
     {% for cat in site.data.research_methods.categories %}
     <section id="{{ cat.id }}" class="rm-category"><div class="rm-category-heading"><h3>{{ cat.name }}</h3><p>{{ cat.subtitle }}</p></div><div class="rm-card-grid">
@@ -55,7 +56,7 @@ lede: 나의 연구목적에 맞는 분석방법 알아보기
       <a class="rm-method-card" href="{{ '/research-help/methods/' | append: method.id | append: '/' | relative_url }}"><span class="rm-card-number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><h4>{{ method.name }} <span aria-hidden="true">↗</span></h4><p>{{ method.question }}</p><small><strong>원하는 결과</strong> {{ method.outputs[0] }}</small></a>
       {% endfor %}</div></section>{% endfor %}
   </section>
-  <section class="rm-source-policy" id="source-policy"><h2>이 안내의 근거와 추천 논문을 확인하세요</h2><p>방법 설명과 선택 조건은 각 상세 페이지의 방법론 논문을 근거로 정리했습니다. 추천 논문은 방법마다 SSCI 목록에서 ISSN을 대조한 3편을 제시하고, 교수님 Research list에서 방법과의 연결이 확인되는 논문이 있으면 1편을 추가했습니다. MDPI·Frontiers 계열은 제외했습니다.</p><p><strong>사례의 성격</strong> {{ site.data.research_methods.provenance.case_note }}</p><details><summary>SSCI 대조 기준·서지 확인·해석 범위 자세히 보기</summary><p>{{ site.data.research_methods.provenance.note }}</p><p>확인일: {{ site.data.research_methods.checked }} · DOI 등록 서지: <a href="https://www.crossref.org/">Crossref</a> · 교수님 목록: <a href="{{ '/research/' | relative_url }}">Research (Professor)</a> · 현재 학술지 등재 재확인: <a href="https://mjl.clarivate.com/">Clarivate Master Journal List</a></p><p>추천은 통계 실행이나 표본 수 계산을 대신하지 않습니다. 인과 주장, 군집·반복 구조, 질적 연구 전통과 문헌의 질은 연구설계와 함께 검토해야 합니다. 복합적인 질문에는 여러 방법을 단계적으로 사용할 수 있습니다.</p></details></section>
+  <section class="rm-source-policy" id="source-policy"><h2>설명과 사례는 어떤 근거로 작성했나요?</h2><p>방법 설명과 선택 조건은 각 상세 페이지의 방법론 논문을 근거로 정리했습니다. 추천 논문은 방법마다 SSCI 목록에서 ISSN을 대조한 3편을 제시하고, 교수님 Research list에서 방법과의 연결이 확인되는 논문이 있으면 1편을 추가했습니다. MDPI·Frontiers 계열은 제외했습니다.</p><p><strong>사례의 성격</strong> {{ site.data.research_methods.provenance.case_note }}</p><details><summary>SSCI 대조 기준·서지 확인·해석 범위 자세히 보기</summary><p>{{ site.data.research_methods.provenance.note }}</p><p>확인일: {{ site.data.research_methods.checked }} · DOI 등록 서지: <a href="https://www.crossref.org/">Crossref</a> · 교수님 목록: <a href="{{ '/research/' | relative_url }}">Research (Professor)</a> · 현재 학술지 등재 재확인: <a href="https://mjl.clarivate.com/">Clarivate Master Journal List</a></p><p>추천은 통계 실행이나 표본 수 계산을 대신하지 않습니다. 인과 주장, 군집·반복 구조, 질적 연구 전통과 문헌의 질은 연구설계와 함께 검토해야 합니다. 복합적인 질문에는 여러 방법을 단계적으로 사용할 수 있습니다.</p></details></section>
 </div>
 <script type="application/json" id="rm-data-json">[{% for m in site.data.research_methods.methods %}{"id":{{ m.id | jsonify }},"name":{{ m.name | jsonify }},"category":{{ m.category | jsonify }},"question":{{ m.question | jsonify }},"signals":{{ m.signals | jsonify }},"ultimate":{{ m.ultimate | jsonify }},"outputs":{{ m.outputs | jsonify }},"checks":{{ m.checks | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}]</script>
 <script src="{{ '/assets/js/research-method-selector.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

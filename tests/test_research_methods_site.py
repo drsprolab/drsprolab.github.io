@@ -15,9 +15,11 @@ class Markup(HTMLParser):
         super().__init__()
         self.ids = []
         self.hrefs = []
+        self.classes = []
         self.feed(html)
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        self.classes.extend(attrs.get('class', '').split())
         if 'id' in attrs:
             self.ids.append(attrs['id'])
         if tag == 'a':
@@ -29,15 +31,25 @@ class ResearchMethodsSite(unittest.TestCase):
         parsed = Markup(catalog)
         self.assertEqual(len(parsed.ids), len(set(parsed.ids)))
         self.assertEqual(catalog.count('class="rm-method-card"'), 19)
+        self.assertNotIn('<footer class="site-footer">', catalog)
         for m in DATA['methods']:
             relative = f"/research-help/methods/{m['id']}/"
             self.assertIn(relative, parsed.hrefs)
             html = (SITE / relative.strip('/') / 'index.html').read_text()
             page = Markup(html)
+            self.assertIn('rm-method-detail', html)
+            self.assertNotIn('rm-detail', page.classes)
+            self.assertNotIn('<footer class="site-footer">', html)
             self.assertEqual(len(page.ids), len(set(page.ids)), m['id'])
             self.assertEqual(html.count('class="rm-case"'), 2)
             self.assertEqual(html.count('SSCI 목록 대조</span>'), 3)
             self.assertEqual(html.count('type="radio"'), 9)
+            self.assertIn(m['selection']['decision'], html)
+            for condition in m['selection']['conditions']:
+                self.assertIn(condition['title'], html)
+                self.assertIn(condition['explanation'], html)
+            for comparison in m['selection']['compare']:
+                self.assertIn(comparison['criterion'], html)
             for c in m['cases']:
                 self.assertIn(c['output'], html)
             for ref in m['references']:
@@ -53,6 +65,7 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertEqual(urls, ['/research-help/basics/','/research-help/methods/','/research-help/'])
             self.assertEqual(tabs.count('aria-current="page"'), 1)
         html = (SITE / 'index.html').read_text()
+        self.assertIn('<footer class="site-footer">', html)
         self.assertLess(html.index('논문작성법(기초)'), html.index('연구방법선택(중급)'))
         self.assertLess(html.index('연구방법선택(중급)'), html.index('나의 연구 발전시키기(실습)'))
 

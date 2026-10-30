@@ -19,7 +19,7 @@
   <main class="container">
     {{ content }}
   </main>
-  {% include footer.html %}
+  {% unless page.research_methods %}{% include footer.html %}{% endunless %}
   <script type="application/json" id="site-updates">{"items":{{ site.data.item_updates | jsonify }},"nav":{{ site.data.nav_changes | jsonify }}}</script>
   <script src="{{ '/assets/js/orbit.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   <script src="{{ '/assets/js/nav.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

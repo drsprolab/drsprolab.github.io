@@ -135,3 +135,13 @@ python3 scripts/update_scholar_metrics.py
 - 모든 사례는 방법론 근거를 적용한 학습용 설계입니다. 실제 연구 결과를 재현하거나 효과크기를 만들어 넣지 않았습니다. DOI 논문별 ‘읽을 초점’과 근거의 범위를 표시합니다.
 
 검증: `node --test tests/research-method-selector.test.cjs`, Jekyll build 후 `python3 -m unittest discover -s tests -p 'test_research_methods_site.py' -v`. SSCI 스냅샷 재대조: `python3 tools/verify_research_method_sources.py <CSV 경로>`.
+
+
+### 2026-10-31 설명·문장·글자 크기 보완
+
+19개 방법의 목적 설명을 구체적인 선택 조건 네 가지와 가까운 방법 두 개의 비교 기준으로 확장했습니다. 선택 기준은 기존의 방법론 근거 세 편으로 연결되며, 요약·사례·안내 문장을 자연스러운 한국어로 다듬었습니다. 서지 원문과 추천 목록은 유지했습니다.
+
+중급 안내와 상세 페이지에만 `page--research-methods`를 적용합니다. 본문은 14px, 상세 첫 설명은 14.5px, 섹션 제목은 19px로 조정하고 행간·문단·상자 여백을 줄였습니다. 모바일 본문은 14px, 섹션 제목은 18px이며 선택 조건은 한 열로 표시됩니다.
+
+
+중급 첫 화면과 상세 페이지에는 연구실 정보 푸터를 표시하지 않습니다. 상세 루트는 `rm-method-detail`을 사용합니다. `rm-detail`은 기존 Research Map에서 높이를 460px로 제한하는 클래스이므로 이 안내에 재사용하지 않습니다. 문서 전체를 일반 페이지 스크롤로 읽도록 분리했습니다.
