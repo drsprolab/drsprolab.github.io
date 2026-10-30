@@ -221,17 +221,17 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 <figure class="rhb-fig" aria-labelledby="fig2">
   <figcaption id="fig2">도식 2. 이론적 틀: 연구 모형의 개념 관계를 바라보고 조망하는 렌즈</figcaption>
   <div class="rhb-node rhb-node--wide"><b>연구자의 문제의식</b><span>당연하다고 여겨 온 현상에 던지는 질문</span></div>
-  <div class="rhb-down" aria-hidden="true">↓ 이 질문으로 현상을 바라볼 틀을 세운다</div>
-  <div class="rhb-lens">
-    <p class="rhb-lens-label"><b>이론적 틀(렌즈)</b> 연구자가 현상을 바라보고 해석하는 관점 · 개념 간 관계를 조망하는 큰 틀</p>
-    <div class="rhb-model" aria-label="연구 모형">
-      <div class="rhb-col"><b>개념 1</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-      <i aria-hidden="true">→</i>
-      <div class="rhb-col"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-      <i aria-hidden="true">→</i>
-      <div class="rhb-col"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-    </div>
-    <p class="rhb-lens-model">연구 모형: 개념 간 모든 관계가 이 틀 안에서 설명된다</p>
+  <div class="rhb-down" aria-hidden="true">↓ 이 질문으로 현상을 바라볼 이론적 틀을 세운다</div>
+  <div class="rhb-theory-model">
+    <div class="rhb-theory"><b>이론적 틀(렌즈)</b><span>연구자가 현상을 바라보고 해석하는 관점 · 개념 간 관계를 성립시키는 근거</span></div>
+    <div class="rhb-tm-link rhb-tm-link--1"><i aria-hidden="true">↓</i><span>이 틀에 기반해 관계 ① 성립</span></div>
+    <div class="rhb-tm-link rhb-tm-link--2"><i aria-hidden="true">↓</i><span>이 틀에 기반해 관계 ② 성립</span></div>
+    <div class="rhb-col rhb-tm-c1"><b>개념 1</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+    <div class="rhb-tm-rel rhb-tm-r1"><span>관계 ①</span><i aria-hidden="true">→</i></div>
+    <div class="rhb-col rhb-tm-c2"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+    <div class="rhb-tm-rel rhb-tm-r2"><span>관계 ②</span><i aria-hidden="true">→</i></div>
+    <div class="rhb-col rhb-tm-c3"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
+    <p class="rhb-lens-model">연구 모형: 모든 개념 간 관계는 이론적 틀에 근거해 성립한다</p>
   </div>
   <div class="rhb-down" aria-hidden="true">↓ 이론적 근거가 되어야 하는 세 가지</div>
   <div class="rhb-fig-row">
