@@ -405,6 +405,7 @@ alumni_ma:
     name_en: "Heesun Kim"
     affiliation: "Francis Marion University, Professor of Management"
     degree: "M.A."
+    highlight: true
   - name: "심명정"
     name_en: "Myungjung Shim"
     affiliation: "University of Minnesota HRD프로그램 박사과정"
