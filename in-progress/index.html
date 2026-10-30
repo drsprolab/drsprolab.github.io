@@ -10,7 +10,7 @@ header_notice: 아직 BETA test 중입니다.
 <div class="inst-grid">
   {% assign agent_needs = site.pages | where: "url", "/in-progress/ai-agent-needs/" | first %}
   <div class="inst inst--multi">
-    {% if agent_needs.image.path and agent_needs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ agent_needs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if agent_needs.image.path and agent_needs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ agent_needs.image.path | relative_url }}?v={{ site.time | date: '%s' }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">개발안</span><span class="badge beta">BETA</span><span class="badge">요구도 분석</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ai-agent-needs/' | relative_url }}">AI Agent 구축 및 활용에 대한 요구도 분석</a></h3>
     <div class="inst-docs">
@@ -25,7 +25,7 @@ header_notice: 아직 BETA test 중입니다.
   </div>
   {% assign aidx = site.pages | where: "url", "/in-progress/ai-competency/" | first %}
   <div class="inst inst--multi">
-    {% if aidx.image.path and aidx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ aidx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if aidx.image.path and aidx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ aidx.image.path | relative_url }}?v={{ site.time | date: '%s' }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·그룹</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ai-competency/' | relative_url }}">기본 AI 활용 역량 진단</a></h3>
     <div class="inst-docs">
@@ -73,7 +73,7 @@ header_notice: 아직 BETA test 중입니다.
   {% endif %}
   {% assign tadx = site.pages | where: "url", "/in-progress/teacher-ai-competency/" | first %}
   <div class="inst inst--multi">
-    {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ tadx.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if tadx.image.path and tadx.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ tadx.image.path | relative_url }}?v={{ site.time | date: '%s' }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">개인·학교</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/teacher-ai-competency/' | relative_url }}">나와 우리학교 AI 역량 수준 진단</a></h3>
     <div class="inst-docs">
@@ -89,7 +89,7 @@ header_notice: 아직 BETA test 중입니다.
   </div>
   {% assign axr = site.pages | where: "url", "/in-progress/ax-readiness/" | first %}
   <div class="inst inst--multi">
-    {% if axr.image.path and axr.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ axr.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if axr.image.path and axr.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ axr.image.path | relative_url }}?v={{ site.time | date: '%s' }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">조직</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/ax-readiness/' | relative_url }}">AX 전환 준비도 진단 (기업용)</a></h3>
     <div class="inst-docs">
@@ -105,7 +105,7 @@ header_notice: 아직 BETA test 중입니다.
   </div>
   {% assign aixs = site.pages | where: "url", "/in-progress/aix-school/" | first %}
   <div class="inst inst--multi">
-    {% if aixs.image.path and aixs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ aixs.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    {% if aixs.image.path and aixs.image.path contains '/assets/og/in-progress/' %}<img class="inst-thumb inst-thumb--compact inst-thumb--in-progress" src="{{ aixs.image.path | relative_url }}?v={{ site.time | date: '%s' }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">진행 중</span><span class="badge beta">BETA</span><span class="badge">학교</span></div>
     <h3><a class="inst-main" href="{{ '/in-progress/aix-school/' | relative_url }}">우리학교 AIX 전환 준비·성숙도 진단</a></h3>
     <div class="inst-docs">
