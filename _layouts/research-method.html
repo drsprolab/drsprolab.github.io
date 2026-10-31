@@ -34,11 +34,30 @@ layout: page
     {% elsif m.category == 'qualitative' %}<p>양적 변수 대신 누구의 어떤 경험·행동·이야기를 어떤 맥락에서 분석할지 정합니다. 참여자와 자료 단위, 자료 수집·비교·코딩·해석 절차가 선택한 질적 전통과 일치해야 합니다.</p>
     {% elsif m.category == 'literature' %}<p>개인 응답 대신 어떤 문헌을 분석 단위로 삼을지 정합니다. 검색원·검색식·기간·포함 기준, 문헌에서 추출할 항목, 결과를 서술·개념적으로 종합할지 통계적으로 합칠지를 연구질문에 맞춰 계획합니다.</p>{% endif %}
     <ul>{% for d in m.data %}<li>{{ d }}</li>{% endfor %}</ul><div class="rm-data-example"><h3>자료를 어떻게 정리하면 될까요?</h3><dl><dt>정리의 기본 단위</dt><dd>{{ m.data_example.unit }}</dd><dt>기록할 항목</dt><dd>{{ m.data_example.columns }}</dd><dt>형식 예시</dt><dd class="rm-sample-row">{{ m.data_example.row }}</dd></dl><small>자료 구조를 이해하기 위한 형식 예시입니다. 실제 관측 자료가 아닙니다.</small></div></section>
+  {% if m.id == 'scale-development' %}
+  <section class="rm-detail-section rm-scale-process" id="scale-process">
+    <span class="rm-eyebrow">문항 개발 · 검증 절차</span><h2>문항을 어떻게 만들고 추리나요?</h2>
+    <ol class="rm-scale-steps">{% for step in m.steps %}<li>{{ step }}</li>{% endfor %}</ol>
+    <h3>문항 하나를 만드는 예시</h3><p class="rm-small">아래 문항과 응답은 절차를 보여 주기 위한 가상 예시입니다.</p>
+    <ol class="rm-scale-steps">{% for step in m.worked_item_example %}<li>{{ step }}</li>{% endfor %}</ol>
+    <h3>어떤 근거로 문항을 유지·수정·삭제하나요?</h3>
+    <ul class="rm-scale-screening">{% for point in m.screening_checks %}<li>{{ point }}</li>{% endfor %}</ul>
+    <div class="rm-scale-panels">
+      <section><h3>신뢰도는 어떻게 확인하나요?</h3><ul>{% for point in m.reliability_checks %}<li>{{ point }}</li>{% endfor %}</ul></section>
+      <section><h3>타당도 근거는 어떻게 모으나요?</h3><ul>{% for point in m.validity_checks %}<li>{{ point }}</li>{% endfor %}</ul></section>
+    </div>
+    <div class="rm-scale-panels">
+      <section><h3>라쉬분석은 왜, 언제 추가하나요?</h3><ul>{% for point in m.rasch_when %}<li>{{ point }}</li>{% endfor %}</ul></section>
+      <section><h3>라쉬분석에서는 무엇을 확인하나요?</h3><ul>{% for point in m.rasch_how %}<li>{{ point }}</li>{% endfor %}</ul></section>
+    </div>
+    <p class="rm-small">라쉬분석의 적용 예시는 <a href="#ref-van-zile-tamsen">추천 논문 4</a>에서 확인할 수 있습니다.</p>
+  </section>
+  {% endif %}
   <section class="rm-detail-section" id="outputs"><span class="rm-eyebrow">03 · 제시하고 싶은 결과</span><h2>분석 후 무엇을 보여 줄 수 있나요?</h2><ol class="rm-output-list">{% for o in m.outputs %}<li>{{ o }}</li>{% endfor %}</ol><p>유의한 결과나 높은 적합도를 얻는 것 자체가 연구의 목적은 아닙니다. 결과가 연구문제에 어떤 답을 주는지, 무엇이 아직 불확실한지 함께 설명해야 합니다.</p></section>
   <section class="rm-ultimate" id="ultimate"><span class="rm-eyebrow">04 · 궁극적으로 밝힐 것</span><h2>내가 끝까지 답하고 싶은 질문과 맞나요?</h2><p>“{{ m.ultimate }}”</p><p class="rm-small">이 설명이 자신의 연구목적과 맞는지 생각해 보세요. 알고 싶은 내용이 다르다면 아래 관련 방법을 비교해 보세요.</p></section>
   <section class="rm-detail-section" id="cases"><h2>사례를 통해 내 연구에 어떻게 적용할지 살펴보세요</h2><p class="rm-case-note">학습용 연구설계 사례입니다. 실제 논문의 연구 결과나 수집된 자료를 재현한 것이 아닙니다. 분석 방법의 근거는 아래 추천 문헌에서 확인할 수 있습니다.</p>
   {% for c in m.cases %}<article class="rm-case"><span class="rm-eyebrow">사례 {{ forloop.index }} · {{ c.area }}</span><h3>{{ c.title }}</h3><dl class="rm-case-flow"><dt>연구목적</dt><dd>{{ c.purpose }}</dd><dt>알고 싶은 것</dt><dd>{{ c.question }}</dd><dt>사용할 자료</dt><dd>{{ c.data }}</dd><dt>방법을 적용하는 방식</dt><dd>{{ c.analysis }}</dd><dt>제시할 결과</dt><dd>{{ c.output }}</dd><dt>이 사례에서 밝힐 수 있는 것</dt><dd>{{ c.learn }}</dd></dl></article>{% endfor %}</section>
-  <details class="rm-primer"><summary>분석은 어떤 순서로 진행하나요?</summary><ol>{% for s in m.steps %}<li>{{ s }}</li>{% endfor %}</ol><p>방법 선택을 위한 개요입니다. 실제 실행에서는 해당 방법의 원문과 교과서, 추정법과 소프트웨어 문서를 함께 확인하세요.</p></details>
+  {% unless m.id == 'scale-development' %}<details class="rm-primer"><summary>분석은 어떤 순서로 진행하나요?</summary><ol>{% for s in m.steps %}<li>{{ s }}</li>{% endfor %}</ol><p>방법 선택을 위한 개요입니다. 실제 실행에서는 해당 방법의 원문과 교과서, 추정법과 소프트웨어 문서를 함께 확인하세요.</p></details>{% endunless %}
   <section class="rm-detail-section"><h2>이 결과로 어디까지 말할 수 있을까요?</h2><ul>{% for c in m.cautions %}<li>{{ c }}</li>{% endfor %}</ul></section>
   <section class="rm-self-check" id="self-check"><span class="rm-eyebrow">03 · 나의 연구에 대입하기</span><h2>이 방법의 선택 조건을 스스로 확인해 보세요</h2><p>자신의 연구목적과 자료를 떠올리며 답해 보세요. 세 조건이 모두 맞더라도 실제 연구를 시작하기 전에는 표집·측정·윤리·분석 가정을 구체적으로 검토해야 합니다.</p><form id="rm-check-form">{% for check in m.checks %}<fieldset><legend>{{ forloop.index }}. {{ check }}</legend>{% assign ci = forloop.index %}{% for choice in (1..3) %}<label><input type="radio" name="check-{{ ci }}" value="{% if choice == 1 %}yes{% elsif choice == 2 %}no{% else %}unknown{% endif %}">{% if choice == 1 %}예{% elsif choice == 2 %}아니오{% else %}아직 모르겠어요{% endif %}</label>{% endfor %}</fieldset>{% endfor %}<button class="rm-button primary" type="submit">내 선택 조건 확인하기</button></form><div id="rm-check-result" role="status" aria-live="polite"></div><noscript><p>각 질문을 읽고 맞지 않거나 모르는 조건을 먼저 보완한 뒤 아래 방법을 비교해 보세요.</p></noscript></section>
   <section class="rm-detail-section"><h2>함께 비교하면 좋은 방법</h2><div class="rm-related">{% for id in m.related %}{% assign other = site.data.research_methods.methods | where: 'id', id | first %}<a href="{{ '/research-help/methods/' | append: id | append: '/' | relative_url }}"><strong>{{ other.name }}</strong><span>{{ other.question }}</span></a>{% endfor %}</div></section>
