@@ -381,24 +381,24 @@ test('퀴즈: 문제 목록에는 정답과 해설이 없다', () => {
   const r = t.call({ action: 'quizQuestions' });
   assert.equal(r.ok, true);
   assert.equal(r.questions.length, 30);
-  assert.equal(r.pass, 18);
+  assert.equal(r.pass, 25);
   assert.ok(r.questions.every(q => !('a' in q) && !('e' in q)));
 });
 
-test('퀴즈: 18개 이상 Pass, 17개 이하 Fail, 틀린 문항에 정답과 해설을 돌려주고 기록한다', () => {
+test('퀴즈: 25개 이상 Pass, 24개 이하 Fail, 틀린 문항에 정답과 해설을 돌려주고 기록한다', () => {
   const t = setup({});
-  const pass = t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(18) });
+  const pass = t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(25) });
   assert.equal(pass.ok, true, pass.message);
-  assert.deepEqual([pass.score, pass.pass], [18, true]);
+  assert.deepEqual([pass.score, pass.pass], [25, true]);
   const wrong = pass.results.filter(r => !r.ok);
-  assert.equal(wrong.length, 12);
+  assert.equal(wrong.length, 5);
   assert.ok(wrong.every(r => r.chosen !== r.correct && r.e));
   assert.match(pass.retakeMessage, /이후에 가능합니다\. 내용에 대한 학습을 실시 한 후 다시 도전하세요\./);
-  const fail = t.call({ action: 'quizSubmit', name: '응시자B', answers: answersWith(17) });
-  assert.deepEqual([fail.score, fail.pass], [17, false]);
+  const fail = t.call({ action: 'quizSubmit', name: '응시자B', answers: answersWith(24) });
+  assert.deepEqual([fail.score, fail.pass], [24, false]);
   const rows = t.rows('QuizAttempts');
-  assert.deepEqual(rows.map(r => [r[2], r[3], r[5]]), [['응시자A', '18', 'Pass'], ['응시자B', '17', 'Fail']]);
-  assert.equal(rows[1][6], '18,19,20,21,22,23,24,25,26,27,28,29,30');
+  assert.deepEqual(rows.map(r => [r[2], r[3], r[5]]), [['응시자A', '25', 'Pass'], ['응시자B', '24', 'Fail']]);
+  assert.equal(rows[1][6], '25,26,27,28,29,30');
 });
 
 test('퀴즈: 이름이 없거나 빠진 문항이 있으면 기록하지 않는다', () => {
@@ -413,12 +413,12 @@ test('퀴즈: 이름이 없거나 빠진 문항이 있으면 기록하지 않는
 
 test('퀴즈 점수 열람은 관리자 로그인 후에만 된다', () => {
   const t = setup({});
-  t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(20) });
+  t.call({ action: 'quizSubmit', name: '응시자A', answers: answersWith(26) });
   assert.equal(t.call({ action: 'adminQuizList', session: 'x'.repeat(64) }).error, 'admin_session');
   const login = t.call({ action: 'adminLogin', password: 'test-admin-pass' });
   const list = t.call({ action: 'adminQuizList', session: login.session });
   assert.equal(list.ok, true, list.message);
-  assert.deepEqual(list.attempts.map(a => [a.name, a.score, a.result, a.wrong.length]), [['응시자A', 20, 'Pass', 10]]);
+  assert.deepEqual(list.attempts.map(a => [a.name, a.score, a.result, a.wrong.length]), [['응시자A', 26, 'Pass', 4]]);
 });
 
 test('퀴즈: 같은 이름은 7일이 지나야 다시 풀 수 있다', () => {

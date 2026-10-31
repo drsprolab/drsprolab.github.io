@@ -1,6 +1,6 @@
 // 논문작성법(기초) 퀴즈: /research-help/basics/ 내용 기반 5지선다 30문항.
-// 정답과 해설은 서버에만 두고, 채점·기록도 서버에서 한다. 18개 이상 맞으면 Pass.
-const QUIZ_PASS = 18;
+// 정답과 해설은 서버에만 두고, 채점·기록도 서버에서 한다. 25개 이상 맞으면 Pass.
+const QUIZ_PASS = 25;
 const QUIZ_RETAKE_DAYS = 7; // 같은 이름으로 다시 풀려면 마지막 응시 후 7일이 지나야 한다
 const QUIZ_RETAKE_MSG = '내용에 대한 학습을 실시 한 후 다시 도전하세요.';
 const QUIZ = [

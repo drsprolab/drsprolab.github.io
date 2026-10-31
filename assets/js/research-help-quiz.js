@@ -110,7 +110,7 @@
       body.appendChild(el('div', { class: 'rhq-score ' + (res.pass ? 'is-pass' : 'is-fail') }, [
         el('span', { class: 'rhq-verdict', text: res.pass ? 'Pass' : 'Fail' }),
         el('strong', { text: name + '님의 점수: ' + res.score + ' / ' + res.total }),
-        el('span', { text: res.pass ? '18개 이상 맞혀 통과했습니다.' : '17개 이하로 통과하지 못했습니다. 아래 해설로 복습한 뒤 다시 도전해 보세요.' })
+        el('span', { text: res.pass ? data.pass + '개 이상 맞혀 통과했습니다.' : (data.pass - 1) + '개 이하로 통과하지 못했습니다. 아래 해설로 복습한 뒤 다시 도전해 보세요.' })
       ]));
       if (wrong.length) {
         body.appendChild(el('h3', { class: 'rhq-ch', text: '틀린 문항 복습 (' + wrong.length + '개)' }));
