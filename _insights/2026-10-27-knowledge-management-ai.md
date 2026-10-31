@@ -1,207 +1,113 @@
 ---
 layout: insight
-title: "조직학습은 어디로 사라졌는가: 4세대/4.5세대 지식경영과 보이지 않는 조직학습"
+title: "AI 시대, 조직의 지식은 어떻게 만들어지는가?"
 date: 2026-10-27 09:00:00 +0900
-summary: "지식경영은 개인의 지식이 조직학습을 거쳐 학습조직의 문화가 되기까지를 잇는 실천입니다. 생성형 AI와 클라우드 협업 공간에서 그 조직학습이 알고리듬 안으로 숨어 버렸다면, 우리는 그것을 어떻게 찾아내고 지원해야 할까요?"
-description: "2026년 10월 27일 Weekly Insight. Lim, Song, & Yoon(2014)의 지식경영 세대 구분과 KM–OL 통합 모형, Song & Chermack(2008)의 조직 지식 형성 과정, Edgar & Albright(2023), Edwards & Lönnqvist(2023)를 엮어 4세대/4.5세대 지식경영에서 조직학습이 어떻게 일어나고 어떻게 탐지·지원해야 하는지 다룹니다."
-source_count: 4
+summary: "AI가 만든 답과 조직이 배운 지식은 같지 않습니다. 개인의 배움이 함께 해석되고 업무 방식에 자리 잡는 과정까지 봐야 합니다."
+description: "HRD의 관점에서 AI 산출물, 개인학습, 조직학습을 구분하고, AI 시대 조직의 지식을 정의하고 현장에서 확인하는 방법을 제안합니다."
+source_count: 5
 reading_minutes: 6
-topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
+topics: [지식경영, 개인학습, 조직학습, AI와 HRD]
 ---
 
 <div class="daily-takeaway" markdown="1">
 **핵심 요약**
 
-지식경영을 저장 기술로만 보면 절반을 놓칩니다. 개인의 지식은 조직학습을 거쳐 공유된 믿음이 되고, 멘탈모델로 굳었다가 성찰과 더블루프 학습으로 다시 바뀝니다. 이 재생산이 조직의 역량이 되어 학습조직의 문화로 자리 잡기까지, 그 사이를 잇는 **시스템적·상호작용적 실천**이 지식경영입니다. 그런데 생성형 AI, GitHub, Second Brain 같은 클라우드 협업 공간이 쓰이는 4세대/4.5세대에는 개인의 지식이 사람 사이의 조직학습을 거치지 않고 곧바로 시스템에 저장되어 조직의 지식이 됩니다. 사람 사이의 학습은 알고리듬 안에서만 흔적을 남깁니다. 이런 환경에서 진짜 조직학습은 어디서 일어나고, 우리는 그것을 어떻게 탐지하고 지원해야 할까요?
+AI가 그럴듯한 답을 내놓았다고 조직이 지식을 얻은 것은 아닙니다. HRD 관점에서 지식은 개인이 이해하고 판단할 수 있게 된 것, 구성원들이 그 의미를 함께 검토한 것, 그리고 그 배움이 조직의 결정과 업무 방식에 남은 것을 이어서 봐야 합니다. AI 시대에는 이 과정이 실제로 건너뛰어질 수도 있고, 일어났는데 완성된 결과물 뒤에 가려질 수도 있습니다. 지식의 정의와 관찰 방법도 이 변화를 설명할 수 있도록 넓혀야 합니다.
 </div>
 
 <div class="daily-brief">
-  <h3>지식경영은 조직학습과 학습조직을 어떻게 잇는가</h3>
-  <p class="daily-brief-cite">Lim, D. H., Song, J. H., &amp; Yoon, S. W. (2014). Trends and issues in integrating knowledge management and organizational learning for workplace performance improvement. In <em>Handbook of human resource development</em> (pp. 369–385). 외 3편</p>
+  <h3>결과물이 아니라, 배움이 조직에 남는 과정을 보려면</h3>
+  <p class="daily-brief-cite">Song &amp; Chermack (2008), 개인학습과 학습조직 문화를 잇는 조직 지식 형성 모형 외 4편</p>
   <div class="daily-brief-body">
-    <p>송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)은 지식경영의 1~3세대와 조직학습과의 통합 조건을, 송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)는 개인의 학습이 조직의 지식이 되는 과정을 정리합니다. Edgar와 Albright(2023)는 사람이 지식을 다룰 때 겪는 다섯 가지 문제를, Edwards와 Lönnqvist(2023)는 AI와 가짜 지식을 포함한 지식경영의 다음 의제를 다룹니다. 이 글은 여기에 생성형 AI 이후의 4세대/4.5세대 구분을 더했습니다.</p>
-    <p>네 편 모두 개념 정리와 이론 연구이며, 생성형 AI 환경의 조직학습을 실증한 연구는 아닙니다. 4세대/4.5세대와 ‘보이지 않는 조직학습’은 이 글이 제안하는 해석입니다.</p>
+    <p>이 글은 HRD에서 다뤄 온 개인학습과 조직학습의 연결을 AI 환경에 적용해 봅니다. 조직학습의 고전적 설명과 지식경영 연구를 바탕으로, AI가 개입한 뒤 무엇을 ‘조직의 지식’이라고 부를 수 있는지 실무적인 정의를 제안합니다.</p>
+    <p>참고한 연구에는 이론적 모형과 개념 연구가 포함됩니다. 이 글의 구분과 현장 제언은 이를 바탕으로 한 해석이며, 생성형 AI 사용이 조직학습을 생략하거나 가린다는 인과관계를 입증한 실증 결과로 제시하지 않습니다.</p>
   </div>
 </div>
 
-## 01 · 지식경영의 세대: 1·2·3세대에서 4세대/4.5세대로
+## 01 · AI의 답과 조직의 지식은 다르다
 
-송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)은 지식경영을 세 세대로 나눕니다. 기술 지식을 모아 대형 데이터베이스를 만들던 1세대, 지식근로자와 ‘누가 아는가(know-where)’가 중요해진 2세대, 네트워크 속에서 시공간을 넘어 함께 지식을 만드는 3세대입니다. 생성형 AI 이후의 변화를 여기에 이으면 두 단계를 더 그릴 수 있습니다.
+업무에서 AI가 만든 보고서나 분석을 공유 폴더에 올리는 일은 쉬워졌습니다. 하지만 저장되었다는 사실만으로 그 내용이 지식이 되지는 않습니다. 결과물이 정확한지, 어떤 조건에서 쓸 수 있는지, 기존 판단을 어떻게 바꾸는지 누군가 이해하고 살펴야 합니다. 그 이해가 다른 구성원과 공유되고 실제 결정이나 업무 절차에 반영되어야 조직에 남는 지식이라고 할 수 있습니다.
 
-<figure class="km-fig" aria-labelledby="km-gen-cap">
-<svg viewBox="0 0 536 330" role="img" aria-label="지식경영의 다섯 세대. 1세대 저장, 2세대 공유, 3세대 연결·창출, 4세대 생성, 4.5세대 인간 검증. 4.5세대에서 검증된 지식은 다시 4세대 AI의 원천이 된다. 지식관은 저장된 자산에서 맥락 속 흐름으로, 다시 검증을 거쳐야 할 후보로 옮겨 왔다.">
-<defs><marker id="km-arrow0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="km-ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
-<path class="km-br" d="M4,30 L4,24 L312,24 L312,30"/>
-<text class="km-s" x="158" y="16" text-anchor="middle">송지훈 교수와 동료들(2014)의 세 세대</text>
-<path class="km-br" d="M334,30 L334,24 L532,24 L532,30"/>
-<text class="km-lb" x="433" y="16" text-anchor="middle">생성형 AI 이후 · 필자 제안</text>
-<rect class="km-n" x="4" y="40" width="92" height="190" rx="10"/>
-<text class="km-k" x="50" y="66" text-anchor="middle">1세대</text>
-<text class="km-lb" x="50" y="88" text-anchor="middle">저장</text>
-<text class="km-s" x="50" y="108" text-anchor="middle">1950~80년대</text>
-<line class="km-dv" x1="16" y1="120" x2="84" y2="120"/>
-<text class="km-v" x="50" y="144" text-anchor="middle">모아 두는</text>
-<text class="km-v" x="50" y="162" text-anchor="middle">자산</text>
-<text class="km-qs" x="50" y="196" text-anchor="middle">“어떻게</text>
-<text class="km-qs" x="50" y="214" text-anchor="middle">모아 둘까?”</text>
-<line class="km-ln" x1="96" y1="135" x2="111" y2="135" marker-end="url(#km-arrow0)"/>
-<rect class="km-n" x="114" y="40" width="92" height="190" rx="10"/>
-<text class="km-k" x="160" y="66" text-anchor="middle">2세대</text>
-<text class="km-lb" x="160" y="88" text-anchor="middle">공유</text>
-<text class="km-s" x="160" y="108" text-anchor="middle">1990년대</text>
-<line class="km-dv" x1="126" y1="120" x2="194" y2="120"/>
-<text class="km-v" x="160" y="144" text-anchor="middle">지적 자본,</text>
-<text class="km-v" x="160" y="162" text-anchor="middle">사람의 전문성</text>
-<text class="km-qs" x="160" y="196" text-anchor="middle">“누가</text>
-<text class="km-qs" x="160" y="214" text-anchor="middle">알고 있나?”</text>
-<line class="km-ln" x1="206" y1="135" x2="221" y2="135" marker-end="url(#km-arrow0)"/>
-<rect class="km-n" x="224" y="40" width="92" height="190" rx="10"/>
-<text class="km-k" x="270" y="66" text-anchor="middle">3세대</text>
-<text class="km-lb" x="270" y="88" text-anchor="middle">연결·창출</text>
-<text class="km-s" x="270" y="108" text-anchor="middle">네트워크 시대</text>
-<line class="km-dv" x1="236" y1="120" x2="304" y2="120"/>
-<text class="km-v" x="270" y="144" text-anchor="middle">함께</text>
-<text class="km-v" x="270" y="162" text-anchor="middle">만드는 것</text>
-<text class="km-qs" x="270" y="196" text-anchor="middle">“어떻게</text>
-<text class="km-qs" x="270" y="214" text-anchor="middle">함께 만들까?”</text>
-<line class="km-ln" x1="316" y1="135" x2="331" y2="135" marker-end="url(#km-arrow0)"/>
-<rect class="km-h" x="334" y="40" width="92" height="190" rx="10"/>
-<text class="km-k" x="380" y="66" text-anchor="middle">4세대</text>
-<text class="km-lb" x="380" y="88" text-anchor="middle">생성</text>
-<text class="km-s" x="380" y="108" text-anchor="middle">생성형 AI 이후</text>
-<line class="km-dv" x1="346" y1="120" x2="414" y2="120"/>
-<text class="km-v" x="380" y="144" text-anchor="middle">AI가 재조합한</text>
-<text class="km-v" x="380" y="162" text-anchor="middle">지식 후보</text>
-<text class="km-qs" x="380" y="186" text-anchor="middle">“그 지식을</text>
-<text class="km-qs" x="380" y="202" text-anchor="middle">어떻게</text>
-<text class="km-qs" x="380" y="218" text-anchor="middle">사용하지?”</text>
-<line class="km-ln" x1="426" y1="135" x2="441" y2="135" marker-end="url(#km-arrow0)"/>
-<rect class="km-h" x="444" y="40" width="92" height="190" rx="10"/>
-<text class="km-k" x="490" y="66" text-anchor="middle">4.5세대</text>
-<text class="km-lb" x="490" y="88" text-anchor="middle">인간 검증</text>
-<text class="km-s" x="490" y="108" text-anchor="middle">AI 이후 · HITL</text>
-<line class="km-dv" x1="456" y1="120" x2="524" y2="120"/>
-<text class="km-v" x="490" y="144" text-anchor="middle">사람이 검증·</text>
-<text class="km-v" x="490" y="162" text-anchor="middle">공유한 지식</text>
-<text class="km-qs" x="490" y="186" text-anchor="middle">“그 지식은</text>
-<text class="km-qs" x="490" y="202" text-anchor="middle">누구의</text>
-<text class="km-qs" x="490" y="218" text-anchor="middle">지식인가?”</text>
-<path class="km-ln" d="M490,230 L490,252 L380,252 L380,233" marker-end="url(#km-arrow0)"/>
-<text class="km-s" x="435" y="270" text-anchor="middle">검증된 지식이 다시 AI의 원천</text>
-<text class="km-hd" x="4" y="292">지식관의 이동</text>
-<line class="km-ln" x1="4" y1="302" x2="528" y2="302" marker-end="url(#km-arrow0)"/>
-<text class="km-v" x="50" y="322" text-anchor="middle">저장된 자산(stock)</text>
-<text class="km-v" x="214" y="322" text-anchor="middle">맥락 속 흐름(flow)</text>
-<text class="km-v" x="433" y="322" text-anchor="middle">검증을 거쳐야 할 후보</text>
-</svg>
-<figcaption id="km-gen-cap"><strong>그림 1.</strong> 지식경영의 세대. 1~3세대는 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)의 구분이고, 4세대(생성)와 4.5세대(인간 검증)는 생성형 AI 이후의 변화를 두고 필자가 제안하는 구분입니다.</figcaption>
-</figure>
+지식경영의 변화도 이 구분을 뒷받침합니다. Lim, Song, 그리고 Yoon(2014)은 지식경영이 데이터베이스에 지식을 모으는 접근에서 출발해, 전문성을 가진 사람을 연결하고 함께 지식을 만들어 쓰는 방향으로 확장되어 왔다고 설명합니다. Edwards와 Lönnqvist(2023)는 AI가 지식처럼 보이는 결과를 대량으로 만들 수 있는 환경에서, 지식경영이 다뤄야 할 문제와 실천 의제를 짚습니다. 시스템에 들어 있는 정보와 구성원이 학습해 쓸 수 있는 지식을 같은 것으로 보기는 어렵습니다.
 
-4세대에서는 AI가 사람의 지식을 변환해 ‘지식처럼 보이는’ 정보를 만들어 냅니다. 4.5세대에서는 사람이 그 생성물을 검증해 지식으로 만들고 공유하며, 공유된 지식은 다시 AI가 참조하는 원천이 됩니다. 지식관은 저장된 자산(stock)에서 맥락 속의 흐름(flow)으로, 다시 검증을 거쳐야 지식이 되는 후보로 옮겨 왔습니다. 다만 4세대까지의 변화는 시스템의 진화입니다. 사람 사이의 소통과 협력으로 생각이 바뀌고 그 변화가 내재화되는지는 다른 문제입니다.
+HRD에서 말하는 지식은 단순한 정보의 보유보다 학습의 결과에 가깝습니다. 구성원이 내용을 설명하고 낯선 상황에 적용하며, 필요할 때 기존 판단을 고칠 수 있는가가 중요합니다. 개인의 배움이 여기에 머물지 않고 다른 사람의 이해와 조직의 실천으로 이어지는 과정도 살펴야 합니다.
 
-## 02 · 지식경영은 개인의 지식과 학습조직을 잇는 실천이다
+## 02 · 개인이 배운 것이 조직의 지식이 되기까지
 
-송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)에 따르면 조직의 지식은 개인의 학습 결과가 성찰적 사회화, 협력적 외재화, 체계적 저장, 문화적 내면화를 거쳐 공유된 믿음이 될 때 생깁니다. 내면화된 지식은 구성원이 당연하게 여기는 멘탈모델(mental model)로 굳습니다. 굳어야 조직이 같은 기준으로 일할 수 있지만, 그대로 두면 아무도 다시 묻지 않는 습관이 됩니다. 그래서 결과를 성찰해 행동뿐 아니라 그 밑의 기준과 가정까지 고치는 더블루프(double-loop) 학습이 필요합니다. 이런 재생산이 언제든 다시 일어날 수 있는 역량이 되고 조직의 문화로 자리 잡은 상태를 학습조직이라 부를 수 있습니다.
+Song과 Chermack(2008)은 개인의 학습이 조직의 지식으로 형성되는 과정을 설명하는 이론적 모형을 제안했습니다. 이 모형에서 구성원은 경험을 성찰하고, 동료와 의미를 나누고, 함께 지식을 표현하고 저장합니다. 이후 그 지식은 문화와 실천 속에서 내면화됩니다. 조직에서 공유되는 기준도 이런 학습과 적용을 거치며 만들어지고, 다시 돌아보는 과정에서 수정될 수 있습니다.
 
-지식경영은 시스템이자 사람 사이의 상호작용으로 이 흐름의 마디마디를 잇습니다. 저장과 배포가 있어야 공유된 믿음이 특정 개인을 넘어 남고, 적용과 수정이 있어야 굳은 지식이 다시 학습의 재료가 됩니다. Edgar와 Albright(2023)가 지식경영 활동 가운데 하나로 ‘배움’을 두고 그 결과를 ‘바뀐 정신 상태’로 본 것, 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)이 학습조직 문화·구조·리더십·기술 시스템을 지식경영과 조직학습의 통합 조건으로 든 것도 이렇게 읽을 수 있습니다.
+Crossan, Lane, 그리고 White(1999)의 조직학습 모형도 개인의 직관과 해석이 집단의 통합을 거쳐 조직의 제도와 실천에 자리 잡는 흐름을 설명합니다. 두 논의가 강조하는 것은 지식이 문서 한 장의 속성이 아니라는 점입니다. 개인이 배운 것을 다른 사람이 이해하고 함께 쓸 수 있게 만들며, 조직의 일하는 방식으로 이어 가는 과정이 필요합니다.
 
-<figure class="km-fig" aria-labelledby="km-fig-cap">
+이를 AI 시대 HRD에 적용하면, 조직의 지식을 세 층위로 확인할 수 있습니다.
+
+- **개인의 학습:** 구성원이 AI의 답을 설명하고, 근거와 한계를 판단하며, 다른 과제에 적용할 수 있는가.
+- **함께 만드는 학습:** 동료들이 답을 비교·검토하고, 무엇을 받아들이거나 수정할지 이유를 나누었는가.
+- **조직에 남는 학습:** 그 배움이 의사결정 기준, 업무 절차, 교육자료나 공유된 실천으로 이어져 다른 구성원도 활용할 수 있는가.
+
+이 구분은 지식의 보편적 정의를 확정하려는 것이 아닙니다. AI가 관여하는 HRD 현장에서 무엇을 학습의 성과이자 조직의 지식으로 볼지 살펴보기 위한 실무적 틀입니다.
+
+## 03 · 조직학습은 생략될 수도, 가려질 수도 있다
+
+AI를 이용하면 개인이 만든 답이나 정리 자료가 별도의 팀 논의 없이 공유 시스템에 들어가고, 이후 다른 구성원이 검토 없이 가져다 쓰는 일이 가능합니다. 이때는 조직학습의 일부 과정이 실제로 건너뛰어졌을 수 있습니다. 저장과 재사용은 일어났지만, 구성원들이 의미를 해석하거나 서로의 판단을 맞춰 보는 학습까지 일어났다고 단정하기 어렵습니다.
+
+다른 경우도 있습니다. 팀이 프롬프트와 결과를 주고받고, 초안을 고치고, 근거를 확인하면서 실제로 배웠지만 최종 문서만 보면 그 과정이 드러나지 않을 수 있습니다. 이런 경우 조직학습은 생략된 게 아니라 관찰하기 어려운 것입니다. 수정 이력이나 대화 기록은 단서가 될 수 있지만, 기록이 있다고 학습이 있었다고 확정할 수도 없습니다. 도구를 사용한 행동과 구성원의 이해 변화는 다른 층위이기 때문입니다.
+
+Crossan과 동료들의 모형에서 개인의 해석이 집단의 통합과 조직의 제도로 이어지는 연결은 중요합니다. AI가 이 연결을 대신해 준다고 가정할 수는 없습니다. 반대로 모든 상호작용이 전통적인 회의나 대화로만 일어난다고 볼 수도 없습니다. 질문의 수정, 결과에 대한 반론, 동료가 남긴 코멘트, 반복해서 쓰이는 방식의 변화 등으로 학습이 분산되어 나타날 수 있습니다. 핵심은 형식이 아니라 이해와 실천이 실제로 달라졌는지를 살피는 일입니다.
+
+<figure class="km-fig" aria-labelledby="km-fig-cap-ai">
 <style>
 .km-fig { margin: 28px 0 32px; }
-.km-fig svg { display: block; width: 100%; max-width: 580px; height: auto; margin: 0 auto; }
-.km-h { fill: var(--accent); fill-opacity: .12; stroke: var(--accent); stroke-width: 2; }
-.km-n { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
-.km-g { fill: var(--muted); fill-opacity: .06; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
-.km-box { fill: var(--ink); fill-opacity: .06; stroke: var(--ink); stroke-width: 1.5; }
-.km-ln { fill: none; stroke: var(--muted); stroke-width: 2; }
-.km-ah { fill: var(--muted); }
-.km-hd { fill: var(--accent); font-size: 15px; font-weight: 700; font-family: var(--f-body); }
-.km-k { fill: var(--ink); font-size: 17px; font-weight: 700; font-family: var(--f-body); }
-.km-kc { fill: var(--accent); font-size: 17px; font-weight: 700; font-family: var(--f-body); }
-.km-t { fill: var(--muted); font-size: 13px; font-family: var(--f-body); }
-.km-q { fill: var(--muted); font-size: 34px; font-weight: 700; font-family: var(--f-body); }
-.km-lb { fill: var(--accent); font-size: 14px; font-weight: 700; font-family: var(--f-body); }
-.km-s { fill: var(--muted); font-size: 11.5px; font-family: var(--f-body); }
-.km-v { fill: var(--ink); font-size: 12px; font-family: var(--f-body); }
-.km-qs { fill: var(--accent); font-size: 12px; font-family: var(--f-body); }
-.km-dv { stroke: var(--muted); stroke-opacity: .4; stroke-width: 1; }
-.km-br { fill: none; stroke: var(--muted); stroke-width: 1.2; }
-.km-fig figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.km-fig svg { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; }
+.km-ai-box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.km-ai-accent { fill: var(--accent); fill-opacity: .11; stroke: var(--accent); stroke-width: 1.8; }
+.km-ai-muted { fill: var(--muted); fill-opacity: .06; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.km-ai-line { fill: none; stroke: var(--muted); stroke-width: 2; }
+.km-ai-arrow { fill: var(--muted); }
+.km-ai-title { fill: var(--accent); font-size: 15px; font-weight: 700; font-family: var(--f-body); }
+.km-ai-text { fill: var(--ink); font-size: 14px; font-weight: 700; font-family: var(--f-body); }
+.km-ai-small { fill: var(--muted); font-size: 12px; font-family: var(--f-body); }
+.km-ai-figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; }
 </style>
-<svg viewBox="0 0 530 560" role="img" aria-label="두 경로의 비교. 위: 1~3세대에는 개인의 지식이 조직학습을 거쳐 멘탈모델로 굳고, 더블루프 학습으로 다시 바뀌며 학습조직 문화가 된다. 아래: 4세대/4.5세대에는 개인의 지식이 클라우드와 시스템에 바로 저장되어 조직의 지식이 되고, 사람 사이의 조직학습은 알고리듬 안에서만 흔적으로 보인다.">
-<defs><marker id="km-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="km-ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
-<text class="km-hd" x="4" y="22">A · 1~3세대: 조직학습이 보이는 경로</text>
-<rect class="km-n" x="4" y="44" width="108" height="64" rx="10"/>
-<text class="km-k" x="58" y="72" text-anchor="middle">개인의 지식</text>
-<text class="km-t" x="58" y="94" text-anchor="middle">경험·탐구</text>
-<rect class="km-h" x="142" y="44" width="108" height="64" rx="10"/>
-<text class="km-kc" x="196" y="72" text-anchor="middle">조직학습</text>
-<text class="km-t" x="196" y="94" text-anchor="middle">공유·대화·협상</text>
-<rect class="km-n" x="280" y="44" width="108" height="64" rx="10"/>
-<text class="km-k" x="334" y="72" text-anchor="middle">멘탈모델</text>
-<text class="km-t" x="334" y="94" text-anchor="middle">내면화·고착</text>
-<rect class="km-h" x="418" y="44" width="108" height="64" rx="10"/>
-<text class="km-kc" x="472" y="72" text-anchor="middle">더블루프</text>
-<text class="km-t" x="472" y="94" text-anchor="middle">성찰·다시 묻기</text>
-<line class="km-ln" x1="112" y1="76" x2="139" y2="76" marker-end="url(#km-arrow)"/>
-<line class="km-ln" x1="250" y1="76" x2="277" y2="76" marker-end="url(#km-arrow)"/>
-<line class="km-ln" x1="388" y1="76" x2="415" y2="76" marker-end="url(#km-arrow)"/>
-<path class="km-ln" d="M472,108 L472,138 L196,138 L196,111" marker-end="url(#km-arrow)"/>
-<text class="km-t" x="334" y="158" text-anchor="middle">재생산·변화</text>
-<rect class="km-h" x="4" y="176" width="522" height="46" rx="10"/>
-<text class="km-kc" x="265" y="205" text-anchor="middle">학습조직 문화 · 다시 고칠 수 있는 역량</text>
-<text class="km-t" x="265" y="248" text-anchor="middle">지식경영 = 이 고리 전체를 잇는 시스템적·상호작용적 실천</text>
-<line class="km-ln" x1="4" y1="278" x2="526" y2="278" stroke-dasharray="2 6"/>
-<text class="km-hd" x="4" y="312">B · 4세대/4.5세대: 조직학습이 숨는 경로</text>
-<rect class="km-n" x="4" y="350" width="108" height="64" rx="10"/>
-<text class="km-k" x="58" y="378" text-anchor="middle">개인의 지식</text>
-<text class="km-t" x="58" y="400" text-anchor="middle">메모·커밋·질문</text>
-<line class="km-ln" x1="112" y1="382" x2="181" y2="382" marker-end="url(#km-arrow)"/>
-<text class="km-t" x="148" y="372" text-anchor="middle">바로 저장</text>
-<rect class="km-box" x="186" y="330" width="340" height="176" rx="12"/>
-<text class="km-k" x="356" y="358" text-anchor="middle">클라우드·시스템 = 조직의 지식</text>
-<text class="km-t" x="356" y="380" text-anchor="middle">Gen AI · GitHub · Second Brain</text>
-<rect class="km-g" x="206" y="398" width="300" height="88" rx="10"/>
-<text class="km-q" x="240" y="456" text-anchor="middle">?</text>
-<text class="km-k" x="386" y="430" text-anchor="middle">사람 사이의 조직학습</text>
-<text class="km-t" x="386" y="452" text-anchor="middle">검색·병합·생성의 알고리듬 안에서</text>
-<text class="km-t" x="386" y="470" text-anchor="middle">로그와 버전 이력으로만 보임</text>
-<text class="km-kc" x="265" y="542" text-anchor="middle">진짜 조직학습은 어디서 일어나고, 어떻게 찾아 지원할까?</text>
+<svg viewBox="0 0 620 340" role="img" aria-label="AI 산출물은 개인의 학습, 함께 의미를 검토하는 조직학습, 업무 방식으로 자리 잡는 과정을 거쳐 조직의 지식이 될 수 있다. 이 과정은 실제로 생략될 수도 있고, AI와 함께 일하는 과정 속에서 관찰하기 어려울 수도 있다.">
+<defs><marker id="km-ai-arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="km-ai-arrow" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<text class="km-ai-title" x="10" y="24">조직의 지식은 결과물이 아니라 학습이 이어진 흔적이다</text>
+<rect class="km-ai-box" x="10" y="54" width="128" height="66" rx="10"/><text class="km-ai-text" x="74" y="82" text-anchor="middle">AI 산출물</text><text class="km-ai-small" x="74" y="103" text-anchor="middle">답·초안·분석</text>
+<rect class="km-ai-accent" x="174" y="54" width="128" height="66" rx="10"/><text class="km-ai-text" x="238" y="82" text-anchor="middle">개인의 학습</text><text class="km-ai-small" x="238" y="103" text-anchor="middle">이해·판단·전이</text>
+<rect class="km-ai-accent" x="338" y="54" width="128" height="66" rx="10"/><text class="km-ai-text" x="402" y="82" text-anchor="middle">함께 검토</text><text class="km-ai-small" x="402" y="103" text-anchor="middle">해석·수정·공유</text>
+<rect class="km-ai-box" x="502" y="54" width="108" height="66" rx="10"/><text class="km-ai-text" x="556" y="82" text-anchor="middle">조직의 지식</text><text class="km-ai-small" x="556" y="103" text-anchor="middle">실천·기준</text>
+<line class="km-ai-line" x1="138" y1="87" x2="169" y2="87" marker-end="url(#km-ai-arrowhead)"/><line class="km-ai-line" x1="302" y1="87" x2="333" y2="87" marker-end="url(#km-ai-arrowhead)"/><line class="km-ai-line" x1="466" y1="87" x2="497" y2="87" marker-end="url(#km-ai-arrowhead)"/>
+<rect class="km-ai-muted" x="10" y="158" width="286" height="116" rx="12"/><text class="km-ai-title" x="26" y="184">① 과정이 생략된 경우</text><text class="km-ai-small" x="26" y="210">산출물이 곧바로 저장·재사용됨</text><text class="km-ai-small" x="26" y="232">함께 해석하고 검토했는지 확인 필요</text><text class="km-ai-small" x="26" y="254">저장만으로 조직의 지식이라 할 수 없음</text>
+<rect class="km-ai-muted" x="324" y="158" width="286" height="116" rx="12"/><text class="km-ai-title" x="340" y="184">② 과정이 가려진 경우</text><text class="km-ai-small" x="340" y="210">질문·수정·토론이 AI 업무에 분산됨</text><text class="km-ai-small" x="340" y="232">최종 결과물에는 학습 과정이 잘 안 보임</text><text class="km-ai-small" x="340" y="254">기록과 실천의 변화를 함께 살펴야 함</text>
+<text class="km-ai-small" x="310" y="313" text-anchor="middle">HRD의 과제: 무엇을 배웠는지, 무엇이 함께 바뀌었는지, 조직에 무엇이 남았는지 확인하기</text>
 </svg>
-<figcaption id="km-fig-cap"><strong>그림 2.</strong> 조직학습이 보이는 경로와 숨는 경로. 위는 송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)와 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)의 논의를 바탕으로 한 고전적 흐름이고, 아래는 4세대/4.5세대에 개인의 지식이 사람 사이의 학습을 건너뛰고 시스템에 바로 저장되는 흐름입니다. 필자가 제안하는 개념도이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
+<figcaption id="km-fig-cap-ai"><strong>그림 1.</strong> AI 산출물이 조직의 지식으로 이어지는 학습 경로와 두 가지 단절 가능성. 기존 조직학습 이론을 바탕으로 필자가 AI 환경에 맞춰 제안한 개념도이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
 </figure>
 
-## 03 · 4세대/4.5세대, 조직학습이 보이지 않게 되었다
+## 04 · 지식의 정의를 넓히고, 현장에서는 이렇게 확인한다
 
-생성형 AI, GitHub, Second Brain 같은 클라우드 공유 협력 공간에서는 사정이 달라집니다. 개인이 적은 메모와 커밋이 곧바로 공유 저장소에 들어가고, AI는 그것을 찾아 재조합해 다른 사람의 질문에 답합니다. 개인의 지식이 사람 사이의 공유와 대화, 협상을 거치지 않고 바로 조직의 지식으로 저장되는 셈입니다.
+그렇다면 AI 시대에 지식의 정의도 달라져야 할까요? 제 생각에는 완전히 새로 만들기보다, 무엇을 지식의 단위로 볼지 넓혀야 합니다. 개인의 머릿속에 내면화된 지식만 보면 AI와 함께 수행하는 역량을 놓치고, AI가 만든 문서와 데이터만 보면 사람의 학습과 조직의 변화를 놓칩니다. HRD에서 다룰 지식은 구성원의 학습, 함께 검토하고 조정하는 과정, 조직의 실천에 남은 결과를 연결해 보아야 합니다.
 
-사람 사이의 조직학습이 사라졌다고 단정할 수는 없습니다. 어디서 일어나는지가 보이지 않을 뿐입니다. 누구의 메모가 검색되고, 어떤 초안이 병합되고, 어떤 답이 기본값이 되는지는 알고리듬의 구성 안에서 정해집니다. 우리 눈에 들어오는 것은 로그와 버전 이력입니다. 고전적 이론이 관찰하던 대화와 갈등, 협상의 장면은 화면 뒤로 들어갔습니다.
+> **DrSong Opinion · 조직의 지식을 다시 묻다**
+> 저는 AI가 낸 답을 곧 조직의 지식이라고 부를 수 있는지부터 물어야 한다고 봅니다. 구성원이 그 답의 근거와 적용 범위를 이해하고, 동료들이 서로 다른 판단을 맞춰 보고, 그 결과가 일하는 기준에 반영되어야 조직은 무언가를 배웠다고 말할 수 있습니다. 이 기준은 회의 횟수나 문서 수를 늘리자는 뜻이 아닙니다. 개인의 배움이 팀의 해석을 거쳐 조직의 역량으로 이어지는 연결을 의도적으로 설계하자는 뜻입니다. AI 시대의 조직학습을 설명하려면 지식도 완성된 산출물이 아니라, 배우고 공유하고 다시 쓸 수 있는 역량으로 보아야 합니다.
 
-**지금 알아둘 점 · 근거의 성격:** 이 진단은 필자의 해석입니다. 이 글이 참고한 네 편은 생성형 AI 협업 공간에서 조직학습이 어떻게 바뀌는지 직접 다루지 않습니다. Edwards와 Lönnqvist(2023)는 AI와 가짜 지식을 지식경영의 새 쟁점으로 들고, 지식경영 없는 AI는 노력과 돈의 낭비라는 선행 연구를 전합니다. 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)도 학습조직·조직학습·지식경영을 함께 다룬 실증 연구가 드물다고 지적합니다.
+현장에서 이 정의를 쓰려면 세 가지를 물어보면 됩니다.
 
-> **DrSong Opinion · 조직학습의 관점에서**
-> 송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)의 정의로 보면, 사람 사이의 공유와 협상을 거치지 않고 저장된 지식은 아직 누구의 공유된 믿음도 아닙니다. 저장소에 들어 있다고 조직이 믿고 쓰는 지식이 되지는 않습니다. 저는 생성형 AI 시대의 진짜 조직학습이 저장되는 순간보다 검증하고 이의를 다는 순간에 일어난다고 봅니다. 리뷰에서 누군가 근거를 묻고, AI의 답을 고치거나 버리고, 그 이유를 기록할 때 공유된 믿음이 만들어집니다. 4.5세대의 Human-in-the-loop는 그래서 조직학습의 자리로 설계해야 합니다. 더 경계할 것은 고착입니다. 검색되어 기본값이 된 답은 아무도 합의한 적 없이 멘탈모델처럼 굳을 수 있습니다. 알고리듬은 주어진 기준 안에서 더 나은 답을 찾지만, 그 기준이 맞는지는 묻지 않습니다. 더블루프 학습은 여전히 사람이 멈춰 서서 해야 하는 일입니다. [AI 시대 학습의 재정의](/weekly-insight/2026-10-22-redefining-learning-ai/)에서 개인에게 남아야 한다고 본 ‘판단’이 조직 수준에서는 이 검증과 재질문입니다.
+1. **개인에게:** AI의 답을 왜 채택하거나 수정했는지 설명할 수 있는가? 다른 사례에 적용할 때 필요한 조건과 한계를 알고 있는가?
+2. **팀에게:** 답을 함께 검토하면서 무엇을 새로 알았고, 어떤 이견이나 근거가 결론을 바꾸었는가? 다음 사람이 배울 수 있도록 핵심 이유가 남아 있는가?
+3. **조직에게:** 그 배움이 의사결정 기준이나 절차를 바꾸었는가? 다른 구성원도 같은 원리를 활용하고, 결과를 보고 기준을 다시 고칠 수 있는가?
 
-## 04 · 보이지 않는 조직학습을 어떻게 탐지하고 지원할 것인가
-
-과정이 보이지 않으면 흔적을 읽어야 합니다. 시스템이 남기는 기록 가운데 사람 사이의 학습을 드러내는 신호를 고르고, 그 신호가 생기도록 절차를 짜는 것이 HRD의 일이 됩니다.
-
-- **탐지 · 수정·거절 비율:** 사람이 AI 초안을 고치거나 버린 비율이 0에 가깝다면 검증이 일어나지 않는다는 신호입니다.
-- **탐지 · 이견과 개정 이유:** 리뷰 코멘트와 커밋 기록에 “왜”가 남는지 봅니다. 버전과 개정 이유가 남아야 낡은 지식을 고칠 수 있습니다(Edwards &amp; Lönnqvist, 2023).
-- **지원 · 사람의 서명:** 누가, 무엇을 근거로, 어디까지 승인했는지 남기게 합니다. 서명이 없는 초안은 그럴듯한 정보에 머뭅니다.
-- **지원 · 다시 묻는 자리:** 회고에 “질문이 맞았나?”를 넣고, 기본값이 된 답과 AI가 참조하는 자료에 유효기간을 두어 정기적으로 다시 검토합니다.
-
----
+관찰이 어려운 환경이라면 최종 결과물만 평가하지 말고, 초안에서 최종안까지 달라진 점, 반영하거나 거절한 근거, 반복 사용 뒤 바뀐 절차를 함께 살펴보십시오. 수정 횟수 하나가 학습의 증거가 되지는 않습니다. 무엇이 왜 달라졌는지를 확인해야 합니다. 모든 사용 과정을 일일이 기록하게 만들기보다, 중요한 판단과 업무 기준이 바뀐 지점에 짧은 설명을 남기게 하는 편이 실무에 맞습니다.
 
 ### Insight Questions
 
-1. 우리 조직의 공유 저장소에 쌓인 지식 가운데 **사람 사이의 검토와 합의를 거친 것**은 얼마나 되는가?
-2. 알고리듬 안에서 일어나는 조직학습을 우리는 **어떤 기록으로 읽어 낼 수 있는가**?
-3. 기본값이 된 답과 기준을 **다시 묻는 자리**는 어디에 있는가?
+1. 우리 조직은 AI의 산출물과 구성원이 실제로 배운 지식을 어떻게 구분하고 있는가?
+2. 개인의 배움이 동료들의 검토와 해석으로 이어지는 업무 절차는 어디에 있는가?
+3. AI를 사용한 뒤 조직의 기준이나 실천이 달라졌는지를 보여 주는 근거는 무엇인가?
 
 ### References
 
 <div class="references" markdown="0">
+<p>Crossan, M. M., Lane, H. W., &amp; White, R. E. (1999). An organizational learning framework: From intuition to institution. <em>Academy of Management Review, 24</em>(3), 522–537. https://doi.org/10.5465/amr.1999.2202135</p>
 <p>Edgar, W. B., &amp; Albright, K. S. (2023). Knowledge management activities: Conceptual foundations and research issues. <em>Journal of Information Science, 49</em>(6), 1656–1676. https://doi.org/10.1177/01655515211069538</p>
 <p>Edwards, J., &amp; Lönnqvist, A. (2023). The future of knowledge management: An agenda for research and practice. <em>Knowledge Management Research &amp; Practice, 21</em>(5), 909–916. https://doi.org/10.1080/14778238.2023.2202509</p>
 <p>Lim, D. H., Song, J. H., &amp; Yoon, S. W. (2014). Trends and issues in integrating knowledge management and organizational learning for workplace performance improvement. In N. E. Chalofsky, T. S. Rocco, &amp; M. L. Morris (Eds.), <em>Handbook of human resource development</em> (pp. 369–385). John Wiley &amp; Sons. https://doi.org/10.1002/9781118839881.ch22</p>
