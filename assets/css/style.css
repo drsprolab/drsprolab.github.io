@@ -2139,7 +2139,7 @@ main.container { overflow-x: clip; }
 /* Lab Insight PDF and author attribution */
 .insight-pdf-link { display:inline-block; margin: 8px 0 8px 14px; padding: 7px 12px; border:1px solid var(--accent); border-radius:999px; color:var(--accent); font-size:13px; font-weight:600; text-decoration:none; vertical-align:middle; white-space:nowrap; }
 .insight-pdf-link:hover { background:var(--accent); color:var(--paper); }
-.daily-issue-author { margin:4px 0 10px; color:var(--muted); font-size:14px; }
+.daily-issue-author { display:inline-block; margin:4px 0 12px; padding:8px 12px; border-left:3px solid var(--accent); border-radius:6px; background:#eaf0f7; color:#183b5b; font-size:15px; font-weight:700; line-height:1.5; }
 @media(max-width:600px) { .insight-pdf-link { margin-left:0; } }
 .study-first-figure { max-width:900px; margin:28px auto; }
 .study-first-figure svg { display:block; width:100%; height:auto; }

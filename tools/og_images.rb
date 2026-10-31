@@ -61,6 +61,11 @@ def html(fm, kind)
     eyebrow = "Weekly Insight · #{date}"
     chip_texts = Array(fm["topics"])
   end
+  thumbnail_author = if kind == "insights" && fm["section"] == "lab" && !fm["thumbnail_author"].to_s.empty?
+    %(<span class="thumb-author">#{CGI.escapeHTML(fm["thumbnail_author"].to_s)}</span>)
+  else
+    ""
+  end
   topics = chip_texts.compact.first(4).map { |t| %(<span class="chip">#{CGI.escapeHTML(t.to_s)}</span>) }.join
   size = title.length > 46 ? 50 : title.length > 30 ? 58 : 66
   <<~HTML
@@ -82,6 +87,8 @@ def html(fm, kind)
       .foot { margin-top: auto; display: flex; align-items: center; gap: 16px; }
       .foot b { display: block; font-size: 26px; font-weight: 700; }
       .foot span { font-family: "IBM Plex Mono", monospace; font-size: 17px; letter-spacing: .12em; color: #a9bddb; }
+      .foot .thumb-author { font-family: "IBM Plex Sans KR", "Noto Sans CJK KR", sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0; color: #eef4ff;
+        padding: 7px 16px; border: 1px solid rgba(143,195,255,.45); border-radius: 999px; background: rgba(143,195,255,.16); }
       .foot .lab { width: auto; height: 56px; }
     </style></head><body>
       <div class="shade"></div>
@@ -90,7 +97,7 @@ def html(fm, kind)
         #{series_badge}
         <h1>#{title}</h1>
         <div class="chips">#{topics}</div>
-        <div class="foot"><img class="lab" src="#{LAB_LOGO}" alt=""></div>
+        <div class="foot">#{thumbnail_author}<img class="lab" src="#{LAB_LOGO}" alt=""></div>
       </div>
     </body></html>
   HTML

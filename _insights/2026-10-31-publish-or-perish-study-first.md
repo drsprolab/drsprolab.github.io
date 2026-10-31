@@ -2,6 +2,7 @@
 layout: insight
 section: lab
 author: "주재홍 (Ph.D., 한양대학교 연구교수)"
+thumbnail_author: "주재홍"
 title: "Publish or Perish, Study or Leave: 연구자는 무엇을 위해 공부하는가?"
 date: 2026-10-31 08:00:00 +0900
 summary: "논문을 내는 일은 연구의 중요한 결실이지만, 연구의 목적은 출판 편수에 있지 않습니다. 연구 초입에는 먼저 질문과 이론, 방법을 자기 것으로 만드는 공부가 필요합니다."
