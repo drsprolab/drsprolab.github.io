@@ -3,6 +3,7 @@ layout: page
 title: 나의 연구 발전시키기(실습)
 permalink: /research-help/
 wide: true
+research_practice: true
 lede: 최초 작성문을 1·2차 DrS comments를 보며 수정하고, 최종 연구계획서와 전체 수정 이력을 함께 제출합니다.
 ---
 

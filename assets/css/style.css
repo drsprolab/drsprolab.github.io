@@ -1801,6 +1801,41 @@ main.container { overflow-x: clip; }
 }
 
 /* ---- Research help ---- */
+.page--research-practice .page-head--menu { gap: 6px; margin-bottom: 22px; }
+.page--research-practice .page-head--menu h1 { font-size: clamp(22px, 2.8vw, 26px); line-height: 1.4; }
+.page--research-practice .page-head--menu .lede { font-size: 14px; line-height: 1.65; max-width: none; }
+.page--research-practice .tabs { gap: 5px; margin-bottom: 20px; }
+.page--research-practice .tabs a { font-size: 13.5px; padding: 5px 12px; }
+.page--research-practice .rh-motto { margin-bottom: 14px; padding: 10px 14px; font-size: clamp(14px, 1.5vw, 16px); }
+.page--research-practice .rh-admin-entry { margin-bottom: 10px; font-size: 13px; }
+.page--research-practice .rh-intro { padding: 4px 0 24px; }
+.page--research-practice .rhg { max-width: none; font-size: 14px; line-height: 1.65; }
+.page--research-practice .rhg p { margin: 6px 0 10px; }
+.page--research-practice .rhg h3 { margin: 22px 0 10px; font-size: 19px; line-height: 1.45; }
+.page--research-practice .rhg h4 { margin: 16px 0 6px; font-size: 15px; line-height: 1.5; }
+.page--research-practice .rhg .rhb-flow { margin: 10px 0 14px; gap: 6px; }
+.page--research-practice .rhg .rhb-flow li { padding: 8px 12px; font-size: 13.5px; }
+.page--research-practice .rhg .rhb-flow span { font-size: 13px; }
+.page--research-practice .rh-intro-start { margin-top: 22px; }
+.page--research-practice .rh-intro-go { padding: 10px 22px; font-size: 15px; }
+.page--research-practice #research-help.rh { gap: 14px; font-size: 14px; line-height: 1.65; }
+.page--research-practice #research-help .rh-grid { gap: 10px; }
+.page--research-practice #research-help .rh-row { gap: 10px; padding: 12px 0; }
+.page--research-practice #research-help .rh-mine { gap: 4px; }
+.page--research-practice #research-help label,
+.page--research-practice #research-help .rh-mine h3 { font-size: 14px; }
+.page--research-practice #research-help .rh-revision-guide,
+.page--research-practice #research-help .rh-comments { padding: 12px 14px; font-size: 14px; }
+.page--research-practice #research-help .rh-final-plan { padding: 22px; }
+.page--research-practice #research-help .rh-final-plan .rh-final-title { font-size: 22px; }
+.page--research-practice #research-help .rh-final-plan h3 { margin: 22px 0 10px; font-size: 18px; }
+.page--research-practice #research-help .rh-final-plan h4 { margin: 16px 0 8px; font-size: 15px; }
+.page--research-practice #research-help .rh-final-plan p.rh-final-text { line-height: 1.7; }
+@media (max-width: 600px) {
+  .page--research-practice .page-head--menu h1 { font-size: 22px; }
+  .page--research-practice .rhg h3 { font-size: 18px; }
+  .page--research-practice #research-help .rh-final-plan { padding: 16px 14px; }
+}
 .rh { display: grid; gap: 18px; max-width: 100%; }
 .rh[hidden] { display: none; }
 .rh-steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
