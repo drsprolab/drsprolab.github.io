@@ -8,7 +8,7 @@ layout: page
   <a class="rm-back" href="{{ '/research-help/methods/' | relative_url }}">← 나의 연구목적에 맞는 분석방법 알아보기</a>
   <div class="rm-detail-intro"><span class="rm-eyebrow">{{ m.english }}</span><p class="rm-summary">{{ m.summary }}</p><p class="rm-beginner-tip">{{ m.beginner_tip }}</p></div>
   <nav class="rm-detail-nav" aria-label="방법 안내 목차"><a href="#purpose">목적</a><a href="#data">자료</a><a href="#outputs">결과</a><a href="#ultimate">궁극적 질문</a><a href="#cases">사례</a><a href="#self-check">선택 점검</a><a href="#references">추천 논문</a></nav>
-  {% include research-method-glossary.html %}
+  {% include research-method-glossary.html method=m %}
   <section class="rm-detail-section" id="purpose">
     <span class="rm-eyebrow">01 · 목적</span><h2>언제, 어떤 목적으로 선택하나요?</h2>
     <p class="rm-choice-lead">{{ m.selection.decision }}</p>

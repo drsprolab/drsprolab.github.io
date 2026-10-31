@@ -38,6 +38,7 @@ class ResearchMethodsSite(unittest.TestCase):
         self.assertIn('양적 연구는 변수와 모형을', catalog)
         self.assertIn('질적 연구는 참여자·경험자료와 해석 절차를', catalog)
         self.assertIn('문헌 연구는 검색 대상·선정 기준·추출 항목과 종합 방법을', catalog)
+        self.assertIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', catalog)
         for m in DATA['methods']:
             relative = f"/research-help/methods/{m['id']}/"
             self.assertIn(relative, parsed.hrefs)
@@ -57,7 +58,11 @@ class ResearchMethodsSite(unittest.TestCase):
                 self.assertIn('누구의 어떤 경험·행동·이야기', html)
             else:
                 self.assertIn('검색원·검색식·기간·포함 기준', html)
-            self.assertIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', html)
+            self.assertIn(f"{m['name']} 분석에서 쓰는 용어를 확인하세요", html)
+            for term in m['glossary']:
+                self.assertIn(term['term'], html)
+                self.assertIn(term['definition'], html)
+            self.assertNotIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', html)
             self.assertIn(m['selection']['decision'], html)
             for condition in m['selection']['conditions']:
                 self.assertIn(condition['title'], html)

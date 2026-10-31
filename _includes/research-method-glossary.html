@@ -1,3 +1,8 @@
+{% if include.method %}
+<details class="rm-primer" id="method-terms"><summary>{{ include.method.name }} 분석에서 쓰는 용어를 확인하세요</summary><dl class="rm-glossary">
+{% for term in include.method.glossary %}<dt>{{ term.term }}</dt><dd>{{ term.definition }}</dd>{% endfor %}
+</dl></details>
+{% else %}
 <details class="rm-primer" id="method-terms"><summary>처음 보는 연구 용어를 짧게 확인하세요</summary><dl class="rm-glossary">
 <dt>변수·지표</dt><dd>사람이나 사례마다 값이 다른 특성입니다. 몰입 점수, 근속연수, 수료 여부 등이 있습니다. 지표는 개념을 관찰·측정하기 위해 사용하는 기록입니다.</dd>
 <dt>X·Y·M·W</dt><dd>X는 설명하려는 선행요인, Y는 설명하거나 예측할 결과, M은 그 사이의 경로를 설명하는 매개변수, W는 관계가 달라지는 조건인 조절변수로 자주 표기합니다.</dd>
@@ -11,3 +16,4 @@
 <dt>코드·범주·이론적 표집</dt><dd>질적 자료에 의미를 붙인 이름이 코드이고, 관련 코드·사건을 설명적으로 묶고 발전시킨 것이 범주입니다. 이론적 표집은 분석 중 더 알아볼 범주를 위해 다음 자료와 참여자를 선정하는 일입니다.</dd>
 <dt>문헌 자료추출·합성</dt><dd>논문에서 질문에 필요한 대상·개념·방법·결과 등을 일정한 항목으로 기록하는 것이 자료추출입니다. 이 근거를 비교·연결하여 질문에 답하는 작업이 합성입니다.</dd>
 </dl></details>
+{% endif %}

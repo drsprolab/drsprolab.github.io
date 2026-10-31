@@ -362,6 +362,20 @@ test('퀴즈: 30문항·5지선다, 장별 배분, 정답 위치가 고르게 �
   assert.equal(new Set(QUIZ_KEY.map(x => x.id)).size, 30);
 });
 
+test('퀴즈: 최근 연구 안내의 목적·방법·결과 해석·한계 원칙을 반영한다', () => {
+  const byId = Object.fromEntries(QUIZ_KEY.map(x => [x.id, x]));
+  assert.match(byId.Q02.e, /연구의 맥락·변수·문제와 실제로 연결/);
+  assert.match(byId.Q06.e, /연구 목적과 모형에 맞는 의미와 지표/);
+  assert.match(byId.Q07.e, /둘 다 쓸 필요는 없으며/);
+  assert.match(byId.Q23.e, /양적 연구는 변수의 측정 수준/);
+  assert.match(byId.Q23.e, /질적 연구는 참여자 경험/);
+  assert.match(byId.Q23.e, /문헌 연구는 검색 범위/);
+  assert.match(byId.Q24.e, /효과크기, 신뢰구간/);
+  assert.match(byId.Q28.e, /관계가 전혀 없다고 입증된 것은 아닙니다/);
+  assert.match(byId.Q30.e, /남은 한계와 결과 해석·적용 범위/);
+  assert.doesNotMatch(byId.Q30.e, /표본이나 측정도구의 한계를 언급하면 잘못된/);
+});
+
 test('퀴즈: 문제 목록에는 정답과 해설이 없다', () => {
   const t = setup({});
   const r = t.call({ action: 'quizQuestions' });
