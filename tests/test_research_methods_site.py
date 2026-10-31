@@ -81,6 +81,8 @@ class ResearchMethodsSite(unittest.TestCase):
         basics = (SITE / 'research-help/basics/index.html').read_text()
         self.assertIn('실제 연구 주제와 연결되어 연구문제를 이해하는 데 필요하다면 사용할 수 있습니다', basics)
         self.assertIn('AI·디지털 시대와 무관한 변수를 연구하면서 도입을 거창하게 보이려고', basics)
+        self.assertIn('연구가 부족하다는 사실만으로 연구 필요성을 주장하는 것은 지양합니다', basics)
+        self.assertRegex(basics, r'<mark class="rhb-key">“이 주제는 많이 연구되지 않았다”')
         html = (SITE / 'index.html').read_text()
         self.assertIn('<footer class="site-footer">', html)
         self.assertLess(html.index('논문작성법(기초)'), html.index('연구방법선택(중급)'))
