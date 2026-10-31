@@ -2135,3 +2135,12 @@ main.container { overflow-x: clip; }
 /* Alumni 강조(음영) */
 .alumni li.alumni-hl { padding-inline: 10px; border-radius: 6px; background: var(--accent-soft); border-bottom-color: transparent; }
 .alumni li.alumni-hl strong { color: var(--accent); }
+
+/* Lab Insight PDF and author attribution */
+.insight-pdf-link { display:inline-block; margin: 8px 0 8px 14px; padding: 7px 12px; border:1px solid var(--accent); border-radius:999px; color:var(--accent); font-size:13px; font-weight:600; text-decoration:none; vertical-align:middle; white-space:nowrap; }
+.insight-pdf-link:hover { background:var(--accent); color:var(--paper); }
+.daily-issue-author { margin:4px 0 10px; color:var(--muted); font-size:14px; }
+@media(max-width:600px) { .insight-pdf-link { margin-left:0; } }
+.study-first-figure { max-width:900px; margin:28px auto; }
+.study-first-figure svg { display:block; width:100%; height:auto; }
+.study-first-figure figcaption { margin-top:9px; color:var(--muted); font-size:13px; line-height:1.6; }

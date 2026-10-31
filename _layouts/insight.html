@@ -7,8 +7,10 @@ layout: default
     <div class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · WEEKLY INSIGHT · KST</div>
     <div class="title-row">
       <h1>{{ page.title | escape }}</h1>
+      {% if page.pdf_url %}<a class="insight-pdf-link" href="{{ page.pdf_url | relative_url }}" download>전문 PDF ↓</a>{% endif %}
       {% include share.html %}
     </div>
+    {% if page.author %}<p class="daily-issue-author">{{ page.author | escape }}</p>{% endif %}
     {% include sharing-guidance.html class="daily-issue-notice" %}
     <p class="lede">{{ page.summary | escape }}</p>
     <ul class="tags" aria-label="주제">{% for topic in page.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
