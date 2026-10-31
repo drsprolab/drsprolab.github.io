@@ -48,7 +48,7 @@ lede: 나의 연구목적에 맞는 분석방법 알아보기
   </section>
   <section id="method-catalog" class="rm-catalog" aria-labelledby="rm-catalog-title">
     <span class="rm-eyebrow">02 · 목적·자료·결과 비교하기</span><h2 id="rm-catalog-title">어떤 질문에 답하려는 연구인가요?</h2>
-    <p>양적·질적·문헌 방법을 같은 기준으로 살펴볼 수 있습니다. 각 상세 안내에는 쉬운 설명과 통계적·방법론적 의미, 사용 목적, 필요한 변수나 자료, 분석 구조, 사례, 선택 체크리스트가 있습니다. 양적 연구는 변수와 모형을, 질적 연구는 참여자·경험자료와 해석 절차를, 문헌 연구는 검색 대상·선정 기준·추출 항목과 종합 방법을 확인해 보세요.</p>
+    <p>연구방법 이름을 몰라도 괜찮습니다. 아래에서 지금 답을 얻고 싶은 질문과 가까운 카드를 골라 보세요. 상세 안내에서 연구 목적, 필요한 자료, 분석 뒤에 제시할 결과를 차례로 확인할 수 있습니다. 설문 점수나 학습 기록을 다루면 양적 연구, 면담이나 관찰 기록이면 질적 연구, 기존 논문을 살펴보려면 문헌 연구부터 읽어 보세요.</p>
     <nav class="rm-category-links" aria-label="분석 분야">{% for cat in site.data.research_methods.categories %}<a href="#{{ cat.id }}">{{ cat.name }}</a>{% endfor %}</nav>
     {% for cat in site.data.research_methods.categories %}
     <section id="{{ cat.id }}" class="rm-category"><div class="rm-category-heading"><h3>{{ cat.name }}</h3><p>{{ cat.subtitle }}</p></div><div class="rm-card-grid">
