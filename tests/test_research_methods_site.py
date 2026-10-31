@@ -35,9 +35,10 @@ class ResearchMethodsSite(unittest.TestCase):
         for step in ['나의 연구 목적 적기', '제시된 분석방법과 이유 읽기',
                      '사례와 예시를 통해 비교하기', '내 연구에 맞는 분석방법 확인하기']:
             self.assertIn(step, catalog)
-        self.assertIn('양적 연구는 변수와 모형을', catalog)
-        self.assertIn('질적 연구는 참여자·경험자료와 해석 절차를', catalog)
-        self.assertIn('문헌 연구는 검색 대상·선정 기준·추출 항목과 종합 방법을', catalog)
+        self.assertIn('연구방법 이름을 몰라도 괜찮습니다.', catalog)
+        self.assertIn('설문 점수나 학습 기록을 다루면 양적 연구', catalog)
+        self.assertIn('면담이나 관찰 기록이면 질적 연구', catalog)
+        self.assertIn('기존 논문에서 밝혀진 내용', catalog)
         for term in ['연구문제', '이론', '개념·구성개념', '변수', '조작적 정의',
                      '연구설계', '모집단·표본', '측정', '신뢰도', '타당도', '자료수집·분석']:
             self.assertIn(f'<dt>{term}</dt>', catalog)
