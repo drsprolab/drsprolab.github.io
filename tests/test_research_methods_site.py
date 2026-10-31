@@ -85,6 +85,8 @@ class ResearchMethodsSite(unittest.TestCase):
         self.assertRegex(basics, r'<mark class="rhb-key">“이 주제는 많이 연구되지 않았다”')
         self.assertIn('실제 자료에서 어떤 문항이나 지표로 측정할지 밝히는 것이 조작적 정의의 핵심입니다', basics)
         self.assertRegex(basics, r'<mark class="rhb-key">내 연구목적과 모형에서 개념이 어떤 역할을 하는지')
+        self.assertIn('연구문제와 연구가설을 모두 작성할 필요는 없습니다', basics)
+        self.assertIn('본인 연구의 방법과 방향에 맞게 필요한 형식을 선택해 작성하세요', basics)
         html = (SITE / 'index.html').read_text()
         self.assertIn('<footer class="site-footer">', html)
         self.assertLess(html.index('논문작성법(기초)'), html.index('연구방법선택(중급)'))
