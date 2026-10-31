@@ -32,6 +32,12 @@ class ResearchMethodsSite(unittest.TestCase):
         self.assertEqual(len(parsed.ids), len(set(parsed.ids)))
         self.assertEqual(catalog.count('class="rm-method-card"'), 19)
         self.assertNotIn('<footer class="site-footer">', catalog)
+        for step in ['나의 연구 목적 적기', '제시된 분석방법과 이유 읽기',
+                     '사례와 예시를 통해 비교하기', '내 연구에 맞는 분석방법 확인하기']:
+            self.assertIn(step, catalog)
+        self.assertIn('양적 연구는 변수와 모형을', catalog)
+        self.assertIn('질적 연구는 참여자·경험자료와 해석 절차를', catalog)
+        self.assertIn('문헌 연구는 검색 대상·선정 기준·추출 항목과 종합 방법을', catalog)
         for m in DATA['methods']:
             relative = f"/research-help/methods/{m['id']}/"
             self.assertIn(relative, parsed.hrefs)
@@ -44,6 +50,14 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertEqual(html.count('class="rm-case"'), 2)
             self.assertEqual(html.count('SSCI 목록 대조</span>'), 3)
             self.assertEqual(html.count('type="radio"'), 9)
+            self.assertIn('어떤 자료와 변수로, 어떤 구조를 분석하나요?', html)
+            if m['category'] == 'quantitative':
+                self.assertIn('결과변수(Y), 설명변수(X)', html)
+            elif m['category'] == 'qualitative':
+                self.assertIn('누구의 어떤 경험·행동·이야기', html)
+            else:
+                self.assertIn('검색원·검색식·기간·포함 기준', html)
+            self.assertIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', html)
             self.assertIn(m['selection']['decision'], html)
             for condition in m['selection']['conditions']:
                 self.assertIn(condition['title'], html)

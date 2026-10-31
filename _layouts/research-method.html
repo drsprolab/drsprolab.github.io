@@ -10,13 +10,17 @@ layout: page
   <nav class="rm-detail-nav" aria-label="방법 안내 목차"><a href="#purpose">목적</a><a href="#data">자료</a><a href="#outputs">결과</a><a href="#ultimate">궁극적 질문</a><a href="#cases">사례</a><a href="#self-check">선택 점검</a><a href="#references">추천 논문</a></nav>
   {% include research-method-glossary.html %}
   <section class="rm-detail-section" id="purpose">
-    <span class="rm-eyebrow">01 · 목적</span><h2>무엇을 알고 싶을 때 선택하나요?</h2>
+    <span class="rm-eyebrow">01 · 목적</span><h2>언제, 어떤 목적으로 선택하나요?</h2>
     <p class="rm-choice-lead">{{ m.selection.decision }}</p>
     <div class="rm-choice-grid">{% for condition in m.selection.conditions %}<section><h3>{{ forloop.index }}. {{ condition.title }}</h3><p>{{ condition.explanation }}</p></section>{% endfor %}</div>
     <div class="rm-choice-compare"><h3>어떤 질문이면 다른 방법을 비교해야 하나요?</h3><dl>{% for comparison in m.selection.compare %}{% assign alternative = site.data.research_methods.methods | where: 'id', comparison.method | first %}<dt><a href="{{ '/research-help/methods/' | append: comparison.method | append: '/' | relative_url }}">{{ alternative.name }}</a></dt><dd>{{ comparison.criterion }}</dd>{% endfor %}</dl></div>
     <p class="rm-small rm-choice-sources">선택 기준의 방법론 근거: {% for id in m.references %}<a href="#ref-{{ id }}">추천 논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}. 아래 자료·해석 범위까지 확인해 최종 방법을 정하세요.</p>
   </section>
-  <section class="rm-detail-section" id="data"><span class="rm-eyebrow">02 · 자료</span><h2>어떤 자료를 사용할 건가요?</h2><ul>{% for d in m.data %}<li>{{ d }}</li>{% endfor %}</ul><div class="rm-data-example"><h3>자료를 어떻게 정리하면 될까요?</h3><dl><dt>정리의 기본 단위</dt><dd>{{ m.data_example.unit }}</dd><dt>기록할 항목</dt><dd>{{ m.data_example.columns }}</dd><dt>형식 예시</dt><dd class="rm-sample-row">{{ m.data_example.row }}</dd></dl><small>자료 구조를 이해하기 위한 형식 예시입니다. 실제 관측 자료가 아닙니다.</small></div></section>
+  <section class="rm-detail-section" id="data"><span class="rm-eyebrow">02 · 자료와 분석 구조</span><h2>어떤 자료와 변수로, 어떤 구조를 분석하나요?</h2>
+    {% if m.category == 'quantitative' %}<p>분석 단위와 결과변수(Y), 설명변수(X), 필요하면 매개변수(M)·조절변수(W)·집단·측정시점을 구분해 보세요. 자료가 반복·군집 구조인지, 변수의 척도와 모형의 가정에 맞는지도 확인해야 합니다.</p>
+    {% elsif m.category == 'qualitative' %}<p>양적 변수 대신 누구의 어떤 경험·행동·이야기를 어떤 맥락에서 분석할지 정합니다. 참여자와 자료 단위, 자료 수집·비교·코딩·해석 절차가 선택한 질적 전통과 일치해야 합니다.</p>
+    {% elsif m.category == 'literature' %}<p>개인 응답 대신 어떤 문헌을 분석 단위로 삼을지 정합니다. 검색원·검색식·기간·포함 기준, 문헌에서 추출할 항목, 결과를 서술·개념적으로 종합할지 통계적으로 합칠지를 연구질문에 맞춰 계획합니다.</p>{% endif %}
+    <ul>{% for d in m.data %}<li>{{ d }}</li>{% endfor %}</ul><div class="rm-data-example"><h3>자료를 어떻게 정리하면 될까요?</h3><dl><dt>정리의 기본 단위</dt><dd>{{ m.data_example.unit }}</dd><dt>기록할 항목</dt><dd>{{ m.data_example.columns }}</dd><dt>형식 예시</dt><dd class="rm-sample-row">{{ m.data_example.row }}</dd></dl><small>자료 구조를 이해하기 위한 형식 예시입니다. 실제 관측 자료가 아닙니다.</small></div></section>
   <section class="rm-detail-section" id="outputs"><span class="rm-eyebrow">03 · 제시하고 싶은 결과</span><h2>분석 후 무엇을 보여 줄 수 있나요?</h2><ol class="rm-output-list">{% for o in m.outputs %}<li>{{ o }}</li>{% endfor %}</ol><p>유의한 결과나 높은 적합도를 얻는 것 자체가 연구의 목적은 아닙니다. 결과가 연구문제에 어떤 답을 주는지, 무엇이 아직 불확실한지 함께 설명해야 합니다.</p></section>
   <section class="rm-ultimate" id="ultimate"><span class="rm-eyebrow">04 · 궁극적으로 밝힐 것</span><h2>내가 끝까지 답하고 싶은 질문과 맞나요?</h2><p>“{{ m.ultimate }}”</p><p class="rm-small">이 설명이 자신의 연구목적과 맞는지 생각해 보세요. 알고 싶은 내용이 다르다면 아래 관련 방법을 비교해 보세요.</p></section>
   <section class="rm-detail-section" id="cases"><h2>사례를 통해 내 연구에 어떻게 적용할지 살펴보세요</h2><p class="rm-case-note">학습용 연구설계 사례입니다. 실제 논문의 연구 결과나 수집된 자료를 재현한 것이 아닙니다. 분석 방법의 근거는 아래 추천 문헌에서 확인할 수 있습니다.</p>
