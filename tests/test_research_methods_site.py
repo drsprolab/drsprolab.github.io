@@ -65,10 +65,12 @@ class ResearchMethodsSite(unittest.TestCase):
                 self.assertIn('누구의 어떤 경험·행동·이야기', html)
             else:
                 self.assertIn('검색원·검색식·기간·포함 기준', html)
-            self.assertIn(f"{m['name']} 분석에서 쓰는 용어를 확인하세요", html)
+            self.assertIn(f"{m['name']}에서 처음 볼 용어를 짧게 확인하세요", html)
             for term in m['glossary']:
                 self.assertIn(term['term'], html)
                 self.assertIn(term['definition'], html)
+            for ref in m['references']:
+                self.assertIn(f'#ref-{ref}', page.hrefs)
             self.assertNotIn('자료수집·분석</dt>', html)
             self.assertIn(m['selection']['decision'], html)
             for condition in m['selection']['conditions']:

@@ -1,7 +1,7 @@
 {% if include.method %}
-<details class="rm-primer" id="method-terms"><summary>{{ include.method.name }} 분석에서 쓰는 용어를 확인하세요</summary><dl class="rm-glossary">
+<details class="rm-primer" id="method-terms"><summary>{{ include.method.name }}에서 처음 볼 용어를 짧게 확인하세요</summary><dl class="rm-glossary">
 {% for term in include.method.glossary %}<dt>{{ term.term }}</dt><dd>{{ term.definition }}</dd>{% endfor %}
-</dl></details>
+</dl><p class="rm-small rm-glossary-source">용어를 이 방법의 연구 맥락에서 더 확인하려면 방법론 논문을 보세요: {% for id in include.method.references %}<a href="#ref-{{ id }}">추천논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}.</p></details>
 {% else %}
 <details class="rm-primer" id="method-terms"><summary>처음 보는 연구 용어를 짧게 확인하세요</summary><dl class="rm-glossary">
 <dt>연구문제</dt><dd>연구에서 답을 구하려는 구체적인 질문입니다. 연구할 현상과 대상, 알고 싶은 관계나 경험이 분명하게 드러나도록 씁니다.</dd>
@@ -16,5 +16,5 @@
 <dt>타당도</dt><dd>측정 결과와 연구설계가 의도한 개념이나 질문에 대해 적절한 해석을 뒷받침하는 정도입니다. 하나의 수치나 검정만으로 확정하기보다 여러 근거를 함께 평가합니다.</dd>
 <dt>자료수집·분석</dt><dd>자료수집은 연구문제에 답할 관찰·응답·문헌을 정해진 절차로 확보하는 일이고, 분석은 그 자료를 연구문제에 맞는 방법으로 정리하고 해석하는 일입니다.</dd>
 </dl></details>
-<p class="rm-small">용어의 뜻은 공개 연구방법 교재의 정의를 바탕으로 쉽게 풀어 썼습니다. 참고: <a href="https://open.umn.edu/opentextbooks/textbooks/social-science-research-principles-methods-and-practices" target="_blank" rel="noopener noreferrer">Bhattacherjee, <em>Social Science Research: Principles, Methods, and Practices</em></a> · <a href="https://opentextbc.ca/researchmethods/" target="_blank" rel="noopener noreferrer">Jhangiani et al., <em>Research Methods in Psychology</em></a>.</p>
+<p class="rm-small">용어 뜻은 공개 연구방법 교재의 용례를 바탕으로 쉽게 풀어 썼습니다. 더 확인하기: <a href="https://open.umn.edu/opentextbooks/textbooks/social-science-research-principles-methods-and-practices" target="_blank" rel="noopener noreferrer">Bhattacherjee, <em>Social Science Research: Principles, Methods, and Practices</em></a> · <a href="https://opentextbc.ca/researchmethods/back-matter/glossary/" target="_blank" rel="noopener noreferrer">Jhangiani et al., <em>Research Methods in Psychology</em> 용어집</a> · <a href="https://openbooks.macewan.ca/researchmethods/chapter/chapter-4-research-design-and-measurement/" target="_blank" rel="noopener noreferrer"><em>Research Methods: Exploring the Social World</em>, 연구설계와 측정 장</a>.</p>
 {% endif %}
