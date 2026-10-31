@@ -1,7 +1,10 @@
 {% if include.method %}
-<details class="rm-primer" id="method-terms"><summary>{{ include.method.name }}에서 처음 볼 용어를 짧게 확인하세요</summary><dl class="rm-glossary">
-{% for term in include.method.glossary %}<dt>{{ term.term }}</dt><dd>{{ term.definition }}</dd>{% endfor %}
-</dl><p class="rm-small rm-glossary-source">용어를 이 방법의 연구 맥락에서 더 확인하려면 방법론 논문을 보세요: {% for id in include.method.references %}<a href="#ref-{{ id }}">추천논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}.</p></details>
+<details class="rm-primer" id="method-terms"><summary>{{ include.method.name }}에서 처음 볼 용어를 확인하세요 (절차·분석·해석)</summary>
+<p class="rm-small">먼저 질문과 핵심 개념을 확인하고, 설계·절차에서 분석과 결과 해석으로 이어서 읽어 보세요. 이 방법의 주요 용어를 이해하고 연구문제에 맞는 선택을 돕는 학습 안내입니다. 아래 분석 순서와 점검표도 함께 확인하세요.</p>
+{% assign glossary_stages = "question,design,analysis,interpretation" | split: "," %}
+{% for stage in glossary_stages %}{% assign stage_items = include.method.glossary | where: 'stage', stage %}{% if stage == 'question' %}{% assign stage_title = '1. 질문과 핵심 개념' %}{% elsif stage == 'design' %}{% assign stage_title = '2. 설계와 절차' %}{% elsif stage == 'analysis' %}{% assign stage_title = '3. 분석과 결과' %}{% else %}{% assign stage_title = '4. 해석과 보고' %}{% endif %}
+<section class="rm-glossary-stage"><h3>{{ stage_title }}</h3><dl class="rm-glossary">{% for term in stage_items %}<dt>{{ term.term }}</dt><dd>{{ term.definition }}</dd>{% endfor %}</dl></section>{% endfor %}
+<p class="rm-small rm-glossary-source">이 용어를 각 방법의 연구 맥락에서 더 확인하려면 해당 방법론 논문을 보세요: {% for id in include.method.references %}<a href="#ref-{{ id }}">추천논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}.</p></details>
 {% else %}
 <details class="rm-primer" id="method-terms"><summary>처음 보는 연구 용어를 짧게 확인하세요</summary><dl class="rm-glossary">
 <dt>연구문제</dt><dd>연구에서 답을 구하려는 구체적인 질문입니다. 연구할 현상과 대상, 알고 싶은 관계나 경험이 분명하게 드러나도록 씁니다.</dd>

@@ -65,7 +65,12 @@ class ResearchMethodsSite(unittest.TestCase):
                 self.assertIn('누구의 어떤 경험·행동·이야기', html)
             else:
                 self.assertIn('검색원·검색식·기간·포함 기준', html)
-            self.assertIn(f"{m['name']}에서 처음 볼 용어를 짧게 확인하세요", html)
+            self.assertIn(f"{m['name']}에서 처음 볼 용어를 확인하세요 (절차·분석·해석)", html)
+            self.assertGreaterEqual(len(m['glossary']), 10)
+            self.assertEqual(html.count('class="rm-glossary-stage"'), 4)
+            self.assertIn('아래 분석 순서와 점검표도 함께 확인하세요', html)
+            self.assertEqual({term['stage'] for term in m['glossary']},
+                             {'question', 'design', 'analysis', 'interpretation'})
             for term in m['glossary']:
                 self.assertIn(term['term'], html)
                 self.assertIn(term['definition'], html)

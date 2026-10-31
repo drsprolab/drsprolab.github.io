@@ -110,6 +110,9 @@
 @media print { .rm-detail-nav,.rm-self-check form,.rm-actions,.rm-back,.tabs { display:none; } .rm-case,.rm-ultimate { break-inside:avoid; } }
 .rm-glossary dt { color:var(--accent); font-weight:600; margin-top:14px; }
 .rm-glossary dd { margin:4px 0 12px; font-size:14px; }
+.rm-glossary-stage { margin:18px 0 24px; padding-top:4px; border-top:1px solid var(--line); }
+.rm-glossary-stage h3 { margin:14px 0 8px; font-size:16px; }
+.rm-glossary-source { padding-top:10px; border-top:1px solid var(--line); }
 
 /* Compact typography is limited to the research-method guide and its detail pages. */
 .page--research-methods .page-head--menu { gap:6px; margin-bottom:22px; }
