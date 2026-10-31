@@ -6,7 +6,7 @@
     {label:'조직심리 · 숨은 몰입 유형',purpose:'조직몰입과 직무열의, 소진의 점수 조합으로 사람 유형을 찾고 싶습니다.',dataText:'직원에게 몰입·열의·소진을 설문으로 조사한 연속형 점수가 있습니다.',desired:'평균 뒤에 숨은 잠재프로파일과 유형별 특성을 보여 주고 싶습니다.',ultimate:'서로 다른 경험 조합을 가진 직원에게 어떤 지원이 필요한지 이해하고 싶습니다.',kind:'quantitative',indicators:'continuous',waves:'1',goal:'profiles'},
     {label:'학습분석 · 중도탈락 조기경보',purpose:'중도탈락 위험을 미리 예측하여 학습지원을 설계하고 싶습니다.',dataText:'1~3주 수치형 LMS 기록과 사전성취, 학기 말 중도탈락 여부가 있습니다. 다음 기수를 검증 자료로 쓸 계획입니다.',desired:'새로운 학습자의 위험확률과 예측 오류·성능을 제시하고 싶습니다.',ultimate:'조기에 지원할 학습자를 얼마나 정확하게 식별할 수 있는지 알고 싶습니다.',kind:'quantitative',indicators:'unknown',waves:'unknown',goal:'future'},
     {label:'질적 · 배제 경험의 의미',purpose:'학습·승진 기회에서 배제된 직원의 경험의 의미를 이해하고 싶습니다.',dataText:'배제를 직접 경험한 직원의 심층면담과 경험일지를 수집하려고 합니다.',desired:'구체적 체험과 의미를 드러내는 경험 주제와 근거 인용을 제시하고 싶습니다.',ultimate:'당사자가 배제를 어떻게 살아내고 해석하는지 밝히고 싶습니다.',kind:'qualitative',indicators:'unknown',waves:'unknown',goal:'experience'},
-    {label:'문헌 · AI 학습 연구의 지형',purpose:'생성형 AI와 직원 학습의 연구 지형과 공백을 파악하고 싶습니다.',dataText:'기존 논문과 연구보고서에서 대상·개념·맥락·방법을 추출하려고 합니다.',desired:'문헌의 범위와 개념·자료·설계의 분포를 지도화하고 싶습니다.',ultimate:'무엇이 이미 연구되었고 어떤 질문이 남았는지 밝히고 싶습니다.',kind:'literature',indicators:'unknown',waves:'unknown',goal:'map'}
+    {label:'문헌 · AI 학습 연구 현황',purpose:'생성형 AI와 직원 학습에 관한 연구가 어디까지 이루어졌고, 무엇이 부족한지 알고 싶습니다.',dataText:'기존 논문과 연구보고서에서 대상·개념·맥락·방법을 추출하려고 합니다.',desired:'문헌의 범위와 개념·자료·설계의 분포를 정리하고 싶습니다.',ultimate:'무엇이 이미 연구되었고 어떤 질문이 남았는지 밝히고 싶습니다.',kind:'literature',indicators:'unknown',waves:'unknown',goal:'map'}
   ];
   const app=document.getElementById('method-selector');
   if(app && window.ResearchMethodSelector){

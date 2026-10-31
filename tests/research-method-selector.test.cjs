@@ -19,7 +19,7 @@ const scenarios=[
  ['phenomenology',{purpose:'직장 내 배제 경험의 의미와 체험을 깊이 이해하고 싶다',dataText:'직접 경험한 사람의 심층면담',desired:'경험의 본질과 의미',kind:'qualitative'}],
  ['grounded-theory',{purpose:'소진의 회복 과정과 조건을 자료에서 이론으로 생성하고 싶다',desired:'과정 이론과 범주 간 관계',kind:'qualitative'}],
  ['narrative',{purpose:'경력 전환점과 정체성의 이야기를 시간에 따라 이해',dataText:'경력 이야기와 생애사 면담',desired:'서사와 플롯',kind:'qualitative'}],
- ['scoping-review',{purpose:'AI 학습 연구 지형과 범위, 공백을 파악',dataText:'기존 논문',desired:'문헌 지도와 연구동향',kind:'literature'}],
+ ['scoping-review',{purpose:'AI 학습 연구의 범위와 부족한 주제를 파악',dataText:'기존 논문',desired:'문헌별 주제와 연구동향',kind:'literature'}],
  ['integrative-review',{purpose:'흩어진 개념과 이론을 통합하고 재개념화',desired:'개념 통합 틀',kind:'literature'}],
  ['systematic-review',{purpose:'명확한 질문에 대한 기존 연구의 근거를 체계적으로 종합',desired:'편향 위험과 근거의 일관성',kind:'literature'}],
  ['meta-analysis',{purpose:'여러 연구의 효과크기를 합쳐 평균효과를 알고 싶다',desired:'통합효과와 이질성',kind:'literature'}],
