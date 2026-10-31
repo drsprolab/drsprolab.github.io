@@ -11,6 +11,7 @@ postdoc:
       - "Psychological Entitlement"
     affiliation: "한양대학교 · 교육공학과 · 한국교육문제연구소"
   - name: "주라헬"
+    homepage: "https://scholar.google.com/citations?user=vStaN9QAAAAJ&hl=en"
     credential: "Ph.D"
     name_en: "Rachel Ju"
     interests:
@@ -19,6 +20,7 @@ postdoc:
     affiliation: "한양대학교 · 교육공학과 · 한국교육문제연구소"
   - name: "나청수"
     name_en: "Chungsoo Na"
+    homepage: "https://scholar.google.com/citations?user=Wqjmx6IAAAAJ&hl=ko"
     credential: "Ph.D"
     interests:
       - "Computing Education"
@@ -28,6 +30,7 @@ postdoc:
 phd:
   - name: "윤희제"
     name_en: "Hee Je Yun"
+    homepage: "https://scholar.google.com/citations?user=vyqJSDwAAAAJ&hl=en"
     interests:
       - "Work Engagement"
       - "JD-R model"
@@ -38,6 +41,7 @@ phd:
     affiliation: "서울대학교 병원"
   - name: "남교민"
     name_en: "kyo min Nam"
+    homepage: "https://scholar.google.com/citations?user=R8nf0B4AAAAJ&hl=en"
     interests:
       - "Satisfaction On College Life"
       - "Learning Flow"
@@ -84,6 +88,7 @@ phd:
     affiliation: "원광대학교"
   - name: "전용찬"
     name_en: "Yong Chan Jeon"
+    homepage: "https://scholar.google.com/citations?user=OIK1t8YAAAAJ&hl=ko"
     interests:
       - "Organization Development"
       - "Teaching Competency"
