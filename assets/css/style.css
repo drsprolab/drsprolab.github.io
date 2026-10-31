@@ -1813,9 +1813,13 @@ main.container { overflow-x: clip; }
 .page--research-practice .rhg p { margin: 6px 0 10px; }
 .page--research-practice .rhg h3 { margin: 22px 0 10px; font-size: 19px; line-height: 1.45; }
 .page--research-practice .rhg h4 { margin: 16px 0 6px; font-size: 15px; line-height: 1.5; }
-.page--research-practice .rhg .rhb-flow { margin: 10px 0 14px; gap: 6px; }
-.page--research-practice .rhg .rhb-flow li { padding: 8px 12px; font-size: 13.5px; }
+.page--research-practice .rhg .rhb-flow { width: min(100%, 840px); margin: 14px auto 18px; gap: 8px; }
+.page--research-practice .rhg .rhb-flow li { grid-template-columns: 24px 170px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 18px; font-size: 13.5px; }
 .page--research-practice .rhg .rhb-flow span { font-size: 13px; }
+@media (max-width: 620px) {
+  .page--research-practice .rhg .rhb-flow li { grid-template-columns: 20px minmax(0, 1fr); gap: 2px 10px; padding: 10px 14px; }
+  .page--research-practice .rhg .rhb-flow span { grid-column: 2; }
+}
 .page--research-practice .rh-intro-start { margin-top: 22px; }
 .page--research-practice .rh-intro-go { padding: 10px 22px; font-size: 15px; }
 .page--research-practice #research-help.rh { gap: 14px; font-size: 14px; line-height: 1.65; }
