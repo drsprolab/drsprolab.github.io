@@ -221,6 +221,14 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .inst-doc { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.gal-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.gal-head h2 { margin-right: 4px; }
+.gal-years { display: flex; flex-wrap: wrap; gap: 4px; }
+.gal-years button { font: inherit; font-family: var(--f-mono); font-size: 12px; line-height: 1; padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--muted); cursor: pointer; }
+.gal-years button:hover { border-color: var(--accent); color: var(--accent); }
+.gal-years button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.gal-sec[hidden], .gal-year-view[hidden] { display: none; }
+.gal-empty { color: var(--muted); font-size: 14px; }
 .gcard { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; gap: 6px; align-content: start; background: var(--paper); }
 .gcard img, .gcard .ph { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 5px; background: var(--tint); max-width: 100%; }
 .gcard-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
