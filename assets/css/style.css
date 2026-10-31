@@ -2144,3 +2144,9 @@ main.container { overflow-x: clip; }
 .study-first-figure { max-width:900px; margin:28px auto; }
 .study-first-figure svg { display:block; width:100%; height:auto; }
 .study-first-figure figcaption { margin-top:9px; color:var(--muted); font-size:13px; line-height:1.6; }
+
+.daily-issue.has-pdf .title-row { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; column-gap:14px; }
+.daily-issue.has-pdf .title-row h1 { grid-column:1; min-width:0; margin:0; }
+.daily-issue.has-pdf .title-row .insight-pdf-link { grid-column:2; margin:0; }
+.daily-issue.has-pdf .title-row .share { grid-column:3; }
+@media(max-width:760px) { .daily-issue.has-pdf .title-row { grid-template-columns:minmax(0,1fr) auto; row-gap:8px; } .daily-issue.has-pdf .title-row h1 { grid-column:1 / -1; } .daily-issue.has-pdf .title-row .insight-pdf-link { grid-column:1; justify-self:start; } .daily-issue.has-pdf .title-row .share { grid-column:2; justify-self:end; } }

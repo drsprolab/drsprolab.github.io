@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<article class="page daily-issue">
+<article class="page daily-issue{% if page.pdf_url %} has-pdf{% endif %}">
   {% assign insight_index_url = '/weekly-insight/' %}{% if page.section == 'lab' %}{% assign insight_index_url = '/weekly-insight/lab/' %}{% endif %}
   <a class="daily-back" href="{{ insight_index_url | relative_url }}">← Weekly Insight 전체 보기</a>
   <header class="page-head daily-issue-head">
