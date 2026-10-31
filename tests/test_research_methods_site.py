@@ -38,7 +38,14 @@ class ResearchMethodsSite(unittest.TestCase):
         self.assertIn('양적 연구는 변수와 모형을', catalog)
         self.assertIn('질적 연구는 참여자·경험자료와 해석 절차를', catalog)
         self.assertIn('문헌 연구는 검색 대상·선정 기준·추출 항목과 종합 방법을', catalog)
-        self.assertIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', catalog)
+        for term in ['연구문제', '이론', '개념·구성개념', '변수', '조작적 정의',
+                     '연구설계', '모집단·표본', '측정', '신뢰도', '타당도', '자료수집·분석']:
+            self.assertIn(f'<dt>{term}</dt>', catalog)
+        self.assertIn('Social Science Research: Principles, Methods, and Practices', catalog)
+        self.assertIn('Research Methods in Psychology', catalog)
+        catalog_terms = catalog.split('<details class="rm-primer" id="method-terms">', 1)[1].split('</details>', 1)[0]
+        for specialized in ['X·Y·M·W', '잠재변수·잠재집단', '교차지연 경로', '부트스트랩 신뢰구간']:
+            self.assertNotIn(specialized, catalog_terms)
         for m in DATA['methods']:
             relative = f"/research-help/methods/{m['id']}/"
             self.assertIn(relative, parsed.hrefs)
@@ -62,7 +69,7 @@ class ResearchMethodsSite(unittest.TestCase):
             for term in m['glossary']:
                 self.assertIn(term['term'], html)
                 self.assertIn(term['definition'], html)
-            self.assertNotIn('이전 성과가 결과를 헷갈리게 할 수 있습니다', html)
+            self.assertNotIn('자료수집·분석</dt>', html)
             self.assertIn(m['selection']['decision'], html)
             for condition in m['selection']['conditions']:
                 self.assertIn(condition['title'], html)
