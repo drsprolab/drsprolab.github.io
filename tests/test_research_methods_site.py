@@ -78,6 +78,9 @@ class ResearchMethodsSite(unittest.TestCase):
             urls = Markup(tabs).hrefs
             self.assertEqual(urls, ['/research-help/basics/','/research-help/methods/','/research-help/'])
             self.assertEqual(tabs.count('aria-current="page"'), 1)
+        basics = (SITE / 'research-help/basics/index.html').read_text()
+        self.assertIn('실제 연구 주제와 연결되어 연구문제를 이해하는 데 필요하다면 사용할 수 있습니다', basics)
+        self.assertIn('AI·디지털 시대와 무관한 변수를 연구하면서 도입을 거창하게 보이려고', basics)
         html = (SITE / 'index.html').read_text()
         self.assertIn('<footer class="site-footer">', html)
         self.assertLess(html.index('논문작성법(기초)'), html.index('연구방법선택(중급)'))
