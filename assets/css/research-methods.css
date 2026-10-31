@@ -67,7 +67,9 @@
 .rm-source-policy h2,.prose .rm-source-policy h2 { font-size:19px; }
 .rm-back { font-size:14px; }
 .rm-detail-intro { margin:20px 0; }
-.rm-summary { font-size:14.5px; line-height:1.65; }
+.rm-summary,.rm-intro-example { font-size:14.5px; line-height:1.65; }
+.rm-detail-intro .rm-summary,.rm-detail-intro .rm-intro-example { margin:6px 0 10px; }
+.rm-detail-intro .rm-summary strong,.rm-detail-intro .rm-intro-example strong { margin-right:5px; color:var(--accent); }
 .rm-beginner-tip { padding:14px 18px; border-left:3px solid var(--accent); background:var(--tint); }
 .rm-detail-nav { display:flex; gap:8px 18px; flex-wrap:wrap; border-block:1px solid var(--line); padding:11px 0; margin:20px 0; font-size:14px; }
 .rm-detail-section { margin:24px 0; scroll-margin-top:100px; }
