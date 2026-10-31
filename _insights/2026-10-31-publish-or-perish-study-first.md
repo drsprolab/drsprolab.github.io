@@ -2,7 +2,7 @@
 layout: insight
 section: lab
 author: "주재홍 (Ph.D., 한양대학교 연구교수)"
-title: "연구자는 무엇을 위해 공부하는가?"
+title: "Publish or Perish, Study or Leave"
 date: 2026-10-31 08:00:00 +0900
 summary: "논문을 내는 일은 연구의 중요한 결실이지만, 연구의 목적은 출판 편수에 있지 않습니다. 연구 초입에는 먼저 질문과 이론, 방법을 자기 것으로 만드는 공부가 필요합니다."
 description: "Publish or Perish의 성과 압박과 AI 활용의 양면성을 살펴보고, 연구 초입의 공부와 학술적 판단, 현장과 지식을 나누는 의미를 주재홍 연구교수의 관점에서 정리합니다."
@@ -48,21 +48,23 @@ Manabu의 이론적 비평은 학자가 되어가는 일이 지식을 쌓는 데
 그래서 “Study or Leave”는 연구실을 떠나라는 명령이 아닙니다. 공부하지 않은 채 머무는 이유를 스스로 다시 묻자는 표현입니다. 하나의 연구 질문을 제대로 이해하고, 이론이나 연구방법 하나를 자기 것으로 만들고, 문제를 자신의 언어로 설명할 수 있다면 그것도 분명한 성과입니다.
 
 <figure class="study-first-figure" aria-labelledby="study-first-caption">
-  <svg viewBox="0 0 900 250" role="img" aria-label="호기심에서 시작한 공부가 연구자의 질문과 판단을 거쳐 출판과 비판, 수정으로 이어지고 새로운 질문을 만드는 순환">
+  <svg viewBox="0 0 960 390" role="img" aria-label="호기심에서 공부, 연구자의 질문과 판단, 공유와 수정으로 이어지는 흐름과 출판 목표 및 지속적 공부의 차이를 설명하는 도식">
     <defs>
-      <marker id="study-first-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#58728a" /></marker>
+      <marker id="study-first-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#586d80" /></marker>
       <style>
-        .sf-box{fill:#f2f6f9;stroke:#526e85;stroke-width:2}.sf-title{font:600 19px sans-serif;fill:#183b5b}.sf-sub{font:15px sans-serif;fill:#445563}.sf-flow{fill:none;stroke:#58728a;stroke-width:3;marker-end:url(#study-first-arrow)}.sf-loop{fill:none;stroke:#b38739;stroke-width:3;marker-end:url(#study-first-arrow)}.sf-note{font:14px sans-serif;fill:#80601f}
+        .sf-heading{font:700 18px sans-serif;fill:#174b83}.sf-box{fill:#fff;stroke:#354252;stroke-width:2}.sf-box-active{fill:#eaf0f7;stroke:#285a91;stroke-width:2}.sf-title{font:700 16px sans-serif;fill:#1d2936}.sf-sub{font:14px sans-serif;fill:#5c6874}.sf-flow{stroke:#586d80;stroke-width:2.5;marker-end:url(#study-first-arrow)}.sf-card{fill:#f4f6f8;stroke:#778797;stroke-width:2;stroke-dasharray:7 6}.sf-card-title{font:700 16px sans-serif;fill:#21558b}.sf-card-text{font:14px sans-serif;fill:#4e5d69}
       </style>
     </defs>
-    <rect class="sf-box" x="25" y="78" width="145" height="78" rx="12"/><text class="sf-title" x="97" y="111" text-anchor="middle">호기심</text><text class="sf-sub" x="97" y="136" text-anchor="middle">무엇이 궁금한가</text>
-    <rect class="sf-box" x="215" y="78" width="170" height="78" rx="12"/><text class="sf-title" x="300" y="109" text-anchor="middle">Study</text><text class="sf-sub" x="300" y="136" text-anchor="middle">읽기 · 이론 · 방법</text>
-    <rect class="sf-box" x="430" y="78" width="180" height="78" rx="12"/><text class="sf-title" x="520" y="109" text-anchor="middle">질문과 판단</text><text class="sf-sub" x="520" y="136" text-anchor="middle">자기 언어로 설명</text>
-    <rect class="sf-box" x="655" y="78" width="210" height="78" rx="12"/><text class="sf-title" x="760" y="109" text-anchor="middle">공유 · 비판 · 수정</text><text class="sf-sub" x="760" y="136" text-anchor="middle">출판은 생각을 나누는 통로</text>
-    <path class="sf-flow" d="M171 117 H208"/><path class="sf-flow" d="M386 117 H423"/><path class="sf-flow" d="M611 117 H648"/>
-    <path class="sf-loop" d="M760 164 C760 222 97 222 97 164"/><text class="sf-note" x="430" y="215" text-anchor="middle">비판과 수정은 다음 질문과 공부로 돌아옵니다</text>
+    <text class="sf-heading" x="24" y="32">연구 성장: 출판 성과에서 연구자의 배움으로</text>
+    <rect class="sf-box" x="24" y="58" width="205" height="82" rx="12"/><text class="sf-title" x="126" y="91" text-anchor="middle">호기심</text><text class="sf-sub" x="126" y="116" text-anchor="middle">무엇이 궁금한가</text>
+    <rect class="sf-box-active" x="267" y="58" width="205" height="82" rx="12"/><text class="sf-title" x="369" y="91" text-anchor="middle">Study</text><text class="sf-sub" x="369" y="116" text-anchor="middle">읽기 · 이론 · 방법</text>
+    <rect class="sf-box-active" x="510" y="58" width="205" height="82" rx="12"/><text class="sf-title" x="612" y="91" text-anchor="middle">질문과 판단</text><text class="sf-sub" x="612" y="116" text-anchor="middle">자기 언어로 설명</text>
+    <rect class="sf-box" x="753" y="58" width="205" height="82" rx="12"/><text class="sf-title" x="855" y="91" text-anchor="middle">공유 · 비판 · 수정</text><text class="sf-sub" x="855" y="116" text-anchor="middle">출판은 생각을 나누는 통로</text>
+    <line class="sf-flow" x1="230" y1="99" x2="258" y2="99"/><line class="sf-flow" x1="473" y1="99" x2="501" y2="99"/><line class="sf-flow" x1="716" y1="99" x2="744" y2="99"/>
+    <rect class="sf-card" x="24" y="174" width="448" height="166" rx="14"/><text class="sf-card-title" x="46" y="208">출판 편수가 목표가 될 때</text><text class="sf-card-text" x="46" y="244">산출량이 연구의 가치를 대신할 수 있음</text><text class="sf-card-text" x="46" y="274">질문과 배움의 과정이 가려질 수 있음</text><text class="sf-card-text" x="46" y="304">AI의 빠른 결과가 판단을 대신할 위험</text>
+    <rect class="sf-card" x="488" y="174" width="470" height="166" rx="14"/><text class="sf-card-title" x="510" y="208">공부와 출판이 이어질 때</text><text class="sf-card-text" x="510" y="244">배운 것을 자기 언어로 설명하고 나눔</text><text class="sf-card-text" x="510" y="274">비판과 수정으로 생각을 더 분명히 함</text><text class="sf-card-text" x="510" y="304">다듬은 생각이 다음 질문과 공부를 엶</text>
   </svg>
-  <figcaption id="study-first-caption">그림 1. 연구자의 성장을 설명하기 위한 작성자의 개념도입니다. 검증된 단계 모형이 아니라, 공부와 출판의 관계를 순환 과정으로 표현했습니다.</figcaption>
+  <figcaption id="study-first-caption">그림 1. 연구자의 성장을 설명하기 위한 작성자의 개념도입니다. 검증된 단계 모형이 아니라, Publish or Perish와 Study or Leave의 관계를 정리했습니다.</figcaption>
 </figure>
 
 ## 04 · 고통을 견디는 이유는 생각을 세상과 나누기 위해서다
