@@ -259,8 +259,9 @@
       if (!item) return;
       blocks.push({ type: 'sq', text: f.label });
       if (feedback.kind === 'socratic') {
-        if (item.focus) blocks.push({ type: 'ci', text: item.focus });
-        (item.questions || []).forEach(function (q, i) { blocks.push({ type: 'dash', text: '질문 ' + (i + 1) + '. ' + q }); });
+        if (item.anchor) blocks.push({ type: 'ci', text: '원고에서 확인한 문구: “' + item.anchor + '”' });
+        if (item.focus) blocks.push({ type: 'ci', text: '생각해 볼 지점: ' + item.focus });
+        (item.questions || []).forEach(function (q) { blocks.push({ type: 'dash', text: q }); });
       } else {
         (item.checks || []).forEach(function (c) { blocks.push({ type: 'dash', text: '[점검] ' + c.point + ' → ' + c.finding }); });
         blocks.push({ type: 'ci', text: '종합: ' + (item.status === 'withheld' ? '[판단 보류] ' : '') + item.assessment });
@@ -473,7 +474,8 @@
     var wrap = el('div', { class: 'rh-comment' });
     if (!item) return wrap;
     if (feedback.kind === 'socratic') {
-      if (item.focus) wrap.appendChild(el('p', { text: item.focus }));
+      if (item.anchor) wrap.appendChild(el('p', {}, [el('strong', { text: '원고에서 확인한 문구 ' }), '“' + item.anchor + '”']));
+      if (item.focus) wrap.appendChild(el('p', {}, [el('strong', { text: '생각해 볼 지점 ' }), item.focus]));
       wrap.appendChild(el('ol', {}, (item.questions || []).map(function (q) { return el('li', { text: q }); })));
       return wrap;
     }
@@ -603,7 +605,7 @@
       } else {
         var label = (s.round + 1) + '차 저장';
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', disabled: s.busy || !endpoint, onclick: doSave, text: s.busy ? busyLabel : label }));
-        if (s.round < 2) actions.appendChild(el('span', { class: 'rh-hint', text: s.round === 0 ? '저장하면 항목별 1차 DrS comments(소크라테스식 질문)가 표시됩니다. 1–3분 걸릴 수 있습니다.' : '수정한 내용을 저장하면 검증된 SSCI 문헌에 근거한 2차 DrS comments가 표시됩니다. 2–5분 걸릴 수 있습니다.' }));
+        if (s.round < 2) actions.appendChild(el('span', { class: 'rh-hint', text: s.round === 0 ? '1차 피드백은 원고 근거를 짚고, 의도 확인 → 근거·가정 탐색 → 연구 항목 간 연결·수정 질문 순으로 생각을 돕습니다. 1–3분 걸릴 수 있습니다.' : '수정한 내용을 저장하면 검증된 SSCI 문헌에 근거한 2차 DrS comments가 표시됩니다. 2–5분 걸릴 수 있습니다.' }));
         else actions.appendChild(el('span', { class: 'rh-hint', text: '3차 저장본이 최종본이 되며, PDF로 내려받고 제출할 수 있습니다.' }));
       }
       rootEl.appendChild(actions);
