@@ -12,6 +12,14 @@ layout: page
   <section class="rm-detail-section" id="purpose">
     <span class="rm-eyebrow">01 · 목적</span><h2>언제, 어떤 목적으로 선택하나요?</h2>
     <p class="rm-choice-lead">{{ m.selection.decision }}</p>
+    <div class="rm-choice-profile" aria-label="분석 방법의 목적과 선택 기준">
+      <section><h3>이 방법으로 답하는 연구 목적</h3><p>{{ m.purpose }}</p></section>
+      <section><h3>대표 연구 질문</h3><p>{{ m.question }}</p></section>
+      <section><h3>필요한 변수·자료의 형태</h3><p>{{ m.selection.variable_form }}</p></section>
+      <section><h3>분석에서는 무엇을 하나요?</h3><p>{{ m.selection.analysis_focus }}</p></section>
+      <section><h3>결과를 어떻게 해석하나요?</h3><p>{{ m.selection.result_interpretation }}</p></section>
+    </div>
+    <h3 class="rm-choice-conditions-title">이런 상황이면 이 분석을 고려하세요</h3>
     <div class="rm-choice-grid">{% for condition in m.selection.conditions %}<section><h3>{{ forloop.index }}. {{ condition.title }}</h3><p>{{ condition.explanation }}</p></section>{% endfor %}</div>
     <div class="rm-choice-compare"><h3>어떤 질문이면 다른 방법을 비교해야 하나요?</h3><dl>{% for comparison in m.selection.compare %}{% assign alternative = site.data.research_methods.methods | where: 'id', comparison.method | first %}<dt><a href="{{ '/research-help/methods/' | append: comparison.method | append: '/' | relative_url }}">{{ alternative.name }}</a></dt><dd>{{ comparison.criterion }}</dd>{% endfor %}</dl></div>
     <p class="rm-small rm-choice-sources">선택 기준의 방법론 근거: {% for id in m.references %}<a href="#ref-{{ id }}">추천 논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}. 아래 자료·해석 범위까지 확인해 최종 방법을 정하세요.</p>
