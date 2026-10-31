@@ -16,7 +16,7 @@
     - { title: PRO-AX Lab Review, url: /proax-lab-review/ }
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
-      url: /research-help/
+      url: /research-help/basics/
       children:
         - { title: 논문작성법(기초), url: /research-help/basics/ }
         - { title: 연구방법선택(중급), url: /research-help/methods/ }

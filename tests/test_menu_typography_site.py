@@ -8,6 +8,10 @@ SITE = ROOT / '_site'
 
 
 class MenuTypographyTest(unittest.TestCase):
+    def test_research_help_parent_menu_opens_basics(self):
+        html = (SITE / 'research-help/basics/index.html').read_text()
+        self.assertRegex(html, r'<a href="/research-help/basics/">Research help</a>')
+
     def test_menu_headers_have_scoped_slightly_smaller_titles_and_intros(self):
         for route in ('members', 'research', 'blog', 'project', 'institutes', 'highlights'):
             with self.subTest(route=route):
