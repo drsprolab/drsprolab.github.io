@@ -36,9 +36,11 @@ class ResearchMethodsSite(unittest.TestCase):
                      '사례와 예시를 통해 비교하기', '내 연구에 맞는 분석방법 확인하기']:
             self.assertIn(step, catalog)
         self.assertIn('연구방법 이름을 몰라도 괜찮습니다.', catalog)
-        self.assertIn('설문 점수나 학습 기록을 다루면 양적 연구', catalog)
-        self.assertIn('면담이나 관찰 기록이면 질적 연구', catalog)
-        self.assertIn('기존 논문에서 밝혀진 내용', catalog)
+        self.assertIn('설문 점수나 학습 기록', catalog)
+        self.assertIn('양적 연구부터 살펴보세요', catalog)
+        self.assertIn('면담이나 관찰 기록', catalog)
+        self.assertIn('질적 연구를 살펴보세요', catalog)
+        self.assertIn('기존 논문과 연구보고서', catalog)
         for term in ['연구문제', '이론', '개념·구성개념', '변수', '조작적 정의',
                      '연구설계', '모집단·표본', '측정', '신뢰도', '타당도', '자료수집·분석']:
             self.assertIn(f'<dt>{term}</dt>', catalog)
@@ -105,7 +107,10 @@ class ResearchMethodsSite(unittest.TestCase):
             for comparison in m['selection']['compare']:
                 self.assertIn(comparison['criterion'], html)
             for c in m['cases']:
-                self.assertIn(c['output'], html)
+                for item in c['data_items'] + c['output_items']:
+                    self.assertIn(item, html)
+            for item in m['data_example']['column_items']:
+                self.assertIn(item, html)
             for ref in m['references']:
                 self.assertIn(DATA['references'][ref]['url'], page.hrefs)
             for anchor in ['purpose','data','outputs','ultimate','cases','self-check','references']:
