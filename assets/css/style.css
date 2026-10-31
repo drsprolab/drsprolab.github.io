@@ -1144,7 +1144,8 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 /* 검색 비노출 구성원: 이름 이미지 */
 .member-name-img { display: block; width: 77px; height: auto; margin: 2px 0 5px -3px; }
 /* 이름 이미지 카드: 빨간 점이 줄을 차지해 이름이 아래로 밀리지 않도록 겹쳐 띄운다 */
-.member .member-name--img { position: relative; }
+.member .member-name--img { position: relative; display: flex; align-items: flex-start; }
+.member .member-name--img .member-home { margin-top: 1px; }
 .member .member-name--img::before { position: absolute; left: -14px; top: 8px; margin: 0; }
 @media (prefers-color-scheme: dark) { .member-name-img { filter: invert(1) hue-rotate(180deg); } }
 

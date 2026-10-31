@@ -142,6 +142,7 @@ phd:
   # 검색 비노출 구성원: 이름은 이미지로만 표시 (robots.txt에서 이미지 수집 차단)
   - name: "private-1"
     name_image: "/assets/images/people/private/n1.png"
+    homepage: "https://orcid.org/0000-0001-8625-4340"
     photo: "/assets/images/people/private/p1.jpg"
     interests:
       - "GenAI Education"
