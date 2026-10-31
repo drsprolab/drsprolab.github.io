@@ -78,6 +78,8 @@
 .rm-detail-section li { margin:7px 0; }
 .rm-scale-steps { padding-left:23px; }
 .rm-scale-steps li { padding-left:4px; margin:9px 0; }
+.rm-method-points { margin:0; padding-left:19px; font-size:14px; }
+.rm-method-points li { margin:7px 0; }
 .rm-scale-screening { padding-left:21px; }
 .rm-scale-screening li { margin:9px 0; }
 .rm-scale-panels { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:18px 0 12px; }

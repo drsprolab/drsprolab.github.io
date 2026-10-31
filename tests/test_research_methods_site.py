@@ -91,9 +91,11 @@ class ResearchMethodsSite(unittest.TestCase):
             for field, label in [('variable_form', '필요한 변수·자료의 형태'),
                                  ('analysis_focus', '분석에서는 무엇을 하나요?'),
                                  ('result_interpretation', '결과를 어떻게 해석하나요?')]:
-                self.assertGreaterEqual(len(m['selection'][field]), 80, (m['id'], field))
+                self.assertGreaterEqual(len(m['selection'][field]), 3, (m['id'], field))
                 self.assertIn(label, html)
-                self.assertIn(m['selection'][field], html)
+                self.assertIn('class="rm-method-points"', html)
+                for point in m['selection'][field]:
+                    self.assertIn(point, html)
             self.assertIn(m['purpose'], html)
             self.assertIn(m['question'], html)
             self.assertIn('이런 상황이면 이 분석을 고려하세요', html)

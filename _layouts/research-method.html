@@ -20,9 +20,9 @@ layout: page
     <div class="rm-choice-profile" aria-label="분석 방법의 목적과 선택 기준">
       <section><h3>이 방법으로 답하는 연구 목적</h3><p>{{ m.purpose }}</p></section>
       <section><h3>대표 연구 질문</h3><p>{{ m.question }}</p></section>
-      <section><h3>필요한 변수·자료의 형태</h3><p>{{ m.selection.variable_form }}</p></section>
-      <section><h3>분석에서는 무엇을 하나요?</h3><p>{{ m.selection.analysis_focus }}</p></section>
-      <section><h3>결과를 어떻게 해석하나요?</h3><p>{{ m.selection.result_interpretation }}</p></section>
+      <section><h3>필요한 변수·자료의 형태</h3><ul class="rm-method-points">{% for point in m.selection.variable_form %}<li>{{ point }}</li>{% endfor %}</ul></section>
+      <section><h3>분석에서는 무엇을 하나요?</h3><ul class="rm-method-points">{% for point in m.selection.analysis_focus %}<li>{{ point }}</li>{% endfor %}</ul></section>
+      <section><h3>결과를 어떻게 해석하나요?</h3><ul class="rm-method-points">{% for point in m.selection.result_interpretation %}<li>{{ point }}</li>{% endfor %}</ul></section>
     </div>
     <h3 class="rm-choice-conditions-title">이런 상황이면 이 분석을 고려하세요</h3>
     <div class="rm-choice-grid">{% for condition in m.selection.conditions %}<section><h3>{{ forloop.index }}. {{ condition.title }}</h3><p>{{ condition.explanation }}</p></section>{% endfor %}</div>
