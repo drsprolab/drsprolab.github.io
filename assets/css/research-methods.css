@@ -8,9 +8,11 @@
 .rm-intro h2,.prose .rm-intro h2 { font-size:25px; letter-spacing:-.035em; margin:8px 0 12px; }
 .rm-intro-points,.rm-catalog-guide { margin:8px 0 12px; padding-left:20px; font-size:14px; }
 .rm-intro-points li,.rm-catalog-guide li { margin:5px 0; }
-.rm-path { margin:10px 0; padding:0; list-style:none; align-self:center; }
-.rm-path li { display:flex; gap:18px; padding:10px 0; border-bottom:1px solid var(--line); }
-.rm-path b { color:var(--accent); font:500 14px/2 var(--f-mono); }
+.rm-path { margin:10px 0; padding:0; list-style:none; align-self:center; display:grid; gap:12px; }
+.rm-path li { display:flex; align-items:center; gap:14px; padding:8px 22px 8px 8px; border:1px solid var(--line); border-radius:999px; background:var(--tint); font-size:15px; transition:background-color .15s,border-color .15s,box-shadow .15s; }
+.rm-path li:hover { background:var(--accent-soft); border-color:var(--accent); box-shadow:0 4px 14px rgba(0,0,0,.08); }
+.rm-path b { flex:none; display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:var(--accent); color:var(--paper); font:600 14px/1 var(--f-mono); }
+.rm-path span { font-weight:600; line-height:1.4; }
 .rm-primer { margin:18px 0; border:1px solid var(--line); border-radius:10px; padding:14px 18px; background:var(--tint); }
 .rm summary { cursor:pointer; font-weight:600; }
 .rm-primer-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; margin-top:20px; }
