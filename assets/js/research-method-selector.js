@@ -8,7 +8,7 @@
   const goals = {
     relationship:['regression'], pathway:['mediation'], conditional:['moderation'],
     'conditional-pathway':['moderated-mediation'], latent:['sem'], groups:['multigroup'],
-    profiles:['lpa','lca'], transition:['lta'], measurement:['scale-development'], future:['prediction'],
+    profiles:['lpa','lca'], transition:['lta'], integrate:['mixed-methods'], intervention:['quasi-experiment'], designdev:['ddr'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
     pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
@@ -33,6 +33,9 @@
     'systematic-review':[/명확한.{0,10}질문.{0,15}근거/,/기존 연구.{0,20}(결론|일관성)/],
     'meta-analysis':[/여러 연구.{0,15}(효과|상관).{0,10}(합치|종합|통합)/,/연구.{0,10}평균.{0,8}효과/],
     sna:[/누가 누구와/,/연결.{0,8}(구조|위치|형태)/,/네트워크/,/관계.{0,8}(구조|연결)/,/중심.{0,6}(인물|위치)/],
+    'quasi-experiment':[/준실험|quasi/i,/(실험|통제|비교)\s*집단/,/사전.{0,4}사후/,/(교육|프로그램|수업|처치).{0,12}효과.{0,14}(있|검증|확인|비교)/],
+    'mixed-methods':[/혼합\s*(연구|방법|설계|자료|데이터)/,/mixed.?method/i,/(설문|양적).{0,24}(면담|질적).{0,16}(함께|결합|통합|합쳐)/,/(면담|질적).{0,24}(설문|양적).{0,16}(함께|결합|통합|합쳐)/],
+    ddr:[/설계\s*기반|설계.?개발\s*연구|개발\s*연구/,/\b(ddr|dbr)\b/i,/(모형|프로그램|교수설계).{0,10}(개발|만들).{0,24}(타당화|전문가|검증)/],
     lta:[/잠재전이/,/(유형|프로파일|계층|집단).{0,14}(이동|옮겨|바뀌)/,/전이확률/],
     lgm:[/잠재성장|성장모형/,/변화.{0,4}(궤적|속도|양상)/,/시간.{0,8}따라.{0,12}(변화|변하|달라)/,/변화.{0,12}개인차/],
     'case-study':[/사례.{0,3}연구/,/(특정|한).{0,6}(조직|기업|학교|프로그램).{0,15}(사례|깊이|왜|어떻게)/,/운영 사례|도입 사례/],
@@ -108,7 +111,7 @@
       if(m.id==='lpa' && input.indicators==='continuous' && score>0)score+=10;
       if(m.id==='lca' && input.indicators==='categorical' && score>0)score+=10;
       const check=constraints(m.id,input,kind);
-      if(kind!=='unknown'&&kind!=='mixed'&&kind!==m.category)check.excluded.push('선택·입력한 자료 종류와 이 방법의 주된 자료가 다릅니다. 자료 조건을 먼저 확인하세요.');
+      if(kind!=='unknown'&&kind!=='mixed'&&kind!==m.category&&!(m.id==='quasi-experiment'&&kind==='quantitative'))check.excluded.push('선택·입력한 자료 종류와 이 방법의 주된 자료가 다릅니다. 자료 조건을 먼저 확인하세요.');
       return {id:m.id,score,reasons,missing:check.missing,excluded:check.excluded};
     }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score);
     return {candidates:rows.filter(r=>!r.excluded.length).slice(0,3),excluded:rows.filter(r=>r.excluded.length).slice(0,3),notes,hasInput:text.trim().length>0||goal.length>0};
