@@ -59,7 +59,8 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertNotIn('<footer class="site-footer">', html)
             self.assertEqual(len(page.ids), len(set(page.ids)), m['id'])
             self.assertEqual(html.count('class="rm-case"'), 2)
-            self.assertEqual(html.count('SSCI 목록 대조</span>'), len(m['references']))
+            self.assertNotIn('SSCI 목록 대조</span>', html)
+            self.assertNotIn('DOI 서지 확인</span>', html)
             if m['id'] == 'scale-development':
                 for heading in ['문항을 어떻게 만들고 추리나요?', '어떤 근거로 문항을 유지·수정·삭제하나요?',
                                 '신뢰도는 어떻게 확인하나요?', '타당도 근거는 어떻게 모으나요?',
