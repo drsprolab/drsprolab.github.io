@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = Path(os.environ.get('RESEARCH_METHODS_SITE', ROOT / '_site'))
 DATA = json.loads((ROOT / '_data/research_methods.json').read_text())
 MODELS = json.loads((ROOT / '_data/research_models.json').read_text())
+RESULTS = json.loads((ROOT / '_data/research_results.json').read_text())
 
 class Markup(HTMLParser):
     def __init__(self, html):
@@ -85,6 +86,7 @@ class ResearchMethodsSite(unittest.TestCase):
                         self.assertIn(h, html)
             else:
                 self.assertNotIn('class="mm-svg"', html)
+            self.assertEqual(html.count('rf-svg'), len(RESULTS.get(m['id'], [])))
             st = m['analysis_structure']
             self.assertIn('rm-var-table', html)
             self.assertIn(st['summary'], html)
