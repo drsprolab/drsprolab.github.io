@@ -11,6 +11,19 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 
 <div class="rhb" markdown="1">
 
+<section class="rhb-map rhb-foundations" aria-labelledby="rhb-foundations-title">
+<h2 id="rhb-foundations-title">1. 네 가지 론은 우리가 연구를 시작하고 마무리하는 철학적 관점입니다</h2>
+<p>연구자는 현상을 어떤 실재로 볼지 정하고, 그 현상을 어떻게 알 수 있는지 밝힌 뒤, 그에 맞는 탐구 방법을 설계합니다. 이 전 과정에서 연구자의 가치와 책임도 작동합니다.</p>
+<ol class="rhb-foundation-chain">
+  <li><span class="rhb-no">존재론 · 무엇이 존재하는가</span><strong>현상의 본질과 구조</strong><span>연구 대상인 현상을 어떤 실재로 이해할지, 어떤 존재 양상과 구조를 전제할지 정합니다.</span></li>
+  <li><span class="rhb-no">인식론 · 어떻게 알 수 있는가</span><strong>지식의 근거와 기준</strong><span>그 현상에 관한 지식이 어떻게 가능한지, 어떤 이론적·경험적 근거와 정당화 기준을 따를지 밝힙니다.</span></li>
+  <li><span class="rhb-no">방법론 · 어떻게 탐구하는가</span><strong>연구 설계와 검증 논리</strong><span>연구문제에 맞춰 자료와 분석 방법을 선택하고, 주장을 어떤 논리로 검증하거나 해석할지 설계합니다.</span></li>
+  <li><span class="rhb-no">가치론 · 무엇을 지키며 연구하는가</span><strong>가치·윤리·책임</strong><span>연구자의 가치와 편향을 성찰하고, 연구 참여자와 공동체에 대한 윤리적 책임 및 결과의 학술적 가치를 고려합니다.</span></li>
+</ol>
+<p class="rhb-loop"><strong>연결의 핵심</strong> 존재론은 무엇을 연구할지, 인식론은 무엇을 지식으로 인정할지, 방법론은 그 지식을 어떻게 만들고 점검할지 이끕니다. 가치론은 이 선택과 연구 전 과정에 관여합니다. 네 관점은 서로 영향을 주며 연구의 일관성을 이룹니다.</p>
+<p class="rhb-map-note">네 관점은 반드시 시간 순서대로 진행되는 단계가 아닙니다. 연구문제와 설계를 다듬는 과정에서 서로를 조정하며, 연구 전반에 함께 적용됩니다.</p>
+</section>
+
 <section class="rhb-map" aria-labelledby="rhb-map-title">
 <h2 id="rhb-map-title">논문의 다섯 장은 하나의 논리로 이어집니다</h2>
 <ol class="rhb-chain"><li><a href="#ch1"><span class="rhb-no">1장</span><strong>서론</strong><em>왜 쓰는가</em><span class="rhb-sum">문제의식에서 출발해 연구의 배경·목적·필요성을 밝히고, 연구문제와 연구모형을 세웁니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 연구문제 1·2·3을 세웁니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>1-1. 연구에 대한 문제의식</span><span>1-2. 연구의 배경</span><span>1-3. 연구의 목적</span><span>1-4. 연구의 문제와 필요성</span><span>1-5. 용어의 정의</span><span>1-6. 연구문제</span><span>1-7. 연구문제(RQ)와 연구가설(H)의 차이</span><span>1-8. 연구 모형</span></span></a></li><li><a href="#ch2"><span class="rhb-no">2장</span><strong>이론적 근거</strong><em>무엇으로 설명하는가</em><span class="rhb-sum">개념별로 선행연구를 정리하고, 이론을 렌즈 삼아 연구모형과 가설의 근거를 세웁니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 같은 순서로 개념의 근거를 쌓습니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>2-1. 작성의 기본 원칙</span><span>2-2. 구성 전략: 개념별 정리</span><span>2-3. 이론적 근거: 연구를 바라보는 렌즈로서의 이론</span></span></a></li><li><a href="#ch3"><span class="rhb-no">3장</span><strong>연구방법</strong><em>어떻게 확인하는가</em><span class="rhb-sum">대상·표본·자료수집·측정도구·분석방법을 연구문제에 맞춰 설계합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 문제마다 분석 방법을 짝짓습니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>3-1. 연구 방법과 절차의 개괄</span><span>3-2. 연구의 맥락과 대상</span><span>3-3. 표본과 자료 수집의 방법·절차</span><span>3-4. 측정도구</span><span>3-5. 분석 방법</span></span></a></li><li><a href="#ch4"><span class="rhb-no">4장</span><strong>연구결과</strong><em>무엇이 확인되었는가</em><span class="rhb-sum">해석은 덜어내고 사실만, 연구방법과 같은 순서로 기술합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 같은 순서로 결과를 보여 줍니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>4-1. 사실만 기술합니다</span><span>4-2. 연구방법과 같은 순서로 기술합니다</span></span></a></li><li><a href="#ch5"><span class="rhb-no">5장</span><strong>결론</strong><em>그래서 무엇을 말하는가</em><span class="rhb-sum">목적을 다시 밝히고 결과를 요약·해석하며, 시사점과 한계, 후속 연구를 제안합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 문제 1·2·3에 차례로 답합니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>5-1. 연구 목적의 재기술</span><span>5-2. 연구결과의 요약</span><span>5-3. 결과에 대한 해석</span><span>5-4. 연구의 시사점</span><span>5-5. 연구의 한계와 후속 연구 제언</span></span></a></li></ol>
