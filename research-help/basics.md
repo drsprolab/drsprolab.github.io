@@ -11,19 +11,16 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 
 <div class="rhb" markdown="1">
 
-<nav class="rhb-toc" aria-label="목차">
-  <strong>논문의 구성</strong>
-  <ol>
-    <li><a href="#ch1">1. 서론</a></li>
-    <li><a href="#ch2">2. 이론적 근거</a></li>
-    <li><a href="#ch3">3. 연구방법</a></li>
-    <li><a href="#ch4">4. 연구결과</a></li>
-    <li><a href="#ch5">5. 결론</a></li>
-  </ol>
-  <p><mark class="rhb-key">노란 음영</mark>은 꼭 기억해야 할 핵심입니다. 다섯 장은 서로 독립된 글이 아니라 하나의 논리로 이어집니다. 서론에서 세운 번호(1·2·3)가 연구문제, 분석 방법, 결과, 해석까지 같은 순서로 이어지는지 늘 확인하시기 바랍니다.</p>
-</nav>
+<section class="rhb-map" aria-labelledby="rhb-map-title">
+<h2 id="rhb-map-title">논문의 다섯 장은 하나의 논리로 이어집니다</h2>
+<ol class="rhb-chain"><li><a href="#ch1"><span class="rhb-no">1장</span><strong>서론</strong><em>왜 쓰는가</em><span class="rhb-sum">문제의식에서 출발해 연구의 배경·목적·필요성을 밝히고, 연구문제와 연구모형을 세웁니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 연구문제 1·2·3을 세웁니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>1-1. 연구에 대한 문제의식</span><span>1-2. 연구의 배경</span><span>1-3. 연구의 목적</span><span>1-4. 연구의 문제와 필요성</span><span>1-5. 용어의 정의</span><span>1-6. 연구문제</span><span>1-7. 연구문제(RQ)와 연구가설(H)의 차이</span><span>1-8. 연구 모형</span></span></a></li><li><a href="#ch2"><span class="rhb-no">2장</span><strong>이론적 근거</strong><em>무엇으로 설명하는가</em><span class="rhb-sum">개념별로 선행연구를 정리하고, 이론을 렌즈 삼아 연구모형과 가설의 근거를 세웁니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 같은 순서로 개념의 근거를 쌓습니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>2-1. 작성의 기본 원칙</span><span>2-2. 구성 전략: 개념별 정리</span><span>2-3. 이론적 근거: 연구를 바라보는 렌즈로서의 이론</span></span></a></li><li><a href="#ch3"><span class="rhb-no">3장</span><strong>연구방법</strong><em>어떻게 확인하는가</em><span class="rhb-sum">대상·표본·자료수집·측정도구·분석방법을 연구문제에 맞춰 설계합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 문제마다 분석 방법을 짝짓습니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>3-1. 연구 방법과 절차의 개괄</span><span>3-2. 연구의 맥락과 대상</span><span>3-3. 표본과 자료 수집의 방법·절차</span><span>3-4. 측정도구</span><span>3-5. 분석 방법</span></span></a></li><li><a href="#ch4"><span class="rhb-no">4장</span><strong>연구결과</strong><em>무엇이 확인되었는가</em><span class="rhb-sum">해석은 덜어내고 사실만, 연구방법과 같은 순서로 기술합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 같은 순서로 결과를 보여 줍니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>4-1. 사실만 기술합니다</span><span>4-2. 연구방법과 같은 순서로 기술합니다</span></span></a></li><li><a href="#ch5"><span class="rhb-no">5장</span><strong>결론</strong><em>그래서 무엇을 말하는가</em><span class="rhb-sum">목적을 다시 밝히고 결과를 요약·해석하며, 시사점과 한계, 후속 연구를 제안합니다.</span><span class="rhb-thread"><b>이어지는 고리</b> 문제 1·2·3에 차례로 답합니다</span><span class="rhb-peek"><b>이 장의 구성</b><span>5-1. 연구 목적의 재기술</span><span>5-2. 연구결과의 요약</span><span>5-3. 결과에 대한 해석</span><span>5-4. 연구의 시사점</span><span>5-5. 연구의 한계와 후속 연구 제언</span></span></a></li></ol>
+<p class="rhb-loop"><span aria-hidden="true">↺</span> 결론(5장)은 서론(1장)에서 세운 문제의식과 목적에 다시 답하며 논문을 닫습니다. 서론의 번호(1·2·3)가 이론·방법·결과·결론까지 같은 순서로 이어지는지 늘 확인하세요.</p>
+<p class="rhb-map-note">각 박스를 누르면 해당 장의 자세한 안내가 펼쳐집니다. <mark class="rhb-key">노란 음영</mark>은 꼭 기억해야 할 핵심입니다.</p>
+</section>
 
-<h2 id="ch1">1. 서론</h2>
+<details class="rhb-ch" id="ch1" markdown="1">
+<summary><span class="rhb-no">1장</span> 서론</summary>
+
 
 ### 1-1. 연구에 대한 문제의식
 
@@ -178,7 +175,12 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   </div>
 </figure>
 
-<h2 id="ch2">2. 이론적 근거</h2>
+<nav class="rhb-pager" aria-label="1장 이동"><span></span><a class="rhb-top" href="#rhb-map-title">↑ 처음으로</a><a class="rhb-next" href="#ch2">2장 이론적 근거 →</a></nav>
+</details>
+
+<details class="rhb-ch" id="ch2" markdown="1">
+<summary><span class="rhb-no">2장</span> 이론적 근거</summary>
+
 
 <p class="rhb-def"><strong>이론적 근거란</strong> 연구자가 제기한 문제의식을 바탕으로 제시한 <mark class="rhb-key">연구 모형을 설득력 있게 타당화하는 근간</mark>입니다. 또한 연구자가 이 현상을 어떻게 바라보는지, 그리고 현상을 해석하는 틀이 무엇인지를 제시하는 것입니다. 즉, 이론적 근거는 <b>연구자가 가진 관점</b>, <b>연구자가 주장하는 것에 대한 근거</b>, 그리고 <b>이 연구 모형이 어떻게 도출되었는가에 대한 근거</b>가 되어야 합니다.</p>
 
@@ -255,7 +257,12 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   </div>
 </figure>
 
-<h2 id="ch3">3. 연구방법</h2>
+<nav class="rhb-pager" aria-label="2장 이동"><a class="rhb-prev" href="#ch1">← 1장 서론</a><a class="rhb-top" href="#rhb-map-title">↑ 처음으로</a><a class="rhb-next" href="#ch3">3장 연구방법 →</a></nav>
+</details>
+
+<details class="rhb-ch" id="ch3" markdown="1">
+<summary><span class="rhb-no">3장</span> 연구방법</summary>
+
 
 ### 3-1. 연구 방법과 절차의 개괄
 
@@ -311,7 +318,12 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   </div>
 </figure>
 
-<h2 id="ch4">4. 연구결과</h2>
+<nav class="rhb-pager" aria-label="3장 이동"><a class="rhb-prev" href="#ch2">← 2장 이론적 근거</a><a class="rhb-top" href="#rhb-map-title">↑ 처음으로</a><a class="rhb-next" href="#ch4">4장 연구결과 →</a></nav>
+</details>
+
+<details class="rhb-ch" id="ch4" markdown="1">
+<summary><span class="rhb-no">4장</span> 연구결과</summary>
+
 
 ### 4-1. 사실만 기술합니다
 
@@ -342,7 +354,12 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   <p class="rhb-fig-note">결과에는 사실만 쓰고, 해석은 5장에서 합니다.</p>
 </figure>
 
-<h2 id="ch5">5. 결론</h2>
+<nav class="rhb-pager" aria-label="4장 이동"><a class="rhb-prev" href="#ch3">← 3장 연구방법</a><a class="rhb-top" href="#rhb-map-title">↑ 처음으로</a><a class="rhb-next" href="#ch5">5장 결론 →</a></nav>
+</details>
+
+<details class="rhb-ch" id="ch5" markdown="1">
+<summary><span class="rhb-no">5장</span> 결론</summary>
+
 
 ### 5-1. 연구 목적의 재기술
 
@@ -397,6 +414,9 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   <p class="rhb-fig-note">예상과 다른 결과는 이 논문의 핵심일 수 있습니다. 이론적 근거로 깊이 논의하세요.</p>
 </figure>
 
+<nav class="rhb-pager" aria-label="5장 이동"><a class="rhb-prev" href="#ch4">← 4장 연구결과</a><a class="rhb-top" href="#rhb-map-title">↑ 처음으로</a><span></span></nav>
+</details>
+
 <section class="rhq" id="rhq" data-endpoint="{{ site.research_help_script_url | escape }}" aria-labelledby="rhq-title">
   <h2 id="rhq-title">Quiz 풀기</h2>
   <p>이 페이지의 내용을 바탕으로 5지선다형 퀴즈 30문항을 준비했습니다.</p>
@@ -412,6 +432,7 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 </section>
 
 <p class="rhb-cta"><a class="rh-btn primary" href="{{ '/research-help/' | relative_url }}">나의 연구 발전시키기(실습) 시작하기</a></p>
+<script>(function(){function o(){var id=decodeURIComponent(location.hash.slice(1)),t=id&&document.getElementById(id);if(!t)return;for(var n=t;n;n=n.parentElement){if(n.tagName==='DETAILS')n.open=true;}t.scrollIntoView();}window.addEventListener('hashchange',o);o();document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.rhb-pager a');if(!a)return;var d=a.closest('details');var t=document.getElementById(a.getAttribute('href').slice(1));if(d&&t&&t!==d)d.open=false;if(t&&t.tagName==='DETAILS'&&t.open&&location.hash==='#'+t.id){e.preventDefault();t.scrollIntoView();}});})();</script>
 <script src="{{ '/assets/js/research-help-quiz.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 
 </div>
