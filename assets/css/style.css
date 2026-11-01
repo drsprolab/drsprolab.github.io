@@ -1264,7 +1264,10 @@ main.container { overflow-x: clip; }
 /* Weekly Insight 글 제목 옆 공유 버튼 */
 /* 공유 버튼은 제목 마지막 글자 바로 뒤에 붙는다 */
 .title-row h1 { display: inline; }
-.title-row .title-link { margin: 0 0 0 12px; vertical-align: middle; white-space: nowrap; }
+.title-row--link { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.title-row--link h1 { display: block; margin: 0; }
+.title-row .title-link { margin: 0; white-space: nowrap; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.title-row .title-link:hover, .title-row .title-link:focus-visible { background: var(--accent); color: #fff; }
 .share { position: relative; display: inline-block; vertical-align: .3em; margin-left: .45em; white-space: nowrap; }
 .share-btn { font: inherit; font-size: 14px; font-weight: 600; color: #fff; background: #e0312b; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
 .share-btn:hover { background: #c4241f; transform: translateY(-1px); }
