@@ -89,3 +89,18 @@ document.addEventListener('touchstart', function () {}, { passive: true });
       title.appendChild(b);
     });
 })();
+
+// 수동 NEW 표시: 메뉴 항목의 data-new-until(유닉스 초)까지 NEW 배지를 보여 줌 (_data/navigation.yml new_until). 방문 시각 기준이라 기한이 지나면 저절로 사라짐
+(function () {
+  var now = Date.now() / 1000;
+  document.querySelectorAll('a[data-new-until], li[data-new-until] > a').forEach(function (a) {
+    var until = +(a.dataset.newUntil || a.parentElement.dataset.newUntil);
+    if (!until || now > until || a.querySelector('.nav-new')) return;
+    var top = a.parentElement && a.parentElement.classList.contains('nav-item');
+    var b = document.createElement('span');
+    b.className = top ? 'nav-new' : 'submenu-new';
+    b.textContent = 'NEW';
+    b.title = new Date(until * 1000).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' }) + '까지 표시';
+    a.appendChild(b);
+  });
+})();

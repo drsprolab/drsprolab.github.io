@@ -2255,3 +2255,7 @@ details.rhb-ch { margin: 14px 0; border: 1px solid var(--line); border-radius: 1
 .rhb-pager .rhb-top:hover, .rhb-pager .rhb-top:focus-visible { background: var(--accent); color: var(--paper); opacity: .9; }
 @media (max-width: 560px) { .rhb-pager { flex-wrap: wrap; } .rhb-pager .rhb-top { order: 3; width: 100%; justify-content: center; } .rhb-pager a { flex: 1 1 40%; justify-content: center; } }
 @media print { .rhb-pager { display: none; } }
+
+/* 수동 NEW 배지: 드롭다운 항목 */
+.submenu-new { display: inline-block; margin-left: 8px; padding: 1px 5px 0; border-radius: 4px; background: #e5484d; color: #fff; font-family: var(--f-mono); font-size: 9px; font-weight: 600; letter-spacing: .04em; line-height: 1.4; vertical-align: 2px; animation: nav-new-blink 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .submenu-new { animation: none; } }
