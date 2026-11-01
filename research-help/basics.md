@@ -12,7 +12,7 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 <div class="rhb" markdown="1">
 
 <section class="rhb-map rhb-foundations" aria-labelledby="rhb-foundations-title">
-<h2 id="rhb-foundations-title">1. 네 가지 론은 우리가 연구를 시작하고 마무리하는 철학적 관점입니다</h2>
+<h2 id="rhb-foundations-title">1. 존재론·인식론·방법론·가치론은 우리가 연구를 시작하고 마무리하는 철학적 관점입니다</h2>
 <p>연구자는 현상을 어떤 실재로 볼지 정하고, 그 현상을 어떻게 알 수 있는지 밝힌 뒤, 그에 맞는 탐구 방법을 설계합니다. 이 전 과정에서 연구자의 가치와 책임도 작동합니다.</p>
 <ol class="rhb-foundation-chain">
   <li><a href="#ch1"><span class="rhb-no">존재론 · 무엇이 존재하는가</span><strong>현상의 본질과 구조</strong><span class="rhb-sum">연구 대상인 현상을 어떤 실재로 이해할지, 어떤 존재 양상과 구조를 전제할지 정합니다.</span><span class="rhb-peek"><b>논문에서는 이렇게 드러납니다</b><span>1-1. 연구에 대한 문제의식: 어떤 현상을 왜 연구할 가치가 있다고 보는가</span><span>1-6. 연구문제와 1-8. 연구 모형: 현상을 어떤 개념과 관계로 나타내는가</span><b>스스로 점검하기</b><span>내가 다루는 현상은 측정할 수 있는 실체인가, 사람들의 경험 속에서 만들어지는 것인가?</span></span></a></li>
