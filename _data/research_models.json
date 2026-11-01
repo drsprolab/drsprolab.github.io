@@ -744,5 +744,151 @@
    ],
    "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 460\" role=\"img\" aria-labelledby=\"ar2-t ar2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"ar2-t\">임의절편 교차지연모형 (RI-CLPM)</title><desc id=\"ar2-d\">개인 간 안정 요인을 분리하고 개인 내 변화의 자기회귀와 교차지연 경로를 추정하는 RI-CLPM</desc><defs><marker id=\"ar2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ar2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-dash mm-thin\" x1=\"363.1\" y1=\"65.4\" x2=\"199.6\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"370.1\" y1=\"393.2\" x2=\"193.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"430.0\" y1=\"72.0\" x2=\"430.0\" y2=\"121.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"430.0\" y1=\"388.0\" x2=\"430.0\" y2=\"319.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"496.9\" y1=\"65.4\" x2=\"660.4\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"489.9\" y1=\"393.2\" x2=\"666.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"235.0\" y1=\"150.0\" x2=\"335.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"235.0\" y1=\"290.0\" x2=\"335.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"190.8\" y1=\"174.5\" x2=\"379.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"190.8\" y1=\"265.5\" x2=\"379.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"525.0\" y1=\"150.0\" x2=\"625.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"525.0\" y1=\"290.0\" x2=\"625.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"480.8\" y1=\"174.5\" x2=\"669.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"480.8\" y1=\"265.5\" x2=\"669.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><path class=\"mm-edge\" d=\"M26.0,160.0 Q-14.0,220.0 26.0,280.0\" marker-end=\"url(#ar2-a)\" marker-start=\"url(#ar2-s)\"/><ellipse class=\"mm-node mm-w\" cx=\"430\" cy=\"40\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"430\" y=\"36\" text-anchor=\"middle\">개인 간 안정 요인 (X)</text><text class=\"mm-r mm-w\" x=\"430\" y=\"54\" text-anchor=\"middle\">랜덤절편 (RI-X)</text><ellipse class=\"mm-node mm-w\" cx=\"430\" cy=\"420\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"430\" y=\"416\" text-anchor=\"middle\">개인 간 안정 요인 (Y)</text><text class=\"mm-r mm-w\" x=\"430\" y=\"434\" text-anchor=\"middle\">랜덤절편 (RI-Y)</text><ellipse class=\"mm-node mm-x\" cx=\"140\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"140\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-y\" cx=\"140\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"140\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-x\" cx=\"430\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"430\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-y\" cx=\"430\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"430\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-x\" cx=\"720\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"720\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T3</text><ellipse class=\"mm-node mm-y\" cx=\"720\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"720\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T3</text><rect class=\"mm-lbg\" x=\"254.8\" y=\"125.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"285.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"285.0\" dy=\"0\">H1 .18*</tspan></text><rect class=\"mm-lbg\" x=\"240.4\" y=\"303.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"285.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"285.0\" dy=\"0\">H2 .15 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"207.1\" y=\"188.8\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"237.30899342399604\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"237.30899342399604\" dy=\"0\">H3 .14*</tspan></text><rect class=\"mm-lbg\" x=\"192.7\" y=\"237.2\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"237.30899342399604\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"237.30899342399604\" dy=\"0\">H4 .06 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"541.2\" y=\"125.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"575.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"575.0\" dy=\"0\">H1 .22**</tspan></text><rect class=\"mm-lbg\" x=\"544.8\" y=\"303.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"575.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"575.0\" dy=\"0\">H2 .20*</tspan></text><rect class=\"mm-lbg\" x=\"482.7\" y=\"188.8\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"527.3089934239961\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"527.3089934239961\" dy=\"0\">H3 .08 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"482.7\" y=\"237.2\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"527.3089934239961\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"527.3089934239961\" dy=\"0\">H4 .05 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"-30.2\" y=\"211.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"0.0\" y=\"224.0\" text-anchor=\"middle\"><tspan x=\"0.0\" dy=\"0\">r=.30**</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"455\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">RI 간 상관 r=.55***  ·  적합도: CFI=.98, TLI=.96, RMSEA=.039, SRMR=.031</tspan></text></svg>"
   }
+ ],
+ "sna": [
+  {
+   "title": "네트워크 위치가 결과를 설명하는 모형 (중심성 → 성과)",
+   "question": "지식공유 네트워크에서 연결이 많거나 다리 역할을 하는 구성원일수록 지식공유 성과가 높은가?",
+   "hypotheses": [
+    "H1: 연결도 중심성이 높을수록 지식공유 성과가 높을 것이다.",
+    "H2: 매개 중심성이 높을수록 지식공유 성과가 높을 것이다.",
+    "H3: 구조적 제약이 낮을수록(구조적 구멍이 많을수록) 지식공유 성과가 높을 것이다."
+   ],
+   "how": "먼저 관계 자료에서 노드별 중심성 지표를 계산해 변수로 만들고, 이 변수들이 성과를 설명하는지 회귀로 검정합니다. 노드가 서로 연결되어 있어 오차가 독립이 아니므로 p값은 순열 검정이나 군집 표준오차로 구합니다.",
+   "results": [
+    "H1 지지(p < .001), H2 지지(p < .05), H3 지지(제약도 계수가 음수 = 구조적 구멍이 많을수록 성과가 높음, p < .01).",
+    "근속연수(통제)는 유의하지 않습니다(점선).",
+    "해석 주의: 성과가 높은 사람이 더 많은 연결을 얻는 선택 효과일 수도 있으므로 인과로 단정하지 않습니다."
+   ],
+   "roles": [
+    [
+     "통제변수 (C)",
+     "c"
+    ],
+    [
+     "독립변수 (X1)",
+     "x"
+    ],
+    [
+     "독립변수 (X2)",
+     "x"
+    ],
+    [
+     "독립변수 (X3)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 760 360\" role=\"img\" aria-labelledby=\"sna1-t sna1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:760px\"><title id=\"sna1-t\">네트워크 위치가 결과를 설명하는 모형 (중심성 → 성과)</title><desc id=\"sna1-d\">연결도 중심성, 매개 중심성, 구조적 구멍이 지식공유 성과를 설명하는 네트워크 위치 모형</desc><defs><marker id=\"sna1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sna1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"200.0\" y1=\"73.8\" x2=\"550.0\" y2=\"156.2\" marker-end=\"url(#sna1-a)\"/><line class=\"mm-edge\" x1=\"200.0\" y1=\"141.3\" x2=\"550.0\" y2=\"168.7\" marker-end=\"url(#sna1-a)\"/><line class=\"mm-edge\" x1=\"200.0\" y1=\"208.7\" x2=\"550.0\" y2=\"181.3\" marker-end=\"url(#sna1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"200.0\" y1=\"276.2\" x2=\"550.0\" y2=\"193.8\" marker-end=\"url(#sna1-a)\"/><rect class=\"mm-node mm-x\" x=\"40.0\" y=\"27.0\" width=\"160\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"51\" text-anchor=\"middle\">연결도 중심성</text><text class=\"mm-r mm-x\" x=\"120\" y=\"69\" text-anchor=\"middle\">독립변수 (X1)</text><rect class=\"mm-node mm-x\" x=\"40.0\" y=\"107.0\" width=\"160\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"131\" text-anchor=\"middle\">매개 중심성</text><text class=\"mm-r mm-x\" x=\"120\" y=\"149\" text-anchor=\"middle\">독립변수 (X2)</text><rect class=\"mm-node mm-x\" x=\"40.0\" y=\"187.0\" width=\"160\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"211\" text-anchor=\"middle\">구조적 구멍 (제약도)</text><text class=\"mm-r mm-x\" x=\"120\" y=\"229\" text-anchor=\"middle\">독립변수 (X3)</text><rect class=\"mm-node mm-c\" x=\"40.0\" y=\"267.0\" width=\"160\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"291\" text-anchor=\"middle\">근속연수</text><text class=\"mm-r mm-c\" x=\"120\" y=\"309\" text-anchor=\"middle\">통제변수 (C)</text><rect class=\"mm-node mm-y\" x=\"550.0\" y=\"147.0\" width=\"160\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"630\" y=\"171\" text-anchor=\"middle\">지식공유 성과</text><text class=\"mm-r mm-y\" x=\"630\" y=\"189\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"295.4\" y=\"97.8\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"340.0\" y=\"110.76470588235296\" text-anchor=\"middle\"><tspan x=\"340.0\" dy=\"0\">H1 β=.31***</tspan></text><rect class=\"mm-lbg\" x=\"302.6\" y=\"143.3\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"340.0\" y=\"156.2549019607843\" text-anchor=\"middle\"><tspan x=\"340.0\" dy=\"0\">H2 β=.18*</tspan></text><rect class=\"mm-lbg\" x=\"295.4\" y=\"188.7\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"340.0\" y=\"201.7450980392157\" text-anchor=\"middle\"><tspan x=\"340.0\" dy=\"0\">H3 β=−.22**</tspan></text><rect class=\"mm-lbg\" x=\"288.2\" y=\"234.2\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"340.0\" y=\"247.23529411764707\" text-anchor=\"middle\"><tspan x=\"340.0\" dy=\"0\">통제 β=.05 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"630\" y=\"240\" text-anchor=\"middle\"><tspan x=\"630\" dy=\"0\">R² = .34 (순열 검정 p &lt; .001)</tspan></text><text class=\"mm-note\" x=\"380\" y=\"345\" text-anchor=\"middle\"><tspan x=\"380\" dy=\"0\">중심성은 네트워크에서 계산한 노드 수준 변수이므로 p값은 순열 검정으로 구합니다.</tspan></text></svg>"
+  },
+  {
+   "title": "연결이 형성되는 규칙을 검정하는 모형 (ERGM)",
+   "question": "구성원 사이의 협업 연결은 상호성, 전이성, 같은 부서, 직급 차이에 의해 우연보다 더 자주 생기는가?",
+   "hypotheses": [
+    "H1: 상호 협업 관계가 우연보다 많을 것이다(상호성).",
+    "H2: 협업 상대의 협업 상대와도 협업하는 경향이 있을 것이다(전이성).",
+    "H3: 같은 부서끼리 협업할 가능성이 높을 것이다(동질성).",
+    "H4: 직급 차이가 클수록 협업 연결이 적을 것이다.",
+    "H5: AI 활용 수준이 비슷한 사람끼리 협업할 가능성이 높을 것이다."
+   ],
+   "how": "종속변수가 사람의 점수가 아니라 ‘두 사람 사이에 연결이 있는가(0/1)’입니다. 구조 항(상호성·전이성)은 네트워크 자체의 규칙, 속성 항은 사람의 속성이 연결에 미치는 영향입니다.",
+   "results": [
+    "H1~H3 지지: θ가 양수이고 유의합니다. exp(1.84) ≈ 6.3이므로 상호 연결이 생길 오즈가 다른 조건이 같을 때 약 6.3배 높습니다(상호성). 같은 부서(exp(.65) ≈ 1.9배)도 연결 오즈가 높습니다.",
+    "H4 지지(p < .05): 직급 차이가 1단계 커질수록 연결 오즈가 약 17% 낮아집니다(exp(−.18) ≈ .84).",
+    "H5 기각(점선): AI 활용 수준 유사성은 연결 형성과 관련 없습니다. MCMC 수렴과 GOF를 확인해야 결과를 신뢰할 수 있습니다."
+   ],
+   "roles": [
+    [
+     "속성 항",
+     "c"
+    ],
+    [
+     "속성 항 · 동질성",
+     "w"
+    ],
+    [
+     "구조 항",
+     "x"
+    ],
+    [
+     "종속 네트워크 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 820 400\" role=\"img\" aria-labelledby=\"sna2-t sna2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:820px\"><title id=\"sna2-t\">연결이 형성되는 규칙을 검정하는 모형 (ERGM)</title><desc id=\"sna2-d\">상호성, 전이성, 부서 동질성 등이 협업 연결의 형성을 설명하는 ERGM 모형</desc><defs><marker id=\"sna2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sna2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"237.9\" y1=\"71.0\" x2=\"550.0\" y2=\"163.4\" marker-end=\"url(#sna2-a)\"/><line class=\"mm-edge\" x1=\"255.0\" y1=\"131.1\" x2=\"550.0\" y2=\"176.2\" marker-end=\"url(#sna2-a)\"/><line class=\"mm-edge\" x1=\"255.0\" y1=\"186.1\" x2=\"550.0\" y2=\"189.1\" marker-end=\"url(#sna2-a)\"/><line class=\"mm-edge\" x1=\"255.0\" y1=\"241.1\" x2=\"550.0\" y2=\"201.9\" marker-end=\"url(#sna2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"244.4\" y1=\"299.0\" x2=\"550.0\" y2=\"214.8\" marker-end=\"url(#sna2-a)\"/><rect class=\"mm-node mm-y\" x=\"550.0\" y=\"155.0\" width=\"180\" height=\"70\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"186\" text-anchor=\"middle\">협업 연결 형성</text><text class=\"mm-r mm-y\" x=\"640\" y=\"204\" text-anchor=\"middle\">종속 네트워크 (Y)</text><rect class=\"mm-node mm-x\" x=\"45.0\" y=\"19.0\" width=\"210\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"41\" text-anchor=\"middle\">상호성 (mutual)</text><text class=\"mm-r mm-x\" x=\"150\" y=\"59\" text-anchor=\"middle\">구조 항</text><rect class=\"mm-lbg\" x=\"320.8\" y=\"100.8\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"368.96000000000004\" y=\"113.7942857142857\" text-anchor=\"middle\"><tspan x=\"368.96000000000004\" dy=\"0\">H1 θ=1.84***</tspan></text><rect class=\"mm-node mm-x\" x=\"45.0\" y=\"89.0\" width=\"210\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"111\" text-anchor=\"middle\">전이성 (gwesp)</text><text class=\"mm-r mm-x\" x=\"150\" y=\"129\" text-anchor=\"middle\">구조 항</text><rect class=\"mm-lbg\" x=\"330.7\" y=\"141.0\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"378.9\" y=\"154.03571428571428\" text-anchor=\"middle\"><tspan x=\"378.9\" dy=\"0\">H2 θ=0.72***</tspan></text><rect class=\"mm-node mm-w\" x=\"45.0\" y=\"159.0\" width=\"210\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"181\" text-anchor=\"middle\">같은 부서 (nodematch)</text><text class=\"mm-r mm-w\" x=\"150\" y=\"199\" text-anchor=\"middle\">속성 항 · 동질성</text><rect class=\"mm-lbg\" x=\"330.7\" y=\"178.3\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"378.9\" y=\"191.3357142857143\" text-anchor=\"middle\"><tspan x=\"378.9\" dy=\"0\">H3 θ=0.65***</tspan></text><rect class=\"mm-node mm-w\" x=\"45.0\" y=\"229.0\" width=\"210\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"251\" text-anchor=\"middle\">직급 차이 (absdiff)</text><text class=\"mm-r mm-w\" x=\"150\" y=\"269\" text-anchor=\"middle\">속성 항</text><rect class=\"mm-lbg\" x=\"334.3\" y=\"215.6\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"378.9\" y=\"228.6357142857143\" text-anchor=\"middle\"><tspan x=\"378.9\" dy=\"0\">H4 θ=−0.18*</tspan></text><rect class=\"mm-node mm-c\" x=\"45.0\" y=\"299.0\" width=\"210\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"321\" text-anchor=\"middle\">AI 활용 수준 유사성</text><text class=\"mm-r mm-c\" x=\"150\" y=\"339\" text-anchor=\"middle\">속성 항</text><rect class=\"mm-lbg\" x=\"317.3\" y=\"254.6\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"372.73481481481485\" y=\"267.63428571428574\" text-anchor=\"middle\"><tspan x=\"372.73481481481485\" dy=\"0\">H5 θ=0.09 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"640\" y=\"250\" text-anchor=\"middle\"><tspan x=\"640\" dy=\"0\">exp(θ) = 오즈비</tspan></text><text class=\"mm-note\" x=\"410\" y=\"386\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">적합도(GOF): 연결도·공유 파트너·최단 경로 분포가 관측 네트워크와 유사, MCMC 수렴 양호</tspan></text></svg>"
+  }
+ ],
+ "topic-modeling": [
+  {
+   "title": "LDA 토픽모델링의 구조 (문서 → 토픽 → 단어)",
+   "question": "논문 초록 600편의 단어 사용에서 어떤 숨은 토픽들을 찾을 수 있는가?",
+   "hypotheses": [
+    "H1: 말뭉치의 단어 사용 패턴은 K개의 토픽으로 요약될 수 있다.",
+    "H2: 각 문서는 여러 토픽이 서로 다른 비율로 섞인 것으로 설명된다.",
+    "H3: 각 토픽은 의미적으로 해석 가능한 상위 단어 집합을 가진다."
+   ],
+   "how": "이 그림은 통계 모형이 문서를 ‘어떻게 만들어졌다고 가정하는지’ 보여 줍니다. 문서마다 토픽 비율(θ)이 있고, 단어마다 그 비율에 따라 토픽(z)이 정해지며, 그 토픽의 단어 확률(φ)에서 실제 단어(w)가 나온다고 봅니다. 관측되는 것은 단어뿐입니다.",
+   "results": [
+    "예시 결과(K = 8): 일관성(C_v)이 K = 8에서 가장 높았고(.52), 상위 단어와 대표 문서를 읽었을 때 8개 토픽이 모두 해석되었습니다.",
+    "문서당 평균 지배 토픽 비율 .61로, 대부분의 문서가 하나의 주요 토픽과 일부 보조 토픽을 가집니다(θ의 해석).",
+    "토픽 이름은 연구자가 붙이며 자동으로 정해지지 않습니다. 같은 자료에서 K와 시드를 바꾸면 결과가 달라질 수 있어 안정성을 확인합니다."
+   ],
+   "roles": [
+    [
+     "사전 가정 (문서-토픽)",
+     "c"
+    ],
+    [
+     "사전 가정 (토픽-단어)",
+     "c"
+    ],
+    [
+     "문서별 토픽 비율",
+     "m"
+    ],
+    [
+     "토픽 k = 1 … K",
+     "m"
+    ],
+    [
+     "단어마다 숨은 토픽",
+     "w"
+    ],
+    [
+     "문서 안의 실제 단어",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 850 400\" role=\"img\" aria-labelledby=\"tm1-t tm1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:850px\"><title id=\"tm1-t\">LDA 토픽모델링의 구조 (문서 → 토픽 → 단어)</title><desc id=\"tm1-d\">LDA의 생성 구조: 사전분포가 문서-토픽 비율과 토픽-단어 확률을 정하고 단어가 생성되는 과정</desc><defs><marker id=\"tm1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"tm1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"150\" y=\"40\" width=\"560\" height=\"300\" rx=\"10\"/><text class=\"mm-gt\" x=\"162\" y=\"60\">문서 d = 1 … D 마다 반복</text><line class=\"mm-edge\" x1=\"135.0\" y1=\"120.0\" x2=\"180.0\" y2=\"120.0\" marker-end=\"url(#tm1-a)\"/><line class=\"mm-edge\" x1=\"360.0\" y1=\"120.0\" x2=\"385.0\" y2=\"120.0\" marker-end=\"url(#tm1-a)\"/><line class=\"mm-edge\" x1=\"555.0\" y1=\"120.0\" x2=\"575.0\" y2=\"120.0\" marker-end=\"url(#tm1-a)\"/><line class=\"mm-edge\" x1=\"506.6\" y1=\"239.5\" x2=\"615.0\" y2=\"149.2\" marker-end=\"url(#tm1-a)\"/><line class=\"mm-edge\" x1=\"695.0\" y1=\"270.0\" x2=\"565.0\" y2=\"270.0\" marker-end=\"url(#tm1-a)\"/><ellipse class=\"mm-node mm-c\" cx=\"70\" cy=\"120\" rx=\"65.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"70\" y=\"116\" text-anchor=\"middle\">α</text><text class=\"mm-r mm-c\" x=\"70\" y=\"134\" text-anchor=\"middle\">사전 가정 (문서-토픽)</text><ellipse class=\"mm-node mm-m\" cx=\"270\" cy=\"120\" rx=\"90.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"270\" y=\"116\" text-anchor=\"middle\">문서-토픽 비율 (θ)</text><text class=\"mm-r mm-m\" x=\"270\" y=\"134\" text-anchor=\"middle\">문서별 토픽 비율</text><ellipse class=\"mm-node mm-w\" cx=\"470\" cy=\"120\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"470\" y=\"116\" text-anchor=\"middle\">단어의 토픽 (z)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"134\" text-anchor=\"middle\">단어마다 숨은 토픽</text><ellipse class=\"mm-node mm-y\" cx=\"650\" cy=\"120\" rx=\"75.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"650\" y=\"116\" text-anchor=\"middle\">관측 단어 (w)</text><text class=\"mm-r mm-y\" x=\"650\" y=\"134\" text-anchor=\"middle\">문서 안의 실제 단어</text><ellipse class=\"mm-node mm-m\" cx=\"470\" cy=\"270\" rx=\"95.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"470\" y=\"266\" text-anchor=\"middle\">토픽-단어 확률 (φ)</text><text class=\"mm-r mm-m\" x=\"470\" y=\"284\" text-anchor=\"middle\">토픽 k = 1 … K</text><ellipse class=\"mm-node mm-c\" cx=\"760\" cy=\"270\" rx=\"65.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"760\" y=\"266\" text-anchor=\"middle\">β (η)</text><text class=\"mm-r mm-c\" x=\"760\" y=\"284\" text-anchor=\"middle\">사전 가정 (토픽-단어)</text><rect class=\"mm-lbg\" x=\"120.1\" y=\"111.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"157.5\" y=\"124.0\" text-anchor=\"middle\"><tspan x=\"157.5\" dy=\"0\">Dirichlet</tspan></text><rect class=\"mm-lbg\" x=\"349.5\" y=\"111.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"372.5\" y=\"124.0\" text-anchor=\"middle\"><tspan x=\"372.5\" dy=\"0\">토픽 선택</tspan></text><rect class=\"mm-lbg\" x=\"542.0\" y=\"111.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"565.0\" y=\"124.0\" text-anchor=\"middle\"><tspan x=\"565.0\" dy=\"0\">단어 생성</tspan></text><rect class=\"mm-lbg\" x=\"592.6\" y=\"247.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"630.0\" y=\"260.0\" text-anchor=\"middle\"><tspan x=\"630.0\" dy=\"0\">Dirichlet</tspan></text><text class=\"mm-note mm-strong\" x=\"400\" y=\"372\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">연구자가 정하는 것: 토픽 수 K, α, β / 자료에서 추정하는 것: θ(문서-토픽), φ(토픽-단어)</tspan></text><text class=\"mm-note\" x=\"400\" y=\"392\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">관측되는 것은 단어(w)뿐이며 토픽은 단어 패턴에서 추정합니다.</tspan></text></svg>"
+  },
+  {
+   "title": "토픽 비율이 연도에 따라 달라지는지 검정하는 모형 (STM)",
+   "question": "연도가 지나면서 어떤 연구 주제의 비중이 늘고 줄었는가?",
+   "hypotheses": [
+    "H1: 시간이 지날수록 ‘AI 활용 학습’ 토픽의 비율이 늘 것이다.",
+    "H2: 시간이 지날수록 ‘온라인 수업’ 토픽의 비율이 줄 것이다.",
+    "H3·H4: ‘학습분석’과 ‘역량 개발’ 토픽의 비율은 연도에 따라 변하지 않을 것이다."
+   ],
+   "how": "구조적 토픽모델(STM)은 문서 속성(연도, 집단)이 토픽 비율에 미치는 영향을 토픽모델과 함께 추정합니다. 각 토픽의 비율을 종속변수로 놓고 속성을 설명변수로 놓은 회귀와 같은 구조입니다.",
+   "results": [
+    "H1 지지: 해마다 AI 활용 학습 토픽의 비율이 약 2.1%p 늘어납니다(p < .001).",
+    "H2 지지: 온라인 수업 토픽은 해마다 약 1.5%p 줄어듭니다(p < .01).",
+    "H3·H4 변화 없음(점선): 학습분석·역량 개발 토픽의 변화는 유의하지 않습니다. 여러 토픽을 동시에 검정하므로 다중비교도 고려합니다."
+   ],
+   "roles": [
+    [
+     "공변량 (독립변수)",
+     "x"
+    ],
+    [
+     "토픽 비율 (종속)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 820 380\" role=\"img\" aria-labelledby=\"tm2-t tm2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:820px\"><title id=\"tm2-t\">토픽 비율이 연도에 따라 달라지는지 검정하는 모형 (STM)</title><desc id=\"tm2-d\">발행 연도가 네 개의 토픽 비율에 미치는 영향을 추정하는 구조적 토픽모델</desc><defs><marker id=\"tm2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"tm2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"205.0\" y1=\"168.8\" x2=\"535.0\" y2=\"86.2\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge\" x1=\"205.0\" y1=\"183.5\" x2=\"535.0\" y2=\"158.1\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"205.0\" y1=\"198.2\" x2=\"535.0\" y2=\"229.9\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"205.0\" y1=\"212.9\" x2=\"536.0\" y2=\"302.0\" marker-end=\"url(#tm2-a)\"/><rect class=\"mm-node mm-x\" x=\"35.0\" y=\"159.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"186\" text-anchor=\"middle\">발행 연도</text><text class=\"mm-r mm-x\" x=\"120\" y=\"204\" text-anchor=\"middle\">공변량 (독립변수)</text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"32.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"56\" text-anchor=\"middle\">토픽 1: AI 활용 학습</text><text class=\"mm-r mm-y\" x=\"640\" y=\"74\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"334.7\" y=\"108.4\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"121.375\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H1 β=+.021***</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"122.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"146\" text-anchor=\"middle\">토픽 2: 온라인 수업</text><text class=\"mm-r mm-y\" x=\"640\" y=\"164\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"338.3\" y=\"154.5\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"167.5\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H2 β=−.015**</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"212.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"236\" text-anchor=\"middle\">토픽 3: 학습분석</text><text class=\"mm-r mm-y\" x=\"640\" y=\"254\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"327.5\" y=\"212.6\" width=\"118.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"225.625\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H3 β=+.008 n.s.</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"302.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"326\" text-anchor=\"middle\">토픽 4: 역량 개발</text><text class=\"mm-r mm-y\" x=\"640\" y=\"344\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"328.1\" y=\"258.9\" width=\"118.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"387.05\" y=\"271.8980769230769\" text-anchor=\"middle\"><tspan x=\"387.05\" dy=\"0\">H4 β=−.004 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"410\" y=\"372\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">estimateEffect(): 연도가 1년 늘 때 토픽 비율이 얼마나 변하는가 (회귀계수)</tspan></text></svg>"
+  }
  ]
 }

@@ -31,7 +31,7 @@ class ResearchMethodsSite(unittest.TestCase):
         catalog = (SITE / 'research-help/methods/index.html').read_text()
         parsed = Markup(catalog)
         self.assertEqual(len(parsed.ids), len(set(parsed.ids)))
-        self.assertEqual(catalog.count('class="rm-method-card"'), 19)
+        self.assertEqual(catalog.count('class="rm-method-card"'), len(DATA['methods']))
         self.assertNotIn('<footer class="site-footer">', catalog)
         for step in ['나의 연구목적 알아보기', '목적과 부합하는 분석방법 찾아보기',
                      '사례와 예시로 학습하기', '내 연구를 위한 방법 결정하기']:
