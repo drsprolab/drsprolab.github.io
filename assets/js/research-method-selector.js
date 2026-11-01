@@ -155,12 +155,13 @@
       if(selectedKind!=='unknown'&&!kindFits(m,selectedKind)){check.excluded.push('선택한 자료 종류와 이 방법의 주된 자료가 다릅니다.');conditions.push({label:'자료 종류',state:'no',text:'선택한 자료와 맞지 않음'});}
       else if(kind!=='unknown'&&!kindFits(m,kind)){score-=10;check.missing.push('작성한 내용으로 보면 자료 종류가 이 방법과 다를 수 있습니다. 어떤 자료를 쓸지 확인하세요.');conditions.push({label:'자료 종류',state:'warn',text:'작성한 자료와 다를 수 있음'});}
       else if(kind!=='unknown'){score+=score>0?3:0;conditions.push({label:'자료 종류',state:'ok',text:'맞음'});}
-      else conditions.push({label:'자료 종류',state:'unknown',text:'아직 알 수 없음'});
-      if(['arcl','lgm','lta','quasi-experiment'].includes(m.id)){const need=m.id==='lgm'?3:2;conditions.push(waves==='unknown'?{label:'측정 시점',state:'unknown',text:need+'회 이상 측정 필요, 확인 필요'}:(Number(waves)>=need?{label:'측정 시점',state:'ok',text:'맞음'}:{label:'측정 시점',state:'no',text:need+'회 이상 측정 필요'}));}
-      if(m.id==='lpa'||m.id==='lca'){const want=m.id==='lpa'?'continuous':'categorical';conditions.push(indicators==='unknown'?{label:'지표 형태',state:'unknown',text:'확인 필요'}:(indicators===want?{label:'지표 형태',state:'ok',text:'맞음'}:{label:'지표 형태',state:'no',text:'맞지 않음'}));}
+      else conditions.push({label:'자료 종류',state:'unknown',text:'어떤 자료인지 아직 적지 않았습니다'});
+      if(['arcl','lgm','lta','quasi-experiment'].includes(m.id)){const need=m.id==='lgm'?3:2;conditions.push(waves==='unknown'?{label:'측정 시점',state:'unknown',text:'같은 사람을 '+need+'회 이상 측정해야 합니다'}:(Number(waves)>=need?{label:'측정 시점',state:'ok',text:'맞음'}:{label:'측정 시점',state:'no',text:need+'회 이상 측정 필요'}));}
+      if(m.id==='lpa'||m.id==='lca'){const want=m.id==='lpa'?'continuous':'categorical';conditions.push(indicators==='unknown'?{label:'지표 형태',state:'unknown',text:m.id==='lpa'?'연속형 점수여야 합니다':'범주형 응답이어야 합니다'}:(indicators===want?{label:'지표 형태',state:'ok',text:'맞음'}:{label:'지표 형태',state:'no',text:'맞지 않음'}));}
       return {id:m.id,score,reasons,missing:check.missing,excluded:check.excluded,evidence,conditions,fieldsHit};
     }).filter(r=>r.score>0&&(r.fieldsHit>0||goal.includes(r.id))).sort((a,b)=>b.score-a.score);
-    const candidates=rows.filter(r=>!r.excluded.length).slice(0,3);
+    const open=rows.filter(r=>!r.excluded.length);
+    const candidates=open.filter((r,i)=>i===0||r.score>=Math.max(8,open[0].score*0.35)).slice(0,3);
     let fallback=[];
     if(!candidates.length&&kind!=='unknown'&&kind!=='mixed') fallback=methods.filter(m=>m.category===kind).map(m=>m.id);
     const top=candidates[0],next=candidates[1];

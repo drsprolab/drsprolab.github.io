@@ -59,7 +59,7 @@
         const table=el('table',undefined,'rm-crosscheck');const body=el('tbody');
         r.evidence.forEach(e=>{const tr=el('tr'),th=el('th',e.label);th.scope='row';const td=el('td',e.phrases.length?'“'+e.phrases.join('”, “')+'”':(e.written?'이 답에서는 근거를 찾지 못함':'작성하지 않음'));if(e.phrases.length)td.className='is-hit';tr.append(th,td);body.append(tr);});
         const stateMark={ok:'맞음',warn:'주의',no:'맞지 않음',unknown:'확인 필요'};
-        r.conditions.forEach(c=>{const tr=el('tr'),th=el('th',c.label);th.scope='row';const td=el('td',c.text===stateMark[c.state]?c.text:stateMark[c.state]+' · '+c.text);td.className='is-'+c.state;tr.append(th,td);body.append(tr);});
+        r.conditions.forEach(c=>{const tr=el('tr'),th=el('th',c.label);th.scope='row';const td=el('td',c.state==='unknown'||c.text===stateMark[c.state]?c.text:stateMark[c.state]+' · '+c.text);td.className='is-'+c.state;tr.append(th,td);body.append(tr);});
         table.append(body);card.append(el('strong','내 답과 대조한 결과'),table);
         if(r.reasons.length)card.append(itemList(r.reasons));
         card.append(el('strong','얻을 수 있는 결과'),el('p',m.outputs[0]));
