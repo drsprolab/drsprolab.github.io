@@ -277,3 +277,8 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-variant-link:hover,.rm-variant-link:focus-visible { transform:scale(1.08); box-shadow:0 3px 10px rgba(0,0,0,.12); }
 .rm-cmp-table tbody th { background:var(--tint); font-weight:700; white-space:nowrap; }
 .rm-cmp-table td { min-width:180px; }
+
+.rm-path li { padding:0 !important; }
+.rm-path li > a { display:flex; align-items:center; gap:14px; width:100%; padding:8px 22px 8px 8px; color:inherit; text-decoration:none; border-radius:999px; }
+.rm-path li > a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.rm-path li:hover b { transform:scale(1.08); } .rm-path b { transition:transform .15s ease; }
