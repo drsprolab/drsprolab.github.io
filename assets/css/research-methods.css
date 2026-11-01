@@ -212,7 +212,7 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-data-types dt { margin:12px 0 2px; font-weight:600; color:var(--accent); }
 .rm-data-types dd { margin:0; font-size:14px; line-height:1.7; }
 
-.rm-english { display:inline-block; margin:0 0 12px; align-self:flex-start; width:fit-content; padding:3px 12px; border-radius:999px; background:var(--tint); color:var(--muted); font-size:13px; font-weight:600; letter-spacing:0; }
+.rm-english { display:inline-block; margin:0; align-self:flex-start; width:fit-content; padding:3px 12px; border-radius:999px; background:var(--tint); color:var(--muted); font-size:13px; font-weight:600; letter-spacing:0; }
 .rm-struct h3 { margin:18px 0 8px; font-size:15px; }
 .rm-struct h4 { margin:16px 0 6px; font-size:14px; color:var(--accent); }
 .rm-struct-summary { font-size:14.5px; line-height:1.75; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; }
@@ -251,3 +251,11 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .mm-legend { display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:6px 0 0; padding:0; }
 .mm-chip { display:inline-flex; align-items:center; gap:6px; padding:3px 11px; border-radius:999px; background:var(--tint); font-size:12.5px; font-weight:600; color:var(--ink); }
 .mm-chip::before { content:""; width:10px; height:10px; border-radius:50%; background:var(--rc); }
+
+.rm-chip-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:0 0 12px; }
+.rm-cat-nav { display:flex; flex-wrap:wrap; gap:8px; }
+.rm-cat-nav a { display:inline-block; padding:3px 14px; border-radius:999px; background:var(--tint); color:var(--ink); font-size:13px; font-weight:600; text-decoration:none; transition:transform .15s ease, background-color .15s ease, color .15s ease, box-shadow .15s ease; }
+.rm-cat-nav a:hover,.rm-cat-nav a:focus-visible { transform:scale(1.08); background:var(--accent-soft); color:var(--accent); box-shadow:0 3px 10px rgba(0,0,0,.1); }
+.rm-cat-nav a.is-current { background:var(--accent); color:var(--paper); }
+.rm-cat-nav a.is-current:hover,.rm-cat-nav a.is-current:focus-visible { background:var(--accent); color:var(--paper); }
+@media(prefers-reduced-motion:reduce) { .rm-cat-nav a { transition:none; } .rm-cat-nav a:hover { transform:none; } }

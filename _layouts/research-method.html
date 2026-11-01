@@ -7,7 +7,7 @@ layout: page
 <div class="rm rm-method-detail" data-method="{{ m.id }}">
   <a class="rm-back" href="{{ '/research-help/methods/#method-catalog' | relative_url }}">← 나의 연구목적에 맞는 분석방법 알아보기</a>
   <div class="rm-detail-intro">
-    <span class="rm-english">{{ m.english }}</span>
+    <div class="rm-chip-row"><span class="rm-english">{{ m.english }}</span><nav class="rm-cat-nav" aria-label="분석 분야">{% for cat in site.data.research_methods.categories %}<a href="{{ '/research-help/methods/' | relative_url }}#{{ cat.id }}"{% if cat.id == m.category %} class="is-current" aria-current="true"{% endif %}>{{ cat.name }}</a>{% endfor %}</nav></div>
     <div class="rm-intro-block"><strong>언제 쓰나요?</strong><ul>{% for point in m.summary %}<li>{{ point }}</li>{% endfor %}</ul></div>
     <div class="rm-intro-block"><strong>예를 들면</strong><ul>{% for point in m.intro_example %}<li>{{ point }}</li>{% endfor %}</ul></div>
     <div class="rm-beginner-tip"><strong>선택할 때 확인할 점</strong><ul>{% for point in m.beginner_tip %}<li>{{ point }}</li>{% endfor %}</ul></div>
