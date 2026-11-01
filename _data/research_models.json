@@ -1447,5 +1447,64 @@
    "frame": true,
    "hlabel": "명제"
   }
+ ],
+ "lta": [
+  {
+   "title": "기본 잠재전이모형 (2시점, 범주형 지표)",
+   "question": "온라인 학습자의 참여 유형은 한 학기 동안 어떻게 옮겨 가는가?",
+   "hypotheses": [
+    "H1: 시점 1의 참여 유형은 시점 2의 참여 유형을 예측할 것이다(유형에 머무를 확률이 옮겨 갈 확률보다 높을 것이다)."
+   ],
+   "how": "타원 둘은 시점별 잠재상태(잠재범주변수)이고, 그 사이의 화살표가 전이확률입니다. 네모는 관측 지표입니다. 유형의 의미가 시점마다 같아야 이동을 해석할 수 있으므로 응답확률을 같게 제약한 모형을 먼저 검토합니다.",
+   "results": [
+    "H1 지지: 유형 유지 확률이 .70~.78로 가장 높습니다. 저조 유형의 25%는 부분 참여로 옮겨 갑니다.",
+    "측정불변: LR χ²(18) = 24, p = .16으로 제약 모형이 나빠지지 않았고, BIC도 7,010로 자유 모형 7,097보다 낮습니다."
+   ],
+   "roles": [
+    [
+     "지표 (0/1)",
+     "c"
+    ],
+    [
+     "잠재상태 (시점 1)",
+     "m"
+    ],
+    [
+     "잠재상태 (시점 2)",
+     "m"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 410\" role=\"img\" aria-labelledby=\"lta1-t lta1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"lta1-t\">기본 잠재전이모형 (2시점, 범주형 지표)</title><desc id=\"lta1-d\">시점 1 참여 유형이 시점 2 참여 유형으로 전이하고 각 유형이 지표로 측정되는 모형</desc><defs><marker id=\"lta1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lta1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"355.0\" y1=\"110.0\" x2=\"525.0\" y2=\"110.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"210.5\" y1=\"147.7\" x2=\"135.3\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"240.0\" y1=\"149.0\" x2=\"240.0\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"269.5\" y1=\"147.7\" x2=\"344.7\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"610.5\" y1=\"147.7\" x2=\"535.3\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"640.0\" y1=\"149.0\" x2=\"640.0\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"669.5\" y1=\"147.7\" x2=\"744.7\" y2=\"244.0\" marker-end=\"url(#lta1-a)\"/><ellipse class=\"mm-node mm-m\" cx=\"240\" cy=\"110\" rx=\"115.0\" ry=\"39.0\"/><text class=\"mm-t\" x=\"240\" y=\"106\" text-anchor=\"middle\">학습참여 유형 T1</text><text class=\"mm-r mm-m\" x=\"240\" y=\"124\" text-anchor=\"middle\">잠재상태 (시점 1)</text><ellipse class=\"mm-node mm-m\" cx=\"640\" cy=\"110\" rx=\"115.0\" ry=\"39.0\"/><text class=\"mm-t\" x=\"640\" y=\"106\" text-anchor=\"middle\">학습참여 유형 T2</text><text class=\"mm-r mm-m\" x=\"640\" y=\"124\" text-anchor=\"middle\">잠재상태 (시점 2)</text><rect class=\"mm-lbg\" x=\"389.7\" y=\"85.0\" width=\"100.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"440.0\" y=\"98.0\" text-anchor=\"middle\"><tspan x=\"440.0\" dy=\"0\">H1 전이확률 τ</tspan></text><rect class=\"mm-node mm-c\" x=\"59.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"115\" y=\"266\" text-anchor=\"middle\">토론 참여</text><text class=\"mm-r mm-c\" x=\"115\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"184.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"240\" y=\"266\" text-anchor=\"middle\">동료 피드백</text><text class=\"mm-r mm-c\" x=\"240\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"309.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"365\" y=\"266\" text-anchor=\"middle\">재제출</text><text class=\"mm-r mm-c\" x=\"365\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"459.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"515\" y=\"266\" text-anchor=\"middle\">토론 참여</text><text class=\"mm-r mm-c\" x=\"515\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"584.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"266\" text-anchor=\"middle\">동료 피드백</text><text class=\"mm-r mm-c\" x=\"640\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"709.0\" y=\"244.0\" width=\"112\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"765\" y=\"266\" text-anchor=\"middle\">재제출</text><text class=\"mm-r mm-c\" x=\"765\" y=\"284\" text-anchor=\"middle\">지표 (0/1)</text><text class=\"mm-note\" x=\"440\" y=\"332\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">그림에는 지표 3개만 표시. 실제 분석은 시점마다 같은 지표 6개(도움 요청, 자료 열람, 퀴즈 응시 포함)</tspan></text><text class=\"mm-note mm-strong\" x=\"440\" y=\"358\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">유형 유지 확률: 활발 .78 · 부분 .70 · 저조 .70  ·  저조→부분 .25  ·  저조→활발 .05</tspan></text><text class=\"mm-note mm-strong\" x=\"440\" y=\"384\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">시점 간 응답확률 동일 제약: LR χ²(18) = 24, p = .16 → 측정불변 유지</tspan></text></svg>"
+  },
+  {
+   "title": "공변량과 원격 결과를 포함한 잠재전이모형",
+   "question": "상사 지원이 유형 이동을 돕는가? 도착한 유형에 따라 성취가 다른가?",
+   "hypotheses": [
+    "H1: 상사 지원이 높을수록 시점 1에 활발 유형일 가능성이 높을 것이다.",
+    "H2: 상사 지원이 높을수록 저조 유형에서 부분·활발 유형으로 옮겨 갈 가능성이 높을 것이다.",
+    "H3: 시점 2의 유형에 따라 학업 성취가 다를 것이다."
+   ],
+   "how": "아래쪽 긴 화살표는 공변량이 시점 1 유형을 조건으로 시점 2 유형을 예측한다는 뜻입니다. 계수는 다항 로지스틱 회귀의 승산비(OR)입니다. 회귀계수 β처럼 읽지 않습니다.",
+   "results": [
+    "H1 지지: 상사 지원이 1SD 높으면 활발 유형일 승산이 1.6배입니다(OR = 1.6, p < .05).",
+    "H2 지지: 저조 유형에서 벗어날 승산이 1.8배입니다(OR = 1.8, p < .01).",
+    "H3 지지: 시점 2 유형별 성취 평균이 다릅니다(χ²(2) = 18.6, p < .001). 이 관계는 인과효과로 확정되지 않습니다."
+   ],
+   "roles": [
+    [
+     "잠재상태",
+     "m"
+    ],
+    [
+     "공변량 (독립)",
+     "x"
+    ],
+    [
+     "원격 결과 (종속)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 370\" role=\"img\" aria-labelledby=\"lta2-t lta2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"lta2-t\">공변량과 원격 결과를 포함한 잠재전이모형</title><desc id=\"lta2-d\">상사 지원이 유형과 이동을 예측하고 시점 2 유형이 학업 성취와 관련되는 모형</desc><defs><marker id=\"lta2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lta2-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"154.4\" y1=\"187.0\" x2=\"290.8\" y2=\"101.0\" marker-end=\"url(#lta2-a)\"/><line class=\"mm-edge\" x1=\"430.0\" y1=\"70.0\" x2=\"560.0\" y2=\"70.0\" marker-end=\"url(#lta2-a)\"/><line class=\"mm-edge\" x1=\"185.0\" y1=\"194.9\" x2=\"574.6\" y2=\"90.2\" marker-end=\"url(#lta2-a)\"/><line class=\"mm-edge\" x1=\"679.6\" y1=\"104.9\" x2=\"766.2\" y2=\"207.0\" marker-end=\"url(#lta2-a)\"/><rect class=\"mm-node mm-x\" x=\"35.0\" y=\"187.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"211\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-x\" x=\"110\" y=\"229\" text-anchor=\"middle\">공변량 (독립)</text><ellipse class=\"mm-node mm-m\" cx=\"340\" cy=\"70\" rx=\"90.0\" ry=\"37.0\"/><text class=\"mm-t\" x=\"340\" y=\"66\" text-anchor=\"middle\">참여 유형 T1</text><text class=\"mm-r mm-m\" x=\"340\" y=\"84\" text-anchor=\"middle\">잠재상태</text><ellipse class=\"mm-node mm-m\" cx=\"650\" cy=\"70\" rx=\"90.0\" ry=\"37.0\"/><text class=\"mm-t\" x=\"650\" y=\"66\" text-anchor=\"middle\">참여 유형 T2</text><text class=\"mm-r mm-m\" x=\"650\" y=\"84\" text-anchor=\"middle\">잠재상태</text><rect class=\"mm-node mm-y\" x=\"715.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"790\" y=\"231\" text-anchor=\"middle\">학업 성취</text><text class=\"mm-r mm-y\" x=\"790\" y=\"249\" text-anchor=\"middle\">원격 결과 (종속)</text><rect class=\"mm-lbg\" x=\"125.2\" y=\"129.9\" width=\"81.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"165.71255812736013\" y=\"142.8768655284034\" text-anchor=\"middle\"><tspan x=\"165.71255812736013\" dy=\"0\">H1 OR=1.6*</tspan></text><rect class=\"mm-lbg\" x=\"455.1\" y=\"45.0\" width=\"79.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"495.0\" y=\"58.0\" text-anchor=\"middle\"><tspan x=\"495.0\" dy=\"0\">전이확률 τ</tspan></text><rect class=\"mm-lbg\" x=\"331.2\" y=\"161.5\" width=\"200.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"431.61738950254073\" y=\"174.45458985579927\" text-anchor=\"middle\"><tspan x=\"431.61738950254073\" dy=\"0\">H2 OR=1.8** (저조에서 벗어남)</tspan></text><rect class=\"mm-lbg\" x=\"738.4\" y=\"147.0\" width=\"133.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"804.9423659393171\" y=\"159.96778842848093\" text-anchor=\"middle\"><tspan x=\"804.9423659393171\" dy=\"0\">H3 χ²(2)=18.6***</tspan></text><text class=\"mm-note\" x=\"400\" y=\"310\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">유형 측정 모수를 먼저 고정한 3단계 추정(BCH/DCAT 등)으로 분류오차를 반영</tspan></text><text class=\"mm-note mm-strong\" x=\"400\" y=\"336\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">T2 유형별 성취 평균: 활발 4.1 · 부분 3.6 · 저조 3.1</tspan></text></svg>"
+  }
  ]
 }

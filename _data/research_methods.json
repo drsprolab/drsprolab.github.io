@@ -21,7 +21,7 @@
   "methods": [
     {
       "id": "regression",
-      "name": "다중회귀분석",
+      "name": "다중회귀분석 (Multiple Regression)",
       "english": "Multiple regression",
       "category": "quantitative",
       "question": "다른 요인들도 함께 고려했을 때, 어떤 요인이 결과와 관련되는가?",
@@ -485,7 +485,7 @@
     },
     {
       "id": "mediation",
-      "name": "매개효과 (다중매개 포함)",
+      "name": "매개효과 (Mediation, 다중매개 포함)",
       "english": "Mediation · Multiple mediation",
       "category": "quantitative",
       "question": "교육이나 경험이 성과로 이어지기까지 어떤 과정이 작동하는가?",
@@ -938,7 +938,7 @@
     },
     {
       "id": "moderation",
-      "name": "조절효과 (이중조절 포함)",
+      "name": "조절효과 (Moderation, 이중조절 포함)",
       "english": "Moderation · Three-way interaction",
       "category": "quantitative",
       "question": "어떤 사람이나 상황에서 두 요인의 관계가 더 강하거나 약해지는가?",
@@ -1388,7 +1388,7 @@
     },
     {
       "id": "moderated-mediation",
-      "name": "조절된 매개효과",
+      "name": "조절된 매개효과 (Moderated Mediation)",
       "english": "Moderated mediation",
       "category": "quantitative",
       "question": "어떤 조건에서, 중간 과정을 거쳐 결과로 이어지는 관계가 더 강하거나 약해지는가?",
@@ -1828,7 +1828,7 @@
     },
     {
       "id": "sem",
-      "name": "구조방정식모형 (SEM)",
+      "name": "구조방정식모형 (Structural Equation Modeling, SEM)",
       "english": "Structural equation modeling",
       "category": "quantitative",
       "question": "여러 설문 문항으로 측정한 개념들이 서로 어떻게 연결되는가?",
@@ -2289,7 +2289,7 @@
     },
     {
       "id": "multigroup",
-      "name": "다집단 분석",
+      "name": "다집단 분석 (Multigroup Analysis)",
       "english": "Multigroup analysis",
       "category": "quantitative",
       "question": "두 집단에서 설문 문항의 의미와 개념 사이의 관계가 같은가?",
@@ -2738,7 +2738,7 @@
     },
     {
       "id": "lpa",
-      "name": "잠재프로파일분석 (LPA)",
+      "name": "잠재프로파일분석 (Latent Profile Analysis, LPA)",
       "english": "Latent profile analysis",
       "category": "quantitative",
       "question": "사람들의 점수 조합을 보면 어떤 유형이 나타나는가?",
@@ -2823,7 +2823,8 @@
       "related": [
         "lca",
         "multigroup",
-        "prediction"
+        "prediction",
+        "lta"
       ],
       "ultimate": "평균 관계 뒤에 가려진 사람들의 경험 조합과 지원이 필요한 유형을 찾고 싶다.",
       "data_example": {
@@ -3186,7 +3187,7 @@
     },
     {
       "id": "lca",
-      "name": "잠재계층분석 (LCA)",
+      "name": "잠재계층분석 (Latent Class Analysis, LCA)",
       "english": "Latent class analysis",
       "category": "quantitative",
       "question": "예·아니요와 같은 응답 조합을 보면 어떤 사람 유형이 나타나는가?",
@@ -3274,7 +3275,8 @@
       "related": [
         "lpa",
         "multigroup",
-        "prediction"
+        "prediction",
+        "lta"
       ],
       "ultimate": "여러 경험의 유무·범주가 결합되는 잠재적 사람들의 유형을 찾고 싶다.",
       "data_example": {
@@ -3607,8 +3609,461 @@
       }
     },
     {
+      "id": "lta",
+      "name": "잠재전이분석 (Latent Transition Analysis, LTA)",
+      "english": "Latent transition analysis",
+      "category": "quantitative",
+      "question": "시간이 지나면서 사람들이 다른 유형으로 옮겨 가는가?",
+      "summary": [
+        "같은 사람을 여러 시점에 측정해, 사람들이 잠재 유형 사이를 어떻게 옮겨 가는지 알고 싶을 때 사용합니다.",
+        "같은 사람의 시점별 범주형 응답이나 연속형 점수가 2시점 이상 필요합니다.",
+        "잠재전이분석(LTA)은 시점마다 유형을 추정하고, 한 유형에서 다른 유형으로 옮겨 갈 확률을 추정합니다.",
+        "유형 유지와 이동의 확률, 이동을 예측하는 변수를 제시합니다. 점수의 평균 변화를 보는 잠재성장모형과 구별합니다."
+      ],
+      "purpose": "학습 참여나 동기 유형처럼 사람을 유형으로 볼 수 있고, 그 유형이 시간에 따라 바뀌는지 궁금할 때 적합합니다. 머무르는 사람과 옮겨 가는 사람, 이동과 관련된 특성을 해석합니다.",
+      "data": [
+        "같은 사람을 2시점 이상 측정한 패널 자료. 사람 1명이 한 행이고 시점별 지표가 열입니다.",
+        "모든 시점에 같은 지표와 같은 코딩을 사용합니다.",
+        "지표는 범주형(LCA 기반) 또는 연속형(LPA 기반)일 수 있습니다.",
+        "유형 수와 시점 수가 늘면 칸이 희소해지므로 작은 유형과 드문 이동의 안정성을 고려해 표본을 계획합니다."
+      ],
+      "steps": [
+        "시점별로 유형 수를 탐색합니다.",
+        "시점 간 측정불변을 검토합니다.",
+        "전이확률을 추정하고 공변량과 결과를 분류오차를 반영해 연결합니다."
+      ],
+      "cautions": [
+        "전이확률은 측정불변이 받아들여질 때 같은 유형 사이의 이동으로 해석할 수 있습니다.",
+        "공변량이 이동을 예측해도 이동의 원인이라고 단정할 수 없습니다.",
+        "사람을 유형 하나로 배정해 교차표를 만들면 분류오차가 무시되어 이동이 과대추정될 수 있습니다.",
+        "2시점 자료의 이동에는 실제 변화와 측정오차가 섞일 수 있습니다."
+      ],
+      "checks": [
+        "같은 사람을 2시점 이상 같은 도구로 측정했나요?",
+        "점수의 평균 변화보다 유형 사이의 이동이 궁금한가요?",
+        "시점 간 측정불변과 분류오차를 검토할 계획인가요?"
+      ],
+      "signals": [
+        "잠재전이",
+        "lta",
+        "유형 이동",
+        "유형 변화",
+        "전이확률",
+        "프로파일 이동",
+        "계층 이동"
+      ],
+      "references": [
+        "nylundgibson2014"
+      ],
+      "cases": [
+        {
+          "area": "조직행동",
+          "title": "신입사원 직무동기 유형의 이동",
+          "purpose": "입사 후 1년 동안 동기 유형이 어떻게 달라지는지 봅니다.",
+          "question": "입사 초기의 동기 유형은 1년 뒤 어떤 유형으로 옮겨 가는가? 상사 지원이 이동과 관련되는가?",
+          "data": "같은 신입사원의 입사 3개월, 15개월 동기 점수와 상사 지원.",
+          "analysis": "시점별 LPA로 유형 수를 정하고, 측정불변을 검토한 뒤 전이확률을 추정합니다. 상사 지원은 3단계 절차로 연결합니다.",
+          "learn": "평균 동기가 그대로여도 사람들은 유형 사이를 옮겨 갈 수 있습니다.",
+          "output": "시점별 유형 프로파일, 전이확률 표, 상사 지원의 승산비를 제시합니다.",
+          "data_items": [
+            "같은 신입사원의 입사 3개월, 15개월 동기 점수",
+            "상사 지원"
+          ],
+          "output_items": [
+            "시점별 유형 프로파일",
+            "전이확률 표",
+            "상사 지원의 승산비"
+          ]
+        },
+        {
+          "area": "학습분석",
+          "title": "온라인 학습자의 참여 유형 이동",
+          "purpose": "학기 초반과 후반의 참여 유형이 어떻게 바뀌는지 봅니다.",
+          "question": "학기 초 저조 유형의 학습자 중 얼마나 활발 유형으로 옮겨 가는가?",
+          "data": "학습자별 학기 초·후반의 토론, 피드백, 재제출, 도움 요청 수행 여부.",
+          "analysis": "범주형 지표로 시점별 LCA를 수행하고 전이모형으로 이동 확률을 추정합니다.",
+          "learn": "학기 초의 유형만으로 학습자를 단정하지 않고, 옮겨 갈 가능성을 함께 볼 수 있습니다.",
+          "output": "유형별 응답확률, 전이확률 표, 이동 흐름도를 제시합니다.",
+          "data_items": [
+            "학습자별 학기 초·후반의 토론, 피드백, 재제출, 도움 요청 수행 여부"
+          ],
+          "output_items": [
+            "유형별 응답확률",
+            "전이확률 표",
+            "이동 흐름도"
+          ]
+        }
+      ],
+      "related": [
+        "lca",
+        "lpa",
+        "lgm"
+      ],
+      "ultimate": "사람들이 시간에 따라 어떤 유형으로 옮겨 가고, 누가 옮겨 가는지 알고 싶다.",
+      "data_example": {
+        "unit": "같은 사람의 시점별 지표 (넓은 형식 1행)",
+        "columns": "ID, 토론_T1, 재제출_T1, 토론_T2, 재제출_T2, 상사지원",
+        "row": "A01 | 1 | 0 | 1 | 1 | 4.2",
+        "column_items": [
+          "ID",
+          "토론_T1",
+          "재제출_T1",
+          "토론_T2",
+          "재제출_T2",
+          "상사지원"
+        ]
+      },
+      "outputs": [
+        "시점별 유형과 비율, 유형 사이를 옮겨 갈 확률을 보여 줍니다.",
+        "전이확률 표와 흐름도: 누가 머물고 누가 어디로 옮겨 갔는가",
+        "공변량의 승산비와 유형별 결과: 어떤 특성이 이동과 관련되고, 이동이 어떤 결과로 이어지는가"
+      ],
+      "beginner_tip": [
+        "핵심은 평균 변화가 아니라 유형 사이의 이동입니다.",
+        "먼저 LCA 또는 LPA를 이해한 뒤 시간을 더한다고 생각하세요."
+      ],
+      "comparison": {
+        "title": "잠재전이분석(LTA)은 LCA·LPA, 잠재성장모형(LGM)과 무엇이 다른가",
+        "columns": [
+          "구분",
+          "LCA·LPA",
+          "잠재전이분석 (LTA)",
+          "잠재성장모형 (LGM)"
+        ],
+        "rows": [
+          [
+            "핵심 질문",
+            "어떤 유형이 있는가",
+            "유형 사이를 어떻게 옮겨 가는가",
+            "점수가 어떻게 변하고 개인차가 있는가"
+          ],
+          [
+            "변화를 보는 방식",
+            "다루지 않음(한 시점)",
+            "유형의 변화(질적 변화)",
+            "점수의 변화(양적 변화)"
+          ],
+          [
+            "주요 결과",
+            "유형 비율, 응답확률 또는 평균",
+            "전이확률",
+            "절편·기울기의 평균과 분산"
+          ],
+          [
+            "최소 측정 횟수",
+            "1회",
+            "2회",
+            "3회"
+          ],
+          [
+            "선택 기준",
+            "사람의 유형이 궁금할 때",
+            "유형의 이동이 궁금할 때",
+            "변화의 모양과 속도가 궁금할 때"
+          ]
+        ]
+      },
+      "selection": {
+        "decision": "평균이 변하지 않아도 그 안에서 사람들은 다른 유형으로 옮겨 갈 수 있습니다. 유형을 찾는 데서 나아가 유형 사이의 이동이 궁금하면 LTA를 검토합니다.",
+        "conditions": [
+          {
+            "title": "유형의 이동이 궁금함",
+            "explanation": "학기 초 저조 유형의 학습자가 학기 말에 어느 유형으로 옮겨 가는지처럼 사람의 유형 변화를 묻는 경우입니다."
+          },
+          {
+            "title": "같은 사람의 2시점 이상 자료",
+            "explanation": "같은 사람을 같은 도구로 반복 측정해야 합니다. 시점마다 다른 사람을 조사한 자료로는 개인의 이동을 추정할 수 없습니다."
+          },
+          {
+            "title": "시점 간 유형의 의미가 같음",
+            "explanation": "시점별 유형의 수와 모양이 비슷하고 응답확률이 같다는 제약을 받아들일 수 있어야 이동을 해석할 수 있습니다."
+          },
+          {
+            "title": "분류오차를 반영할 계획",
+            "explanation": "가장 그럴듯한 유형으로 배정해 교차표를 만들지 않고, 전이모형과 3단계 절차로 불확실성을 반영합니다."
+          }
+        ],
+        "compare": [
+          {
+            "method": "lca",
+            "criterion": "한 시점의 범주형 응답 패턴만 궁금하면 LCA로 충분합니다."
+          },
+          {
+            "method": "lpa",
+            "criterion": "한 시점의 연속형 점수 패턴만 궁금하면 LPA로 충분합니다."
+          },
+          {
+            "method": "lgm",
+            "criterion": "유형이 아니라 점수의 평균 궤적과 변화 속도의 개인차가 궁금하면 잠재성장모형을 검토합니다."
+          }
+        ],
+        "variable_form": [
+          "분석 단위는 사람이며, 같은 사람의 시점별 지표가 필요합니다. 예: T1·T2의 토론 참여, 재제출, 도움 요청 여부.",
+          "지표는 범주형 또는 연속형일 수 있고 모든 시점에 같은 코딩을 씁니다. 탈락과 희소 범주를 확인합니다.",
+          "유형을 만드는 지표와 공변량, 결과변수를 구분합니다. 공변량과 결과는 측정 모형을 정한 뒤 연결합니다."
+        ],
+        "analysis_focus": [
+          "시점별 유형 수를 먼저 정하고 측정불변 모형을 비교합니다.",
+          "시점 1 유형을 조건으로 한 시점 2 유형의 확률, 곧 전이확률을 추정합니다.",
+          "공변량은 다항 로지스틱 회귀의 승산비로, 결과는 유형별 평균이나 비율로 비교합니다."
+        ],
+        "result_interpretation": [
+          "유형 수의 근거, 측정불변, 전이확률 표, 공변량의 승산비를 보고합니다.",
+          "대각선은 유지, 나머지는 이동입니다. 확률과 추정 인원을 함께 해석합니다.",
+          "이동은 측정오차와 표본의 영향을 받을 수 있고 인과효과가 아닙니다. 다른 표본과 시점에서 재현되는지 검토합니다."
+        ]
+      },
+      "intro_example": [
+        "학기 초와 학기 말에 학습자의 토론, 재제출, 도움 요청 수행 여부를 묻습니다. 같은 지표를 두 시점에 측정한 것입니다.",
+        "각 시점에서 활발, 부분, 저조 유형이 나타나는지 확인하고, 유형 사이를 옮겨 갈 확률을 추정합니다.",
+        "전이확률 표와 흐름도로 머무른 사람과 옮겨 간 사람을 제시합니다."
+      ],
+      "structure": {
+        "model": "시점마다 잠재 유형을 추정하고, 시점 1 유형에서 시점 2 유형으로 옮겨 갈 전이확률을 추정한 뒤, 공변량과 결과를 연결합니다.",
+        "why": "‘사람들이 다른 유형으로 옮겨 가는가, 누가 옮겨 가는가’를 알고 싶을 때. 평균 변화에 가려진 개인의 유형 이동을 보기 위해 합니다."
+      },
+      "glossary": [
+        {
+          "stage": "question",
+          "term": "잠재상태",
+          "definition": "LTA에서 특정 시점에 사람이 속한 잠재 유형입니다. 유형이 고정되어 있다고 보는 LCA의 잠재계층과 달리 시간에 따라 달라질 수 있다고 봅니다."
+        },
+        {
+          "stage": "question",
+          "term": "전이확률",
+          "definition": "시점 t의 어떤 유형에 속할 때 시점 t+1에 각 유형에 속할 확률입니다. 한 행의 합이 1이며, 대각선은 유지, 나머지는 이동을 뜻합니다."
+        },
+        {
+          "stage": "question",
+          "term": "LTA와 LGM",
+          "definition": "LGM은 연속 점수의 평균 궤적을 보고, LTA는 질적으로 다른 유형 사이의 이동을 봅니다. 변화를 양으로 볼지, 유형의 변화로 볼지가 선택의 기준입니다."
+        },
+        {
+          "stage": "design",
+          "term": "측정 시점과 간격",
+          "definition": "최소 2시점이 필요합니다. 간격이 너무 짧으면 이동이 드물고, 너무 길면 중간 이동을 놓칩니다. 이론으로 변화가 일어날 기간을 먼저 정합니다."
+        },
+        {
+          "stage": "design",
+          "term": "동일 지표",
+          "definition": "모든 시점에 같은 문항과 같은 범주 코딩을 씁니다. 문항이나 코딩이 달라지면 이동과 측정 변화를 구별할 수 없습니다."
+        },
+        {
+          "stage": "design",
+          "term": "패널 탈락",
+          "definition": "한 시점만 응답한 사람의 처리 방식을 정합니다. 탈락이 유형과 관련되면 전이확률이 왜곡될 수 있어 결측 메커니즘을 점검합니다."
+        },
+        {
+          "stage": "analysis",
+          "term": "시점별 유형 수 탐색",
+          "definition": "전이를 넣기 전에 시점마다 LCA 또는 LPA로 유형 수를 정합니다. 시점 간 유형 수와 모양이 비슷한지 보는 단계입니다."
+        },
+        {
+          "stage": "analysis",
+          "term": "측정불변",
+          "definition": "시점 간 조건부 응답확률을 같게 제약한 모형과 자유 모형을 비교합니다. 불변이 유지되어야 같은 유형 사이의 이동으로 해석할 수 있습니다."
+        },
+        {
+          "stage": "analysis",
+          "term": "3단계 추정",
+          "definition": "측정 모형을 먼저 추정한 뒤 분류오차를 반영해 전이와 공변량, 결과를 연결합니다. 나중에 넣은 변수가 유형의 의미를 바꾸는 문제를 줄입니다."
+        },
+        {
+          "stage": "analysis",
+          "term": "승산비",
+          "definition": "공변량이 유형 또는 이동의 가능성을 얼마나 바꾸는지 나타내는 다항 로지스틱 회귀의 값입니다. 1보다 크면 가능성이 높아지고, 신뢰구간이 1을 포함하면 유의하지 않습니다."
+        },
+        {
+          "stage": "interpretation",
+          "term": "유지와 이동의 해석",
+          "definition": "전이확률이 낮아도 시작 유형의 비율이 크면 옮겨 간 사람 수는 많을 수 있습니다. 확률과 추정 사람 수를 함께 봅니다."
+        },
+        {
+          "stage": "interpretation",
+          "term": "이동은 인과가 아님",
+          "definition": "공변량이 이동을 예측해도 원인이라고 확정할 수 없습니다. 변화의 시간 순서와 교란 변수를 함께 검토합니다."
+        }
+      ],
+      "procedure_tool": "Mplus·R(LMest 등)·Latent GOLD 기준 (기초통계는 SPSS)",
+      "procedure_sources": "Collins·Lanza(2010), Nylund 외(2007), Nylund-Gibson 외(2014), Asparouhov·Muthén(2014), Vermunt(2010), Bakk·Vermunt(2016)",
+      "procedure": [
+        {
+          "title": "연구 질문과 지표 정하기",
+          "do": "‘시간이 지나며 사람들이 다른 유형으로 옮겨 가는가’를 이론으로 정하고, 유형을 만들 지표를 고릅니다.",
+          "check": "지표가 범주형이면 LCA 기반, 연속형이면 LPA 기반 전이모형입니다. 시점 2개 이상이 필요합니다.",
+          "learn": "유형 이동을 물을 수 있는 설계인지 확인합니다."
+        },
+        {
+          "title": "자료 정리와 기초통계",
+          "do": "사람 1명을 한 행으로 두고 시점별 열을 만듭니다(SPSS 빈도분석, 교차표). 코딩과 탈락 패턴을 점검합니다.",
+          "check": "시점별 지표의 범주 빈도, 탈락 비율, 탈락자와 잔류자의 차이를 봅니다. 희소 범주는 합치거나 이유를 기록합니다.",
+          "learn": "추정이 불안정해질 부분을 미리 찾습니다."
+        },
+        {
+          "title": "시점별 유형 수 정하기",
+          "do": "시점마다 유형 수를 늘려 가며 LCA(또는 LPA)를 여러 시작값으로 추정합니다.",
+          "check": "BIC·SABIC가 낮고 BLRT(또는 LMR) p < .05인 수를 우선 봅니다. 엔트로피는 .80 이상을 흔히 양호하게 보고, 최소 유형 비율은 약 5% 이상을 경험적 기준으로 씁니다. 최고 로그우도가 반복되어야 합니다.",
+          "learn": "각 시점의 유형 구조를 이해합니다."
+        },
+        {
+          "title": "측정불변 검토",
+          "do": "시점 간 응답확률을 자유롭게 둔 모형과 같게 제약한 모형을 비교합니다.",
+          "check": "LR 검정이 유의하지 않거나 BIC가 낮으면 불변을 받아들입니다. 불변이 부분적으로만 유지되면 어떤 유형이 다른지 보고합니다.",
+          "learn": "같은 유형 사이의 이동으로 해석할 근거를 얻습니다."
+        },
+        {
+          "title": "전이모형 추정",
+          "do": "제약 모형에서 시점 1 유형이 시점 2 유형을 예측하도록 추정합니다.",
+          "check": "전이확률 표에서 유지 확률과 이동 확률, 한 행의 합이 1인지, 수렴과 해의 복제 여부를 확인합니다.",
+          "learn": "누가 어디로 이동하는지 알 수 있습니다."
+        },
+        {
+          "title": "공변량 연결",
+          "do": "3단계 절차(수동 3단계 또는 R3STEP 등)로 공변량이 유형과 이동을 예측하는지 추정합니다.",
+          "check": "승산비와 95% 신뢰구간을 봅니다. 신뢰구간이 1을 포함하지 않으면 유의합니다. 기준 유형을 밝힙니다.",
+          "learn": "어떤 특성이 이동과 관련되는지 알 수 있습니다."
+        },
+        {
+          "title": "원격 결과 연결",
+          "do": "BCH·DCAT 등 분류오차를 반영한 방법으로 유형 또는 이동 경로별 결과를 비교합니다.",
+          "check": "유형별 평균 또는 비율, 전체 χ² 검정, 쌍별 비교를 봅니다. 가장 큰 사후확률로 배정해 ANOVA를 하면 오차가 무시됩니다.",
+          "learn": "유형 이동이 결과와 어떻게 연결되는지 알 수 있습니다."
+        },
+        {
+          "title": "보고와 해석",
+          "do": "유형 수 근거, 측정불변 결과, 전이확률 표, 흐름도, 공변량과 결과 표를 제시합니다.",
+          "check": "확률과 추정 인원을 함께 제시하고, 유형 이름이 지표로 뒷받침되는지 확인합니다. 인과 표현을 피합니다.",
+          "learn": "결과의 근거와 한계를 함께 전달합니다."
+        }
+      ],
+      "analysis_structure": {
+        "summary": "시점별 잠재범주변수 사이의 다항 로지스틱 관계로 전이확률을 추정하는 구조입니다. 시점 간 응답확률을 같게 제약해 유형의 의미를 고정합니다.",
+        "diagram": [
+          "지표 T1 ←── 유형 C1 ──(전이확률 τ)──→ 유형 C2 ──→ 지표 T2",
+          "공변량 → C1, C2 (C1을 조건으로)",
+          "C2 → 원격 결과"
+        ],
+        "equations": [
+          "P(C2 = j | C1 = i) = τ_j|i,  Σ_j τ_j|i = 1",
+          "P(C2 = j | C1 = i, x) = exp(α_j|i + γ_j·x) / Σ_k exp(α_k|i + γ_k·x)"
+        ],
+        "variables": [
+          {
+            "role": "시점별 지표",
+            "meaning": "유형을 만드는 관측 응답",
+            "example": "토론_T1, 토론_T2",
+            "form": "범주형·연속형"
+          },
+          {
+            "role": "잠재상태 (C1, C2)",
+            "meaning": "시점별 잠재 유형",
+            "example": "활발, 부분, 저조",
+            "form": "잠재범주변수"
+          },
+          {
+            "role": "전이확률 (τ)",
+            "meaning": "유형 사이를 옮겨 갈 확률",
+            "example": "저조 → 부분 .25",
+            "form": "추정 모수"
+          },
+          {
+            "role": "공변량",
+            "meaning": "유형과 이동을 예측",
+            "example": "상사 지원",
+            "form": "연속형·범주"
+          },
+          {
+            "role": "원격 결과",
+            "meaning": "유형과 관련된 이후 결과",
+            "example": "학업 성취",
+            "form": "연속형·범주"
+          }
+        ],
+        "table": {
+          "columns": [
+            "ID",
+            "disc_t1",
+            "resub_t1",
+            "disc_t2",
+            "resub_t2",
+            "support",
+            "achieve"
+          ],
+          "rows": [
+            [
+              "A01",
+              "1",
+              "0",
+              "1",
+              "1",
+              "4.2",
+              "3.8"
+            ],
+            [
+              "A02",
+              "0",
+              "0",
+              "0",
+              "1",
+              "3.1",
+              "3.2"
+            ],
+            [
+              "A03",
+              "1",
+              "1",
+              "",
+              "",
+              "3.6",
+              ""
+            ]
+          ],
+          "note": "예시 값입니다(실제 자료가 아님). 한 행은 한 사람입니다. A03은 2시점에 탈락한 예입니다."
+        },
+        "rules": [
+          "사람 1명을 한 행으로 두고 시점을 열 이름에 붙입니다(disc_t1, disc_t2).",
+          "모든 시점의 코딩을 같게 하고, 범주형 지표로 지정합니다.",
+          "탈락으로 비는 칸은 빈칸으로 두고 FIML로 처리합니다. 0으로 채우지 않습니다.",
+          "유형 라벨 열을 미리 만들어 넣지 않습니다. 유형은 모형이 추정합니다."
+        ],
+        "setup": [
+          "Mplus: VARIABLE: CATEGORICAL = u11-u16 u21-u26; CLASSES = c1(3) c2(3); ANALYSIS: TYPE = MIXTURE; STARTS = 500 100; MODEL: %OVERALL% c2 ON c1;",
+          "Mplus 측정불변: MODEL c1: %c1#1% [u11$1-u16$1] (1-6); … MODEL c2: %c2#1% [u21$1-u26$1] (1-6); … 처럼 같은 번호로 임계값을 제약합니다.",
+          "R LMest: 잠재 마르코프 모형으로 전이확률을 추정합니다. 함수와 옵션은 패키지 문서를 확인합니다."
+        ]
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Jang, J. H., & Ko, Y.",
+          "year": 2021,
+          "title": "Longitudinal patterns of critical thinking ability on media in adolescence: A latent transition analysis",
+          "journal": "교육정보미디어연구",
+          "volume": "27",
+          "issue": "4",
+          "pages": "1429-1456",
+          "doi": "10.15833/kafeiam.27.4.1429",
+          "url": "https://doi.org/10.15833/kafeiam.27.4.1429",
+          "cited_by_crossref": 1
+        },
+        {
+          "index": "SSCI",
+          "authors": "Gillet, N., Morin, A. J. S., & Reeve, J.",
+          "year": 2017,
+          "title": "Stability, change, and implications of students’ motivation profiles: A latent transition analysis",
+          "journal": "Contemporary Educational Psychology",
+          "volume": "51",
+          "issue": "",
+          "pages": "222-239",
+          "doi": "10.1016/j.cedpsych.2017.08.006",
+          "url": "https://doi.org/10.1016/j.cedpsych.2017.08.006",
+          "cited_by_crossref": 144
+        }
+      ]
+    },
+    {
       "id": "scale-development",
-      "name": "측정도구 개발",
+      "name": "측정도구 개발 (Scale Development and Validation)",
       "english": "Scale development and validation",
       "category": "quantitative",
       "question": "연구하려는 개념을 설문 문항으로 어떻게 측정할 수 있는가?",
@@ -4184,7 +4639,7 @@
     },
     {
       "id": "prediction",
-      "name": "예측분석 (랜덤 포레스트 중심)",
+      "name": "예측분석 (Predictive Modeling, 랜덤 포레스트 중심)",
       "english": "Predictive modeling",
       "category": "quantitative",
       "question": "새로운 사람이나 다음 시기의 결과를 미리 얼마나 정확하게 예측할 수 있는가?",
@@ -4758,7 +5213,7 @@
     },
     {
       "id": "arcl",
-      "name": "자기회귀교차지연모형 (ARCL)",
+      "name": "자기회귀교차지연모형 (Autoregressive Cross-Lagged Panel Model, ARCL)",
       "english": "Autoregressive cross-lagged panel model",
       "category": "quantitative",
       "question": "두 특성은 시간이 지나면서 서로의 다음 변화를 예측하는가?",
@@ -8499,7 +8954,7 @@
     },
     {
       "id": "sna",
-      "name": "사회네트워크분석 (SNA)",
+      "name": "사회네트워크분석 (Social Network Analysis, SNA)",
       "english": "Social network analysis",
       "category": "quantitative",
       "question": "사람이나 조직 사이의 관계가 어떤 구조를 이루고, 그 구조 안에서 누가 어떤 위치에 있는가?",
@@ -8965,7 +9420,7 @@
     },
     {
       "id": "topic-modeling",
-      "name": "토픽모델링",
+      "name": "토픽모델링 (Topic Modeling)",
       "english": "Topic modeling",
       "category": "quantitative",
       "question": "많은 글(논문 초록, 면담 전사, 댓글, 서술형 응답)에는 어떤 주제들이 들어 있고 시간·집단에 따라 어떻게 다른가?",
@@ -9431,7 +9886,7 @@
     },
     {
       "id": "multilevel",
-      "name": "다층분석 (HLM)",
+      "name": "다층분석 (Multilevel Analysis, HLM)",
       "english": "Multilevel analysis",
       "category": "quantitative",
       "question": "팀·학급·조직 안에 묶여 있는 개인의 자료에서, 개인 수준과 집단 수준의 요인이 결과에 각각 얼마나 영향을 주는가?",
@@ -10517,7 +10972,7 @@
     },
     {
       "id": "lgm",
-      "name": "잠재성장모형 (LGM)",
+      "name": "잠재성장모형 (Latent Growth Modeling, LGM)",
       "english": "Latent growth modeling",
       "category": "quantitative",
       "question": "같은 사람의 점수가 시간에 따라 어떻게 변하고, 시작 수준과 변화 속도는 사람마다 얼마나 다르며, 그 차이는 무엇으로 설명되는가?",
@@ -12583,6 +13038,31 @@
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.1177/0149206309352110",
       "focus": "변화를 연구할 때 이론, 측정 시점, 측정동일성, 성장모형을 어떻게 설계하고 분석하는지 읽어 보세요."
+    },
+    "nylundgibson2014": {
+      "id": "nylundgibson2014",
+      "title": "A Latent Transition Mixture Model Using the Three-Step Specification",
+      "authors": "Nylund-Gibson, K., Grimm, R., Quirk, M., & Furlong, M.",
+      "year": 2014,
+      "journal": "Structural Equation Modeling: A Multidisciplinary Journal",
+      "volume": "21",
+      "issue": "3",
+      "pages": "439-454",
+      "doi": "10.1080/10705511.2014.915375",
+      "url": "https://doi.org/10.1080/10705511.2014.915375",
+      "publisher": "Informa UK Limited",
+      "issn": [
+        "1070-5511",
+        "1532-8007"
+      ],
+      "ssci": {
+        "title": "STRUCTURAL EQUATION MODELING-A MULTIDISCIPLINARY JOURNAL",
+        "issn": "1070-5511",
+        "eissn": "1532-8007"
+      },
+      "checked": "2026-11-01",
+      "metadata_url": "https://api.crossref.org/works/10.1080/10705511.2014.915375",
+      "focus": "시점별 유형을 먼저 고정하고 전이와 공변량, 결과를 나중에 연결하는 3단계 절차가 왜 필요한지 읽어 보세요."
     }
   },
   "provenance": {

@@ -8,7 +8,7 @@
   const goals = {
     relationship:['regression'], pathway:['mediation'], conditional:['moderation'],
     'conditional-pathway':['moderated-mediation'], latent:['sem'], groups:['multigroup'],
-    profiles:['lpa','lca'], measurement:['scale-development'], future:['prediction'],
+    profiles:['lpa','lca'], transition:['lta'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
     pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
@@ -33,6 +33,7 @@
     'systematic-review':[/명확한.{0,10}질문.{0,15}근거/,/기존 연구.{0,20}(결론|일관성)/],
     'meta-analysis':[/여러 연구.{0,15}(효과|상관).{0,10}(합치|종합|통합)/,/연구.{0,10}평균.{0,8}효과/],
     sna:[/누가 누구와/,/연결.{0,8}(구조|위치|형태)/,/네트워크/,/관계.{0,8}(구조|연결)/,/중심.{0,6}(인물|위치)/],
+    lta:[/잠재전이/,/(유형|프로파일|계층|집단).{0,14}(이동|옮겨|바뀌)/,/전이확률/],
     lgm:[/잠재성장|성장모형/,/변화.{0,4}(궤적|속도|양상)/,/시간.{0,8}따라.{0,12}(변화|변하|달라)/,/변화.{0,12}개인차/],
     'case-study':[/사례.{0,3}연구/,/(특정|한).{0,6}(조직|기업|학교|프로그램).{0,15}(사례|깊이|왜|어떻게)/,/운영 사례|도입 사례/],
     multilevel:[/다층|위계적 선형/,/(팀|집단|학급|조직).{0,8}(수준|안에 속|에 속한).{0,12}(개인|효과)/,/교차.{0,3}수준/,/개인.{0,6}(수준|특성).{0,10}(팀|집단).{0,6}(수준|특성)/],
@@ -61,6 +62,10 @@
       if(waves==='1') excluded.push('한 번만 측정한 자료로는 교차지연 관계를 추정할 수 없습니다. 동일인 반복 측정을 계획하세요.');
       else if(waves==='2') missing.push('전통 CLPM은 2시점도 가능하지만 개인 내 관계를 분리하는 RI-CLPM은 통상 3시점 이상을 계획합니다.');
       else missing.push('같은 사람을 반복 측정했는지, 간격과 개인 내/개인 간 질문이 맞는지 확인하세요.');
+    }
+    if(id==='lta') {
+      if(waves==='1') excluded.push('잠재전이분석은 같은 사람을 2회 이상 측정해야 유형 이동을 추정할 수 있습니다.');
+      else missing.push('같은 사람을 같은 도구로 반복 측정했는지, 시점 간 측정불변과 분류오차를 확인하세요.');
     }
     if(id==='lgm') {
       if(waves==='1'||waves==='2') excluded.push('잠재성장모형은 같은 사람을 3회 이상 측정해야 추정할 수 있습니다.');
