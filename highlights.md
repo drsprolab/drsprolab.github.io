@@ -48,11 +48,18 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
 
 <script>
 // 연도 버튼: 컨퍼런스·워크샵·데일리 구분 없이 그 해 사진을 한곳에 모아 보여 준다.
+// 바뀔 때 빠지는 사진은 흐려지며 사라지고, 남는 사진은 새 자리로 미끄러지고, 새 사진은 차례로 떠오른다.
 (function () {
   var bar = document.querySelector('.gal-years'); if (!bar) return;
   var view = document.getElementById('gal-year-view'), grid = view.querySelector('.gallery');
   var secs = document.querySelectorAll('.gal-sec'), cards = document.querySelectorAll('.gal-sec .gcard');
-  function show(year) {
+  [].forEach.call(cards, function (c, i) { c.setAttribute('data-gid', i); });
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ease = 'cubic-bezier(.2,.7,.2,1)', run = 0;
+  function shown() {
+    return [].filter.call(document.querySelectorAll('.gal-sec .gcard, #gal-year-view .gcard'), function (c) { return c.offsetParent !== null; });
+  }
+  function swap(year) {
     [].forEach.call(bar.children, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-year') === year)); });
     [].forEach.call(secs, function (el) { el.hidden = !!year; });
     view.hidden = !year; grid.innerHTML = '';
@@ -62,6 +69,32 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
     view.querySelector('.gal-year-label').textContent = year;
     view.querySelector('.n').textContent = picked.length;
     if (!picked.length) grid.innerHTML = '<p class="gal-empty">이 해의 사진이 아직 없습니다.</p>';
+  }
+  function show(year) {
+    if (calm || !Element.prototype.animate) { swap(year); return; }
+    var me = ++run, before = {}, keep = {};
+    var now = shown();
+    now.forEach(function (c) { before[c.getAttribute('data-gid')] = c.getBoundingClientRect(); });
+    [].forEach.call(cards, function (c) { if (!year || c.getAttribute('data-year') === year) keep[c.getAttribute('data-gid')] = 1; });
+    var leaving = now.filter(function (c) { return !keep[c.getAttribute('data-gid')]; });
+    leaving.forEach(function (c) {
+      c.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.92)' }], { duration: 200, easing: 'ease-in', fill: 'forwards' });
+    });
+    setTimeout(function () {
+      if (me !== run) return;
+      swap(year);
+      var k = 0;
+      shown().forEach(function (c) {
+        var r = c.getBoundingClientRect(), o = before[c.getAttribute('data-gid')];
+        if (o) {
+          var dx = o.left - r.left, dy = o.top - r.top, s = o.width / r.width;
+          if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(s - 1) < .01) return;
+          c.animate([{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', transformOrigin: '0 0' }, { transform: 'none', transformOrigin: '0 0' }], { duration: 520, easing: ease });
+        } else {
+          c.animate([{ opacity: 0, transform: 'translateY(18px) scale(.94)' }, { opacity: 1, transform: 'none' }], { duration: 460, delay: Math.min(k++ * 45, 540), easing: ease, fill: 'backwards' });
+        }
+      });
+    }, leaving.length ? 200 : 0);
   }
   bar.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
