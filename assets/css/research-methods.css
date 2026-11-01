@@ -173,3 +173,14 @@
 .rm[data-view="intro"] .rm-view-intro { display:block; }
 .rm[data-view="intro"] .rm-intro.rm-view-intro { display:grid; }
 .rm[data-view="start"] .rm-view-start,.rm[data-view="catalog"] .rm-view-catalog { display:block; }
+.rm-fold > summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:14px; cursor:pointer; padding:14px 16px; border:1px solid var(--line); border-radius:10px; background:var(--tint); }
+.rm-fold > summary::-webkit-details-marker { display:none; }
+.rm-fold > summary::after { content:"▾ 펼쳐 보기"; flex:none; font-size:13px; font-weight:500; color:var(--accent); border:1px solid var(--line); border-radius:6px; padding:5px 11px; background:var(--paper); }
+.rm-fold[open] > summary::after { content:"▴ 접기"; }
+.rm-fold > summary > h2,.rm-fold > summary > h3,.prose .rm-fold > summary > h2 { margin:2px 0 0; }
+.rm-fold > summary > .rm-eyebrow { display:block; }
+.rm-fold > summary:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.rm-fold-body { padding:16px 4px 4px; }
+.rm-fold.rm-self-check { padding:0; background:none; border:0; }
+.rm-fold-sub { margin:20px 0; }
+@media print { .rm-fold > summary::after { display:none; } }

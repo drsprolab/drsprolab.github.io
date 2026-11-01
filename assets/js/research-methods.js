@@ -1,5 +1,8 @@
 (function () {
   'use strict';
+  const openFold=()=>{const id=decodeURIComponent(location.hash.slice(1)),t=id&&document.getElementById(id);if(!t)return;let n=t;while(n){if(n.tagName==='DETAILS'&&!n.open)n.open=true;n=n.parentElement;}if(t.closest&&t.closest('.rm-fold'))t.scrollIntoView();};
+  window.addEventListener('hashchange',openFold);openFold();
+  window.addEventListener('beforeprint',()=>document.querySelectorAll('.rm-fold').forEach(d=>{d.open=true;}));
   const root=document.getElementById('method-selector');
   if(root){
     const startIds=['start','rm-form-title','rm-form','rm-results'],introIds=['rm-start','method-terms'];
