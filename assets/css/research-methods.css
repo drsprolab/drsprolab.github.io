@@ -197,3 +197,8 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-ultimate-compare dd span { display:block; margin:3px 0; }
 .rm-reference-badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
 .rm-reference-badges span { font-size:11px; padding:2px 8px; border-radius:4px; background:var(--accent-soft); color:var(--accent); }
+.rm-primer-grid .rm-primer-wide { grid-column:1 / -1; }
+.rm-result-columns { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 28px; }
+.rm .rm-result-columns h4 { margin:14px 0 6px; font-size:14px; color:var(--accent); }
+.rm-result-columns li strong { display:block; }
+@media(max-width:800px) { .rm-result-columns { grid-template-columns:1fr; } }
