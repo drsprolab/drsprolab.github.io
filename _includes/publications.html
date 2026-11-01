@@ -58,6 +58,38 @@
     }
     var empty = document.querySelector('.pf-empty'); if (empty) empty.hidden = shown > 0;
   }
-  document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip[data-filter]'); if (b) apply(b.dataset.filter); });
+  // Gallery 연도 버튼과 같은 효과: 빠지는 항목은 흐려지며 사라지고, 남는 항목은 새 자리로 미끄러지고, 새 항목은 차례로 떠오른다.
+  var current = '', run = 0, ease = 'cubic-bezier(.2,.7,.2,1)';
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function items() {
+    return [].filter.call(document.querySelectorAll('.pubs > li, .year-group > h3, #book-chapters, .pf-empty'), function (el) { return el.offsetParent !== null; });
+  }
+  function animateTo(tag) {
+    if (calm || !Element.prototype.animate) { apply(tag); current = tag; return; }
+    var me = ++run, from = current, before = new Map(), now = items();
+    now.forEach(function (el) { before.set(el, el.getBoundingClientRect()); });
+    apply(tag); var stay = new Set(items()); apply(from); // 보일 항목만 미리 확인(화면에는 그리지 않음)
+    var leaving = now.filter(function (el) { return !stay.has(el); });
+    leaving.forEach(function (el) { el.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.97)' }], { duration: 180, easing: 'ease-in', fill: 'forwards' }); });
+    current = tag;
+    setTimeout(function () {
+      if (me !== run) return;
+      leaving.forEach(function (el) { el.getAnimations().forEach(function (a) { a.cancel(); }); });
+      apply(tag);
+      var k = 0, vh = window.innerHeight;
+      items().forEach(function (el) {
+        var r = el.getBoundingClientRect(), o = before.get(el);
+        if (r.bottom < -200 || r.top > vh + 200) return; // 화면 밖은 움직이지 않는다
+        if (o) {
+          var dy = o.top - r.top;
+          if (Math.abs(dy) < 1) return;
+          el.animate([{ transform: 'translateY(' + dy + 'px)' }, { transform: 'none' }], { duration: 480, easing: ease });
+        } else {
+          el.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: Math.min(k++ * 35, 420), easing: ease, fill: 'backwards' });
+        }
+      });
+    }, leaving.length ? 180 : 0);
+  }
+  document.addEventListener('click', function (e) { var b = e.target.closest('.pf-chip[data-filter]'); if (b) animateTo(b.dataset.filter); });
 })();
 </script>
