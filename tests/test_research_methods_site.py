@@ -32,8 +32,8 @@ class ResearchMethodsSite(unittest.TestCase):
         self.assertEqual(len(parsed.ids), len(set(parsed.ids)))
         self.assertEqual(catalog.count('class="rm-method-card"'), 19)
         self.assertNotIn('<footer class="site-footer">', catalog)
-        for step in ['나의 연구 목적 적기', '제시된 분석방법과 이유 읽기',
-                     '사례와 예시를 통해 비교하기', '내 연구에 맞는 분석방법 확인하기']:
+        for step in ['나의 연구목적 알아보기', '목적과 부합하는 분석방법 찾아보기',
+                     '사례와 예시로 학습하기', '내 연구를 위한 방법 결정하기']:
             self.assertIn(step, catalog)
         self.assertIn('연구방법 이름을 몰라도 괜찮습니다.', catalog)
         self.assertIn('설문 점수나 학습 기록', catalog)
