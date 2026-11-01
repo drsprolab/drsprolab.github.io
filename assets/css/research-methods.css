@@ -282,3 +282,14 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-path li > a { display:flex; align-items:center; gap:14px; width:100%; padding:8px 22px 8px 8px; color:inherit; text-decoration:none; border-radius:999px; }
 .rm-path li > a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
 .rm-path li:hover b { transform:scale(1.08); } .rm-path b { transition:transform .15s ease; }
+
+.rm-glossary-tools { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:10px 0 4px; }
+.rm-glossary-tools label { font-weight:600; font-size:13.5px; }
+.rm-glossary-tools input { flex:1 1 220px; max-width:360px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:var(--paper); color:var(--ink); font:inherit; font-size:14px; }
+.rm .rm-glossary-h { margin:20px 0 6px; font-size:15.5px; color:var(--accent); padding-top:10px; border-top:1px solid var(--line); }
+.rm-glossary-method { margin:10px 0 6px; } .rm .rm-glossary-method h4 { margin:12px 0 4px; font-size:14px; } .rm-glossary-method h4 a { text-decoration:none; font-weight:700; }
+.rm-glossary-method dl { margin:0; } .rm-gloss-item[hidden],.rm-glossary-method[hidden],.rm-glossary-cat[hidden],.rm-glossary-base[hidden] { display:none !important; }
+.rm-glossary-method dt { margin:8px 0 2px; font-weight:600; } .rm-glossary-method dd { margin:0; font-size:14px; line-height:1.7; }
+.rm-mini-link { display:inline-block; margin-left:8px; padding:0 9px; border-radius:999px; background:var(--tint); color:var(--accent); font-size:11.5px; font-weight:600; text-decoration:none; vertical-align:1px; transition:transform .15s ease, background-color .15s ease; }
+.rm-mini-link:hover,.rm-mini-link:focus-visible { transform:scale(1.08); background:var(--accent-soft); }
+.rm-result-columns li strong { display:inline; }

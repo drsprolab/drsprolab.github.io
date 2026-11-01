@@ -47,7 +47,7 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertIn(f'<dt>{term}</dt>', catalog)
         self.assertIn('Social Science Research: Principles, Methods, and Practices', catalog)
         self.assertIn('Research Methods in Psychology', catalog)
-        catalog_terms = catalog.split('<details class="rm-primer" id="method-terms">', 1)[1].split('</details>', 1)[0]
+        catalog_terms = catalog.split('<div class="rm-glossary-base">', 1)[1].split('</dl></div>', 1)[0]
         for specialized in ['X·Y·M·W', '잠재변수·잠재집단', '교차지연 경로', '부트스트랩 신뢰구간']:
             self.assertNotIn(specialized, catalog_terms)
         for m in DATA['methods']:

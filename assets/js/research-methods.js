@@ -1,5 +1,14 @@
 (function () {
   'use strict';
+  const gf=document.getElementById('rm-gloss-filter');
+  if(gf){const cnt=document.getElementById('rm-gloss-count');
+    const upd=()=>{const q=gf.value.trim().toLowerCase();let n=0;
+      document.querySelectorAll('#method-terms .rm-glossary-base dt').forEach(dt=>{const dd=dt.nextElementSibling;const hit=!q||(dt.textContent+' '+(dd?dd.textContent:'')).toLowerCase().includes(q);dt.hidden=!hit;if(dd)dd.hidden=!hit;if(hit)n++;});
+      document.querySelectorAll('#method-terms .rm-gloss-item').forEach(it=>{const hit=!q||it.textContent.toLowerCase().includes(q);it.hidden=!hit;if(hit)n++;});
+      document.querySelectorAll('#method-terms .rm-glossary-method').forEach(m=>{m.hidden=!m.querySelector('.rm-gloss-item:not([hidden])');});
+      document.querySelectorAll('#method-terms .rm-glossary-cat').forEach(c=>{c.hidden=!c.querySelector('.rm-glossary-method:not([hidden])');});
+      if(cnt)cnt.textContent=q?n+'개 용어':'';};
+    gf.addEventListener('input',upd);}
   const openFold=()=>{const id=decodeURIComponent(location.hash.slice(1)),t=id&&document.getElementById(id);if(!t)return;let n=t;while(n){if(n.tagName==='DETAILS'&&!n.open)n.open=true;n=n.parentElement;}if(t.closest&&t.closest('.rm-fold'))t.scrollIntoView();};
   window.addEventListener('hashchange',openFold);openFold();
   window.addEventListener('beforeprint',()=>document.querySelectorAll('.rm-fold').forEach(d=>{d.open=true;}));
