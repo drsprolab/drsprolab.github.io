@@ -69,7 +69,8 @@
 .rm-method-card small strong { display:block; color:var(--accent); font-size:11px; }
 .rm-source-policy { border-top:1px solid var(--line); margin-top:30px; padding-top:20px; }
 .rm-source-policy h2,.prose .rm-source-policy h2 { font-size:19px; }
-.rm-back { font-size:14px; }
+.rm-back { display:inline-block; font-size:13.5px; padding:5px 14px; border-radius:999px; background:var(--tint); color:var(--ink); text-decoration:none; }
+.rm-back:hover,.rm-back:focus-visible { background:var(--accent-soft); color:var(--accent); }
 .rm-detail-intro { margin:20px 0; }
 .rm-intro-block,.rm-beginner-tip { font-size:14.5px; line-height:1.6; }
 .rm-intro-block { margin:10px 0 14px; }
@@ -77,7 +78,9 @@
 .rm-detail-intro ul { margin:5px 0 0; padding-left:20px; list-style:disc outside; }
 .rm-detail-intro li { margin:3px 0; }
 .rm-beginner-tip { padding:12px 18px; border-left:3px solid var(--accent); background:var(--tint); }
-.rm-detail-nav { display:flex; gap:8px 18px; flex-wrap:wrap; border-block:1px solid var(--line); padding:11px 0; margin:20px 0; font-size:14px; }
+.rm-detail-nav { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0; font-size:13.5px; }
+.rm-detail-nav a { display:inline-block; padding:5px 14px; border-radius:999px; background:var(--tint); color:var(--ink); text-decoration:none; }
+.rm-detail-nav a:hover,.rm-detail-nav a:focus-visible { background:var(--accent-soft); color:var(--accent); }
 .rm-detail-section { margin:24px 0; scroll-margin-top:100px; }
 .rm-detail-section li { margin:7px 0; }
 .rm-scale-steps { padding-left:23px; }

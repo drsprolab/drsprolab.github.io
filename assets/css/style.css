@@ -1264,7 +1264,7 @@ main.container { overflow-x: clip; }
 .share-btn { font: inherit; font-size: 14px; font-weight: 600; color: #fff; background: #e0312b; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
 .share-btn:hover { background: #c4241f; transform: translateY(-1px); }
 .share-btn:focus-visible { outline: 2px solid #e0312b; outline-offset: 3px; }
-.share-menu { position: absolute; left: 0; top: calc(100% + 8px); z-index: 20; min-width: 168px; display: grid; padding: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+.share-menu { position: fixed; left: 0; top: 0; z-index: 60; width: max-content; min-width: 168px; max-width: calc(100vw - 16px); display: grid; padding: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
 .share-menu[hidden] { display: none; }
 .share-menu a, .share-menu button { font: inherit; font-size: 14px; text-align: left; padding: 8px 12px; border: 0; border-radius: 6px; background: none; color: var(--ink); text-decoration: none; cursor: pointer; }
 .share-menu a:hover, .share-menu button:hover { background: var(--tint); }

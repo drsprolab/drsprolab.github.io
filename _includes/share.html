@@ -18,8 +18,16 @@
   var btn = box.querySelector('.share-btn'), menu = box.querySelector('.share-menu'), done = box.querySelector('.share-done');
   var url = box.dataset.url, title = box.dataset.title, attribution = box.dataset.attribution;
   var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-  function toggle(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (!open) done.textContent = '';
-    if (open) { menu.classList.remove('to-left'); if (menu.getBoundingClientRect().right > document.documentElement.clientWidth - 8) menu.classList.add('to-left'); } }
+  function place() { // 메뉴는 화면 기준(fixed)으로 놓아 조상의 overflow에 잘리지 않고, 화면 안에 들어오게 한다
+    var r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+    menu.style.top = (r.bottom + 8) + 'px';
+    menu.style.left = '0px';
+    var w = menu.offsetWidth;
+    menu.style.left = Math.max(8, Math.min(r.left, vw - w - 8)) + 'px';
+  }
+  function toggle(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (!open) done.textContent = ''; if (open) place(); }
+  window.addEventListener('resize', function () { if (!menu.hidden) place(); });
+  window.addEventListener('scroll', function () { if (!menu.hidden) toggle(false); }, { passive: true });
   btn.addEventListener('click', function () {
     if (touch && navigator.share) { navigator.share({ title: title, text: attribution, url: url }).catch(function () {}); return; }
     toggle(menu.hidden);
