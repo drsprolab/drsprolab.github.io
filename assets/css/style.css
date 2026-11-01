@@ -390,7 +390,9 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .daily-method strong { color: var(--ink); }
 .daily-method p { margin: 6px 0 0; }
 .daily-issue { max-width: none; margin-inline: 0; }
-.daily-back { display: inline-block; font-size: 14px; text-decoration: none; margin-bottom: 30px; }
+.daily-back { display: inline-block; padding: 5px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13.5px; text-decoration: none; margin-bottom: 30px; }
+.daily-back:hover, .daily-back:focus-visible { background: var(--accent-soft); color: var(--accent); }
+.post-nav .daily-back { margin-bottom: 0; }
 .daily-issue-head { padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
 .daily-issue-head h1 { font-size: clamp(30px, 4.5vw, 42px); line-height: 1.4; }
 .daily-issue-head .tags { margin-block: 10px; }
