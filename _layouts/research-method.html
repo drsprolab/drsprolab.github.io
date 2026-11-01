@@ -7,7 +7,7 @@ layout: page
 <div class="rm rm-method-detail" data-method="{{ m.id }}">
   <a class="rm-back" href="{{ '/research-help/methods/#method-catalog' | relative_url }}">← 나의 연구목적에 맞는 분석방법 알아보기</a>
   <div class="rm-detail-intro">
-    <span class="rm-eyebrow">{{ m.english }}</span>
+    <span class="rm-english">{{ m.english }}</span>
     <div class="rm-intro-block"><strong>언제 쓰나요?</strong><ul>{% for point in m.summary %}<li>{{ point }}</li>{% endfor %}</ul></div>
     <div class="rm-intro-block"><strong>예를 들면</strong><ul>{% for point in m.intro_example %}<li>{{ point }}</li>{% endfor %}</ul></div>
     <div class="rm-beginner-tip"><strong>선택할 때 확인할 점</strong><ul>{% for point in m.beginner_tip %}<li>{{ point }}</li>{% endfor %}</ul></div>
@@ -28,10 +28,20 @@ layout: page
     <p class="rm-small rm-choice-sources">선택 기준의 방법론 근거: {% for id in m.references %}<a href="#ref-{{ id }}">추천 논문 {{ forloop.index }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}. 아래 자료·해석 범위까지 확인해 최종 방법을 정하세요.</p>
   </div></details>
   <details class="rm-detail-section rm-fold" id="data"><summary><span class="rm-eyebrow">02 · 자료와 분석 구조</span><h2>어떤 자료와 변수로, 어떤 구조를 분석하나요?</h2></summary><div class="rm-fold-body">
-    {% if m.category == 'quantitative' %}<ul class="rm-method-points"><li>분석 단위와 결과변수(Y), 설명변수(X)를 정하고, 필요하면 매개변수(M)·조절변수(W)·집단·측정시점을 구분합니다.</li><li>같은 사람의 반복 응답이나 팀·강좌 안에 묶인 자료인지 확인합니다.</li><li>변수의 척도와 모형의 가정에 맞는 분석 방법을 선택합니다.</li></ul>
-    {% elsif m.category == 'qualitative' %}<ul class="rm-method-points"><li>누구의 어떤 경험·행동·이야기를 어떤 맥락에서 이해할지 정합니다.</li><li>참여자와 자료의 기본 단위를 정하고, 면담·관찰·일지 등 적절한 자료를 선택합니다.</li><li>자료 수집·비교·코딩·해석 절차가 선택한 질적 전통과 일치하는지 확인합니다.</li></ul>
-    {% elsif m.category == 'literature' %}<ul class="rm-method-points"><li>논문·보고서 등 무엇을 분석 단위로 삼을지 정합니다.</li><li>검색원·검색식·기간·포함 기준과 문헌에서 추출할 항목을 계획합니다.</li><li>결과를 범위로 정리할지, 개념적으로 통합할지, 통계적으로 합칠지 연구질문에 맞춰 선택합니다.</li></ul>{% endif %}
-    <ul>{% for d in m.data %}<li>{{ d }}</li>{% endfor %}</ul><div class="rm-data-example"><h3>자료를 어떻게 정리하면 될까요?</h3><dl><dt>정리의 기본 단위</dt><dd>{{ m.data_example.unit }}</dd><dt>기록할 항목</dt><dd><ul class="rm-method-points">{% for item in m.data_example.column_items %}<li>{{ item }}</li>{% endfor %}</ul></dd><dt>형식 예시</dt><dd class="rm-sample-row">{{ m.data_example.row }}</dd></dl><small>자료 구조를 이해하기 위한 형식 예시입니다. 실제 관측 자료가 아닙니다.</small></div></div></details>
+    {% assign st = m.analysis_structure %}<div class="rm-struct">
+    <p class="rm-struct-summary">{{ st.summary }}</p>
+    <h3>분석 구조 한눈에 보기</h3><pre class="rm-diagram">{% for line in st.diagram %}{{ line }}
+{% endfor %}</pre>
+    {% if st.equations.size > 0 %}<h3>식으로 보면</h3><ul class="rm-method-points">{% for e in st.equations %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    <h3>{% if m.category == 'quantitative' %}필요한 변수와 역할{% else %}필요한 자료와 구성 요소{% endif %}</h3>
+    <div class="rm-table-wrap"><table class="rm-table rm-var-table"><thead><tr><th>역할</th><th>무엇인가요</th><th>예시</th><th>형태</th></tr></thead><tbody>{% for v in st.variables %}<tr><th scope="row">{{ v.role }}</th><td>{{ v.meaning }}</td><td>{{ v.example }}</td><td>{{ v.form }}</td></tr>{% endfor %}</tbody></table></div>
+    <h3>{% if m.category == 'quantitative' %}분석용 자료 파일은 이렇게 만듭니다{% elsif m.category == 'qualitative' %}면담·관찰 자료는 이렇게 정리합니다{% elsif m.id == 'theory-building' %}개념과 명제는 이렇게 정리합니다{% else %}문헌 자료는 이렇게 정리합니다{% endif %}</h3>
+    <div class="rm-table-wrap"><table class="rm-table rm-data-table"><thead><tr>{% for c in st.table.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead><tbody>{% for row in st.table.rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+    <p class="rm-small">{{ st.table.note }}</p>
+    <h4>자료 파일을 만들 때 지킬 규칙</h4><ul class="rm-method-points">{% for r in st.rules %}<li>{{ r }}</li>{% endfor %}</ul>
+    <h4>{% if m.category == 'quantitative' %}분석 프로그램에서 이렇게 설정합니다{% else %}분석은 이렇게 진행합니다{% endif %}</h4><ul class="rm-method-points">{% for r in st.setup %}<li>{{ r }}</li>{% endfor %}</ul>
+    <h4>자료 조건과 주의점</h4><ul class="rm-method-points">{% for d in m.data %}<li>{{ d }}</li>{% endfor %}</ul>
+    </div></div></details>
   {% if m.id == 'scale-development' %}
   <section class="rm-detail-section rm-scale-process" id="scale-process">
     <span class="rm-eyebrow">문항 개발 · 검증 절차</span><h2>문항을 어떻게 만들고 추리나요?</h2>

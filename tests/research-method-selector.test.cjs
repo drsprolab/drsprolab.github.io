@@ -55,7 +55,7 @@ test('catalog coverage, concrete beginner cases and references are complete',()=
  for(const m of methods){
   assert.equal(m.cases.length,2);assert(m.references.length>=1&&m.references.length<=2);assert.equal(m.applications.length,2);assert.deepEqual(m.applications.map(a=>a.index).sort(),['KCI','SSCI']);m.applications.forEach(a=>assert(a.doi&&a.title&&a.journal&&a.year&&a.url===`https://doi.org/${a.doi}`));
   for(const c of m.cases)for(const field of ['purpose','question','data','analysis','output','learn'])assert(c[field]?.length>20,`${m.id}.${field}`);
-  assert(m.ultimate&&m.outputs.length>=3&&m.data_example.columns&&m.checks.length===3);
+  assert(m.ultimate&&m.outputs.length>=3&&m.analysis_structure.table.columns.length>=3&&m.analysis_structure.variables.length>=3&&m.checks.length===3);
   for(const id of m.related)assert(methods.some(x=>x.id===id));
   for(const id of m.references){const r=content.references[id];assert(r.ssci.issn&&r.doi&&r.focus);assert(!/^(10\.3390|10\.3389)/i.test(r.doi));assert(!/mdpi|frontiers/i.test(r.publisher));assert(r.issn.some(i=>[r.ssci.issn,r.ssci.eissn].includes(i)));}
  }

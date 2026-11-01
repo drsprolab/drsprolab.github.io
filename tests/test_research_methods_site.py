@@ -77,12 +77,15 @@ class ResearchMethodsSite(unittest.TestCase):
                         self.assertIn(point, html)
             self.assertEqual(html.count('type="radio"'), 9)
             self.assertIn('어떤 자료와 변수로, 어떤 구조를 분석하나요?', html)
-            if m['category'] == 'quantitative':
-                self.assertIn('결과변수(Y), 설명변수(X)', html)
-            elif m['category'] == 'qualitative':
-                self.assertIn('누구의 어떤 경험·행동·이야기', html)
-            else:
-                self.assertIn('검색원·검색식·기간·포함 기준', html)
+            st = m['analysis_structure']
+            self.assertIn('rm-var-table', html)
+            self.assertIn(st['summary'], html)
+            for variable in st['variables']:
+                self.assertIn(variable['role'], html)
+            for column in st['table']['columns']:
+                self.assertIn(f'<th>{column}</th>', html)
+            for rule in st['rules'] + st['setup']:
+                self.assertIn(rule.split('<')[0][:20], html)
             self.assertIn(f"{m['name']}에서 처음 볼 용어를 확인하세요 (절차·분석·해석)", html)
             self.assertGreaterEqual(len(m['glossary']), 10)
             self.assertEqual(html.count('class="rm-glossary-stage"'), 4)
@@ -115,7 +118,7 @@ class ResearchMethodsSite(unittest.TestCase):
             for c in m['cases']:
                 for item in c['data_items'] + c['output_items']:
                     self.assertIn(item, html)
-            for item in m['data_example']['column_items']:
+            for item in m['data']:
                 self.assertIn(item, html)
             for ref in m['references']:
                 self.assertIn(DATA['references'][ref]['url'], page.hrefs)

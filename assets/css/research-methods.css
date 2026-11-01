@@ -210,3 +210,16 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-data-types { margin:8px 0 12px; }
 .rm-data-types dt { margin:12px 0 2px; font-weight:600; color:var(--accent); }
 .rm-data-types dd { margin:0; font-size:14px; line-height:1.7; }
+
+.rm-english { display:inline-block; margin:0 0 12px; align-self:flex-start; width:fit-content; padding:3px 12px; border-radius:999px; background:var(--tint); color:var(--muted); font-size:13px; font-weight:600; letter-spacing:0; }
+.rm-struct h3 { margin:18px 0 8px; font-size:15px; }
+.rm-struct h4 { margin:16px 0 6px; font-size:14px; color:var(--accent); }
+.rm-struct-summary { font-size:14.5px; line-height:1.75; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; }
+.rm-diagram { margin:8px 0 4px; padding:14px 16px; overflow-x:auto; background:var(--paper); border:1px solid var(--line); border-radius:10px; font:13px/1.8 var(--f-mono); white-space:pre; color:var(--ink); }
+.rm-table-wrap { overflow-x:auto; margin:8px 0; }
+.rm-table { width:100%; border-collapse:collapse; font-size:13.5px; background:var(--paper); }
+.rm-table th,.rm-table td { padding:8px 10px; border:1px solid var(--line); text-align:left; vertical-align:top; line-height:1.55; }
+.rm-table thead th { background:var(--tint); font-weight:600; white-space:nowrap; }
+.rm-var-table tbody th { background:var(--tint); font-weight:600; white-space:nowrap; }
+.rm-data-table td { font-family:var(--f-mono); font-size:12.5px; }
+@media(max-width:600px) { .rm-table { min-width:520px; } .rm-data-table { min-width:0; } }
