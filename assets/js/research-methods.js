@@ -48,18 +48,26 @@
       const summary=el('details');summary.append(el('summary','내가 작성한 네 가지 질문 다시 보기'));
       const dl=el('dl',undefined,'rm-input-summary');[['purpose','목적'],['dataText','자료'],['desired','원하는 결과'],['ultimate','궁극적 질문']].forEach(([key,label])=>{dl.append(el('dt',label),el('dd',input[key]||'아직 작성하지 않았습니다.'));});summary.append(dl);results.append(summary);
       output.notes.forEach(n=>results.append(el('p',n,'rm-small')));
-      if(!output.candidates.length){results.append(el('p',output.hasInput?'지금 입력만으로는 자료 조건에 맞는 후보를 좁히기 어렵습니다. 원하는 결과를 더 구체적으로 적거나 ‘가장 가까운 결과의 모습’을 선택해 보세요.':'네 질문 중 한 가지 이상을 적거나 원하는 결과를 선택해 주세요.'));}
+      const fitText={clear:'네 가지 답을 방법별로 대조해 가장 잘 맞는 방법을 골랐습니다.',close:'맨 위 두 방법이 비슷하게 맞습니다. 둘의 차이를 읽어 보고 정하세요.',weak:'쓴 내용이 짧아 확실히 고르기 어렵습니다. 가장 가까운 방법을 보여 드립니다. 대상, 변수, 자료를 더 적으면 정확해집니다.'};
+      if(fitText[output.fit])results.append(el('p',fitText[output.fit],'rm-fit-note'));
+      if(!output.candidates.length){results.append(el('p',output.hasInput?'지금 쓴 내용으로는 방법을 고르기 어렵습니다. 무엇을 알고 싶은지, 어떤 자료를 쓸지 한 문장씩 더 적어 보세요.':'네 질문 중 한 가지 이상을 적거나 가장 중요한 결과를 골라 주세요.'));
+        if(output.fallback.length){results.append(el('p','선택한 자료로 할 수 있는 방법입니다.','rm-small'));const fb=el('ul');output.fallback.forEach(id=>{const li=el('li'),a=el('a',byId.get(id).name);a.href=app.dataset.base+encodeURIComponent(id)+'/';li.append(a);fb.append(li);});results.append(fb);}}
       output.candidates.forEach((r,i)=>{
-        const m=byId.get(r.id),card=el('article',undefined,'rm-result-card');
-        card.append(el('span',i===0?'우선 검토 후보':'함께 비교할 후보','rm-tag'),el('h3',m.name),el('p',m.question));
-        card.append(el('strong','추천 이유'),itemList(r.reasons));
+        const m=byId.get(r.id),card=el('article',undefined,'rm-result-card'+(i===0?' is-best':''));
+        const title=el('h3');const tl=el('a',m.name);tl.href=app.dataset.base+encodeURIComponent(m.id)+'/';title.append(tl);
+        card.append(el('span',i===0?(output.fit==='weak'?'가장 가까운 방법':'가장 적합한 방법'):'함께 비교할 방법','rm-tag'),title,el('p',m.question));
+        const table=el('table',undefined,'rm-crosscheck');const body=el('tbody');
+        r.evidence.forEach(e=>{const tr=el('tr'),th=el('th',e.label);th.scope='row';const td=el('td',e.phrases.length?'“'+e.phrases.join('”, “')+'”':(e.written?'이 답에서는 근거를 찾지 못함':'작성하지 않음'));if(e.phrases.length)td.className='is-hit';tr.append(th,td);body.append(tr);});
+        const stateMark={ok:'맞음',warn:'주의',no:'맞지 않음',unknown:'확인 필요'};
+        r.conditions.forEach(c=>{const tr=el('tr'),th=el('th',c.label);th.scope='row';const td=el('td',c.text===stateMark[c.state]?c.text:stateMark[c.state]+' · '+c.text);td.className='is-'+c.state;tr.append(th,td);body.append(tr);});
+        table.append(body);card.append(el('strong','내 답과 대조한 결과'),table);
+        if(r.reasons.length)card.append(itemList(r.reasons));
         card.append(el('strong','얻을 수 있는 결과'),el('p',m.outputs[0]));
-        card.append(el('strong','끝내 밝히려는 내용'),el('p',m.ultimate));
-        if(r.missing.length)card.append(itemList(r.missing,'rm-missing'));
-        const link=el('a','목적·자료·결과·사례와 선택 조건 확인하기 →','rm-button');link.href=app.dataset.base+encodeURIComponent(m.id)+'/';card.append(link);results.append(card);
+        if(r.missing.length)card.append(el('strong','확인할 점'),itemList(r.missing,'rm-missing'));
+        const link=el('a',m.name.split(' (')[0]+' 자세히 보기 →','rm-button'+(i===0?' primary':''));link.href=app.dataset.base+encodeURIComponent(m.id)+'/';card.append(link);results.append(card);
       });
-      if(output.excluded.length){const box=el('details');box.append(el('summary','목적은 연결되지만 자료 조건을 먼저 확인할 방법'));output.excluded.forEach(r=>{box.append(el('h3',byId.get(r.id).name),itemList(r.excluded));const a=el('a','이 방법의 자료 조건 읽기');a.href=app.dataset.base+encodeURIComponent(r.id)+'/';box.append(a);});results.append(box);}
-      results.append(el('p','입력한 표현과 자료 조건에 가까운 방법부터 안내했습니다. 각 방법의 선택 조건과 해석 범위를 읽고 자신의 연구에 맞는지 판단해 보세요.','rm-small'));
+      if(output.excluded.length){const box=el('details');box.append(el('summary','목적은 맞지만 자료 조건이 맞지 않는 방법'));output.excluded.forEach(r=>{box.append(el('h3',byId.get(r.id).name),itemList(r.excluded));const a=el('a','이 방법의 자료 조건 읽기');a.href=app.dataset.base+encodeURIComponent(r.id)+'/';box.append(a);});results.append(box);}
+      results.append(el('p','쓴 표현과 자료 조건만 대조한 안내이며, 입력 내용은 이 브라우저 밖으로 나가지 않습니다. 최종 선택 전에 상세 페이지의 선택 조건을 확인하세요.','rm-small'));
       status.textContent=output.candidates.length+'개의 방법 후보를 제시했습니다.';results.focus();results.scrollIntoView({block:'start',behavior:'auto'});
     });
   }

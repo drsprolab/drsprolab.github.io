@@ -57,7 +57,9 @@
 .rm-input-summary dd { margin:3px 0 12px; white-space:pre-wrap; overflow-wrap:anywhere; }
 .rm-catalog { border-top:1px solid var(--line); padding-top:28px; }
 .rm-category-links { display:flex; gap:10px; flex-wrap:wrap; margin:24px 0; }
-.rm-category-links a { border:1px solid var(--line); border-radius:6px; padding:8px 16px; text-decoration:none; font-size:14px; }
+.rm-category-links a { border:1px solid var(--line); border-radius:6px; padding:8px 16px; text-decoration:none; font-size:14px; transition:transform .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease; }
+.rm-category-links a:hover,.rm-category-links a:focus-visible { background:var(--accent); border-color:var(--accent); color:var(--paper); transform:scale(1.08); box-shadow:0 4px 12px rgba(0,0,0,.14); }
+@media(prefers-reduced-motion:reduce) { .rm-category-links a { transition:none; } .rm-category-links a:hover,.rm-category-links a:focus-visible { transform:none; } }
 .rm-category { padding:26px 0 12px; scroll-margin-top:100px; }
 .rm-category-heading { border-left:3px solid var(--accent); padding-left:16px; margin-bottom:20px; }
 .rm-category-heading p { color:var(--muted); font-size:14px; margin:4px 0; }
@@ -294,3 +296,14 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-mini-link:hover,.rm-mini-link:focus-visible { transform:scale(1.08); background:var(--accent-soft); }
 .rm-result-columns li strong { display:inline; }
 .rf-v[fill="#fff"] { fill:#fff; }
+
+.rm-result-card.is-best { border:2px solid var(--accent); }
+.rm-result-card h3 a { text-decoration:none; }
+.rm-result-card h3 a:hover { text-decoration:underline; }
+.rm-fit-note { font-weight:600; }
+.rm-crosscheck { width:100%; border-collapse:collapse; margin:8px 0 14px; font-size:13px; }
+.rm-crosscheck th,.rm-crosscheck td { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+.rm-crosscheck th { width:104px; font-weight:600; color:var(--muted); white-space:nowrap; }
+.rm-crosscheck td { color:var(--muted); }
+.rm-crosscheck td.is-hit,.rm-crosscheck td.is-ok { color:var(--accent); font-weight:600; }
+.rm-crosscheck td.is-warn,.rm-crosscheck td.is-no { color:#9b3d4f; font-weight:600; }

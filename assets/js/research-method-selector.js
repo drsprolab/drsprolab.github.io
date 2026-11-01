@@ -8,7 +8,7 @@
   const goals = {
     relationship:['regression'], pathway:['mediation'], conditional:['moderation'],
     'conditional-pathway':['moderated-mediation'], latent:['sem'], groups:['multigroup'],
-    profiles:['lpa','lca'], transition:['lta'], integrate:['mixed-methods'], intervention:['quasi-experiment'], designdev:['ddr'], measurement:['scale-development'], future:['prediction'],
+    profiles:['lpa','lca'], transition:['lta'], mixeddata:['mixed-methods'], intervention:['quasi-experiment'], designdev:['ddr'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
     pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
@@ -16,7 +16,7 @@
   const patterns = {
     regression:[/(관계|관련|영향).{0,20}(알고|밝히|분석|확인|궁금)/,/다른.{0,15}(통제|고려)/,/어떤.{0,8}요인/,/여러.{0,8}요인/,/독립적.{0,8}(관련|관계)/],
     mediation:[/통해|통하여|통해서|거쳐|경유/,/중간.{0,10}(경로|과정|변수)/,/왜.{0,15}(관계|연결)/,/어떤.{0,8}기제/],
-    moderation:[/따라.{0,18}달라/,/누구에게|어떤 조건/,/완충|강해지|약해지/],
+    moderation:[/단순\s*기울기|높을 때와 낮을 때/,/따라.{0,18}달라/,/누구에게|어떤 조건/,/완충|강해지|약해지/],
     'moderated-mediation':[/간접.{0,25}(조건|따라|달라)/,/(매개|경유|거쳐).{0,35}(달라|조건)/,/(조건|따라).{0,25}간접/],
     sem:[/측정오차/,/여러.{0,10}(잠재|개념).{0,15}(관계|연결|구조)/],
     multigroup:[/정규직.{0,12}비정규직/,/알려진.{0,8}집단/,/집단.{0,6}(경로|관계).{0,10}(차이|비교)/],
@@ -43,16 +43,47 @@
     'topic-modeling':[/토픽/,/(글|텍스트|응답|후기|댓글).{0,15}(주제|토픽)/,/서술.{0,8}응답.{0,12}(주제|분석)/,/말뭉치/],
     'theory-building':[/왜.{0,12}어떻게.{0,15}설명/,/기존 이론.{0,15}(못|한계)/,/새로운.{0,10}(설명|메커니즘|명제)/]
   };
+  const names = {
+    regression:/(?<!자기\s?)회귀\s*(분석|모형)?|regression/,mediation:/매개\s*(효과|분석|변수|모형)|간접\s*효과|mediation/,moderation:/조절\s*(효과|분석|변수|모형)|상호작용\s*효과|moderation/,
+    'moderated-mediation':/조절된\s*매개|매개된\s*조절|조건부\s*간접|moderated mediation/,sem:/구조\s*방정식|\bsem\b|측정\s*모형/,multigroup:/다집단/,
+    lpa:/잠재\s*프로파일|\blpa\b/,lca:/잠재\s*(계층|클래스)|\blca\b/,lta:/잠재\s*전이|\blta\b/,'scale-development':/척도\s*(를\s*)?(개발|타당화)|측정\s*도구\s*(를\s*)?(개발|타당화|만들)|문항\s*개발|\brasch\b|라쉬/,
+    prediction:/머신\s*러닝|기계\s*학습|랜덤\s*포레스트|예측\s*모형|random forest/,arcl:/교차\s*지연|자기\s*회귀|\b(arcl|clpm)\b|ri-clpm/,phenomenology:/현상학/,'grounded-theory':/근거\s*이론/,narrative:/내러티브|네러티브|생애사/,
+    'scoping-review':/스코핑|주제\s*범위\s*(문헌|고찰)/,'integrative-review':/통합적\s*(문헌|고찰)/,'systematic-review':/체계적\s*(문헌|고찰|리뷰)/,'meta-analysis':/메타\s*분석|meta.?analysis/,'theory-building':/이론\s*구축|명제/,
+    sna:/사회\s*(관계\s*)?(망|네트워크)|\bsna\b|네트워크\s*분석/,'topic-modeling':/토픽|텍스트\s*마이닝|\blda\b/,multilevel:/다층|위계적\s*선형|\bhlm\b/,'case-study':/사례\s*연구|case study/,lgm:/잠재\s*성장|\blgm\b/,
+    'mixed-methods':/혼합\s*(연구|방법)|mixed.?method/,ddr:/설계\s*기반\s*연구|설계.?개발\s*연구|\b(ddr|dbr)\b|개발\s*연구/,'quasi-experiment':/준실험|quasi/
+  };
+  const hints = {
+    regression:[/관계|관련|영향|요인/],mediation:[/이유|왜|어떻게 이어|연결되는/],phenomenology:[/경험|느끼|겪/],'case-study':[/우리 (회사|조직|학교)|한 (회사|기업|학교)/],'grounded-theory':[/과정/],'scoping-review':[/연구 (현황|흐름|동향)|어디까지/],'quasi-experiment':[/효과(가|를|는)? ?(있|보|알|검증)/],prediction:[/미리|예측/],lgm:[/변화|변하/],narrative:[/이야기/]
+  };
+  const FIELDS=[['purpose','연구 목적',1],['dataText','변수·자료',1],['desired','제시할 결과',1.2],['ultimate','궁극적 질문',1.2]];
   function clean(value) {
     return String(value || '').slice(0,10000).normalize('NFKC').toLowerCase()
-      .replace(/(매개|조절|회귀|예측|메타|현상학|근거이론|내러티브|네러티브)(?:효과|분석)?\s*(?:가|이|는|를|을)?\s*(?:아니\S*|제외\S*|원하지\S*|필요\s*없\S*)/g,' ');
+      .replace(/([가-힣a-z]+(?:\s[가-힣a-z]+)?)\s*(?:가|이|는|은|를|을)?\s*(?:아니라|아니고|아닌|아니\S*|제외\S*|원하지\S*|필요\s*없\S*|하지\s*않\S*)/g,' ');
   }
   function inferKind(text) {
     const found=[];
-    if (/설문|점수|수치|응답범주|예\/아니오|이분형|범주형|패널자료/.test(text)) found.push('quantitative');
-    if (/심층면담|심층 면담|인터뷰|생애사|경험일지|성찰일지|면담/.test(text)) found.push('qualitative');
-    if (/기존 논문|문헌|논문들을|논문들을|연구보고서|선행연구들을|효과크기/.test(text)) found.push('literature');
+    if (/설문|점수|척도|수치|성적|시험|로그|lms|응답범주|예\/아니오|이분형|범주형|패널|데이터셋/.test(text)) found.push('quantitative');
+    if (/심층\s*면담|인터뷰|면담|생애사|경험\s*일지|성찰\s*일지|참여\s*관찰|관찰|포커스\s*그룹|초점\s*집단/.test(text)) found.push('qualitative');
+    if (/기존\s*논문|문헌|논문들|논문을|연구\s*보고서|선행\s*연구들?을|효과\s*크기를?\s*(모아|합)/.test(text)) found.push('literature');
     return found.length===1 ? found[0] : (found.length>1 ? 'mixed' : 'unknown');
+  }
+  function inferWaves(text) {
+    if(/(한\s*번|1\s*회|한\s*시점|1\s*시점|횡단)/.test(text)) return '1';
+    if(/(두\s*번|2\s*회|두\s*시점|2\s*시점|2\s*차례|사전.{0,4}사후)/.test(text)) return '2';
+    if(/(세\s*번|네\s*번|다섯\s*번|[3-9]\s*회|[3-9]\s*번|[3-9]\s*시점|세\s*시점|네\s*시점|[3-9]\s*차례|[3-9]\s*개\s*시점)/.test(text)) return '3';
+    return 'unknown';
+  }
+  function inferIndicators(text) {
+    if(/예\/아니오|예·아니오|유무|여부|이분형|범주형|응답\s*범주/.test(text)) return 'categorical';
+    if(/점수|척도|평균|연속형|리커트/.test(text)) return 'continuous';
+    return 'unknown';
+  }
+  const FLEX=new Set(['topic-modeling','sna','case-study','ddr','mixed-methods']);
+  function kindFits(m,kind){
+    if(kind==='unknown'||kind==='mixed') return true;
+    if(FLEX.has(m.id)) return true;
+    if(m.id==='quasi-experiment') return kind==='quantitative';
+    return kind===m.category;
   }
   function constraints(id,input,kind) {
     const excluded=[], missing=[];
@@ -85,36 +116,56 @@
   function recommend(methods,input) {
     input=input||{};
     const goal=goals[input.goal]||[];
-    const fields=[['purpose',1],['desired',1.5],['ultimate',1.5],['dataText',0.25]];
-    const text=fields.map(([k])=>clean(input[k])).join(' ');
-    const questionText=['purpose','desired','ultimate'].map(k=>clean(input[k])).join(' ');
+    const values=Object.fromEntries(FIELDS.map(([k])=>[k,clean(input[k])]));
+    const text=FIELDS.map(([k])=>values[k]).join(' ');
     const selectedKind=input.kind||'unknown';
-    const inferred=inferKind(clean(input.dataText));
+    const inferred=inferKind(values.dataText||'')==='unknown'?inferKind(text):inferKind(values.dataText);
     const kind=selectedKind==='unknown' ? inferred : selectedKind;
+    const waves=(input.waves&&input.waves!=='unknown')?input.waves:inferWaves(text);
+    const indicators=(input.indicators&&input.indicators!=='unknown')?input.indicators:inferIndicators(text);
+    const conditionInput=Object.assign({},input,{waves,indicators});
     const notes=[];
-    if(selectedKind==='unknown' && inferred!=='unknown') notes.push('자료 설명에서 '+({quantitative:'수치형 자료',qualitative:'면담·경험 자료',literature:'문헌 자료',mixed:'여러 종류의 자료'})[inferred]+' 표현을 읽었습니다. 실제 자료 종류와 맞는지 선택란에서 확인하세요.');
+    if(selectedKind==='unknown' && inferred!=='unknown') notes.push('작성한 내용에서 '+({quantitative:'수치형 자료',qualitative:'면담·관찰 자료',literature:'문헌 자료',mixed:'두 종류 이상의 자료'})[inferred]+'를 쓰는 것으로 읽었습니다. 다르면 아래 ‘주로 사용할 자료’에서 바로잡아 주세요.');
     if(selectedKind!=='unknown' && inferred!=='unknown' && inferred!=='mixed' && selectedKind!==inferred && selectedKind!=='mixed') notes.push('자료 종류 선택과 작성한 자료 설명이 달라 보입니다. 실제로 분석할 자료를 확인하세요.');
     const rows=methods.map(m=>{
-      let score=0; const reasons=[];
-      if(goal.includes(m.id)){score+=25;reasons.push('선택한 결과를 확인하는 데 이 방법이 도움이 될 수 있습니다.');}
-      const hits=[];
-      fields.forEach(([key,weight])=>{
-        const value=clean(input[key]);
-        (m.signals||[]).forEach(s=>{if((/^[a-z][a-z -]*$/i.test(s) ? new RegExp('\\b'+s.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b').test(value) : value.includes(s.toLowerCase()))){score+=3*weight; if(key!=='dataText'&&!hits.includes(s))hits.push(s);}});
+      let score=0; const reasons=[]; const evidence=[];
+      FIELDS.forEach(([key,label,weight])=>{
+        const raw=values[key]; const value=m.id==='regression'?raw.replace(/자기\s*회귀/g,' '):raw;
+        const found=[];
+        const add=(phrase,pts)=>{if(phrase&&!found.includes(phrase)){found.push(phrase);score+=pts*weight;}};
+        if(value){
+          const nm=names[m.id]&&value.match(names[m.id]); if(nm)add(nm[0].trim(),14);
+          (patterns[m.id]||[]).forEach(p=>{const hit=value.match(p);if(hit)add(hit[0].trim(),7);});
+          (m.signals||[]).forEach(s=>{const hit=/^[a-z][a-z -]*$/i.test(s)?new RegExp('\\b'+s.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b').test(value):value.includes(s.toLowerCase());if(hit)add(s,4);});
+          if(!found.length)(hints[m.id]||[]).forEach(p=>{const hit=value.match(p);if(hit)add(hit[0].trim(),2);});
+        }
+        evidence.push({field:key,label,written:!!value,phrases:found.slice(0,3)});
       });
-      (patterns[m.id]||[]).forEach(p=>{const match=questionText.match(p); if(match){score+=5;hits.push(match[0]);}});
-      if(hits.length) reasons.push('목적·결과에 쓴 “'+Array.from(new Set(hits)).slice(0,3).join('”, “')+'” 표현을 바탕으로 이 방법을 검토할 수 있습니다.');
-      // Data alone is insufficient to infer a research purpose.
-      if(!hits.length && !goal.includes(m.id)) score=0;
-      if(m.id==='moderated-mediation' && /매개|간접|경유|거쳐/.test(questionText) && /조절|상호작용|따라.{0,20}달라/.test(questionText)){score+=18;reasons.push('중간 경로와 그 경로가 달라지는 조건을 함께 묻고 있습니다.');}
-      if(m.id==='moderation' && /이중조절|삼원|three.way/.test(questionText))score+=9;
-      if(m.id==='lpa' && input.indicators==='continuous' && score>0)score+=10;
-      if(m.id==='lca' && input.indicators==='categorical' && score>0)score+=10;
-      const check=constraints(m.id,input,kind);
-      if(kind!=='unknown'&&kind!=='mixed'&&kind!==m.category&&!(m.id==='quasi-experiment'&&kind==='quantitative'))check.excluded.push('선택·입력한 자료 종류와 이 방법의 주된 자료가 다릅니다. 자료 조건을 먼저 확인하세요.');
-      return {id:m.id,score,reasons,missing:check.missing,excluded:check.excluded};
-    }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score);
-    return {candidates:rows.filter(r=>!r.excluded.length).slice(0,3),excluded:rows.filter(r=>r.excluded.length).slice(0,3),notes,hasInput:text.trim().length>0||goal.length>0};
+      if(m.id==='mixed-methods'&&/설문|점수|척도/.test(text)&&/면담|인터뷰|관찰/.test(text)){score+=/함께|같이|모두|결합|통합|합쳐|이유|왜/.test(text)?16:6;const e=evidence.find(x=>x.field==='dataText');if(!e.phrases.length)e.phrases.push('수치 자료와 면담·관찰 자료');e.written=true;}
+      const fieldsHit=evidence.filter(e=>e.phrases.length).length;
+      if(fieldsHit>1)score+=(fieldsHit-1)*3;
+      if(goal.includes(m.id)){score+=25;reasons.push('‘가장 중요하게 확인할 결과’로 고른 항목과 맞습니다.');}
+      if(score>0&&m.id==='moderated-mediation'&&/매개|간접|경유|거쳐/.test(text)&&/조절|상호작용|따라.{0,20}달라/.test(text)){score+=20;reasons.push('중간 경로와 그 경로가 달라지는 조건을 함께 묻고 있습니다.');}
+      if(m.id==='moderation'&&/이중조절|삼원|three.way/.test(text))score+=9;
+      if(score>0&&m.id==='lpa'&&indicators==='continuous')score+=10;
+      if(score>0&&m.id==='lca'&&indicators==='categorical')score+=10;
+      if(fieldsHit&&reasons.length<3&&fieldsHit>1)reasons.push('네 질문 중 '+fieldsHit+'개의 답이 이 방법을 함께 가리킵니다.');
+      const check=constraints(m.id,conditionInput,kind);
+      const conditions=[];
+      if(selectedKind!=='unknown'&&!kindFits(m,selectedKind)){check.excluded.push('선택한 자료 종류와 이 방법의 주된 자료가 다릅니다.');conditions.push({label:'자료 종류',state:'no',text:'선택한 자료와 맞지 않음'});}
+      else if(kind!=='unknown'&&!kindFits(m,kind)){score-=10;check.missing.push('작성한 내용으로 보면 자료 종류가 이 방법과 다를 수 있습니다. 어떤 자료를 쓸지 확인하세요.');conditions.push({label:'자료 종류',state:'warn',text:'작성한 자료와 다를 수 있음'});}
+      else if(kind!=='unknown'){score+=score>0?3:0;conditions.push({label:'자료 종류',state:'ok',text:'맞음'});}
+      else conditions.push({label:'자료 종류',state:'unknown',text:'아직 알 수 없음'});
+      if(['arcl','lgm','lta','quasi-experiment'].includes(m.id)){const need=m.id==='lgm'?3:2;conditions.push(waves==='unknown'?{label:'측정 시점',state:'unknown',text:need+'회 이상 측정 필요, 확인 필요'}:(Number(waves)>=need?{label:'측정 시점',state:'ok',text:'맞음'}:{label:'측정 시점',state:'no',text:need+'회 이상 측정 필요'}));}
+      if(m.id==='lpa'||m.id==='lca'){const want=m.id==='lpa'?'continuous':'categorical';conditions.push(indicators==='unknown'?{label:'지표 형태',state:'unknown',text:'확인 필요'}:(indicators===want?{label:'지표 형태',state:'ok',text:'맞음'}:{label:'지표 형태',state:'no',text:'맞지 않음'}));}
+      return {id:m.id,score,reasons,missing:check.missing,excluded:check.excluded,evidence,conditions,fieldsHit};
+    }).filter(r=>r.score>0&&(r.fieldsHit>0||goal.includes(r.id))).sort((a,b)=>b.score-a.score);
+    const candidates=rows.filter(r=>!r.excluded.length).slice(0,3);
+    let fallback=[];
+    if(!candidates.length&&kind!=='unknown'&&kind!=='mixed') fallback=methods.filter(m=>m.category===kind).map(m=>m.id);
+    const top=candidates[0],next=candidates[1];
+    const fit=!top?'none':(top.score<8?'weak':(next&&next.score>=top.score-3?'close':'clear'));
+    return {candidates,excluded:rows.filter(r=>r.excluded.length).slice(0,3),notes,fit,fallback,hasInput:text.trim().length>0||goal.length>0,read:{kind,waves,indicators}};
   }
   function evaluateChecklist(answers) {
     const list=Array.from(answers||[]);
