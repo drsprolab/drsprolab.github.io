@@ -59,6 +59,11 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertNotIn('<footer class="site-footer">', html)
             self.assertEqual(len(page.ids), len(set(page.ids)), m['id'])
             self.assertEqual(html.count('class="rm-case"'), 2)
+            self.assertEqual(html.count('<span>적용 논문</span>'), 2)
+            for app in m['applications']:
+                self.assertIn(app['doi'], html)
+                self.assertIn(app['url'], page.hrefs)
+            self.assertEqual(sorted(a['index'] for a in m['applications']), ['KCI', 'SSCI'])
             self.assertNotIn('SSCI 목록 대조</span>', html)
             self.assertNotIn('DOI 서지 확인</span>', html)
             if m['id'] == 'scale-development':

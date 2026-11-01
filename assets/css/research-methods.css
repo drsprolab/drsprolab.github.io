@@ -195,3 +195,5 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-ultimate-compare dt { margin:14px 0 4px; font-weight:600; }
 .rm-ultimate-compare dd { margin:0; font-size:14px; }
 .rm-ultimate-compare dd span { display:block; margin:3px 0; }
+.rm-reference-badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+.rm-reference-badges span { font-size:11px; padding:2px 8px; border-radius:4px; background:var(--accent-soft); color:var(--accent); }

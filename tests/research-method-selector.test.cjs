@@ -53,7 +53,7 @@ test('catalog coverage, concrete beginner cases and references are complete',()=
  assert.equal(methods.length,19);assert.equal(new Set(methods.map(m=>m.id)).size,19);
  assert.deepEqual(content.categories.map(c=>methods.filter(m=>m.category===c.id).length),[11,3,5]);
  for(const m of methods){
-  assert.equal(m.cases.length,2);assert(m.references.length>=3&&m.references.length<=4);
+  assert.equal(m.cases.length,2);assert(m.references.length>=1&&m.references.length<=2);assert.equal(m.applications.length,2);assert.deepEqual(m.applications.map(a=>a.index).sort(),['KCI','SSCI']);m.applications.forEach(a=>assert(a.doi&&a.title&&a.journal&&a.year&&a.url===`https://doi.org/${a.doi}`));
   for(const c of m.cases)for(const field of ['purpose','question','data','analysis','output','learn'])assert(c[field]?.length>20,`${m.id}.${field}`);
   assert(m.ultimate&&m.outputs.length>=3&&m.data_example.columns&&m.checks.length===3);
   for(const id of m.related)assert(methods.some(x=>x.id===id));

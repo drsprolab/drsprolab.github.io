@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "checked": "2026-10-30",
+  "checked": "2026-11-01",
   "categories": [
     {
       "id": "quantitative",
@@ -66,9 +66,7 @@
         "regression"
       ],
       "references": [
-        "courville",
-        "relative",
-        "west"
+        "relative"
       ],
       "cases": [
         {
@@ -294,7 +292,35 @@
       "structure": {
         "model": "결과변수(Y) 하나를 여러 설명변수(X1, X2, X3…)와 통제변수로 동시에 설명하는 회귀모형 Y = b0 + b1X1 + b2X2 + …을 추정하고, 각 X의 고유한 회귀계수와 모형의 설명력(R²)을 봅니다.",
         "why": "‘여러 요인 중 무엇이 결과와 따로 관련되는가’를 알고 싶을 때. 요인끼리 서로 겹치는 부분을 통제하고 각 요인의 고유한 관련을 나누어 보기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Choi, U.-S., & Kwon, J.-H.",
+          "year": 2007,
+          "title": "Hierarchial Multiple Regression Analysis Relating to the Effects and Causes of Job Satisfaction and Organizational Commitment of Lifelong Education Specialist",
+          "journal": "평생학습사회",
+          "volume": "3",
+          "issue": "2",
+          "pages": "75-91",
+          "doi": "10.26857/jlls.2007.11.3.2.75",
+          "url": "https://doi.org/10.26857/jlls.2007.11.3.2.75",
+          "cited_by_crossref": 0
+        },
+        {
+          "index": "SSCI",
+          "authors": "Nimon, K., & Reio, T. G.",
+          "year": 2011,
+          "title": "Regression Commonality Analysis: A Technique for Quantitative Theory Building",
+          "journal": "Human Resource Development Review",
+          "volume": "10",
+          "issue": "3",
+          "pages": "329-340",
+          "doi": "10.1177/1534484311411077",
+          "url": "https://doi.org/10.1177/1534484311411077",
+          "cited_by_crossref": 76
+        }
+      ]
     },
     {
       "id": "mediation",
@@ -342,9 +368,7 @@
         "indirect"
       ],
       "references": [
-        "preacher2008",
-        "mackinnon",
-        "zhao"
+        "preacher2008"
       ],
       "cases": [
         {
@@ -589,7 +613,35 @@
       "structure": {
         "model": "X → M → Y 구조에서 X가 중간 변수 M을 거쳐 Y로 전달되는 간접효과(a×b)와 M을 통제한 직접효과(c′)를 나누어 추정합니다.",
         "why": "‘X가 왜(어떤 과정을 거쳐) Y로 이어지는가’를 알고 싶을 때. 단순히 X와 Y가 관련된다는 사실을 넘어 중간 기제가 있는지 확인하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "류수민, & Yoo, T.-Y.",
+          "year": 2015,
+          "title": "The Effect of Role Stress on Organizational Commitment: The Mediating Effect of Psychological Contract Breach and Moderating Effect of Resilience",
+          "journal": "한국심리학회지: 산업 및 조직",
+          "volume": "28",
+          "issue": "4",
+          "pages": "723-747",
+          "doi": "10.24230/ksiop.28.4.201511.723",
+          "url": "https://doi.org/10.24230/ksiop.28.4.201511.723",
+          "cited_by_crossref": 7
+        },
+        {
+          "index": "SSCI",
+          "authors": "Li, L., Gao, H., & Xu, Y.",
+          "year": 2020,
+          "title": "The mediating and buffering effect of academic self-efficacy on the relationship between smartphone addiction and academic procrastination",
+          "journal": "Computers & Education",
+          "volume": "159",
+          "issue": "",
+          "pages": "104001",
+          "doi": "10.1016/j.compedu.2020.104001",
+          "url": "https://doi.org/10.1016/j.compedu.2020.104001",
+          "cited_by_crossref": 145
+        }
+      ]
     },
     {
       "id": "moderation",
@@ -638,9 +690,7 @@
         "interaction"
       ],
       "references": [
-        "dawson",
-        "dawson3",
-        "aguinis"
+        "dawson"
       ],
       "cases": [
         {
@@ -886,7 +936,35 @@
       "structure": {
         "model": "Y = b0 + b1X + b2W + b3(X×W)처럼 X와 조절변수 W의 곱(상호작용) 항을 넣고, W 수준별로 X→Y 기울기가 달라지는지 봅니다.",
         "why": "‘X와 Y의 관계가 어떤 조건(집단·상황)에서 더 강하거나 약해지는가’를 알고 싶을 때. 평균적인 관계 뒤에 숨은 조건별 차이를 드러내기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Kim, S., & Lim, K. Y.",
+          "year": 2017,
+          "title": "The Moderating Effects of Perceived Usefulness and Self-Regulated Learning Skills on the Relationship between Participative Motivation and Learning Satisfaction in Online Continuing Education Programs",
+          "journal": "평생학습사회",
+          "volume": "13",
+          "issue": "3",
+          "pages": "85-107",
+          "doi": "10.26857/jlls.2017.08.13.3.85",
+          "url": "https://doi.org/10.26857/jlls.2017.08.13.3.85",
+          "cited_by_crossref": 10
+        },
+        {
+          "index": "SSCI",
+          "authors": "Joo, B.-K. (Brian), & Shim, J. H.",
+          "year": 2010,
+          "title": "Psychological empowerment and organizational commitment: the moderating effect of organizational learning culture",
+          "journal": "Human Resource Development International",
+          "volume": "13",
+          "issue": "4",
+          "pages": "425-441",
+          "doi": "10.1080/13678868.2010.501963",
+          "url": "https://doi.org/10.1080/13678868.2010.501963",
+          "cited_by_crossref": 147
+        }
+      ]
     },
     {
       "id": "moderated-mediation",
@@ -932,9 +1010,7 @@
         "conditional indirect"
       ],
       "references": [
-        "preacher2007",
-        "hayes2015",
-        "hayes2018"
+        "preacher2007"
       ],
       "cases": [
         {
@@ -1178,7 +1254,35 @@
       "structure": {
         "model": "X → M → Y 간접효과를 구하되, 그 경로(a 또는 b)가 조절변수 W에 따라 달라지는 조건부 간접효과와 조절된 매개 지수를 추정합니다.",
         "why": "‘이 중간 과정이 모든 사람에게 같은가, 아니면 어떤 조건에서만 작동하는가’를 알고 싶을 때. 매개와 조절을 한 모형에서 함께 검증하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "박소영, & Tak, J.",
+          "year": 2022,
+          "title": "성장지향성과 주관적 경력성공이 삶의 만족에 미치는 영향: 긍정리더십의 조절된 매개효과",
+          "journal": "한국심리학회지: 산업 및 조직",
+          "volume": "35",
+          "issue": "4",
+          "pages": "827-865",
+          "doi": "10.24230/kjiop.v35i4.827-865",
+          "url": "https://doi.org/10.24230/kjiop.v35i4.827-865",
+          "cited_by_crossref": 1
+        },
+        {
+          "index": "SSCI",
+          "authors": "Soane, E., Shantz, A., Alfes, K., Truss, C., Rees, C., & Gatenby, M.",
+          "year": 2013,
+          "title": "The Association of Meaningfulness, Well‐Being, and Engagement with Absenteeism: A Moderated Mediation Model",
+          "journal": "Human Resource Management",
+          "volume": "52",
+          "issue": "3",
+          "pages": "441-456",
+          "doi": "10.1002/hrm.21534",
+          "url": "https://doi.org/10.1002/hrm.21534",
+          "cited_by_crossref": 159
+        }
+      ]
     },
     {
       "id": "sem",
@@ -1224,9 +1328,7 @@
         "structural equation"
       ],
       "references": [
-        "anderson",
-        "hubentler",
-        "power"
+        "hubentler"
       ],
       "cases": [
         {
@@ -1468,7 +1570,35 @@
       "structure": {
         "model": "여러 문항으로 잰 잠재변수를 측정모형(요인분석)으로 나타내고, 그 잠재변수들 사이의 구조 경로를 한 번에 추정해 모형 전체 적합도를 평가합니다.",
         "why": "‘직접 잴 수 없는 개념들이 서로 어떻게 연결되는가’를 알고 싶을 때. 측정오차를 반영해 개념 간 관계를 추정하고 이론 모형 전체가 자료와 맞는지 보려고 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Moon, S. T., & Park, M.",
+          "year": 2013,
+          "title": "대학생의 사회적 지지, 진로결정자기효능감 및 인지된 고용가능성에 관한 구조방정식 모형",
+          "journal": "농업교육과 인적자원개발",
+          "volume": "45",
+          "issue": "4",
+          "pages": "79-104",
+          "doi": "10.23840/agehrd.2013.45.4.79",
+          "url": "https://doi.org/10.23840/agehrd.2013.45.4.79",
+          "cited_by_crossref": 6
+        },
+        {
+          "index": "SSCI",
+          "authors": "Makransky, G., & Lilleholt, L.",
+          "year": 2018,
+          "title": "A structural equation modeling investigation of the emotional value of immersive virtual reality in education",
+          "journal": "Educational Technology Research and Development",
+          "volume": "66",
+          "issue": "5",
+          "pages": "1141-1164",
+          "doi": "10.1007/s11423-018-9581-2",
+          "url": "https://doi.org/10.1007/s11423-018-9581-2",
+          "cited_by_crossref": 726
+        }
+      ]
     },
     {
       "id": "multigroup",
@@ -1516,8 +1646,6 @@
         "invariance"
       ],
       "references": [
-        "vandenberg",
-        "chen",
         "cheung"
       ],
       "cases": [
@@ -1755,7 +1883,35 @@
       "structure": {
         "model": "같은 측정·구조 모형을 두 개 이상의 집단에 적용해, 먼저 측정동일성을 확인한 뒤 경로계수를 같게 둔 모형과 자유롭게 둔 모형을 비교합니다.",
         "why": "‘이 모형이 집단마다 같은가’를 알고 싶을 때. 이미 정해진 집단(정규직/비정규직 등)의 관계 차이가 측정 차이가 아니라 실제 차이인지 검증하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Ahn, J., Lee, S., Jung, H., & Lee, H.",
+          "year": 2019,
+          "title": "Multigroup analysis in the context of multilevel analysis to judge if a referent-shift model is needed for measurement of composition emergence",
+          "journal": "한국심리학회지: 산업 및 조직",
+          "volume": "32",
+          "issue": "1",
+          "pages": "29-53",
+          "doi": "10.24230/kjiop.v32i1.29-53",
+          "url": "https://doi.org/10.24230/kjiop.v32i1.29-53",
+          "cited_by_crossref": 1
+        },
+        {
+          "index": "SSCI",
+          "authors": "Teo, T., Lee, C. B., Chai, C. S., & Wong, S. L.",
+          "year": 2009,
+          "title": "Assessing the intention to use technology among pre-service teachers in Singapore and Malaysia: A multigroup invariance analysis of the Technology Acceptance Model (TAM)",
+          "journal": "Computers & Education",
+          "volume": "53",
+          "issue": "3",
+          "pages": "1000-1009",
+          "doi": "10.1016/j.compedu.2009.05.017",
+          "url": "https://doi.org/10.1016/j.compedu.2009.05.017",
+          "cited_by_crossref": 275
+        }
+      ]
     },
     {
       "id": "lpa",
@@ -1802,9 +1958,7 @@
         "점수 패턴"
       ],
       "references": [
-        "spurk",
-        "woo",
-        "morin"
+        "spurk"
       ],
       "cases": [
         {
@@ -2041,7 +2195,35 @@
       "structure": {
         "model": "여러 연속형 지표의 점수 조합을 바탕으로 사람들을 숨은 유형(잠재집단)으로 나누고, 유형 수별 모형을 비교해 가장 적절한 유형 수와 유형별 평균 프로파일을 찾습니다.",
         "why": "‘사람마다 점수의 조합이 다른 하위 집단이 있는가’를 알고 싶을 때. 평균으로 가려지는 서로 다른 사람 유형을 발견하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Jang, J.-H., Shin, W. S., & Ko, Y.",
+          "year": 2020,
+          "title": "A Latent Profile Analysis of Teachers' AR and VR Integration",
+          "journal": "교육정보미디어연구",
+          "volume": "26",
+          "issue": "2",
+          "pages": "367-393",
+          "doi": "10.15833/kafeiam.26.2.367",
+          "url": "https://doi.org/10.15833/kafeiam.26.2.367",
+          "cited_by_crossref": 2
+        },
+        {
+          "index": "SSCI",
+          "authors": "Lee, J.-Y., & Chei, M. J.",
+          "year": 2019,
+          "title": "Latent profile analysis of Korean undergraduates’ academic emotions in e-learning environment",
+          "journal": "Educational Technology Research and Development",
+          "volume": "68",
+          "issue": "3",
+          "pages": "1521-1546",
+          "doi": "10.1007/s11423-019-09715-x",
+          "url": "https://doi.org/10.1007/s11423-019-09715-x",
+          "cited_by_crossref": 40
+        }
+      ]
     },
     {
       "id": "lca",
@@ -2089,9 +2271,7 @@
         "예 아니오"
       ],
       "references": [
-        "nylund",
-        "asparouhov",
-        "vermunt"
+        "nylund"
       ],
       "cases": [
         {
@@ -2320,7 +2500,35 @@
       "structure": {
         "model": "여러 범주형(예/아니오 등) 응답의 조합으로 사람들을 숨은 유형으로 나누고, 유형별 응답확률과 유형 비율을 추정합니다.",
         "why": "‘어떤 경험·행동의 조합을 가진 사람 유형이 있는가’를 알고 싶을 때. 범주형 응답에서 숨은 유형을 찾기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Sung, E., & Choi, H.",
+          "year": 2016,
+          "title": "Exploring the Types of Classes and Characteristics on ICT Literacy of Middle School Students with Latent Class Analysis",
+          "journal": "교육공학연구",
+          "volume": "32",
+          "issue": "4",
+          "pages": "987-1013",
+          "doi": "10.17232/kset.32.4.987",
+          "url": "https://doi.org/10.17232/kset.32.4.987",
+          "cited_by_crossref": 4
+        },
+        {
+          "index": "SSCI",
+          "authors": "Kim, D., Lee, I., & Park, J.",
+          "year": 2019,
+          "title": "Latent class analysis of non‐formal learners’ self‐directed learning patterns in open educational resource repositories",
+          "journal": "British Journal of Educational Technology",
+          "volume": "50",
+          "issue": "6",
+          "pages": "3420-3436",
+          "doi": "10.1111/bjet.12746",
+          "url": "https://doi.org/10.1111/bjet.12746",
+          "cited_by_crossref": 35
+        }
+      ]
     },
     {
       "id": "scale-development",
@@ -2384,9 +2592,7 @@
         "DIF"
       ],
       "references": [
-        "hinkin",
         "clark",
-        "worthington",
         "van-zile-tamsen"
       ],
       "cases": [
@@ -2725,7 +2931,35 @@
       "structure": {
         "model": "문항 분석(문항-총점 상관·α), 탐색적·확인적 요인분석으로 문항이 묶이는 구조를 확인하고, 신뢰도와 타당도 근거를 쌓아 새 측정도구를 만듭니다.",
         "why": "‘기존에 쓸 만한 측정도구가 없는 개념을 어떻게 재는가’를 알고 싶을 때. 이후 분석에서 쓸 점수의 질을 먼저 확보하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Suk, I., & Kang, E.",
+          "year": 2007,
+          "title": "Development and Validation of the Learning Flow Scale",
+          "journal": "교육공학연구",
+          "volume": "23",
+          "issue": "1",
+          "pages": "121-154",
+          "doi": "10.17232/kset.23.1.121",
+          "url": "https://doi.org/10.17232/kset.23.1.121",
+          "cited_by_crossref": 20
+        },
+        {
+          "index": "SSCI",
+          "authors": "Tims, M., Bakker, A. B., & Derks, D.",
+          "year": 2012,
+          "title": "Development and validation of the job crafting scale",
+          "journal": "Journal of Vocational Behavior",
+          "volume": "80",
+          "issue": "1",
+          "pages": "173-186",
+          "doi": "10.1016/j.jvb.2011.05.009",
+          "url": "https://doi.org/10.1016/j.jvb.2011.05.009",
+          "cited_by_crossref": 1653
+        }
+      ]
     },
     {
       "id": "prediction",
@@ -2774,9 +3008,7 @@
         "machine learning"
       ],
       "references": [
-        "yarkoni",
-        "bleidorn",
-        "putka"
+        "yarkoni"
       ],
       "cases": [
         {
@@ -3015,7 +3247,35 @@
       "structure": {
         "model": "학습 자료로 Y를 예측하는 모형(회귀·기계학습)을 만들고, 모형이 보지 못한 새 자료에서 예측 오차·AUC 같은 성능을 평가합니다.",
         "why": "‘새로운 사람의 결과를 얼마나 잘 맞히는가’를 알고 싶을 때. 원인 설명보다 위험 조기 발견이나 선별 같은 실제 의사결정에 쓰기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Jo, M. H., Kim, E. J., & Lee, H. W.",
+          "year": 2018,
+          "title": "Exploring a Model for Predicting Academic Warning with Learning Analytics",
+          "journal": "교육공학연구",
+          "volume": "34",
+          "issue": "4",
+          "pages": "877-900",
+          "doi": "10.17232/kset.34.4.877",
+          "url": "https://doi.org/10.17232/kset.34.4.877",
+          "cited_by_crossref": 4
+        },
+        {
+          "index": "SSCI",
+          "authors": "Jang, Y., Choi, S., Jung, H., & Kim, H.",
+          "year": 2022,
+          "title": "Practical early prediction of students’ performance using machine learning and eXplainable AI",
+          "journal": "Education and Information Technologies",
+          "volume": "27",
+          "issue": "9",
+          "pages": "12855-12889",
+          "doi": "10.1007/s10639-022-11120-6",
+          "url": "https://doi.org/10.1007/s10639-022-11120-6",
+          "cited_by_crossref": 108
+        }
+      ]
     },
     {
       "id": "arcl",
@@ -3066,9 +3326,7 @@
         "패널"
       ],
       "references": [
-        "hamaker",
-        "mulder",
-        "usami"
+        "hamaker"
       ],
       "cases": [
         {
@@ -3294,7 +3552,35 @@
       "structure": {
         "model": "같은 사람을 여러 시점에 측정해 각 변수의 자기회귀 경로와 X(t)→Y(t+1), Y(t)→X(t+1) 교차지연 경로를 한 모형에서 추정하고 서로 비교합니다.",
         "why": "‘두 변수 중 무엇이 먼저 다음 시점의 다른 변수를 예측하는가’를 알고 싶을 때. 시간 순서에 따른 선행관계와 서로 영향을 주는 방향을 확인하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Lee, S.",
+          "year": 2019,
+          "title": "The Longitudinal Study using Autoregressive Cross-Lagged Model: Relationship between the Self-understanding as a Learner and the Perception of the Learner-centered Instruction",
+          "journal": "교육평가연구",
+          "volume": "32",
+          "issue": "2",
+          "pages": "351-374",
+          "doi": "10.31158/jeev.2019.32.2.351",
+          "url": "https://doi.org/10.31158/jeev.2019.32.2.351",
+          "cited_by_crossref": 0
+        },
+        {
+          "index": "SSCI",
+          "authors": "Spurk, D., & Abele, A. E.",
+          "year": 2014,
+          "title": "Synchronous and time-lagged effects between occupational self-efficacy and objective and subjective career success: Findings from a four-wave and 9-year longitudinal study",
+          "journal": "Journal of Vocational Behavior",
+          "volume": "84",
+          "issue": "2",
+          "pages": "119-132",
+          "doi": "10.1016/j.jvb.2013.12.002",
+          "url": "https://doi.org/10.1016/j.jvb.2013.12.002",
+          "cited_by_crossref": 90
+        }
+      ]
     },
     {
       "id": "phenomenology",
@@ -3342,9 +3628,7 @@
         "ipa"
       ],
       "references": [
-        "gill",
-        "smith",
-        "cope"
+        "smith"
       ],
       "cases": [
         {
@@ -3571,7 +3855,35 @@
       "structure": {
         "model": "통계 모형 없이 참여자의 체험 진술을 의미 단위 → 주제 → 체험의 본질 구조 순으로 분석합니다.",
         "why": "‘이 현상을 겪는 사람에게 그 경험이 어떤 의미인가’를 알고 싶을 때. 변수 사이의 관계가 아니라 체험 자체의 의미를 깊이 이해하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Yun, H.",
+          "year": 2018,
+          "title": "Phenomenological Study on the Experiences of Adult Learners’ Academic Adjustment to Ciber University",
+          "journal": "평생교육HRD연구",
+          "volume": "14",
+          "issue": "4",
+          "pages": "85-110",
+          "doi": "10.35637/klehrd.2018.14.4.004",
+          "url": "https://doi.org/10.35637/klehrd.2018.14.4.004",
+          "cited_by_crossref": 5
+        },
+        {
+          "index": "SSCI",
+          "authors": "Ahn, J., Dik, B. J., & Hornback, R.",
+          "year": 2017,
+          "title": "The experience of career change driven by a sense of calling: An Interpretative Phenomenological Analysis approach",
+          "journal": "Journal of Vocational Behavior",
+          "volume": "102",
+          "issue": "",
+          "pages": "48-62",
+          "doi": "10.1016/j.jvb.2017.07.003",
+          "url": "https://doi.org/10.1016/j.jvb.2017.07.003",
+          "cited_by_crossref": 86
+        }
+      ]
     },
     {
       "id": "grounded-theory",
@@ -3619,8 +3931,6 @@
         "grounded theory"
       ],
       "references": [
-        "suddaby",
-        "corbin",
         "gioia"
       ],
       "cases": [
@@ -3857,7 +4167,35 @@
       "structure": {
         "model": "자료 수집과 코딩(개방·축·선택)을 번갈아 하며 범주 사이의 조건·행동·결과 관계를 비교해 과정모형(이론)을 생성합니다.",
         "why": "‘이 현상이 어떤 과정으로 일어나는지 설명하는 이론이 아직 없을 때’. 자료에서 설명 틀을 새로 만들어 내기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Park, Y., Lee, S., Hong, S., & Hwang, Y.",
+          "year": 2024,
+          "title": "A grounded theory on AI-based teacher supporting platform",
+          "journal": "교육정보미디어연구",
+          "volume": "30",
+          "issue": "3",
+          "pages": "1005-1034",
+          "doi": "10.15833/kafeiam.30.3.1005",
+          "url": "https://doi.org/10.15833/kafeiam.30.3.1005",
+          "cited_by_crossref": 2
+        },
+        {
+          "index": "SSCI",
+          "authors": "Webster, T. E., & Son, J.-B.",
+          "year": 2015,
+          "title": "Doing what works: A grounded theory case study of technology use by teachers of English at a Korean university",
+          "journal": "Computers & Education",
+          "volume": "80",
+          "issue": "",
+          "pages": "84-94",
+          "doi": "10.1016/j.compedu.2014.08.012",
+          "url": "https://doi.org/10.1016/j.compedu.2014.08.012",
+          "cited_by_crossref": 23
+        }
+      ]
     },
     {
       "id": "narrative",
@@ -3906,8 +4244,6 @@
         "narrative"
       ],
       "references": [
-        "rhodes",
-        "ibarra",
         "pentland"
       ],
       "cases": [
@@ -4122,7 +4458,35 @@
       "structure": {
         "model": "참여자가 들려준 이야기를 사건 흐름(연표)과 플롯으로 재구성하고, 주제·구조·상호작용 관점에서 해석한 뒤 사례를 비교합니다.",
         "why": "‘사람들이 자기 경험을 시간 속에서 어떤 이야기로 엮어 정체성을 만드는가’를 알고 싶을 때. 변화의 과정과 의미를 이야기 그대로 이해하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Koo, Y., Oh, S., & Park, S.",
+          "year": 2021,
+          "title": "A Narrative Study of Educational Meaning of Adult Learner’s University Experience",
+          "journal": "평생학습사회",
+          "volume": "17",
+          "issue": "1",
+          "pages": "27-48",
+          "doi": "10.26857/jlls.2021.2.17.1.27",
+          "url": "https://doi.org/10.26857/jlls.2021.2.17.1.27",
+          "cited_by_crossref": 6
+        },
+        {
+          "index": "SSCI",
+          "authors": "Aghaei, K., Rajabi, M., Lie, K. Y., & Ajam, F.",
+          "year": 2019,
+          "title": "Flipped learning as situated practice: A contrastive narrative inquiry in an EFL classroom",
+          "journal": "Education and Information Technologies",
+          "volume": "25",
+          "issue": "3",
+          "pages": "1607-1623",
+          "doi": "10.1007/s10639-019-10039-9",
+          "url": "https://doi.org/10.1007/s10639-019-10039-9",
+          "cited_by_crossref": 25
+        }
+      ]
     },
     {
       "id": "scoping-review",
@@ -4171,9 +4535,7 @@
         "pcc"
       ],
       "references": [
-        "arksey",
-        "levac",
-        "pare"
+        "arksey"
       ],
       "cases": [
         {
@@ -4402,7 +4764,35 @@
       "structure": {
         "model": "정해 둔 검색식으로 문헌을 모아 선별하고, 대상·개념·방법별 건수와 분포를 표로 정리해 연구 지형과 공백을 지도화합니다.",
         "why": "‘이 주제에 대해 어떤 연구들이 있고 무엇이 비어 있는가’를 알고 싶을 때. 효과의 크기를 합치지 않고 연구의 범위를 파악하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Jeong, K., Koh, J., Son, Y., Kim, M., & Keum, S.",
+          "year": 2025,
+          "title": "A scoping review of AI utilization and AI convergence education in Korean elementary education",
+          "journal": "교육정보미디어연구",
+          "volume": "31",
+          "issue": "1",
+          "pages": "169-193",
+          "doi": "10.15833/kafeiam.31.1.169",
+          "url": "https://doi.org/10.15833/kafeiam.31.1.169",
+          "cited_by_crossref": 1
+        },
+        {
+          "index": "SSCI",
+          "authors": "Han, S. J., & Stieha, V.",
+          "year": 2020,
+          "title": "Growth Mindset for Human Resource Development: A Scoping Review of the Literature with Recommended Interventions",
+          "journal": "Human Resource Development Review",
+          "volume": "19",
+          "issue": "3",
+          "pages": "309-331",
+          "doi": "10.1177/1534484320939739",
+          "url": "https://doi.org/10.1177/1534484320939739",
+          "cited_by_crossref": 124
+        }
+      ]
     },
     {
       "id": "integrative-review",
@@ -4450,8 +4840,6 @@
         "reconceptual"
       ],
       "references": [
-        "torraco2005",
-        "torraco2016",
         "snyder"
       ],
       "cases": [
@@ -4677,7 +5065,35 @@
       "structure": {
         "model": "다양한 설계의 문헌에서 개념·가정·결과를 표로 비교해 일치와 모순을 분석하고 통합 개념틀을 만듭니다.",
         "why": "‘흩어진 개념과 이론을 하나의 틀로 어떻게 연결하는가’를 알고 싶을 때. 개념적 혼란을 정리하고 새 이해의 틀을 제안하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Lee, Y.",
+          "year": 2025,
+          "title": "An integrative review of generative artificial intelligence teaching-learning strategies in higher education: Focusing on learning outcomes and ethical considerations",
+          "journal": "교육정보미디어연구",
+          "volume": "31",
+          "issue": "2",
+          "pages": "297-318",
+          "doi": "10.15833/kafeiam.31.2.297",
+          "url": "https://doi.org/10.15833/kafeiam.31.2.297",
+          "cited_by_crossref": 0
+        },
+        {
+          "index": "SSCI",
+          "authors": "Joo, B.-K. (Brian)",
+          "year": 2005,
+          "title": "Executive Coaching: A Conceptual Framework From an Integrative Review of Practice and Research",
+          "journal": "Human Resource Development Review",
+          "volume": "4",
+          "issue": "4",
+          "pages": "462-488",
+          "doi": "10.1177/1534484305280866",
+          "url": "https://doi.org/10.1177/1534484305280866",
+          "cited_by_crossref": 247
+        }
+      ]
     },
     {
       "id": "systematic-review",
@@ -4724,9 +5140,7 @@
         "편향 위험"
       ],
       "references": [
-        "tranfield",
-        "siddaway",
-        "snyder"
+        "tranfield"
       ],
       "cases": [
         {
@@ -4959,7 +5373,35 @@
       "structure": {
         "model": "사전에 등록한 프로토콜에 따라 문헌을 검색·선별하고 편향 위험을 평가한 뒤 결과를 구조적으로 합성해 근거의 일치와 차이를 정리합니다.",
         "why": "‘명확한 질문에 대해 지금까지의 근거가 무엇이라 말하는가’를 알고 싶을 때. 재현 가능한 절차로 근거의 방향과 확실성을 판단하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Lim, K. Y., Cha, S. M., & Lee, D. H.",
+          "year": 2023,
+          "title": "A Systematic Literature Review of Automated Feedback:Research from 2013 to 2022 in Korea",
+          "journal": "교육정보미디어연구",
+          "volume": "29",
+          "issue": "2",
+          "pages": "511-540",
+          "doi": "10.15833/kafeiam.29.2.511",
+          "url": "https://doi.org/10.15833/kafeiam.29.2.511",
+          "cited_by_crossref": 3
+        },
+        {
+          "index": "SSCI",
+          "authors": "Akçayır, M., & Akçayır, G.",
+          "year": 2017,
+          "title": "Advantages and challenges associated with augmented reality for education: A systematic review of the literature",
+          "journal": "Educational Research Review",
+          "volume": "20",
+          "issue": "",
+          "pages": "1-11",
+          "doi": "10.1016/j.edurev.2016.11.002",
+          "url": "https://doi.org/10.1016/j.edurev.2016.11.002",
+          "cited_by_crossref": 1713
+        }
+      ]
     },
     {
       "id": "meta-analysis",
@@ -5009,9 +5451,7 @@
         "meta analysis"
       ],
       "references": [
-        "meyer",
-        "blume",
-        "sitzmann"
+        "meyer"
       ],
       "cases": [
         {
@@ -5253,7 +5693,35 @@
       "structure": {
         "model": "연구마다의 효과크기를 같은 척도로 환산해 가중 평균(통합효과)을 구하고, 이질성(Q, I²)과 조절요인, 출판편향을 분석합니다.",
         "why": "‘여러 연구를 합치면 평균 효과가 얼마인가’를 알고 싶을 때. 개별 연구의 불확실성을 줄이고 연구 간 차이의 원인을 찾기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Yoo, M., Kim, J., Koo, Y., & Song, J.",
+          "year": 2018,
+          "title": "A meta-analysis on effects of VR, AR, MR-based learning in Korea",
+          "journal": "교육정보미디어연구",
+          "volume": "24",
+          "issue": "3",
+          "pages": "459-488",
+          "doi": "10.15833/kafeiam.24.3.459",
+          "url": "https://doi.org/10.15833/kafeiam.24.3.459",
+          "cited_by_crossref": 11
+        },
+        {
+          "index": "SSCI",
+          "authors": "Cai, Z., Fan, X., & Du, J.",
+          "year": 2017,
+          "title": "Gender and attitudes toward technology use: A meta-analysis",
+          "journal": "Computers & Education",
+          "volume": "105",
+          "issue": "",
+          "pages": "1-13",
+          "doi": "10.1016/j.compedu.2016.11.003",
+          "url": "https://doi.org/10.1016/j.compedu.2016.11.003",
+          "cited_by_crossref": 622
+        }
+      ]
     },
     {
       "id": "theory-building",
@@ -5302,8 +5770,6 @@
         "이론적 모형"
       ],
       "references": [
-        "whetten",
-        "sutton",
         "eisenhardt"
       ],
       "cases": [
@@ -5517,7 +5983,35 @@
       "structure": {
         "model": "개념을 정의하고 개념 간 관계의 논리적 메커니즘과 경계조건을 도출해 검증 가능한 명제와 개념모형으로 정리합니다.",
         "why": "‘기존 이론으로 설명되지 않는 현상을 어떻게 설명할 것인가’를 알고 싶을 때. 새로운 설명의 틀을 제안해 이후 연구가 검증할 수 있게 하기 위해 합니다."
-      }
+      },
+      "applications": [
+        {
+          "index": "KCI",
+          "authors": "Shin, S., & Shin, S.",
+          "year": 2021,
+          "title": "Developing a Conceptual Model of Instructional Design for Personalized Flipped Learning",
+          "journal": "교육공학연구",
+          "volume": "37",
+          "issue": "1",
+          "pages": "59-94",
+          "doi": "10.17232/kset.37.1.059",
+          "url": "https://doi.org/10.17232/kset.37.1.059",
+          "cited_by_crossref": 5
+        },
+        {
+          "index": "SSCI",
+          "authors": "Ipe, M.",
+          "year": 2003,
+          "title": "Knowledge Sharing in Organizations: A Conceptual Framework",
+          "journal": "Human Resource Development Review",
+          "volume": "2",
+          "issue": "4",
+          "pages": "337-359",
+          "doi": "10.1177/1534484303257985",
+          "url": "https://doi.org/10.1177/1534484303257985",
+          "cited_by_crossref": 1033
+        }
+      ]
     }
   ],
   "references": {
