@@ -212,7 +212,7 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-data-types dt { margin:12px 0 2px; font-weight:600; color:var(--accent); }
 .rm-data-types dd { margin:0; font-size:14px; line-height:1.7; }
 
-.rm-english { display:inline-block; margin:0; align-self:flex-start; width:fit-content; padding:3px 12px; border-radius:999px; background:var(--tint); color:var(--muted); font-size:13px; font-weight:600; letter-spacing:0; }
+.rm-english { display:inline-block; margin:0; align-self:flex-start; width:fit-content; padding:3px 12px; border-radius:999px; background:var(--accent); color:var(--paper); font-size:13px; font-weight:600; letter-spacing:0; }
 .rm-struct h3 { margin:18px 0 8px; font-size:15px; }
 .rm-struct h4 { margin:16px 0 6px; font-size:14px; color:var(--accent); }
 .rm-struct-summary { font-size:14.5px; line-height:1.75; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; }
@@ -223,7 +223,8 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-table thead th { background:var(--tint); font-weight:600; white-space:nowrap; }
 .rm-var-table tbody th { background:var(--tint); font-weight:600; white-space:nowrap; }
 .rm-data-table td { font-family:var(--f-mono); font-size:12.5px; }
-@media(max-width:600px) { .rm-table { min-width:520px; } .rm-data-table { min-width:0; } }
+@media(max-width:760px) { .rm-table { min-width:640px; } .rm-data-table td,.rm-data-table th { min-width:64px; } .rm-data-table td:last-child { min-width:150px; } }
+.rm-data-table td { word-break:keep-all; }
 
 /* 예시 연구모형 도식 */
 .rm-model { margin:22px 0 28px; padding-top:6px; }
