@@ -2051,8 +2051,9 @@ main.container { overflow-x: clip; }
 .rhb-table thead th, .rhb-table tbody th { background: var(--tint); font-weight: 600; }
 .rhb-fig { margin: 22px 0 8px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); display: grid; gap: 10px; }
 .rhb-fig figcaption { font-weight: 700; font-size: 14px; color: var(--accent); }
-.rhb-flowline { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-.rhb-flowline > .rhb-node { position: relative; flex: 1 1 140px; }
+.rhb-fig { container-type: inline-size; }
+.rhb-flowline { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px 22px; }
+.rhb-flowline > .rhb-node { position: relative; min-width: 0; }
 .rhb-flowline > .rhb-node:not(:last-child)::after { content: "→"; position: absolute; right: -17px; top: 50%; transform: translateY(-50%); color: var(--accent); font-weight: 700; }
 .rhb-node { display: grid; gap: 2px; padding: 10px 12px; border: 1.5px solid var(--accent); border-radius: 8px; background: var(--accent-soft); text-align: center; }
 .rhb-node b { font-size: 13.5px; }
@@ -2070,9 +2071,12 @@ main.container { overflow-x: clip; }
 .rhb-pair span:last-child { border-color: var(--accent); background: var(--accent-soft); }
 .rhb-pair i { font-style: normal; text-align: center; color: var(--accent); font-weight: 700; }
 .rhb-fig-note { margin: 0; font-size: 13px; color: var(--muted); }
+@container (max-width: 600px) {
+  .rhb-flowline { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .rhb-flowline > .rhb-node:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+}
 @media (max-width: 640px) {
-  .rhb-flowline { flex-direction: column; gap: 22px; }
-  .rhb-flowline > .rhb-node { flex-basis: auto; }
+  .rhb-flowline { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); gap: 22px; }
   .rhb-flowline > .rhb-node:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
   .rhb-cols { grid-template-columns: minmax(0, 1fr); }
 }
@@ -2096,6 +2100,13 @@ main.container { overflow-x: clip; }
 .rhb-tm-rel i { font-style: normal; font-size: 22px; line-height: 1.1; }
 .rhb-theory-model .rhb-lens-model { grid-column: 1 / -1; grid-row: 4; }
 .rhb-lens-model { margin: 0; text-align: center; font-size: 13px; font-weight: 600; }
+@container (max-width: 520px) {
+  .rhb-theory-model { grid-template-columns: minmax(0, 1fr); }
+  .rhb-theory-model > * { grid-column: 1 !important; grid-row: auto !important; }
+  .rhb-tm-link { display: none; }
+  .rhb-tm-rel i { transform: rotate(90deg); }
+  .rhb-tm-rel span::after { content: " · 이론적 틀에 근거"; font-weight: 500; }
+}
 @media (max-width: 640px) {
   .rhb-theory-model { grid-template-columns: minmax(0, 1fr); }
   .rhb-theory-model > * { grid-column: 1 !important; grid-row: auto !important; }
@@ -2216,6 +2227,9 @@ main.container { overflow-x: clip; }
 .rhb-foundation-chain li:hover .rhb-peek, .rhb-foundation-chain li:focus-within .rhb-peek { display: flex; }
 .rhb-foundation-chain .rhb-peek { gap: 6px; }
 .rhb .rhb-foundations .rhb-loop { margin-top: 14px; }
+/* 일반 목록 들여쓰기(.rhb ol)가 도식 목록에 적용되지 않도록 */
+.rhb .rhb-chain, .rhb .rhb-foundation-chain { margin: 0; padding: 0; }
+.rhb .rhb-foundation-chain .rhb-no { font-family: var(--f-body); letter-spacing: 0; }
 .rhb .rhb-map h2 { margin: 0 0 14px; padding: 0; border: 0; font-size: 18px; }
 .rhb-chain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 26px; counter-reset: none; }
 .rhb .rhb-chain > li { position: relative; margin: 0; }
