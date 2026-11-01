@@ -202,3 +202,6 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm .rm-result-columns h4 { margin:14px 0 6px; font-size:14px; color:var(--accent); }
 .rm-result-columns li strong { display:block; }
 @media(max-width:800px) { .rm-result-columns { grid-template-columns:1fr; } }
+.rm-data-types { margin:8px 0 12px; }
+.rm-data-types dt { margin:12px 0 2px; font-weight:600; color:var(--accent); }
+.rm-data-types dd { margin:0; font-size:14px; line-height:1.7; }
