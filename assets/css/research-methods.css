@@ -272,3 +272,8 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rf-row { fill:var(--tint); } .rf-grid { stroke:var(--line); stroke-width:1; }
 .rf-line { fill:none; stroke-width:2.4; } .rf-l1 { stroke:var(--accent); } .rf-l2 { stroke:var(--rm-green); } .rf-l3 { stroke:var(--rm-warm); }
 .rf-dot.rf-l1 { fill:var(--accent); stroke:none; } .rf-dot.rf-l2 { fill:var(--rm-green); stroke:none; } .rf-dot.rf-l3 { fill:var(--rm-warm); stroke:none; }
+
+.rm-variant-link { display:inline-block; padding:3px 14px; border-radius:999px; background:var(--accent-soft); border:1px solid var(--accent); color:var(--accent); font-size:13px; font-weight:700; text-decoration:none; transition:transform .15s ease, box-shadow .15s ease; }
+.rm-variant-link:hover,.rm-variant-link:focus-visible { transform:scale(1.08); box-shadow:0 3px 10px rgba(0,0,0,.12); }
+.rm-cmp-table tbody th { background:var(--tint); font-weight:700; white-space:nowrap; }
+.rm-cmp-table td { min-width:180px; }

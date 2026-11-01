@@ -80,7 +80,7 @@ class ResearchMethodsSite(unittest.TestCase):
             self.assertEqual(html.count('type="radio"'), 9)
             self.assertIn('어떤 자료와 변수로, 어떤 구조를 분석하나요?', html)
             if m['id'] in MODELS:
-                self.assertEqual(html.count('class="mm-svg"'), len(MODELS[m['id']]))
+                self.assertEqual(html.count('class="mm-svg"'), len(MODELS[m['id']]) + len(MODELS.get((m.get('variant') or {}).get('model_key'), [])))
                 for model in MODELS[m['id']]:
                     for h in model['hypotheses'] + model['results']:
                         self.assertIn(h, html)
