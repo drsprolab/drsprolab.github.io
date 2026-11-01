@@ -2197,11 +2197,15 @@ main.container { overflow-x: clip; }
 .rhb-foundations { margin-bottom: 22px; }
 .rhb .rhb-foundations > p:first-of-type { margin: -4px 0 14px; font-size: 13.5px; line-height: 1.65; }
 .rhb-foundation-chain { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 0; padding: 0; }
-.rhb-foundation-chain li { position: relative; display: flex; flex-direction: column; gap: 7px; min-width: 0; padding: 13px 14px; border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 10px; background: var(--paper); }
+.rhb-foundation-chain li { position: relative; min-width: 0; }
+.rhb-foundation-chain li > a { display: flex; flex-direction: column; gap: 7px; height: 100%; padding: 13px 14px; border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 10px; background: var(--paper); color: var(--ink); text-decoration: none; transition: box-shadow .15s, transform .15s, background-color .15s; }
+.rhb-foundation-chain li:hover > a, .rhb-foundation-chain li:focus-within > a { background: var(--accent-soft); border-color: var(--accent); box-shadow: 0 8px 22px rgba(0,0,0,.14); transform: translateY(-2px); }
 .rhb-foundation-chain li:not(:last-child)::after { content: "→"; position: absolute; right: -21px; top: 40%; width: 18px; text-align: center; font-size: 20px; font-weight: 700; color: var(--accent); }
 .rhb-foundation-chain .rhb-no { font-size: 11px; }
 .rhb-foundation-chain strong { font-size: 15px; line-height: 1.4; }
-.rhb-foundation-chain li > span:last-child { font-size: 12.5px; line-height: 1.6; }
+.rhb-foundation-chain .rhb-sum { font-size: 12.5px; line-height: 1.6; }
+.rhb-foundation-chain li:hover .rhb-peek, .rhb-foundation-chain li:focus-within .rhb-peek { display: flex; }
+.rhb-foundation-chain .rhb-peek { gap: 6px; }
 .rhb .rhb-foundations .rhb-loop { margin-top: 14px; }
 .rhb .rhb-map h2 { margin: 0 0 14px; padding: 0; border: 0; font-size: 18px; }
 .rhb-chain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 26px; counter-reset: none; }
