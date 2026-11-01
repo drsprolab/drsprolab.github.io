@@ -1,0 +1,748 @@
+{
+ "regression": [
+  {
+   "title": "여러 요인이 한 결과를 설명하는 다중회귀모형",
+   "question": "상사 지원, 학습 기회, 자기효능감 중 무엇이 근속연수를 통제한 뒤에도 조직몰입과 관련되는가?",
+   "hypotheses": [
+    "H1: 상사 지원이 높을수록 조직몰입이 높을 것이다.",
+    "H2: 학습 기회가 많을수록 조직몰입이 높을 것이다.",
+    "H3: 자기효능감이 높을수록 조직몰입이 높을 것이다."
+   ],
+   "how": "독립변수 세 개가 한 모형에서 동시에 결과(Y)를 설명합니다. 각 화살표의 계수는 다른 변수를 고정했을 때 그 변수 고유의 효과입니다. 점선은 유의하지 않은 경로(또는 통제변수)입니다.",
+   "results": [
+    "H1~H3: 세 변수 모두 p < .05의 정(+) 계수 → 지지. 표준화 계수 β가 클수록 상대적 설명 기여가 큽니다(참고용).",
+    "R² = .41: 세 변수와 통제변수가 조직몰입 점수 차이의 41%를 설명합니다. F 검정이 유의하면 모형 전체가 의미가 있습니다.",
+    "통제변수의 계수(.06)는 유의하지 않지만 통제 목적이므로 모형에 그대로 둡니다."
+   ],
+   "roles": [
+    [
+     "통제변수 (C)",
+     "c"
+    ],
+    [
+     "독립변수 (X1)",
+     "x"
+    ],
+    [
+     "독립변수 (X2)",
+     "x"
+    ],
+    [
+     "독립변수 (X3)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 720 340\" role=\"img\" aria-labelledby=\"reg1-t reg1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:720px\"><title id=\"reg1-t\">여러 요인이 한 결과를 설명하는 다중회귀모형</title><desc id=\"reg1-d\">독립변수 세 개와 통제변수 한 개가 종속변수 조직몰입을 설명하는 다중회귀모형</desc><defs><marker id=\"reg1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"reg1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"179.0\" y1=\"66.5\" x2=\"525.0\" y2=\"149.1\" marker-end=\"url(#reg1-a)\"/><line class=\"mm-edge\" x1=\"179.0\" y1=\"130.9\" x2=\"525.0\" y2=\"160.6\" marker-end=\"url(#reg1-a)\"/><line class=\"mm-edge\" x1=\"179.0\" y1=\"195.4\" x2=\"525.0\" y2=\"172.1\" marker-end=\"url(#reg1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"179.0\" y1=\"268.4\" x2=\"525.0\" y2=\"185.1\" marker-end=\"url(#reg1-a)\"/><rect class=\"mm-node mm-x\" x=\"41.0\" y=\"22.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"46\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-x\" x=\"110\" y=\"64\" text-anchor=\"middle\">독립변수 (X1)</text><rect class=\"mm-node mm-x\" x=\"41.0\" y=\"97.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"121\" text-anchor=\"middle\">학습 기회</text><text class=\"mm-r mm-x\" x=\"110\" y=\"139\" text-anchor=\"middle\">독립변수 (X2)</text><rect class=\"mm-node mm-x\" x=\"41.0\" y=\"172.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"196\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-x\" x=\"110\" y=\"214\" text-anchor=\"middle\">독립변수 (X3)</text><rect class=\"mm-node mm-c\" x=\"41.0\" y=\"257.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"281\" text-anchor=\"middle\">근속연수</text><text class=\"mm-r mm-c\" x=\"110\" y=\"299\" text-anchor=\"middle\">통제변수 (C)</text><rect class=\"mm-node mm-y\" x=\"525.0\" y=\"139.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"600\" y=\"163\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"600\" y=\"181\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"272.8\" y=\"90.5\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"317.4\" y=\"103.52204081632652\" text-anchor=\"middle\"><tspan x=\"317.4\" dy=\"0\">H1 β=.32***</tspan></text><rect class=\"mm-lbg\" x=\"276.4\" y=\"133.8\" width=\"82.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"317.4\" y=\"146.77714285714285\" text-anchor=\"middle\"><tspan x=\"317.4\" dy=\"0\">H2 β=.21**</tspan></text><rect class=\"mm-lbg\" x=\"272.8\" y=\"177.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"317.4\" y=\"190.03224489795917\" text-anchor=\"middle\"><tspan x=\"317.4\" dy=\"0\">H3 β=.28***</tspan></text><rect class=\"mm-lbg\" x=\"265.6\" y=\"226.1\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"317.4\" y=\"239.05469387755102\" text-anchor=\"middle\"><tspan x=\"317.4\" dy=\"0\">통제 β=.06 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"600\" y=\"232\" text-anchor=\"middle\"><tspan x=\"600\" dy=\"0\">R² = .41, F 검정 p &lt; .001</tspan></text></svg>"
+  },
+  {
+   "title": "통제변수를 먼저 넣는 위계적 회귀모형",
+   "question": "성별·근속·직급을 통제한 뒤에도 AI 활용 역량과 상사 코칭이 직무성과를 추가로 설명하는가?",
+   "hypotheses": [
+    "H1: 통제변수를 고려해도 AI 활용 역량은 직무성과에 정(+)의 영향을 미칠 것이다.",
+    "H2: 통제변수를 고려해도 상사 코칭은 직무성과에 정(+)의 영향을 미칠 것이다."
+   ],
+   "how": "1단계에서 통제변수만 넣어 R²를 확인하고, 2단계에서 독립변수를 추가해 R²가 얼마나 늘었는지(ΔR²)를 검정합니다. 범주형 변수(성별, 직급)는 더미변수로 코딩해 넣습니다.",
+   "results": [
+    "ΔR² = .18, p < .001: 독립변수를 추가하자 설명력이 유의하게 늘었습니다. 즉, 통제변수 이상의 고유한 설명력이 있습니다.",
+    "H1 β = .34(p < .001), H2 β = .17(p < .05) → 모두 지지.",
+    "1단계의 R² = .12는 성별·근속·직급만으로 설명되는 직무성과 차이입니다."
+   ],
+   "roles": [
+    [
+     "통제변수",
+     "c"
+    ],
+    [
+     "독립변수 (X1)",
+     "x"
+    ],
+    [
+     "독립변수 (X2)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 720 310\" role=\"img\" aria-labelledby=\"reg2-t reg2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:720px\"><title id=\"reg2-t\">통제변수를 먼저 넣는 위계적 회귀모형</title><desc id=\"reg2-d\">통제변수 블록과 독립변수 블록이 순서대로 종속변수 직무성과를 설명하는 위계적 회귀모형</desc><defs><marker id=\"reg2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"reg2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"24\" y=\"30\" width=\"236\" height=\"250\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"50\">1단계: 통제변수 투입</text><rect class=\"mm-group\" x=\"286\" y=\"30\" width=\"220\" height=\"250\" rx=\"10\"/><text class=\"mm-gt\" x=\"298\" y=\"50\">2단계: 독립변수 추가</text><line class=\"mm-edge\" x1=\"260.0\" y1=\"155.0\" x2=\"575.0\" y2=\"155.0\" marker-end=\"url(#reg2-a)\"/><line class=\"mm-edge\" x1=\"506.0\" y1=\"155.0\" x2=\"575.0\" y2=\"155.0\" marker-end=\"url(#reg2-a)\"/><rect class=\"mm-node mm-c\" x=\"87.0\" y=\"76.0\" width=\"110\" height=\"48\" rx=\"6\"/><text class=\"mm-t\" x=\"142\" y=\"96\" text-anchor=\"middle\">성별</text><text class=\"mm-r mm-c\" x=\"142\" y=\"114\" text-anchor=\"middle\">통제변수</text><rect class=\"mm-node mm-c\" x=\"87.0\" y=\"136.0\" width=\"110\" height=\"48\" rx=\"6\"/><text class=\"mm-t\" x=\"142\" y=\"156\" text-anchor=\"middle\">근속연수</text><text class=\"mm-r mm-c\" x=\"142\" y=\"174\" text-anchor=\"middle\">통제변수</text><rect class=\"mm-node mm-c\" x=\"87.0\" y=\"196.0\" width=\"110\" height=\"48\" rx=\"6\"/><text class=\"mm-t\" x=\"142\" y=\"216\" text-anchor=\"middle\">직급</text><text class=\"mm-r mm-c\" x=\"142\" y=\"234\" text-anchor=\"middle\">통제변수</text><rect class=\"mm-node mm-x\" x=\"321.0\" y=\"82.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"396\" y=\"106\" text-anchor=\"middle\">AI 활용 역량</text><text class=\"mm-r mm-x\" x=\"396\" y=\"124\" text-anchor=\"middle\">독립변수 (X1)</text><rect class=\"mm-node mm-x\" x=\"321.0\" y=\"172.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"396\" y=\"196\" text-anchor=\"middle\">상사 코칭</text><text class=\"mm-r mm-x\" x=\"396\" y=\"214\" text-anchor=\"middle\">독립변수 (X2)</text><rect class=\"mm-node mm-y\" x=\"575.0\" y=\"127.0\" width=\"130\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"151\" text-anchor=\"middle\">직무성과</text><text class=\"mm-r mm-y\" x=\"640\" y=\"169\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"385.1\" y=\"132.0\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"433.25\" y=\"145.0\" text-anchor=\"middle\"><tspan x=\"433.25\" dy=\"0\">1단계 R²=.12**</tspan></text><rect class=\"mm-lbg\" x=\"452.7\" y=\"112.0\" width=\"175.6\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"540.5\" y=\"125.0\" text-anchor=\"middle\"><tspan x=\"540.5\" dy=\"0\">H1 β=.34*** · H2 β=.17*</tspan><tspan x=\"540.5\" dy=\"15\">2단계 R²=.30, ΔR²=.18***</tspan></text></svg>"
+  }
+ ],
+ "mediation": [
+  {
+   "title": "단순매개모형 (X → M → Y)",
+   "question": "교육 참여는 자기효능감을 거쳐서 학습전이로 이어지는가?",
+   "hypotheses": [
+    "H1: 교육 참여는 자기효능감에 정(+)의 영향을 미칠 것이다.",
+    "H2: 자기효능감은 학습전이에 정(+)의 영향을 미칠 것이다.",
+    "H3: 교육 참여는 학습전이에 직접 영향을 미칠 것이다.",
+    "H4: 교육 참여는 자기효능감을 매개로 학습전이에 간접 영향을 미칠 것이다."
+   ],
+   "how": "X가 Y에 이르는 길을 직접 경로(c′)와 M을 거치는 간접 경로(a×b)로 나눕니다. H4는 간접효과의 부트스트랩 신뢰구간이 0을 포함하지 않는지로 검정합니다.",
+   "results": [
+    "H1, H2 지지: a와 b가 모두 유의합니다(p < .001).",
+    "H4 지지: 간접효과 .17의 부트스트랩 95% 신뢰구간 [.09, .27]이 0을 포함하지 않으므로 매개효과가 유의합니다.",
+    "H3 기각: M을 통제하면 직접효과 c′(.08)는 유의하지 않습니다(점선). 이 결과는 ‘교육 효과가 대부분 자기효능감을 통해 전달된다’는 해석과 맞지만, ‘완전매개’라는 표현은 이론과 함께 신중히 씁니다."
+   ],
+   "roles": [
+    [
+     "매개변수 (M)",
+     "m"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 720 320\" role=\"img\" aria-labelledby=\"med1-t med1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:720px\"><title id=\"med1-t\">단순매개모형 (X → M → Y)</title><desc id=\"med1-d\">교육 참여가 자기효능감을 거쳐 학습전이에 이르는 단순매개모형</desc><defs><marker id=\"med1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"med1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"152.6\" y1=\"187.0\" x2=\"312.4\" y2=\"93.0\" marker-end=\"url(#med1-a)\"/><line class=\"mm-edge\" x1=\"407.6\" y1=\"93.0\" x2=\"567.4\" y2=\"187.0\" marker-end=\"url(#med1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"174.0\" y1=\"215.0\" x2=\"546.0\" y2=\"215.0\" marker-end=\"url(#med1-a)\"/><rect class=\"mm-node mm-x\" x=\"36.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"105\" y=\"211\" text-anchor=\"middle\">교육 참여</text><text class=\"mm-r mm-x\" x=\"105\" y=\"229\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"291.0\" y=\"37.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"360\" y=\"61\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-m\" x=\"360\" y=\"79\" text-anchor=\"middle\">매개변수 (M)</text><rect class=\"mm-node mm-y\" x=\"546.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"615\" y=\"211\" text-anchor=\"middle\">학습전이</text><text class=\"mm-r mm-y\" x=\"615\" y=\"229\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"143.9\" y=\"127.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"188.5\" y=\"140.0\" text-anchor=\"middle\"><tspan x=\"188.5\" dy=\"0\">H1 a=.45***</tspan></text><rect class=\"mm-lbg\" x=\"486.9\" y=\"127.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"531.5\" y=\"140.0\" text-anchor=\"middle\"><tspan x=\"531.5\" dy=\"0\">H2 b=.38***</tspan></text><rect class=\"mm-lbg\" x=\"304.6\" y=\"232.0\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"360.0\" y=\"245.0\" text-anchor=\"middle\"><tspan x=\"360.0\" dy=\"0\">H3 c′=.08 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"360\" y=\"300\" text-anchor=\"middle\"><tspan x=\"360\" dy=\"0\">H4 간접효과 a×b = .17, 95% CI [.09, .27] (0 미포함)</tspan></text></svg>"
+  },
+  {
+   "title": "직렬다중매개모형 (X → M1 → M2 → Y)",
+   "question": "교육 참여는 자기효능감을 높이고, 그것이 전이동기를 높여서 현업 적용으로 이어지는가?",
+   "hypotheses": [
+    "H1~H3: 교육 참여 → 자기효능감 → 전이동기 → 현업 적용의 각 경로는 정(+)일 것이다.",
+    "H4~H5: 교육 참여는 전이동기로, 자기효능감은 현업 적용으로도 각각 영향을 미칠 것이다.",
+    "H6: 교육 참여는 현업 적용에 직접 영향을 미칠 것이다.",
+    "H7: 교육 참여→자기효능감→전이동기→현업 적용의 직렬 간접효과가 유의할 것이다."
+   ],
+   "how": "M이 순서대로 놓인 모형입니다. 경로가 많으므로 이론적 시간 순서가 분명해야 합니다. 간접효과는 경로별로 따로 부트스트랩 신뢰구간을 확인합니다.",
+   "results": [
+    "H1~H3 지지: 직렬 사슬의 세 경로가 모두 유의합니다.",
+    "H4~H6 기각: 사슬 밖의 경로(점선)는 유의하지 않습니다.",
+    "H7 지지: 직렬 간접효과(.42 × .51 × .36 ≈ .08)의 95% 신뢰구간 [.04, .13]이 0을 포함하지 않습니다. 즉, 효과는 ‘자기효능감 → 전이동기’의 순서로 전달됩니다."
+   ],
+   "roles": [
+    [
+     "매개변수 1 (M1)",
+     "m"
+    ],
+    [
+     "매개변수 2 (M2)",
+     "m"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 340\" role=\"img\" aria-labelledby=\"med2-t med2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"med2-t\">직렬다중매개모형 (X → M1 → M2 → Y)</title><desc id=\"med2-d\">교육 참여가 자기효능감과 전이동기를 순서대로 거쳐 현업 적용에 이르는 직렬다중매개모형</desc><defs><marker id=\"med2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"med2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"126.1\" y1=\"197.0\" x2=\"253.9\" y2=\"98.0\" marker-end=\"url(#med2-a)\"/><line class=\"mm-edge\" x1=\"359.0\" y1=\"70.0\" x2=\"451.0\" y2=\"70.0\" marker-end=\"url(#med2-a)\"/><line class=\"mm-edge\" x1=\"550.7\" y1=\"98.0\" x2=\"659.3\" y2=\"197.0\" marker-end=\"url(#med2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"159.0\" y1=\"200.1\" x2=\"451.0\" y2=\"94.9\" marker-end=\"url(#med2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"359.0\" y1=\"96.7\" x2=\"621.0\" y2=\"198.3\" marker-end=\"url(#med2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"159.0\" y1=\"225.0\" x2=\"621.0\" y2=\"225.0\" marker-end=\"url(#med2-a)\"/><rect class=\"mm-node mm-x\" x=\"21.0\" y=\"197.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"90\" y=\"221\" text-anchor=\"middle\">교육 참여</text><text class=\"mm-r mm-x\" x=\"90\" y=\"239\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"221.0\" y=\"42.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"290\" y=\"66\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-m\" x=\"290\" y=\"84\" text-anchor=\"middle\">매개변수 1 (M1)</text><rect class=\"mm-node mm-m\" x=\"451.0\" y=\"42.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"520\" y=\"66\" text-anchor=\"middle\">전이동기</text><text class=\"mm-r mm-m\" x=\"520\" y=\"84\" text-anchor=\"middle\">매개변수 2 (M2)</text><rect class=\"mm-node mm-y\" x=\"621.0\" y=\"197.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"690\" y=\"221\" text-anchor=\"middle\">현업 적용</text><text class=\"mm-r mm-y\" x=\"690\" y=\"239\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"89.4\" y=\"143.4\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"137.61290322580646\" y=\"156.45\" text-anchor=\"middle\"><tspan x=\"137.61290322580646\" dy=\"0\">H1 a1=.42***</tspan></text><rect class=\"mm-lbg\" x=\"353.2\" y=\"43.0\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"405.0\" y=\"56.0\" text-anchor=\"middle\"><tspan x=\"405.0\" dy=\"0\">H2 d21=.51***</tspan></text><rect class=\"mm-lbg\" x=\"600.8\" y=\"134.5\" width=\"96.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"649.0\" y=\"147.5\" text-anchor=\"middle\"><tspan x=\"649.0\" dy=\"0\">H3 b2=.36***</tspan></text><rect class=\"mm-lbg\" x=\"209.5\" y=\"149.8\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"264.92\" y=\"162.7613953488372\" text-anchor=\"middle\"><tspan x=\"264.92\" dy=\"0\">H4 a2=.12 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"477.5\" y=\"176.9\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"532.88\" y=\"189.86599999999999\" text-anchor=\"middle\"><tspan x=\"532.88\" dy=\"0\">H5 b1=.09 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"334.6\" y=\"242.0\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"390.0\" y=\"255.0\" text-anchor=\"middle\"><tspan x=\"390.0\" dy=\"0\">H6 c′=.05 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"390\" y=\"322\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">H7 특정 간접효과 X→M1→M2→Y = .08, 95% CI [.04, .13]</tspan></text></svg>"
+  }
+ ],
+ "moderation": [
+  {
+   "title": "단순조절모형 (W가 X→Y 관계를 바꿈)",
+   "question": "자기효능감이 학습전이로 이어지는 정도는 상사 지원이 높을 때와 낮을 때 다른가?",
+   "hypotheses": [
+    "H1: 자기효능감은 학습전이에 정(+)의 영향을 미칠 것이다.",
+    "H2: 상사 지원이 높을수록 자기효능감이 학습전이에 미치는 영향이 더 강해질 것이다."
+   ],
+   "how": "조절변수(W) 화살표는 변수가 아니라 X→Y 화살표를 향합니다. 통계적으로는 X×W 상호작용 항의 계수로 검정하고, 이때 X와 W의 주효과도 함께 모형에 넣습니다.",
+   "results": [
+    "H2 지지: 상호작용 항(X×W)의 계수가 유의합니다(β = .16, p < .01). 상사 지원 수준에 따라 X→Y 효과가 달라진다는 뜻입니다.",
+    "단순기울기: 상사 지원이 낮을 때(−1SD)는 효과가 유의하지 않고(b = .12), 평균에서는 b = .29, 높을 때(+1SD)는 b = .46으로 커집니다.",
+    "해석: 자기효능감이 학습전이로 이어지려면 상사 지원이 어느 정도 이상 필요합니다. 상호작용 항이 유의하지 않으면 조절효과가 없다고 해석합니다."
+   ],
+   "roles": [
+    [
+     "조절변수 (W)",
+     "w"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 720 320\" role=\"img\" aria-labelledby=\"mod1-t mod1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:720px\"><title id=\"mod1-t\">단순조절모형 (W가 X→Y 관계를 바꿈)</title><desc id=\"mod1-d\">상사 지원이 자기효능감과 학습전이의 관계를 조절하는 단순조절모형</desc><defs><marker id=\"mod1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mod1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"189.0\" y1=\"225.0\" x2=\"531.0\" y2=\"225.0\" marker-end=\"url(#mod1-a)\"/><line class=\"mm-edge\" x1=\"360.0\" y1=\"98.0\" x2=\"360.0\" y2=\"225.0\" marker-end=\"url(#mod1-a)\"/><rect class=\"mm-node mm-x\" x=\"51.0\" y=\"197.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"221\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-x\" x=\"120\" y=\"239\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-y\" x=\"531.0\" y=\"197.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"600\" y=\"221\" text-anchor=\"middle\">학습전이</text><text class=\"mm-r mm-y\" x=\"600\" y=\"239\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-node mm-w\" x=\"291.0\" y=\"42.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"360\" y=\"66\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-w\" x=\"360\" y=\"84\" text-anchor=\"middle\">조절변수 (W)</text><rect class=\"mm-lbg\" x=\"229.9\" y=\"242.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"274.5\" y=\"255.0\" text-anchor=\"middle\"><tspan x=\"274.5\" dy=\"0\">H1 β=.29***</tspan></text><rect class=\"mm-lbg\" x=\"385.0\" y=\"148.5\" width=\"118.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"444.0\" y=\"161.5\" text-anchor=\"middle\"><tspan x=\"444.0\" dy=\"0\">H2 X×W: β=.16**</tspan></text><text class=\"mm-note mm-strong\" x=\"360\" y=\"300\" text-anchor=\"middle\"><tspan x=\"360\" dy=\"0\">단순기울기: W 낮음 b=.12 n.s. · 평균 b=.29*** · 높음 b=.46***</tspan></text></svg>"
+  },
+  {
+   "title": "이중조절모형 (삼원 상호작용 X × W × Z)",
+   "question": "자기효능감→학습전이 관계는 상사 지원과 활용 기회가 함께 높을 때 특히 강해지는가?",
+   "hypotheses": [
+    "H1: 자기효능감은 학습전이에 정(+)의 영향을 미칠 것이다.",
+    "H2·H3: 상사 지원과 활용 기회는 각각 이 관계를 조절할 것이다.",
+    "H4: 상사 지원과 활용 기회가 함께 높을 때 효과가 가장 클 것이다(삼원 상호작용)."
+   ],
+   "how": "조절변수 두 개가 한꺼번에 작용합니다. 삼원 상호작용(X×W×Z)이 유의할 때만 W·Z 조합별 단순기울기를 해석하고, 하위 이원 상호작용 항(X×W, X×Z, W×Z)도 모두 모형에 넣습니다.",
+   "results": [
+    "H4 지지: 삼원 상호작용이 유의합니다(β = .12, p < .05). 두 조절변수가 함께 작용하므로 조합별 기울기를 해석합니다.",
+    "H2 지지(p < .05), H3은 유의하지 않음(점선): 활용 기회 단독의 조절은 약하지만 상사 지원과 결합할 때 효과가 나타납니다.",
+    "해석 순서: 삼원 상호작용이 유의하지 않으면 이원 상호작용만 해석합니다."
+   ],
+   "roles": [
+    [
+     "조절변수 1 (W)",
+     "w"
+    ],
+    [
+     "조절변수 2 (Z)",
+     "w"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 350\" role=\"img\" aria-labelledby=\"mod2-t mod2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"mod2-t\">이중조절모형 (삼원 상호작용 X × W × Z)</title><desc id=\"mod2-d\">상사 지원과 활용 기회가 자기효능감과 학습전이의 관계를 함께 조절하는 이중조절모형</desc><defs><marker id=\"mod2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mod2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"169.0\" y1=\"265.0\" x2=\"611.0\" y2=\"265.0\" marker-end=\"url(#mod2-a)\"/><line class=\"mm-edge\" x1=\"297.4\" y1=\"103.0\" x2=\"340.0\" y2=\"265.0\" marker-end=\"url(#mod2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"525.3\" y1=\"103.0\" x2=\"440.0\" y2=\"265.0\" marker-end=\"url(#mod2-a)\"/><line class=\"mm-edge\" x1=\"359.0\" y1=\"75.0\" x2=\"471.0\" y2=\"75.0\" marker-end=\"url(#mod2-a)\" marker-start=\"url(#mod2-s)\"/><rect class=\"mm-node mm-x\" x=\"31.0\" y=\"237.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"261\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-x\" x=\"100\" y=\"279\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-y\" x=\"611.0\" y=\"237.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"680\" y=\"261\" text-anchor=\"middle\">학습전이</text><text class=\"mm-r mm-y\" x=\"680\" y=\"279\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-node mm-w\" x=\"221.0\" y=\"47.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"290\" y=\"71\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-w\" x=\"290\" y=\"89\" text-anchor=\"middle\">조절변수 1 (W)</text><rect class=\"mm-node mm-w\" x=\"471.0\" y=\"47.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"540\" y=\"71\" text-anchor=\"middle\">활용 기회</text><text class=\"mm-r mm-w\" x=\"540\" y=\"89\" text-anchor=\"middle\">조절변수 2 (Z)</text><rect class=\"mm-lbg\" x=\"186.3\" y=\"282.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"230.88\" y=\"295.0\" text-anchor=\"middle\"><tspan x=\"230.88\" dy=\"0\">H1 β=.27***</tspan></text><rect class=\"mm-lbg\" x=\"193.3\" y=\"193.0\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"248.68421052631578\" y=\"206.0\" text-anchor=\"middle\"><tspan x=\"248.68421052631578\" dy=\"0\">H2 X×W: β=.14*</tspan></text><rect class=\"mm-lbg\" x=\"482.8\" y=\"193.0\" width=\"139.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"552.6315789473684\" y=\"206.0\" text-anchor=\"middle\"><tspan x=\"552.6315789473684\" dy=\"0\">H3 X×Z: β=.11 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"352.4\" y=\"22.0\" width=\"125.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"415.0\" y=\"35.0\" text-anchor=\"middle\"><tspan x=\"415.0\" dy=\"0\">H4 X×W×Z: β=.12*</tspan></text></svg>"
+  }
+ ],
+ "moderated-mediation": [
+  {
+   "title": "첫 단계 조절된 매개모형 (PROCESS Model 7)",
+   "question": "교육 참여가 자기효능감을 거쳐 현업 적용으로 이어지는 간접효과는 활용 기회에 따라 달라지는가?",
+   "hypotheses": [
+    "H1: 교육 참여는 자기효능감을 높일 것이다.",
+    "H2: 이 효과는 활용 기회가 높을수록 더 클 것이다(조절).",
+    "H3: 자기효능감은 현업 적용을 높일 것이다.",
+    "H4: 교육 참여는 현업 적용에 직접 영향을 미칠 것이다.",
+    "H5: 간접효과의 크기는 활용 기회 수준에 따라 다를 것이다(조건부 간접효과).",
+    "H6: 조절된 매개 지수가 0이 아닐 것이다."
+   ],
+   "how": "매개경로 X→M에 조절변수가 작용하는 모형입니다. W의 수준(평균 −1SD, 평균, +1SD)별로 간접효과를 구하고, 조절된 매개 지수의 신뢰구간이 0을 포함하지 않아야 ‘간접효과가 W에 따라 다르다’고 말할 수 있습니다.",
+   "results": [
+    "H1~H3 지지, H4 기각(직접효과 .06은 유의하지 않음).",
+    "H5 지지: 조건부 간접효과 — 활용 기회 낮음(−1SD) .09 [.03, .17], 평균 .16 [.09, .25], 높음(+1SD) .23 [.13, .35]. 모두 0을 포함하지 않지만 활용 기회가 높을수록 커집니다.",
+    "H6 지지: 조절된 매개 지수 .07의 신뢰구간 [.02, .13]이 0을 포함하지 않아 ‘간접효과가 활용 기회에 따라 다르다’고 말할 수 있습니다. 조건별 간접효과가 각각 유의한 것만으로는 차이를 주장할 수 없습니다."
+   ],
+   "roles": [
+    [
+     "매개변수 (M)",
+     "m"
+    ],
+    [
+     "조절변수 (W)",
+     "w"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 340\" role=\"img\" aria-labelledby=\"mmed1-t mmed1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"mmed1-t\">첫 단계 조절된 매개모형 (PROCESS Model 7)</title><desc id=\"mmed1-d\">활용 기회가 교육 참여에서 자기효능감으로 가는 경로를 조절하는 조절된 매개모형</desc><defs><marker id=\"mmed1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mmed1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"174.0\" y1=\"215.0\" x2=\"321.0\" y2=\"215.0\" marker-end=\"url(#mmed1-a)\"/><line class=\"mm-edge\" x1=\"248.0\" y1=\"98.0\" x2=\"248.0\" y2=\"215.0\" marker-end=\"url(#mmed1-a)\"/><line class=\"mm-edge\" x1=\"459.0\" y1=\"215.0\" x2=\"606.0\" y2=\"215.0\" marker-end=\"url(#mmed1-a)\"/><path class=\"mm-edge mm-dash\" d=\"M174.0,215.0 Q390.0,310.0 606.0,215.0\" marker-end=\"url(#mmed1-a)\"/><rect class=\"mm-node mm-x\" x=\"36.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"105\" y=\"211\" text-anchor=\"middle\">교육 참여</text><text class=\"mm-r mm-x\" x=\"105\" y=\"229\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"321.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"390\" y=\"211\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-m\" x=\"390\" y=\"229\" text-anchor=\"middle\">매개변수 (M)</text><rect class=\"mm-node mm-y\" x=\"606.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"675\" y=\"211\" text-anchor=\"middle\">현업 적용</text><text class=\"mm-r mm-y\" x=\"675\" y=\"229\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-node mm-w\" x=\"179.0\" y=\"42.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"248\" y=\"66\" text-anchor=\"middle\">활용 기회</text><text class=\"mm-r mm-w\" x=\"248\" y=\"84\" text-anchor=\"middle\">조절변수 (W)</text><rect class=\"mm-lbg\" x=\"173.5\" y=\"190.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"218.1\" y=\"203.0\" text-anchor=\"middle\"><tspan x=\"218.1\" dy=\"0\">H1 a=.38***</tspan></text><rect class=\"mm-lbg\" x=\"280.2\" y=\"143.5\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"332.0\" y=\"156.5\" text-anchor=\"middle\"><tspan x=\"332.0\" dy=\"0\">H2 X×W: .17**</tspan></text><rect class=\"mm-lbg\" x=\"487.9\" y=\"190.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"532.5\" y=\"203.0\" text-anchor=\"middle\"><tspan x=\"532.5\" dy=\"0\">H3 b=.41***</tspan></text><rect class=\"mm-lbg\" x=\"334.6\" y=\"253.5\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"390.0\" y=\"266.5\" text-anchor=\"middle\"><tspan x=\"390.0\" dy=\"0\">H4 c′=.06 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"390\" y=\"328\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">H6 조절된 매개 지수 = .07, 95% CI [.02, .13] (0 미포함)</tspan></text></svg>"
+  },
+  {
+   "title": "두 번째 단계 조절된 매개모형 (PROCESS Model 14)",
+   "question": "자기효능감이 현업 적용으로 이어지는 효과가 상사 지원에 따라 달라져서 간접효과도 달라지는가?",
+   "hypotheses": [
+    "H1: 교육 참여는 자기효능감을 높일 것이다.",
+    "H2: 자기효능감은 현업 적용을 높일 것이다.",
+    "H3: 이 효과는 상사 지원이 높을수록 더 클 것이다(조절).",
+    "H4: 교육 참여는 현업 적용에 직접 영향을 미칠 것이다.",
+    "H5·H6: 간접효과와 조절된 매개 지수가 상사 지원 수준에 따라 달라질 것이다."
+   ],
+   "how": "조절이 M→Y 경로에 들어간 모형입니다. 조절변수가 어느 경로에 작용하는지(a 경로, b 경로, 둘 다)는 이론적으로 먼저 정하고 PROCESS 모델 번호를 선택합니다.",
+   "results": [
+    "H3 지지: M×W 계수 .15가 유의해 상사 지원이 높을수록 자기효능감 → 현업 적용 효과가 커집니다.",
+    "조건부 간접효과 — 상사 지원 낮음 .07 [.01, .14], 평균 .13 [.07, .21], 높음 .20 [.11, .31].",
+    "H6 지지: 지수 .07 [.02, .13]이 0을 포함하지 않습니다. H4(직접효과 .07)는 유의하지 않습니다."
+   ],
+   "roles": [
+    [
+     "매개변수 (M)",
+     "m"
+    ],
+    [
+     "조절변수 (W)",
+     "w"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 340\" role=\"img\" aria-labelledby=\"mmed2-t mmed2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"mmed2-t\">두 번째 단계 조절된 매개모형 (PROCESS Model 14)</title><desc id=\"mmed2-d\">상사 지원이 자기효능감에서 현업 적용으로 가는 경로를 조절하는 조절된 매개모형</desc><defs><marker id=\"mmed2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mmed2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"174.0\" y1=\"215.0\" x2=\"321.0\" y2=\"215.0\" marker-end=\"url(#mmed2-a)\"/><line class=\"mm-edge\" x1=\"459.0\" y1=\"215.0\" x2=\"606.0\" y2=\"215.0\" marker-end=\"url(#mmed2-a)\"/><line class=\"mm-edge\" x1=\"532.0\" y1=\"98.0\" x2=\"532.0\" y2=\"215.0\" marker-end=\"url(#mmed2-a)\"/><path class=\"mm-edge mm-dash\" d=\"M174.0,215.0 Q390.0,310.0 606.0,215.0\" marker-end=\"url(#mmed2-a)\"/><rect class=\"mm-node mm-x\" x=\"36.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"105\" y=\"211\" text-anchor=\"middle\">교육 참여</text><text class=\"mm-r mm-x\" x=\"105\" y=\"229\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"321.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"390\" y=\"211\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-m\" x=\"390\" y=\"229\" text-anchor=\"middle\">매개변수 (M)</text><rect class=\"mm-node mm-y\" x=\"606.0\" y=\"187.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"675\" y=\"211\" text-anchor=\"middle\">현업 적용</text><text class=\"mm-r mm-y\" x=\"675\" y=\"229\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-node mm-w\" x=\"463.0\" y=\"42.0\" width=\"138\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"532\" y=\"66\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-w\" x=\"532\" y=\"84\" text-anchor=\"middle\">조절변수 (W)</text><rect class=\"mm-lbg\" x=\"202.9\" y=\"190.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"247.5\" y=\"203.0\" text-anchor=\"middle\"><tspan x=\"247.5\" dy=\"0\">H1 a=.44***</tspan></text><rect class=\"mm-lbg\" x=\"458.5\" y=\"190.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"503.1\" y=\"203.0\" text-anchor=\"middle\"><tspan x=\"503.1\" dy=\"0\">H2 b=.30***</tspan></text><rect class=\"mm-lbg\" x=\"396.2\" y=\"143.5\" width=\"103.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"448.0\" y=\"156.5\" text-anchor=\"middle\"><tspan x=\"448.0\" dy=\"0\">H3 M×W: .15**</tspan></text><rect class=\"mm-lbg\" x=\"334.6\" y=\"253.5\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"390.0\" y=\"266.5\" text-anchor=\"middle\"><tspan x=\"390.0\" dy=\"0\">H4 c′=.07 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"390\" y=\"328\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">H6 조절된 매개 지수 = .07, 95% CI [.02, .13] (0 미포함)</tspan></text></svg>"
+  }
+ ],
+ "sem": [
+  {
+   "title": "전체 구조방정식모형 (측정모형 + 구조모형)",
+   "question": "학습조직문화는 심리적 안전감과 지식공유를 거쳐 조직몰입에 영향을 미치는가?",
+   "hypotheses": [
+    "H1: 학습조직문화는 심리적 안전감에 정(+)의 영향을 미칠 것이다.",
+    "H2: 심리적 안전감은 지식공유에 정(+)의 영향을 미칠 것이다.",
+    "H3: 지식공유는 조직몰입에 정(+)의 영향을 미칠 것이다.",
+    "H4: 학습조직문화는 조직몰입에 직접 영향을 미칠 것이다."
+   ],
+   "how": "다른 변수에 영향을 받지 않는 개념은 외생 변수, 영향을 받는 개념은 내생 변수입니다. 잠재변수는 여러 설문 문항으로 측정하며(측정모형), 잠재변수 사이의 경로(구조모형)와 함께 한 번에 추정합니다.",
+   "results": [
+    "모형 적합도: CFI·TLI ≥ .90, RMSEA ≤ .08, SRMR ≤ .08이므로 모형이 자료에 적합합니다(예시 값).",
+    "측정모형: 모든 요인부하량이 .50 이상으로 문항이 잠재변수를 잘 나타냅니다.",
+    "H1~H3 지지(p < .001). H4 기각(점선): 직접경로는 유의하지 않으므로 효과는 심리적 안전감과 지식공유를 거쳐 전달됩니다."
+   ],
+   "roles": [
+    [
+     "내생 잠재변수 (η1)",
+     "m"
+    ],
+    [
+     "내생 잠재변수 (η2)",
+     "m"
+    ],
+    [
+     "외생 잠재변수 (ξ)",
+     "x"
+    ],
+    [
+     "내생 잠재변수 (η3)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 1010 380\" role=\"img\" aria-labelledby=\"sem1-t sem1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:1010px\"><title id=\"sem1-t\">전체 구조방정식모형 (측정모형 + 구조모형)</title><desc id=\"sem1-d\">학습조직문화에서 조직몰입까지 세 개의 내생 잠재변수를 잇는 구조방정식모형</desc><defs><marker id=\"sem1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sem1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"96.6\" y1=\"137.5\" x2=\"41.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"110.0\" y1=\"138.0\" x2=\"110.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"123.4\" y1=\"137.5\" x2=\"179.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"356.6\" y1=\"137.5\" x2=\"301.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"370.0\" y1=\"138.0\" x2=\"370.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"383.4\" y1=\"137.5\" x2=\"439.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"616.6\" y1=\"137.5\" x2=\"561.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"630.0\" y1=\"138.0\" x2=\"630.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"643.4\" y1=\"137.5\" x2=\"699.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"876.6\" y1=\"137.5\" x2=\"821.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"890.0\" y1=\"138.0\" x2=\"890.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"903.4\" y1=\"137.5\" x2=\"959.0\" y2=\"273.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge\" x1=\"190.0\" y1=\"105.0\" x2=\"290.0\" y2=\"105.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge\" x1=\"450.0\" y1=\"105.0\" x2=\"550.0\" y2=\"105.0\" marker-end=\"url(#sem1-a)\"/><line class=\"mm-edge\" x1=\"710.0\" y1=\"105.0\" x2=\"810.0\" y2=\"105.0\" marker-end=\"url(#sem1-a)\"/><path class=\"mm-edge mm-dash\" d=\"M190.0,105.0 Q500.0,10.0 810.0,105.0\" marker-end=\"url(#sem1-a)\"/><ellipse class=\"mm-node mm-x\" cx=\"110\" cy=\"105\" rx=\"80.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"110\" y=\"101\" text-anchor=\"middle\">학습조직문화</text><text class=\"mm-r mm-x\" x=\"110\" y=\"119\" text-anchor=\"middle\">외생 잠재변수 (ξ)</text><rect class=\"mm-node mm-c\" x=\"3.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"34.0\" y=\"294\" text-anchor=\"middle\">lo1</text><rect class=\"mm-lbg\" x=\"34.6\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"50.35679067357589\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"50.35679067357589\" dy=\"0\">.78</tspan></text><rect class=\"mm-node mm-c\" x=\"79.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"110.0\" y=\"294\" text-anchor=\"middle\">lo2</text><rect class=\"mm-lbg\" x=\"94.2\" y=\"207.3\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"110.0\" y=\"220.3\" text-anchor=\"middle\"><tspan x=\"110.0\" dy=\"0\">.81</tspan></text><rect class=\"mm-node mm-c\" x=\"155.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"186.0\" y=\"294\" text-anchor=\"middle\">lo3</text><rect class=\"mm-lbg\" x=\"153.8\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"169.6432093264241\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"169.6432093264241\" dy=\"0\">.72</tspan></text><ellipse class=\"mm-node mm-m\" cx=\"370\" cy=\"105\" rx=\"80.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"370\" y=\"101\" text-anchor=\"middle\">심리적 안전감</text><text class=\"mm-r mm-m\" x=\"370\" y=\"119\" text-anchor=\"middle\">내생 잠재변수 (η1)</text><rect class=\"mm-node mm-c\" x=\"263.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"294.0\" y=\"294\" text-anchor=\"middle\">sf1</text><rect class=\"mm-lbg\" x=\"294.6\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"310.35679067357586\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"310.35679067357586\" dy=\"0\">.80</tspan></text><rect class=\"mm-node mm-c\" x=\"339.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"370.0\" y=\"294\" text-anchor=\"middle\">sf2</text><rect class=\"mm-lbg\" x=\"354.2\" y=\"207.3\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"370.0\" y=\"220.3\" text-anchor=\"middle\"><tspan x=\"370.0\" dy=\"0\">.76</tspan></text><rect class=\"mm-node mm-c\" x=\"415.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"446.0\" y=\"294\" text-anchor=\"middle\">sf3</text><rect class=\"mm-lbg\" x=\"413.8\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"429.64320932642414\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"429.64320932642414\" dy=\"0\">.74</tspan></text><ellipse class=\"mm-node mm-m\" cx=\"630\" cy=\"105\" rx=\"80.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"630\" y=\"101\" text-anchor=\"middle\">지식공유</text><text class=\"mm-r mm-m\" x=\"630\" y=\"119\" text-anchor=\"middle\">내생 잠재변수 (η2)</text><rect class=\"mm-node mm-c\" x=\"523.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"554.0\" y=\"294\" text-anchor=\"middle\">ks1</text><rect class=\"mm-lbg\" x=\"554.6\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"570.3567906735759\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"570.3567906735759\" dy=\"0\">.77</tspan></text><rect class=\"mm-node mm-c\" x=\"599.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"630.0\" y=\"294\" text-anchor=\"middle\">ks2</text><rect class=\"mm-lbg\" x=\"614.2\" y=\"207.3\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"630.0\" y=\"220.3\" text-anchor=\"middle\"><tspan x=\"630.0\" dy=\"0\">.83</tspan></text><rect class=\"mm-node mm-c\" x=\"675.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"706.0\" y=\"294\" text-anchor=\"middle\">ks3</text><rect class=\"mm-lbg\" x=\"673.8\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"689.6432093264241\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"689.6432093264241\" dy=\"0\">.70</tspan></text><ellipse class=\"mm-node mm-y\" cx=\"890\" cy=\"105\" rx=\"80.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"890\" y=\"101\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"890\" y=\"119\" text-anchor=\"middle\">내생 잠재변수 (η3)</text><rect class=\"mm-node mm-c\" x=\"783.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"814.0\" y=\"294\" text-anchor=\"middle\">cm1</text><rect class=\"mm-lbg\" x=\"814.6\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"830.3567906735759\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"830.3567906735759\" dy=\"0\">.82</tspan></text><rect class=\"mm-node mm-c\" x=\"859.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"890.0\" y=\"294\" text-anchor=\"middle\">cm2</text><rect class=\"mm-lbg\" x=\"874.2\" y=\"207.3\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"890.0\" y=\"220.3\" text-anchor=\"middle\"><tspan x=\"890.0\" dy=\"0\">.79</tspan></text><rect class=\"mm-node mm-c\" x=\"935.0\" y=\"273.0\" width=\"62\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"966.0\" y=\"294\" text-anchor=\"middle\">cm3</text><rect class=\"mm-lbg\" x=\"933.8\" y=\"207.1\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"949.6432093264241\" y=\"220.10518059721662\" text-anchor=\"middle\"><tspan x=\"949.6432093264241\" dy=\"0\">.75</tspan></text><rect class=\"mm-lbg\" x=\"195.4\" y=\"84.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"240.0\" y=\"97.0\" text-anchor=\"middle\"><tspan x=\"240.0\" dy=\"0\">H1 γ=.52***</tspan></text><rect class=\"mm-lbg\" x=\"455.4\" y=\"84.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"500.0\" y=\"97.0\" text-anchor=\"middle\"><tspan x=\"500.0\" dy=\"0\">H2 β=.47***</tspan></text><rect class=\"mm-lbg\" x=\"715.4\" y=\"84.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"760.0\" y=\"97.0\" text-anchor=\"middle\"><tspan x=\"760.0\" dy=\"0\">H3 β=.39***</tspan></text><rect class=\"mm-lbg\" x=\"444.6\" y=\"42.5\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"500.0\" y=\"55.5\" text-anchor=\"middle\"><tspan x=\"500.0\" dy=\"0\">H4 직접 .08 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"505\" y=\"350\" text-anchor=\"middle\"><tspan x=\"505\" dy=\"0\">적합도: χ²(48)=96.3, CFI=.96, TLI=.95, RMSEA=.047, SRMR=.039</tspan></text><text class=\"mm-note\" x=\"505\" y=\"370\" text-anchor=\"middle\"><tspan x=\"505\" dy=\"0\">사각형 = 관측변수(설문 문항), 타원 = 잠재변수, 문항 위 숫자 = 표준화 요인부하량</tspan></text></svg>"
+  },
+  {
+   "title": "잠재변수 매개모형 (측정오차를 반영한 매개)",
+   "question": "변혁적 리더십은 직무열의를 거쳐 혁신행동에 영향을 미치는가?",
+   "hypotheses": [
+    "H1: 변혁적 리더십은 직무열의에 정(+)의 영향을 미칠 것이다.",
+    "H2: 직무열의는 혁신행동에 정(+)의 영향을 미칠 것이다.",
+    "H3: 변혁적 리더십은 혁신행동에 직접 영향을 미칠 것이다.",
+    "H4: 변혁적 리더십은 직무열의를 매개로 혁신행동에 간접 영향을 미칠 것이다."
+   ],
+   "how": "점수를 평균으로 합친 변수 대신 문항으로 측정한 잠재변수로 매개모형을 추정하면 측정오차를 반영할 수 있습니다. 통제변수는 관측변수로 직접 넣을 수 있습니다.",
+   "results": [
+    "H1, H2, H3 지지(H3은 p < .05). H4 지지: 간접효과 .19의 부트스트랩 신뢰구간 [.11, .29]이 0을 포함하지 않습니다.",
+    "직접경로(c′ = .12)도 유의하므로 직무열의가 효과의 일부를 전달하고 리더십이 직접 효과도 가진다고 해석합니다(부분 매개 후보).",
+    "요인부하량은 모두 .50을 넘고 적합도는 CFI·TLI ≥ .90, RMSEA ≤ .08을 충족한다고 가정합니다(예시)."
+   ],
+   "roles": [
+    [
+     "통제변수 (관측)",
+     "c"
+    ],
+    [
+     "내생 잠재변수 (η1)",
+     "m"
+    ],
+    [
+     "외생 잠재변수 (ξ)",
+     "x"
+    ],
+    [
+     "내생 잠재변수 (η2)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 800 380\" role=\"img\" aria-labelledby=\"sem2-t sem2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:800px\"><title id=\"sem2-t\">잠재변수 매개모형 (측정오차를 반영한 매개)</title><desc id=\"sem2-d\">변혁적 리더십에서 직무열의를 거쳐 혁신행동에 이르는 잠재변수 매개모형</desc><defs><marker id=\"sem2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sem2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"130.0\" y1=\"138.0\" x2=\"130.0\" y2=\"228.0\" marker-end=\"url(#sem2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"400.0\" y1=\"138.0\" x2=\"400.0\" y2=\"228.0\" marker-end=\"url(#sem2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"670.0\" y1=\"138.0\" x2=\"670.0\" y2=\"228.0\" marker-end=\"url(#sem2-a)\"/><line class=\"mm-edge\" x1=\"215.0\" y1=\"105.0\" x2=\"315.0\" y2=\"105.0\" marker-end=\"url(#sem2-a)\"/><line class=\"mm-edge\" x1=\"485.0\" y1=\"105.0\" x2=\"585.0\" y2=\"105.0\" marker-end=\"url(#sem2-a)\"/><path class=\"mm-edge\" d=\"M215.0,105.0 Q400.0,25.0 585.0,105.0\" marker-end=\"url(#sem2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"670.0\" y1=\"297.0\" x2=\"670.0\" y2=\"262.0\" marker-end=\"url(#sem2-a)\"/><ellipse class=\"mm-node mm-x\" cx=\"130\" cy=\"105\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"130\" y=\"101\" text-anchor=\"middle\">변혁적 리더십</text><text class=\"mm-r mm-x\" x=\"130\" y=\"119\" text-anchor=\"middle\">외생 잠재변수 (ξ)</text><ellipse class=\"mm-node mm-m\" cx=\"400\" cy=\"105\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"400\" y=\"101\" text-anchor=\"middle\">직무열의</text><text class=\"mm-r mm-m\" x=\"400\" y=\"119\" text-anchor=\"middle\">내생 잠재변수 (η1)</text><ellipse class=\"mm-node mm-y\" cx=\"670\" cy=\"105\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"670\" y=\"101\" text-anchor=\"middle\">혁신행동</text><text class=\"mm-r mm-y\" x=\"670\" y=\"119\" text-anchor=\"middle\">내생 잠재변수 (η2)</text><rect class=\"mm-node mm-c\" x=\"75.0\" y=\"228.0\" width=\"110\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"130\" y=\"249\" text-anchor=\"middle\">문항 1~4</text><rect class=\"mm-lbg\" x=\"136.6\" y=\"178.5\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"174.0\" y=\"191.5\" text-anchor=\"middle\"><tspan x=\"174.0\" dy=\"0\">λ=.71~.85</tspan></text><rect class=\"mm-node mm-c\" x=\"345.0\" y=\"228.0\" width=\"110\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"400\" y=\"249\" text-anchor=\"middle\">문항 1~4</text><rect class=\"mm-lbg\" x=\"406.6\" y=\"178.5\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"444.0\" y=\"191.5\" text-anchor=\"middle\"><tspan x=\"444.0\" dy=\"0\">λ=.68~.82</tspan></text><rect class=\"mm-node mm-c\" x=\"615.0\" y=\"228.0\" width=\"110\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"670\" y=\"249\" text-anchor=\"middle\">문항 1~4</text><rect class=\"mm-lbg\" x=\"676.6\" y=\"178.5\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"714.0\" y=\"191.5\" text-anchor=\"middle\"><tspan x=\"714.0\" dy=\"0\">λ=.70~.80</tspan></text><rect class=\"mm-node mm-c\" x=\"605.0\" y=\"297.0\" width=\"130\" height=\"46\" rx=\"6\"/><text class=\"mm-t\" x=\"670\" y=\"316\" text-anchor=\"middle\">근속연수</text><text class=\"mm-r mm-c\" x=\"670\" y=\"334\" text-anchor=\"middle\">통제변수 (관측)</text><rect class=\"mm-lbg\" x=\"220.4\" y=\"84.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"265.0\" y=\"97.0\" text-anchor=\"middle\"><tspan x=\"265.0\" dy=\"0\">H1 a=.46***</tspan></text><rect class=\"mm-lbg\" x=\"490.4\" y=\"84.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"535.0\" y=\"97.0\" text-anchor=\"middle\"><tspan x=\"535.0\" dy=\"0\">H2 b=.41***</tspan></text><rect class=\"mm-lbg\" x=\"359.0\" y=\"50.0\" width=\"82.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"400.0\" y=\"63.0\" text-anchor=\"middle\"><tspan x=\"400.0\" dy=\"0\">H3 c′=.12*</tspan></text><rect class=\"mm-lbg\" x=\"669.4\" y=\"270.5\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"714.0\" y=\"283.5\" text-anchor=\"middle\"><tspan x=\"714.0\" dy=\"0\">통제 .05 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"300\" y=\"340\" text-anchor=\"middle\"><tspan x=\"300\" dy=\"0\">H4 간접효과 a×b = .19, 95% CI [.11, .29]</tspan></text></svg>"
+  },
+  {
+   "title": "확인적 요인분석(CFA) 모형 (측정모형)",
+   "question": "조직몰입 척도의 9개 문항이 이론대로 세 요인(정서적·지속적·규범적 몰입)으로 묶이는가?",
+   "hypotheses": [
+    "H1: 문항은 이론이 정한 요인에만 유의하게 부하될 것이다.",
+    "H2: 세 요인은 서로 구별되는 개념일 것이다.",
+    "H3: 이 측정모형은 자료에 적합할 것이다."
+   ],
+   "how": "구조방정식에서 구조 경로를 보기 전에 측정모형이 맞는지 먼저 확인하는 CFA입니다. 이 단계가 통과해야 잠재변수 사이의 경로를 믿고 해석할 수 있습니다.",
+   "results": [
+    "H1 지지: 요인부하량이 .69~.83으로 모두 .50 이상이고 유의합니다(문항이 요인을 잘 나타냄).",
+    "H2 지지: 요인 간 상관(.38~.61)이 높지 않아 세 요인이 서로 구별됩니다. 상관이 .85를 넘으면 두 요인을 하나로 합쳐야 하는지 의심합니다.",
+    "H3 지지: CFI .97, TLI .96, RMSEA .045, SRMR .036이 기준(CFI·TLI ≥ .90, RMSEA·SRMR ≤ .08)을 충족합니다."
+   ],
+   "roles": [
+    [
+     "잠재요인 (ξ)",
+     "x"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 400\" role=\"img\" aria-labelledby=\"sem3-t sem3-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"sem3-t\">확인적 요인분석(CFA) 모형 (측정모형)</title><desc id=\"sem3-d\">세 개의 잠재요인과 각 3개 문항으로 구성된 확인적 요인분석 모형</desc><defs><marker id=\"sem3-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sem3-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"113.6\" y1=\"112.4\" x2=\"42.6\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"130.0\" y1=\"113.0\" x2=\"130.0\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"146.4\" y1=\"112.4\" x2=\"217.4\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"433.6\" y1=\"112.4\" x2=\"362.6\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"450.0\" y1=\"113.0\" x2=\"450.0\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"466.4\" y1=\"112.4\" x2=\"537.4\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"753.6\" y1=\"112.4\" x2=\"682.6\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"770.0\" y1=\"113.0\" x2=\"770.0\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge mm-thin\" x1=\"786.4\" y1=\"112.4\" x2=\"857.4\" y2=\"253.0\" marker-end=\"url(#sem3-a)\"/><line class=\"mm-edge\" x1=\"215.0\" y1=\"80.0\" x2=\"365.0\" y2=\"80.0\" marker-end=\"url(#sem3-a)\" marker-start=\"url(#sem3-s)\"/><line class=\"mm-edge\" x1=\"535.0\" y1=\"80.0\" x2=\"685.0\" y2=\"80.0\" marker-end=\"url(#sem3-a)\" marker-start=\"url(#sem3-s)\"/><path class=\"mm-edge\" d=\"M215.0,80.0 Q450.0,-20.0 685.0,80.0\" marker-end=\"url(#sem3-a)\" marker-start=\"url(#sem3-s)\"/><ellipse class=\"mm-node mm-x\" cx=\"130\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"130\" y=\"76\" text-anchor=\"middle\">정서적 몰입</text><text class=\"mm-r mm-x\" x=\"130\" y=\"94\" text-anchor=\"middle\">잠재요인 (ξ)</text><rect class=\"mm-node mm-c\" x=\"-1.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"34\" y=\"274\" text-anchor=\"middle\">ac1</text><rect class=\"mm-lbg\" x=\"39.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"55.00894002628448\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"55.00894002628448\" dy=\"0\">.78</tspan></text><rect class=\"mm-node mm-c\" x=\"95.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"130\" y=\"274\" text-anchor=\"middle\">ac2</text><rect class=\"mm-lbg\" x=\"128.2\" y=\"188.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"144.0\" y=\"201.0\" text-anchor=\"middle\"><tspan x=\"144.0\" dy=\"0\">.81</tspan></text><rect class=\"mm-node mm-c\" x=\"191.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"226\" y=\"274\" text-anchor=\"middle\">ac3</text><rect class=\"mm-lbg\" x=\"189.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"204.99105997371552\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"204.99105997371552\" dy=\"0\">.72</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"450\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"450\" y=\"76\" text-anchor=\"middle\">지속적 몰입</text><text class=\"mm-r mm-x\" x=\"450\" y=\"94\" text-anchor=\"middle\">잠재요인 (ξ)</text><rect class=\"mm-node mm-c\" x=\"319.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"354\" y=\"274\" text-anchor=\"middle\">cc1</text><rect class=\"mm-lbg\" x=\"359.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"375.0089400262845\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"375.0089400262845\" dy=\"0\">.74</tspan></text><rect class=\"mm-node mm-c\" x=\"415.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"450\" y=\"274\" text-anchor=\"middle\">cc2</text><rect class=\"mm-lbg\" x=\"448.2\" y=\"188.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"464.0\" y=\"201.0\" text-anchor=\"middle\"><tspan x=\"464.0\" dy=\"0\">.80</tspan></text><rect class=\"mm-node mm-c\" x=\"511.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"546\" y=\"274\" text-anchor=\"middle\">cc3</text><rect class=\"mm-lbg\" x=\"509.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"524.9910599737156\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"524.9910599737156\" dy=\"0\">.69</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"770\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"770\" y=\"76\" text-anchor=\"middle\">규범적 몰입</text><text class=\"mm-r mm-x\" x=\"770\" y=\"94\" text-anchor=\"middle\">잠재요인 (ξ)</text><rect class=\"mm-node mm-c\" x=\"639.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"674\" y=\"274\" text-anchor=\"middle\">nc1</text><rect class=\"mm-lbg\" x=\"679.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"695.0089400262844\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"695.0089400262844\" dy=\"0\">.76</tspan></text><rect class=\"mm-node mm-c\" x=\"735.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"770\" y=\"274\" text-anchor=\"middle\">nc2</text><rect class=\"mm-lbg\" x=\"768.2\" y=\"188.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"784.0\" y=\"201.0\" text-anchor=\"middle\"><tspan x=\"784.0\" dy=\"0\">.71</tspan></text><rect class=\"mm-node mm-c\" x=\"831.0\" y=\"253.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"866\" y=\"274\" text-anchor=\"middle\">nc3</text><rect class=\"mm-lbg\" x=\"829.2\" y=\"187.8\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"844.9910599737156\" y=\"200.75313953131194\" text-anchor=\"middle\"><tspan x=\"844.9910599737156\" dy=\"0\">.83</tspan></text><rect class=\"mm-lbg\" x=\"256.2\" y=\"57.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"290.0\" y=\"70.0\" text-anchor=\"middle\"><tspan x=\"290.0\" dy=\"0\">φ=.52***</tspan></text><rect class=\"mm-lbg\" x=\"576.2\" y=\"57.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"610.0\" y=\"70.0\" text-anchor=\"middle\"><tspan x=\"610.0\" dy=\"0\">φ=.38***</tspan></text><rect class=\"mm-lbg\" x=\"416.2\" y=\"15.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"450.0\" y=\"28.0\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">φ=.61***</tspan></text><text class=\"mm-note\" x=\"450\" y=\"335\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">문항 위 숫자 = 표준화 요인부하량(λ), φ = 요인 간 상관</tspan></text><text class=\"mm-note mm-strong\" x=\"450\" y=\"356\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">적합도: χ²(24)=51.7, CFI=.97, TLI=.96, RMSEA=.045, SRMR=.036</tspan></text><text class=\"mm-note\" x=\"450\" y=\"378\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">문항은 하나의 요인만 반영하고, 요인끼리는 상관(양방향 화살표)합니다.</tspan></text></svg>"
+  }
+ ],
+ "multigroup": [
+  {
+   "title": "경로계수 집단 비교 모형 (구조모형의 다집단 분석)",
+   "question": "직무자원 → 일의 의미 → 조직몰입 경로의 크기는 정규직과 비정규직에서 같은가?",
+   "hypotheses": [
+    "H1: 직무자원이 일의 의미에 미치는 영향은 두 집단에서 다를 것이다(aA ≠ aB).",
+    "H2: 일의 의미가 조직몰입에 미치는 영향은 두 집단에서 다를 것이다(bA ≠ bB)."
+   ],
+   "how": "먼저 두 집단에서 측정이 같은 의미인지(측정동일성)를 확인한 뒤, 경로를 같게 둔 모형과 자유롭게 둔 모형을 비교합니다. 집단 변수(고용형태)는 조절변수처럼 작동하지만 범주로 나누어 분석합니다.",
+   "results": [
+    "H1 지지: a 경로를 같게 제약하면 χ²가 유의하게 커집니다(Δχ²(1) = 7.2, p < .01). 정규직(.48)이 비정규직(.22)보다 효과가 큽니다.",
+    "H2 기각: b 경로는 두 집단에서 같다고 볼 수 있습니다(Δχ² = 0.1, p > .05).",
+    "이 비교는 측정동일성(부하량·절편)이 먼저 확보되었다는 전제에서만 해석할 수 있습니다."
+   ],
+   "roles": [
+    [
+     "매개변수 (M)",
+     "m"
+    ],
+    [
+     "독립변수 (X)",
+     "x"
+    ],
+    [
+     "종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 410\" role=\"img\" aria-labelledby=\"mg1-t mg1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"mg1-t\">경로계수 집단 비교 모형 (구조모형의 다집단 분석)</title><desc id=\"mg1-d\">정규직과 비정규직 두 집단에 같은 매개모형을 적용해 경로계수를 비교하는 다집단 모형</desc><defs><marker id=\"mg1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mg1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"24\" y=\"25\" width=\"732\" height=\"140\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"45\">집단 A: 정규직</text><line class=\"mm-edge\" x1=\"195.0\" y1=\"107.0\" x2=\"325.0\" y2=\"107.0\" marker-end=\"url(#mg1-a)\"/><line class=\"mm-edge\" x1=\"455.0\" y1=\"107.0\" x2=\"585.0\" y2=\"107.0\" marker-end=\"url(#mg1-a)\"/><rect class=\"mm-group\" x=\"24\" y=\"230\" width=\"732\" height=\"140\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"250\">집단 B: 비정규직</text><line class=\"mm-edge\" x1=\"195.0\" y1=\"312.0\" x2=\"325.0\" y2=\"312.0\" marker-end=\"url(#mg1-a)\"/><line class=\"mm-edge\" x1=\"455.0\" y1=\"312.0\" x2=\"585.0\" y2=\"312.0\" marker-end=\"url(#mg1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"260.0\" y1=\"112.0\" x2=\"260.0\" y2=\"312.0\" marker-end=\"url(#mg1-a)\" marker-start=\"url(#mg1-s)\"/><line class=\"mm-edge mm-dash\" x1=\"520.0\" y1=\"112.0\" x2=\"520.0\" y2=\"312.0\" marker-end=\"url(#mg1-a)\" marker-start=\"url(#mg1-s)\"/><rect class=\"mm-node mm-x\" x=\"65.0\" y=\"81.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"103\" text-anchor=\"middle\">직무자원</text><text class=\"mm-r mm-x\" x=\"130\" y=\"121\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"325.0\" y=\"81.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"390\" y=\"103\" text-anchor=\"middle\">일의 의미</text><text class=\"mm-r mm-m\" x=\"390\" y=\"121\" text-anchor=\"middle\">매개변수 (M)</text><rect class=\"mm-node mm-y\" x=\"585.0\" y=\"81.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"650\" y=\"103\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"650\" y=\"121\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"215.4\" y=\"78.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"260.0\" y=\"91.0\" text-anchor=\"middle\"><tspan x=\"260.0\" dy=\"0\">aA = .48***</tspan></text><rect class=\"mm-lbg\" x=\"475.4\" y=\"78.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"520.0\" y=\"91.0\" text-anchor=\"middle\"><tspan x=\"520.0\" dy=\"0\">bA = .41***</tspan></text><rect class=\"mm-node mm-x\" x=\"65.0\" y=\"286.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"308\" text-anchor=\"middle\">직무자원</text><text class=\"mm-r mm-x\" x=\"130\" y=\"326\" text-anchor=\"middle\">독립변수 (X)</text><rect class=\"mm-node mm-m\" x=\"325.0\" y=\"286.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"390\" y=\"308\" text-anchor=\"middle\">일의 의미</text><text class=\"mm-r mm-m\" x=\"390\" y=\"326\" text-anchor=\"middle\">매개변수 (M)</text><rect class=\"mm-node mm-y\" x=\"585.0\" y=\"286.0\" width=\"130\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"650\" y=\"308\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"650\" y=\"326\" text-anchor=\"middle\">종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"222.6\" y=\"283.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"260.0\" y=\"296.0\" text-anchor=\"middle\"><tspan x=\"260.0\" dy=\"0\">aB = .22*</tspan></text><rect class=\"mm-lbg\" x=\"475.4\" y=\"283.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"520.0\" y=\"296.0\" text-anchor=\"middle\"><tspan x=\"520.0\" dy=\"0\">bB = .39***</tspan></text><rect class=\"mm-lbg\" x=\"201.0\" y=\"203.0\" width=\"118.0\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"260.0\" y=\"216.0\" text-anchor=\"middle\"><tspan x=\"260.0\" dy=\"0\">H1 Δχ²(1)=7.2**</tspan><tspan x=\"260.0\" dy=\"15\">→ aA ≠ aB (다름)</tspan></text><rect class=\"mm-lbg\" x=\"450.2\" y=\"203.0\" width=\"139.6\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"520.0\" y=\"216.0\" text-anchor=\"middle\"><tspan x=\"520.0\" dy=\"0\">H2 Δχ²(1)=0.1 n.s.</tspan><tspan x=\"520.0\" dy=\"15\">→ bA = bB (같음)</tspan></text><text class=\"mm-note\" x=\"390\" y=\"400\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">같은 모형을 두 집단에 적용해 경로계수를 같게 제약한 모형과 자유 모형을 비교</tspan></text></svg>"
+  },
+  {
+   "title": "측정동일성 검증 모형 (측정모형의 다집단 분석)",
+   "question": "조직몰입 척도의 문항이 정규직과 비정규직에서 같은 의미로 쓰이는가?",
+   "hypotheses": [
+    "H1: 두 집단에서 같은 문항이 같은 요인에 부하될 것이다(형태동일성).",
+    "H2: 요인부하량이 두 집단에서 같을 것이다(측정단위동일성).",
+    "H3: 문항 절편이 두 집단에서 같을 것이다(절편동일성)."
+   ],
+   "how": "집단 간 경로나 평균을 비교하기 전에 반드시 필요한 단계입니다. 동일성이 확보되지 않으면 집단 점수 차이가 실제 차이인지 문항 해석 차이인지 구분할 수 없습니다.",
+   "results": [
+    "H1 지지: 두 집단 모두에서 같은 구조의 CFA가 적합합니다(예: CFI ≥ .95).",
+    "H2 지지: 부하량을 같게 제약해도 적합도가 거의 나빠지지 않습니다(ΔCFI = −.004, 기준 −.010 이내).",
+    "H3 지지: 절편을 같게 제약해도 ΔCFI = −.007로 기준 이내입니다. 이 경우에 한해 두 집단의 잠재평균을 비교할 수 있습니다."
+   ],
+   "roles": [
+    [
+     "잠재변수 (요인)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 780 400\" role=\"img\" aria-labelledby=\"mg2-t mg2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:780px\"><title id=\"mg2-t\">측정동일성 검증 모형 (측정모형의 다집단 분석)</title><desc id=\"mg2-d\">정규직과 비정규직에서 조직몰입 요인의 문항 부하량이 같은지 비교하는 측정동일성 모형</desc><defs><marker id=\"mg2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"mg2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"40\" y=\"24\" width=\"320\" height=\"300\" rx=\"10\"/><text class=\"mm-gt\" x=\"52\" y=\"44\">집단 A: 정규직</text><line class=\"mm-edge mm-thin\" x1=\"180.4\" y1=\"139.9\" x2=\"106.8\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"200.0\" y1=\"141.0\" x2=\"200.0\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"219.6\" y1=\"139.9\" x2=\"293.2\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><rect class=\"mm-group\" x=\"420\" y=\"24\" width=\"320\" height=\"300\" rx=\"10\"/><text class=\"mm-gt\" x=\"432\" y=\"44\">집단 B: 비정규직</text><line class=\"mm-edge mm-thin\" x1=\"560.4\" y1=\"139.9\" x2=\"486.8\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"580.0\" y1=\"141.0\" x2=\"580.0\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"599.6\" y1=\"139.9\" x2=\"673.2\" y2=\"252.0\" marker-end=\"url(#mg2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"363.0\" y1=\"270.0\" x2=\"417.0\" y2=\"270.0\" marker-end=\"url(#mg2-a)\" marker-start=\"url(#mg2-s)\"/><ellipse class=\"mm-node mm-y\" cx=\"200\" cy=\"110\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"200\" y=\"106\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"200\" y=\"124\" text-anchor=\"middle\">잠재변수 (요인)</text><rect class=\"mm-node mm-c\" x=\"54.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"95\" y=\"274\" text-anchor=\"middle\">문항 1</text><rect class=\"mm-lbg\" x=\"83.7\" y=\"192.6\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"113.91145877953872\" y=\"205.56349138356003\" text-anchor=\"middle\"><tspan x=\"113.91145877953872\" dy=\"0\">λ1A=.72</tspan></text><rect class=\"mm-node mm-c\" x=\"159.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"200\" y=\"274\" text-anchor=\"middle\">문항 2</text><rect class=\"mm-lbg\" x=\"175.8\" y=\"193.1\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"206.0\" y=\"206.05\" text-anchor=\"middle\"><tspan x=\"206.0\" dy=\"0\">λ2A=.78</tspan></text><rect class=\"mm-node mm-c\" x=\"264.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"305\" y=\"274\" text-anchor=\"middle\">문항 3</text><rect class=\"mm-lbg\" x=\"255.9\" y=\"192.6\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"286.08854122046125\" y=\"205.56349138356003\" text-anchor=\"middle\"><tspan x=\"286.08854122046125\" dy=\"0\">λ3A=.69</tspan></text><ellipse class=\"mm-node mm-y\" cx=\"580\" cy=\"110\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"580\" y=\"106\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-y\" x=\"580\" y=\"124\" text-anchor=\"middle\">잠재변수 (요인)</text><rect class=\"mm-node mm-c\" x=\"434.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"475\" y=\"274\" text-anchor=\"middle\">문항 1</text><rect class=\"mm-lbg\" x=\"463.7\" y=\"192.6\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"493.91145877953875\" y=\"205.56349138356003\" text-anchor=\"middle\"><tspan x=\"493.91145877953875\" dy=\"0\">λ1B=.70</tspan></text><rect class=\"mm-node mm-c\" x=\"539.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"580\" y=\"274\" text-anchor=\"middle\">문항 2</text><rect class=\"mm-lbg\" x=\"555.8\" y=\"193.1\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"586.0\" y=\"206.05\" text-anchor=\"middle\"><tspan x=\"586.0\" dy=\"0\">λ2B=.75</tspan></text><rect class=\"mm-node mm-c\" x=\"644.0\" y=\"252.0\" width=\"82\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"685\" y=\"274\" text-anchor=\"middle\">문항 3</text><rect class=\"mm-lbg\" x=\"635.9\" y=\"192.6\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"666.0885412204613\" y=\"205.56349138356003\" text-anchor=\"middle\"><tspan x=\"666.0885412204613\" dy=\"0\">λ3B=.66</tspan></text><text class=\"mm-note mm-strong\" x=\"380\" y=\"255\" text-anchor=\"middle\"><tspan x=\"380\" dy=\"0\">= ?</tspan></text><text class=\"mm-note mm-strong\" x=\"390\" y=\"350\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">형태: 적합 양호 → 부하량 동일: ΔCFI = −.004 → 절편 동일: ΔCFI = −.007</tspan></text><text class=\"mm-note\" x=\"390\" y=\"372\" text-anchor=\"middle\"><tspan x=\"390\" dy=\"0\">ΔCFI가 −.010 이내이므로 동일성이 기각되지 않음(예시)</tspan></text></svg>"
+  }
+ ],
+ "lpa": [
+  {
+   "title": "잠재프로파일모형 (연속형 지표로 사람 유형 찾기)",
+   "question": "조직몰입·직무열의·소진 점수의 조합이 서로 다른 구성원 유형이 있는가?",
+   "hypotheses": [
+    "H1: 구성원은 서로 다른 점수 프로파일을 가진 둘 이상의 숨은 유형으로 나뉠 것이다.",
+    "H2: 각 유형은 지표 평균이 의미 있게 다를 것이다(예: 고몰입·저소진 유형, 저몰입·고소진 유형)."
+   ],
+   "how": "화살표 방향이 ‘유형 → 지표’입니다. 유형은 직접 관측되지 않고, 지표 점수의 조합에서 확률적으로 추정됩니다. 유형 수는 AIC·BIC·엔트로피·BLRT 등으로 정합니다.",
+   "results": [
+    "H1 지지: 1~5유형을 비교했을 때 3유형 모형의 BIC가 가장 낮고, BLRT가 유의(p < .001)하며 엔트로피 .86(≥ .80)이므로 3유형이 적절합니다.",
+    "H2 지지: 유형별 평균 — 유형 1 몰입 4.3·열의 4.4·소진 1.9, 유형 2 몰입 2.6·열의 2.4·소진 4.1, 유형 3 3.5·3.6·3.0. 가장 작은 유형도 24%로 5% 이상입니다.",
+    "주의: 유형 이름은 해석일 뿐이며, 유형은 확정된 집단이 아니라 확률적 분류입니다(평균 사후확률 .84 이상)."
+   ],
+   "roles": [
+    [
+     "잠재범주변수",
+     "w"
+    ],
+    [
+     "지표 변수 (연속형)",
+     "x"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 760 360\" role=\"img\" aria-labelledby=\"lpa1-t lpa1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:760px\"><title id=\"lpa1-t\">잠재프로파일모형 (연속형 지표로 사람 유형 찾기)</title><desc id=\"lpa1-d\">잠재 유형 변수가 조직몰입, 직무열의, 소진 세 지표의 평균을 유형별로 다르게 만드는 잠재프로파일모형</desc><defs><marker id=\"lpa1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lpa1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"333.7\" y1=\"100.6\" x2=\"172.4\" y2=\"207.0\" marker-end=\"url(#lpa1-a)\"/><line class=\"mm-edge\" x1=\"380.0\" y1=\"105.0\" x2=\"380.0\" y2=\"207.0\" marker-end=\"url(#lpa1-a)\"/><line class=\"mm-edge\" x1=\"426.3\" y1=\"100.6\" x2=\"587.6\" y2=\"207.0\" marker-end=\"url(#lpa1-a)\"/><ellipse class=\"mm-node mm-w\" cx=\"380\" cy=\"70\" rx=\"95.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"380\" y=\"66\" text-anchor=\"middle\">잠재 유형 (C)</text><text class=\"mm-r mm-w\" x=\"380\" y=\"84\" text-anchor=\"middle\">잠재범주변수</text><rect class=\"mm-node mm-x\" x=\"55.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"231\" text-anchor=\"middle\">조직몰입</text><text class=\"mm-r mm-x\" x=\"130\" y=\"249\" text-anchor=\"middle\">지표 변수 (연속형)</text><rect class=\"mm-node mm-x\" x=\"305.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"380\" y=\"231\" text-anchor=\"middle\">직무열의</text><text class=\"mm-r mm-x\" x=\"380\" y=\"249\" text-anchor=\"middle\">지표 변수 (연속형)</text><rect class=\"mm-lbg\" x=\"339.0\" y=\"147.0\" width=\"82.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"380.0\" y=\"160.0\" text-anchor=\"middle\"><tspan x=\"380.0\" dy=\"0\">유형별 평균이 다름</tspan></text><rect class=\"mm-node mm-x\" x=\"555.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"630\" y=\"231\" text-anchor=\"middle\">소진</text><text class=\"mm-r mm-x\" x=\"630\" y=\"249\" text-anchor=\"middle\">지표 변수 (연속형)</text><text class=\"mm-note mm-strong\" x=\"380\" y=\"304\" text-anchor=\"middle\"><tspan x=\"380\" dy=\"0\">유형 1 (41%) 고몰입·저소진  ·  유형 2 (35%) 저몰입·고소진  ·  유형 3 (24%) 중간</tspan></text><text class=\"mm-note\" x=\"380\" y=\"328\" text-anchor=\"middle\"><tspan x=\"380\" dy=\"0\">적합도: 3유형 모형의 BIC가 가장 낮음, 엔트로피 .86, BLRT p &lt; .001, 평균 사후확률 ≥ .84</tspan></text></svg>"
+  },
+  {
+   "title": "유형을 예측하고 결과와 연결하는 모형 (3단계 접근)",
+   "question": "직급·성별에 따라 소속되는 유형이 다른가? 유형에 따라 이직의도가 다른가?",
+   "hypotheses": [
+    "H1: 직급·성별에 따라 소속되는 유형의 확률이 다를 것이다.",
+    "H2: 유형에 따라 이직의도가 다를 것이다(예: 저몰입·고소진 유형의 이직의도가 가장 높음)."
+   ],
+   "how": "먼저 지표로 유형을 확정하고(1단계), 유형 분류의 오차를 반영해 예측변수와 결과변수를 연결합니다(R3STEP, BCH). 유형을 확정된 집단처럼 다시 ANOVA에 넣으면 분류 오차가 무시됩니다.",
+   "results": [
+    "H1 지지: 상위 직급일수록 유형 1(고몰입·저소진)에 속할 오즈가 1.9배 높습니다(p < .01).",
+    "H2 지지: 유형에 따라 이직의도 평균이 유의하게 다릅니다(χ²(2) = 14.3, p < .001). 유형 2가 가장 높습니다.",
+    "분류 오차를 반영하는 3단계 절차(R3STEP·BCH)로 얻은 결과입니다."
+   ],
+   "roles": [
+    [
+     "지표",
+     "c"
+    ],
+    [
+     "잠재범주변수",
+     "w"
+    ],
+    [
+     "예측변수 (공변량)",
+     "x"
+    ],
+    [
+     "결과변수 (종속)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 800 370\" role=\"img\" aria-labelledby=\"lpa2-t lpa2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:800px\"><title id=\"lpa2-t\">유형을 예측하고 결과와 연결하는 모형 (3단계 접근)</title><desc id=\"lpa2-d\">직급과 성별이 잠재 유형을 예측하고 잠재 유형이 이직의도를 설명하는 확장 잠재프로파일모형</desc><defs><marker id=\"lpa2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lpa2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"374.2\" y1=\"203.5\" x2=\"316.9\" y2=\"278.0\" marker-end=\"url(#lpa2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"400.0\" y1=\"205.0\" x2=\"400.0\" y2=\"278.0\" marker-end=\"url(#lpa2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"425.8\" y1=\"203.5\" x2=\"483.1\" y2=\"278.0\" marker-end=\"url(#lpa2-a)\"/><line class=\"mm-edge\" x1=\"175.0\" y1=\"170.0\" x2=\"310.0\" y2=\"170.0\" marker-end=\"url(#lpa2-a)\"/><line class=\"mm-edge\" x1=\"490.0\" y1=\"170.0\" x2=\"625.0\" y2=\"170.0\" marker-end=\"url(#lpa2-a)\"/><rect class=\"mm-node mm-x\" x=\"25.0\" y=\"142.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"166\" text-anchor=\"middle\">직급·성별</text><text class=\"mm-r mm-x\" x=\"100\" y=\"184\" text-anchor=\"middle\">예측변수 (공변량)</text><ellipse class=\"mm-node mm-w\" cx=\"400\" cy=\"170\" rx=\"90.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"400\" y=\"166\" text-anchor=\"middle\">잠재 유형 (C)</text><text class=\"mm-r mm-w\" x=\"400\" y=\"184\" text-anchor=\"middle\">잠재범주변수</text><rect class=\"mm-node mm-y\" x=\"625.0\" y=\"142.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"700\" y=\"166\" text-anchor=\"middle\">이직의도</text><text class=\"mm-r mm-y\" x=\"700\" y=\"184\" text-anchor=\"middle\">결과변수 (종속)</text><rect class=\"mm-node mm-c\" x=\"258.0\" y=\"278.0\" width=\"84\" height=\"44\" rx=\"6\"/><text class=\"mm-t\" x=\"300\" y=\"296\" text-anchor=\"middle\">몰입</text><text class=\"mm-r mm-c\" x=\"300\" y=\"314\" text-anchor=\"middle\">지표</text><rect class=\"mm-node mm-c\" x=\"358.0\" y=\"278.0\" width=\"84\" height=\"44\" rx=\"6\"/><text class=\"mm-t\" x=\"400\" y=\"296\" text-anchor=\"middle\">열의</text><text class=\"mm-r mm-c\" x=\"400\" y=\"314\" text-anchor=\"middle\">지표</text><rect class=\"mm-node mm-c\" x=\"458.0\" y=\"278.0\" width=\"84\" height=\"44\" rx=\"6\"/><text class=\"mm-t\" x=\"500\" y=\"296\" text-anchor=\"middle\">소진</text><text class=\"mm-r mm-c\" x=\"500\" y=\"314\" text-anchor=\"middle\">지표</text><rect class=\"mm-lbg\" x=\"187.1\" y=\"141.0\" width=\"110.8\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"242.5\" y=\"154.0\" text-anchor=\"middle\"><tspan x=\"242.5\" dy=\"0\">H1 OR=1.9**</tspan><tspan x=\"242.5\" dy=\"15\">(상위 직급 → 유형 1)</tspan></text><rect class=\"mm-lbg\" x=\"494.9\" y=\"143.0\" width=\"125.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"557.5\" y=\"156.0\" text-anchor=\"middle\"><tspan x=\"557.5\" dy=\"0\">H2 χ²(2)=14.3***</tspan></text><text class=\"mm-note mm-strong\" x=\"400\" y=\"362\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">유형별 이직의도: 유형 1 = 1.8 · 유형 2 = 3.9 · 유형 3 = 2.7</tspan></text></svg>"
+  }
+ ],
+ "lca": [
+  {
+   "title": "잠재계층모형 (범주형 지표로 사람 유형 찾기)",
+   "question": "학습 참여 방식(멘토링·온라인·스터디·워크숍)의 조합이 다른 구성원 유형이 있는가?",
+   "hypotheses": [
+    "H1: 구성원은 학습 참여 패턴이 서로 다른 둘 이상의 유형으로 나뉠 것이다.",
+    "H2: 유형마다 각 활동에 참여할 확률(항목응답확률)이 뚜렷이 다를 것이다."
+   ],
+   "how": "유형 안에서는 지표들이 서로 독립이라고 가정합니다(지역독립성). 결과로 유형별 항목응답확률과 유형 비율을 제시합니다.",
+   "results": [
+    "H1 지지: 3유형 모형이 BIC가 가장 낮고 엔트로피 .84(≥ .80)입니다. 모든 이변량 잔차가 3.84 미만이라 지역독립성 가정이 크게 깨지지 않았습니다.",
+    "H2 지지: 유형별 항목응답확률이 .70 이상 또는 .30 이하로 뚜렷하게 갈립니다(예: 멘토링 .91 / .35 / .08).",
+    "유형 비율은 38% / 40% / 22%입니다."
+   ],
+   "roles": [
+    [
+     "잠재범주변수",
+     "w"
+    ],
+    [
+     "지표 변수 (0/1)",
+     "x"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 820 360\" role=\"img\" aria-labelledby=\"lca1-t lca1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:820px\"><title id=\"lca1-t\">잠재계층모형 (범주형 지표로 사람 유형 찾기)</title><desc id=\"lca1-d\">잠재 유형 변수가 네 개의 이분형 학습 참여 지표의 응답 확률을 유형별로 다르게 만드는 잠재계층모형</desc><defs><marker id=\"lca1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lca1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"355.9\" y1=\"98.8\" x2=\"152.6\" y2=\"207.0\" marker-end=\"url(#lca1-a)\"/><line class=\"mm-edge\" x1=\"388.7\" y1=\"104.1\" x2=\"324.5\" y2=\"207.0\" marker-end=\"url(#lca1-a)\"/><line class=\"mm-edge\" x1=\"431.5\" y1=\"104.1\" x2=\"496.4\" y2=\"207.0\" marker-end=\"url(#lca1-a)\"/><line class=\"mm-edge\" x1=\"464.2\" y1=\"98.7\" x2=\"668.2\" y2=\"207.0\" marker-end=\"url(#lca1-a)\"/><ellipse class=\"mm-node mm-w\" cx=\"410\" cy=\"70\" rx=\"95.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"410\" y=\"66\" text-anchor=\"middle\">잠재 유형 (C)</text><text class=\"mm-r mm-w\" x=\"410\" y=\"84\" text-anchor=\"middle\">잠재범주변수</text><rect class=\"mm-node mm-x\" x=\"25.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"231\" text-anchor=\"middle\">멘토링 참여</text><text class=\"mm-r mm-x\" x=\"100\" y=\"249\" text-anchor=\"middle\">지표 변수 (0/1)</text><rect class=\"mm-node mm-x\" x=\"232.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"307\" y=\"231\" text-anchor=\"middle\">온라인 학습</text><text class=\"mm-r mm-x\" x=\"307\" y=\"249\" text-anchor=\"middle\">지표 변수 (0/1)</text><rect class=\"mm-lbg\" x=\"323.2\" y=\"151.7\" width=\"60.4\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"353.38165054928675\" y=\"164.69929766376396\" text-anchor=\"middle\"><tspan x=\"353.38165054928675\" dy=\"0\">‘예’ 확률이</tspan><tspan x=\"353.38165054928675\" dy=\"15\">유형별로 다름</tspan></text><rect class=\"mm-node mm-x\" x=\"439.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"514\" y=\"231\" text-anchor=\"middle\">스터디 참여</text><text class=\"mm-r mm-x\" x=\"514\" y=\"249\" text-anchor=\"middle\">지표 변수 (0/1)</text><rect class=\"mm-lbg\" x=\"437.0\" y=\"151.7\" width=\"60.4\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"467.16330415330924\" y=\"164.6917806278464\" text-anchor=\"middle\"><tspan x=\"467.16330415330924\" dy=\"0\">‘예’ 확률이</tspan><tspan x=\"467.16330415330924\" dy=\"15\">유형별로 다름</tspan></text><rect class=\"mm-node mm-x\" x=\"646.0\" y=\"207.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"721\" y=\"231\" text-anchor=\"middle\">워크숍 참여</text><text class=\"mm-r mm-x\" x=\"721\" y=\"249\" text-anchor=\"middle\">지표 변수 (0/1)</text><text class=\"mm-note mm-strong\" x=\"410\" y=\"300\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">‘예’ 응답 확률(유형 1/2/3) — 멘토링 .91/.35/.08 · 온라인 .15/.82/.12</tspan></text><text class=\"mm-note mm-strong\" x=\"410\" y=\"322\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">유형 1 (비공식 학습 활발, 38%) · 유형 2 (온라인 중심, 40%) · 유형 3 (참여 적음, 22%)</tspan></text><text class=\"mm-note\" x=\"410\" y=\"346\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">적합도: 3유형의 BIC가 가장 낮음, 엔트로피 .84, 이변량 잔차 모두 3.84 미만</tspan></text></svg>"
+  },
+  {
+   "title": "유형을 예측하고 결과와 연결하는 잠재계층모형",
+   "question": "직급에 따라 학습 참여 유형이 다른가? 유형에 따라 성과 평가가 다른가?",
+   "hypotheses": [
+    "H1: 직급에 따라 속하는 학습 참여 유형의 확률이 다를 것이다.",
+    "H2: 유형에 따라 성과 평가가 다를 것이다."
+   ],
+   "how": "공변량(예측변수)과 결과변수는 유형 형성에는 쓰지 않고 유형이 확정된 뒤 연결합니다. 분류 오차를 반영하는 3단계 방법(R3STEP·BCH·DCAT)을 사용합니다.",
+   "results": [
+    "H1 지지: 상위 직급일수록 비공식 학습 활발 유형(유형 1)에 속할 오즈가 2.1배 높습니다(p < .01).",
+    "H2 지지: 유형에 따라 성과 평가 평균이 유의하게 다릅니다(χ²(2) = 9.8, p < .01). 유형 1이 가장 높습니다.",
+    "오즈비(OR)의 신뢰구간이 1을 포함하지 않으면 유의합니다."
+   ],
+   "roles": [
+    [
+     "지표 (0/1)",
+     "c"
+    ],
+    [
+     "잠재범주변수",
+     "w"
+    ],
+    [
+     "공변량 (예측)",
+     "x"
+    ],
+    [
+     "결과변수 (종속)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 820 380\" role=\"img\" aria-labelledby=\"lca2-t lca2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:820px\"><title id=\"lca2-t\">유형을 예측하고 결과와 연결하는 잠재계층모형</title><desc id=\"lca2-d\">직급이 잠재 유형을 예측하고 잠재 유형이 성과 평가를 설명하는 확장 잠재계층모형</desc><defs><marker id=\"lca2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lca2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"364.7\" y1=\"195.2\" x2=\"249.5\" y2=\"272.0\" marker-end=\"url(#lca2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"392.8\" y1=\"199.4\" x2=\"356.5\" y2=\"272.0\" marker-end=\"url(#lca2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"427.2\" y1=\"199.4\" x2=\"463.5\" y2=\"272.0\" marker-end=\"url(#lca2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"455.3\" y1=\"195.2\" x2=\"570.5\" y2=\"272.0\" marker-end=\"url(#lca2-a)\"/><line class=\"mm-edge\" x1=\"165.0\" y1=\"165.0\" x2=\"320.0\" y2=\"165.0\" marker-end=\"url(#lca2-a)\"/><line class=\"mm-edge\" x1=\"500.0\" y1=\"165.0\" x2=\"650.0\" y2=\"165.0\" marker-end=\"url(#lca2-a)\"/><rect class=\"mm-node mm-x\" x=\"35.0\" y=\"137.0\" width=\"130\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"161\" text-anchor=\"middle\">직급</text><text class=\"mm-r mm-x\" x=\"100\" y=\"179\" text-anchor=\"middle\">공변량 (예측)</text><ellipse class=\"mm-node mm-w\" cx=\"410\" cy=\"165\" rx=\"90.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"410\" y=\"161\" text-anchor=\"middle\">잠재 유형 (C)</text><text class=\"mm-r mm-w\" x=\"410\" y=\"179\" text-anchor=\"middle\">잠재범주변수</text><rect class=\"mm-node mm-y\" x=\"650.0\" y=\"137.0\" width=\"140\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"161\" text-anchor=\"middle\">성과 평가</text><text class=\"mm-r mm-y\" x=\"720\" y=\"179\" text-anchor=\"middle\">결과변수 (종속)</text><rect class=\"mm-node mm-c\" x=\"165.0\" y=\"272.0\" width=\"100\" height=\"46\" rx=\"6\"/><text class=\"mm-t\" x=\"215\" y=\"291\" text-anchor=\"middle\">멘토링</text><text class=\"mm-r mm-c\" x=\"215\" y=\"309\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"295.0\" y=\"272.0\" width=\"100\" height=\"46\" rx=\"6\"/><text class=\"mm-t\" x=\"345\" y=\"291\" text-anchor=\"middle\">온라인</text><text class=\"mm-r mm-c\" x=\"345\" y=\"309\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"425.0\" y=\"272.0\" width=\"100\" height=\"46\" rx=\"6\"/><text class=\"mm-t\" x=\"475\" y=\"291\" text-anchor=\"middle\">스터디</text><text class=\"mm-r mm-c\" x=\"475\" y=\"309\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-node mm-c\" x=\"555.0\" y=\"272.0\" width=\"100\" height=\"46\" rx=\"6\"/><text class=\"mm-t\" x=\"605\" y=\"291\" text-anchor=\"middle\">워크숍</text><text class=\"mm-r mm-c\" x=\"605\" y=\"309\" text-anchor=\"middle\">지표 (0/1)</text><rect class=\"mm-lbg\" x=\"197.9\" y=\"138.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"242.5\" y=\"151.0\" text-anchor=\"middle\"><tspan x=\"242.5\" dy=\"0\">H1 OR=2.1**</tspan></text><rect class=\"mm-lbg\" x=\"519.6\" y=\"138.0\" width=\"110.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"575.0\" y=\"151.0\" text-anchor=\"middle\"><tspan x=\"575.0\" dy=\"0\">H2 χ²(2)=9.8**</tspan></text><text class=\"mm-note mm-strong\" x=\"410\" y=\"365\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">유형별 성과 평가 평균: 유형 1 = 4.1 · 유형 2 = 3.6 · 유형 3 = 3.2</tspan></text></svg>"
+  }
+ ],
+ "scale-development": [
+  {
+   "title": "1차 요인 3개 모형 (하위요인이 상관하는 구조)",
+   "question": "새로 만든 AI 활용 태도 척도의 9개 문항이 정서·인지·행동 세 하위요인으로 묶이는가?",
+   "hypotheses": [
+    "H1: 각 문항은 설계한 하위요인에만 유의하게 부하될 것이다.",
+    "H2: 세 하위요인은 서로 구별되면서 정(+)으로 상관할 것이다."
+   ],
+   "how": "EFA로 구조를 탐색한 뒤 서로 다른 표본에서 CFA로 확인하는 구조입니다. 이 모형이 적합하면 하위척도 점수를 따로 사용할 수 있습니다.",
+   "results": [
+    "H1 지지: 요인부하량이 .69~.81로 모두 .50 이상입니다.",
+    "H2 지지: 요인 간 상관이 .49~.63으로 서로 구별되면서 관련됩니다(.85 미만이므로 판별타당도에 문제 없음).",
+    "적합도 CFI·TLI ≥ .90, RMSEA ≤ .08, SRMR ≤ .08을 충족하고 α·ω가 .70 이상(.79~.85)이므로 구조와 신뢰도가 확인됩니다."
+   ],
+   "roles": [
+    [
+     "하위요인 (잠재)",
+     "x"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 400\" role=\"img\" aria-labelledby=\"sc1-t sc1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"sc1-t\">1차 요인 3개 모형 (하위요인이 상관하는 구조)</title><desc id=\"sc1-d\">세 하위요인과 각 3개 문항으로 구성된 측정도구 개발의 1차 요인 모형</desc><defs><marker id=\"sc1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sc1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"112.3\" y1=\"112.3\" x2=\"43.3\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"130.0\" y1=\"113.0\" x2=\"130.0\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"147.7\" y1=\"112.3\" x2=\"216.7\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"432.3\" y1=\"112.3\" x2=\"363.3\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"450.0\" y1=\"113.0\" x2=\"450.0\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"467.7\" y1=\"112.3\" x2=\"536.7\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"752.3\" y1=\"112.3\" x2=\"683.3\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"770.0\" y1=\"113.0\" x2=\"770.0\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"787.7\" y1=\"112.3\" x2=\"856.7\" y2=\"238.0\" marker-end=\"url(#sc1-a)\"/><line class=\"mm-edge\" x1=\"215.0\" y1=\"80.0\" x2=\"365.0\" y2=\"80.0\" marker-end=\"url(#sc1-a)\" marker-start=\"url(#sc1-s)\"/><line class=\"mm-edge\" x1=\"535.0\" y1=\"80.0\" x2=\"685.0\" y2=\"80.0\" marker-end=\"url(#sc1-a)\" marker-start=\"url(#sc1-s)\"/><path class=\"mm-edge\" d=\"M215.0,80.0 Q450.0,-20.0 685.0,80.0\" marker-end=\"url(#sc1-a)\" marker-start=\"url(#sc1-s)\"/><ellipse class=\"mm-node mm-x\" cx=\"130\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"130\" y=\"76\" text-anchor=\"middle\">정서 요인</text><text class=\"mm-r mm-x\" x=\"130\" y=\"94\" text-anchor=\"middle\">하위요인 (잠재)</text><rect class=\"mm-node mm-c\" x=\"-1.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"34\" y=\"259\" text-anchor=\"middle\">e1</text><rect class=\"mm-lbg\" x=\"39.1\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"54.91312500701598\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"54.91312500701598\" dy=\"0\">.74</tspan></text><rect class=\"mm-node mm-c\" x=\"95.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"130\" y=\"259\" text-anchor=\"middle\">e2</text><rect class=\"mm-lbg\" x=\"128.2\" y=\"179.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"144.0\" y=\"192.0\" text-anchor=\"middle\"><tspan x=\"144.0\" dy=\"0\">.81</tspan></text><rect class=\"mm-node mm-c\" x=\"191.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"226\" y=\"259\" text-anchor=\"middle\">e3</text><rect class=\"mm-lbg\" x=\"189.3\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"205.086874992984\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"205.086874992984\" dy=\"0\">.70</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"450\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"450\" y=\"76\" text-anchor=\"middle\">인지 요인</text><text class=\"mm-r mm-x\" x=\"450\" y=\"94\" text-anchor=\"middle\">하위요인 (잠재)</text><rect class=\"mm-node mm-c\" x=\"319.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"354\" y=\"259\" text-anchor=\"middle\">c1</text><rect class=\"mm-lbg\" x=\"359.1\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"374.913125007016\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"374.913125007016\" dy=\"0\">.72</tspan></text><rect class=\"mm-node mm-c\" x=\"415.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"450\" y=\"259\" text-anchor=\"middle\">c2</text><rect class=\"mm-lbg\" x=\"448.2\" y=\"179.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"464.0\" y=\"192.0\" text-anchor=\"middle\"><tspan x=\"464.0\" dy=\"0\">.78</tspan></text><rect class=\"mm-node mm-c\" x=\"511.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"546\" y=\"259\" text-anchor=\"middle\">c3</text><rect class=\"mm-lbg\" x=\"509.3\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"525.086874992984\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"525.086874992984\" dy=\"0\">.69</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"770\" cy=\"80\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"770\" y=\"76\" text-anchor=\"middle\">행동 요인</text><text class=\"mm-r mm-x\" x=\"770\" y=\"94\" text-anchor=\"middle\">하위요인 (잠재)</text><rect class=\"mm-node mm-c\" x=\"639.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"674\" y=\"259\" text-anchor=\"middle\">b1</text><rect class=\"mm-lbg\" x=\"679.1\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"694.913125007016\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"694.913125007016\" dy=\"0\">.80</tspan></text><rect class=\"mm-node mm-c\" x=\"735.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"770\" y=\"259\" text-anchor=\"middle\">b2</text><rect class=\"mm-lbg\" x=\"768.2\" y=\"179.0\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"784.0\" y=\"192.0\" text-anchor=\"middle\"><tspan x=\"784.0\" dy=\"0\">.76</tspan></text><rect class=\"mm-node mm-c\" x=\"831.0\" y=\"238.0\" width=\"70\" height=\"34\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"866\" y=\"259\" text-anchor=\"middle\">b3</text><rect class=\"mm-lbg\" x=\"829.3\" y=\"178.7\" width=\"31.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"845.086874992984\" y=\"191.71044920596046\" text-anchor=\"middle\"><tspan x=\"845.086874992984\" dy=\"0\">.73</tspan></text><rect class=\"mm-lbg\" x=\"256.2\" y=\"57.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"290.0\" y=\"70.0\" text-anchor=\"middle\"><tspan x=\"290.0\" dy=\"0\">φ=.58***</tspan></text><rect class=\"mm-lbg\" x=\"576.2\" y=\"57.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"610.0\" y=\"70.0\" text-anchor=\"middle\"><tspan x=\"610.0\" dy=\"0\">φ=.49***</tspan></text><rect class=\"mm-lbg\" x=\"416.2\" y=\"15.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"450.0\" y=\"28.0\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">φ=.63***</tspan></text><text class=\"mm-note\" x=\"450\" y=\"322\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">문항 위 숫자 = 표준화 요인부하량, 문항은 해당 하위요인만 반영</tspan></text><text class=\"mm-note mm-strong\" x=\"450\" y=\"346\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">적합도: CFI=.96, TLI=.95, RMSEA=.050, SRMR=.041  ·  신뢰도: α=.82/.79/.84, ω=.83/.80/.85</tspan></text></svg>"
+  },
+  {
+   "title": "2차 요인 모형 (총점 + 하위요인 구조)",
+   "question": "하위요인 점수와 총점을 모두 쓸 수 있는가? 세 하위요인이 하나의 상위 개념으로 설명되는가?",
+   "hypotheses": [
+    "H1: 세 하위요인은 하나의 상위 요인(AI 활용 태도)의 하위 차원일 것이다.",
+    "H2: 1차 요인 모형보다 2차 요인 모형이 간명하면서도 자료에 적합할 것이다."
+   ],
+   "how": "하위요인 사이의 상관(φ)을 상위 요인이 설명하는 구조입니다. 2차 요인 모형은 1차 요인 모형과 적합도를 비교해 선택합니다.",
+   "results": [
+    "H1 지지: 2차 요인의 부하량 γ가 .71~.82로 모두 유의합니다(총점이 하위요인을 대표함).",
+    "H2 지지: 1차 요인 모형과의 적합도 차이가 크지 않고(ΔCFI = −.01) 모수는 더 적으므로 간명한 2차 요인 모형을 선택할 수 있습니다.",
+    "γ가 낮은 하위요인(.71)은 총점에 덜 대표됩니다. 총점 사용이 정당한지 이론적으로 논의합니다."
+   ],
+   "roles": [
+    [
+     "2차 요인 (상위 잠재)",
+     "w"
+    ],
+    [
+     "1차 요인 (하위 잠재)",
+     "x"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 420\" role=\"img\" aria-labelledby=\"sc2-t sc2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"sc2-t\">2차 요인 모형 (총점 + 하위요인 구조)</title><desc id=\"sc2-d\">AI 활용 태도라는 2차 요인이 정서, 인지, 행동 세 하위요인을 설명하는 2차 요인 모형</desc><defs><marker id=\"sc2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"sc2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"379.5\" y1=\"84.2\" x2=\"203.3\" y2=\"169.3\" marker-end=\"url(#sc2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"150.0\" y1=\"228.0\" x2=\"150.0\" y2=\"312.0\" marker-end=\"url(#sc2-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"90.0\" x2=\"440.0\" y2=\"162.0\" marker-end=\"url(#sc2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"440.0\" y1=\"228.0\" x2=\"440.0\" y2=\"312.0\" marker-end=\"url(#sc2-a)\"/><line class=\"mm-edge\" x1=\"500.5\" y1=\"84.2\" x2=\"676.7\" y2=\"169.3\" marker-end=\"url(#sc2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"730.0\" y1=\"228.0\" x2=\"730.0\" y2=\"312.0\" marker-end=\"url(#sc2-a)\"/><ellipse class=\"mm-node mm-w\" cx=\"440\" cy=\"55\" rx=\"110.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"440\" y=\"51\" text-anchor=\"middle\">AI 활용 태도 (총점)</text><text class=\"mm-r mm-w\" x=\"440\" y=\"69\" text-anchor=\"middle\">2차 요인 (상위 잠재)</text><ellipse class=\"mm-node mm-x\" cx=\"150\" cy=\"195\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"150\" y=\"191\" text-anchor=\"middle\">정서 요인</text><text class=\"mm-r mm-x\" x=\"150\" y=\"209\" text-anchor=\"middle\">1차 요인 (하위 잠재)</text><rect class=\"mm-lbg\" x=\"220.0\" y=\"117.8\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"257.3670685526062\" y=\"130.7538289746039\" text-anchor=\"middle\"><tspan x=\"257.3670685526062\" dy=\"0\">γ1=.82***</tspan></text><rect class=\"mm-node mm-c\" x=\"90.0\" y=\"312.0\" width=\"120\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"150\" y=\"334\" text-anchor=\"middle\">문항 1~3</text><rect class=\"mm-lbg\" x=\"161.0\" y=\"261.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"184.0\" y=\"274.0\" text-anchor=\"middle\"><tspan x=\"184.0\" dy=\"0\">λ=.75</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"440\" cy=\"195\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"440\" y=\"191\" text-anchor=\"middle\">인지 요인</text><text class=\"mm-r mm-x\" x=\"440\" y=\"209\" text-anchor=\"middle\">1차 요인 (하위 잠재)</text><rect class=\"mm-lbg\" x=\"432.6\" y=\"117.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"470.0\" y=\"130.0\" text-anchor=\"middle\"><tspan x=\"470.0\" dy=\"0\">γ2=.79***</tspan></text><rect class=\"mm-node mm-c\" x=\"380.0\" y=\"312.0\" width=\"120\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"440\" y=\"334\" text-anchor=\"middle\">문항 1~3</text><rect class=\"mm-lbg\" x=\"451.0\" y=\"261.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"474.0\" y=\"274.0\" text-anchor=\"middle\"><tspan x=\"474.0\" dy=\"0\">λ=.78</tspan></text><ellipse class=\"mm-node mm-x\" cx=\"730\" cy=\"195\" rx=\"85.0\" ry=\"33.0\"/><text class=\"mm-t\" x=\"730\" y=\"191\" text-anchor=\"middle\">행동 요인</text><text class=\"mm-r mm-x\" x=\"730\" y=\"209\" text-anchor=\"middle\">1차 요인 (하위 잠재)</text><rect class=\"mm-lbg\" x=\"585.2\" y=\"117.8\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"622.6329314473937\" y=\"130.7538289746039\" text-anchor=\"middle\"><tspan x=\"622.6329314473937\" dy=\"0\">γ3=.71***</tspan></text><rect class=\"mm-node mm-c\" x=\"670.0\" y=\"312.0\" width=\"120\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"730\" y=\"334\" text-anchor=\"middle\">문항 1~3</text><rect class=\"mm-lbg\" x=\"741.0\" y=\"261.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"764.0\" y=\"274.0\" text-anchor=\"middle\"><tspan x=\"764.0\" dy=\"0\">λ=.72</tspan></text><text class=\"mm-note mm-strong\" x=\"440\" y=\"392\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">적합도: 2차 요인 CFI=.96, RMSEA=.051  ·  1차 요인 모형 CFI=.97, RMSEA=.048 (ΔCFI=−.01)</tspan></text><text class=\"mm-note\" x=\"440\" y=\"412\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">총점의 의미가 있으면 2차 요인 모형, 하위척도 점수만 쓰면 1차 요인 모형을 사용합니다.</tspan></text></svg>"
+  }
+ ],
+ "prediction": [
+  {
+   "title": "예측모형의 구조 (학습 → 시험 → 성능 평가)",
+   "question": "수강 초기 학습 기록으로 학기 말 중도탈락을 얼마나 정확히 예측할 수 있는가?",
+   "hypotheses": [
+    "H1: 초기 학습 행동 변수로 시험 자료에서 중도탈락을 기준모형보다 더 정확히 예측할 것이다.",
+    "H2: 다음 학기 자료(외부 검증)에서도 예측 성능이 크게 떨어지지 않을 것이다."
+   ],
+   "how": "인과 경로가 아니라 자료 흐름입니다. 모형은 학습 자료에서만 만들고, 처음 보는 시험 자료로 성능을 평가합니다. 예측 시점에 알 수 있는 변수만 입력합니다(누수 방지).",
+   "results": [
+    "H1 지지: 시험 자료의 AUC = .84로 기준모형(.76)보다 높습니다. AUC .80 이상이면 양호하다고 보는 관행이 있습니다.",
+    "정밀도 .71은 탈락으로 예측한 학생 중 71%가 실제 탈락이라는 뜻, 재현율 .68은 실제 탈락자의 68%를 찾아냈다는 뜻입니다. 탈락처럼 드문 결과는 PR-AUC도 함께 봅니다.",
+    "p값이 아니라 처음 보는 자료에서의 예측 성능으로 판단합니다."
+   ],
+   "roles": [
+    [
+     "모형 적합·조정",
+     "c"
+    ],
+    [
+     "처음 보는 자료",
+     "c"
+    ],
+    [
+     "중도탈락 확률",
+     "m"
+    ],
+    [
+     "입력 변수 (특성)",
+     "x"
+    ],
+    [
+     "결과변수 (레이블)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 350\" role=\"img\" aria-labelledby=\"pr1-t pr1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"pr1-t\">예측모형의 구조 (학습 → 시험 → 성능 평가)</title><desc id=\"pr1-d\">예측변수군으로 학습 자료에서 모형을 만들고 시험 자료에서 중도탈락 예측값을 실제와 비교하는 예측모형</desc><defs><marker id=\"pr1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"pr1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"170.0\" y1=\"100.0\" x2=\"255.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"405.0\" y1=\"100.0\" x2=\"495.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"645.0\" y1=\"100.0\" x2=\"695.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"730.0\" y1=\"131.0\" x2=\"610.0\" y2=\"224.0\" marker-end=\"url(#pr1-a)\" marker-start=\"url(#pr1-s)\"/><line class=\"mm-edge mm-dash\" x1=\"522.0\" y1=\"224.0\" x2=\"378.0\" y2=\"131.0\" marker-end=\"url(#pr1-a)\"/><rect class=\"mm-node mm-x\" x=\"20.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"95\" y=\"96\" text-anchor=\"middle\">예측변수군</text><text class=\"mm-r mm-x\" x=\"95\" y=\"114\" text-anchor=\"middle\">입력 변수 (특성)</text><rect class=\"mm-node mm-c\" x=\"255.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"330\" y=\"96\" text-anchor=\"middle\">학습 자료 70%</text><text class=\"mm-r mm-c\" x=\"330\" y=\"114\" text-anchor=\"middle\">모형 적합·조정</text><rect class=\"mm-node mm-c\" x=\"495.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"96\" text-anchor=\"middle\">시험 자료 30%</text><text class=\"mm-r mm-c\" x=\"570\" y=\"114\" text-anchor=\"middle\">처음 보는 자료</text><rect class=\"mm-node mm-m\" x=\"695.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"96\" text-anchor=\"middle\">예측값</text><text class=\"mm-r mm-m\" x=\"770\" y=\"114\" text-anchor=\"middle\">중도탈락 확률</text><rect class=\"mm-node mm-y\" x=\"485.0\" y=\"224.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"251\" text-anchor=\"middle\">실제 중도탈락</text><text class=\"mm-r mm-y\" x=\"570\" y=\"269\" text-anchor=\"middle\">결과변수 (레이블)</text><rect class=\"mm-lbg\" x=\"427.0\" y=\"73.0\" width=\"46.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"450.0\" y=\"86.0\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">모형 적용</tspan></text><rect class=\"mm-lbg\" x=\"601.0\" y=\"183.2\" width=\"118.0\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"660.0\" y=\"196.15\" text-anchor=\"middle\"><tspan x=\"660.0\" dy=\"0\">성능 평가</tspan><tspan x=\"660.0\" dy=\"15\">AUC=.84 (시험 자료)</tspan></text><rect class=\"mm-lbg\" x=\"390.5\" y=\"197.9\" width=\"82.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"431.52\" y=\"210.94\" text-anchor=\"middle\"><tspan x=\"431.52\" dy=\"0\">정답 레이블로 학습</tspan></text><text class=\"mm-note\" x=\"95\" y=\"160\" text-anchor=\"middle\"><tspan x=\"95\" dy=\"0\">접속 횟수·과제 점수</tspan><tspan x=\"95\" dy=\"16\">사전성취·참여도</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"334\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">시험 자료: 정밀도=.71, 재현율=.68, PR-AUC=.66  ·  기준모형(로지스틱) AUC=.76</tspan></text></svg>"
+  },
+  {
+   "title": "여러 모형을 비교하는 예측 설계",
+   "question": "단순한 기준모형보다 복잡한 머신러닝 모형이 정말 더 잘 예측하는가?",
+   "hypotheses": [
+    "H1: 랜덤포레스트는 기준모형보다 교차검증에서 더 정확히 예측할 것이다.",
+    "H2: 선택한 모형은 시험 자료와 외부 자료에서도 성능을 유지할 것이다."
+   ],
+   "how": "모형 선택과 하이퍼파라미터 조정은 학습 자료 안의 교차검증에서만 하고, 시험 자료는 마지막에 한 번만 사용합니다.",
+   "results": [
+    "H1 지지: 교차검증 AUC가 기준모형 .71, 정규화 회귀 .78, 랜덤포레스트 .83으로 랜덤포레스트가 가장 높습니다.",
+    "H2 지지: 시험 자료 AUC .82, 다음 학기 외부 자료 .79로 성능이 크게 떨어지지 않습니다. 외부 자료에서 성능이 크게 떨어지면 과적합이나 분포 변화를 의심합니다.",
+    "학습 AUC와 시험 AUC의 차이가 크면 과적합 신호입니다."
+   ],
+   "roles": [
+    [
+     "(층화 분할)",
+     "c"
+    ],
+    [
+     "모형 비교·조정",
+     "c"
+    ],
+    [
+     "단순 로지스틱",
+     "m"
+    ],
+    [
+     "LASSO·Ridge",
+     "m"
+    ],
+    [
+     "비선형 모형",
+     "m"
+    ],
+    [
+     "시험·외부 자료",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 370\" role=\"img\" aria-labelledby=\"pr2-t pr2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"pr2-t\">여러 모형을 비교하는 예측 설계</title><desc id=\"pr2-d\">전체 자료를 분할해 기준모형과 여러 머신러닝 모형을 교차검증으로 비교한 뒤 최종 모형을 평가하는 설계</desc><defs><marker id=\"pr2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"pr2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"170.0\" y1=\"133.8\" x2=\"265.3\" y2=\"98.0\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"170.0\" y1=\"160.0\" x2=\"265.0\" y2=\"160.0\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"170.0\" y1=\"186.2\" x2=\"265.3\" y2=\"222.0\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"411.6\" y1=\"98.0\" x2=\"495.0\" y2=\"130.7\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"415.0\" y1=\"160.0\" x2=\"495.0\" y2=\"160.0\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"411.6\" y1=\"222.0\" x2=\"495.0\" y2=\"189.3\" marker-end=\"url(#pr2-a)\"/><line class=\"mm-edge\" x1=\"645.0\" y1=\"160.0\" x2=\"695.0\" y2=\"160.0\" marker-end=\"url(#pr2-a)\"/><rect class=\"mm-node mm-c\" x=\"30.0\" y=\"129.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"156\" text-anchor=\"middle\">전체 자료</text><text class=\"mm-r mm-c\" x=\"100\" y=\"174\" text-anchor=\"middle\">(층화 분할)</text><rect class=\"mm-node mm-m\" x=\"265.0\" y=\"42.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"340\" y=\"66\" text-anchor=\"middle\">기준모형</text><text class=\"mm-r mm-m\" x=\"340\" y=\"84\" text-anchor=\"middle\">단순 로지스틱</text><rect class=\"mm-node mm-m\" x=\"265.0\" y=\"132.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"340\" y=\"156\" text-anchor=\"middle\">정규화 회귀</text><text class=\"mm-r mm-m\" x=\"340\" y=\"174\" text-anchor=\"middle\">LASSO·Ridge</text><rect class=\"mm-node mm-m\" x=\"265.0\" y=\"222.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"340\" y=\"246\" text-anchor=\"middle\">랜덤포레스트</text><text class=\"mm-r mm-m\" x=\"340\" y=\"264\" text-anchor=\"middle\">비선형 모형</text><rect class=\"mm-node mm-c\" x=\"495.0\" y=\"129.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"156\" text-anchor=\"middle\">교차검증 (5겹)</text><text class=\"mm-r mm-c\" x=\"570\" y=\"174\" text-anchor=\"middle\">모형 비교·조정</text><rect class=\"mm-node mm-y\" x=\"695.0\" y=\"129.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"156\" text-anchor=\"middle\">최종 평가</text><text class=\"mm-r mm-y\" x=\"770\" y=\"174\" text-anchor=\"middle\">시험·외부 자료</text><rect class=\"mm-lbg\" x=\"423.1\" y=\"99.3\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"453.27777777777777\" y=\"112.32608695652173\" text-anchor=\"middle\"><tspan x=\"453.27777777777777\" dy=\"0\">AUC .71</tspan></text><rect class=\"mm-lbg\" x=\"424.8\" y=\"145.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"455.0\" y=\"158.0\" text-anchor=\"middle\"><tspan x=\"455.0\" dy=\"0\">AUC .78</tspan></text><rect class=\"mm-lbg\" x=\"423.1\" y=\"190.7\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"453.27777777777777\" y=\"203.67391304347825\" text-anchor=\"middle\"><tspan x=\"453.27777777777777\" dy=\"0\">AUC .83</tspan></text><rect class=\"mm-lbg\" x=\"632.6\" y=\"133.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"670.0\" y=\"146.0\" text-anchor=\"middle\"><tspan x=\"670.0\" dy=\"0\">랜덤포레스트 선택</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"330\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">최종 평가 AUC: 시험 자료 .82 · 다음 학기 외부 자료 .79</tspan></text><text class=\"mm-note\" x=\"430\" y=\"352\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">복잡한 모형은 기준모형보다 확실히 좋을 때만 채택합니다.</tspan></text></svg>"
+  }
+ ],
+ "arcl": [
+  {
+   "title": "교차지연패널모형 (변수 2개 × 시점 3개)",
+   "question": "리더십이 높으면 다음 시점의 조직공정성이 높아지는가, 아니면 공정성이 다음 시점의 리더십을 높이는가?",
+   "hypotheses": [
+    "H1·H2: 두 변수 모두 이전 시점 점수가 다음 시점 점수를 예측할 것이다(안정성).",
+    "H3: 이전 시점의 리더십은 다음 시점의 조직공정성을 정(+)으로 예측할 것이다.",
+    "H4: 이전 시점의 조직공정성은 다음 시점의 리더십을 정(+)으로 예측할 것이다."
+   ],
+   "how": "같은 사람을 여러 시점에 측정합니다. 같은 시점의 상관과 자기 자신의 이전 점수를 통제한 뒤에도 한 변수의 이전 점수가 다른 변수의 다음 점수를 예측하는지 봅니다. 시간 순서가 곧 인과를 증명하지는 않습니다.",
+   "results": [
+    "H1·H2 지지: 안정성 계수(.47~.58)가 모두 유의합니다.",
+    "H3: T1→T2는 유의(.12, p < .05)하지만 T2→T3은 유의하지 않음(점선). H4도 같은 양상 → 부분 지지. 교차지연 효과는 작은 것이 일반적입니다(표준화 계수 .03~.12 범위가 흔함).",
+    "모형 적합도는 CFI·TLI ≥ .90, RMSEA ≤ .08을 충족합니다(예시). 방향이 양쪽으로 모두 유의하면 서로 영향을 주는 관계로 해석합니다."
+   ],
+   "roles": [
+    [
+     "변수 X (시점 1)",
+     "x"
+    ],
+    [
+     "변수 X (시점 2)",
+     "x"
+    ],
+    [
+     "변수 X (시점 3)",
+     "x"
+    ],
+    [
+     "변수 Y (시점 1)",
+     "y"
+    ],
+    [
+     "변수 Y (시점 2)",
+     "y"
+    ],
+    [
+     "변수 Y (시점 3)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 800 370\" role=\"img\" aria-labelledby=\"ar1-t ar1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:800px\"><title id=\"ar1-t\">교차지연패널모형 (변수 2개 × 시점 3개)</title><desc id=\"ar1-d\">리더십과 조직공정성을 세 시점에 걸쳐 측정해 자기회귀와 교차지연 경로를 추정하는 모형</desc><defs><marker id=\"ar1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ar1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"185.0\" y1=\"80.0\" x2=\"325.0\" y2=\"80.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge\" x1=\"185.0\" y1=\"275.0\" x2=\"325.0\" y2=\"275.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge\" x1=\"151.6\" y1=\"108.0\" x2=\"358.4\" y2=\"247.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge\" x1=\"151.6\" y1=\"247.0\" x2=\"358.4\" y2=\"108.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge\" x1=\"475.0\" y1=\"80.0\" x2=\"615.0\" y2=\"80.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge\" x1=\"475.0\" y1=\"275.0\" x2=\"615.0\" y2=\"275.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"441.6\" y1=\"108.0\" x2=\"648.4\" y2=\"247.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"441.6\" y1=\"247.0\" x2=\"648.4\" y2=\"108.0\" marker-end=\"url(#ar1-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"400.0\" y1=\"108.0\" x2=\"400.0\" y2=\"247.0\" marker-end=\"url(#ar1-a)\" marker-start=\"url(#ar1-s)\"/><path class=\"mm-edge\" d=\"M35.0,80.0 Q-25.0,177.5 35.0,275.0\" marker-end=\"url(#ar1-a)\" marker-start=\"url(#ar1-s)\"/><path class=\"mm-edge\" d=\"M765.0,80.0 Q825.0,177.5 765.0,275.0\" marker-end=\"url(#ar1-a)\" marker-start=\"url(#ar1-s)\"/><rect class=\"mm-node mm-x\" x=\"35.0\" y=\"52.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"76\" text-anchor=\"middle\">리더십 T1</text><text class=\"mm-r mm-x\" x=\"110\" y=\"94\" text-anchor=\"middle\">변수 X (시점 1)</text><rect class=\"mm-node mm-y\" x=\"35.0\" y=\"247.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"271\" text-anchor=\"middle\">공정성 T1</text><text class=\"mm-r mm-y\" x=\"110\" y=\"289\" text-anchor=\"middle\">변수 Y (시점 1)</text><rect class=\"mm-node mm-x\" x=\"325.0\" y=\"52.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"400\" y=\"76\" text-anchor=\"middle\">리더십 T2</text><text class=\"mm-r mm-x\" x=\"400\" y=\"94\" text-anchor=\"middle\">변수 X (시점 2)</text><rect class=\"mm-node mm-y\" x=\"325.0\" y=\"247.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"400\" y=\"271\" text-anchor=\"middle\">공정성 T2</text><text class=\"mm-r mm-y\" x=\"400\" y=\"289\" text-anchor=\"middle\">변수 Y (시점 2)</text><rect class=\"mm-node mm-x\" x=\"615.0\" y=\"52.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"690\" y=\"76\" text-anchor=\"middle\">리더십 T3</text><text class=\"mm-r mm-x\" x=\"690\" y=\"94\" text-anchor=\"middle\">변수 X (시점 3)</text><rect class=\"mm-node mm-y\" x=\"615.0\" y=\"247.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"690\" y=\"271\" text-anchor=\"middle\">공정성 T3</text><text class=\"mm-r mm-y\" x=\"690\" y=\"289\" text-anchor=\"middle\">변수 Y (시점 3)</text><rect class=\"mm-lbg\" x=\"217.6\" y=\"53.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"255.0\" y=\"66.0\" text-anchor=\"middle\"><tspan x=\"255.0\" dy=\"0\">H1 .51***</tspan></text><rect class=\"mm-lbg\" x=\"217.6\" y=\"288.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"255.0\" y=\"301.0\" text-anchor=\"middle\"><tspan x=\"255.0\" dy=\"0\">H2 .47***</tspan></text><rect class=\"mm-lbg\" x=\"173.5\" y=\"134.7\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"203.65641025641025\" y=\"147.7\" text-anchor=\"middle\"><tspan x=\"203.65641025641025\" dy=\"0\">H3 .12*</tspan></text><rect class=\"mm-lbg\" x=\"173.5\" y=\"204.3\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"203.65641025641025\" y=\"217.3\" text-anchor=\"middle\"><tspan x=\"203.65641025641025\" dy=\"0\">H4 .10*</tspan></text><rect class=\"mm-lbg\" x=\"507.6\" y=\"53.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"545.0\" y=\"66.0\" text-anchor=\"middle\"><tspan x=\"545.0\" dy=\"0\">H1 .58***</tspan></text><rect class=\"mm-lbg\" x=\"507.6\" y=\"288.0\" width=\"74.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"545.0\" y=\"301.0\" text-anchor=\"middle\"><tspan x=\"545.0\" dy=\"0\">H2 .55***</tspan></text><rect class=\"mm-lbg\" x=\"449.1\" y=\"134.7\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"493.65641025641025\" y=\"147.7\" text-anchor=\"middle\"><tspan x=\"493.65641025641025\" dy=\"0\">H3 .05 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"449.1\" y=\"204.3\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"493.65641025641025\" y=\"217.3\" text-anchor=\"middle\"><tspan x=\"493.65641025641025\" dy=\"0\">H4 .03 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"-34.8\" y=\"168.5\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"-1.0\" y=\"181.5\" text-anchor=\"middle\"><tspan x=\"-1.0\" dy=\"0\">r=.35***</tspan></text><rect class=\"mm-lbg\" x=\"767.2\" y=\"168.5\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"801.0\" y=\"181.5\" text-anchor=\"middle\"><tspan x=\"801.0\" dy=\"0\">r=.29***</tspan></text><text class=\"mm-note\" x=\"400\" y=\"350\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">표준화 계수. 점선 = 유의하지 않은 경로, 시점 내 점선 = 동시 상관</tspan></text><text class=\"mm-note mm-strong\" x=\"400\" y=\"368\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">적합도: χ²(6)=11.2, CFI=.99, TLI=.97, RMSEA=.043, SRMR=.028</tspan></text></svg>"
+  },
+  {
+   "title": "임의절편 교차지연모형 (RI-CLPM)",
+   "question": "개인의 평소 수준 차이를 제외하고, 한 사람 안에서 리더십 변화가 공정성 변화를 앞서는가?",
+   "hypotheses": [
+    "H1·H2: 개인 내에서 이전 시점의 이탈이 다음 시점의 이탈을 예측할 것이다.",
+    "H3: 리더십이 평소보다 높아지면 다음 시점의 공정성도 평소보다 높아질 것이다.",
+    "H4: 공정성이 평소보다 높아지면 다음 시점의 리더십도 평소보다 높아질 것이다."
+   ],
+   "how": "위쪽·아래쪽 타원(랜덤절편)이 ‘사람들 사이의 안정적 차이’를 분리하고, 가운데 경로는 ‘한 사람 안의 변화’만 나타냅니다. 3회 이상 측정이 필요하며 전통적 교차지연모형과 결과가 다를 수 있습니다.",
+   "results": [
+    "개인 간 안정 요인(RI)의 상관(.55)이 유의합니다. 즉, 평소 리더십이 높은 사람은 평소 공정성도 높습니다. 이 부분은 전통적 CLPM에서는 경로에 섞여 들어갑니다.",
+    "H3 부분 지지: 개인 내에서 리더십이 평소보다 높아지면 다음 시점 공정성이 높아지는 효과가 첫 구간에서만 유의합니다(.14, p < .05).",
+    "H4 기각: 공정성 → 다음 시점 리더십은 유의하지 않습니다(점선). 방향성이 한쪽(리더십 → 공정성)일 가능성을 시사하지만 인과를 증명하지는 않습니다."
+   ],
+   "roles": [
+    [
+     "랜덤절편 (RI-X)",
+     "w"
+    ],
+    [
+     "랜덤절편 (RI-Y)",
+     "w"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 460\" role=\"img\" aria-labelledby=\"ar2-t ar2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"ar2-t\">임의절편 교차지연모형 (RI-CLPM)</title><desc id=\"ar2-d\">개인 간 안정 요인을 분리하고 개인 내 변화의 자기회귀와 교차지연 경로를 추정하는 RI-CLPM</desc><defs><marker id=\"ar2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ar2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-dash mm-thin\" x1=\"363.1\" y1=\"65.4\" x2=\"199.6\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"370.1\" y1=\"393.2\" x2=\"193.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"430.0\" y1=\"72.0\" x2=\"430.0\" y2=\"121.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"430.0\" y1=\"388.0\" x2=\"430.0\" y2=\"319.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"496.9\" y1=\"65.4\" x2=\"660.4\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"489.9\" y1=\"393.2\" x2=\"666.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"235.0\" y1=\"150.0\" x2=\"335.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"235.0\" y1=\"290.0\" x2=\"335.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"190.8\" y1=\"174.5\" x2=\"379.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"190.8\" y1=\"265.5\" x2=\"379.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"525.0\" y1=\"150.0\" x2=\"625.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"525.0\" y1=\"290.0\" x2=\"625.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"480.8\" y1=\"174.5\" x2=\"669.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"480.8\" y1=\"265.5\" x2=\"669.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><path class=\"mm-edge\" d=\"M26.0,160.0 Q-14.0,220.0 26.0,280.0\" marker-end=\"url(#ar2-a)\" marker-start=\"url(#ar2-s)\"/><ellipse class=\"mm-node mm-w\" cx=\"430\" cy=\"40\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"430\" y=\"36\" text-anchor=\"middle\">개인 간 안정 요인 (X)</text><text class=\"mm-r mm-w\" x=\"430\" y=\"54\" text-anchor=\"middle\">랜덤절편 (RI-X)</text><ellipse class=\"mm-node mm-w\" cx=\"430\" cy=\"420\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"430\" y=\"416\" text-anchor=\"middle\">개인 간 안정 요인 (Y)</text><text class=\"mm-r mm-w\" x=\"430\" y=\"434\" text-anchor=\"middle\">랜덤절편 (RI-Y)</text><ellipse class=\"mm-node mm-x\" cx=\"140\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"140\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-y\" cx=\"140\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"140\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-x\" cx=\"430\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"430\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-y\" cx=\"430\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"430\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-x\" cx=\"720\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"720\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T3</text><ellipse class=\"mm-node mm-y\" cx=\"720\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"720\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T3</text><rect class=\"mm-lbg\" x=\"254.8\" y=\"125.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"285.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"285.0\" dy=\"0\">H1 .18*</tspan></text><rect class=\"mm-lbg\" x=\"240.4\" y=\"303.0\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"285.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"285.0\" dy=\"0\">H2 .15 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"207.1\" y=\"188.8\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"237.30899342399604\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"237.30899342399604\" dy=\"0\">H3 .14*</tspan></text><rect class=\"mm-lbg\" x=\"192.7\" y=\"237.2\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"237.30899342399604\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"237.30899342399604\" dy=\"0\">H4 .06 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"541.2\" y=\"125.0\" width=\"67.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"575.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"575.0\" dy=\"0\">H1 .22**</tspan></text><rect class=\"mm-lbg\" x=\"544.8\" y=\"303.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"575.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"575.0\" dy=\"0\">H2 .20*</tspan></text><rect class=\"mm-lbg\" x=\"482.7\" y=\"188.8\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"527.3089934239961\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"527.3089934239961\" dy=\"0\">H3 .08 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"482.7\" y=\"237.2\" width=\"89.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"527.3089934239961\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"527.3089934239961\" dy=\"0\">H4 .05 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"-30.2\" y=\"211.0\" width=\"60.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"0.0\" y=\"224.0\" text-anchor=\"middle\"><tspan x=\"0.0\" dy=\"0\">r=.30**</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"455\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">RI 간 상관 r=.55***  ·  적합도: CFI=.98, TLI=.96, RMSEA=.039, SRMR=.031</tspan></text></svg>"
+  }
+ ]
+}

@@ -224,3 +224,30 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-var-table tbody th { background:var(--tint); font-weight:600; white-space:nowrap; }
 .rm-data-table td { font-family:var(--f-mono); font-size:12.5px; }
 @media(max-width:600px) { .rm-table { min-width:520px; } .rm-data-table { min-width:0; } }
+
+/* 예시 연구모형 도식 */
+.rm-model { margin:22px 0 28px; padding-top:6px; }
+.rm-model h3 { margin:0 0 6px; font-size:15.5px; }
+.rm-model h4 { margin:14px 0 4px; font-size:14px; color:var(--accent); }
+.rm-model-q,.rm-model-how { font-size:14px; line-height:1.7; margin:6px 0; }
+.mm-wrap { overflow-x:auto; margin:10px 0 6px; padding:10px; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+.mm-svg { display:block; width:100%; min-width:600px; max-width:var(--mm-w,900px); height:auto; margin:0 auto; font-family:inherit; }
+.mm-x { --rc:var(--accent); } .mm-m { --rc:var(--rm-green); } .mm-w { --rc:var(--rm-warm); } .mm-y { --rc:#9b3d4f; } .mm-c { --rc:var(--muted); }
+@media(prefers-color-scheme:dark) { .mm-y { --rc:#e69aa8; } }
+.mm-node { fill:color-mix(in srgb, var(--rc) 9%, var(--paper)); stroke:var(--rc); stroke-width:1.6; }
+.mm-group { fill:none; stroke:var(--line); stroke-width:1.4; stroke-dasharray:5 4; }
+.mm-gt { fill:var(--muted); font-size:12.5px; font-weight:700; }
+.mm-t { fill:var(--ink); font-size:13.5px; font-weight:700; }
+.mm-ts { font-size:12px; font-weight:600; }
+.mm-r { fill:var(--rc, var(--muted)); font-size:10.5px; font-weight:600; }
+.mm-edge { fill:none; stroke:var(--accent); stroke-width:1.7; }
+.mm-thin { stroke:var(--muted); stroke-width:1.1; }
+.mm-dash { stroke-dasharray:6 4; }
+.mm-ah { fill:var(--accent); }
+.mm-lbg { fill:var(--paper); opacity:.94; }
+.mm-lbl { fill:var(--ink); font-size:12px; font-weight:600; }
+.mm-note { fill:var(--muted); font-size:12px; }
+.mm-strong { fill:var(--accent); font-weight:700; }
+.mm-legend { display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:6px 0 0; padding:0; }
+.mm-chip { display:inline-flex; align-items:center; gap:6px; padding:3px 11px; border-radius:999px; background:var(--tint); font-size:12.5px; font-weight:600; color:var(--ink); }
+.mm-chip::before { content:""; width:10px; height:10px; border-radius:50%; background:var(--rc); }

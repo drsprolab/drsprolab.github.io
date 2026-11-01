@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = Path(os.environ.get('RESEARCH_METHODS_SITE', ROOT / '_site'))
 DATA = json.loads((ROOT / '_data/research_methods.json').read_text())
+MODELS = json.loads((ROOT / '_data/research_models.json').read_text())
 
 class Markup(HTMLParser):
     def __init__(self, html):
@@ -77,6 +78,13 @@ class ResearchMethodsSite(unittest.TestCase):
                         self.assertIn(point, html)
             self.assertEqual(html.count('type="radio"'), 9)
             self.assertIn('어떤 자료와 변수로, 어떤 구조를 분석하나요?', html)
+            if m['id'] in MODELS:
+                self.assertEqual(html.count('class="mm-svg"'), len(MODELS[m['id']]))
+                for model in MODELS[m['id']]:
+                    for h in model['hypotheses'] + model['results']:
+                        self.assertIn(h, html)
+            else:
+                self.assertNotIn('class="mm-svg"', html)
             st = m['analysis_structure']
             self.assertIn('rm-var-table', html)
             self.assertIn(st['summary'], html)
