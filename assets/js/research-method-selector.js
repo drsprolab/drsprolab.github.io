@@ -11,7 +11,7 @@
     profiles:['lpa','lca'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
-    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel']
+    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
   };
   const patterns = {
     regression:[/(관계|관련|영향).{0,20}(알고|밝히|분석|확인|궁금)/,/다른.{0,15}(통제|고려)/,/어떤.{0,8}요인/,/여러.{0,8}요인/,/독립적.{0,8}(관련|관계)/],
@@ -33,6 +33,8 @@
     'systematic-review':[/명확한.{0,10}질문.{0,15}근거/,/기존 연구.{0,20}(결론|일관성)/],
     'meta-analysis':[/여러 연구.{0,15}(효과|상관).{0,10}(합치|종합|통합)/,/연구.{0,10}평균.{0,8}효과/],
     sna:[/누가 누구와/,/연결.{0,8}(구조|위치|형태)/,/네트워크/,/관계.{0,8}(구조|연결)/,/중심.{0,6}(인물|위치)/],
+    lgm:[/잠재성장|성장모형/,/변화.{0,4}(궤적|속도|양상)/,/시간.{0,8}따라.{0,12}(변화|변하|달라)/,/변화.{0,12}개인차/],
+    'case-study':[/사례.{0,3}연구/,/(특정|한).{0,6}(조직|기업|학교|프로그램).{0,15}(사례|깊이|왜|어떻게)/,/운영 사례|도입 사례/],
     multilevel:[/다층|위계적 선형/,/(팀|집단|학급|조직).{0,8}(수준|안에 속|에 속한).{0,12}(개인|효과)/,/교차.{0,3}수준/,/개인.{0,6}(수준|특성).{0,10}(팀|집단).{0,6}(수준|특성)/],
     'topic-modeling':[/토픽/,/(글|텍스트|응답|후기|댓글).{0,15}(주제|토픽)/,/서술.{0,8}응답.{0,12}(주제|분석)/,/말뭉치/],
     'theory-building':[/왜.{0,12}어떻게.{0,15}설명/,/기존 이론.{0,15}(못|한계)/,/새로운.{0,10}(설명|메커니즘|명제)/]
@@ -59,6 +61,10 @@
       if(waves==='1') excluded.push('한 번만 측정한 자료로는 교차지연 관계를 추정할 수 없습니다. 동일인 반복 측정을 계획하세요.');
       else if(waves==='2') missing.push('전통 CLPM은 2시점도 가능하지만 개인 내 관계를 분리하는 RI-CLPM은 통상 3시점 이상을 계획합니다.');
       else missing.push('같은 사람을 반복 측정했는지, 간격과 개인 내/개인 간 질문이 맞는지 확인하세요.');
+    }
+    if(id==='lgm') {
+      if(waves==='1'||waves==='2') excluded.push('잠재성장모형은 같은 사람을 3회 이상 측정해야 추정할 수 있습니다.');
+      else missing.push('같은 사람을 3회 이상 같은 도구로 측정했는지, 시점 간 측정동일성과 탈락을 확인하세요.');
     }
     if(id==='mediation'||id==='moderated-mediation') missing.push('시간 순서와 교란 통제를 설계해야 합니다. 횡단자료의 간접효과는 인과 기제를 확정하지 않습니다.');
     if(id==='regression') missing.push('연속형 결과를 가정한 안내입니다. 퇴사·수료 여부라면 로지스틱 회귀 등 결과 척도에 맞는 대안을 확인하세요.');

@@ -24,6 +24,8 @@ const scenarios=[
  ['systematic-review',{purpose:'명확한 질문에 대한 기존 연구의 근거를 체계적으로 종합',desired:'편향 위험과 근거의 일관성',kind:'literature'}],
  ['meta-analysis',{purpose:'여러 연구의 효과크기를 합쳐 평균효과를 알고 싶다',desired:'통합효과와 이질성',kind:'literature'}],
  ['theory-building',{purpose:'기존 이론의 한계를 설명하는 새로운 메커니즘과 경계조건',desired:'새로운 설명 이론과 명제',kind:'literature'}],
+ ['lgm',{purpose:'같은 사람의 학습전이 변화 궤적과 변화 속도의 개인차를 알고 싶다',desired:'잠재 절편과 기울기',kind:'quantitative',waves:'3'}],
+ ['case-study',{purpose:'한 기업의 교육 프로그램 운영 사례를 깊이 이해하는 사례연구를 하고 싶다',desired:'맥락과 과정의 설명',kind:'qualitative'}],
  ['multilevel',{purpose:'팀에 속한 팀원 개인의 학습전이에 개인 수준과 팀 수준 요인이 각각 어떻게 영향을 주는지 알고 싶다',desired:'수준별 고정효과와 교차수준 상호작용',kind:'quantitative'}],
  ['sna',{purpose:'구성원 사이에 누가 누구와 지식을 나누는지 연결 구조와 중심 인물을 알고 싶다',desired:'네트워크 그림과 중심성',kind:'quantitative'}],
  ['topic-modeling',{purpose:'서술형 응답과 논문 초록에서 어떤 토픽이 있는지 알고 싶다',desired:'토픽별 상위 단어와 비율',kind:'quantitative'}]
@@ -53,8 +55,8 @@ test('checklist never declares a method optimal or a probability',()=>{
  assert.equal(evaluateChecklist(['yes','unknown',undefined]).state,'clarify');assert.equal(evaluateChecklist(['yes','no','yes']).state,'revise');assert.equal(evaluateChecklist(['yes','yes','yes']).state,'consider');
 });
 test('catalog coverage, concrete beginner cases and references are complete',()=>{
- assert.equal(methods.length,22);assert.equal(new Set(methods.map(m=>m.id)).size,22);
- assert.deepEqual(content.categories.map(c=>methods.filter(m=>m.category===c.id).length),[14,3,5]);
+ assert.equal(methods.length,24);assert.equal(new Set(methods.map(m=>m.id)).size,24);
+ assert.deepEqual(content.categories.map(c=>methods.filter(m=>m.category===c.id).length),[15,4,5]);
  for(const m of methods){
   assert.equal(m.cases.length,2);assert(m.references.length>=1&&m.references.length<=2);assert.equal(m.applications.length,2);assert.deepEqual(m.applications.map(a=>a.index).sort(),['KCI','SSCI']);m.applications.forEach(a=>assert(a.doi&&a.title&&a.journal&&a.year&&a.url===`https://doi.org/${a.doi}`));
   for(const c of m.cases)for(const field of ['purpose','question','data','analysis','output','learn'])assert(c[field]?.length>20,`${m.id}.${field}`);
