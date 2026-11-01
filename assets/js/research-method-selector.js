@@ -11,7 +11,7 @@
     profiles:['lpa','lca'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
-    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling']
+    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel']
   };
   const patterns = {
     regression:[/(관계|관련|영향).{0,20}(알고|밝히|분석|확인|궁금)/,/다른.{0,15}(통제|고려)/,/어떤.{0,8}요인/,/여러.{0,8}요인/,/독립적.{0,8}(관련|관계)/],
@@ -33,6 +33,7 @@
     'systematic-review':[/명확한.{0,10}질문.{0,15}근거/,/기존 연구.{0,20}(결론|일관성)/],
     'meta-analysis':[/여러 연구.{0,15}(효과|상관).{0,10}(합치|종합|통합)/,/연구.{0,10}평균.{0,8}효과/],
     sna:[/누가 누구와/,/연결.{0,8}(구조|위치|형태)/,/네트워크/,/관계.{0,8}(구조|연결)/,/중심.{0,6}(인물|위치)/],
+    multilevel:[/다층|위계적 선형/,/(팀|집단|학급|조직).{0,8}(수준|안에 속|에 속한).{0,12}(개인|효과)/,/교차.{0,3}수준/,/개인.{0,6}(수준|특성).{0,10}(팀|집단).{0,6}(수준|특성)/],
     'topic-modeling':[/토픽/,/(글|텍스트|응답|후기|댓글).{0,15}(주제|토픽)/,/서술.{0,8}응답.{0,12}(주제|분석)/,/말뭉치/],
     'theory-building':[/왜.{0,12}어떻게.{0,15}설명/,/기존 이론.{0,15}(못|한계)/,/새로운.{0,10}(설명|메커니즘|명제)/]
   };

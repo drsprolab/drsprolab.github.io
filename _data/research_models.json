@@ -832,7 +832,7 @@
    ],
    "how": "이 그림은 통계 모형이 문서를 ‘어떻게 만들어졌다고 가정하는지’ 보여 줍니다. 문서마다 토픽 비율(θ)이 있고, 단어마다 그 비율에 따라 토픽(z)이 정해지며, 그 토픽의 단어 확률(φ)에서 실제 단어(w)가 나온다고 봅니다. 관측되는 것은 단어뿐입니다.",
    "results": [
-    "예시 결과(K = 8): 일관성(C_v)이 K = 7에서 가장 높았고(.52), 상위 단어와 대표 문서를 읽었을 때 토픽이 모두 해석되었습니다.",
+    "예시 결과(K = 8): 일관성(C_v)이 K = 8에서 가장 높았고(.52), 상위 단어와 대표 문서를 읽었을 때 8개 토픽이 모두 해석되었습니다.",
     "문서당 평균 지배 토픽 비율 .61로, 대부분의 문서가 하나의 주요 토픽과 일부 보조 토픽을 가집니다(θ의 해석).",
     "토픽 이름은 연구자가 붙이며 자동으로 정해지지 않습니다. 같은 자료에서 K와 시드를 바꾸면 결과가 달라질 수 있어 안정성을 확인합니다."
    ],
@@ -889,6 +889,80 @@
     ]
    ],
    "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 820 380\" role=\"img\" aria-labelledby=\"tm2-t tm2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:820px\"><title id=\"tm2-t\">토픽 비율이 연도에 따라 달라지는지 검정하는 모형 (STM)</title><desc id=\"tm2-d\">발행 연도가 네 개의 토픽 비율에 미치는 영향을 추정하는 구조적 토픽모델</desc><defs><marker id=\"tm2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"tm2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"205.0\" y1=\"168.8\" x2=\"535.0\" y2=\"86.2\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge\" x1=\"205.0\" y1=\"183.5\" x2=\"535.0\" y2=\"158.1\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"205.0\" y1=\"198.2\" x2=\"535.0\" y2=\"229.9\" marker-end=\"url(#tm2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"205.0\" y1=\"212.9\" x2=\"536.0\" y2=\"302.0\" marker-end=\"url(#tm2-a)\"/><rect class=\"mm-node mm-x\" x=\"35.0\" y=\"159.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"120\" y=\"186\" text-anchor=\"middle\">발행 연도</text><text class=\"mm-r mm-x\" x=\"120\" y=\"204\" text-anchor=\"middle\">공변량 (독립변수)</text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"32.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"56\" text-anchor=\"middle\">토픽 1: AI 활용 학습</text><text class=\"mm-r mm-y\" x=\"640\" y=\"74\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"333.0\" y=\"108.4\" width=\"107.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"121.375\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H1 β=+.021***</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"122.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"146\" text-anchor=\"middle\">토픽 2: 온라인 수업</text><text class=\"mm-r mm-y\" x=\"640\" y=\"164\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"333.8\" y=\"154.5\" width=\"105.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"167.5\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H2 β=−.015**</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"212.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"236\" text-anchor=\"middle\">토픽 3: 학습분석</text><text class=\"mm-r mm-y\" x=\"640\" y=\"254\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"326.1\" y=\"212.6\" width=\"120.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"386.5\" y=\"225.625\" text-anchor=\"middle\"><tspan x=\"386.5\" dy=\"0\">H3 β=+.008 n.s.</tspan></text><rect class=\"mm-node mm-y\" x=\"535.0\" y=\"302.0\" width=\"210\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"640\" y=\"326\" text-anchor=\"middle\">토픽 4: 역량 개발</text><text class=\"mm-r mm-y\" x=\"640\" y=\"344\" text-anchor=\"middle\">토픽 비율 (종속)</text><rect class=\"mm-lbg\" x=\"324.0\" y=\"258.9\" width=\"126.1\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"387.05\" y=\"271.8980769230769\" text-anchor=\"middle\"><tspan x=\"387.05\" dy=\"0\">H4 β=−.004 n.s.</tspan></text><text class=\"mm-note mm-strong\" x=\"410\" y=\"372\" text-anchor=\"middle\"><tspan x=\"410\" dy=\"0\">estimateEffect(): 연도가 1년 늘 때 토픽 비율이 얼마나 변하는가 (회귀계수)</tspan></text></svg>"
+  }
+ ],
+ "multilevel": [
+  {
+   "title": "HLM 교차수준 모형 (수준 2 변수가 평균과 기울기를 설명)",
+   "question": "팀 학습문화가 높은 팀의 팀원은 학습전이가 높은가? 자기효능감이 학습전이로 이어지는 정도는 팀 학습문화에 따라 달라지는가?",
+   "hypotheses": [
+    "H1: 자기효능감이 높을수록 학습전이가 높을 것이다(수준 1).",
+    "H2: 팀 학습문화가 높은 팀일수록 팀원의 학습전이 평균이 높을 것이다(수준 2 → 절편).",
+    "H3: 팀 학습문화가 높을수록 자기효능감이 학습전이에 미치는 영향이 더 강해질 것이다(교차수준 상호작용, 수준 2 → 기울기)."
+   ],
+   "how": "수준 2 변수가 수준 1의 평균(절편)과 효과의 크기(기울기)를 각각 설명하는 구조입니다. 개인 수준 화살표 안에 팀마다 다른 기울기(임의기울기)가 있고, 팀 학습문화가 그 차이를 설명합니다.",
+   "results": [
+    "영모형에서 ICC = .18이므로 학습전이 점수 차이의 18%가 팀 간 차이입니다. 팀 단위를 무시하면 안 됩니다.",
+    "H1 지지(γ10 = .31, p < .001): 같은 팀 안에서 자기효능감이 높은 사람이 학습전이도 높습니다.",
+    "H2 지지(γ01 = .22, p < .01): 팀 학습문화가 1단위 높으면 팀 평균 학습전이가 .22 높습니다. 이 변수가 팀 간 분산의 43%를 설명합니다.",
+    "H3 지지(γ11 = .12, p < .05): 팀 학습문화가 높은 팀에서 자기효능감의 기울기가 더 가파릅니다(.31 → 학습문화 +1SD에서 .43, −1SD에서 .19)."
+   ],
+   "roles": [
+    [
+     "수준 2 변수 (W, 조절·독립)",
+     "w"
+    ],
+    [
+     "수준 1 독립변수 (X)",
+     "x"
+    ],
+    [
+     "수준 1 종속변수 (Y)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 800 420\" role=\"img\" aria-labelledby=\"ml1-t ml1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:800px\"><title id=\"ml1-t\">HLM 교차수준 모형 (수준 2 변수가 평균과 기울기를 설명)</title><desc id=\"ml1-d\">팀 학습문화(수준 2)가 팀원의 학습전이 평균과 자기효능감의 기울기를 설명하는 2수준 모형</desc><defs><marker id=\"ml1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ml1-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"24\" y=\"20\" width=\"752\" height=\"130\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"40\">수준 2: 팀 (J = 48개)</text><rect class=\"mm-group\" x=\"24\" y=\"190\" width=\"752\" height=\"200\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"210\">수준 1: 팀원 개인 (N = 420명)</text><line class=\"mm-edge\" x1=\"275.0\" y1=\"310.0\" x2=\"525.0\" y2=\"310.0\" marker-end=\"url(#ml1-a)\"/><line class=\"mm-edge\" x1=\"429.3\" y1=\"125.0\" x2=\"580.7\" y2=\"280.0\" marker-end=\"url(#ml1-a)\"/><line class=\"mm-edge\" x1=\"400.0\" y1=\"125.0\" x2=\"400.0\" y2=\"310.0\" marker-end=\"url(#ml1-a)\"/><rect class=\"mm-node mm-w\" x=\"305.0\" y=\"65.0\" width=\"190\" height=\"60\" rx=\"6\"/><text class=\"mm-t\" x=\"400\" y=\"91\" text-anchor=\"middle\">팀 학습문화</text><text class=\"mm-r mm-w\" x=\"400\" y=\"109\" text-anchor=\"middle\">수준 2 변수 (W, 조절·독립)</text><rect class=\"mm-node mm-x\" x=\"105.0\" y=\"280.0\" width=\"170\" height=\"60\" rx=\"6\"/><text class=\"mm-t\" x=\"190\" y=\"306\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-x\" x=\"190\" y=\"324\" text-anchor=\"middle\">수준 1 독립변수 (X)</text><rect class=\"mm-node mm-y\" x=\"525.0\" y=\"280.0\" width=\"170\" height=\"60\" rx=\"6\"/><text class=\"mm-t\" x=\"610\" y=\"306\" text-anchor=\"middle\">학습전이</text><text class=\"mm-r mm-y\" x=\"610\" y=\"324\" text-anchor=\"middle\">수준 1 종속변수 (Y)</text><rect class=\"mm-lbg\" x=\"309.0\" y=\"327.0\" width=\"107.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"362.5\" y=\"340.0\" text-anchor=\"middle\"><tspan x=\"362.5\" dy=\"0\">H1 γ10=.31***</tspan></text><rect class=\"mm-lbg\" x=\"515.0\" y=\"173.5\" width=\"100.1\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"565.0\" y=\"186.5\" text-anchor=\"middle\"><tspan x=\"565.0\" dy=\"0\">H2 γ01=.22**</tspan></text><rect class=\"mm-lbg\" x=\"229.5\" y=\"198.5\" width=\"148.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"304.0\" y=\"211.5\" text-anchor=\"middle\"><tspan x=\"304.0\" dy=\"0\">H3 교차수준 γ11=.12*</tspan></text><text class=\"mm-note mm-strong\" x=\"400\" y=\"408\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">ICC = .18, 기울기 분산 τ11 = .02*  ·  절편 분산 감소 R²(수준2) = .43</tspan></text></svg>"
+  },
+  {
+   "title": "MSEM 다층 매개모형 (수준 2 원인 → 수준 2 매개 → 결과, 2-1-1)",
+   "question": "팀 변혁적 리더십은 팀 평균 자기효능감을 거쳐 팀 평균 혁신행동을 높이는가? 같은 팀 안의 개인 수준 효과와 팀 간 효과는 같은가?",
+   "hypotheses": [
+    "H1: 팀 변혁적 리더십은 팀 평균 자기효능감을 높일 것이다(수준 2).",
+    "H2: 팀 평균 자기효능감은 팀 평균 혁신행동을 높일 것이다(수준 2).",
+    "H3: 팀 변혁적 리더십은 팀 평균 혁신행동에 직접 영향을 미칠 것이다.",
+    "H4: 같은 팀 안에서 자기효능감이 높은 개인은 혁신행동이 높을 것이다(수준 1).",
+    "H5: 팀 변혁적 리더십은 팀 평균 자기효능감을 매개로 팀 평균 혁신행동에 간접 영향을 미칠 것이다."
+   ],
+   "how": "MSEM은 같은 변수(자기효능감, 혁신행동)를 개인 내(within)와 팀 간(between) 부분으로 나누어 수준별로 따로 경로를 추정합니다. 위쪽 타원은 관측된 팀 평균이 아니라 모형이 추정한 잠재 집단평균이라 측정오차와 집단 크기의 영향을 줄입니다. 집단 수준 원인(X)의 효과는 between 수준에서만 해석합니다.",
+   "results": [
+    "H1, H2 지지: 팀 수준에서 a = .35(p < .01), b(between) = .52(p < .01)입니다.",
+    "H5 지지: 간접효과 a×b = .18의 몬테카를로 95% 신뢰구간 [.06, .33]이 0을 포함하지 않아 팀 수준 매개가 유의합니다. H3 기각: 직접효과 c′ = .08은 유의하지 않습니다(점선).",
+    "H4 지지: 팀 안에서도 개인 내 b(within) = .31(p < .001)이 유의합니다. 개인 내 효과(.31)와 팀 간 효과(.52)가 다르면 맥락 효과가 있다고 해석합니다.",
+    "적합도: CFI .97, RMSEA .04, SRMR(within) .03, SRMR(between) .07로 기준(SRMR ≤ .08)을 충족합니다(예시 값)."
+   ],
+   "roles": [
+    [
+     "수준 2 매개변수 (M_B, 잠재)",
+     "m"
+    ],
+    [
+     "수준 1 매개변수 (M_W)",
+     "m"
+    ],
+    [
+     "수준 2 독립변수 (X_B)",
+     "x"
+    ],
+    [
+     "수준 2 종속변수 (Y_B, 잠재)",
+     "y"
+    ],
+    [
+     "수준 1 종속변수 (Y_W)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 480\" role=\"img\" aria-labelledby=\"ml2-t ml2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"ml2-t\">MSEM 다층 매개모형 (수준 2 원인 → 수준 2 매개 → 결과, 2-1-1)</title><desc id=\"ml2-d\">팀 수준에서는 변혁적 리더십이 잠재 팀 평균 자기효능감을 거쳐 혁신행동에 이르고, 개인 수준에서는 자기효능감이 혁신행동에 영향을 주는 다층 구조방정식모형</desc><defs><marker id=\"ml2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ml2-s\" viewBox=\"0 0 10 10\" refX=\"1\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"24\" y=\"20\" width=\"812\" height=\"215\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"40\">수준 2: 팀 간 (between, J = 120개 팀)</text><rect class=\"mm-group\" x=\"24\" y=\"265\" width=\"812\" height=\"175\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"285\">수준 1: 팀 내 (within, N = 960명, 집단평균 중심화)</text><line class=\"mm-edge\" x1=\"220.0\" y1=\"120.0\" x2=\"325.0\" y2=\"120.0\" marker-end=\"url(#ml2-a)\"/><line class=\"mm-edge\" x1=\"535.0\" y1=\"120.0\" x2=\"635.0\" y2=\"120.0\" marker-end=\"url(#ml2-a)\"/><path class=\"mm-edge mm-dash\" d=\"M220.0,120.0 Q427.5,240.0 635.0,120.0\" marker-end=\"url(#ml2-a)\"/><line class=\"mm-edge\" x1=\"520.0\" y1=\"365.0\" x2=\"645.0\" y2=\"365.0\" marker-end=\"url(#ml2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"430.0\" y1=\"155.0\" x2=\"430.0\" y2=\"337.0\" marker-end=\"url(#ml2-a)\" marker-start=\"url(#ml2-s)\"/><rect class=\"mm-node mm-x\" x=\"40.0\" y=\"90.0\" width=\"180\" height=\"60\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"116\" text-anchor=\"middle\">팀 변혁적 리더십</text><text class=\"mm-r mm-x\" x=\"130\" y=\"134\" text-anchor=\"middle\">수준 2 독립변수 (X_B)</text><ellipse class=\"mm-node mm-m\" cx=\"430\" cy=\"120\" rx=\"105.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"430\" y=\"116\" text-anchor=\"middle\">팀 평균 자기효능감</text><text class=\"mm-r mm-m\" x=\"430\" y=\"134\" text-anchor=\"middle\">수준 2 매개변수 (M_B, 잠재)</text><ellipse class=\"mm-node mm-y\" cx=\"730\" cy=\"120\" rx=\"95.0\" ry=\"35.0\"/><text class=\"mm-t\" x=\"730\" y=\"116\" text-anchor=\"middle\">팀 평균 혁신행동</text><text class=\"mm-r mm-y\" x=\"730\" y=\"134\" text-anchor=\"middle\">수준 2 종속변수 (Y_B, 잠재)</text><rect class=\"mm-node mm-m\" x=\"340.0\" y=\"337.0\" width=\"180\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"361\" text-anchor=\"middle\">자기효능감</text><text class=\"mm-r mm-m\" x=\"430\" y=\"379\" text-anchor=\"middle\">수준 1 매개변수 (M_W)</text><rect class=\"mm-node mm-y\" x=\"645.0\" y=\"337.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"730\" y=\"361\" text-anchor=\"middle\">혁신행동</text><text class=\"mm-r mm-y\" x=\"730\" y=\"379\" text-anchor=\"middle\">수준 1 종속변수 (Y_W)</text><rect class=\"mm-lbg\" x=\"232.0\" y=\"95.0\" width=\"81.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"272.5\" y=\"108.0\" text-anchor=\"middle\"><tspan x=\"272.5\" dy=\"0\">H1 a=.35**</tspan></text><rect class=\"mm-lbg\" x=\"544.5\" y=\"95.0\" width=\"81.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"585.0\" y=\"108.0\" text-anchor=\"middle\"><tspan x=\"585.0\" dy=\"0\">H2 b=.52**</tspan></text><rect class=\"mm-lbg\" x=\"370.6\" y=\"171.0\" width=\"113.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"427.5\" y=\"184.0\" text-anchor=\"middle\"><tspan x=\"427.5\" dy=\"0\">H3 c′=.08 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"538.5\" y=\"340.0\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"582.5\" y=\"353.0\" text-anchor=\"middle\"><tspan x=\"582.5\" dy=\"0\">H4 b=.31***</tspan></text><text class=\"mm-note\" x=\"250\" y=\"305\" text-anchor=\"middle\"><tspan x=\"250\" dy=\"0\">개인 내 효과 (집단평균 중심화)</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"465\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">H5 간접효과(between) a×b = .18, 95% 몬테카를로 CI [.06, .33]  ·  CFI=.97, RMSEA=.04, SRMR(within)=.03, SRMR(between)=.07</tspan></text></svg>"
   }
  ]
 }
