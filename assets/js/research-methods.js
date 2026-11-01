@@ -1,5 +1,16 @@
 (function () {
   'use strict';
+  const root=document.getElementById('method-selector');
+  if(root){
+    const startIds=['start','rm-form-title','rm-form','rm-results'],introIds=['rm-start','method-terms'];
+    const viewFor=()=>{const id=decodeURIComponent(location.hash.slice(1));if(!id)return 'intro';if(startIds.includes(id))return 'start';if(introIds.includes(id))return 'intro';return 'catalog';};
+    let current=null;
+    const show=()=>{const view=viewFor(),changed=view!==current;current=view;root.dataset.view=view;
+      const id=decodeURIComponent(location.hash.slice(1)),target=id&&document.getElementById(id);
+      if(changed)window.scrollTo(0,Math.max(0,root.getBoundingClientRect().top+window.scrollY-80));
+      if(target&&!['start','method-catalog'].includes(id)&&target.offsetParent)target.scrollIntoView();};
+    window.addEventListener('hashchange',show);show();
+  }
   const el=(tag,content,cls)=>{const n=document.createElement(tag);if(content!==undefined)n.textContent=content;if(cls)n.className=cls;return n;};
   const examples=[
     {label:'HRD · 교육에서 현업 적용으로',purpose:'교육 참여가 현업 적용으로 이어지는 중간 경로를 알고 싶습니다.',dataText:'동일 직원의 교육 참여, 교육 직후 자기효능감, 이후 전이동기와 학습전이를 설문으로 측정할 계획입니다.',desired:'자기효능감과 전이동기를 거치는 직렬다중매개 경로와 간접효과를 제시하고 싶습니다.',ultimate:'교육 참여가 왜 학습전이와 연결되는지 심리적 기제를 밝히고 싶습니다.',kind:'quantitative',indicators:'continuous',waves:'3',goal:'pathway'},

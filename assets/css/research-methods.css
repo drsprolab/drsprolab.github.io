@@ -169,3 +169,9 @@
  .rm-choice-compare dl { grid-template-columns:1fr; row-gap:4px; }
  .rm-choice-compare dd { margin-bottom:8px; }
 }
+
+.rm-next { margin:22px 0 8px; padding-top:20px; border-top:1px solid var(--line); }
+.rm[data-view] .rm-view-intro,.rm[data-view] .rm-view-start,.rm[data-view] .rm-view-catalog { display:none; }
+.rm[data-view="intro"] .rm-view-intro { display:block; }
+.rm[data-view="intro"] .rm-intro.rm-view-intro { display:grid; }
+.rm[data-view="start"] .rm-view-start,.rm[data-view="catalog"] .rm-view-catalog { display:block; }

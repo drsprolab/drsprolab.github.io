@@ -5,7 +5,7 @@ layout: page
 {% include research-help-tabs.html %}
 <link rel="stylesheet" href="{{ '/assets/css/research-methods.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="rm rm-method-detail" data-method="{{ m.id }}">
-  <a class="rm-back" href="{{ '/research-help/methods/' | relative_url }}">← 나의 연구목적에 맞는 분석방법 알아보기</a>
+  <a class="rm-back" href="{{ '/research-help/methods/#method-catalog' | relative_url }}">← 나의 연구목적에 맞는 분석방법 알아보기</a>
   <div class="rm-detail-intro">
     <span class="rm-eyebrow">{{ m.english }}</span>
     <div class="rm-intro-block"><strong>언제 쓰나요?</strong><ul>{% for point in m.summary %}<li>{{ point }}</li>{% endfor %}</ul></div>
@@ -66,7 +66,7 @@ layout: page
   {% unless m.professor_paper %}<p class="rm-small">교수님 Research list에서 이 방법의 직접 적용이 제목·서지로 확인되는 논문은 별도로 추가하지 않았습니다.</p>{% endunless %}
   {% if m.id == 'scoping-review' %}<p>보고 지침: <a href="https://www.prisma-statement.org/scoping">PRISMA-ScR 공식 체크리스트</a></p>{% endif %}{% if m.id == 'systematic-review' or m.id == 'meta-analysis' %}<p>보고 지침: <a href="https://www.prisma-statement.org/prisma-2020">PRISMA 2020 공식 자료</a></p>{% endif %}
   <p class="rm-small">확인일 {{ site.data.research_methods.checked }} · SSCI 표시는 확보한 학술지 목록의 ISSN 대조 결과입니다. 목록의 추출일 및 출판 당시 등재 여부와는 구별합니다. <a href="{{ '/research-help/methods/#source-policy' | relative_url }}">출처·대조 기준</a></p></section>
-  <div class="rm-actions"><a class="rm-button" href="{{ '/research-help/methods/' | relative_url }}">← 연구 고민 다시 살펴보기</a><a class="rm-button primary" href="{{ '/research-help/#write' | relative_url }}">나의 연구 발전시키기(실습) →</a></div>
+  <div class="rm-actions"><a class="rm-button" href="{{ '/research-help/methods/#start' | relative_url }}">← 연구 고민 다시 살펴보기</a><a class="rm-button primary" href="{{ '/research-help/#write' | relative_url }}">나의 연구 발전시키기(실습) →</a></div>
 </div>
 <script src="{{ '/assets/js/research-method-selector.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 <script src="{{ '/assets/js/research-methods.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
