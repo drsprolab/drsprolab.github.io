@@ -105,6 +105,8 @@ h3 { font-size: 18px; font-weight: 600; margin: 0; }
 .areas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .area { border: 1px solid var(--line); border-radius: 8px; padding: 20px; display: grid; gap: 8px; align-content: start; background: var(--paper); }
 .area { overflow: hidden; padding-top: 0; }
+a.area { color: inherit; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+a.area:hover, a.area:focus-visible { border-color: var(--accent); box-shadow: 0 4px 14px rgba(11, 31, 56, .08); }
 .area-art { display: block; width: calc(100% + 40px); max-width: none; height: auto; aspect-ratio: 400 / 115; margin: 0 -20px 4px; background: #0b1f38; }
 .area .area-en { font-family: var(--f-body); font-size: 18px; font-weight: 600; color: var(--ink); line-height: 1.3; }
 .area .area-ko { font-family: var(--f-body); font-size: 12.5px; color: var(--accent); margin-top: -4px; }
@@ -1262,6 +1264,7 @@ main.container { overflow-x: clip; }
 /* Weekly Insight 글 제목 옆 공유 버튼 */
 /* 공유 버튼은 제목 마지막 글자 바로 뒤에 붙는다 */
 .title-row h1 { display: inline; }
+.title-row .title-link { margin: 0 0 0 12px; vertical-align: middle; white-space: nowrap; }
 .share { position: relative; display: inline-block; vertical-align: .3em; margin-left: .45em; white-space: nowrap; }
 .share-btn { font: inherit; font-size: 14px; font-weight: 600; color: #fff; background: #e0312b; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
 .share-btn:hover { background: #c4241f; transform: translateY(-1px); }

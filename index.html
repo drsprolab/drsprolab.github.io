@@ -70,13 +70,14 @@ image:
   <h2>주요 연구 분야</h2>
   <div class="areas">
     {% for area in site.data.research_areas %}
-    <article class="area">
+    {%- comment -%} 카드 전체가 링크(link 값, research_areas.yml) {%- endcomment -%}
+    {% if area.link %}<a class="area" href="{{ area.link | relative_url }}">{% else %}<article class="area">{% endif %}
       {% include area-art.html icon=area.icon label=area.en %}
       <h3 class="area-en">{{ area.en }}</h3>
       <div class="area-ko">{{ area.ko }}</div>
       <p>{{ area.summary }}</p>
       <ul class="tags">{% for k in area.keywords %}<li>{{ k }}</li>{% endfor %}</ul>
-    </article>
+    {% if area.link %}</a>{% else %}</article>{% endif %}
     {% endfor %}
   </div>
 </section>
