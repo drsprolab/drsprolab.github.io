@@ -381,16 +381,16 @@
         },
         {
           "index": "SSCI",
-          "authors": "Nimon, K., & Reio, T. G.",
-          "year": 2011,
-          "title": "Regression Commonality Analysis: A Technique for Quantitative Theory Building",
-          "journal": "Human Resource Development Review",
-          "volume": "10",
-          "issue": "3",
-          "pages": "329-340",
-          "doi": "10.1177/1534484311411077",
-          "url": "https://doi.org/10.1177/1534484311411077",
-          "cited_by_crossref": 76
+          "authors": "Sarti, D.",
+          "year": 2014,
+          "title": "Job Resources as Antecedents of Engagement at Work: Evidence From a Long-Term Care Setting",
+          "journal": "Human Resource Development Quarterly",
+          "volume": "25",
+          "issue": "2",
+          "pages": "213-237",
+          "doi": "10.1002/hrdq.21189",
+          "url": "https://doi.org/10.1002/hrdq.21189",
+          "cited_by_crossref": 64
         }
       ],
       "procedure_sources": "Cohen(1988), Cohen·Cohen·West·Aiken(2003), Tabachnick·Fidell(2019), Field(2018), Hair 외(2019), Belsley·Kuh·Welsch(1980), Green(1991), Hayes·Cai(2007)",
@@ -2622,16 +2622,16 @@
       "applications": [
         {
           "index": "KCI",
-          "authors": "Ahn, J., Lee, S., Jung, H., & Lee, H.",
-          "year": 2019,
-          "title": "Multigroup analysis in the context of multilevel analysis to judge if a referent-shift model is needed for measurement of composition emergence",
+          "authors": "Han, T., & Choi, D.",
+          "year": 2022,
+          "title": "The Effect of Intergenerational Harmony on Voice Behavior: Mediation Effects of Psychological Safety and Perspective taking tested by multigroup analysis",
           "journal": "한국심리학회지: 산업 및 조직",
-          "volume": "32",
-          "issue": "1",
-          "pages": "29-53",
-          "doi": "10.24230/kjiop.v32i1.29-53",
-          "url": "https://doi.org/10.24230/kjiop.v32i1.29-53",
-          "cited_by_crossref": 1
+          "volume": "35",
+          "issue": "4",
+          "pages": "701-725",
+          "doi": "10.24230/kjiop.v35i4.701-725",
+          "url": "https://doi.org/10.24230/kjiop.v35i4.701-725",
+          "cited_by_crossref": 0
         },
         {
           "index": "SSCI",
@@ -5066,7 +5066,7 @@
         {
           "title": "경로 크기 해석과 한계 점검",
           "do": "표준화 경로계수와 신뢰구간을 읽고, 측정 간격이 이론이 말하는 효과 시차에 맞는지 논의합니다.",
-          "check": "교차지연 효과는 크기가 작은 것이 일반적이며(표준화 계수 약 .03 작음·.07 중간·.12 큼을 제안한 연구가 있음) 누적되면 의미가 있을 수 있습니다. 선행하는 변수가 있다는 사실이 인과를 증명하지는 않습니다.",
+          "check": "교차지연 효과는 크기가 작은 것이 일반적이며(Orth et al., 2024는 CLPM과 RI-CLPM 모두에 표준화 계수 .03을 작음, .07을 중간, .12를 큼의 기준으로 제안) 누적되면 의미가 있을 수 있습니다. 선행하는 변수가 있다는 사실이 인과를 증명하지는 않습니다.",
           "learn": "시간에 따른 상호 영향의 크기와 방향, 그리고 해석의 한계를 알 수 있습니다."
         },
         {
@@ -5259,7 +5259,7 @@
           {
             "title": "개인 내 자기회귀와 교차지연 경로 추정",
             "do": "개인 내 이탈 사이에 시점 t → t+1 자기회귀(안정성)와 교차지연 경로를 추정하고, 같은 시점의 개인 내 이탈 사이 상관(동시상관)을 포함합니다.",
-            "check": "교차지연 계수의 크기가 작은 것이 일반적입니다(표준화 계수 .03·.07·.12를 작음·중간·큼으로 제안한 연구가 있음). 경로를 시점 간 같게 제약한 모형과 자유 모형을 Δχ², ΔCFI로 비교합니다.",
+            "check": "교차지연 계수의 크기가 작은 것이 일반적입니다(Orth et al., 2024는 CLPM과 RI-CLPM 모두에 표준화 계수 .03을 작음, .07을 중간, .12를 큼의 기준으로 제안). 경로를 시점 간 같게 제약한 모형과 자유 모형을 Δχ², ΔCFI로 비교합니다.",
             "learn": "한 사람 안에서 한 변수의 변화가 다른 변수의 이후 변화를 앞서는지 알 수 있습니다."
           },
           {
@@ -5275,7 +5275,15 @@
             "learn": "RI-CLPM의 적용 범위와 한계를 알 수 있습니다."
           }
         ],
-        "model_key": "arcl-ri"
+        "model_key": "arcl-ri",
+        "sources": [
+          {
+            "citation": "Orth, U., Meier, L. L., Bühler, J. L., Dapp, L. C., Krauss, S., Messerli, D., & Robins, R. W. (2024). Effect size guidelines for cross-lagged effects. ",
+            "journal": "Psychological Methods",
+            "rest": ", 29(2), 421-433. ",
+            "url": "https://doi.org/10.1037/met0000499"
+          }
+        ]
       }
     },
     {
@@ -8942,16 +8950,16 @@
         },
         {
           "index": "SSCI",
-          "authors": "Dado, M., & Bodemer, D.",
-          "year": 2017,
-          "title": "A review of methodological applications of social network analysis in computer-supported collaborative learning",
-          "journal": "Educational Research Review",
-          "volume": "22",
-          "issue": "",
-          "pages": "159-180",
-          "doi": "10.1016/j.edurev.2017.08.005",
-          "url": "https://doi.org/10.1016/j.edurev.2017.08.005",
-          "cited_by_crossref": 121
+          "authors": "Martínez, A., Dimitriadis, Y., Rubia, B., Gómez, E., & de la Fuente, P.",
+          "year": 2003,
+          "title": "Combining qualitative evaluation and social network analysis for the study of classroom social interactions",
+          "journal": "Computers & Education",
+          "volume": "41",
+          "issue": "4",
+          "pages": "353-368",
+          "doi": "10.1016/j.compedu.2003.06.001",
+          "url": "https://doi.org/10.1016/j.compedu.2003.06.001",
+          "cited_by_crossref": 247
         }
       ]
     },
@@ -10481,16 +10489,16 @@
       "applications": [
         {
           "index": "KCI",
-          "authors": "Kim, N., Chun, B. A., & Choi, J.-I.",
-          "year": 2014,
-          "title": "A case study of Flipped Learning at College: Focused on Effects of Motivation and Self-efficacy",
-          "journal": "교육공학연구",
-          "volume": "30",
-          "issue": "3",
-          "pages": "467-492",
-          "doi": "10.17232/kset.30.3.467",
-          "url": "https://doi.org/10.17232/kset.30.3.467",
-          "cited_by_crossref": 43
+          "authors": "Park, G., & Park, S.",
+          "year": 2023,
+          "title": "A Qualitative Case Study on the Human Agency of Activists in the Intermediate Support Organization of the Village Education Community",
+          "journal": "평생학습사회",
+          "volume": "19",
+          "issue": "1",
+          "pages": "1-38",
+          "doi": "10.26857/jlls.2023.2.19.1.1",
+          "url": "https://doi.org/10.26857/jlls.2023.2.19.1.1",
+          "cited_by_crossref": 2
         },
         {
           "index": "SSCI",
@@ -11004,16 +11012,16 @@
       "applications": [
         {
           "index": "KCI",
-          "authors": "Doo, S., & Chang, J.",
-          "year": 2015,
-          "title": "Exploring the change patterns in retirees’ psychological health using growth mixture modeling",
-          "journal": "한국심리학회지: 산업 및 조직",
-          "volume": "28",
-          "issue": "2",
-          "pages": "99-126",
-          "doi": "10.24230/kjiop.v28i2.99-126",
-          "url": "https://doi.org/10.24230/kjiop.v28i2.99-126",
-          "cited_by_crossref": 1
+          "authors": "Shin, J. H., & Choi, J.",
+          "year": 2025,
+          "title": "An analysis of academic achievement changes and influencing factors among engineering transfer students using learning analytics",
+          "journal": "교육정보미디어연구",
+          "volume": "31",
+          "issue": "3",
+          "pages": "695-712",
+          "doi": "10.15833/kafeiam.31.3.695",
+          "url": "https://doi.org/10.15833/kafeiam.31.3.695",
+          "cited_by_crossref": 0
         },
         {
           "index": "SSCI",
@@ -12465,7 +12473,8 @@
       "ssci": {
         "title": "SOCIAL NETWORKS",
         "issn": "0378-8733",
-        "eissn": "1879-2111"
+        "eissn": "1879-2111",
+        "list_checked": false
       },
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.1016/j.socnet.2006.08.002",
@@ -12490,7 +12499,8 @@
       "ssci": {
         "title": "COMMUNICATION METHODS AND MEASURES",
         "issn": "1931-2458",
-        "eissn": "1931-2466"
+        "eissn": "1931-2466",
+        "list_checked": false
       },
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.1080/19312458.2018.1430754",
@@ -12515,7 +12525,8 @@
       "ssci": {
         "title": "JOURNAL OF MANAGEMENT",
         "issn": "0149-2063",
-        "eissn": "1557-1211"
+        "eissn": "1557-1211",
+        "list_checked": false
       },
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.1177/014920639702300602",
@@ -12540,7 +12551,8 @@
       "ssci": {
         "title": "ACADEMY OF MANAGEMENT JOURNAL",
         "issn": "0001-4273",
-        "eissn": "1948-0989"
+        "eissn": "1948-0989",
+        "list_checked": false
       },
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.5465/amj.2007.24160888",
@@ -12565,7 +12577,8 @@
       "ssci": {
         "title": "JOURNAL OF MANAGEMENT",
         "issn": "0149-2063",
-        "eissn": "1557-1211"
+        "eissn": "1557-1211",
+        "list_checked": false
       },
       "checked": "2026-11-01",
       "metadata_url": "https://api.crossref.org/works/10.1177/0149206309352110",
@@ -12576,7 +12589,7 @@
     "ssci_file": "Social Sciences Citation Index (SSCI).csv",
     "ssci_sha256": "8b77f4158b0aa100982b5ec57d07758ae9eebeaf65fd10714439dd2d15efe177",
     "ssci_rows": 3537,
-    "note": "확보한 SSCI 학술지 CSV 목록과 DOI 등록 서지의 ISSN을 대조했습니다. 목록의 원본 추출일은 확인되지 않았으므로 현재 등재 상태나 해당 논문의 출판 당시 등재 여부까지 보증하지는 않습니다. 교수님 목록의 논문은 기존 서지에 기록된 등재 구분을 따릅니다.",
+    "note": "‘방법 설명’ 논문 대부분은 확보한 SSCI 학술지 CSV 목록과 DOI 등록 서지의 ISSN을 대조했습니다. 나중에 추가한 일부 문헌(Social Networks, Communication Methods and Measures, Journal of Management, Academy of Management Journal 게재 논문)은 이 목록으로 대조하지 못했습니다. 목록의 원본 추출일은 확인되지 않았으므로 현재 등재 상태나 해당 논문의 출판 당시 등재 여부까지 보증하지는 않습니다. 교수님 목록의 논문은 기존 서지에 기록된 등재 구분을 따릅니다.",
     "bibliography": "_data/publications.yml",
     "bibliography_url": "https://hrdpro.hanyang.ac.kr/research/",
     "case_note": "모든 사례와 자료 예시는 방법론 문헌을 참고해 구성한 학습용 연구설계입니다. 실제로 수집한 자료나 논문의 연구 결과를 제시한 것은 아닙니다. 추천 논문과 같은 연구를 수행했다고 해석하지 않도록 구별해 읽어 주세요."

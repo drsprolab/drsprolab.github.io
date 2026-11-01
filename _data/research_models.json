@@ -631,7 +631,7 @@
      "y"
     ]
    ],
-   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 350\" role=\"img\" aria-labelledby=\"pr1-t pr1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"pr1-t\">예측모형의 구조 (학습 → 시험 → 성능 평가)</title><desc id=\"pr1-d\">예측변수군으로 학습 자료에서 모형을 만들고 시험 자료에서 중도탈락 예측값을 실제와 비교하는 예측모형</desc><defs><marker id=\"pr1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"pr1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"170.0\" y1=\"100.0\" x2=\"255.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"405.0\" y1=\"100.0\" x2=\"495.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"645.0\" y1=\"100.0\" x2=\"695.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"730.0\" y1=\"131.0\" x2=\"610.0\" y2=\"224.0\" marker-end=\"url(#pr1-a)\" marker-start=\"url(#pr1-s)\"/><line class=\"mm-edge mm-dash\" x1=\"522.0\" y1=\"224.0\" x2=\"378.0\" y2=\"131.0\" marker-end=\"url(#pr1-a)\"/><rect class=\"mm-node mm-x\" x=\"20.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"95\" y=\"96\" text-anchor=\"middle\">예측변수군</text><text class=\"mm-r mm-x\" x=\"95\" y=\"114\" text-anchor=\"middle\">입력 변수 (특성)</text><rect class=\"mm-node mm-c\" x=\"255.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"330\" y=\"96\" text-anchor=\"middle\">학습 자료 70%</text><text class=\"mm-r mm-c\" x=\"330\" y=\"114\" text-anchor=\"middle\">모형 적합·조정</text><rect class=\"mm-node mm-c\" x=\"495.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"96\" text-anchor=\"middle\">시험 자료 30%</text><text class=\"mm-r mm-c\" x=\"570\" y=\"114\" text-anchor=\"middle\">처음 보는 자료</text><rect class=\"mm-node mm-m\" x=\"695.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"96\" text-anchor=\"middle\">예측값</text><text class=\"mm-r mm-m\" x=\"770\" y=\"114\" text-anchor=\"middle\">중도탈락 확률</text><rect class=\"mm-node mm-y\" x=\"485.0\" y=\"224.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"251\" text-anchor=\"middle\">실제 중도탈락</text><text class=\"mm-r mm-y\" x=\"570\" y=\"269\" text-anchor=\"middle\">결과변수 (레이블)</text><rect class=\"mm-lbg\" x=\"416.1\" y=\"73.0\" width=\"67.7\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"450.0\" y=\"86.0\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">모형 적용</tspan></text><rect class=\"mm-lbg\" x=\"591.6\" y=\"183.2\" width=\"136.7\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"660.0\" y=\"196.15\" text-anchor=\"middle\"><tspan x=\"660.0\" dy=\"0\">성능 평가</tspan><tspan x=\"660.0\" dy=\"15\">AUC=.84 (시험 자료)</tspan></text><rect class=\"mm-lbg\" x=\"369.8\" y=\"197.9\" width=\"123.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"431.52\" y=\"210.94\" text-anchor=\"middle\"><tspan x=\"431.52\" dy=\"0\">정답 레이블로 학습</tspan></text><text class=\"mm-note\" x=\"95\" y=\"160\" text-anchor=\"middle\"><tspan x=\"95\" dy=\"0\">접속 횟수·과제 점수</tspan><tspan x=\"95\" dy=\"16\">사전성취·참여도</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"334\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">시험 자료: 정밀도=.71, 재현율=.68, PR-AUC=.66  ·  기준모형(로지스틱) AUC=.76</tspan></text></svg>"
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 350\" role=\"img\" aria-labelledby=\"pr1-t pr1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"pr1-t\">예측모형의 구조 (학습 → 시험 → 성능 평가)</title><desc id=\"pr1-d\">예측변수군으로 학습 자료에서 모형을 만들고 시험 자료에서 중도탈락 예측값을 실제와 비교하는 예측모형</desc><defs><marker id=\"pr1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"pr1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"170.0\" y1=\"100.0\" x2=\"255.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"405.0\" y1=\"100.0\" x2=\"495.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"645.0\" y1=\"100.0\" x2=\"695.0\" y2=\"100.0\" marker-end=\"url(#pr1-a)\"/><line class=\"mm-edge\" x1=\"730.0\" y1=\"131.0\" x2=\"610.0\" y2=\"224.0\" marker-end=\"url(#pr1-a)\" marker-start=\"url(#pr1-s)\"/><line class=\"mm-edge mm-dash\" x1=\"522.0\" y1=\"224.0\" x2=\"378.0\" y2=\"131.0\" marker-end=\"url(#pr1-a)\"/><rect class=\"mm-node mm-x\" x=\"20.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"95\" y=\"96\" text-anchor=\"middle\">예측변수군</text><text class=\"mm-r mm-x\" x=\"95\" y=\"114\" text-anchor=\"middle\">입력 변수 (특성)</text><rect class=\"mm-node mm-c\" x=\"255.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"330\" y=\"96\" text-anchor=\"middle\">학습 자료 70%</text><text class=\"mm-r mm-c\" x=\"330\" y=\"114\" text-anchor=\"middle\">모형 적합·조정</text><rect class=\"mm-node mm-c\" x=\"495.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"96\" text-anchor=\"middle\">시험 자료 30%</text><text class=\"mm-r mm-c\" x=\"570\" y=\"114\" text-anchor=\"middle\">처음 보는 자료</text><rect class=\"mm-node mm-m\" x=\"695.0\" y=\"69.0\" width=\"150\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"96\" text-anchor=\"middle\">예측값</text><text class=\"mm-r mm-m\" x=\"770\" y=\"114\" text-anchor=\"middle\">중도탈락 확률</text><rect class=\"mm-node mm-y\" x=\"485.0\" y=\"224.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"570\" y=\"251\" text-anchor=\"middle\">실제 중도탈락</text><text class=\"mm-r mm-y\" x=\"570\" y=\"269\" text-anchor=\"middle\">결과변수 (레이블)</text><rect class=\"mm-lbg\" x=\"416.1\" y=\"73.0\" width=\"67.7\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"450.0\" y=\"86.0\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">모형 적용</tspan></text><rect class=\"mm-lbg\" x=\"686\" y=\"183.2\" width=\"136.7\" height=\"36\" rx=\"4\"/><text class=\"mm-lbl\" x=\"754\" y=\"196.15\" text-anchor=\"middle\"><tspan x=\"754\" dy=\"0\">성능 평가</tspan><tspan x=\"754\" dy=\"15\">AUC=.84 (시험 자료)</tspan></text><rect class=\"mm-lbg\" x=\"369.8\" y=\"197.9\" width=\"123.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"431.52\" y=\"210.94\" text-anchor=\"middle\"><tspan x=\"431.52\" dy=\"0\">정답 레이블로 학습</tspan></text><text class=\"mm-note\" x=\"95\" y=\"160\" text-anchor=\"middle\"><tspan x=\"95\" dy=\"0\">접속 횟수·과제 점수</tspan><tspan x=\"95\" dy=\"16\">사전성취·참여도</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"334\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">시험 자료: 정밀도=.71, 재현율=.68, PR-AUC=.66  ·  기준모형(로지스틱) AUC=.76</tspan></text></svg>"
   },
   {
    "title": "여러 모형을 비교하는 예측 설계",
@@ -997,7 +997,7 @@
      "w"
     ]
    ],
-   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 460\" role=\"img\" aria-labelledby=\"ar2-t ar2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"ar2-t\">임의절편 교차지연모형 (RI-CLPM)</title><desc id=\"ar2-d\">개인 간 안정 요인을 분리하고 개인 내 변화의 자기회귀와 교차지연 경로를 추정하는 RI-CLPM</desc><defs><marker id=\"ar2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ar2-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-dash mm-thin\" x1=\"403.1\" y1=\"65.4\" x2=\"239.6\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"410.1\" y1=\"393.2\" x2=\"233.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"470.0\" y1=\"72.0\" x2=\"470.0\" y2=\"121.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"470.0\" y1=\"388.0\" x2=\"470.0\" y2=\"319.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"536.9\" y1=\"65.4\" x2=\"700.4\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"529.9\" y1=\"393.2\" x2=\"706.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"275.0\" y1=\"150.0\" x2=\"375.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"275.0\" y1=\"290.0\" x2=\"375.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"230.8\" y1=\"174.5\" x2=\"419.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"230.8\" y1=\"265.5\" x2=\"419.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"565.0\" y1=\"150.0\" x2=\"665.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"565.0\" y1=\"290.0\" x2=\"665.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"520.8\" y1=\"174.5\" x2=\"709.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"520.8\" y1=\"265.5\" x2=\"709.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><path class=\"mm-edge\" d=\"M70.0,160.0 Q30.0,220.0 70.0,280.0\" marker-end=\"url(#ar2-a)\" marker-start=\"url(#ar2-s)\"/><ellipse class=\"mm-node mm-w\" cx=\"470\" cy=\"40\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"470\" y=\"36\" text-anchor=\"middle\">개인 간 안정 요인 (X)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"54\" text-anchor=\"middle\">랜덤절편 (RI-X)</text><ellipse class=\"mm-node mm-w\" cx=\"470\" cy=\"420\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"470\" y=\"416\" text-anchor=\"middle\">개인 간 안정 요인 (Y)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"434\" text-anchor=\"middle\">랜덤절편 (RI-Y)</text><ellipse class=\"mm-node mm-x\" cx=\"180\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"180\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-y\" cx=\"180\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"180\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-x\" cx=\"470\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"470\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-y\" cx=\"470\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"470\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-x\" cx=\"760\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"760\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T3</text><ellipse class=\"mm-node mm-y\" cx=\"760\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"760\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T3</text><rect class=\"mm-lbg\" x=\"294.9\" y=\"125.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"325.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"325.0\" dy=\"0\">H1 .18*</tspan></text><rect class=\"mm-lbg\" x=\"281.1\" y=\"303.0\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"325.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"325.0\" dy=\"0\">H2 .15 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"247.2\" y=\"188.8\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"277.30899342399607\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"277.30899342399607\" dy=\"0\">H3 .14*</tspan></text><rect class=\"mm-lbg\" x=\"233.4\" y=\"237.2\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"277.30899342399607\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"277.30899342399607\" dy=\"0\">H4 .06 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"581.4\" y=\"125.0\" width=\"67.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"615.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"615.0\" dy=\"0\">H1 .22**</tspan></text><rect class=\"mm-lbg\" x=\"584.9\" y=\"303.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"615.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"615.0\" dy=\"0\">H2 .20*</tspan></text><rect class=\"mm-lbg\" x=\"523.4\" y=\"188.8\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"567.3089934239961\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"567.3089934239961\" dy=\"0\">H3 .08 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"523.4\" y=\"237.2\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"567.3089934239961\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"567.3089934239961\" dy=\"0\">H4 .05 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"13.9\" y=\"211.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"44.0\" y=\"224.0\" text-anchor=\"middle\"><tspan x=\"44.0\" dy=\"0\">r=.30**</tspan></text><text class=\"mm-note mm-strong\" x=\"470\" y=\"455\" text-anchor=\"middle\"><tspan x=\"470\" dy=\"0\">RI 간 상관 r=.55***  ·  적합도: CFI=.98, TLI=.96, RMSEA=.039, SRMR=.031</tspan></text></svg>"
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 486\" role=\"img\" aria-labelledby=\"ar2-t ar2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"ar2-t\">임의절편 교차지연모형 (RI-CLPM)</title><desc id=\"ar2-d\">개인 간 안정 요인을 분리하고 개인 내 변화의 자기회귀와 교차지연 경로를 추정하는 RI-CLPM</desc><defs><marker id=\"ar2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"ar2-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-dash mm-thin\" x1=\"403.1\" y1=\"65.4\" x2=\"239.6\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"410.1\" y1=\"393.2\" x2=\"233.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"470.0\" y1=\"72.0\" x2=\"470.0\" y2=\"121.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"470.0\" y1=\"388.0\" x2=\"470.0\" y2=\"319.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"536.9\" y1=\"65.4\" x2=\"700.4\" y2=\"127.4\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash mm-thin\" x1=\"529.9\" y1=\"393.2\" x2=\"706.5\" y2=\"314.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"275.0\" y1=\"150.0\" x2=\"375.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"275.0\" y1=\"290.0\" x2=\"375.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"230.8\" y1=\"174.5\" x2=\"419.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"230.8\" y1=\"265.5\" x2=\"419.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"565.0\" y1=\"150.0\" x2=\"665.0\" y2=\"150.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge\" x1=\"565.0\" y1=\"290.0\" x2=\"665.0\" y2=\"290.0\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"520.8\" y1=\"174.5\" x2=\"709.2\" y2=\"265.5\" marker-end=\"url(#ar2-a)\"/><line class=\"mm-edge mm-dash\" x1=\"520.8\" y1=\"265.5\" x2=\"709.2\" y2=\"174.5\" marker-end=\"url(#ar2-a)\"/><path class=\"mm-edge\" d=\"M70.0,160.0 Q30.0,220.0 70.0,280.0\" marker-end=\"url(#ar2-a)\" marker-start=\"url(#ar2-s)\"/><ellipse class=\"mm-node mm-w\" cx=\"470\" cy=\"40\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"470\" y=\"36\" text-anchor=\"middle\">개인 간 안정 요인 (X)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"54\" text-anchor=\"middle\">랜덤절편 (RI-X)</text><ellipse class=\"mm-node mm-w\" cx=\"470\" cy=\"420\" rx=\"110.0\" ry=\"32.0\"/><text class=\"mm-t\" x=\"470\" y=\"416\" text-anchor=\"middle\">개인 간 안정 요인 (Y)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"434\" text-anchor=\"middle\">랜덤절편 (RI-Y)</text><ellipse class=\"mm-node mm-x\" cx=\"180\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"180\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-y\" cx=\"180\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"180\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T1</text><ellipse class=\"mm-node mm-x\" cx=\"470\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"470\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-y\" cx=\"470\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"470\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T2</text><ellipse class=\"mm-node mm-x\" cx=\"760\" cy=\"150\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"760\" y=\"154\" text-anchor=\"middle\">X의 개인 내 변화 T3</text><ellipse class=\"mm-node mm-y\" cx=\"760\" cy=\"290\" rx=\"95.0\" ry=\"29.0\"/><text class=\"mm-t mm-ts\" x=\"760\" y=\"294\" text-anchor=\"middle\">Y의 개인 내 변화 T3</text><rect class=\"mm-lbg\" x=\"294.9\" y=\"125.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"325.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"325.0\" dy=\"0\">H1 .18*</tspan></text><rect class=\"mm-lbg\" x=\"281.1\" y=\"303.0\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"325.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"325.0\" dy=\"0\">H2 .15 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"247.2\" y=\"188.8\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"277.30899342399607\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"277.30899342399607\" dy=\"0\">H3 .14*</tspan></text><rect class=\"mm-lbg\" x=\"233.4\" y=\"237.2\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"277.30899342399607\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"277.30899342399607\" dy=\"0\">H4 .06 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"581.4\" y=\"125.0\" width=\"67.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"615.0\" y=\"138.0\" text-anchor=\"middle\"><tspan x=\"615.0\" dy=\"0\">H1 .22**</tspan></text><rect class=\"mm-lbg\" x=\"584.9\" y=\"303.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"615.0\" y=\"316.0\" text-anchor=\"middle\"><tspan x=\"615.0\" dy=\"0\">H2 .20*</tspan></text><rect class=\"mm-lbg\" x=\"523.4\" y=\"188.8\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"567.3089934239961\" y=\"201.80434165296361\" text-anchor=\"middle\"><tspan x=\"567.3089934239961\" dy=\"0\">H3 .08 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"523.4\" y=\"237.2\" width=\"87.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"567.3089934239961\" y=\"250.19565834703639\" text-anchor=\"middle\"><tspan x=\"567.3089934239961\" dy=\"0\">H4 .05 n.s.</tspan></text><rect class=\"mm-lbg\" x=\"13.9\" y=\"211.0\" width=\"60.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"44.0\" y=\"224.0\" text-anchor=\"middle\"><tspan x=\"44.0\" dy=\"0\">r=.30**</tspan></text><text class=\"mm-note mm-strong\" x=\"470\" y=\"476\" text-anchor=\"middle\"><tspan x=\"470\" dy=\"0\">RI 간 상관 r=.55***  ·  적합도: CFI=.98, TLI=.96, RMSEA=.039, SRMR=.031</tspan></text></svg>"
   }
  ],
  "lgm": [
@@ -1064,7 +1064,388 @@
      "y"
     ]
    ],
-   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 430\" role=\"img\" aria-labelledby=\"lgm2-t lgm2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"lgm2-t\">조건부 잠재성장모형 (예측변수 → 변화 → 결과)</title><desc id=\"lgm2-d\">상사 지원이 절편과 기울기를 예측하고 절편과 기울기가 직무성과를 예측하는 조건부 잠재성장모형</desc><defs><marker id=\"lgm2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lgm2-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"354.8\" y1=\"90.4\" x2=\"239.0\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"339.5\" y1=\"238.3\" x2=\"249.4\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"370.0\" y1=\"91.0\" x2=\"370.0\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"370.0\" y1=\"241.0\" x2=\"370.0\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"385.2\" y1=\"90.4\" x2=\"501.0\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"400.5\" y1=\"238.3\" x2=\"490.6\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"398.6\" y1=\"88.6\" x2=\"632.0\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"419.9\" y1=\"233.2\" x2=\"611.2\" y2=\"322.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"180.0\" y1=\"114.8\" x2=\"308.5\" y2=\"77.7\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"180.0\" y1=\"155.2\" x2=\"308.5\" y2=\"192.3\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"438.3\" y1=\"72.8\" x2=\"700.0\" y2=\"121.9\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"438.3\" y1=\"197.2\" x2=\"700.0\" y2=\"148.1\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"370.0\" y1=\"91.0\" x2=\"370.0\" y2=\"179.0\" marker-end=\"url(#lgm2-a)\" marker-start=\"url(#lgm2-s)\"/><rect class=\"mm-node mm-x\" x=\"40.0\" y=\"107.0\" width=\"140\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"110\" y=\"131\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-x\" x=\"110\" y=\"149\" text-anchor=\"middle\">예측변수 (독립)</text><ellipse class=\"mm-node mm-m\" cx=\"370\" cy=\"60\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"370\" y=\"56\" text-anchor=\"middle\">절편 (I)</text><text class=\"mm-r mm-m\" x=\"370\" y=\"74\" text-anchor=\"middle\">잠재 절편</text><ellipse class=\"mm-node mm-m\" cx=\"370\" cy=\"210\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"370\" y=\"206\" text-anchor=\"middle\">기울기 (S)</text><text class=\"mm-r mm-m\" x=\"370\" y=\"224\" text-anchor=\"middle\">잠재 기울기</text><rect class=\"mm-node mm-y\" x=\"700.0\" y=\"107.0\" width=\"140\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"131\" text-anchor=\"middle\">직무성과</text><text class=\"mm-r mm-y\" x=\"770\" y=\"149\" text-anchor=\"middle\">결과변수 (종속)</text><rect class=\"mm-node mm-c\" x=\"190.0\" y=\"322.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"230\" y=\"344\" text-anchor=\"middle\">T1</text><rect class=\"mm-node mm-c\" x=\"330.0\" y=\"322.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"370\" y=\"344\" text-anchor=\"middle\">T2</text><rect class=\"mm-node mm-c\" x=\"470.0\" y=\"322.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"510\" y=\"344\" text-anchor=\"middle\">T3</text><rect class=\"mm-node mm-c\" x=\"610.0\" y=\"322.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"650\" y=\"344\" text-anchor=\"middle\">T4</text><rect class=\"mm-lbg\" x=\"180.7\" y=\"73.1\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"223.823526084864\" y=\"86.12782901398154\" text-anchor=\"middle\"><tspan x=\"223.823526084864\" dy=\"0\">H1 γ=.21**</tspan></text><rect class=\"mm-lbg\" x=\"180.7\" y=\"180.9\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"223.823526084864\" y=\"193.87217098601846\" text-anchor=\"middle\"><tspan x=\"223.823526084864\" dy=\"0\">H2 γ=.18**</tspan></text><rect class=\"mm-lbg\" x=\"535.6\" y=\"74.8\" width=\"93.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"582.2354704784686\" y=\"87.79415071471287\" text-anchor=\"middle\"><tspan x=\"582.2354704784686\" dy=\"0\">H3 β=.34***</tspan></text><rect class=\"mm-lbg\" x=\"539.1\" y=\"181.2\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"582.2354704784686\" y=\"194.20584928528714\" text-anchor=\"middle\"><tspan x=\"582.2354704784686\" dy=\"0\">H4 β=.29**</tspan></text><rect class=\"mm-lbg\" x=\"378.1\" y=\"126.0\" width=\"51.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"404.0\" y=\"139.0\" text-anchor=\"middle\"><tspan x=\"404.0\" dy=\"0\">−.04*</tspan></text><text class=\"mm-note\" x=\"450\" y=\"392\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">절편 부하량 1, 1, 1, 1 / 기울기 부하량 0, 1, 2, 3 (T1~T4 학습전이)</tspan></text><text class=\"mm-note mm-strong\" x=\"450\" y=\"415\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">절편 R²=.04, 기울기 R²=.03(표준화 계수)  ·  적합도: CFI=.97, TLI=.96, RMSEA=.048, SRMR=.036</tspan></text></svg>"
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 430\" role=\"img\" aria-labelledby=\"lgm2-t lgm2-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"lgm2-t\">조건부 잠재성장모형 (예측변수 → 변화 → 결과)</title><desc id=\"lgm2-d\">상사 지원이 절편과 기울기를 예측하고 절편과 기울기가 직무성과를 예측하는 조건부 잠재성장모형</desc><defs><marker id=\"lgm2-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"lgm2-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge mm-thin\" x1=\"393.5\" y1=\"73.9\" x2=\"520.0\" y2=\"63.3\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"350.8\" y1=\"251.7\" x2=\"540.4\" y2=\"78.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"384.2\" y1=\"96.0\" x2=\"520.0\" y2=\"130.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"363.4\" y1=\"254.7\" x2=\"529.1\" y2=\"158.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"363.4\" y1=\"105.3\" x2=\"529.1\" y2=\"202.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"384.2\" y1=\"264.0\" x2=\"520.0\" y2=\"230.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"350.8\" y1=\"108.3\" x2=\"540.4\" y2=\"282.0\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge mm-thin\" x1=\"393.5\" y1=\"286.1\" x2=\"520.0\" y2=\"296.7\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"161.6\" y1=\"152.0\" x2=\"269.5\" y2=\"102.9\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"161.6\" y1=\"208.0\" x2=\"269.5\" y2=\"257.1\" marker-end=\"url(#lgm2-a)\"/><path class=\"mm-edge\" d=\"M386.7,94.2 Q571.0,46.5 720.0,165.1\" marker-end=\"url(#lgm2-a)\"/><path class=\"mm-edge\" d=\"M386.7,265.8 Q571.0,313.5 720.0,194.9\" marker-end=\"url(#lgm2-a)\"/><line class=\"mm-edge\" x1=\"320.0\" y1=\"111.0\" x2=\"320.0\" y2=\"249.0\" marker-end=\"url(#lgm2-a)\" marker-start=\"url(#lgm2-s)\"/><rect class=\"mm-node mm-x\" x=\"30.0\" y=\"152.0\" width=\"140\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"176\" text-anchor=\"middle\">상사 지원</text><text class=\"mm-r mm-x\" x=\"100\" y=\"194\" text-anchor=\"middle\">예측변수 (독립)</text><ellipse class=\"mm-node mm-m\" cx=\"320\" cy=\"80\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"320\" y=\"76\" text-anchor=\"middle\">절편 (I)</text><text class=\"mm-r mm-m\" x=\"320\" y=\"94\" text-anchor=\"middle\">잠재 절편</text><ellipse class=\"mm-node mm-m\" cx=\"320\" cy=\"280\" rx=\"75.0\" ry=\"31.0\"/><text class=\"mm-t\" x=\"320\" y=\"276\" text-anchor=\"middle\">기울기 (S)</text><text class=\"mm-r mm-m\" x=\"320\" y=\"294\" text-anchor=\"middle\">잠재 기울기</text><rect class=\"mm-node mm-y\" x=\"720.0\" y=\"152.0\" width=\"140\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"790\" y=\"176\" text-anchor=\"middle\">직무성과</text><text class=\"mm-r mm-y\" x=\"790\" y=\"194\" text-anchor=\"middle\">결과변수 (종속)</text><rect class=\"mm-node mm-c\" x=\"520.0\" y=\"42.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"560\" y=\"64\" text-anchor=\"middle\">T1</text><rect class=\"mm-node mm-c\" x=\"520.0\" y=\"122.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"560\" y=\"144\" text-anchor=\"middle\">T2</text><rect class=\"mm-node mm-c\" x=\"520.0\" y=\"202.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"560\" y=\"224\" text-anchor=\"middle\">T3</text><rect class=\"mm-node mm-c\" x=\"520.0\" y=\"282.0\" width=\"80\" height=\"36\" rx=\"6\"/><text class=\"mm-t mm-ts\" x=\"560\" y=\"304\" text-anchor=\"middle\">T4</text><rect class=\"mm-lbg\" x=\"139.0\" y=\"106.9\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"182.17397913881908\" y=\"119.92091857326406\" text-anchor=\"middle\"><tspan x=\"182.17397913881908\" dy=\"0\">H1 γ=.21**</tspan></text><rect class=\"mm-lbg\" x=\"139.0\" y=\"239.1\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"182.17397913881908\" y=\"252.07908142673594\" text-anchor=\"middle\"><tspan x=\"182.17397913881908\" dy=\"0\">H2 γ=.18**</tspan></text><rect class=\"mm-lbg\" x=\"648.6\" y=\"104.8\" width=\"93.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"695.224923960977\" y=\"117.79844835886246\" text-anchor=\"middle\"><tspan x=\"695.224923960977\" dy=\"0\">H3 β=.34***</tspan></text><rect class=\"mm-lbg\" x=\"652.1\" y=\"237.2\" width=\"86.3\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"695.224923960977\" y=\"250.2015516411375\" text-anchor=\"middle\"><tspan x=\"695.224923960977\" dy=\"0\">H4 β=.29**</tspan></text><rect class=\"mm-lbg\" x=\"260.1\" y=\"171.0\" width=\"51.8\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"286.0\" y=\"184.0\" text-anchor=\"middle\"><tspan x=\"286.0\" dy=\"0\">−.04*</tspan></text><text class=\"mm-note\" x=\"450\" y=\"392\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">절편 부하량 1, 1, 1, 1 / 기울기 부하량 0, 1, 2, 3 (T1~T4 학습전이)</tspan></text><text class=\"mm-note mm-strong\" x=\"450\" y=\"415\" text-anchor=\"middle\"><tspan x=\"450\" dy=\"0\">절편 R²=.04, 기울기 R²=.03(표준화 계수)  ·  적합도: CFI=.97, TLI=.96, RMSEA=.048, SRMR=.036</tspan></text></svg>"
+  }
+ ],
+ "phenomenology": [
+  {
+   "title": "현상학의 연구 틀 (가설 모형 없음)",
+   "question": "학습·승진 기회에서 배제된 직원에게 그 경험은 어떤 의미인가?",
+   "hypotheses": [
+    "어떤 체험을 했는가?",
+    "그 체험은 참여자에게 어떤 의미인가?",
+    "참여자들의 체험에 공통으로 나타나는 본질은 무엇인가?"
+   ],
+   "how": "현상학은 변수 관계를 미리 세우지 않으므로 양적 연구 같은 가설 모형을 그리지 않습니다. 대신 진술에서 본질 구조로 올라가는 분석 틀을 제시합니다.",
+   "results": [
+    "연구 결과로 제시하는 것은 계수가 아니라 주제와 본질 구조, 근거 인용입니다.",
+    "결과의 타당성은 참여자 확인, 성찰 기록, 인용 근거로 보입니다."
+   ],
+   "roles": [
+    [
+     "자료: 심층면담 전사본",
+     "c"
+    ],
+    [
+     "진술을 나눈 조각",
+     "m"
+    ],
+    [
+     "의미 단위의 묶음",
+     "m"
+    ],
+    [
+     "체험의 핵심 서술",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 250\" role=\"img\" aria-labelledby=\"qph1-t qph1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"qph1-t\">현상학의 연구 틀 (가설 모형 없음)</title><desc id=\"qph1-d\">체험 진술에서 의미 단위, 주제, 본질 구조로 이어지는 현상학의 분석 틀</desc><defs><marker id=\"qph1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qph1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"190.0\" y1=\"90.0\" x2=\"236.7\" y2=\"90.0\" marker-end=\"url(#qph1-a)\"/><line class=\"mm-edge\" x1=\"406.7\" y1=\"90.0\" x2=\"453.3\" y2=\"90.0\" marker-end=\"url(#qph1-a)\"/><line class=\"mm-edge\" x1=\"623.3\" y1=\"90.0\" x2=\"670.0\" y2=\"90.0\" marker-end=\"url(#qph1-a)\"/><rect class=\"mm-node mm-c\" x=\"20.0\" y=\"59.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"105.0\" y=\"86\" text-anchor=\"middle\">체험 진술</text><text class=\"mm-r mm-c\" x=\"105.0\" y=\"104\" text-anchor=\"middle\">자료: 심층면담 전사본</text><rect class=\"mm-node mm-m\" x=\"236.7\" y=\"59.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"321.66666666666663\" y=\"86\" text-anchor=\"middle\">의미 단위</text><text class=\"mm-r mm-m\" x=\"321.66666666666663\" y=\"104\" text-anchor=\"middle\">진술을 나눈 조각</text><rect class=\"mm-node mm-m\" x=\"453.3\" y=\"59.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"538.3333333333333\" y=\"86\" text-anchor=\"middle\">주제</text><text class=\"mm-r mm-m\" x=\"538.3333333333333\" y=\"104\" text-anchor=\"middle\">의미 단위의 묶음</text><rect class=\"mm-node mm-y\" x=\"670.0\" y=\"59.0\" width=\"170\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"755.0\" y=\"86\" text-anchor=\"middle\">본질 구조</text><text class=\"mm-r mm-y\" x=\"755.0\" y=\"104\" text-anchor=\"middle\">체험의 핵심 서술</text><text class=\"mm-note\" x=\"430\" y=\"165\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">연구자의 선입견은 먼저 적어 두고(괄호치기), 분석 내내 성찰 메모로 점검합니다.</tspan></text><text class=\"mm-note mm-strong\" x=\"430\" y=\"195\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">변수 사이의 인과 경로를 검정하지 않습니다. 화살표는 분석이 진행되는 순서입니다.</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "grounded-theory": [
+  {
+   "title": "패러다임 모형 (자료에서 도출되는 과정 모형)",
+   "question": "N잡러는 소진을 어떤 과정으로 겪고 회복하는가?",
+   "hypotheses": [
+    "어떤 조건에서 소진이 나타나는가?",
+    "어떤 전략으로 대응하는가?",
+    "그 결과 무엇이 달라지는가?"
+   ],
+   "how": "근거이론의 모형은 가설로 먼저 세우는 것이 아니라 분석 끝에 자료에서 만들어집니다. 이 패러다임 모형은 체계적 접근(Strauss & Corbin)의 틀이고, Charmaz의 구성주의 접근 등에서는 쓰지 않을 수 있습니다.",
+   "results": [
+    "모형의 각 요소는 코딩에서 나온 범주이며 근거 자료로 뒷받침되어야 합니다.",
+    "화살표는 통계적 효과가 아니라 범주 사이의 설명 관계입니다. 계수나 유의성이 없습니다."
+   ],
+   "roles": [
+    [
+     "작용/상호작용 전략",
+     "m"
+    ],
+    [
+     "맥락 조건",
+     "w"
+    ],
+    [
+     "중재 조건",
+     "w"
+    ],
+    [
+     "인과조건",
+     "x"
+    ],
+    [
+     "현상 (중심 현상)",
+     "y"
+    ],
+    [
+     "결과",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 420\" role=\"img\" aria-labelledby=\"qgt1-t qgt1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qgt1-t\">패러다임 모형 (자료에서 도출되는 과정 모형)</title><desc id=\"qgt1-d\">인과조건, 현상, 맥락과 중재 조건, 전략, 결과를 잇는 패러다임 모형</desc><defs><marker id=\"qgt1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qgt1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"215.0\" y1=\"190.0\" x2=\"295.0\" y2=\"190.0\" marker-end=\"url(#qgt1-a)\"/><line class=\"mm-edge\" x1=\"465.0\" y1=\"190.0\" x2=\"535.0\" y2=\"190.0\" marker-end=\"url(#qgt1-a)\"/><line class=\"mm-edge\" x1=\"654.0\" y1=\"218.0\" x2=\"756.0\" y2=\"302.0\" marker-end=\"url(#qgt1-a)\"/><line class=\"mm-edge\" x1=\"380.0\" y1=\"88.0\" x2=\"380.0\" y2=\"162.0\" marker-end=\"url(#qgt1-a)\"/><line class=\"mm-edge\" x1=\"620.0\" y1=\"88.0\" x2=\"620.0\" y2=\"162.0\" marker-end=\"url(#qgt1-a)\"/><rect class=\"mm-node mm-x\" x=\"45.0\" y=\"162.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"186\" text-anchor=\"middle\">다중 역할 과부하</text><text class=\"mm-r mm-x\" x=\"130\" y=\"204\" text-anchor=\"middle\">인과조건</text><rect class=\"mm-node mm-y\" x=\"295.0\" y=\"162.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"380\" y=\"186\" text-anchor=\"middle\">소진의 누적</text><text class=\"mm-r mm-y\" x=\"380\" y=\"204\" text-anchor=\"middle\">현상 (중심 현상)</text><rect class=\"mm-node mm-m\" x=\"535.0\" y=\"162.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"620\" y=\"186\" text-anchor=\"middle\">회복 시간 확보</text><text class=\"mm-r mm-m\" x=\"620\" y=\"204\" text-anchor=\"middle\">작용/상호작용 전략</text><rect class=\"mm-node mm-y\" x=\"715.0\" y=\"302.0\" width=\"150\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"790\" y=\"326\" text-anchor=\"middle\">지속 가능한 일</text><text class=\"mm-r mm-y\" x=\"790\" y=\"344\" text-anchor=\"middle\">결과</text><rect class=\"mm-node mm-w\" x=\"285.0\" y=\"32.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"380\" y=\"56\" text-anchor=\"middle\">불안정한 수입 구조</text><text class=\"mm-r mm-w\" x=\"380\" y=\"74\" text-anchor=\"middle\">맥락 조건</text><rect class=\"mm-node mm-w\" x=\"535.0\" y=\"32.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"620\" y=\"56\" text-anchor=\"middle\">주변의 지지</text><text class=\"mm-r mm-w\" x=\"620\" y=\"74\" text-anchor=\"middle\">중재 조건</text><text class=\"mm-note mm-strong\" x=\"400\" y=\"350\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">핵심범주: 소진과 회복의 순환</tspan></text><text class=\"mm-note\" x=\"400\" y=\"380\" text-anchor=\"middle\"><tspan x=\"400\" dy=\"0\">패러다임 모형(Strauss &amp; Corbin)은 자료를 분석한 뒤에 나오는 결과 모형입니다.</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "narrative": [
+  {
+   "title": "3차원 탐구 공간 (가설 모형 없음)",
+   "question": "경력 단절을 겪은 직원은 자신의 경력을 어떤 이야기로 엮는가?",
+   "hypotheses": [
+    "어떤 사건이 전환점이 되었는가?",
+    "그 경험을 어떤 의미로 이야기하는가?",
+    "이야기 속에서 정체성은 어떻게 달라지는가?"
+   ],
+   "how": "내러티브 연구는 변수 관계를 검정하지 않으므로 가설 모형이 없습니다. 이야기를 시간, 관계, 장소의 세 차원에서 읽는 틀을 제시합니다. 주제 분석이나 구조 분석처럼 다른 접근을 쓰면 틀이 달라집니다.",
+   "results": [
+    "결과는 재구성한 이야기와 해석, 인용으로 제시합니다.",
+    "사례마다 이야기를 먼저 제시한 뒤 사례를 비교합니다."
+   ],
+   "roles": [
+    [
+     "자료: 서사 면담",
+     "c"
+    ],
+    [
+     "과거 - 현재 - 미래",
+     "m"
+    ],
+    [
+     "개인의 감정 - 관계",
+     "m"
+    ],
+    [
+     "직장 - 가정 등 맥락",
+     "m"
+    ],
+    [
+     "연구 텍스트",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 860 340\" role=\"img\" aria-labelledby=\"qna1-t qna1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:860px\"><title id=\"qna1-t\">3차원 탐구 공간 (가설 모형 없음)</title><desc id=\"qna1-d\">참여자의 이야기를 시간성, 사회성, 장소로 읽어 재구성하는 틀</desc><defs><marker id=\"qna1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qna1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"214.0\" y1=\"122.0\" x2=\"346.0\" y2=\"78.0\" marker-end=\"url(#qna1-a)\"/><line class=\"mm-edge\" x1=\"511.2\" y1=\"78.0\" x2=\"638.8\" y2=\"122.0\" marker-end=\"url(#qna1-a)\"/><line class=\"mm-edge\" x1=\"220.0\" y1=\"150.0\" x2=\"335.0\" y2=\"150.0\" marker-end=\"url(#qna1-a)\"/><line class=\"mm-edge\" x1=\"525.0\" y1=\"150.0\" x2=\"625.0\" y2=\"150.0\" marker-end=\"url(#qna1-a)\"/><line class=\"mm-edge\" x1=\"214.0\" y1=\"178.0\" x2=\"346.0\" y2=\"222.0\" marker-end=\"url(#qna1-a)\"/><line class=\"mm-edge\" x1=\"511.2\" y1=\"222.0\" x2=\"638.8\" y2=\"178.0\" marker-end=\"url(#qna1-a)\"/><rect class=\"mm-node mm-c\" x=\"40.0\" y=\"122.0\" width=\"180\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"146\" text-anchor=\"middle\">참여자의 이야기</text><text class=\"mm-r mm-c\" x=\"130\" y=\"164\" text-anchor=\"middle\">자료: 서사 면담</text><rect class=\"mm-node mm-m\" x=\"335.0\" y=\"22.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"46\" text-anchor=\"middle\">시간성</text><text class=\"mm-r mm-m\" x=\"430\" y=\"64\" text-anchor=\"middle\">과거 - 현재 - 미래</text><rect class=\"mm-node mm-m\" x=\"335.0\" y=\"122.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"146\" text-anchor=\"middle\">사회성</text><text class=\"mm-r mm-m\" x=\"430\" y=\"164\" text-anchor=\"middle\">개인의 감정 - 관계</text><rect class=\"mm-node mm-m\" x=\"335.0\" y=\"222.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"246\" text-anchor=\"middle\">장소</text><text class=\"mm-r mm-m\" x=\"430\" y=\"264\" text-anchor=\"middle\">직장 - 가정 등 맥락</text><rect class=\"mm-node mm-y\" x=\"625.0\" y=\"122.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"146\" text-anchor=\"middle\">재구성한 이야기</text><text class=\"mm-r mm-y\" x=\"720\" y=\"164\" text-anchor=\"middle\">연구 텍스트</text><text class=\"mm-note mm-strong\" x=\"430\" y=\"320\" text-anchor=\"middle\"><tspan x=\"430\" dy=\"0\">3차원 내러티브 탐구 공간(Clandinin &amp; Connelly): 가설 모형이 아니라 이야기를 읽는 틀입니다.</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "case-study": [
+  {
+   "title": "내포 단일 사례 설계",
+   "question": "S사의 핵심가치 교육은 어떤 과정으로 정착했고, 팀에 따라 왜 달랐는가?",
+   "hypotheses": [
+    "교육은 어떤 과정으로 운영되었는가?",
+    "정착을 도운 조건과 방해한 조건은 무엇인가?",
+    "두 팀의 차이는 왜 나타났는가?"
+   ],
+   "how": "사례연구는 변수 모형 대신 사례의 경계, 분석 단위, 자료원을 그린 설계 틀을 제시합니다. 설명적 사례연구는 이론적 명제나 논리 모형을 미리 세우기도 합니다.",
+   "results": [
+    "핵심은 자료원을 대조해 얻은 근거입니다. 한 자료원에만 있는 주장은 근거가 약합니다.",
+    "문헌연구와 달리 사례 현장의 1차 자료가 설계의 중심입니다."
+   ],
+   "roles": [
+    [
+     "자료원 1",
+     "c"
+    ],
+    [
+     "자료원 2",
+     "c"
+    ],
+    [
+     "자료원 3",
+     "c"
+    ],
+    [
+     "내포 단위",
+     "m"
+    ],
+    [
+     "설명과 명제",
+     "x"
+    ],
+    [
+     "사례 (분석 단위)",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 420\" role=\"img\" aria-labelledby=\"qcs1-t qcs1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qcs1-t\">내포 단일 사례 설계</title><desc id=\"qcs1-d\">사례의 경계 안에 사례와 내포 단위가 있고 세 자료원이 사례를 설명하는 설계</desc><defs><marker id=\"qcs1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qcs1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"250\" y=\"24\" width=\"380\" height=\"250\" rx=\"10\"/><text class=\"mm-gt\" x=\"262\" y=\"44\">사례의 경계: S사 핵심가치 교육 (2025년)</text><line class=\"mm-edge mm-thin\" x1=\"413.6\" y1=\"134.0\" x2=\"362.7\" y2=\"190.0\" marker-end=\"url(#qcs1-a)\"/><line class=\"mm-edge mm-thin\" x1=\"466.4\" y1=\"134.0\" x2=\"517.3\" y2=\"190.0\" marker-end=\"url(#qcs1-a)\"/><line class=\"mm-edge\" x1=\"190.0\" y1=\"81.9\" x2=\"345.0\" y2=\"96.2\" marker-end=\"url(#qcs1-a)\"/><line class=\"mm-edge\" x1=\"190.0\" y1=\"147.3\" x2=\"345.0\" y2=\"121.1\" marker-end=\"url(#qcs1-a)\"/><line class=\"mm-edge\" x1=\"175.4\" y1=\"219.0\" x2=\"372.7\" y2=\"134.0\" marker-end=\"url(#qcs1-a)\"/><line class=\"mm-edge\" x1=\"535.0\" y1=\"118.0\" x2=\"685.0\" y2=\"138.4\" marker-end=\"url(#qcs1-a)\"/><rect class=\"mm-node mm-y\" x=\"345.0\" y=\"76.0\" width=\"190\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"440\" y=\"101\" text-anchor=\"middle\">교육 프로그램</text><text class=\"mm-r mm-y\" x=\"440\" y=\"119\" text-anchor=\"middle\">사례 (분석 단위)</text><rect class=\"mm-node mm-m\" x=\"275.0\" y=\"190.0\" width=\"130\" height=\"50\" rx=\"6\"/><text class=\"mm-t\" x=\"340\" y=\"211\" text-anchor=\"middle\">A팀</text><text class=\"mm-r mm-m\" x=\"340\" y=\"229\" text-anchor=\"middle\">내포 단위</text><rect class=\"mm-node mm-m\" x=\"475.0\" y=\"190.0\" width=\"130\" height=\"50\" rx=\"6\"/><text class=\"mm-t\" x=\"540\" y=\"211\" text-anchor=\"middle\">B팀</text><text class=\"mm-r mm-m\" x=\"540\" y=\"229\" text-anchor=\"middle\">내포 단위</text><rect class=\"mm-node mm-c\" x=\"40.0\" y=\"49.0\" width=\"150\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"115\" y=\"71\" text-anchor=\"middle\">심층면담</text><text class=\"mm-r mm-c\" x=\"115\" y=\"89\" text-anchor=\"middle\">자료원 1</text><rect class=\"mm-node mm-c\" x=\"40.0\" y=\"134.0\" width=\"150\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"115\" y=\"156\" text-anchor=\"middle\">내부 문서</text><text class=\"mm-r mm-c\" x=\"115\" y=\"174\" text-anchor=\"middle\">자료원 2</text><rect class=\"mm-node mm-c\" x=\"40.0\" y=\"219.0\" width=\"150\" height=\"52\" rx=\"6\"/><text class=\"mm-t\" x=\"115\" y=\"241\" text-anchor=\"middle\">현장 관찰</text><text class=\"mm-r mm-c\" x=\"115\" y=\"259\" text-anchor=\"middle\">자료원 3</text><rect class=\"mm-node mm-x\" x=\"685.0\" y=\"120.0\" width=\"170\" height=\"60\" rx=\"6\"/><text class=\"mm-t\" x=\"770\" y=\"146\" text-anchor=\"middle\">이론적 설명</text><text class=\"mm-r mm-x\" x=\"770\" y=\"164\" text-anchor=\"middle\">설명과 명제</text><text class=\"mm-note mm-strong\" x=\"440\" y=\"320\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">맥락: 조직 문화, 경영진 방침, 산업 환경</tspan></text><text class=\"mm-note\" x=\"440\" y=\"355\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">여러 자료원을 대조(삼각검증)해 사례를 설명합니다. 다중 사례면 이 틀을 사례마다 반복합니다.</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "scoping-review": [
+  {
+   "title": "PCC 질문과 문헌 선정 흐름 (PRISMA-ScR)",
+   "question": "국내 Z세대의 조직시민행동 연구는 어떤 대상·개념·방법으로 이루어졌는가?",
+   "hypotheses": [
+    "대상(P): 누구를 연구했는가?",
+    "개념(C): 조직시민행동을 어떻게 다루었는가?",
+    "맥락(C): 어떤 조직과 방법에서 연구했는가?"
+   ],
+   "how": "스코핑 리뷰는 변수 모형이 아니라 질문의 틀(PCC)과 문헌 선정 흐름이 연구 구조입니다. 흐름도의 숫자는 위에서 아래로 맞아떨어져야 합니다.",
+   "results": [
+    "최종 58편이 분석 대상입니다. 단계별 제외 수와 사유를 함께 보고합니다.",
+    "결과는 연구의 분포와 공백입니다."
+   ],
+   "roles": [
+    [
+     "서지 관리 프로그램",
+     "c"
+    ],
+    [
+     "대상·개념·맥락 불일치",
+     "c"
+    ],
+    [
+     "개념 불일치 17, 원문 없음 9",
+     "c"
+    ],
+    [
+     "데이터베이스 3개 + 참고문헌 추적",
+     "m"
+    ],
+    [
+     "제목·초록 선별 대상",
+     "m"
+    ],
+    [
+     "포함 기준 적용",
+     "m"
+    ],
+    [
+     "자료 추출과 지도화",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 422\" role=\"img\" aria-labelledby=\"qsc1-t qsc1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"qsc1-t\">PCC 질문과 문헌 선정 흐름 (PRISMA-ScR)</title><desc id=\"qsc1-d\">검색, 중복 제거, 선별, 최종 포함으로 이어지는 문헌 선정 흐름도</desc><defs><marker id=\"qsc1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qsc1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"250.0\" y1=\"79.0\" x2=\"250.0\" y2=\"109.0\" marker-end=\"url(#qsc1-a)\"/><line class=\"mm-edge\" x1=\"250.0\" y1=\"167.0\" x2=\"250.0\" y2=\"197.0\" marker-end=\"url(#qsc1-a)\"/><line class=\"mm-edge\" x1=\"250.0\" y1=\"255.0\" x2=\"250.0\" y2=\"285.0\" marker-end=\"url(#qsc1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"50.0\" x2=\"570.0\" y2=\"50.0\" marker-end=\"url(#qsc1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"138.0\" x2=\"570.0\" y2=\"138.0\" marker-end=\"url(#qsc1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"226.0\" x2=\"570.0\" y2=\"226.0\" marker-end=\"url(#qsc1-a)\"/><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"21.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"46\" text-anchor=\"middle\">검색된 문헌 612편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"64\" text-anchor=\"middle\">데이터베이스 3개 + 참고문헌 추적</text><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"109.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"134\" text-anchor=\"middle\">중복 제거 후 464편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"152\" text-anchor=\"middle\">제목·초록 선별 대상</text><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"197.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"222\" text-anchor=\"middle\">전문 검토 84편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"240\" text-anchor=\"middle\">포함 기준 적용</text><rect class=\"mm-node mm-y\" x=\"60.0\" y=\"285.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"310\" text-anchor=\"middle\">최종 포함 58편</text><text class=\"mm-r mm-y\" x=\"250\" y=\"328\" text-anchor=\"middle\">자료 추출과 지도화</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"21.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"46\" text-anchor=\"middle\">중복 제거 148편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"64\" text-anchor=\"middle\">서지 관리 프로그램</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"109.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"134\" text-anchor=\"middle\">제외 380편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"152\" text-anchor=\"middle\">대상·개념·맥락 불일치</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"197.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"222\" text-anchor=\"middle\">제외 26편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"240\" text-anchor=\"middle\">개념 불일치 17, 원문 없음 9</text><text class=\"mm-note\" x=\"450.0\" y=\"410\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">PRISMA-ScR 흐름도. 효과를 합치거나 근거 강도를 판정하지 않습니다. (예시 값)</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "integrative-review": [
+  {
+   "title": "통합적 문헌고찰의 연구 틀",
+   "question": "경력역량에 관한 흩어진 개념을 어떻게 하나의 틀로 묶을 수 있는가?",
+   "hypotheses": [
+    "경력역량은 문헌에서 어떻게 정의되는가?",
+    "개념과 결과의 일치와 모순은 무엇인가?",
+    "어떤 통합 틀로 정리할 수 있는가?"
+   ],
+   "how": "이 방법의 ‘모형’은 시작할 때의 가설이 아니라 분석 끝에 나오는 통합틀입니다. 먼저 검토 절차를 틀로 제시합니다.",
+   "results": [
+    "각 단계의 판단 근거를 기록합니다.",
+    "통합틀의 각 요소가 어떤 문헌에서 나왔는지 추적 가능해야 합니다."
+   ],
+   "roles": [
+    [
+     "개념의 혼란",
+     "c"
+    ],
+    [
+     "실증·이론 문헌",
+     "c"
+    ],
+    [
+     "문헌의 질",
+     "m"
+    ],
+    [
+     "축약·표시·비교",
+     "m"
+    ],
+    [
+     "분류·명제",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 260\" role=\"img\" aria-labelledby=\"qir1-t qir1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qir1-t\">통합적 문헌고찰의 연구 틀</title><desc id=\"qir1-d\">문제 확인에서 통합틀 제시까지 다섯 단계</desc><defs><marker id=\"qir1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qir1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"160.0\" y1=\"90.0\" x2=\"195.0\" y2=\"90.0\" marker-end=\"url(#qir1-a)\"/><line class=\"mm-edge\" x1=\"335.0\" y1=\"90.0\" x2=\"370.0\" y2=\"90.0\" marker-end=\"url(#qir1-a)\"/><line class=\"mm-edge\" x1=\"510.0\" y1=\"90.0\" x2=\"545.0\" y2=\"90.0\" marker-end=\"url(#qir1-a)\"/><line class=\"mm-edge\" x1=\"685.0\" y1=\"90.0\" x2=\"720.0\" y2=\"90.0\" marker-end=\"url(#qir1-a)\"/><rect class=\"mm-node mm-c\" x=\"20.0\" y=\"59.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"90.0\" y=\"86\" text-anchor=\"middle\">문제 확인</text><text class=\"mm-r mm-c\" x=\"90.0\" y=\"104\" text-anchor=\"middle\">개념의 혼란</text><rect class=\"mm-node mm-c\" x=\"195.0\" y=\"59.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"265.0\" y=\"86\" text-anchor=\"middle\">문헌 검색</text><text class=\"mm-r mm-c\" x=\"265.0\" y=\"104\" text-anchor=\"middle\">실증·이론 문헌</text><rect class=\"mm-node mm-m\" x=\"370.0\" y=\"59.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"440.0\" y=\"86\" text-anchor=\"middle\">자료 평가</text><text class=\"mm-r mm-m\" x=\"440.0\" y=\"104\" text-anchor=\"middle\">문헌의 질</text><rect class=\"mm-node mm-m\" x=\"545.0\" y=\"59.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"615.0\" y=\"86\" text-anchor=\"middle\">자료 분석</text><text class=\"mm-r mm-m\" x=\"615.0\" y=\"104\" text-anchor=\"middle\">축약·표시·비교</text><rect class=\"mm-node mm-y\" x=\"720.0\" y=\"59.0\" width=\"140\" height=\"62\" rx=\"6\"/><text class=\"mm-t\" x=\"790.0\" y=\"86\" text-anchor=\"middle\">통합틀 제시</text><text class=\"mm-r mm-y\" x=\"790.0\" y=\"104\" text-anchor=\"middle\">분류·명제</text><text class=\"mm-note mm-strong\" x=\"440\" y=\"170\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">Whittemore &amp; Knafl(2005)의 5단계. 변수 모형을 검정하지 않고, 문헌 비교로 통합틀을 만듭니다.</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "systematic-review": [
+  {
+   "title": "PICO 질문과 문헌 선정 흐름 (PRISMA 2020)",
+   "question": "리더 대상 코칭 프로그램은 리더십 행동을 높이는가?",
+   "hypotheses": [
+    "대상(P): 조직의 리더",
+    "개입(I): 코칭 프로그램",
+    "비교(C): 미참여 또는 다른 교육",
+    "결과(O): 리더십 행동"
+   ],
+   "how": "체계적 문헌고찰의 구조는 사전에 정한 질문과 재현 가능한 선정 흐름입니다. PICO가 맞지 않는 주제는 다른 틀(SPIDER 등)을 씁니다.",
+   "results": [
+    "숫자가 단계마다 맞아야 하고 제외 사유를 보고합니다.",
+    "결론의 강도는 편향 위험과 근거 확실성에 달려 있습니다."
+   ],
+   "roles": [
+    [
+     "서지 관리 프로그램",
+     "c"
+    ],
+    [
+     "주제·대상 불일치",
+     "c"
+    ],
+    [
+     "설계 불일치 52, 결과 없음 34",
+     "c"
+    ],
+    [
+     "데이터베이스 1,210 + 기타 38",
+     "m"
+    ],
+    [
+     "제목·초록 선별 대상",
+     "m"
+    ],
+    [
+     "포함 기준 적용",
+     "m"
+    ],
+    [
+     "편향 위험 평가와 합성",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 900 422\" role=\"img\" aria-labelledby=\"qsr1-t qsr1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:900px\"><title id=\"qsr1-t\">PICO 질문과 문헌 선정 흐름 (PRISMA 2020)</title><desc id=\"qsr1-d\">PRISMA 2020 문헌 선정 흐름도</desc><defs><marker id=\"qsr1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qsr1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"250.0\" y1=\"79.0\" x2=\"250.0\" y2=\"109.0\" marker-end=\"url(#qsr1-a)\"/><line class=\"mm-edge\" x1=\"250.0\" y1=\"167.0\" x2=\"250.0\" y2=\"197.0\" marker-end=\"url(#qsr1-a)\"/><line class=\"mm-edge\" x1=\"250.0\" y1=\"255.0\" x2=\"250.0\" y2=\"285.0\" marker-end=\"url(#qsr1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"50.0\" x2=\"570.0\" y2=\"50.0\" marker-end=\"url(#qsr1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"138.0\" x2=\"570.0\" y2=\"138.0\" marker-end=\"url(#qsr1-a)\"/><line class=\"mm-edge\" x1=\"440.0\" y1=\"226.0\" x2=\"570.0\" y2=\"226.0\" marker-end=\"url(#qsr1-a)\"/><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"21.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"46\" text-anchor=\"middle\">검색된 문헌 1,248편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"64\" text-anchor=\"middle\">데이터베이스 1,210 + 기타 38</text><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"109.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"134\" text-anchor=\"middle\">중복 제거 후 936편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"152\" text-anchor=\"middle\">제목·초록 선별 대상</text><rect class=\"mm-node mm-m\" x=\"60.0\" y=\"197.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"222\" text-anchor=\"middle\">전문 검토 132편</text><text class=\"mm-r mm-m\" x=\"250\" y=\"240\" text-anchor=\"middle\">포함 기준 적용</text><rect class=\"mm-node mm-y\" x=\"60.0\" y=\"285.0\" width=\"380\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"250\" y=\"310\" text-anchor=\"middle\">최종 포함 46편</text><text class=\"mm-r mm-y\" x=\"250\" y=\"328\" text-anchor=\"middle\">편향 위험 평가와 합성</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"21.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"46\" text-anchor=\"middle\">중복 제거 312편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"64\" text-anchor=\"middle\">서지 관리 프로그램</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"109.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"134\" text-anchor=\"middle\">제외 804편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"152\" text-anchor=\"middle\">주제·대상 불일치</text><rect class=\"mm-node mm-c\" x=\"570.0\" y=\"197.0\" width=\"300\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"720\" y=\"222\" text-anchor=\"middle\">제외 86편</text><text class=\"mm-r mm-c\" x=\"720\" y=\"240\" text-anchor=\"middle\">설계 불일치 52, 결과 없음 34</text><text class=\"mm-note\" x=\"450.0\" y=\"410\" text-anchor=\"middle\"><tspan x=\"450.0\" dy=\"0\">PRISMA 2020 흐름도. 프로토콜을 사전 등록하고 두 명이 독립적으로 선별합니다. (예시 값)</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
+ ],
+ "meta-analysis": [
+  {
+   "title": "랜덤효과 메타분석과 조절효과 모형",
+   "question": "교육 프로그램의 평균 효과는 얼마이고, 학습자 유형에 따라 달라지는가?",
+   "hypotheses": [
+    "H1: 교육 프로그램의 통합 효과는 0보다 클 것이다.",
+    "H2: 효과 크기는 연구 특성(학습자 유형)에 따라 달라질 것이다."
+   ],
+   "how": "연구 1편이 자료 한 행입니다. 메타분석은 양적 모형이어서 가설을 세울 수 있습니다. 연구마다 정밀도에 따라 가중치를 달리해 통합합니다.",
+   "results": [
+    "H1 지지: 통합 효과 g = .57, 95% CI [.39, .76]로 0을 포함하지 않습니다(중간 이상 크기).",
+    "이질성: Q(6) = 9.8, I² = 39%이므로 연구 간 차이가 있어 조절효과를 볼 근거가 있습니다.",
+    "새 연구에서 기대되는 범위(95% 예측구간)는 [0.13, 1.01]로 평균의 신뢰구간보다 넓습니다."
+   ],
+   "roles": [
+    [
+     "효과크기",
+     "c"
+    ],
+    [
+     "Q = 9.8, I² = 39%",
+     "m"
+    ],
+    [
+     "연구 특성",
+     "w"
+    ],
+    [
+     "g = .57, 95% CI [.39, .76]",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 400\" role=\"img\" aria-labelledby=\"qma1-t qma1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qma1-t\">랜덤효과 메타분석과 조절효과 모형</title><desc id=\"qma1-d\">연구별 효과크기가 통합 효과로 모이고 조절변수가 효과의 차이를 설명하는 모형</desc><defs><marker id=\"qma1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qma1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"225.0\" y1=\"81.0\" x2=\"335.0\" y2=\"105.2\" marker-end=\"url(#qma1-a)\"/><line class=\"mm-edge\" x1=\"225.0\" y1=\"135.0\" x2=\"335.0\" y2=\"135.0\" marker-end=\"url(#qma1-a)\"/><line class=\"mm-edge\" x1=\"225.0\" y1=\"189.0\" x2=\"335.0\" y2=\"164.8\" marker-end=\"url(#qma1-a)\"/><line class=\"mm-edge\" x1=\"470.0\" y1=\"272.0\" x2=\"470.0\" y2=\"168.0\" marker-end=\"url(#qma1-a)\"/><line class=\"mm-edge\" x1=\"605.0\" y1=\"135.0\" x2=\"670.0\" y2=\"135.0\" marker-end=\"url(#qma1-a)\"/><rect class=\"mm-node mm-c\" x=\"35.0\" y=\"32.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"56\" text-anchor=\"middle\">연구 1: g, 분산</text><text class=\"mm-r mm-c\" x=\"130\" y=\"74\" text-anchor=\"middle\">효과크기</text><rect class=\"mm-node mm-c\" x=\"35.0\" y=\"107.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"131\" text-anchor=\"middle\">연구 2: g, 분산</text><text class=\"mm-r mm-c\" x=\"130\" y=\"149\" text-anchor=\"middle\">효과크기</text><rect class=\"mm-node mm-c\" x=\"35.0\" y=\"182.0\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"130\" y=\"206\" text-anchor=\"middle\">연구 k: g, 분산</text><text class=\"mm-r mm-c\" x=\"130\" y=\"224\" text-anchor=\"middle\">효과크기</text><rect class=\"mm-node mm-y\" x=\"335.0\" y=\"102.0\" width=\"270\" height=\"66\" rx=\"6\"/><text class=\"mm-t\" x=\"470\" y=\"131\" text-anchor=\"middle\">통합 효과 (랜덤효과)</text><text class=\"mm-r mm-y\" x=\"470\" y=\"149\" text-anchor=\"middle\">g = .57, 95% CI [.39, .76]</text><rect class=\"mm-node mm-w\" x=\"350.0\" y=\"272.0\" width=\"240\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"470\" y=\"296\" text-anchor=\"middle\">학습자 유형 (조절변수)</text><text class=\"mm-r mm-w\" x=\"470\" y=\"314\" text-anchor=\"middle\">연구 특성</text><rect class=\"mm-lbg\" x=\"489.2\" y=\"211.0\" width=\"133.5\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"556.0\" y=\"224.0\" text-anchor=\"middle\"><tspan x=\"556.0\" dy=\"0\">H2 조절효과 (메타회귀)</tspan></text><rect class=\"mm-node mm-m\" x=\"670.0\" y=\"102.0\" width=\"180\" height=\"66\" rx=\"6\"/><text class=\"mm-t\" x=\"760\" y=\"131\" text-anchor=\"middle\">이질성</text><text class=\"mm-r mm-m\" x=\"760\" y=\"149\" text-anchor=\"middle\">Q = 9.8, I² = 39%</text><text class=\"mm-note\" x=\"440\" y=\"380\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">효과크기는 예시 연구 7편에서 직접 계산했습니다 (랜덤효과, DL 추정)</tspan></text></svg>",
+   "nokey": true
+  }
+ ],
+ "theory-building": [
+  {
+   "title": "명제 기반 개념모형",
+   "question": "AI가 답을 만들어 주는 시대에 개인의 배움은 어떻게 조직의 지식이 되는가?",
+   "hypotheses": [
+    "P1: AI 산출물에 검토 없이 의존할수록 개인 학습은 줄어든다.",
+    "P2: 개인 학습이 많을수록 조직 지식이 축적된다.",
+    "P3: 동료 검토가 활발할수록 개인 학습이 조직 지식으로 더 잘 이어진다."
+   ],
+   "how": "이론 구축 연구는 자료 분석 없이 개념과 관계를 논리로 도출하므로 가설 대신 명제를 제시합니다. 명제는 후속 연구가 검증할 수 있는 형태여야 합니다.",
+   "results": [
+    "명제마다 왜 그런지 논리적 근거를 씁니다.",
+    "경계조건 밖에서는 명제가 성립하지 않을 수 있음을 밝힙니다."
+   ],
+   "roles": [
+    [
+     "개념 2 (메커니즘)",
+     "m"
+    ],
+    [
+     "조절 개념",
+     "w"
+    ],
+    [
+     "개념 1",
+     "x"
+    ],
+    [
+     "개념 3",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 420\" role=\"img\" aria-labelledby=\"qtb1-t qtb1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qtb1-t\">명제 기반 개념모형</title><desc id=\"qtb1-d\">AI 의존, 개인 학습, 조직 지식, 동료 검토를 잇는 명제 모형</desc><defs><marker id=\"qtb1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qtb1-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><rect class=\"mm-group\" x=\"24\" y=\"24\" width=\"832\" height=\"270\" rx=\"10\"/><text class=\"mm-gt\" x=\"36\" y=\"44\">경계조건: 비정형 지식 업무를 하는 팀</text><line class=\"mm-edge\" x1=\"235.0\" y1=\"110.0\" x2=\"345.0\" y2=\"110.0\" marker-end=\"url(#qtb1-a)\"/><line class=\"mm-edge\" x1=\"515.0\" y1=\"110.0\" x2=\"625.0\" y2=\"110.0\" marker-end=\"url(#qtb1-a)\"/><line class=\"mm-edge\" x1=\"461.4\" y1=\"207.0\" x2=\"570.0\" y2=\"110.0\" marker-end=\"url(#qtb1-a)\"/><rect class=\"mm-node mm-x\" x=\"65.0\" y=\"82.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"150\" y=\"106\" text-anchor=\"middle\">AI 의존</text><text class=\"mm-r mm-x\" x=\"150\" y=\"124\" text-anchor=\"middle\">개념 1</text><rect class=\"mm-node mm-m\" x=\"345.0\" y=\"82.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"106\" text-anchor=\"middle\">개인 학습</text><text class=\"mm-r mm-m\" x=\"430\" y=\"124\" text-anchor=\"middle\">개념 2 (메커니즘)</text><rect class=\"mm-node mm-y\" x=\"625.0\" y=\"82.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"710\" y=\"106\" text-anchor=\"middle\">조직 지식</text><text class=\"mm-r mm-y\" x=\"710\" y=\"124\" text-anchor=\"middle\">개념 3</text><rect class=\"mm-node mm-w\" x=\"345.0\" y=\"207.0\" width=\"170\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"430\" y=\"231\" text-anchor=\"middle\">동료 검토</text><text class=\"mm-r mm-w\" x=\"430\" y=\"249\" text-anchor=\"middle\">조절 개념</text><rect class=\"mm-lbg\" x=\"260.6\" y=\"83.0\" width=\"58.7\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"290.0\" y=\"96.0\" text-anchor=\"middle\"><tspan x=\"290.0\" dy=\"0\">P1 (−)</tspan></text><rect class=\"mm-lbg\" x=\"543.3\" y=\"83.0\" width=\"53.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"570.0\" y=\"96.0\" text-anchor=\"middle\"><tspan x=\"570.0\" dy=\"0\">P2 (+)</tspan></text><rect class=\"mm-lbg\" x=\"533.0\" y=\"153.5\" width=\"53.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"559.6800000000001\" y=\"166.5\" text-anchor=\"middle\"><tspan x=\"559.6800000000001\" dy=\"0\">P3 (+)</tspan></text><text class=\"mm-note mm-strong\" x=\"440\" y=\"330\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">P = 명제. 아직 검증되지 않은 이론적 진술이며 계수가 없습니다.</tspan></text><text class=\"mm-note\" x=\"440\" y=\"362\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">개념(what), 관계(how), 이유(why), 경계(who·where·when)를 함께 제시합니다 (Whetten, 1989).</tspan></text></svg>",
+   "frame": true,
+   "hlabel": "명제"
   }
  ]
 }

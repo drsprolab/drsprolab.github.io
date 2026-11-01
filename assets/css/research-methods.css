@@ -293,3 +293,4 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-mini-link { display:inline-block; margin-left:8px; padding:0 9px; border-radius:999px; background:var(--tint); color:var(--accent); font-size:11.5px; font-weight:600; text-decoration:none; vertical-align:1px; transition:transform .15s ease, background-color .15s ease; }
 .rm-mini-link:hover,.rm-mini-link:focus-visible { transform:scale(1.08); background:var(--accent-soft); }
 .rm-result-columns li strong { display:inline; }
+.rf-v[fill="#fff"] { fill:#fff; }
