@@ -21,6 +21,16 @@ TODAY = datetime.date.today()
 DATE = f'{TODAY.year}. {TODAY.month}. {TODAY.day}.'
 
 
+def student_items_of(js):
+    """JS의 STUDENT_TEXT 객체(학생용 문장)를 [(코드, 문장)]으로 읽는다. 없으면 빈 목록."""
+    s = open(os.path.join(ROOT, 'assets/js', js), encoding='utf-8').read()
+    if 'var STUDENT_TEXT = {' not in s:
+        return []
+    block = s[s.index('var STUDENT_TEXT = {'):]
+    block = block[:block.index('};')]
+    return re.findall(r"^\s*([A-Z]\d): '(.*?)',?$", block, re.M)
+
+
 def items_of(js):
     s = open(os.path.join(ROOT, 'assets/js', js), encoding='utf-8').read()
     return re.findall(r"^\s*\['([A-Z]\d)', '(.*?)'\],?$", s, re.M)
@@ -409,7 +419,9 @@ def competency(spec):
         sq(spec['level_note'])))
     ch.append(('Ⅲ. 진단 문항',
         sq('응답 척도: 1 전혀 그렇지 않다 · 2 그렇지 않다 · 3 보통이다 · 4 그렇다 · 5 매우 그렇다') +
-        '<p class="cap">&lt;표 2&gt; 영역별 진단 문항과 측정 내용</p>' + item_table(items, groups) +
+        ('<p class="cap">&lt;표 2&gt; 영역별 진단 문항과 측정 내용' + (' (교원·직원용)' if student_items_of(spec['js']) else '') + '</p>') + item_table(items, groups) +
+        (('<h3>학생용 문항</h3>' + sq('응답자 구분에서 "학생"을 고르면 아래 문장으로 묻는다. 코드와 측정 내용은 교원·직원용과 같아, 영역 점수를 그대로 비교한다') +
+          '<p class="cap">&lt;표 2-1&gt; 학생용 문항(숙제·수행평가·탐구 과제·앱 가입 등 학생의 생활 장면)</p>' + item_table(student_items_of(spec['js']), groups)) if student_items_of(spec['js']) else '') +
         note('태도(T1~T6)는 종합 점수에 넣지 않고 따로 산출하며, 나의 결과에서 태도 점수와 실천(종합) 점수의 차이를 함께 보여 줌')))
     ch.append(('Ⅳ. 점수 산출과 유형 판정',
         '<p class="cap">&lt;표 3&gt; 점수 산출 기준</p>' +
@@ -518,7 +530,7 @@ TADX = dict(
              ('확인하기', '결과를 받으면', '이 답을 믿어도 될까?', '사실, 근거, 출처, 완성 여부를 직접 확인함', '틀린 정보를 그대로 믿기'),
              ('책임 있게 쓰기', '내기 전', '이대로 내도 될까?', '개인정보와 저작권을 지키고, 차별 표현을 살피며, AI 사용을 밝히고 결과를 내 책임으로 다룸', '개인정보 유출, 표절, 차별'),
              ('내 힘 지키기', '쓰는 내내', '내 실력은 그대로인가?', '스스로 먼저 생각하고, 기본 실력을 지키며, AI를 쓰는 습관을 돌아봄', '생각하는 힘과 기본 실력 약화')],
-    level_note='학교 맥락 반영: 중·고등학생도 이해할 수 있는 낱말로 쓰고, 예시를 학교 상황(수행평가·가정통신문·교과서 등)으로 바꿈',
+    level_note='응답자에 따라 문항 두 벌: 교원·직원(교사·보직교사·행정직원)은 수업·업무 장면으로, 학생은 숙제·수행평가·탐구 과제 장면으로 묻고, 코드와 측정 내용은 같게 두어 영역 점수를 그대로 비교함',
     focus=FOCUS_C,
     score_extra=[['학교 집계', '소속 학교 이름을 정규화(띄어쓰기·기호 제거)해 같은 학교 응답끼리 집계', '다른 학교는 3명 이상 응답한 학교만 비교, 이름 대신 학교 A·B·C로 표시']],
     flow=[('응답', '31문항 + 구분·학교'), ('점수', '영역별 0~100점'), ('유형', '10가지 유형'), ('비교', '나 · 우리 학교 · 타 학교'), ('행동', '우선순위 과제')],

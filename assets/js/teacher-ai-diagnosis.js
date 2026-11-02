@@ -31,7 +31,7 @@
     ['D2', 'AI에게 일을 맡기기 전에, AI의 답이 맞는지 내가 확인할 수 있는 일인지 생각해 본다.'],
     ['D3', 'AI의 답을 볼 때, 전에 비슷한 질문에서 AI가 얼마나 맞았는지 떠올려 본다.'],
     ['D4', 'AI에게 일을 맡기기 전에, 내가 직접 하는 것이 더 빠를지 생각해 본다.'],
-    ['D5', '진로나 친구·동료 관계처럼 나에게 중요한 고민을 AI에게 물을 때, AI가 말하지 않은 다른 방법도 생각해 본다.'],
+    ['D5', '학생 상담이나 진로 지도처럼 사람에게 중요한 문제를 AI에게 물을 때, AI가 말하지 않은 다른 방법도 생각해 본다.'],
     ['L1', 'AI에게 부탁할 때, 결과물을 어디에 쓸지(예: 발표 자료, 수업 자료, 가정통신문) 알려 준다.'],
     ['L2', 'AI에게 부탁할 때, 지켜야 할 조건(예: 글자 수, 형식, 빼야 할 내용)을 함께 적는다.'],
     ['L3', 'AI의 답이 내가 원한 것과 다르면, 어느 부분이 다른지 말해 주고 다시 부탁한다.'],
@@ -44,11 +44,11 @@
     ['V5', 'AI가 다 했다고 해도, 결과물(예: 파일, 표, 요약)을 직접 열어 확인한다.'],
     ['R1', 'AI에 자료를 넣기 전에, 다른 사람의 개인정보(예: 이름, 연락처, 성적)가 들어 있는지 확인한다.'],
     ['R2', 'AI가 만든 내용을 내 이름으로 내기 전에, 그 내용을 내가 설명할 수 있는지 확인한다.'],
-    ['R3', 'AI를 썼는지 밝히도록 정해진 경우(예: 숙제, 수행평가, 공문서)에는 AI를 어떻게 썼는지 밝힌다.'],
+    ['R3', 'AI를 썼는지 밝히도록 정해진 경우(예: 공문서, 연구·연수 결과물, 학교 누리집 게시물)에는 AI를 어떻게 썼는지 밝힌다.'],
     ['R4', 'AI가 만든 글이나 그림에 어떤 사람이나 집단을 차별하는 표현이 있는지 살펴본다.'],
     ['R5', 'AI가 만든 결과물을 쓰기 전에, 다른 사람의 글이나 그림이 그대로 들어 있는지 확인한다.'],
     ['H1', 'AI에게 묻기 전에, 내 생각을 먼저 정리한다.'],
-    ['H2', 'AI가 대신할 수 있는 일이라도, 내가 꼭 익혀야 할 기본 작업(예: 글쓰기, 계산)은 직접 한다.'],
+    ['H2', 'AI가 대신할 수 있는 일이라도, 내가 꼭 익혀야 할 기본 작업(예: 수업 설계, 문서 작성)은 직접 한다.'],
     ['H3', 'AI의 도움을 받아 끝낸 일에서 내가 새로 배운 점을 돌아본다.'],
     ['H4', 'AI로 끝낸 일을 AI 없이도 할 수 있을지 생각해 본다.'],
     ['H5', 'AI가 쓴 글을 사용할 때, 내 말로 다시 쓴다.'],
@@ -59,6 +59,43 @@
     ['T5', '밝히지 않아도 되는 경우에도, AI를 쓴 사실을 밝히는 것이 좋다.'],
     ['T6', 'AI가 더 빨리 할 수 있는 일이라도, 사람이 직접 할 줄 알아야 한다.']
   ].map(function (r, i) { return { code: r[0], text: r[1], idx: i }; });
+  // 학생용 문항: 같은 코드·같은 측정 내용을 학생의 생활(숙제·수행평가·탐구 과제·앱 가입)로 바꿔 쓴다. 영역 점수는 교원·직원과 그대로 비교한다.
+  var STUDENT_TEXT = {
+    D1: 'AI에게 숙제나 과제를 맡기기 전에, AI가 틀리면 얼마나 곤란해질지 생각해 본다.',
+    D2: 'AI에게 물어보기 전에, AI의 답이 맞는지 내가 확인할 수 있는 내용인지 생각해 본다.',
+    D3: 'AI의 답을 볼 때, 전에 비슷한 질문에서 AI가 얼마나 맞았는지 떠올려 본다.',
+    D4: 'AI에게 맡기기 전에, 내가 직접 하는 것이 더 빠르거나 공부에 더 도움이 될지 생각해 본다.',
+    D5: '진로나 친구 관계처럼 나에게 중요한 고민을 AI에게 물을 때, AI가 말하지 않은 다른 방법도 생각해 보거나 선생님·부모님과 이야기해 본다.',
+    L1: 'AI에게 부탁할 때, 결과물을 어디에 쓸지(예: 발표 자료, 탐구 보고서, 공부 정리) 알려 준다.',
+    L2: 'AI에게 부탁할 때, 지켜야 할 조건(예: 글자 수, 형식, 내 학년 수준)을 함께 적는다.',
+    L3: 'AI의 답이 내가 원한 것과 다르면, 어느 부분이 다른지 말해 주고 다시 부탁한다.',
+    L4: '조사나 보고서처럼 여러 단계로 된 과제는 한꺼번에 맡기지 않고, 단계마다 결과를 확인하며 진행한다.',
+    L5: 'AI 앱을 설치하거나 가입할 때, 내 계정·사진·파일 가운데 무엇을 쓰도록 허용하는지 확인한다.',
+    V1: 'AI가 알려 준 숫자나 날짜를 과제에 쓰기 전에, 교과서나 믿을 만한 자료에서 확인한다.',
+    V2: 'AI가 알려 준 출처(예: 책, 기사, 웹사이트)가 실제로 있는지 찾아본다.',
+    V3: 'AI의 답을 읽을 때, 근거가 있는 내용과 근거 없이 주장만 하는 내용을 구분한다.',
+    V4: 'AI의 답이 내 생각과 같을 때에도, 그 답의 근거를 확인한다.',
+    V5: 'AI가 정리해 준 내용(예: 요약, 표, 문제 풀이)을 그대로 내지 않고, 직접 읽어 보며 확인한다.',
+    R1: 'AI에 자료를 넣기 전에, 친구나 다른 사람의 개인정보(예: 이름, 연락처, 사진)가 들어 있는지 확인한다.',
+    R2: 'AI가 만든 내용을 내 과제로 내기 전에, 그 내용을 내가 설명할 수 있는지 확인한다.',
+    R3: '숙제나 수행평가에서 AI를 썼다면, 선생님이 정한 방법대로 AI를 어떻게 썼는지 밝힌다.',
+    R4: 'AI가 만든 글이나 그림에 어떤 사람이나 집단을 차별하거나 놀리는 표현이 있는지 살펴본다.',
+    R5: 'AI가 만든 결과물을 쓰기 전에, 다른 사람의 글이나 그림이 그대로 들어 있는지 확인한다.',
+    H1: 'AI에게 묻기 전에, 내 생각을 먼저 정리한다.',
+    H2: 'AI가 대신 해 줄 수 있어도, 꼭 익혀야 할 공부(예: 글쓰기, 계산, 문제 풀이)는 내 힘으로 한다.',
+    H3: 'AI의 도움을 받아 끝낸 공부나 과제에서 내가 새로 배운 점을 돌아본다.',
+    H4: 'AI의 도움으로 한 과제를 AI 없이도 할 수 있을지 생각해 본다.',
+    H5: 'AI가 쓴 글을 과제에 쓸 때, 내 말로 다시 쓴다.',
+    T1: 'AI에게 맡기면 편한 숙제라도, 맡길지 먼저 생각해 보는 것이 좋다.',
+    T2: '중요한 결정일수록 AI의 의견보다 나와 주변 어른의 판단을 먼저 따라야 한다.',
+    T3: 'AI의 답이 그럴듯해 보여도, 시간을 들여 확인할 가치가 있다.',
+    T4: 'AI가 틀린 내용이라도, 그것을 그대로 과제에 쓴 사람에게 책임이 있다.',
+    T5: '밝히지 않아도 되는 경우에도, 과제에 AI를 쓴 사실을 밝히는 것이 좋다.',
+    T6: 'AI가 더 빨리 할 수 있는 일이라도, 내가 직접 할 줄 알아야 한다.'
+  };
+  // 응답자(또는 결과를 보는 사람)가 학생이면 학생용 문장을 쓴다.
+  function curRole() { return state.role || (state.me && state.me.role) || ''; }
+  function txt(it) { return curRole() === '학생' && STUDENT_TEXT[it.code] ? STUDENT_TEXT[it.code] : it.text; }
   var NP = 25, NI = ITEMS.length; // 실천 문항 수, 전체 문항 수
   var SCALE = ['전혀 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'];
   var ROLES = ['학생', '교사', '보직교사', '행정직원'];
@@ -328,8 +365,8 @@
       h += '<h2 class="aidx-h">' + (p < 5 ? '각 문장이 나의 실제 행동과 얼마나 같은가요?' : '다음 생각에 얼마나 동의하나요?') + '</h2>';
       h += '<ol class="aidx-items">' + items.map(function (it) {
         var no = PAGES.slice(0, p).reduce(function (s, x) { return s + x.length; }, 0) + items.indexOf(it) + 1;
-        return '<li class="aidx-item" id="q-' + it.code + '"><p class="aidx-q"><span class="aidx-no">' + no + '</span>' + esc(it.text) + '</p>' +
-          '<div class="aidx-scale"><span class="aidx-end">' + SCALE[0] + '</span><div class="aidx-dots" role="radiogroup" aria-label="' + esc(it.text) + '">' + SCALE.map(function (lab, v) {
+        return '<li class="aidx-item" id="q-' + it.code + '"><p class="aidx-q"><span class="aidx-no">' + no + '</span>' + esc(txt(it)) + '</p>' +
+          '<div class="aidx-scale"><span class="aidx-end">' + SCALE[0] + '</span><div class="aidx-dots" role="radiogroup" aria-label="' + esc(txt(it)) + '">' + SCALE.map(function (lab, v) {
             return '<label title="' + lab + '"><input type="radio" name="' + it.code + '" value="' + (v + 1) + '" aria-label="' + (v + 1) + ' ' + lab + '"' + (state.answers[it.code] === v + 1 ? ' checked' : '') + '><span>' + (v + 1) + '</span></label>';
           }).join('') + '</div><span class="aidx-end">' + SCALE[4] + '</span></div></li>';
       }).join('') + '</ol>';
@@ -512,7 +549,7 @@
         return '<div class="aidx-switem"><strong>' + DOMAINS[x.d].name + ' <span>' + r0(x.v) + '점</span></strong>' +
           '<p>"' + DOMAINS[x.d].q + '"에 ' + (few || diff < 5 ? '가장 자신 있게' : '그룹보다 ' + r0(diff) + '점 높게') + ' 답합니다.' + (!few && z[x.d] >= 0.5 ? ' 그룹 ' + rank(rows.map(function (r) { return r.dom[x.d]; }), me.dom[x.d]) + '입니다.' : '') + '</p></div>';
       }).join('') +
-      (standout.length ? '<p class="aidx-small">' + (few ? '내가 잘하는 행동' : '남들보다 특히 잘하는 행동') + '</p><ul class="aidx-list">' + standout.map(function (x) { return '<li>' + esc(x.it.text) + (few ? '' : ' <span class="aidx-muted">나 ' + me.a[x.it.idx] + ' · 그룹 ' + f1(itemMeans[x.it.idx]) + '</span>') + '</li>'; }).join('') + '</ul>' : '') +
+      (standout.length ? '<p class="aidx-small">' + (few ? '내가 잘하는 행동' : '남들보다 특히 잘하는 행동') + '</p><ul class="aidx-list">' + standout.map(function (x) { return '<li>' + esc(txt(x.it)) + (few ? '' : ' <span class="aidx-muted">나 ' + me.a[x.it.idx] + ' · 그룹 ' + f1(itemMeans[x.it.idx]) + '</span>') + '</li>'; }).join('') + '</ul>' : '') +
       '</div>' +
       '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 보완이 필요한 영역</p>' +
       (weak.length ? weak.map(function (x) {
@@ -553,7 +590,7 @@
         return '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + dm.icon + ' ' + dm.name + '</p>' +
           '<p class="aidx-prio-act">' + TIPS[dm.key][0] + '</p>' +
           '<p class="aidx-small">왜: 나 ' + r0(x.v) + '점 · 우리 학교 ' + n0(sm[x.d]) + '점 · 전체 ' + n0(am[x.d]) + '점</p>' +
-          '<p class="aidx-small">체크할 행동: ☐ ' + esc(item.text) + '</p></li>';
+          '<p class="aidx-small">체크할 행동: ☐ ' + esc(txt(item)) + '</p></li>';
       }).join('') + '</ol></section>';
     var keep = DOMAINS[strong.length ? strong[0].d : myTop];
     return h;
@@ -621,7 +658,7 @@
     var types = TYPE_ORDER.filter(function (k) { return tc[k]; }).sort(function (a, b) { return tc[b] - tc[a]; });
     var maxT = Math.max.apply(null, types.map(function (k) { return tc[k]; }));
     var im = ITEMS.slice(0, NP).map(function (it) { return { it: it, m: mean(rows.map(function (r) { return r.a[it.idx]; })) }; }).sort(function (a, b) { return b.m - a.m; });
-    function itemList(arr) { return '<ul class="aidx-list">' + arr.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 평균 ' + f1(x.m) + '</span></li>'; }).join('') + '</ul>'; }
+    function itemList(arr) { return '<ul class="aidx-list">' + arr.map(function (x) { return '<li>' + esc(txt(x.it)) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 평균 ' + f1(x.m) + '</span></li>'; }).join('') + '</ul>'; }
     h += '<section class="report-grid">' +
       '<div class="panel"><h3 class="panel-title">AI 활용 유형 분포</h3><p class="panel-sub">응답자 수 기준</p><div class="aidx-hbars">' +
       types.map(function (k) { return '<div class="aidx-hrow" data-tip="' + esc(TYPES[k].name + ' · ' + TYPES[k].tag) + '"><span class="aidx-hname">' + TYPES[k].icon + ' ' + TYPES[k].name + '</span><span class="aidx-htrack"><span style="width:' + (tc[k] / maxT * 100) + '%"></span></span><span class="aidx-hval">' + tc[k] + '명 · ' + Math.round(tc[k] / n * 100) + '%</span></div>'; }).join('') +
@@ -723,7 +760,7 @@
       '<div class="aidx-swcard good"><p class="aidx-swh">💪 우리 학교의 강점</p>' + strong.map(line).join('') + '</div>' +
       '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 우리 학교의 약점</p>' + weak.map(line).join('') + '</div>' +
       '<div class="aidx-swcard"><p class="aidx-swh">🧩 보완점: 가장 덜 하는 행동</p><ul class="aidx-list">' +
-      itemM.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 평균 ' + f1(x.m) + '</span></li>'; }).join('') + '</ul></div></section>';
+      itemM.map(function (x) { return '<li>' + esc(txt(x.it)) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 평균 ' + f1(x.m) + '</span></li>'; }).join('') + '</ul></div></section>';
 
     // 우선순위 제안 5가지: 약한 영역부터 학교 차원의 할 일을 번갈아
     var need = order.slice().sort(function (a, b) { return (a.v + a.gap) - (b.v + b.gap); });
@@ -801,10 +838,10 @@
     function line(x) { return '<div class="aidx-switem"><strong>' + DOMAINS[x.d].name + ' <span>' + r0(x.v) + '점 · 통합 ' + signed(x.gap) + ' · ' + x.rank + '위/' + N + '</span></strong><p>"' + DOMAINS[x.d].q + '"</p></div>'; }
     h += '<section class="aidx-swgrid aidx-sw3">' +
       '<div class="aidx-swcard good"><p class="aidx-swh">💪 우리 학교의 강점</p>' + (strong.length ? strong.slice(0, 2).map(line).join('') : '<div class="aidx-switem"><p>같은 학교급보다 ' + NEAR + '점 이상 앞선 영역은 없습니다. 상대적으로 가장 나은 영역은 ' + DOMAINS[best.d].name + '(' + signed(best.gap) + ')입니다.</p></div>') +
-      (highItems[0].g > 0.2 ? '<p class="aidx-small">다른 학교보다 특히 잘하는 행동</p><ul class="aidx-list">' + highItems.filter(function (x) { return x.g > 0.2; }).map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul>' : '') + '</div>' +
+      (highItems[0].g > 0.2 ? '<p class="aidx-small">다른 학교보다 특히 잘하는 행동</p><ul class="aidx-list">' + highItems.filter(function (x) { return x.g > 0.2; }).map(function (x) { return '<li>' + esc(txt(x.it)) + ' <span class="aidx-muted">' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul>' : '') + '</div>' +
       '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 우리 학교의 약점</p>' + (weak.length ? weak.slice(0, 2).map(line).join('') : '<div class="aidx-switem"><p>같은 학교급보다 ' + NEAR + '점 이상 뒤처진 영역은 없습니다. 상대적으로 가장 약한 영역은 ' + DOMAINS[need[0].d].name + '(' + signed(need[0].gap) + ')입니다.</p></div>') + '</div>' +
       '<div class="aidx-swcard"><p class="aidx-swh">🧩 다른 학교보다 덜 하는 행동</p><ul class="aidx-list">' +
-      lowItems.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 우리 ' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul></div></section>';
+      lowItems.map(function (x) { return '<li>' + esc(txt(x.it)) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 우리 ' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul></div></section>';
 
     // 5. 우선 준비하고 진행할 것: 약한 두 영역의 준비 → 진행, 그리고 강점 살리기
     var plan = [[need[0], 'prep', '먼저 준비'], [need[1], 'prep', '먼저 준비'], [need[0], 'run', '이번 학기 진행'], [need[1], 'run', '이번 학기 진행']];
