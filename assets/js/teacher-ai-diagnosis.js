@@ -73,6 +73,29 @@
     R: ['학생 개인정보·성적·상담 기록을 AI에 넣지 않는다는 학교 지침을 정하고 교직원·학생에게 안내하세요.', '수행평가·과제에서 AI 사용을 밝히는 공통 양식(무엇에, 어떻게 썼는지)을 정해 함께 쓰세요.'],
     H: ['AI를 쓰기 전에 자기 생각을 먼저 적게 하는 "먼저 생각하기" 단계를 수업 활동에 넣으세요.', 'AI를 활용한 수업·업무 뒤에 배운 점을 한 줄로 남기는 성찰 활동을 정례화하세요.']
   }; // 응답 버튼에서 이름 아래 작은 글씨로 보인다
+  // 같은 학교급 비교의 "우선 준비하고 진행할 것": 영역마다 학기 초 준비(prep)와 한 학기 진행(run)
+  var SCHOOL_PLAN = {
+    D: { prep: { t: '"맡겨도 되는 일 / 확인하고 쓰는 일 / 맡기면 안 되는 일" 기준표 만들기', who: '교무부·정보부, 교과 대표 교사', when: '학기 초 2주',
+          steps: ['교사·학생이 AI를 자주 쓰는 일 10가지를 업무 메신저 설문으로 모읍니다(예: 활동지 초안, 공문 요약, 진로 고민 상담, 생활기록부 문장).', '협의회 대표 회의 30분에 세 칸으로 나눕니다. 학생 상담·평가 판단·생활기록부처럼 사람이 책임질 일은 "맡기면 안 되는 일"에 둡니다.', 'A4 한 장으로 교무실·교실에 게시하고, 학생용은 쉬운 말로 다시 써서 학급 조회 때 안내합니다.'], kpi: '맡길지 판단 영역 학교 평균 +5점(다음 진단)' },
+        run: { t: '협의회 첫 5분 "AI에 맡겼다가 다시 한 일" 나누기', who: '교과협의회', when: '월 1회, 한 학기',
+          steps: ['협의회를 시작할 때 AI에 맡겼다가 다시 직접 한 사례를 한 명이 나눕니다.', '이유를 "확인할 수 없었다 / 틀리면 위험했다 / 직접 하는 게 빨랐다" 가운데 하나로 분류합니다.', '분류 결과를 기준표에 반영해 학기 말에 고칩니다.'], kpi: '학기당 공유 사례 수' } },
+    L: { prep: { t: '자주 하는 일의 요청문 모음 만들기', who: '연구부, 교과 대표 교사', when: '학기 초 한 달',
+          steps: ['수업 활동지·가정통신문·공문 회신처럼 자주 하는 일 5가지를 고릅니다.', '일마다 목적·대상·조건·형식이 들어간 요청문을 직접 시험해 하나씩 남깁니다. 예: "중학교 1학년 학부모 대상, 300자 이내, 존댓말, 준비물과 일정만 표로".', '공유 폴더에 올리고 신규·전입 교원 안내 자료에 넣습니다.'], kpi: '요청문 모음을 써 본 교원 수' },
+        run: { t: '"나눠서 요청하기" 60분 실습', who: '연구부', when: '학기 중 1회 연수 + 수업 적용',
+          steps: ['큰 일 하나(예: 수행평가 채점 기준표 만들기)를 "개요 → 초안 → 수정" 세 번에 나눠 요청해 봅니다.', '단계마다 결과를 확인하고 고칠 점을 구체적으로 적어 다시 요청합니다.', '같은 방법을 학생 과제 활동(탐구 보고서 쓰기 등)에도 안내합니다.'], kpi: '요청하기 영역 학교 평균 +5점' } },
+    V: { prep: { t: '과제·자료 양식에 "확인했나요?" 칸 넣기', who: '교과협의회', when: '학기 초 평가 계획 수립 때',
+          steps: ['수행평가·보고서 양식에 "AI가 준 숫자·출처를 원자료에서 확인했는가(예/아니오, 확인한 자료)" 칸을 넣습니다.', '교사가 만드는 수업 자료와 가정통신문에도 같은 확인 칸을 둡니다.', '학기 말에 칸을 채운 비율을 협의회에서 봅니다.'], kpi: '확인 칸을 채운 과제 비율' },
+        run: { t: '"AI 오류 찾기" 팩트체크 수업·연수', who: '교과 교사, 사서·정보 교사', when: '학기당 1회',
+          steps: ['없는 출처나 틀린 숫자가 섞인 AI 답변을 준비합니다.', '학생·교원이 교과서·공식 자료와 대조해 오류를 찾고, 찾은 방법을 발표합니다.', '찾은 방법을 교실 게시물 "확인 3단계"로 정리해 붙입니다.'], kpi: '확인하기 영역 학교 평균 +5점' } },
+    R: { prep: { t: '개인정보·AI 사용 공개 학교 지침 한 장', who: '교감, 정보부장, 학생부', when: '학기 시작 전',
+          steps: ['학생 이름·성적·상담 기록·사진을 AI에 넣지 않는다는 원칙과 바꿔 넣는 법(학생A, 점수 구간)을 한 장으로 만듭니다.', '수행평가에서 AI 사용을 밝히는 공통 양식(무엇에, 어떻게 썼는지 3줄)을 정합니다.', '교직원 회의와 학급 조회에서 5분 안내하고 가정통신문으로 알립니다.'], kpi: '책임 있게 쓰기 영역 학교 평균 +5점' },
+        run: { t: '생활기록부·평가 시기 다시 안내하기', who: '교무부', when: '학기 말 생활기록부 작성 전',
+          steps: ['작성 기간 전 메신저 공지로 "AI가 쓴 문장을 그대로 쓰지 않고, 교사가 관찰한 기록에서 시작한다"를 다시 안내합니다.', '표절·저작권 확인 방법(문장 일부를 검색해 보기)을 한 장으로 나눕니다.', '문제 사례가 있으면 익명으로 모아 다음 학기 지침을 고칩니다.'], kpi: '관련 문제 사례 수, 지침 안내 횟수' } },
+    H: { prep: { t: 'AI 활동 앞에 "내 생각 먼저 3분" 넣기', who: '교과협의회', when: '다음 단원부터',
+          steps: ['AI를 쓰는 수업 활동 앞에 3분 동안 내 생각을 먼저 적는 단계를 넣습니다.', 'AI 답과 내 생각을 비교해 달라진 점을 한 줄로 적게 합니다.', '교원도 수업 자료를 만들 때 같은 순서로 해 봅니다.'], kpi: '"먼저 생각하기"를 넣은 수업 수' },
+        run: { t: '수업 끝 2분 "AI 없이도 할 수 있게 된 것" 적기', who: '담임·교과 교사', when: '주 1회, 한 학기',
+          steps: ['AI를 활용한 수업 마지막 2분에 "AI 없이도 할 수 있게 된 것"을 한 줄로 적게 합니다.', '한 달에 한 번 모아 읽고, 적지 못한 학생이 많은 활동은 다음 수업에서 바꿉니다.', '교원도 업무에서 같은 성찰을 해 봅니다.'], kpi: '내 힘 지키기 영역 학교 평균 +5점' } }
+  };
   // 제시 순서: 실천 문항은 영역을 섞어 한 쪽에 영역별 1문항씩(D1 L1 V1 R1 H1 …), 마지막 쪽은 태도
   var PAGES = [0, 1, 2, 3, 4].map(function (k) { return DOMAINS.map(function (_, d) { return ITEMS[d * 5 + k]; }); });
   PAGES.push(ITEMS.slice(NP));
@@ -250,6 +273,7 @@
       (GROUP ? '<p class="aidx-group">응답 그룹 <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
+      '<button type="button" class="aidx-btn" data-act="others">같은 학교급 비교 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="my">나의 역량 수준 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="school">우리 학교 역량 수준 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="all">전체 학교 수준 보기</button></div>' +
@@ -361,8 +385,8 @@
   // ---------- 화면: 결과 ----------
   // 결과 탭 이름: 좁은 휴대폰에서는 짧은 이름으로
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
-  // 결과 탭 다섯 개: 나 → 우리 학교 → 같은 학교급 다른 학교 → 학교급별 → 전체 학교
-  var RESULT_TABS = [['me', '나의 역량 수준', '나의 역량'], ['school', '우리 학교 역량 수준', '우리 학교'], ['others', '타학교 비교', '타학교'],
+  // 결과 탭 다섯 개: 같은 학교급 비교(기본) → 나 → 우리 학교 → 학교급별 → 전체 학교
+  var RESULT_TABS = [['others', '같은 학교급 비교', '학교급 비교'], ['me', '나의 역량 수준', '나의 역량'], ['school', '우리 학교 역량 수준', '우리 학교'],
     ['level', '학교급별 비교', '학교급별'], ['all', '전체 학교 수준', '전체']];
   function viewResult() {
     var h = previewNote() + window.DiagnosisPdf.toolbar() +
@@ -717,38 +741,198 @@
     return h;
   }
 
-  // ---------- 타학교 비교: 같은 학교급 학교끼리 종합·영역 점수 순위(다른 학교 이름은 익명) ----------
+  // ---------- 같은 학교급 비교: 우리 학교 ↔ 같은 학교급 다른 학교들의 통합 점수, 수준·강점·약점·우선 준비 ----------
+  // 통합 점수 = 같은 학교급에서 응답이 MIN_SCHOOL명 이상인 다른 학교들의 학교별 평균을 다시 평균(학교마다 같은 무게).
+  // 영역 차이 ±5점 안은 비슷함으로 본다.
+  var NEAR = 5;
   function othersReport() {
-    var D = state.data, lvName = D.lv || '같은 학교급', list = schoolsOf(D.LA);
-    var h = '<p class="aidx-context">' + esc(lvName) + '에서 응답이 ' + MIN_SCHOOL + '명 이상인 학교끼리 비교합니다. 다른 학교 이름은 공개하지 않고 순위대로 학교 A, B, C…로 표시합니다.</p>';
-    if (list.length < 2) return h + '<p class="aidx-note">비교할 ' + esc(lvName) + ' 다른 학교가 아직 없습니다. 다른 학교 응답이 ' + MIN_SCHOOL + '명 이상 모이면 이 화면이 자동으로 채워집니다.</p>';
+    var D = state.data, lvName = D.lv || '같은 학교급', list = schoolsOf(D.LA), mine = list.filter(function (x) { return x.mine; })[0];
+    var others = list.filter(function (x) { return !x.mine; });
+    var h = '<p class="aidx-context">' + esc(groupLabel(state.pool)) + ' · ' + esc(lvName) + ' · 우리 학교 응답 ' + (mine ? mine.n : 0) + '명, 비교 학교 ' + others.length + '곳(' + others.reduce(function (s, x) { return s + x.n; }, 0) + '명)' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>';
+    if (!mine) return h + '<section class="aidx-home"><p>우리 학교 응답이 없습니다. 진단에 응답하면 같은 학교급 비교를 볼 수 있습니다.</p></section>';
+    if (mine.n < MIN_N) h += '<p class="aidx-note">우리 학교 응답이 아직 ' + mine.n + '명입니다. ' + MIN_N + '명 이상, 학생·교사·보직교사·행정직원이 고르게 응답해야 학교 결과로 읽을 수 있습니다. 지금은 참고용으로 보세요.</p>';
+    if (!others.length) return h + '<p class="aidx-note">비교할 ' + esc(lvName) + ' 다른 학교가 아직 없습니다. 다른 학교 응답이 ' + MIN_SCHOOL + '명 이상 모이면 이 화면이 자동으로 채워집니다. 그동안은 "우리 학교 역량 수준" 탭에서 전체 응답자와 비교한 결과를 보세요.</p>';
     var letter = 0;
     list.forEach(function (x) { x.name = x.mine ? '우리 학교' : '학교 ' + String.fromCharCode(65 + letter++); });
-    var mineI = list.findIndex(function (x) { return x.mine; }), lvT = mean(totOf(D.LA));
+    var oT = mean(others.map(function (x) { return x.total; })), oM = DOMAINS.map(function (_, d) { return mean(others.map(function (x) { return x.m[d]; })); });
+    var rk = list.indexOf(mine) + 1, N = list.length, gapT = mine.total - oT;
+    var band = N < 3 ? (rk === 1 ? '앞선 편' : '뒤처진 편') : rk <= Math.ceil(N / 3) ? '상위권' : rk > N - Math.ceil(N / 3) ? '하위권' : '중위권';
+    var dom = DOMAINS.map(function (dm, d) {
+      var r = list.slice().sort(function (a, b) { return b.m[d] - a.m[d]; }).indexOf(mine) + 1;
+      return { d: d, v: mine.m[d], o: oM[d], gap: mine.m[d] - oM[d], rank: r };
+    });
+    var strong = dom.filter(function (x) { return x.gap >= NEAR; }).sort(function (a, b) { return b.gap - a.gap; });
+    var weak = dom.filter(function (x) { return x.gap <= -NEAR; }).sort(function (a, b) { return a.gap - b.gap; });
+    // 우선순위: 통합 점수보다 낮은 정도와 절대 수준을 함께 본다(점수 + 차이가 작을수록 먼저).
+    var need = dom.slice().sort(function (a, b) { return (a.v + a.gap) - (b.v + b.gap); });
+    var best = dom.slice().sort(function (a, b) { return (b.v + b.gap) - (a.v + a.gap); })[0];
+
+    // 1. 한 줄 요약
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">같은 학교급(' + esc(lvName) + ')에서 우리 학교의 수준</p>' +
+      '<h2>' + N + '곳 가운데 ' + rk + '위 · ' + band + '</h2>' +
+      '<p>우리 학교 종합 <strong>' + r0(mine.total) + '점(' + level(mine.total) + ')</strong>은 같은 학교급 다른 학교들의 통합 점수 <strong>' + r0(oT) + '점</strong>보다 <strong>' + (Math.abs(gapT) < 1 ? '같은 수준' : r0(Math.abs(gapT)) + '점 ' + (gapT > 0 ? '높습니다' : '낮습니다')) + '</strong>' + (Math.abs(gapT) < 1 ? '입니다' : '') + '.</p>' +
+      '<p>' + (strong.length ? '강점은 <strong>' + strong.map(function (x) { return DOMAINS[x.d].name; }).join(', ') + '</strong>' : '같은 학교급보다 뚜렷하게 앞선 영역은 없고') + (weak.length ? ', 먼저 채울 영역은 <strong>' + weak.map(function (x) { return DOMAINS[x.d].name; }).join(', ') + '</strong>입니다.' : (strong.length ? '이고, ' : ', ') + '뚜렷하게 뒤처진 영역도 없습니다.') + '</p></section>';
+
+    // 2. 핵심 숫자
     h += '<div class="kpis aidx-kpis aidx-fixed">' +
-      kpi('비교 학교 수', list.length + '<small>개교</small>', esc(lvName) + ' · 응답 ' + D.LA.length + '명') +
-      kpi('우리 학교 순위', (mineI + 1) + '<small>위 / ' + list.length + '</small>', '종합 점수 기준') +
-      kpi('1위 학교와 차이', mineI === 0 ? '1위' : signed(list[mineI].total - list[0].total) + '<small>점</small>', '1위 ' + r0(list[0].total) + '점') +
-      kpi(lvName + ' 평균', r0(lvT) + '<small>/ 100</small>', '우리 학교 ' + signed(list[mineI].total - lvT) + '점') + '</div>';
-    h += '<div class="panel"><h3 class="panel-title">학교별 종합 점수</h3><p class="panel-sub">0~100점 · 점선은 ' + esc(lvName) + ' 평균</p><div class="aidx-hbars aidx-school-bars">' +
+      kpi('우리 학교 종합', r0(mine.total) + '<small>/ 100</small>', lvlChip(mine.total) + ' 응답 ' + mine.n + '명') +
+      kpi(esc(lvName) + ' 통합 점수', r0(oT) + '<small>/ 100</small>', '다른 학교 ' + others.length + '곳 · 학교마다 같은 무게') +
+      kpi('통합 점수와 차이', signed(gapT) + '<small>점</small>', Math.abs(gapT) < NEAR ? '비슷한 수준' : gapT > 0 ? '앞서 있음' : '뒤처져 있음') +
+      kpi('같은 학교급 순위', rk + '<small>위 / ' + N + '</small>', '종합 점수 기준 · ' + band) + '</div>';
+
+    // 3. 영역별 비교
+    var series = [{ label: '우리 학교', values: mine.m, cls: 's1' }, { label: esc(lvName) + ' 통합', values: oM, cls: 's3' }];
+    h += '<section class="report-grid aidx-eqh"><div class="panel"><h3 class="panel-title">영역별 우리 학교와 같은 학교급 통합 점수</h3><p class="panel-sub">0~100점 · 굵은 선은 정착 기준 60점</p>' +
+      legend(series) + '<div class="radar-box">' + radar(series, '우리 학교와 같은 학교급 통합 점수') + '</div></div>' +
+      '<div class="panel"><h3 class="panel-title">영역별 비교표</h3><p class="panel-sub">차이 = 우리 학교 − 통합 점수 · ±' + NEAR + '점 안은 비슷함 · 순위는 같은 학교급 ' + N + '곳 중</p>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>우리 학교</th><th>통합</th><th>차이</th><th>순위</th><th>판단</th></tr></thead><tbody>' +
+      dom.map(function (x) {
+        var tag = x.gap >= NEAR ? '<span class="up">강점</span>' : x.gap <= -NEAR ? '<span class="down">먼저 채울 영역</span>' : '비슷함';
+        return '<tr><td>' + DOMAINS[x.d].name + '</td><td><strong>' + r0(x.v) + '</strong> ' + lvlChip(x.v) + '</td><td>' + r0(x.o) + '</td><td class="' + diffCls(x.gap) + '">' + signed(x.gap) + '</td><td>' + x.rank + '/' + N + '</td><td>' + tag + '</td></tr>';
+      }).join('') + '</tbody></table></div></div></section>';
+
+    // 4. 강점과 약점
+    var itemGap = ITEMS.slice(0, NP).map(function (it) {
+      var a = mean(mine.rs.map(function (r) { return r.a[it.idx]; })), b = mean(others.map(function (x) { return mean(x.rs.map(function (r) { return r.a[it.idx]; })); }));
+      return { it: it, a: a, b: b, g: a - b };
+    });
+    var lowItems = itemGap.slice().sort(function (p, q) { return p.g - q.g; }).slice(0, 3);
+    var highItems = itemGap.slice().sort(function (p, q) { return q.g - p.g; }).slice(0, 2);
+    function line(x) { return '<div class="aidx-switem"><strong>' + DOMAINS[x.d].name + ' <span>' + r0(x.v) + '점 · 통합 ' + signed(x.gap) + ' · ' + x.rank + '위/' + N + '</span></strong><p>"' + DOMAINS[x.d].q + '"</p></div>'; }
+    h += '<section class="aidx-swgrid aidx-sw3">' +
+      '<div class="aidx-swcard good"><p class="aidx-swh">💪 우리 학교의 강점</p>' + (strong.length ? strong.slice(0, 2).map(line).join('') : '<div class="aidx-switem"><p>같은 학교급보다 ' + NEAR + '점 이상 앞선 영역은 없습니다. 상대적으로 가장 나은 영역은 ' + DOMAINS[best.d].name + '(' + signed(best.gap) + ')입니다.</p></div>') +
+      (highItems[0].g > 0.2 ? '<p class="aidx-small">다른 학교보다 특히 잘하는 행동</p><ul class="aidx-list">' + highItems.filter(function (x) { return x.g > 0.2; }).map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul>' : '') + '</div>' +
+      '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 우리 학교의 약점</p>' + (weak.length ? weak.slice(0, 2).map(line).join('') : '<div class="aidx-switem"><p>같은 학교급보다 ' + NEAR + '점 이상 뒤처진 영역은 없습니다. 상대적으로 가장 약한 영역은 ' + DOMAINS[need[0].d].name + '(' + signed(need[0].gap) + ')입니다.</p></div>') + '</div>' +
+      '<div class="aidx-swcard"><p class="aidx-swh">🧩 다른 학교보다 덜 하는 행동</p><ul class="aidx-list">' +
+      lowItems.map(function (x) { return '<li>' + esc(x.it.text) + ' <span class="aidx-muted">' + DOMAINS[Math.floor(x.it.idx / 5)].name + ' · 우리 ' + f1(x.a) + ' · 통합 ' + f1(x.b) + '</span></li>'; }).join('') + '</ul></div></section>';
+
+    // 5. 우선 준비하고 진행할 것: 약한 두 영역의 준비 → 진행, 그리고 강점 살리기
+    var plan = [[need[0], 'prep', '먼저 준비'], [need[1], 'prep', '먼저 준비'], [need[0], 'run', '이번 학기 진행'], [need[1], 'run', '이번 학기 진행']];
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">같은 학교급 비교로 본 우리 학교의 할 일</p><h3>우선 준비하고 진행할 5가지</h3>' +
+      '<p>같은 학교급 통합 점수보다 낮고 수준도 낮은 영역부터 순서를 정했습니다. 1·2는 학기 초에 준비하고, 3·4는 그 위에서 한 학기 동안 진행하며, 5는 우리 학교의 강점을 다른 영역으로 넓히는 일입니다.</p></div>' +
+      '<ol class="aidx-prio5">' + plan.map(function (p, i) {
+        var x = p[0], g = SCHOOL_PLAN[DOMAINS[x.d].key][p[1]];
+        return '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + DOMAINS[x.d].icon + ' ' + p[2] + ' · ' + DOMAINS[x.d].name + '</p>' +
+          '<p class="aidx-prio-act"><strong>' + g.t + '</strong></p><p class="aidx-small">담당: ' + g.who + ' · 기간: ' + g.when + '</p>' +
+          '<ol class="aidx-list axr-steps">' + g.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' +
+          '<p class="aidx-small">근거: 우리 학교 ' + r0(x.v) + '점 · 통합 ' + r0(x.o) + '점(' + signed(x.gap) + ') · 같은 학교급 ' + x.rank + '위/' + N + ' · 점검 지표: ' + g.kpi + '</p></li>';
+      }).join('') +
+      '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">5</span>' + DOMAINS[best.d].icon + ' 강점 살리기 · ' + DOMAINS[best.d].name + '</p>' +
+      '<p class="aidx-prio-act"><strong>잘하는 방법을 학교 안에서 나누기</strong></p>' +
+      '<ol class="aidx-list axr-steps"><li>' + josa(DOMAINS[best.d].name, '을', '를') + ' 잘하는 교원이나 학급의 실제 방법을 다음 교직원 회의·협의회에서 10분 시연합니다.</li><li>쓰는 요청문·활동지·점검표를 공유 폴더에 올립니다.</li><li>1·2번에서 준비하는 자료에 이 방법을 함께 넣어, 강점이 약한 영역을 끌어올리는 데 쓰이게 합니다.</li></ol>' +
+      '<p class="aidx-small">근거: 우리 학교 ' + r0(best.v) + '점 · 통합 ' + r0(best.o) + '점(' + signed(best.gap) + ') · 같은 학교급 ' + best.rank + '위/' + N + '</p></li></ol></section>';
+
+    // 6. 학교별 종합 점수와 영역별 표
+    h += '<div class="panel"><h3 class="panel-title">같은 학교급 학교별 종합 점수</h3><p class="panel-sub">0~100점 · 점선은 다른 학교 통합 점수 · 다른 학교 이름은 공개하지 않고 순위대로 학교 A, B, C…로 표시</p><div class="aidx-hbars aidx-school-bars">' +
       list.map(function (x) {
-        return '<div class="aidx-hrow' + (x.mine ? ' is-mine' : '') + '"><span class="aidx-hname">' + x.name + '</span><span class="aidx-htrack"><span style="width:' + x.total + '%"></span><i style="left:' + lvT + '%"></i></span>' +
+        return '<div class="aidx-hrow' + (x.mine ? ' is-mine' : '') + '"><span class="aidx-hname">' + x.name + '</span><span class="aidx-htrack"><span style="width:' + x.total + '%"></span><i style="left:' + oT + '%"></i></span>' +
           '<span class="aidx-hval">' + r0(x.total) + '점 · ' + x.n + '명</span></div>';
       }).join('') + '</div></div>';
     h += '<div class="panel"><h3 class="panel-title">영역별 학교 비교</h3><p class="panel-sub">각 영역에서 가장 높은 학교 굵게</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>학교</th><th>응답</th>' +
       DOMAINS.map(function (dm) { return '<th>' + dm.name + '</th>'; }).join('') + '<th>종합</th></tr></thead><tbody>' +
       list.map(function (x) {
         return '<tr' + (x.mine ? ' class="aidx-mine-row"' : '') + '><td>' + x.name + '</td><td>' + x.n + '</td>' + DOMAINS.map(function (_, d) {
-          var best = Math.max.apply(null, list.map(function (y) { return y.m[d]; }));
-          return '<td>' + (x.m[d] === best ? '<strong>' + r0(x.m[d]) + '</strong>' : r0(x.m[d])) + '</td>';
+          var top = Math.max.apply(null, list.map(function (y) { return y.m[d]; }));
+          return '<td>' + (x.m[d] === top ? '<strong>' + r0(x.m[d]) + '</strong>' : r0(x.m[d])) + '</td>';
         }).join('') + '<td><strong>' + r0(x.total) + '</strong></td></tr>';
-      }).join('') + '</tbody></table></div></div>';
+      }).join('') + '</tbody></table></div><p class="aidx-small">응답이 ' + MIN_SCHOOL + '명 미만인 학교는 비교에서 뺍니다.</p></div>';
+    return h;
+  }
+
+  // ---------- 학교급별 비교: 내 학교급의 시각에서 ----------
+  // 학교급의 특성(ctx)과, 영역마다 그 학교급에서 먼저 할 일(do). 내 학교급이 다른 학교급보다 낮은 영역부터 꺼내 쓴다.
+  var LEVEL_VIEW = {
+    '초등학교': {
+      ctx: '담임 한 명이 여러 교과를 가르치고, 학생 대부분이 생성형 AI 서비스의 이용 연령(보통 만 13~14세 이상, 보호자 동의)에 못 미칩니다. 그래서 학생이 직접 쓰기보다 <b>교사가 시연하고 함께 판단하는 수업</b>, 디지털 시민성의 기초, 학부모와의 소통이 중심입니다. 중학교에 올라가면 학생이 직접 AI를 쓰기 시작하므로, 초등에서는 "확인하고, 내 생각을 먼저 하는" 습관의 뿌리를 놓는 것이 목표입니다.',
+      next: '중학교',
+      do: {
+        D: '교사가 수업에서 AI에게 물어보기 전에 "이건 AI에게 물어봐도 될까?"를 학생과 함께 손을 들어 정하는 활동을 해 보세요. 맡겨도 되는 일(그림 아이디어, 낱말 뜻)과 맡기면 안 되는 일(친구 고민, 내 숙제 답)을 교실 게시판에 나눠 붙입니다.',
+        L: '교사가 AI에게 부탁하는 장면을 화면으로 보여 주며 "누구에게, 무엇을, 얼마나" 세 가지를 넣어 말하는 연습을 합니다. 학생은 직접 쓰지 않고 교사에게 부탁 문장을 말로 만들어 줍니다.',
+        V: 'AI 답에서 틀린 곳을 찾는 "틀린 그림 찾기" 활동을 학기에 한 번 엽니다. 교과서·백과사전과 대조해 찾게 하면 확인 습관이 놀이처럼 자리 잡습니다.',
+        R: '학급 규칙에 "내 이름·친구 이름·사진은 AI에 넣지 않는다"를 넣고, 가정통신문으로 집에서의 AI 사용 연령 기준과 보호자 동의를 안내합니다.',
+        H: 'AI를 쓰는 활동 앞에 "내 생각 먼저 그리기·쓰기" 3분을 꼭 넣습니다. 초등에서는 이 순서 자체가 가장 중요한 학습입니다.'
+      }
+    },
+    '중학교': {
+      ctx: '교과 담임제로 교과마다 AI 사용 방식이 달라지기 쉽고, 학생이 AI를 직접 쓰기 시작하는 시기입니다. 수행평가 비중이 크고 자유학기 같은 탐구·체험 시간이 있어 <b>과제마다 AI 사용 기준을 맞추는 일</b>과 <b>탐구 활동에서 확인 습관을 들이는 일</b>이 핵심입니다. 고등학교에 가면 보고서·탐구 과제와 생활기록부 기록이 늘어나므로, 중학교에서 사용 공개와 출처 확인을 익혀 두는 것이 목표입니다.',
+      next: '고등학교',
+      do: {
+        D: '교과협의회에서 수행평가마다 AI 사용을 "금지 / 아이디어만 / 초안까지 / 자유" 가운데 하나로 정해 교과끼리 맞춥니다. 학생이 교과마다 다른 기준에 헷갈리지 않도록 학년 단위로 한 장에 모아 안내합니다.',
+        L: '자유학기나 주제 탐구 시간에 "목적·대상·조건·형식"을 넣어 요청하고, 첫 답을 고쳐 다시 요청하는 과정을 활동지로 남기게 합니다.',
+        V: '탐구 보고서 양식에 "AI가 준 정보를 확인한 자료" 칸을 넣고, 출처가 실제로 있는지 검색해 보는 5분 활동을 과제마다 넣습니다.',
+        R: '학생 계정과 이용 연령을 먼저 확인하고, 과제에서 AI를 썼다면 "무엇에, 어떻게" 3줄로 밝히는 공통 양식을 학년 전체가 함께 씁니다.',
+        H: '과제 하나에 3~5분 구술 확인("이 부분은 왜 이렇게 썼나요?")을 넣어, AI를 써도 내 말로 설명할 수 있어야 한다는 기준을 세웁니다.'
+      }
+    },
+    '고등학교': {
+      ctx: '고교학점제로 과목 선택이 넓어지고, 보고서·탐구 과제와 학교생활기록부 기록, 진로·진학 준비의 부담이 큽니다. 학생이 성인에 가까워 AI를 스스로 많이 쓰는 만큼, <b>과제와 기록의 진정성</b>, <b>출처·저작권</b>, <b>진로와 연결된 깊이 있는 활용</b>이 핵심입니다. 졸업 뒤 대학과 일터에서 AI를 책임 있게 쓰는 사람으로 보내는 것이 목표입니다.',
+      next: '대학·사회',
+      do: {
+        D: '진로·과목별로 "AI에 맡길 일 / 반드시 내가 할 일"을 학생이 스스로 정해 보는 활동을 합니다. 탐구 계획서에 AI를 쓸 단계와 쓰지 않을 단계를 미리 적게 합니다.',
+        L: '탐구 보고서처럼 긴 과제를 "질문 다듬기 → 자료 정리 → 초안 → 수정"으로 나눠 요청하고, 요청 기록을 과정 평가 자료로 함께 제출하게 합니다.',
+        V: '보고서에 인용한 모든 출처를 원문에서 확인했는지 점검표로 확인하고, AI가 만든 없는 출처는 감점 기준에 명시합니다.',
+        R: '학교생활기록부 문장은 AI가 쓴 문장을 그대로 쓰지 않고 교사가 관찰한 기록에서 시작한다는 원칙을 교원 전체가 공유합니다. 학생에게는 AI 사용 공개와 저작권 기준을 과목 공통으로 안내합니다.',
+        H: '중요한 과제는 초안의 일부를 수업 시간에 AI 없이 쓰게 하고, AI를 쓴 결과와 비교해 무엇이 달라졌는지 성찰하게 합니다.'
+      }
+    }
+  };
+  function levelView() {
+    var D = state.data, myLv = D.lv, rows = D.rows, V = LEVEL_VIEW[myLv];
+    if (!V) return '<p class="aidx-note">학교급을 초등학교·중학교·고등학교 가운데 하나로 응답하면, 내 학교급의 시각에서 본 비교와 제언이 나타납니다.</p>';
+    var lvs = SCHOOL_LEVELS.slice(0, 3).map(function (lv) { var rs = rows.filter(function (r) { return r.lv === lv; }); return { lv: lv, rs: rs, n: rs.length, m: domMeans(rs), t: rs.length ? mean(totOf(rs)) : null }; });
+    var me = lvs.filter(function (x) { return x.lv === myLv; })[0], oth = lvs.filter(function (x) { return x.lv !== myLv && x.n >= MIN_N; });
+    var h = '<section class="aidx-type"><p class="aidx-eyebrow">' + esc(myLv) + '의 시각에서 본 학교급 비교</p><h2>' + esc(myLv) + '는 지금 무엇을 먼저 준비해야 할까요?</h2>' +
+      '<p>' + V.ctx + '</p></section>';
+    if (me.n < MIN_N || !oth.length) return h + '<p class="aidx-note">' + esc(myLv) + ' 응답이 ' + me.n + '명이고, 비교할 다른 학교급(응답 ' + MIN_N + '명 이상)이 ' + oth.length + '개입니다. 응답이 더 모이면 학교급 간 차이와 제언이 나타납니다.</p>';
+    var oM = DOMAINS.map(function (_, d) { return mean(oth.map(function (x) { return x.m[d]; })); });
+    var dom = DOMAINS.map(function (dm, d) {
+      var all = lvs.filter(function (x) { return x.n >= MIN_N; }), sorted = all.slice().sort(function (a, b) { return b.m[d] - a.m[d]; });
+      // 학교급마다 따로 비교한다(평균으로 묶으면 한쪽보다 높고 다른 쪽보다 낮은 차이가 묻힌다).
+      var pairs = oth.map(function (o) { return { lv: o.lv, g: me.m[d] - o.m[d], lower: SCHOOL_LEVELS.indexOf(o.lv) < SCHOOL_LEVELS.indexOf(myLv) }; });
+      var low = pairs.filter(function (q) { return q.lower; }).sort(function (a, b) { return a.g - b.g; })[0] || null, up = pairs.filter(function (q) { return !q.lower; }).sort(function (a, b) { return a.g - b.g; })[0] || null;
+      var worst = pairs.slice().sort(function (a, b) { return a.g - b.g; })[0], bestP = pairs.slice().sort(function (a, b) { return b.g - a.g; })[0];
+      var kind = low && low.g <= -NEAR ? 'fill' : up && up.g <= -NEAR ? 'prep' : bestP.g >= NEAR ? 'lead' : 'same';
+      return { d: d, v: me.m[d], o: oM[d], gap: me.m[d] - oM[d], pairs: pairs, worst: worst, bestP: bestP, low: low, up: up, kind: kind, top: sorted[0], rank: sorted.indexOf(me) + 1, nlv: all.length };
+    });
+    // 아래 학교급보다도 낮은 영역(먼저 채울 것) → 위 학교급과의 거리(미리 준비할 것) → 나머지 낮은 영역
+    var fill = dom.filter(function (x) { return x.kind === 'fill'; }).sort(function (a, b) { return a.low.g - b.low.g; });
+    var prep = dom.filter(function (x) { return x.kind === 'prep'; }).sort(function (a, b) { return a.up.g - b.up.g; });
+    var lead = dom.filter(function (x) { return x.kind === 'lead'; }).sort(function (a, b) { return b.bestP.g - a.bestP.g; });
+    var order = fill.concat(prep, dom.filter(function (x) { return x.kind === 'same' || x.kind === 'lead'; }).sort(function (a, b) { return a.v - b.v; }));
+    var KIND = { fill: '<span class="down">먼저 채울 것</span>', prep: '<span class="warn">미리 준비할 것</span>', lead: '<span class="up">앞섬</span>', same: '비슷함' };
+    var nextLv = lvs.filter(function (x) { return x.lv === V.next && x.n >= MIN_N; })[0];
+
+    h += '<div class="panel"><h3 class="panel-title">' + esc(myLv) + '와 다른 학교급의 영역별 차이</h3><p class="panel-sub">괄호 = ' + esc(myLv) + ' − 그 학교급 · ±' + NEAR + '점 안은 비슷함 · 아래 학교급보다도 낮으면 "먼저 채울 것", 위 학교급보다 낮으면 "미리 준비할 것"</p>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>영역</th><th>' + esc(myLv) + '</th>' + oth.map(function (x) { return '<th>' + esc(x.lv) + '</th>'; }).join('') + '<th>판단</th></tr></thead><tbody>' +
+      dom.map(function (x) {
+        return '<tr><td>' + DOMAINS[x.d].name + '</td><td><strong>' + r0(x.v) + '</strong></td>' + oth.map(function (o) { var g = me.m[x.d] - o.m[x.d]; return '<td>' + r0(o.m[x.d]) + ' <span class="aidx-muted ' + diffCls(g) + '">(' + signed(g) + ')</span></td>'; }).join('') +
+          '<td>' + KIND[x.kind] + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      '<p class="aidx-small">응답 ' + esc(myLv) + ' ' + me.n + '명, ' + oth.map(function (x) { return esc(x.lv) + ' ' + x.n + '명'; }).join(', ') + '. 학교급마다 학생·교사 응답 비율이 다르면 차이가 생길 수 있으니 아래 응답자 구분도 함께 보세요.</p></div>';
+
+    function card(x, ref, note) {
+      return '<div class="aidx-switem"><strong>' + DOMAINS[x.d].name + ' <span>' + r0(x.v) + '점 · ' + esc(ref.lv) + ' ' + signed(ref.g) + '</span></strong><p>' + x.pairs.map(function (q) { return esc(q.lv) + ' ' + signed(q.g); }).join(' · ') + '. ' + note + '</p></div>';
+    }
+    var hasLower = SCHOOL_LEVELS.indexOf(myLv) > 0, hasUpper = SCHOOL_LEVELS.indexOf(myLv) < 2;
+    h += '<section class="aidx-swgrid aidx-sw3">' +
+      '<div class="aidx-swcard warn"><p class="aidx-swh">🔧 먼저 채울 것</p><p class="aidx-small">아래 학교급보다도 낮은 영역입니다. 학교급이 올라가며 자라야 할 힘이 아직 부족하다는 신호입니다.</p>' + (fill.length ? fill.map(function (x) { return card(x, x.low, '"' + DOMAINS[x.d].q + '"'); }).join('') : '<div class="aidx-switem"><p>' + (hasLower ? '아래 학교급보다 ' + NEAR + '점 이상 낮은 영역은 없습니다.' : '초등학교는 아래 학교급이 없어 이 항목은 비워 둡니다.') + '</p></div>') + '</div>' +
+      '<div class="aidx-swcard"><p class="aidx-swh">📈 미리 준비할 것</p><p class="aidx-small">위 학교급보다 낮은 영역입니다. 학생이 다음 학교급에서 곧 요구받을 수준입니다.</p>' + (prep.length ? prep.map(function (x) { return card(x, x.up, '다음 학교급으로 넘어가기 전에 기초를 다져 둘 영역입니다.'); }).join('') : '<div class="aidx-switem"><p>' + (hasUpper ? '위 학교급보다 ' + NEAR + '점 이상 낮은 영역은 없습니다.' : '고등학교는 위 학교급이 없어 이 항목은 비워 둡니다.') + '</p></div>') + '</div>' +
+      '<div class="aidx-swcard good"><p class="aidx-swh">💪 ' + esc(myLv) + '가 앞선 영역</p><p class="aidx-small">비교한 학교급보다 낮은 곳 없이, 적어도 한 학교급보다 ' + NEAR + '점 이상 높은 영역입니다.</p>' + (lead.length ? lead.map(function (x) { return card(x, x.bestP, '다른 학교급과 나눌 만한 방법이 있는 영역입니다.'); }).join('') : '<div class="aidx-switem"><p>뚜렷하게 앞선 영역은 없습니다.</p></div>') + '</div></section>';
+
+    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">' + esc(myLv) + '의 시각에서 본 제언</p><h3>먼저 준비하고 대처할 3가지</h3>' +
+      '<p>아래 학교급보다도 낮은 영역(먼저 채울 것)을 가장 먼저, 그다음 위 학교급과 거리가 큰 영역(미리 준비할 것), 그다음 점수가 낮은 영역 순서입니다. 제언은 ' + esc(myLv) + ' 학생과 교실의 특성에 맞춰 썼습니다.</p></div>' +
+      '<ol class="aidx-prio5">' + order.slice(0, 3).map(function (x, i) {
+        return '<li class="aidx-prio-card"><p class="aidx-plan-h"><span class="aidx-prio">' + (i + 1) + '</span>' + DOMAINS[x.d].icon + ' ' + DOMAINS[x.d].name + ' · ' + KIND[x.kind] + '</p>' +
+          '<p class="aidx-prio-act">' + V.do[DOMAINS[x.d].key] + '</p>' +
+          '<p class="aidx-small">근거: ' + esc(myLv) + ' ' + r0(x.v) + '점 · ' + x.pairs.map(function (q) { return esc(josa(q.lv, '과', '와')) + ' ' + signed(q.g); }).join(' · ') + ' · 학교급 ' + x.nlv + '개 중 ' + x.rank + '위</p></li>';
+      }).join('') + '</ol>' +
+      '<p class="aidx-small">다음 학교급과 이어 보기: ' + (nextLv ? esc(V.next) + '는 ' + DOMAINS.map(function (_, d) { return { d: d, g: nextLv.m[d] - me.m[d] }; }).sort(function (a, b) { return b.g - a.g; }).slice(0, 1).map(function (x) { return DOMAINS[x.d].name + '에서 ' + esc(myLv) + '보다 ' + (x.g > 0 ? r0(x.g) + '점 높습니다. 학생이 곧 만나게 될 기대 수준이니 이 영역의 기초를 미리 다져 두세요.' : '모든 영역에서 ' + esc(myLv) + '보다 높지 않습니다. 지금의 강점을 다음 학교급에 넘겨줄 수 있게 정리해 두세요.'); }).join('') : esc(V.next) + '로 이어지는 시기를 생각해, ' + esc(myLv) + '에서 확인하기와 책임 있게 쓰기의 기초를 다져 두세요.') + '</p></section>';
     return h;
   }
 
   // ---------- 학교급별 비교 / 전체 학교 수준 ----------
   function levelReport() {
-    return compareReport(state.data.rows, function (r) { return r.lv || '기타'; }, SCHOOL_LEVELS, '학교급',
+    return levelView() + '<h3 class="aidx-subh">학교급별 상세 비교</h3>' + compareReport(state.data.rows, function (r) { return r.lv || '기타'; }, SCHOOL_LEVELS, '학교급',
       '응답할 때 고른 학교급(' + SCHOOL_LEVELS.join('·') + ')별로 전체 응답을 자동으로 묶어 비교합니다. 응답 ' + state.data.rows.length + '명 기준.');
   }
   function allReport() {
@@ -873,7 +1057,7 @@
         state.me = rec; state.pending = null; state.data = state.pool = state.allPool = null; save(LS_ME, rec); viewDone();
       }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
-    else if (act === 'analyze') { analyze('me'); }
+    else if (act === 'analyze') { analyze('others'); }
     else if (act === 'pdf') { window.DiagnosisPdf.save({ root: root, button: b, title: '나와 우리학교 AI 역량 수준 진단', code: state.me && state.me.id }); }
     else if (act === 'copycode') {
       var code = b.dataset.code;
@@ -881,13 +1065,13 @@
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'school' || act === 'all') {
+    else if (act === 'my' || act === 'school' || act === 'all' || act === 'others') {
       // 결과는 진단을 마친 사람만 본다. 이 기기에 응답이 없으면 안내를 띄운다.
       var me = load(LS_ME), tab = act === 'my' ? 'me' : act;
       if (me) { state.me = me; state.data = state.pool = state.allPool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('aidx-gate')) go('home');
-      document.getElementById('aidx-gate-msg').textContent = ({ me: '나의 역량 수준은', school: '우리 학교 역량 수준은', all: '전체 학교 수준은' })[tab] + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('aidx-gate-msg').textContent = ({ me: '나의 역량 수준은', school: '우리 학교 역량 수준은', all: '전체 학교 수준은', others: '같은 학교급 비교는' })[tab] + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('aidx-gate').hidden = false;
       document.getElementById('aidx-code').hidden = true;
     }
