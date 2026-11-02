@@ -232,7 +232,7 @@
   function groupLabel(P) { return P.org ? '우리 학교 ' + P.org : P.group ? '학교(그룹) ' + P.group : '전체 응답자'; }
   // 같은 학교 판단: 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(apps-script.gs의 normOrg_와 같은 규칙).
   function normOrg(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
-  function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비됨' : '출발 전 · 1단계 준비 중'; }
+  function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비된 편' : '아직 1단계부터 준비가 필요한 편'; }
   function sc(v) { return v === null ? '–' : r0(v); }
 
   // ---------- 점수 ----------
@@ -381,7 +381,7 @@
         '<i class="aidx-rcut" style="left:' + CUT + '%"></i>' +
         (cmp && cmp[i] !== null ? '<i class="aidx-rmean" style="left:' + cmp[i] + '%" data-tip="' + esc(cmpLabel + ' ' + r0(cmp[i]) + '점') + '"></i>' : '') + '</span>' +
         '<span class="aidx-rval">' + sc(v) + '</span>' +
-        '<span class="aidx-rtag"' + (held ? ' title="' + (bott + 1) + '단계가 60점에 못 미쳐, ' + (bott + 1) + '단계의 준비 상황을 먼저 확인한 뒤 판단합니다."' : '') + '>' + (held ? '판정 보류' : marks && marks[i] ? marks[i] : v === null ? '판단 보류' : v >= CUT ? '준비됨' : '보완 필요') + '</span></div>';
+        '<span class="aidx-rtag"' + (held ? ' title="' + (bott + 1) + '단계가 60점에 못 미쳐, ' + (bott + 1) + '단계의 준비 상황을 먼저 확인한 뒤 판단합니다."' : '') + '>' + (held ? '판정 보류' : marks && marks[i] ? marks[i] : v === null ? '판단 보류' : v >= CUT ? '준비된 편' : '보완 필요') + '</span></div>';
     }).join('') + '</div>';
   }
   // 병목 단계보다 뒤 단계가 10점 이상 높으면 '확인해야 할 사항'으로 짚는다:
@@ -582,7 +582,8 @@
     return a < GAP_NOTE ? '비슷함' : (d > 0 ? (a >= GAP_BIG ? '크게 높게 봄' : '높게 봄') : (a >= GAP_BIG ? '크게 낮게 봄' : '낮게 봄'));
   }
   // 단계마다 '나'와 비교 대상(동료 평균 등)의 점수를 두 줄 막대로 나란히 놓고, 차이를 문장으로 풀어 준다.
-  function pairBars(mine, other, otherName) {
+  function pairBars(mine, other, otherName, mineName) {
+    mineName = mineName || '나';
     return '<div class="axr-pair">' + STAGES.map(function (st, i) {
       var a = mine[i], b = other[i], d = a === null || b === null ? null : a - b;
       var cls = d === null ? '' : Math.abs(d) < GAP_NOTE ? 'same' : d > 0 ? 'hi' : 'lo';
@@ -592,7 +593,7 @@
         '<span class="axr-ptrack me"><span style="width:' + (a || 0) + '%"></span><b>' + sc(a) + '</b></span>' +
         '<span class="axr-ptrack ot"><span style="width:' + (b || 0) + '%"></span><b>' + sc(b) + '</b></span></span>' +
         '<span class="axr-psay">' + say + '</span></div>';
-    }).join('') + '<p class="axr-plegend"><span class="me"></span>나 <span class="ot"></span>' + otherName + ' 평균 · 막대가 길수록 그 단계가 잘 갖추어졌다고 본 것 · 점선은 준비 기준 60점</p></div>';
+    }).join('') + '<p class="axr-plegend"><span class="me"></span>' + mineName + ' <span class="ot"></span>' + otherName + ' 평균 · 막대가 길수록 그 단계가 잘 갖추어졌다고 본 것 · 점선은 준비 기준 60점</p></div>';
   }
   function gapBars(diffs) {
     var R = 50; // 막대 끝 = ±50점
@@ -643,64 +644,6 @@
   }
   function weakestStage(lv) { var o = strongWeak(lv).weak; return o.length ? o[0].s : 0; }
 
-  function fullReport() {
-    var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
-    if (!me) {
-      return '<section class="aidx-home"><p>아직 이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p>' +
-        '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="report">결과 코드 입력</button></div></section>';
-    }
-    var rows = P.rows, n = rows.length, S = aggregate(rows), h = '';
-    var schoolItem = function (idx) { return itemMeanOf(rows, idx); }, myItem = function (idx) { return me.a[idx] || null; };
-    h += '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + n + '명 (나 포함)' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>';
-    if (n < MIN_N) h += '<p class="aidx-note axr-few"><strong>아직 응답 ' + n + '명입니다. 지금 학교 결과는 ' + (n === 1 ? '한 사람' : n + '명') + '의 인식입니다.</strong> ' + MIN_N + '명 이상, 학년·교과와 직위가 고르게 응답해야 학교 결과로 읽을 수 있습니다. 지금은 참고용으로 보세요.</p>';
-
-    // 1. 나의 준비도
-    var mySW = strongWeak(me.lv);
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">1 · 나의 준비도</p><h2>' + stageTitle(me.stage) + '</h2>' +
-      '<p>내 응답으로 계산한 다섯 단계 점수입니다. 2단계는 나 자신, 3단계는 나와 동료 교원, 1·4·5단계는 내가 본 우리 학교에 대한 평가입니다.</p>' +
-      '<div class="axr-stairs-box">' + stairs(me.stage, '나의 준비 단계 ' + me.stage + '단계') + '</div></section>';
-    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">나의 단계별 점수</h3><p class="panel-sub">0~100점 · 회색 눈금은 우리 학교 평균 · 점선은 준비 기준 60점</p>' +
-      stageBars(me.lv, S.lvMean, '우리 학교 평균') + orderNote(me.lv, '내 응답에서') + '</div>' +
-      swPanel('나의 강점과 약점', '내 단계 점수가 높은 단계와 낮은 단계 · 괄호는 내 응답(1~5)', mySW, myItem, false) + '</section>';
-
-    // 2. 우리 학교의 준비도
-    var schSW = strongWeak(S.lvMean);
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">2 · 우리 학교의 준비도 (같은 학교 응답 ' + n + '명)</p><h2>' + stageTitle(S.stage) + '</h2><p>' + STAGE_DESC[S.stage] + '</p>' +
-      '<div class="axr-stairs-box">' + stairs(S.stage, '우리 학교 준비 단계 ' + S.stage + '단계') + '</div></section>';
-    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">우리 학교 단계별 평균</h3><p class="panel-sub">0~100점 · 오른쪽은 그 단계를 60점 이상으로 본 응답자 비율</p>' +
-      stageBars(S.lvMean, null, '', S.lvMean.map(function (v, i) { return v === null ? '판단 보류' : r0(S.ready[i]) + '% 준비'; })) + orderNote(S.lvMean, '우리 학교 평균에서') + '</div>' +
-      swPanel('우리 학교의 강점과 약점', '학교 평균이 높은 단계와 낮은 단계 · 괄호는 문항 평균(1~5)', schSW, schoolItem, true) + '</section>';
-
-    // 3. 나와 우리 학교의 차이
-    var diffs = STAGES.map(function (_, s) { return me.lv[s] !== null && S.lvMean[s] !== null ? me.lv[s] - S.lvMean[s] : null; });
-    var order = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); });
-    var top = order[0] && Math.abs(order[0].d) >= GAP_NOTE ? order[0] : null;
-    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">3 · 나와 우리 학교 준비도의 차이</h3><p class="panel-sub">단계마다 내 점수와 우리 학교 평균을 나란히 놓았습니다 · 차이가 ' + GAP_NOTE + '점 안이면 비슷하게 보는 것입니다</p>' + pairBars(me.lv, S.lvMean, '우리 학교') + '</div>' +
-      '<div class="panel"><h3 class="panel-title">차이가 가장 큰 단계</h3>' +
-      (n < 2 ? '<p>아직 같은 학교의 다른 응답이 없어 차이를 볼 수 없습니다. 같은 학교 교원이 응답하면 나타납니다.</p>'
-        : top ? '<p><strong>' + (top.s + 1) + '단계 ' + STAGES[top.s].name + '</strong>을(를) 우리 학교 평균보다 <strong>' + r0(Math.abs(top.d)) + '점 ' + (top.d > 0 ? '높게' : '낮게') + '</strong> 봅니다.</p><p>' + GAP_READ[STAGES[top.s].key][top.d > 0 ? 'hi' : 'lo'].why + '</p>'
-        : '<p>모든 단계에서 차이가 ' + GAP_NOTE + '점 미만입니다. 학교의 상태를 다른 교원과 비슷하게 보고 있으므로, 학교의 약점 단계를 함께 채우는 데 힘을 보태면 됩니다.</p>') + '</div></section>';
-
-    // 4. 내가 할 일 3 + 학교가 할 일 2
-    var used = {};
-    var ctrl = [1, 2].filter(function (s) { return me.lv[s] !== null; }).sort(function (a, b) { return me.lv[a] - me.lv[b]; });
-    if (!ctrl.length) ctrl = [1];
-    var c0 = STAGES[ctrl[0]], c1 = STAGES[ctrl[1] !== undefined ? ctrl[1] : ctrl[0]];
-    var ctrlWhy = function (st) { var s = STAGES.indexOf(st); return st.name + ' ' + sc(me.lv[s]) + '점 · 내가 직접 바꿀 수 있는 단계' + (s === ctrl[0] ? ' 중 더 낮은 쪽' : ''); };
-    var gapCands = top ? GAP_READ[STAGES[top.s].key][top.d > 0 ? 'hi' : 'lo'].act.map(function (t) {
-      return { who: 'me', t: t, why: STAGES[top.s].name + '을(를) 학교 평균보다 ' + r0(Math.abs(top.d)) + '점 ' + (top.d > 0 ? '높게' : '낮게') + ' 봄' };
-    }) : [];
-    var myCands = [{ who: 'me', t: MY_TIPS[c0.key][0], why: ctrlWhy(c0) }, gapCands[0], { who: 'me', t: MY_TIPS[c0.key][1], why: ctrlWhy(c0) }, gapCands[1],
-      { who: 'me', t: MY_TIPS[c1.key][0], why: ctrlWhy(c1) }, { who: 'me', t: MY_TIPS[c0.key][2], why: ctrlWhy(c0) }, { who: 'me', t: MY_TIPS[c1.key][1], why: ctrlWhy(c1) }];
-    var sb = S.stage < 5 ? S.stage : weakestStage(S.lvMean);
-    var sbWhy = (S.stage < 5 ? '우리 학교의 병목 단계' : '우리 학교에서 가장 낮은 단계') + ' · ' + STAGES[sb].name + ' 평균 ' + sc(S.lvMean[sb]) + '점';
-    var advice = takeUnique(myCands, 3, used).concat(takeUnique(ACTIONS[STAGES[sb].key].map(function (t) { return { who: 'school', t: t, why: sbWhy }; }), 2, used));
-    h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">4 · 행동 조언 5가지</p><h3>내가 할 일과 학교가 할 일</h3>' +
-      '<p>내 점수가 낮은 단계(교원 활용·공동 실천)와 학교와의 인식 차이에서 내가 할 일을, 우리 학교의 병목 단계에서 학교가 할 일을 골랐습니다.</p></div>' + adviceList(advice) + '</section>';
-
-    return h + peerSections(P, me, S, sb, sbWhy);
-  }
-
   // 종합 결과 5·6번(우리 학교 수준, 같은 학교급·전체 학교 비교, 발전 전략 5가지). '타 학교 비교' 탭에서도 따로 보여 준다.
   function peerSections(P, me, S, sb, sbWhy) {
     var h = '';
@@ -735,15 +678,21 @@
       kpi('종합 점수', myIdx === null ? '–' : r0(myIdx) + '<small>/ 100</small>', myIdx === null ? '' : lvlChip(myIdx) + ' 다섯 단계 평균') +
       kpi('같은 학교급 안에서', posTxt(SL), SL ? '평균 ' + sc(SL.idx) + '점 · 우리 ' + signed(myIdx - SL.idx) + '점' : esc(me.job || '') + ' 비교 학교 없음') +
       kpi('전체 학교 안에서', posTxt(AL), AL ? '평균 ' + sc(AL.idx) + '점 · 우리 ' + signed(myIdx - AL.idx) + '점' : '비교 학교 없음') +
-      '</div>';
+      '</div>' +
+      '<details class="axr-kpi-help"><summary>이 숫자들은 무슨 뜻인가요?</summary><ul class="aidx-list">' +
+      '<li><b>준비된 단계</b>: 우리 학교 응답자 평균으로 판정한 단계입니다. 1단계부터 차례로 60점을 넘은 단계까지 셉니다.</li>' +
+      '<li><b>종합 점수</b>: 다섯 단계 점수를 평균한 값입니다(0~100점). 학교끼리 순위를 매길 때 이 점수를 씁니다.</li>' +
+      '<li><b>같은 학교급 안에서</b>: 같은 학교급(초·중·고 등)에서 응답이 ' + MIN_SCHOOL + '명 이상인 다른 학교들과 종합 점수로 비교한 순위입니다.</li>' +
+      '<li><b>전체 학교 안에서</b>: 학교급에 상관없이, 응답이 ' + MIN_SCHOOL + '명 이상인 모든 학교와 비교한 순위입니다.</li>' +
+      '</ul></details>';
     function cmpPanel(title, C, emptyTxt, label) {
       if (!C) return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p>' + emptyTxt + '</p></div>';
       var o = C.diff.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return b.d - a.d; });
       var best = o[0], worst = o[o.length - 1];
-      return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p class="panel-sub">다른 학교 ' + C.n + '곳(학교마다 같은 무게) · 회색 눈금은 ' + label + ' 평균</p>' +
-        stageBars(S.lvMean, C.mean, label + ' 평균') +
-        '<p class="aidx-small">' + (best && best.d >= GAP_NOTE ? '앞선 단계: <strong>' + STAGES[best.s].name + '</strong> ' + signed(best.d) + '점. ' : '뚜렷하게 앞선 단계는 없습니다. ') +
-        (worst && worst.d <= -GAP_NOTE ? '뒤처진 단계: <strong>' + STAGES[worst.s].name + '</strong> ' + signed(worst.d) + '점.' : '뚜렷하게 뒤처진 단계는 없습니다.') + '</p></div>';
+      return '<div class="panel"><h3 class="panel-title">' + title + '</h3><p class="panel-sub">단계마다 우리 학교 평균과 다른 학교 ' + C.n + '곳의 평균(학교마다 같은 무게)을 나란히 놓았습니다</p>' +
+        pairBars(S.lvMean, C.mean, label, '우리 학교') +
+        '<p class="aidx-small">' + (best && best.d >= GAP_NOTE ? '앞선 단계: <strong>' + STAGES[best.s].name + '</strong> ' + signed(best.d) + '점 높음. ' : '뚜렷하게 앞선 단계는 없습니다. ') +
+        (worst && worst.d <= -GAP_NOTE ? '뒤처진 단계: <strong>' + STAGES[worst.s].name + '</strong> ' + signed(Math.abs(worst.d)) + '점 낮음.' : '뚜렷하게 뒤처진 단계는 없습니다.') + '</p></div>';
     }
     h += '<section class="report-grid">' +
       cmpPanel('같은 학교급(' + esc(me.job || '–') + ') 학교들과 비교', SL, P.org && me.job ? '아직 같은 학교급에서 응답이 ' + MIN_SCHOOL + '명 이상 모인 다른 학교가 없습니다. 응답이 쌓이면 이 자리에 비교 결과가 나타납니다.' : '학교 이름과 학교급이 있는 응답에서만 비교할 수 있습니다.', '같은 학교급') +
@@ -799,7 +748,10 @@
   }
   function peerReport() {
     var P = state.pool, me = P && P.rows.filter(function (r) { return r.mine; })[0];
-    if (!me) return fullReport();
+    if (!me) {
+      return '<section class="aidx-home"><p>아직 이 기기에 내 응답이 없습니다. 진단에 응답하거나 결과 코드를 입력하세요.</p>' +
+        '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="report">결과 코드 입력</button></div></section>';
+    }
     var S = aggregate(P.rows), sb = S.stage < 5 ? S.stage : weakestStage(S.lvMean);
     var sbWhy = (S.stage < 5 ? '우리 학교의 병목 단계' : '우리 학교에서 가장 낮은 단계') + ' · ' + STAGES[sb].name + ' 평균 ' + sc(S.lvMean[sb]) + '점';
     return '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + P.rows.length + '명' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>' + peerSections(P, me, S, sb, sbWhy);
@@ -836,7 +788,7 @@
     // 2. 핵심 숫자
     var topAbs = top ? r0(Math.abs(top.d)) : 0;
     h += '<div class="kpis aidx-kpis">' +
-      kpi('내가 본 우리 학교 단계', me.stage + '<small>/ 5단계</small>', me.stage ? STAGE_NAMES[me.stage] + '까지 준비됨' : '1단계 준비 중') +
+      kpi('내가 본 우리 학교 단계', me.stage + '<small>/ 5단계</small>', me.stage ? STAGE_NAMES[me.stage] + '까지 준비된 편' : '아직 1단계부터 준비가 필요한 편') +
       kpi('다른 선생님들이 가장 많이 본 단계', modeStage + '<small>/ 5단계</small>', no + '명 중 ' + r0(stageCnt[modeStage] / no * 100) + '%가 이 단계로 봄 · ' + (modeStage === me.stage ? '나와 같음' : '나는 ' + me.stage + '단계')) +
       kpi('나와 생각이 가장 다른 단계', top ? STAGES[top.s].name : '–', top ? (topAbs < GAP_NOTE ? '차이 ' + topAbs + '점 · 비슷한 편' : '다른 선생님들보다 ' + topAbs + '점 ' + (top.d > 0 ? '높게' : '낮게') + ' 봄') : '비교할 단계 없음') +
       kpi('"잘 모르겠다"고 답한 문항', myUnk + '<small>/ ' + unkItems + '문항</small>', '다른 선생님 평균 ' + f1(othersUnk) + '개') +
@@ -946,14 +898,20 @@
       kpi('준비된 단계', A.stage + '<small>/ 5단계</small>', bott >= 0 ? '병목: ' + STAGES[bott].name : '전 단계 준비') +
       kpi('전반 인식', g.length ? r0(mean(g)) + '<small>/ 100</small>' : '–', 'AIX 의지·역량에 대한 인식 (G1·G2)') +
       kpi('"잘 모르겠다"', r0(unkOrg) + '<small>%</small>', '학교 주어 문항(1·4·5단계) 평균') +
-      '</div>';
+      '</div>' +
+      '<details class="axr-kpi-help"><summary>이 숫자들은 무슨 뜻인가요?</summary><ul class="aidx-list">' +
+      '<li><b>응답자</b>: ' + who + '에서 이 진단에 응답한 교원 수입니다.</li>' +
+      '<li><b>준비된 단계</b>: ' + who + ' 평균으로 판정한 단계입니다. 1단계부터 차례로 60점을 넘은 단계까지 세고, 처음으로 60점에 못 미친 단계를 병목이라고 부릅니다.</li>' +
+      '<li><b>전반 인식</b>: "교원들은 AIX 전환을 해내려는 의지가 강하다" 등 두 문항(G1·G2)의 평균입니다. 단계 점수 계산에는 넣지 않고, 교원들의 전반적인 의지와 자신감을 참고로 보여 줍니다.</li>' +
+      '<li><b>"잘 모르겠다"</b>: 학교 전체를 주어로 묻는 문항(1·4·5단계) 가운데 "잘 모르겠다"를 고른 응답 비율입니다. 높을수록 그 내용이 교원에게 충분히 안내되지 않았을 수 있습니다.</li>' +
+      '</ul></details>';
 
     // 3. 단계별 프로파일
     h += '<section class="report-grid">' +
       '<div class="panel"><h3 class="panel-title">단계별 학교 평균</h3><p class="panel-sub">0~100점 · 점선은 준비 기준 60점</p>' +
       stageBars(A.lvMean, null, '', A.lvMean.map(function (v, i) { return v === null ? '판단 보류' : r0(A.ready[i]) + '% 준비'; })) +
       '<p class="aidx-small">오른쪽 비율은 그 단계를 60점 이상으로 본 응답자 비율입니다. 병목 뒤 단계는 60점을 넘어도 회색 "판정 보류"로 표시합니다(병목 단계의 준비 상황을 먼저 확인한 뒤 판단).</p>' + orderNote(A.lvMean, who + ' 평균에서', who) + '</div>' +
-      '<div class="panel"><h3 class="panel-title">단계별 수준 분포</h3><p class="panel-sub">각 단계에서 시작·형성·정착·주도 수준으로 본 응답자 비율</p>' +
+      '<div class="panel"><h3 class="panel-title">단계별 수준 분포</h3><p class="panel-sub">각 단계에서 시작·형성·정착·주도 수준으로 본 응답자 비율 · 정착(60점 이상)부터 준비된 편으로 봅니다</p>' +
       '<div class="legend">' + ['시작', '형성', '정착', '주도'].map(function (t) { return '<span class="lg"><span class="aidx-sw ' + lvlCls(t) + '"></span>' + t + '</span>'; }).join('') + '</div>' +
       '<div class="aidx-stack">' + STAGES.map(function (st, s) {
         var cnt = { '시작': 0, '형성': 0, '정착': 0, '주도': 0 }, m = 0;
@@ -967,6 +925,10 @@
     // 4. 기초 통계
     h += '<div class="panel"><h3 class="panel-title">단계별 기초 통계</h3>' +
       '<p class="panel-sub">합의도 rwg(j)는 학교를 주어로 묻는 단계(1·4·5단계)에서, 신뢰도 α는 "모르겠다" 없이 응답한 사람이 10명 이상일 때 표시</p>' +
+      '<ul class="aidx-list axr-colhelp"><li><b>평균·SD</b>: 그 단계 점수(0~100점)의 평균과 흩어진 정도입니다. SD가 클수록 교원마다 보는 눈이 다르다는 뜻입니다.</li>' +
+      '<li><b>준비됨</b>: 그 단계를 60점 이상으로 본 응답자 비율입니다.</li><li><b>모르겠다</b>: "잘 모르겠다"를 고른 응답 비율입니다.</li>' +
+      '<li><b>합의도(rwg(j))</b>: 교원들이 이 단계를 얼마나 비슷하게 보는지 나타냅니다. .70 이상이면 평균을 학교의 상태로 읽을 수 있습니다.</li>' +
+      '<li><b>α(신뢰도)</b>: 그 단계 6문항이 서로 같은 내용을 재고 있는 정도입니다(참고용).</li></ul>' +
       '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>평균</th><th>SD</th><th>준비됨</th><th>모르겠다</th><th>합의도</th><th>α</th></tr></thead><tbody>' +
       STAGES.map(function (st, s) {
         var rw = st.unk && n >= MIN_N ? rwgj(rows, s * K, s * K + K) : null, al = alpha(rows, s * K, s * K + K);
@@ -1010,7 +972,7 @@
     var fit = orderFit(rows);
     var both = rows.filter(function (r) { return r.g !== null && r.lv.every(function (v) { return v !== null; }); });
     var rg = both.length >= 10 ? pearson(both.map(function (r) { return mean(r.lv); }), both.map(function (r) { return r.g; })) : null;
-    h += '<div class="panel"><h3 class="panel-title">진단 도구 점검</h3><p class="panel-sub">응답이 쌓이면 이 진단의 가정이 맞는지 확인하는 지표 (10명 이상일 때 표시)</p>' +
+    h += '<div class="panel"><h3 class="panel-title">진단 도구 점검</h3><p class="panel-sub">연구·관리자를 위한 참고 지표입니다(10명 이상일 때 표시). 몰라도 다른 결과를 읽는 데는 지장이 없습니다.</p>' +
       '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>지표</th><th>값</th><th>뜻</th></tr></thead><tbody>' +
       '<tr><td>단계 순서 일치율</td><td>' + (fit ? r0(fit.pct) + '% (' + fit.n + '명)' : '–') + '</td><td>단계 순서를 거스른 응답이 없는 비율 (높을수록 순서 가정이 맞음)</td></tr>' +
       '<tr><td>단계 점수와 전반 인식의 상관</td><td>' + (rg === null ? '–' : 'r = ' + f2(rg)) + '</td><td>단계 점수가 AIX 의지·역량 인식과 함께 움직이는 정도</td></tr>' +
@@ -1032,12 +994,12 @@
     if (schools.length) {
       var cnt = [0, 0, 0, 0, 0, 0]; schools.forEach(function (x) { cnt[x.A.stage]++; });
       var mx = Math.max.apply(null, cnt), my = schools.filter(function (x) { return x.mine; })[0];
-      h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">학교별 준비 단계 분포</h3><p class="panel-sub">' + MIN_SCHOOL + '명 이상 응답한 학교 ' + schools.length + '곳 · 학교마다 응답 평균으로 판정' + (my ? ' · 진한 막대가 우리 학교의 단계' : '') + '</p>' +
+      h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">학교별 준비 단계 분포</h3><p class="panel-sub">' + MIN_SCHOOL + '명 이상 응답한 학교 ' + schools.length + '곳이 각각 몇 단계로 판정되었는지 셌습니다' + (my ? ' · 진한 막대가 우리 학교의 단계' : '') + '</p>' +
         '<div class="aidx-hbars">' + STAGE_NAMES.map(function (nm, k) {
           return '<div class="aidx-hrow' + (my && my.A.stage === k ? ' is-mine' : '') + '"><span class="aidx-hname">' + nm + '</span><span class="aidx-htrack"><span style="width:' + (mx ? cnt[k] / mx * 100 : 0) + '%"></span></span><span class="aidx-hval">' + cnt[k] + '곳</span></div>';
         }).join('') + '</div></div>' +
-        '<div class="panel"><h3 class="panel-title">학교급별 평균</h3><p class="panel-sub">학교마다 같은 무게 · 0~100점</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>학교급</th><th>학교</th>' +
-        STAGES.map(function (st, i) { return '<th>' + (i + 1) + '단계</th>'; }).join('') + '</tr></thead><tbody>' +
+        '<div class="panel"><h3 class="panel-title">학교급별 평균</h3><p class="panel-sub">학교마다 먼저 평균을 낸 뒤, 학교 수로 다시 평균했습니다(응답이 많은 학교가 더 크게 반영되지 않도록) · 0~100점</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>학교급</th><th>학교</th>' +
+        STAGES.map(function (st, i) { return '<th>' + (i + 1) + '. ' + st.name + '</th>'; }).join('') + '</tr></thead><tbody>' +
         JOBS.map(function (j) {
           var xs = schools.filter(function (x) { return x.job === j; }); if (!xs.length) return '';
           return '<tr><td>' + j + '</td><td>' + xs.length + '곳</td>' + STAGES.map(function (_, s) { var v = nn(xs.map(function (x) { return x.A.lvMean[s]; })); return '<td>' + (v.length ? r0(mean(v)) : '–') + '</td>'; }).join('') + '</tr>';
