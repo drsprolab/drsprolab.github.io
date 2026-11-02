@@ -192,6 +192,10 @@ a.area:hover, a.area:focus-visible { border-color: var(--accent); box-shadow: 0 
 .prose .pubs, .prose .ledger, .prose .member-grid, .prose .alumni, .prose .table-wrap, .prose .gallery { max-width: none; }
 
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+@media (max-width: 640px) {
+  .table-wrap:not(:has(table.stack)) { position: relative; }
+  .table-wrap:not(:has(table.stack))::after { content: "옆으로 밀면 더 볼 수 있습니다."; display: block; padding: 4px 10px 6px; font-size: 11.5px; color: var(--muted); text-align: right; }
+}
 table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
 th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-family: var(--f-mono); font-size: 12px; letter-spacing: .05em; color: var(--muted); font-weight: 500; background: var(--tint); white-space: nowrap; }
@@ -2080,6 +2084,7 @@ span.warn { color: var(--warn); font-weight: 600; }
 .rhb .rhb-rule { margin: 12px 0; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
 .rhb-rule strong { display: inline-block; margin-right: 8px; color: var(--accent); }
 .rhb-table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+@media (max-width: 640px) { .rhb-table-wrap { position: relative; } .rhb-table-wrap::after { content: "옆으로 밀면 더 볼 수 있습니다."; display: block; padding: 4px 2px 0; font-size: 11.5px; color: var(--muted); text-align: right; } }
 .rhb-table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 13px; }
 .rhb-table th, .rhb-table td { padding: 8px 10px; border: 1px solid var(--line); text-align: center; vertical-align: middle; }
 .rhb-table thead th, .rhb-table tbody th { background: var(--tint); font-weight: 600; }

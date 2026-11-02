@@ -76,4 +76,21 @@
     const message=window.ResearchMethodSelector.evaluateChecklist(answers).message;
     result.append(el('p',message));answers.forEach((a,i)=>{if(a!=='yes')result.append(el('p',(a==='no'?'보완할 조건: ':'더 확인할 조건: ')+fields[i].querySelector('legend').textContent));});
   });checks.addEventListener('change',()=>document.getElementById('rm-check-result').replaceChildren());}
+  // 휴대폰: 도식을 누르면 화면을 가로로 쓰도록 돌려서 크게 보여 준다. 다시 누르거나 닫기를 누르면 닫힌다.
+  const small=window.matchMedia('(max-width:640px)');
+  document.addEventListener('click',event=>{
+    const wrap=event.target.closest&&event.target.closest('.mm-wrap');
+    if(!wrap||!small.matches)return;
+    const svg=wrap.querySelector('svg');if(!svg)return;
+    const vb=(svg.getAttribute('viewBox')||'0 0 880 400').split(/\s+/).map(Number),W=vb[2],H=vb[3];
+    const box=document.createElement('div');box.className='mm-zoom';box.setAttribute('role','dialog');box.setAttribute('aria-label','도식 크게 보기');
+    const close=document.createElement('button');close.type='button';close.className='mm-zoom-close';close.textContent='닫기 ✕';
+    const big=svg.cloneNode(true);big.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));big.removeAttribute('aria-labelledby');
+    const long=window.innerHeight-56,short=window.innerWidth-24;
+    const w=Math.min(long,short*W/H);big.style.width=w+'px';big.style.height=(w*H/W)+'px';
+    box.append(close,big);(wrap.closest('.rm')||document.body).append(box);document.body.style.overflow='hidden';
+    const shut=()=>{box.remove();document.body.style.overflow='';};
+    box.addEventListener('click',shut);document.addEventListener('keydown',function esc(e){if(e.key==='Escape'){shut();document.removeEventListener('keydown',esc);}});
+    close.focus();
+  });
 })();

@@ -307,3 +307,24 @@ details.rm-fold.rm-self-check { padding:14px 18px; background:var(--tint); borde
 .rm-crosscheck td { color:var(--muted); }
 .rm-crosscheck td.is-hit,.rm-crosscheck td.is-ok { color:var(--accent); font-weight:600; }
 .rm-crosscheck td.is-warn,.rm-crosscheck td.is-no { color:#9b3d4f; font-weight:600; }
+
+/* 휴대폰: 도식은 화면 폭에 맞춰 줄이고(두 손가락으로 확대), 표는 칸을 카드처럼 세로로 쌓는다. */
+@media(max-width:640px) {
+  .mm-wrap { overflow-x:visible; padding:6px; margin-left:-6px; margin-right:-6px; }
+  .mm-svg { min-width:0; width:100%; }
+  .mm-wrap { cursor:zoom-in; }
+  .mm-wrap::after { content:"그림을 누르면 가로로 크게 볼 수 있습니다."; display:block; margin-top:4px; font-size:11.5px; color:var(--muted); text-align:center; }
+  .rm-diagram { font-size:11px; line-height:1.7; padding:10px 12px; white-space:pre-wrap; word-break:keep-all; }
+  .rm-table-wrap { overflow-x:visible; }
+  .rm-table { min-width:0; width:100%; }
+  .rm-table thead { display:none; }
+  .rm-table, .rm-table tbody, .rm-table tr, .rm-table th, .rm-table td { display:block; width:auto; }
+  .rm-table tr { border:1px solid var(--line); border-radius:8px; padding:8px 12px; margin:0 0 8px; background:var(--paper); }
+  .rm-table th, .rm-table td { border:0; padding:3px 0; min-width:0 !important; text-align:left; }
+  .rm-table th[scope="row"] { font-weight:700; padding-bottom:4px; }
+  .rm-table td[data-label]::before { content:attr(data-label); display:block; font-size:11.5px; font-weight:600; color:var(--muted); }
+  .rm-data-table td:first-child { font-weight:700; }
+}
+.mm-zoom { position:fixed; inset:0; z-index:1000; background:var(--paper,#fff); display:flex; align-items:center; justify-content:center; cursor:zoom-out; }
+.mm-zoom svg { flex:none; min-width:0; max-width:none; transform:rotate(90deg); }
+.mm-zoom-close { position:fixed; top:12px; right:12px; z-index:1; font:inherit; font-size:14px; padding:6px 12px; border:1px solid var(--line); border-radius:999px; background:var(--paper,#fff); color:var(--ink); }
