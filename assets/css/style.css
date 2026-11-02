@@ -1367,6 +1367,8 @@ main.container { overflow-x: clip; }
 .aidx-group { margin: 0; font-size: 14px; color: var(--muted); }
 .aidx-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px; }
 .aidx-actions.sub { margin-top: 0; }
+.aidx-actions.sub .aidx-btn { font-size: 13px; padding: 8px 14px; white-space: nowrap; }
+.aidx-actions.sub .aidx-btn:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 .aidx-btn { font: inherit; font-size: 15px; font-weight: 500; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
 .aidx-btn:hover { border-color: var(--accent); color: var(--accent); }
 .aidx-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); font-size: 16px; padding: 12px 36px; }
