@@ -1583,6 +1583,9 @@ main.container { overflow-x: clip; }
 .aidx-gap.slight { border-color: color-mix(in srgb, var(--warn) 55%, var(--accent)); }
 .aidx-gap.slight h3 { color: var(--ink); }
 span.warn { color: var(--warn); font-weight: 600; }
+.axr-kpi-help { margin: 4px 0 14px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.axr-kpi-help summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--accent); }
+.axr-kpi-help ul { margin-top: 8px; } .axr-kpi-help li { font-size: 14px; line-height: 1.65; }
 .aidx-gmean { border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 6px; }
 .aidx .aidx-gmean p { font-size: 13px; color: var(--muted); line-height: 1.6; }
 /* 나의 행동 추천 */
@@ -1643,6 +1646,26 @@ span.warn { color: var(--warn); font-weight: 600; }
 .axr .aidx-rrow { grid-template-columns: 128px 1fr 36px 76px; }
 @media (max-width: 760px) { .axr .aidx-rrow { grid-template-columns: 104px 1fr 30px 64px; } }
 /* 나와 다른 응답자의 인식 차이: 가운데 0을 기준으로 좌우로 뻗는 막대 */
+.axr-lvlegend { margin: 6px 0 10px; padding: 10px 14px; background: var(--tint); border-radius: 8px; font-size: 13.5px; }
+.axr-lvlegend p { margin: 0 0 6px; } .axr-lvlegend ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.axr-lvlegend li .aidx-lv { margin-right: 6px; }
+.axr-colhelp { font-size: 13px; color: var(--muted); margin: 0 0 10px; } .axr-colhelp li { margin: 2px 0; }
+.axr-pair { display: grid; gap: 12px; }
+.axr-prow { display: grid; grid-template-columns: 112px 1fr 150px; gap: 10px; align-items: center; font-size: 14px; }
+.axr-pname { font-weight: 600; }
+.axr-ptracks { position: relative; display: grid; gap: 3px; }
+.axr-ptrack { position: relative; display: block; height: 12px; background: var(--tint); border-radius: 3px; }
+.axr-ptrack > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; }
+.axr-ptrack.me > span { background: var(--series-1); } .axr-ptrack.ot > span { background: color-mix(in srgb, var(--muted) 45%, var(--paper)); }
+.axr-ptrack b { position: absolute; right: -30px; top: -3px; font-size: 12px; font-weight: 600; color: var(--ink); width: 26px; text-align: left; }
+.axr-pcut { position: absolute; top: -3px; bottom: -3px; border-left: 1.5px dashed var(--muted); z-index: 1; }
+.axr-ptracks { margin-right: 30px; }
+.axr-psay { font-size: 13px; color: var(--muted); }
+.axr-prow.lo .axr-psay { color: var(--warn); font-weight: 600; } .axr-prow.hi .axr-psay { color: var(--accent); font-weight: 600; }
+.axr-plegend { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+.axr-plegend span { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin: 0 4px 0 8px; vertical-align: -1px; }
+.axr-plegend span.me { background: var(--series-1); margin-left: 0; } .axr-plegend span.ot { background: color-mix(in srgb, var(--muted) 45%, var(--paper)); }
+@media (max-width: 560px) { .axr-prow { grid-template-columns: 88px 1fr; } .axr-psay { grid-column: 2; } }
 .axr-div { display: grid; gap: 10px; }
 .axr-drow { display: grid; grid-template-columns: 112px 1fr 40px 84px; gap: 10px; align-items: center; font-size: 14px; }
 .axr-dname { font-weight: 500; }
@@ -1658,7 +1681,8 @@ span.warn { color: var(--warn); font-weight: 600; }
 .axr-daxis-in { display: flex; justify-content: space-between; }
 .axr-daxis-in i { font-style: normal; }
 .axr-dist { display: grid; gap: 8px; }
-.axr-distrow { display: grid; grid-template-columns: 150px 1fr 40px; gap: 10px; align-items: center; font-size: 13.5px; }
+.axr-distrow { display: grid; grid-template-columns: 150px 1fr 88px; gap: 10px; align-items: center; font-size: 13.5px; }
+.axr-distval { white-space: nowrap; text-align: right; }
 .axr-distrow b { font-size: 11px; color: var(--paper); background: var(--accent); border-radius: 999px; padding: 0 6px; margin-left: 4px; }
 .axr-disttrack { height: 14px; border-radius: 3px; background: var(--tint); overflow: hidden; }
 .axr-disttrack span { display: block; height: 100%; background: color-mix(in srgb, var(--series-1) 40%, var(--paper)); }

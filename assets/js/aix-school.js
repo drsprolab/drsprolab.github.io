@@ -179,25 +179,25 @@
     W: ['다음 수행평가 안내문에 "AI 사용: 아이디어만 허용, 사용한 대화 캡처 1장 제출" 같은 한 줄을 넣어 보고, 같은 과제를 맡은 동료에게 같은 기준을 쓰자고 제안하세요.', '과제 하나에 3~5분 구술 확인("이 부분은 왜 이렇게 썼나요?")을 넣어 보세요. 시간이 없으면 무작위 5명만 확인해도 됩니다.', '잘 된 AI 활용 수업은 지도안 전체 대신 "요청문 + 활동지 + 학생 결과물 1개"만 공유 폴더에 올려 보세요. 동료가 바로 따라 할 수 있습니다.']
   };
   var GAP_READ = {
-    F: { hi: { why: '내가 알고 있는 학교 지침·승인 도구·연수를 다른 교원은 모르거나 체감하지 못하고 있을 수 있습니다.',
+    F: { hi: { why: '나는 우리 학교가 AI 활용 목표·지침·승인 도구·연수를 잘 갖추었다고 보는데, 다른 선생님들은 그렇게 보지 않습니다. 내가 알고 있는 학교 안내를 다른 선생님들은 아직 모르고 있을 수 있어요.',
           act: ['학교 AI 지침과 승인 도구 표가 어디 있는지 업무 메신저로 동료들에게 한 번 공유해 주세요(파일 링크 하나면 충분합니다).', '교원들이 잘 모르는 항목을 교감·부장교사에게 알리고, 교직원 회의 5분 안내나 메신저 공지 고정을 제안하세요.', '들어 본 연수 가운데 쓸모 있던 과정 하나를 동료에게 추천해 주세요.'] },
-        lo: { why: '다른 교원은 아는 학교 지침·승인 도구·연수를 내가 놓치고 있거나, 내 학년·교과까지 안내가 닿지 않았을 수 있습니다.',
+        lo: { why: '다른 선생님들은 우리 학교에 AI 활용 목표·지침·승인 도구·연수가 있다고 보는데, 나는 그렇게 보지 않습니다. 학교 안내가 있었는데 내가 못 봤거나, 내 학년·교과에는 안내가 오지 않았을 수 있어요.',
           act: ['학교 교육계획서의 디지털·AI 교육 항목과 업무 메신저 공지에서 AI 지침을 찾아 10분만 읽어 보세요.', '쓸 수 있는 AI 도구와 계정 받는 법을 정보부장에게 물어보세요.', '찾아봐도 없다면 부장교사에게 "우리 학년·교과에는 안내가 안 왔다"고 알려 주세요. 그 자체가 학교에 필요한 정보입니다.'] } },
-    P: { hi: { why: '나는 다른 교원보다 AI를 더 익숙하게 쓰고 있습니다. 학교 안에서 앞서 가는 쪽입니다.',
+    P: { hi: { why: '나는 다른 선생님들보다 수업 준비와 업무에 AI를 더 자주, 더 꼼꼼하게 쓰고 있습니다. 학교 안에서 앞서 가는 편이에요.',
           act: ['동료와 모이는 자리에서 10분 동안 내가 쓰는 요청문 하나와 결과물을 화면으로 보여 주세요.', '내가 효과를 본 요청문 2~3개를 공유 폴더에 올리고 짧은 사용 메모를 붙여 주세요.', 'AI로 줄어든 시간을 한 달 동안 메모해, 동료와 방법을 나눌 때 근거로 쓰세요.'] },
-        lo: { why: '다른 교원보다 수업과 업무에 AI를 덜 쓰고 있습니다. 출발이 조금 늦었을 뿐, 따라잡기 가장 쉬운 단계입니다.',
+        lo: { why: '다른 선생님들보다 수업 준비와 업무에 AI를 덜 쓰고 있습니다. 출발이 조금 늦었을 뿐이고, 가장 따라잡기 쉬운 부분이에요.',
           act: ['이번 주 수업 하나에서 형성평가 3문항이나 활동지 1장을 AI로 만들어 보세요(15분). 쓰기 전에 교과서와 대조하세요.', 'AI를 잘 쓰는 동료에게 "실제로 쓰는 화면을 10분만 보여 달라"고 부탁해 보세요.', '공문 요약이나 가정통신문 초안처럼 부담이 적은 업무부터 맡겨 보세요.'] } },
-    W: { hi: { why: '나와 가까운 동료들이 다른 교원들보다 앞서 협력하고 있거나, 내가 동료와의 협력을 다른 교원보다 좋게 보고 있습니다.',
+    W: { hi: { why: '나는 가까운 동료들과 AI 활용 기준을 맞추고 방법을 나누는 일이 잘 되고 있다고 보는데, 다른 선생님들은 그만큼은 아니라고 봅니다. 내 주변 동료 모임이 다른 곳보다 앞서 있을 수 있어요.',
           act: ['우리가 쓰는 AI 허용 기준과 과제 안내문을 다른 학년·교과 동료에게 그대로 나눠 주세요.', '함께하는 동료들에게 "우리는 어디까지 맞추고 나누고 있나요?"를 5분만 물어 생각을 맞춰 보세요.', '바꾼 과제의 학생 결과물 2~3개를 모아 두면 학교 확산 때 가장 설득력 있는 자료가 됩니다.'] },
-        lo: { why: '나와 가까운 동료들 사이의 협력이 다른 교원들보다 덜하거나, 내가 동료와의 협력을 다른 교원보다 덜 체감하고 있습니다.',
+        lo: { why: '다른 선생님들은 동료끼리 AI 활용 기준을 맞추고 방법을 나눈다고 보는데, 나는 그렇게 느끼지 못합니다. 다른 학년·교과에서는 함께하고 있지만, 내 주변에서는 아직 그런 협력이 드물 수 있어요.',
           act: ['같은 과제를 맡은 동료 한 명에게 "다음 수행평가의 AI 사용 기준을 같이 정하자"고 10분만 청해 보세요.', '앞서 있는 다른 학년·교과의 과제 안내문을 빌려 와 우리 과목 문구로만 바꿔 써 보세요.', '동료 한 명과 같은 단원에서 AI 활용 활동 하나를 해 보고 학생 결과물을 비교해 보세요.'] } },
-    E: { hi: { why: '내 주변에서는 학습공동체·사례 공유·행정 업무 활용이 보이지만, 다른 교원에게는 보이지 않을 수 있습니다.',
+    E: { hi: { why: '나는 좋은 AI 활용 사례가 학교 전체로 퍼지고 있다고 보는데, 다른 선생님들은 그렇게 느끼지 않습니다. 내 주변에서 보이는 공유가 다른 선생님들에게는 보이지 않을 수 있어요.',
           act: ['내가 참여한 학습공동체나 수업 나눔 자료를 다른 학년·교과에서도 볼 수 있게 공유 폴더 위치를 알려 주세요.', '확산이 일부 교원에게만 머무는지 교감·부장교사와 함께 이 진단 결과로 점검해 보세요.', '행정 업무에 쓰는 요청문을 아직 모르는 동료에게 하나만 알려 주세요.'] },
-        lo: { why: '다른 교원이 보는 학습공동체·사례 공유·행정 업무 활용이 내 학년·교과에는 닿지 않았을 수 있습니다.',
+        lo: { why: '다른 선생님들은 학습공동체·수업 나눔·행정 업무의 AI 활용이 학교에 퍼지고 있다고 보는데, 나는 그렇게 느끼지 못합니다. 그런 활동이 있는데 내가 참여하지 못했거나, 내 학년·교과까지는 퍼지지 않았을 수 있어요.',
           act: ['학교에서 운영 중인 학습공동체와 수업 나눔 일정을 확인해, 한 번은 참관해 보세요.', '가정통신문·공문 회신에 쓰는 학교 공통 요청문이 있는지 교무부에 물어보세요.', '우리 학년·교과가 빠져 있다면 부장교사를 통해 학습공동체 참여를 요청하세요.'] } },
-    N: { hi: { why: '내 수업이나 학급에서는 AI 내재화가 보이지만, 학교 전체로는 아직 그렇지 않을 수 있습니다.',
+    N: { hi: { why: '나는 수업과 업무에서 AI가 자연스럽게 쓰인다고 보는데, 다른 선생님들은 아직 그렇지 않다고 봅니다. 내 수업과 업무에서는 일상이 되었지만, 학교 전체로는 아직일 수 있어요.',
           act: ['내 수업에서 학생이 AI를 학습 도구로 쓰는 장면(과제 안내문과 결과물)을 다른 교원과 나눠 주세요.', 'AI 결과를 참고해 지도할 때 "교사가 최종 판단한 지점"을 기록해 두세요. 학교 지침을 다듬는 근거가 됩니다.', '수업에서 AI 리터러시를 함께 다룬 방법(활동지·질문)을 동료와 나눠 주세요.'] },
-        lo: { why: '다른 교원이 보는 수업 속 AI 활용과 리터러시, 업무에서의 일상적인 AI 사용이 내 수업과 업무에는 아직 닿지 않았을 수 있습니다.',
+        lo: { why: '다른 선생님들은 수업과 업무에서 AI가 자연스럽게 쓰인다고 보는데, 나는 그렇게 느끼지 못합니다. 다른 교실과 업무에서는 이미 쓰이고 있는데, 내 수업과 업무에는 아직 들어오지 않았을 수 있어요.',
           act: ['다른 교원이 수업에서 AI를 쓸 때 리터러시(사실 확인·개인정보 등)를 어떻게 함께 다루는지 물어보세요.', '학생이 AI를 학습 도구로 쓰는 다른 교과 수업을 한 번 참관해 보세요.', '내 수업에서 학생이 쓸 수 있는 승인 도구와 이용 연령 기준을 정보부에 확인해 보세요.'] } }
   };
 
@@ -412,6 +412,14 @@
       '<p>' + (subj || '우리 학교') + '의 ' + bn + ' 준비 상황을 더 꼼꼼하게 확인하고, 무엇을 해야 하는지 아래 제언에서 확인해 보세요.</p>' +
       ahead.map(function (j) { return '<p>그리고 ' + josa(STAGES[j].name, '과', '와') + ' 관련해서, ' + AHEAD_CHECK[STAGES[j].key] + ' 확인해 보세요.</p>'; }).join('') + '</div>';
   }
+  // 점수 옆 수준 이름(시작·형성·정착·주도)이 무엇인지 표 위에 알려 준다. 준비 '단계'(1~5단계)와는 다른 구분이다.
+  function levelLegend() {
+    return '<div class="axr-lvlegend"><p><b>점수 옆 이름은 "수준"입니다.</b> 1~5단계(기반 마련 … AI 내재화)와는 다른 구분으로, 그 단계를 얼마나 갖추었다고 보았는지를 네 가지로 나눈 것입니다.</p><ul>' +
+      '<li><span class="aidx-lv l1">시작</span> 0~39점 · 대체로 "그렇지 않다" 이하로 답함 · 아직 거의 갖추지 못함</li>' +
+      '<li><span class="aidx-lv l2">형성</span> 40~59점 · "보통이다" 언저리 · 갖추기 시작했지만 아직 부족</li>' +
+      '<li><span class="aidx-lv l3">정착</span> 60~79점 · "그렇다" 수준 · 갖추어짐(준비 기준 60점 이상)</li>' +
+      '<li><span class="aidx-lv l4">주도</span> 80~100점 · "매우 그렇다" 수준 · 잘 갖추어져 다른 곳에 나눌 만함</li></ul></div>';
+  }
   function kpi(k, v, s) { return '<div class="kpi"><span class="kpi-k">' + k + '</span><span class="kpi-v">' + v + '</span>' + (s ? '<span class="kpi-s">' + s + '</span>' : '') + '</div>'; }
   function lvlChip(v) { if (v === null) return ''; var t = level(v); return '<span class="aidx-lv ' + lvlCls(t) + '">' + t + '</span>'; }
 
@@ -573,6 +581,19 @@
     var a = Math.abs(d);
     return a < GAP_NOTE ? '비슷함' : (d > 0 ? (a >= GAP_BIG ? '크게 높게 봄' : '높게 봄') : (a >= GAP_BIG ? '크게 낮게 봄' : '낮게 봄'));
   }
+  // 단계마다 '나'와 비교 대상(동료 평균 등)의 점수를 두 줄 막대로 나란히 놓고, 차이를 문장으로 풀어 준다.
+  function pairBars(mine, other, otherName) {
+    return '<div class="axr-pair">' + STAGES.map(function (st, i) {
+      var a = mine[i], b = other[i], d = a === null || b === null ? null : a - b;
+      var cls = d === null ? '' : Math.abs(d) < GAP_NOTE ? 'same' : d > 0 ? 'hi' : 'lo';
+      var say = d === null ? '비교할 수 없음' : Math.abs(d) < GAP_NOTE ? '비슷하게 봐요' : otherName + '보다 ' + r0(Math.abs(d)) + '점 ' + (d > 0 ? '높게' : '낮게') + ' 봐요';
+      return '<div class="axr-prow ' + cls + '"><span class="axr-pname">' + (i + 1) + '. ' + st.name + '</span>' +
+        '<span class="axr-ptracks"><i class="axr-pcut" style="left:' + CUT + '%"></i>' +
+        '<span class="axr-ptrack me"><span style="width:' + (a || 0) + '%"></span><b>' + sc(a) + '</b></span>' +
+        '<span class="axr-ptrack ot"><span style="width:' + (b || 0) + '%"></span><b>' + sc(b) + '</b></span></span>' +
+        '<span class="axr-psay">' + say + '</span></div>';
+    }).join('') + '<p class="axr-plegend"><span class="me"></span>나 <span class="ot"></span>' + otherName + ' 평균 · 막대가 길수록 그 단계가 잘 갖추어졌다고 본 것 · 점선은 준비 기준 60점</p></div>';
+  }
   function gapBars(diffs) {
     var R = 50; // 막대 끝 = ±50점
     return '<div class="axr-div">' + STAGES.map(function (st, i) {
@@ -654,7 +675,7 @@
     var diffs = STAGES.map(function (_, s) { return me.lv[s] !== null && S.lvMean[s] !== null ? me.lv[s] - S.lvMean[s] : null; });
     var order = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); });
     var top = order[0] && Math.abs(order[0].d) >= GAP_NOTE ? order[0] : null;
-    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">3 · 나와 우리 학교 준비도의 차이</h3><p class="panel-sub">나 − 우리 학교 평균 (점) · ±' + GAP_NOTE + '점 안은 비슷함</p>' + gapBars(diffs) + '</div>' +
+    h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">3 · 나와 우리 학교 준비도의 차이</h3><p class="panel-sub">단계마다 내 점수와 우리 학교 평균을 나란히 놓았습니다 · 차이가 ' + GAP_NOTE + '점 안이면 비슷하게 보는 것입니다</p>' + pairBars(me.lv, S.lvMean, '우리 학교') + '</div>' +
       '<div class="panel"><h3 class="panel-title">차이가 가장 큰 단계</h3>' +
       (n < 2 ? '<p>아직 같은 학교의 다른 응답이 없어 차이를 볼 수 없습니다. 같은 학교 교원이 응답하면 나타납니다.</p>'
         : top ? '<p><strong>' + (top.s + 1) + '단계 ' + STAGES[top.s].name + '</strong>을(를) 우리 학교 평균보다 <strong>' + r0(Math.abs(top.d)) + '점 ' + (top.d > 0 ? '높게' : '낮게') + '</strong> 봅니다.</p><p>' + GAP_READ[STAGES[top.s].key][top.d > 0 ? 'hi' : 'lo'].why + '</p>'
@@ -813,24 +834,36 @@
     if (!enough) h += '<p class="aidx-note">다른 응답자가 ' + no + '명입니다. ' + (MIN_N - 1) + '명 이상 모이면 비교가 안정됩니다. 지금은 참고용으로 보세요.</p>';
 
     // 2. 핵심 숫자
+    var topAbs = top ? r0(Math.abs(top.d)) : 0;
     h += '<div class="kpis aidx-kpis">' +
-      kpi('내가 본 단계', me.stage + '<small>/ 5단계</small>', STAGE_NAMES[me.stage]) +
-      kpi('다른 응답자가 가장 많이 본 단계', modeStage + '<small>/ 5단계</small>', r0(stageCnt[modeStage] / no * 100) + '%가 ' + STAGE_NAMES[modeStage]) +
-      kpi('인식 차이가 가장 큰 단계', top ? STAGES[top.s].name : '–', top ? signed(top.d) + '점 · ' + gapLabel(top.d) : '비교할 단계 없음') +
-      kpi('"잘 모르겠다"', myUnk + '<small>/ ' + unkItems + '문항</small>', '다른 응답자 평균 ' + f1(othersUnk) + '문항') +
-      '</div>';
+      kpi('내가 본 우리 학교 단계', me.stage + '<small>/ 5단계</small>', me.stage ? STAGE_NAMES[me.stage] + '까지 준비됨' : '1단계 준비 중') +
+      kpi('다른 선생님들이 가장 많이 본 단계', modeStage + '<small>/ 5단계</small>', no + '명 중 ' + r0(stageCnt[modeStage] / no * 100) + '%가 이 단계로 봄 · ' + (modeStage === me.stage ? '나와 같음' : '나는 ' + me.stage + '단계')) +
+      kpi('나와 생각이 가장 다른 단계', top ? STAGES[top.s].name : '–', top ? (topAbs < GAP_NOTE ? '차이 ' + topAbs + '점 · 비슷한 편' : '다른 선생님들보다 ' + topAbs + '점 ' + (top.d > 0 ? '높게' : '낮게') + ' 봄') : '비교할 단계 없음') +
+      kpi('"잘 모르겠다"고 답한 문항', myUnk + '<small>/ ' + unkItems + '문항</small>', '다른 선생님 평균 ' + f1(othersUnk) + '개') +
+      '</div>' +
+      '<details class="axr-kpi-help"><summary>이 숫자들은 무슨 뜻인가요?</summary><ul class="aidx-list">' +
+      '<li><b>내가 본 우리 학교 단계</b>: 내 응답만으로 판정한 우리 학교의 준비 단계입니다. 1단계부터 차례로 60점(문항 평균 3.4점, "그렇다" 수준)을 넘은 단계까지 셉니다. 우리 학교 전체의 판정은 "우리 학교 종합 결과" 탭에서 봅니다.</li>' +
+      '<li><b>다른 선생님들이 가장 많이 본 단계</b>: 같은 학교 다른 선생님 ' + no + '명이 각자 응답으로 판정된 단계 가운데 가장 많이 나온 단계입니다. 내 단계와 같으면 나와 동료들이 학교를 비슷하게 보고 있다는 뜻입니다.</li>' +
+      '<li><b>나와 생각이 가장 다른 단계</b>: 다섯 단계 가운데 내 점수와 다른 선생님들 평균 점수의 차이가 가장 큰 단계입니다. "낮게 봄"은 내가 동료들보다 그 단계를 덜 갖추어졌다고 본다는 뜻이고, "높게 봄"은 더 갖추어졌다고 본다는 뜻입니다. 차이가 ' + GAP_NOTE + '점 안이면 비슷한 편입니다.</li>' +
+      '<li><b>"잘 모르겠다"고 답한 문항</b>: 학교 전체에 대해 묻는 ' + unkItems + '문항(1·4·5단계) 가운데 "잘 모르겠다"를 고른 수입니다. 동료들보다 많으면 그 내용이 나에게 충분히 안내되지 않았을 수 있습니다.</li>' +
+      '</ul></details>';
 
     // 3. 단계별 인식 차이
     h += '<section class="report-grid">' +
-      '<div class="panel"><h3 class="panel-title">단계별 인식 차이</h3><p class="panel-sub">나 − 다른 응답자 평균 (점) · 가운데 선이 같음 · ±' + GAP_NOTE + '점 안은 비슷함</p>' + gapBars(diffs) + '</div>' +
-      '<div class="panel"><h3 class="panel-title">다른 응답자가 본 준비 단계</h3><p class="panel-sub">다른 응답자 ' + no + '명의 단계 분포 · 진한 막대가 내가 본 단계</p>' +
+      '<div class="panel"><h3 class="panel-title">단계별로 나와 다른 선생님들 비교</h3><p class="panel-sub">단계마다 내 점수와 같은 학교 다른 선생님 ' + no + '명의 평균을 나란히 놓았습니다 · 차이가 ' + GAP_NOTE + '점 안이면 비슷하게 보는 것입니다</p>' + pairBars(me.lv, O.lvMean, '동료') + '</div>' +
+      '<div class="panel"><h3 class="panel-title">다른 선생님들은 우리 학교를 몇 단계로 봤을까?</h3><p class="panel-sub">같은 학교 다른 선생님 ' + no + '명의 응답을 한 사람씩 판정해, 각 단계로 본 사람 수를 셌습니다 · <b>나</b> 표시가 내가 본 단계입니다</p>' +
       '<div class="axr-dist">' + STAGE_NAMES.map(function (nm, k) {
         var p = stageCnt[k] / no * 100;
-        return '<div class="axr-distrow' + (k === me.stage ? ' me' : '') + '"><span>' + nm + (k === me.stage ? ' <b>나</b>' : '') + '</span><span class="axr-disttrack"><span style="width:' + p + '%"></span></span><span class="axr-distval">' + stageCnt[k] + '명</span></div>';
-      }).join('') + '</div></div></section>';
+        return '<div class="axr-distrow' + (k === me.stage ? ' me' : '') + '"><span>' + nm + (k === me.stage ? ' <b>나</b>' : '') + '</span><span class="axr-disttrack"><span style="width:' + p + '%"></span></span><span class="axr-distval">' + stageCnt[k] + '명 · ' + r0(p) + '%</span></div>';
+      }).join('') + '</div>' +
+      '<p class="aidx-small">나와 같은 ' + (me.stage ? me.stage + '단계' : '출발 전') + '로 본 선생님 <b>' + same + '명</b>, 나보다 높은 단계로 본 선생님 <b>' + higher + '명</b>, 낮은 단계로 본 선생님 <b>' + (no - same - higher) + '명</b>입니다. ' +
+      (same >= Math.max(higher, no - same - higher) ? '동료들도 대체로 나와 비슷하게 보고 있습니다.' : higher > no - same - higher ? '동료들은 나보다 우리 학교를 더 준비된 쪽으로 보는 편입니다.' : '동료들은 나보다 우리 학교를 덜 준비된 쪽으로 보는 편입니다.') + '</p></div></section>';
 
-    h += '<div class="panel"><h3 class="panel-title">단계별 비교표</h3><p class="panel-sub">표준화 차이 = 차이 ÷ 다른 응답자 표준편차 (±0.5 이상이면 뚜렷한 차이) · 위치 = 다른 응답자 중 나보다 낮게 본 비율</p>' +
-      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>나</th><th>다른 응답자 평균 (SD)</th><th>차이</th><th>표준화 차이</th><th>위치</th></tr></thead><tbody>' +
+    h += '<div class="panel"><h3 class="panel-title">단계별 비교표</h3>' + levelLegend() +
+      '<ul class="aidx-list axr-colhelp"><li><b>나</b>: 내 응답으로 계산한 단계 점수(0~100점)와 그 수준</li><li><b>동료 평균 (흩어진 정도)</b>: 같은 학교 다른 선생님들의 평균 점수. 괄호 안 숫자(표준편차)가 클수록 선생님마다 생각이 많이 다르다는 뜻</li>' +
+      '<li><b>차이</b>: 내 점수 − 동료 평균. −는 내가 더 낮게, +는 더 높게 본 것(±' + GAP_NOTE + '점 안은 비슷함)</li><li><b>차이의 크기</b>: 차이를 동료들의 흩어진 정도로 나눈 값. ±0.5보다 크면 동료들 사이에서도 눈에 띄게 다른 생각</li>' +
+      '<li><b>나보다 낮게 본 동료</b>: 그 단계를 나보다 낮게 본 선생님의 비율. 10%면 동료 대부분이 나보다 높게 봤다는 뜻</li></ul>' +
+      '<div class="table-wrap"><table class="aidx-table"><thead><tr><th>단계</th><th>나</th><th>동료 평균 (흩어진 정도)</th><th>차이</th><th>차이의 크기</th><th>나보다 낮게 본 동료</th></tr></thead><tbody>' +
       STAGES.map(function (st, s) {
         var col = nn(others.map(function (r) { return r.lv[s]; })), d = diffs[s], sdv = O.lvSd[s];
         var below = me.lv[s] === null || !col.length ? null : col.filter(function (v) { return v < me.lv[s]; }).length / col.length * 100;
@@ -1039,7 +1072,7 @@
             '<div class="aidx-grow act"><span><small>교사</small></span><span class="aidx-gtrack"><span style="width:' + (staff.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(staff.A.lvMean[s]) + '</b></div>';
         }).join('') + '</div>' +
         '<p>위 막대는 ' + lead.rl + ', 아래 막대는 교사의 평균입니다. ' +
-        (big && big.d >= 15 ? '관리자가 교사보다 준비 상태를 높게 보고 있습니다. 학교가 마련했다고 생각하는 지침이나 도구가 교실까지 닿지 않았을 수 있습니다.'
+        (big && big.d >= 15 ? '관리자가 교사보다 준비 상태를 높게 보고 있습니다. 관리자는 마련했다고 생각하는 지침이나 도구를, 교사들은 아직 교실에서 쓰지 못하고 있을 수 있어요.'
           : big && big.d <= -15 ? '교사가 관리자보다 준비 상태를 높게 보고 있습니다. 교실의 준비가 관리자에게 보이지 않거나, 관리자가 기대하는 수준이 더 높을 수 있습니다.'
           : '같은 상태를 비슷하게 보고 있어, 학교 평균을 공통의 출발점으로 삼을 수 있습니다.') + '</p></section>';
     }
