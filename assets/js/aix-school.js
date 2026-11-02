@@ -255,7 +255,7 @@
     }
     var bridge = (!iAmLead && !iAmStaff && myRole) ? '<p class="aidx-small">' + esc(myRole) + '로서 두 쪽을 잇는 다리 역할을 할 수 있어요. 아래에서 한쪽씩 골라 전해 보세요.</p>' : '';
     return '<div class="axr-rolegap"><p><strong>무슨 현상인가요?</strong> ' + R.phenom + '</p>' + bridge +
-      '<div class="axr-rolewhos">' + col(esc(lead.rl) + '가 할 일', R.leadDo, iAmLead) + col('교사가 할 일', R.staffDo, iAmStaff) + '</div>' +
+      '<div class="axr-rolewhos">' + col(esc(josa(lead.rl, '이', '가')) + ' 할 일', R.leadDo, iAmLead) + col('교사가 할 일', R.staffDo, iAmStaff) + '</div>' +
       '<p class="axr-together"><strong>우리 학교가 함께 내재화하려면</strong></p><ul class="aidx-list">' + R.together.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
   }
 
@@ -1087,9 +1087,9 @@
       var diffs = STAGES.map(function (_, s) { return staff.A.lvMean[s] !== null && lead.A.lvMean[s] !== null ? lead.A.lvMean[s] - staff.A.lvMean[s] : null; });
       var big = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); })[0];
       var gapNotable = big && Math.abs(big.d) >= GAP_NOTE;
-      h += '<section class="aidx-gap ' + (gapNotable ? 'ahead' : 'match') + '"><p class="aidx-eyebrow">' + lead.rl + '와 교사의 인식 차이</p>' +
+      h += '<section class="aidx-gap ' + (gapNotable ? 'ahead' : 'match') + '"><p class="aidx-eyebrow">' + josa(lead.rl, '과', '와') + ' 교사의 인식 차이</p>' +
         '<h3>' + (gapNotable ? josa(STAGES[big.s].name, '을', '를') + ' 두고 보는 눈이 ' + r0(Math.abs(big.d)) + '점 다릅니다' : '단계마다 인식 차이가 크지 않습니다') + '</h3>' +
-        '<p class="panel-sub">단계마다 ' + esc(lead.rl) + '와 교사의 평균을 나란히 놓았습니다 · 차이가 ' + GAP_NOTE + '점 안이면 비슷하게 보는 것입니다</p>' +
+        '<p class="panel-sub">단계마다 ' + esc(josa(lead.rl, '과', '와')) + ' 교사의 평균을 나란히 놓았습니다 · 차이가 ' + GAP_NOTE + '점 안이면 비슷하게 보는 것입니다</p>' +
         pairBars(lead.A.lvMean, staff.A.lvMean, '교사', lead.rl) +
         (gapNotable ? roleGapAdvice(STAGES[big.s], lead, staff, big.d > 0)
           : '<p>모든 단계에서 차이가 ' + GAP_NOTE + '점 미만입니다. 같은 상태를 비슷하게 보고 있어, 학교 평균을 공통의 출발점으로 삼을 수 있습니다.</p>') + '</section>';
