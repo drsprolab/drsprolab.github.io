@@ -1551,6 +1551,9 @@ main.container { overflow-x: clip; }
 .aidx-rval { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
 .aidx-rtag { font-size: 12px; font-weight: 600; }
 .aidx-rrow.good .aidx-rtag { color: var(--good); } .aidx-rrow.warn .aidx-rtag { color: var(--warn); }
+.aidx-rrow.held .aidx-rbar { background: var(--muted); opacity: .45; } .aidx-rrow.held .aidx-rtag { color: var(--muted); font-weight: 500; cursor: help; }
+.prose .aidx-note.axr-order { margin-top: 12px; font-size: 14px; border-left-color: var(--warn); }
+.prose .aidx-note.axr-few { border-left: 4px solid var(--warn); background: color-mix(in srgb, var(--warn) 10%, var(--paper)); }
 .aidx-swgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .aidx-swcard { border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
 .aidx-swcard.good { background: color-mix(in srgb, var(--good) 8%, var(--paper)); border: 1px solid color-mix(in srgb, var(--good) 30%, transparent); }
