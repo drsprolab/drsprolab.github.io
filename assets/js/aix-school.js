@@ -535,7 +535,17 @@
     // 다른 학교 응답은 학교급마다 받아 합친다. 학교 번호(s)는 학교급마다 따로 매겨지므로 앞에 학교급을 붙여 구분한다.
     var peersP = org ? Promise.all(JOBS.map(function (j) { return fetchPeers(j, org).then(function (rs) { rs.forEach(function (r) { r.s = j + ':' + r.s; }); return rs; }); }))
       .then(function (lists) { return [].concat.apply([], lists); }) : Promise.resolve([]);
-    Promise.all([fetchPool(group, me, org), peersP]).then(function (res) {
+    // 저장소에서 내 응답이 지워졌으면(관리자 정리 등) 이 기기에 남은 사본도 지우고 처음으로 돌아간다.
+    var stillP = !PREVIEW && me ? fetchOne(me.id).catch(function () { return true; }) : Promise.resolve(true);
+    Promise.all([fetchPool(group, me, org), peersP, stillP]).then(function (res) {
+      if (!res[2]) {
+        try { localStorage.removeItem(LS_ME); } catch (e) { /* 저장 불가 환경 */ }
+        state.me = null; state.pool = null;
+        root.innerHTML = '<section class="aidx-home"><p class="aidx-lead">이 기기에 저장된 내 응답(결과 코드 ' + fmtId(me.id) + ')이 응답 저장소에서 삭제되었습니다.</p>' +
+          '<p>저장소가 정리되었거나 응답이 지워진 경우입니다. 결과를 보려면 다시 진단에 응답해 주세요.</p>' +
+          '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button><button type="button" class="aidx-btn" data-act="home">처음으로</button></div></section>';
+        return;
+      }
       state.pool = { group: group, org: org, rows: res[0].map(scored) };
       state.peers = res[1].map(scored);
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
