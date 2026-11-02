@@ -437,8 +437,9 @@
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
       '<button type="button" class="aidx-btn" data-act="my">내가 본 우리 학교 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="group">우리 학교 종합 결과 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="compare">응답자 구분별 비교 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="peers">타 학교(학교급) 비교 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="group">우리 학교 종합 결과 보기</button>' +
       '<button type="button" class="aidx-btn" data-act="all">전체 응답학교 종합결과 보기</button></div>' +
       (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="axr-gate" role="alert" hidden><p><strong id="axr-gate-msg"></strong></p>' +
@@ -1102,12 +1103,12 @@
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers' || act === 'all') {
+    else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers' || act === 'all' || act === 'compare') {
       var me = load(LS_ME), tab = act === 'my' || act === 'report' ? 'me' : act;
       if (me) { state.me = me; state.pool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('axr-gate')) go('home');
-      document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 종합 결과는', peers: '타 학교(학교급) 비교는', all: '전체 응답학교 종합결과는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 종합 결과는', peers: '타 학교(학교급) 비교는', all: '전체 응답학교 종합결과는', compare: '응답자 구분별 비교는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('axr-gate').hidden = false;
       document.getElementById('axr-code').hidden = true;
     }
