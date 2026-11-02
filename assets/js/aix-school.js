@@ -202,7 +202,7 @@
   };
 
   // ---------- 상태 ----------
-  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', org: '', started: 0, tab: 'report', me: null, pool: null, peers: null };
+  var state = { view: 'home', page: -1, answers: {}, role: '', job: '', freq: '', org: '', started: 0, tab: 'me', me: null, pool: null, peers: null };
 
   // ---------- 유틸 ----------
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -399,7 +399,7 @@
     E: '학교 안에 공유는 되고 있지만 실제 수업과 업무로 이어지지 않는 것은 무엇인지',
     N: '제도는 있으나 우리가 적용하지 못하는 것들이 무엇인지'
   };
-  function orderNote(vals, who) {
+  function orderNote(vals, who, subj) {
     var b = stageOf(vals);
     if (b >= 4 || vals[b] === null) return '';
     var ahead = [];
@@ -409,7 +409,7 @@
     return '<div class="aidx-note axr-order"><p><strong>확인해야 할 사항:</strong> ' + who + ' ' +
       ahead.map(function (j) { return (j + 1) + '단계 ' + STAGES[j].name + '(' + sc(vals[j]) + '점)'; }).join(', ') + josa(STAGES[ahead[ahead.length - 1]].name, '이', '가').slice(-1) +
       ' ' + bn + '(' + sc(vals[b]) + '점)보다 높습니다.</p>' +
-      '<p>우리 학교의 ' + bn + ' 준비 상황을 더 꼼꼼하게 확인하고, 무엇을 해야 하는지 아래 제언에서 확인해 보세요.</p>' +
+      '<p>' + (subj || '우리 학교') + '의 ' + bn + ' 준비 상황을 더 꼼꼼하게 확인하고, 무엇을 해야 하는지 아래 제언에서 확인해 보세요.</p>' +
       ahead.map(function (j) { return '<p>그리고 ' + josa(STAGES[j].name, '과', '와') + ' 관련해서, ' + AHEAD_CHECK[STAGES[j].key] + ' 확인해 보세요.</p>'; }).join('') + '</div>';
   }
   function kpi(k, v, s) { return '<div class="kpi"><span class="kpi-k">' + k + '</span><span class="kpi-v">' + v + '</span>' + (s ? '<span class="kpi-s">' + s + '</span>' : '') + '</div>'; }
@@ -428,9 +428,10 @@
       (GROUP ? '<p class="aidx-group">응답 학교(그룹) <strong>' + esc(GROUP) + '</strong></p>' : '') +
       '<div class="aidx-actions"><button type="button" class="aidx-btn primary" data-act="start">진단 시작</button></div>' +
       '<div class="aidx-actions sub">' +
-      '<button type="button" class="aidx-btn" data-act="report">나의 종합 결과 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="group">우리 학교 분석결과 보기</button>' +
-      '<button type="button" class="aidx-btn" data-act="peers">타 학교와 비교분석결과 보기</button></div>' +
+      '<button type="button" class="aidx-btn" data-act="my">내가 본 우리 학교 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="group">우리 학교 종합 결과 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="peers">타 학교(학교급) 비교 보기</button>' +
+      '<button type="button" class="aidx-btn" data-act="all">전체 응답학교 종합결과 보기</button></div>' +
       (me ? '<p class="aidx-small">이 기기에 저장된 내 결과 코드: <code>' + fmtId(me.id) + '</code> ' + copyBtn(me.id, true) + '</p>' : '') +
       '<div class="aidx-gate" id="axr-gate" role="alert" hidden><p><strong id="axr-gate-msg"></strong></p>' +
       '<button type="button" class="aidx-link" data-act="code">다른 기기에서 이미 응답했다면 결과 코드 입력</button></div>' +
@@ -543,15 +544,14 @@
 
   // ---------- 화면: 결과 ----------
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
+  // 결과 탭: 내 응답 → 우리 학교 구성원별 → 같은 학교급 다른 학교 → 우리 학교 전체 → 응답한 모든 학교
+  var RESULT_TABS = [['me', '내가 본 우리 학교', '나의 응답'], ['compare', '응답자 구분별 비교', '구분별'], ['peers', '타 학교(학교급) 비교', '타 학교'],
+    ['group', '우리 학교 종합 결과', '우리 학교'], ['all', '전체 응답학교 종합결과', '전체 학교']];
   function viewResult() {
     root.innerHTML = previewNote() + window.DiagnosisPdf.toolbar() +
       '<div class="aidx-tabs aidx-tabs5" role="tablist">' +
-      '<button type="button" role="tab" data-tab="report" aria-selected="' + (state.tab === 'report') + '">' + tabLabel('종합 결과', '종합') + '</button>' +
-      '<button type="button" role="tab" data-tab="peers" aria-selected="' + (state.tab === 'peers') + '">' + tabLabel('타 학교 비교', '타 학교') + '</button>' +
-      '<button type="button" role="tab" data-tab="me" aria-selected="' + (state.tab === 'me') + '">' + tabLabel('내가 본 우리 학교', '나의 응답') + '</button>' +
-      '<button type="button" role="tab" data-tab="group" aria-selected="' + (state.tab === 'group') + '">' + tabLabel('우리 학교 분석결과', '우리 학교') + '</button>' +
-      '<button type="button" role="tab" data-tab="compare" aria-selected="' + (state.tab === 'compare') + '">' + tabLabel('응답자 구분별 비교', '구분별 비교') + '</button></div>' +
-      '<div role="tabpanel">' + (state.tab === 'report' ? fullReport() : state.tab === 'peers' ? peerReport() : state.tab === 'me' ? personal() : state.tab === 'group' ? companyReport() : compareReport()) + '</div>' +
+      RESULT_TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (state.tab === t[0]) + '">' + tabLabel(t[1], t[2]) + '</button>'; }).join('') + '</div>' +
+      '<div role="tabpanel">' + ({ me: personal, compare: compareReport, peers: peerReport, group: function () { return companyReport(); }, all: allReport }[state.tab] || personal)() + '</div>' +
       '<p class="report-foot aidx-foot"><strong>BETA 버전</strong>입니다. 준비 기준점(60점)과 단계 순서는 타당화 전의 잠정 기준이며, 단계는 교원 인식을 바탕으로 한 추정입니다. 공식 성숙도 판정에는 문서·지표 같은 증거 확인을 함께 쓰세요. 점수 = (응답한 문항 평균 − 1) × 25, 0~100점, "잘 모르겠다"는 점수에서 제외. ' +
       '<button type="button" class="aidx-link" data-act="home">처음으로</button></p>';
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 90 });
@@ -879,16 +879,18 @@
       '<p>교원 활용과 수업·평가 재설계는 내가 직접 바꿀 수 있는 부분이고, 나머지 단계는 협의회와 학교에 제안할 부분입니다.</p></div><ol class="aidx-plan-list">' + tips + '</ol></section>' : '';
   }
 
-  function companyReport() {
-    var P = state.pool, rows = P.rows, n = rows.length;
+  // P: 집단(기본은 우리 학교), whole: 전체 응답 학교로 볼 때 true
+  function companyReport(P, whole) {
+    P = P || state.pool;
+    var rows = P.rows, n = rows.length, who = whole ? '전체 응답 학교' : '우리 학교';
     if (!n) return '<section class="aidx-home"><p>아직 응답이 없습니다.</p></section>';
     var A = aggregate(rows), h = '';
     h += '<p class="aidx-context">' + esc(groupLabel(P)) + ' · 응답 ' + n + '명' + (PREVIEW ? ' (시험 모드: 이 브라우저의 응답만)' : '') + '</p>';
-    if (n < MIN_N) h += '<p class="aidx-note axr-few"><strong>아직 응답 ' + n + '명입니다. 지금 학교 결과는 ' + (n === 1 ? '한 사람' : n + '명') + '의 인식입니다.</strong> ' + MIN_N + '명 이상, 학년·교과와 직위가 고르게 응답해야 학교 결과로 읽을 수 있습니다. 지금은 참고용으로 보세요.</p>';
+    if (n < MIN_N && !whole) h += '<p class="aidx-note axr-few"><strong>아직 응답 ' + n + '명입니다. 지금 학교 결과는 ' + (n === 1 ? '한 사람' : n + '명') + '의 인식입니다.</strong> ' + MIN_N + '명 이상, 학년·교과와 직위가 고르게 응답해야 학교 결과로 읽을 수 있습니다. 지금은 참고용으로 보세요.</p>';
 
     // 1. 한 줄 요약
     var bott = A.stage < 5 ? A.stage : -1;
-    h += '<section class="aidx-type"><p class="aidx-eyebrow">교원 인식으로 본 우리 학교의 AIX 준비 단계 · 응답 ' + n + '명 평균</p>' +
+    h += '<section class="aidx-type"><p class="aidx-eyebrow">교원 인식으로 본 ' + who + '의 AIX 준비 단계 · 응답 ' + n + '명 평균</p>' +
       '<h2>' + stageTitle(A.stage) + '</h2><p>' + STAGE_DESC[A.stage] + '</p>' +
       (bott >= 0 ? '<p>병목은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>(평균 ' + sc(A.lvMean[bott]) + '점)입니다. 이 단계에서 "준비됨"(60점 이상)이라고 본 응답자는 ' + r0(A.ready[bott]) + '%입니다.</p>' : '') +
       '<div class="axr-stairs-box">' + stairs(A.stage, '학교 준비 단계 ' + A.stage + '단계') + '</div></section>';
@@ -907,7 +909,7 @@
     h += '<section class="report-grid">' +
       '<div class="panel"><h3 class="panel-title">단계별 학교 평균</h3><p class="panel-sub">0~100점 · 점선은 준비 기준 60점</p>' +
       stageBars(A.lvMean, null, '', A.lvMean.map(function (v, i) { return v === null ? '판단 보류' : r0(A.ready[i]) + '% 준비'; })) +
-      '<p class="aidx-small">오른쪽 비율은 그 단계를 60점 이상으로 본 응답자 비율입니다. 병목 뒤 단계는 60점을 넘어도 회색 "판정 보류"로 표시합니다(병목 단계의 준비 상황을 먼저 확인한 뒤 판단).</p>' + orderNote(A.lvMean, '우리 학교 평균에서') + '</div>' +
+      '<p class="aidx-small">오른쪽 비율은 그 단계를 60점 이상으로 본 응답자 비율입니다. 병목 뒤 단계는 60점을 넘어도 회색 "판정 보류"로 표시합니다(병목 단계의 준비 상황을 먼저 확인한 뒤 판단).</p>' + orderNote(A.lvMean, who + ' 평균에서', who) + '</div>' +
       '<div class="panel"><h3 class="panel-title">단계별 수준 분포</h3><p class="panel-sub">각 단계에서 시작·형성·정착·주도 수준으로 본 응답자 비율</p>' +
       '<div class="legend">' + ['시작', '형성', '정착', '주도'].map(function (t) { return '<span class="lg"><span class="aidx-sw ' + lvlCls(t) + '"></span>' + t + '</span>'; }).join('') + '</div>' +
       '<div class="aidx-stack">' + STAGES.map(function (st, s) {
@@ -971,6 +973,34 @@
       '<tr><td>단계 점수와 전반 인식의 상관</td><td>' + (rg === null ? '–' : 'r = ' + f2(rg)) + '</td><td>단계 점수가 AIX 의지·역량 인식과 함께 움직이는 정도</td></tr>' +
       '</tbody></table></div></div>';
     return h;
+  }
+
+  // 전체 응답학교 종합결과: 우리 학교 + 다른 학교(모든 학교급, 학교 이름 없이 번호로) 응답을 모아 본다.
+  function allReport() {
+    var mine = state.pool ? state.pool.rows : [], peers = state.peers || [];
+    var rows = mine.concat(peers);
+    if (!rows.length) return '<section class="aidx-home"><p>아직 응답이 없습니다.</p></section>';
+    var map = {};
+    mine.forEach(function (r) { (map.__mine = map.__mine || []).push(r); });
+    peers.forEach(function (r) { (map[r.s] = map[r.s] || []).push(r); });
+    var schools = Object.keys(map).map(function (k) { var rs = map[k], A = aggregate(rs); return { mine: k === '__mine', n: rs.length, job: rs[0].job || '기타', A: A }; })
+      .filter(function (x) { return x.n >= MIN_SCHOOL; });
+    var h = '<p class="aidx-context">학교 이름을 적고 응답한 모든 학교 · 응답 ' + rows.length + '명 · 학교 ' + Object.keys(map).length + '곳(그중 ' + MIN_SCHOOL + '명 이상 응답한 학교 ' + schools.length + '곳)' + (PREVIEW ? ' · 시험 모드: 이 브라우저의 응답만' : '') + '</p>';
+    if (schools.length) {
+      var cnt = [0, 0, 0, 0, 0, 0]; schools.forEach(function (x) { cnt[x.A.stage]++; });
+      var mx = Math.max.apply(null, cnt), my = schools.filter(function (x) { return x.mine; })[0];
+      h += '<section class="report-grid"><div class="panel"><h3 class="panel-title">학교별 준비 단계 분포</h3><p class="panel-sub">' + MIN_SCHOOL + '명 이상 응답한 학교 ' + schools.length + '곳 · 학교마다 응답 평균으로 판정' + (my ? ' · 진한 막대가 우리 학교의 단계' : '') + '</p>' +
+        '<div class="aidx-hbars">' + STAGE_NAMES.map(function (nm, k) {
+          return '<div class="aidx-hrow' + (my && my.A.stage === k ? ' is-mine' : '') + '"><span class="aidx-hname">' + nm + '</span><span class="aidx-htrack"><span style="width:' + (mx ? cnt[k] / mx * 100 : 0) + '%"></span></span><span class="aidx-hval">' + cnt[k] + '곳</span></div>';
+        }).join('') + '</div></div>' +
+        '<div class="panel"><h3 class="panel-title">학교급별 평균</h3><p class="panel-sub">학교마다 같은 무게 · 0~100점</p><div class="table-wrap"><table class="aidx-table"><thead><tr><th>학교급</th><th>학교</th>' +
+        STAGES.map(function (st, i) { return '<th>' + (i + 1) + '단계</th>'; }).join('') + '</tr></thead><tbody>' +
+        JOBS.map(function (j) {
+          var xs = schools.filter(function (x) { return x.job === j; }); if (!xs.length) return '';
+          return '<tr><td>' + j + '</td><td>' + xs.length + '곳</td>' + STAGES.map(function (_, s) { var v = nn(xs.map(function (x) { return x.A.lvMean[s]; })); return '<td>' + (v.length ? r0(mean(v)) : '–') + '</td>'; }).join('') + '</tr>';
+        }).join('') + '</tbody></table></div></div></section>';
+    }
+    return h + '<h3 class="aidx-subh">전체 응답자 종합</h3>' + companyReport({ group: '', org: '', rows: rows }, true);
   }
 
   function compareReport() {
@@ -1063,19 +1093,19 @@
         state.me = rec; state.pending = null; state.pool = null; save(LS_ME, rec); viewDone();
       }).catch(function () { b.disabled = false; err.textContent = '저장하지 못했습니다. 잠시 뒤 응답 제출을 다시 눌러 주세요.'; });
     }
-    else if (act === 'analyze') { analyze('report'); }
+    else if (act === 'analyze') { analyze('me'); }
     else if (act === 'copycode') {
       var code = b.dataset.code;
       var ok = function () { b.textContent = '복사했습니다'; b.classList.add('is-done'); setTimeout(function () { b.textContent = '복사'; b.classList.remove('is-done'); }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { window.prompt('결과 코드를 복사하세요', code); });
       else window.prompt('결과 코드를 복사하세요', code);
     }
-    else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers') {
-      var me = load(LS_ME), tab = act === 'my' ? 'me' : act;
+    else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers' || act === 'all') {
+      var me = load(LS_ME), tab = act === 'my' || act === 'report' ? 'me' : act;
       if (me) { state.me = me; state.pool = null; analyze(tab); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('axr-gate')) go('home');
-      document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 분석결과는', peers: '타 학교와 비교분석결과는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
+      document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 종합 결과는', peers: '타 학교(학교급) 비교는', all: '전체 응답학교 종합결과는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
       document.getElementById('axr-gate').hidden = false;
       document.getElementById('axr-code').hidden = true;
     }
@@ -1090,7 +1120,7 @@
     err.textContent = '찾는 중…';
     fetchOne(id).then(function (rec) {
       if (!rec) { err.textContent = '해당 코드의 응답이 없습니다.'; return; }
-      state.me = rec; state.pool = null; save(LS_ME, rec); analyze(state.gateTab || 'report');
+      state.me = rec; state.pool = null; save(LS_ME, rec); analyze(state.gateTab || 'me');
     }).catch(function () { err.textContent = '불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'; });
   });
 
