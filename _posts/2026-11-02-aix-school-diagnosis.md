@@ -1,0 +1,30 @@
+---
+layout: post
+title: "우리학교 AIX 전환 준비·성숙도 진단"
+category: 측정도구
+wide: true
+measurement_order: 10
+measurement_badge: AIX 준비도 진단
+measurement_target: 학교 교원 (교사·부장교사·교감·교장)
+measurement_factors: 5단계 준비도 · 전반 인식 · 32문항
+measurement_summary: 우리 학교는 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 얼마나 되어 있을까요? 기반 마련에서 AI 내재화까지 다섯 단계로 학교 AIX 준비 성숙도를 진단합니다.
+measurement_use: 학교 AIX 준비 수준 진단 및 발전 전략 지원
+# 응답 저장소: Google Apps Script 웹앱 URL (tools/aix-school-measure/README.md). 비워 두면 시험 모드로, 응답이 이 브라우저에만 저장된다.
+endpoint: ""
+---
+
+<p class="report-source"><span class="chip">정식 진단도구</span> 출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab</p>
+
+<div class="report-intro">
+  <h2>진단도구 소개</h2>
+  <p>학교가 AI를 전제로 가르치고 배우는 학교로 바뀌려면, 기반이 마련되고, 교원이 AI를 활용할 준비가 되고, 동료 교원들과 함께 실천하고, 학교 전체로 확산되고, 끝으로 AI가 교육과 학교 생활에 자연스럽게 녹아드는 다섯 단계를 거칩니다.</p>
+  <p><strong>활용:</strong> 학교 AIX 준비 수준 진단 및 발전 전략 지원</p>
+</div>
+
+<div class="aidx axr" id="axr" data-endpoint="{{ page.endpoint }}" aria-live="polite">
+  <noscript><p>이 진단은 JavaScript를 켜야 응답할 수 있습니다.</p></noscript>
+</div>
+<div class="viz-tip" id="axr-tip" role="tooltip" hidden></div>
+
+<script src="{{ '/assets/js/diagnosis-pdf.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+<script src="{{ '/assets/js/aix-school-measure.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
