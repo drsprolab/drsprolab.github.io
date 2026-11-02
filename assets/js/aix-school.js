@@ -1067,9 +1067,10 @@
       var big = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); })[0];
       h += '<section class="aidx-gap ' + (big && Math.abs(big.d) >= 15 ? 'ahead' : 'match') + '"><p class="aidx-eyebrow">' + lead.rl + '와 교사의 인식 차이</p>' +
         '<h3>' + (big && Math.abs(big.d) >= 15 ? josa(STAGES[big.s].name, '을', '를') + ' 두고 보는 눈이 ' + r0(Math.abs(big.d)) + '점 다릅니다' : '단계마다 인식 차이가 크지 않습니다') + '</h3>' +
-        '<div class="aidx-gbars">' + STAGES.map(function (st, s) {
-          return '<div class="aidx-grow"><span>' + st.name + '</span><span class="aidx-gtrack"><span style="width:' + (lead.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(lead.A.lvMean[s]) + '</b></div>' +
-            '<div class="aidx-grow act"><span><small>교사</small></span><span class="aidx-gtrack"><span style="width:' + (staff.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(staff.A.lvMean[s]) + '</b></div>';
+        '<div class="axr-rolecmp">' + STAGES.map(function (st, s) {
+          return '<p class="axr-rolestage">' + (s + 1) + '. ' + st.name + '</p>' +
+            '<div class="aidx-grow"><span>' + esc(lead.rl) + '</span><span class="aidx-gtrack"><span style="width:' + (lead.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(lead.A.lvMean[s]) + '</b></div>' +
+            '<div class="aidx-grow act"><span>교사</span><span class="aidx-gtrack"><span style="width:' + (staff.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(staff.A.lvMean[s]) + '</b></div>';
         }).join('') + '</div>' +
         '<p>위 막대는 ' + lead.rl + ', 아래 막대는 교사의 평균입니다. ' +
         (big && big.d >= 15 ? '관리자가 교사보다 준비 상태를 높게 보고 있습니다. 관리자는 마련했다고 생각하는 지침이나 도구를, 교사들은 아직 교실에서 쓰지 못하고 있을 수 있어요.'

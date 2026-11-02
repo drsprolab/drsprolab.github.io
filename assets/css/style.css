@@ -1565,6 +1565,7 @@ main.container { overflow-x: clip; }
 .aidx .aidx-switem p { margin: 2px 0 0; font-size: 14px; }
 @media (max-width: 760px) { .aidx-swgrid { grid-template-columns: 1fr; } .aidx-rrow { grid-template-columns: 96px 1fr 30px 58px; gap: 8px; font-size: 13.5px; } }
 /* 생각과 행동의 차이 */
+.axr-rolestage { font-weight: 600; font-size: 13.5px; margin: 10px 0 4px; } .axr-rolestage:first-child { margin-top: 2px; }
 .aidx-gap { border-radius: 12px; padding: 24px 26px; display: grid; gap: 10px; border: 2px solid var(--accent); background: var(--accent-soft); }
 .aidx-gap.ahead { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 7%, var(--paper)); }
 .prose .aidx-gap h3 { margin: 0; font-size: 22px; }
