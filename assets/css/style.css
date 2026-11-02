@@ -1579,6 +1579,10 @@ main.container { overflow-x: clip; }
 .prose .aidx-gnum { font-size: 15px; }
 .aidx-gnum strong { font-size: 26px; margin-left: 4px; }
 .aidx-gap.ahead .aidx-gnum strong { color: var(--warn); }
+.aidx-gap.slight { border-color: color-mix(in srgb, var(--warn) 55%, var(--accent)); }
+.aidx-gap.slight h3 { color: var(--ink); }
+.aidx-gmean { border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 6px; }
+.aidx .aidx-gmean p { font-size: 13px; color: var(--muted); line-height: 1.6; }
 /* 나의 행동 추천 */
 .aidx-plan { display: grid; gap: 14px; padding-top: 6px; border-top: 3px solid var(--ink); }
 .aidx-plan-top { display: grid; gap: 4px; }

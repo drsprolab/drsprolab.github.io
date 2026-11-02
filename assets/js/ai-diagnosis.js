@@ -451,18 +451,25 @@
       '</div></div></section>';
 
     // 5. 생각과 행동의 차이: 태도(생각)와 실천(행동)을 나란히
-    var gap = me.att - me.total, gapH, gapP;
-    if (gap >= 20) { gapH = '생각은 앞서는데, 행동이 따라가지 못하고 있어요'; gapP = '무엇이 바람직한지는 알고 있지만 실제 행동으로 옮기지 못하는 부분이 있습니다. 아래 행동 추천 중 하나를 정해 매번 하는 것부터 시작하면 이 차이가 가장 빨리 줄어듭니다.'; }
-    else if (gap <= -20) { gapH = '행동은 잘하는데, 왜 해야 하는지에 대한 확신은 약해요'; gapP = '좋은 습관은 이미 있지만 그 이유에 대한 확신은 상대적으로 약합니다. 바쁠 때 습관이 무너지지 않도록, 왜 그렇게 하는지 한 번 정리해 두세요.'; }
-    else { gapH = '생각과 행동이 잘 맞아요'; gapP = '바람직하다고 생각하는 만큼 실제로도 행동하고 있습니다. 생각과 행동의 차이가 ' + r0(Math.abs(gap)) + '점으로 작습니다.'; }
-    h += '<section class="aidx-gap ' + (gap >= 20 ? 'ahead' : gap <= -20 ? 'behind' : 'match') + '">' +
+    // 차이 ±10점 안 = 잘 맞음, 10~19점 = 조금 차이, 20점 이상 = 큰 차이(잠정 기준). 잘 맞아도 둘 다 낮을 수 있으므로 수준도 함께 말한다.
+    var gap = me.att - me.total, gapH, gapP, gcls;
+    if (gap >= 20) { gcls = 'ahead'; gapH = '생각은 앞서는데, 행동이 따라가지 못하고 있어요'; gapP = '무엇이 바람직한지는 알고 있지만 실제 행동으로 옮기지 못하는 부분이 있습니다. 아래 행동 추천 중 하나를 정해 매번 하는 것부터 시작하면 이 차이가 가장 빨리 줄어듭니다.'; }
+    else if (gap <= -20) { gcls = 'behind'; gapH = '행동은 잘하는데, 왜 해야 하는지에 대한 확신은 약해요'; gapP = '좋은 습관은 이미 있지만 그 이유에 대한 확신은 상대적으로 약합니다. 바쁠 때 습관이 무너지지 않도록, 왜 그렇게 하는지 한 번 정리해 두세요.'; }
+    else if (gap >= 10) { gcls = 'slight'; gapH = '생각이 행동보다 조금 앞서요'; gapP = '바람직하다고 생각하는 만큼은 아직 다 행동으로 옮기지 못하고 있습니다. 차이 ' + r0(gap) + '점은 작지 않은 편입니다. 아래 행동 추천 가운데 하나를 4주 동안 매번 하는 습관으로 만들면 이 차이가 줄어듭니다.'; }
+    else if (gap <= -10) { gcls = 'slight'; gapH = '행동이 생각보다 조금 앞서요'; gapP = '실제로는 잘하고 있는데, 왜 그렇게 해야 하는지에 대한 확신은 조금 약합니다. 지금 하는 행동의 이유를 한 줄로 정리해 두면 바쁠 때도 습관이 유지됩니다.'; }
+    else if (me.total >= CUT) { gcls = 'match'; gapH = '생각과 행동이 잘 맞아요'; gapP = '바람직하다고 생각하는 만큼 실제로도 행동하고 있습니다. 생각과 행동의 차이가 ' + r0(Math.abs(gap)) + '점으로 작고, 행동도 정착 수준(' + CUT + '점 이상)입니다.'; }
+    else { gcls = 'match'; gapH = '생각과 행동이 비슷한 수준이에요'; gapP = '생각과 행동의 차이는 ' + r0(Math.abs(gap)) + '점으로 작지만, 둘 다 ' + CUT + '점 아래입니다. 아는 만큼 하고는 있지만 아직 둘 다 낮은 편이라, 생각과 행동을 함께 끌어올릴 차례입니다.'; }
+    h += '<section class="aidx-gap ' + gcls + '">' +
       '<p class="aidx-eyebrow">생각과 행동의 차이</p><h3>' + gapH + '</h3>' +
       '<div class="aidx-gbars">' +
       '<div class="aidx-grow"><span>생각 <small>태도</small></span><span class="aidx-gtrack"><span style="width:' + me.att + '%"></span></span><b>' + r0(me.att) + '</b></div>' +
       '<div class="aidx-grow act"><span>행동 <small>실천</small></span><span class="aidx-gtrack"><span style="width:' + me.total + '%"></span></span><b>' + r0(me.total) + '</b></div>' +
       '</div>' +
       '<p class="aidx-gnum">차이 <strong>' + (gap > 0 ? '+' : gap < 0 ? '−' : '') + r0(Math.abs(gap)) + '점</strong></p>' +
-      '<p>' + gapP + '</p></section>';
+      '<p>' + gapP + '</p>' +
+      '<div class="aidx-gmean"><p class="aidx-small"><b>이 결과는 무엇을 뜻하나요?</b> <b>생각(태도)</b>은 "AI의 답이 그럴듯해 보여도 확인할 가치가 있다"처럼 바람직한 AI 사용에 얼마나 동의하는지(태도 6문항), <b>행동(실천)</b>은 실제로 그렇게 하고 있는지(실천 5개 영역 25문항)를 0~100점으로 나타낸 것입니다.</p>' +
+      '<p class="aidx-small"><b>생각과 행동이 잘 맞는다</b>는 것은 바람직하다고 여기는 만큼 실제로도 하고 있다는 뜻입니다. 점수가 높다는 뜻은 아니어서, 둘 다 낮아도 잘 맞을 수 있습니다. 생각이 크게 앞서면 "알지만 하지 않는" 부분이 있다는 신호이고, 행동이 크게 앞서면 습관은 있지만 이유에 대한 확신이 약해 바쁠 때 흔들릴 수 있다는 신호입니다.</p>' +
+      '<p class="aidx-small">판단 기준(잠정): 차이 ±10점 안은 잘 맞음, 10~19점은 조금 차이, 20점 이상은 큰 차이. 태도 문항은 대체로 높게 답하는 경향이 있어 생각 점수가 조금 높게 나오는 것이 흔합니다.</p></div></section>';
 
     // 6. 나의 행동 추천: 진단과 나눠, 다음 4주 동안 할 일만 모은다
     var plan = weak.slice(0, 3).map(function (x, i) {
