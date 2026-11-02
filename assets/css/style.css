@@ -1594,7 +1594,7 @@ span.warn { color: var(--warn); font-weight: 600; }
 .aidx-plan-top { display: grid; gap: 4px; }
 .prose .aidx-plan-top h3 { margin: 0; font-size: 22px; }
 .aidx .aidx-plan-top p { margin: 0; }
-.aidx-plan-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.aidx-plan-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
 .aidx-plan-card { border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 6px; align-content: start; max-width: none; }
 .aidx-plan-card.keep { background: var(--tint); }
 .prose .aidx-plan-h { margin: 0 0 4px; font-weight: 700; font-size: 16.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }

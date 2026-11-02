@@ -232,7 +232,7 @@
   function groupLabel(P) { return P.org ? '우리 학교 ' + P.org : P.group ? '학교(그룹) ' + P.group : '전체 응답자'; }
   // 같은 학교 판단: 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(apps-script.gs의 normOrg_와 같은 규칙).
   function normOrg(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
-  function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비된 편' : '아직 1단계부터 준비가 필요한 편'; }
+  function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비됐어요!' : '아직 1단계부터 준비가 필요해요'; }
   function sc(v) { return v === null ? '–' : r0(v); }
 
   // ---------- 점수 ----------
@@ -779,7 +779,7 @@
     var bott = me.stage < 5 ? me.stage : -1;
     h += '<section class="aidx-type"><p class="aidx-eyebrow">내 응답으로 본 우리 학교의 AIX 준비 단계</p>' +
       '<h2>' + stageTitle(me.stage) + '</h2><p>' + STAGE_DESC[me.stage] + '</p>' +
-      (bott >= 0 ? '<p>다음 관문은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>입니다. "' + STAGES[bott].q + '"</p>' : '') +
+      (bott >= 0 ? '<p>다음 단계를 준비해 봅시다! 다음은 <strong>' + (bott + 1) + '단계 ' + STAGES[bott].name + '</strong>이에요. "' + STAGES[bott].q + '"</p>' : '') +
       (no ? '<p>다른 응답자 ' + no + '명 가운데 <strong>' + r0(same / no * 100) + '%</strong>는 나와 같은 단계로, ' + r0(higher / no * 100) + '%는 더 높은 단계로, ' + r0((no - same - higher) / no * 100) + '%는 더 낮은 단계로 보았습니다.</p>' : '') +
       '<div class="axr-stairs-box">' + stairs(me.stage, '내가 본 준비 단계 ' + me.stage + '단계') + '</div></section>';
     if (!no) return h + '<p class="aidx-note">아직 다른 응답자가 없어 비교할 수 없습니다. 같은 학교(그룹) 링크로 다른 교원이 응답하면 인식 차이 분석이 나타납니다.</p>' + myPlan(me, null);
@@ -1029,13 +1029,9 @@
       var big = diffs.map(function (d, s) { return { d: d, s: s }; }).filter(function (x) { return x.d !== null; }).sort(function (a, b) { return Math.abs(b.d) - Math.abs(a.d); })[0];
       h += '<section class="aidx-gap ' + (big && Math.abs(big.d) >= 15 ? 'ahead' : 'match') + '"><p class="aidx-eyebrow">' + lead.rl + '와 교사의 인식 차이</p>' +
         '<h3>' + (big && Math.abs(big.d) >= 15 ? josa(STAGES[big.s].name, '을', '를') + ' 두고 보는 눈이 ' + r0(Math.abs(big.d)) + '점 다릅니다' : '단계마다 인식 차이가 크지 않습니다') + '</h3>' +
-        '<div class="axr-rolecmp">' + STAGES.map(function (st, s) {
-          return '<p class="axr-rolestage">' + (s + 1) + '. ' + st.name + '</p>' +
-            '<div class="aidx-grow"><span>' + esc(lead.rl) + '</span><span class="aidx-gtrack"><span style="width:' + (lead.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(lead.A.lvMean[s]) + '</b></div>' +
-            '<div class="aidx-grow act"><span>교사</span><span class="aidx-gtrack"><span style="width:' + (staff.A.lvMean[s] || 0) + '%"></span></span><b>' + sc(staff.A.lvMean[s]) + '</b></div>';
-        }).join('') + '</div>' +
-        '<p>위 막대는 ' + lead.rl + ', 아래 막대는 교사의 평균입니다. ' +
-        (big && big.d >= 15 ? '관리자가 교사보다 준비 상태를 높게 보고 있습니다. 관리자는 마련했다고 생각하는 지침이나 도구를, 교사들은 아직 교실에서 쓰지 못하고 있을 수 있어요.'
+        '<p class="panel-sub">단계마다 ' + esc(lead.rl) + '와 교사의 평균을 나란히 놓았습니다</p>' +
+        pairBars(lead.A.lvMean, staff.A.lvMean, '교사', lead.rl) +
+        '<p>' + (big && big.d >= 15 ? '관리자가 교사보다 준비 상태를 높게 보고 있습니다. 관리자는 마련했다고 생각하는 지침이나 도구를, 교사들은 아직 교실에서 쓰지 못하고 있을 수 있어요.'
           : big && big.d <= -15 ? '교사가 관리자보다 준비 상태를 높게 보고 있습니다. 교실의 준비가 관리자에게 보이지 않거나, 관리자가 기대하는 수준이 더 높을 수 있습니다.'
           : '같은 상태를 비슷하게 보고 있어, 학교 평균을 공통의 출발점으로 삼을 수 있습니다.') + '</p></section>';
     }
