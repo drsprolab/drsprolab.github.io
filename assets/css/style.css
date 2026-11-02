@@ -1544,7 +1544,10 @@ main.container { overflow-x: clip; }
 /* 나의 결과: 강점·약점 순위 막대 */
 .aidx-sw-panel { display: grid; gap: 14px; }
 .aidx-rank { display: grid; gap: 10px; }
-.aidx-rrow { display: grid; grid-template-columns: 120px 1fr 36px 72px; gap: 12px; align-items: center; font-size: 14.5px; cursor: help; }
+.aidx-rrow { display: grid; grid-template-columns: 120px 1fr 36px 72px; gap: 12px; align-items: center; font-size: 14.5px; }
+.aidx-rdot { display: inline-block; width: 7px; height: 7px; margin-left: 4px; border-radius: 50%; background: #e5484d; vertical-align: middle; animation: aidx-rdot-pulse 1.4s ease-in-out infinite; }
+@keyframes aidx-rdot-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.7); } }
+@media (prefers-reduced-motion: reduce) { .aidx-rdot { animation: none; } }
 .aidx-rname { font-weight: 500; }
 .aidx-rtrack { position: relative; height: 18px; border-radius: 4px; background: var(--tint); }
 .aidx-rbar { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: color-mix(in srgb, var(--series-1) 55%, var(--paper)); }

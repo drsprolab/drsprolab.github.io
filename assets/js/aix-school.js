@@ -449,7 +449,7 @@
     var bott = stageOf(vals);
     return '<div class="aidx-rank axr-bars">' + STAGES.map(function (st, i) {
       var v = vals[i], held = v !== null && v >= CUT && i > bott, st2 = v === null ? '' : held ? 'held' : v >= CUT ? 'good' : 'warn';
-      return '<div class="aidx-rrow ' + st2 + '" data-tip="' + esc(stageTip(st, i, bott, v)) + '"><span class="aidx-rname">' + (i + 1) + '. ' + st.name + '</span>' +
+      return '<div class="aidx-rrow ' + st2 + '" data-tip="' + esc(stageTip(st, i, bott, v)) + '"><span class="aidx-rname">' + (i + 1) + '. ' + st.name + ' <i class="aidx-rdot" aria-hidden="true"></i></span>' +
         '<span class="aidx-rtrack">' + (v === null ? '' : '<span class="aidx-rbar" style="width:' + v + '%"></span>') +
         '<i class="aidx-rcut" style="left:' + CUT + '%"></i>' +
         (cmp && cmp[i] !== null ? '<i class="aidx-rmean" style="left:' + cmp[i] + '%" data-tip="' + esc(cmpLabel + ' ' + r0(cmp[i]) + '점') + '"></i>' : '') + '</span>' +
