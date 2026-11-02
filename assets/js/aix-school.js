@@ -381,15 +381,23 @@
         '<i class="aidx-rcut" style="left:' + CUT + '%"></i>' +
         (cmp && cmp[i] !== null ? '<i class="aidx-rmean" style="left:' + cmp[i] + '%" data-tip="' + esc(cmpLabel + ' ' + r0(cmp[i]) + '점') + '"></i>' : '') + '</span>' +
         '<span class="aidx-rval">' + sc(v) + '</span>' +
-        '<span class="aidx-rtag"' + (held ? ' title="' + (bott + 1) + '단계가 60점에 못 미쳐, 이 단계는 앞 단계를 채운 뒤 다시 판단합니다."' : '') + '>' + (held ? '판정 보류' : marks && marks[i] ? marks[i] : v === null ? '판단 보류' : v >= CUT ? '준비됨' : '보완 필요') + '</span></div>';
+        '<span class="aidx-rtag"' + (held ? ' title="' + (bott + 1) + '단계가 60점에 못 미쳐, ' + (bott + 1) + '단계의 준비 상황을 먼저 확인한 뒤 판단합니다."' : '') + '>' + (held ? '판정 보류' : marks && marks[i] ? marks[i] : v === null ? '판단 보류' : v >= CUT ? '준비됨' : '보완 필요') + '</span></div>';
     }).join('') + '</div>';
   }
-  // 단계 순서가 뒤집힌 응답(병목 단계보다 뒤 단계가 10점 이상 높음)을 풀어 설명한다.
-  var ORDER_READ = {
-    F: '학교 차원의 목표·지침·연수는 아직 갖춰지지 않았는데, 개별 교원이나 일부 협의회가 먼저 앞서 나가고 있을 수 있습니다. 앞선 사례가 몇몇 교원의 열의에만 기대고 있지 않은지, 학교 지침과 연수로 뒷받침할 수 있는지 확인해 보세요.',
-    P: '학교 제도나 협의회 활동은 있는데 교원 개인의 실제 활용이 따라가지 못하고 있을 수 있습니다. 제도와 도구가 실제 수업 준비와 업무에서 쓰이는지 확인해 보세요.',
-    W: '교원 개인의 활용이나 학교 제도는 있지만, 협의회 단위의 수업·평가 변화로는 아직 이어지지 않았을 수 있습니다. 수행평가 기준과 공동 설계 단원부터 확인해 보세요.',
-    E: '교육과정·기기·점검 같은 제도는 위에서 먼저 들어왔지만, 교원들 사이로는 아직 퍼지지 않았을 수 있습니다. 제도가 실제 수업에서 쓰이는지 학습공동체와 수업 공개로 확인해 보세요.'
+  // 병목 단계보다 뒤 단계가 10점 이상 높으면 '확인해야 할 사항'으로 짚는다:
+  // 병목 단계의 준비 상황을 더 꼼꼼히 확인하고(아래 제언), 앞선 뒤 단계에서 무엇이 실제로 적용되지 못하는지 확인하게 한다.
+  var PLAN_HEAD = {
+    F: '우리 학교의 기반을 어떻게 마련할 수 있는지 먼저 고민해 보세요!',
+    P: '교원이 수업과 업무에 AI를 어떻게 쓰게 할 수 있는지 먼저 고민해 보세요!',
+    W: '협의회의 수업과 평가를 어떻게 바꿀 수 있는지 먼저 고민해 보세요!',
+    E: '학교에 어떻게 확산할 수 있는지 먼저 고민해 보세요!',
+    N: '가르침과 배움에 AI를 어떻게 녹여 낼 수 있는지 먼저 고민해 보세요!'
+  };
+  var AHEAD_CHECK = {
+    P: '학교의 목표·지침·연수가 뒷받침하지 않는 가운데 교원이 각자 쓰고 있는 방법은 무엇인지',
+    W: '협의회에서 바꾸었지만 교원 개인의 활용이나 학교의 뒷받침이 따라오지 못하는 것은 무엇인지',
+    E: '학교 안에 공유는 되고 있지만 실제 수업과 업무로 이어지지 않는 것은 무엇인지',
+    N: '제도는 있으나 우리가 적용하지 못하는 것들이 무엇인지'
   };
   function orderNote(vals, who) {
     var b = stageOf(vals);
@@ -397,10 +405,12 @@
     var ahead = [];
     for (var j = b + 1; j < 5; j++) if (vals[j] !== null && vals[j] >= vals[b] + GAP_NOTE) ahead.push(j);
     if (!ahead.length) return '';
-    return '<p class="aidx-note axr-order"><strong>단계 순서와 맞지 않는 응답입니다.</strong> ' + who + ' ' +
-      ahead.map(function (j) { return (j + 1) + '단계 ' + STAGES[j].name + '(' + sc(vals[j]) + '점)'; }).join(', ') + (josa(STAGES[ahead[ahead.length - 1]].name, '이', '가').slice(-1)) +
-      ' 병목인 ' + (b + 1) + '단계 ' + STAGES[b].name + '(' + sc(vals[b]) + '점)보다 높습니다. ' + ORDER_READ[STAGES[b].key] +
-      ' 판정은 ' + (b + 1) + '단계에서 멈추고, 뒤 단계 점수는 앞 단계를 채운 뒤 다시 판단합니다.</p>';
+    var bn = (b + 1) + '단계 ' + STAGES[b].name;
+    return '<div class="aidx-note axr-order"><p><strong>확인해야 할 사항:</strong> ' + who + ' ' +
+      ahead.map(function (j) { return (j + 1) + '단계 ' + STAGES[j].name + '(' + sc(vals[j]) + '점)'; }).join(', ') + josa(STAGES[ahead[ahead.length - 1]].name, '이', '가').slice(-1) +
+      ' ' + bn + '(' + sc(vals[b]) + '점)보다 높습니다.</p>' +
+      '<p>우리 학교의 ' + bn + ' 준비 상황을 더 꼼꼼하게 확인하고, 무엇을 해야 하는지 아래 제언에서 확인해 보세요.</p>' +
+      ahead.map(function (j) { return '<p>그리고 ' + josa(STAGES[j].name, '과', '와') + ' 관련해서, ' + AHEAD_CHECK[STAGES[j].key] + ' 확인해 보세요.</p>'; }).join('') + '</div>';
   }
   function kpi(k, v, s) { return '<div class="kpi"><span class="kpi-k">' + k + '</span><span class="kpi-v">' + v + '</span>' + (s ? '<span class="kpi-s">' + s + '</span>' : '') + '</div>'; }
   function lvlChip(v) { if (v === null) return ''; var t = level(v); return '<span class="aidx-lv ' + lvlCls(t) + '">' + t + '</span>'; }
@@ -897,7 +907,7 @@
     h += '<section class="report-grid">' +
       '<div class="panel"><h3 class="panel-title">단계별 학교 평균</h3><p class="panel-sub">0~100점 · 점선은 준비 기준 60점</p>' +
       stageBars(A.lvMean, null, '', A.lvMean.map(function (v, i) { return v === null ? '판단 보류' : r0(A.ready[i]) + '% 준비'; })) +
-      '<p class="aidx-small">오른쪽 비율은 그 단계를 60점 이상으로 본 응답자 비율입니다. 병목 뒤 단계는 60점을 넘어도 회색 "판정 보류"로 표시합니다(앞 단계를 채운 뒤 다시 판단).</p>' + orderNote(A.lvMean, '우리 학교 평균에서') + '</div>' +
+      '<p class="aidx-small">오른쪽 비율은 그 단계를 60점 이상으로 본 응답자 비율입니다. 병목 뒤 단계는 60점을 넘어도 회색 "판정 보류"로 표시합니다(병목 단계의 준비 상황을 먼저 확인한 뒤 판단).</p>' + orderNote(A.lvMean, '우리 학교 평균에서') + '</div>' +
       '<div class="panel"><h3 class="panel-title">단계별 수준 분포</h3><p class="panel-sub">각 단계에서 시작·형성·정착·주도 수준으로 본 응답자 비율</p>' +
       '<div class="legend">' + ['시작', '형성', '정착', '주도'].map(function (t) { return '<span class="lg"><span class="aidx-sw ' + lvlCls(t) + '"></span>' + t + '</span>'; }).join('') + '</div>' +
       '<div class="aidx-stack">' + STAGES.map(function (st, s) {
@@ -939,7 +949,7 @@
     // 6. 다음 단계로 가려면
     if (bott >= 0) {
       var ahead = [bott, bott + 1].filter(function (s) { return s < 5; });
-      h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">다음 단계로 가려면</p><h3>' + josa(STAGES[bott].name, '을', '를') + ' 먼저 채우세요</h3>' +
+      h += '<section class="aidx-plan"><div class="aidx-plan-top"><p class="aidx-eyebrow">다음 단계로 가려면</p><h3>' + PLAN_HEAD[STAGES[bott].key] + '</h3>' +
         '<p>앞 단계가 비어 있으면 뒤 단계에 투자해도 효과가 작습니다. 병목 단계부터 우선순위를 두세요.</p></div>' +
         '<ol class="aidx-plan-list">' + ahead.map(function (s, i) {
           var low = ITEMS.slice(s * K, s * K + K).map(function (it) { var v = rows.map(function (r) { return r.a[it.idx]; }).filter(function (x) { return x > 0; }); return { it: it, m: v.length ? mean(v) : 9 }; })
