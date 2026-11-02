@@ -2,6 +2,7 @@
 // 웹앱 재배포는 필요 없다. 실행 결과는 [실행 로그]에 남는다.
 // 1) previewDemoRows: 지울 행과 남을 행을 세어 보여 준다(아무것도 지우지 않음).
 // 2) deleteDemoRows: group이 DEMO·CONNECTTEST이거나 id가 TEST로 시작하는 행을 지운다.
+// 3) deleteAllResponses: 실제 응답까지 모두 지운다(머리글만 남김).
 
 var DEMO_GROUPS = ['DEMO', 'CONNECTTEST'];
 
@@ -36,4 +37,12 @@ function deleteDemoRows() {
     removed += end - r + 1;
   }
   Logger.log('지운 가상 행: ' + removed + ' / 남은 응답: ' + Math.max(0, sh.getLastRow() - 1));
+}
+
+// 3) deleteAllResponses: 머리글(1행)만 남기고 모든 응답을 지운다(되돌릴 수 없음).
+//    고정된 머리글만 남기고 행을 삭제할 수는 없어서, 응답 칸의 내용을 비운다.
+function deleteAllResponses() {
+  var sh = demoSheet_(), n = sh.getLastRow() - 1;
+  if (n > 0) sh.getRange(2, 1, n, sh.getLastColumn()).clearContent();
+  Logger.log('지운 응답: ' + Math.max(0, n) + ' / 남은 응답: ' + Math.max(0, sh.getLastRow() - 1));
 }
