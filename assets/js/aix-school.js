@@ -430,11 +430,26 @@
   }
   // 단계별 막대: 내 점수(또는 학교 평균) 막대 + 비교 눈금 + 기준점 점선
   // 누적 판정에 맞춰, 병목 단계 뒤에서 60점을 넘은 단계는 '준비됨' 대신 '기준 넘음 · 판정 보류'로 표시한다.
+  // 병목 단계를 짚어 주는 짧은 문구(마우스를 올리면 보이는 안내에 쓴다).
+  var STAGE_BOTTLENECK_TIP = {
+    F: '기반 마련은 무엇을 더 준비해야 할지 고민해 보세요.',
+    P: '교원 활용은 무엇을 더 준비해야 할지 고민해 보세요.',
+    W: '공동 실천은 무엇을 더 준비해야 할지 고민해 보세요.',
+    E: '학교 확산은 우리가 무엇을 준비해야 하는지 고민해 보세요.',
+    N: 'AI 내재화는 무엇을 더 준비해야 할지 고민해 보세요.'
+  };
+  // 단계마다 마우스를 올리면 지금 어디쯤인지, 무엇을 하면 좋을지 짧게 알려 준다.
+  function stageTip(st, i, bott, v) {
+    if (v === null) return '응답이 모자라 ' + st.name + '은(는) 아직 판단할 수 없어요. 더 모이면 점수가 나타납니다.';
+    if (i < bott) return josa(st.name, '은', '는') + ' 잘 준비되어 있어요. 이 바탕 위에서 다음 단계를 준비해 보세요.';
+    if (i === bott) return STAGE_BOTTLENECK_TIP[st.key];
+    return josa(st.name, '은', '는') + ' 앞 ' + i + '단계를 먼저 고민하고 준비하세요.';
+  }
   function stageBars(vals, cmp, cmpLabel, marks) {
     var bott = stageOf(vals);
     return '<div class="aidx-rank axr-bars">' + STAGES.map(function (st, i) {
       var v = vals[i], held = v !== null && v >= CUT && i > bott, st2 = v === null ? '' : held ? 'held' : v >= CUT ? 'good' : 'warn';
-      return '<div class="aidx-rrow ' + st2 + '"><span class="aidx-rname">' + (i + 1) + '. ' + st.name + '</span>' +
+      return '<div class="aidx-rrow ' + st2 + '" data-tip="' + esc(stageTip(st, i, bott, v)) + '"><span class="aidx-rname">' + (i + 1) + '. ' + st.name + '</span>' +
         '<span class="aidx-rtrack">' + (v === null ? '' : '<span class="aidx-rbar" style="width:' + v + '%"></span>') +
         '<i class="aidx-rcut" style="left:' + CUT + '%"></i>' +
         (cmp && cmp[i] !== null ? '<i class="aidx-rmean" style="left:' + cmp[i] + '%" data-tip="' + esc(cmpLabel + ' ' + r0(cmp[i]) + '점') + '"></i>' : '') + '</span>' +
