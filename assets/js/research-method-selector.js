@@ -11,7 +11,7 @@
     profiles:['lpa','lca'], transition:['lta'], mixeddata:['mixed-methods'], intervention:['quasi-experiment'], designdev:['ddr'], measurement:['scale-development'], future:['prediction'],
     temporal:['arcl'], experience:['phenomenology'], process:['grounded-theory'], story:['narrative'],
     map:['scoping-review'], integrate:['integrative-review'], evidence:['systematic-review'],
-    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
+    pooled:['meta-analysis'], theory:['theory-building'], network:['sna'], text:['topic-modeling'], sentiment:['sentiment-analysis'], themes:['thematic-analysis'], multilevel:['multilevel'], growth:['lgm'], casestudy:['case-study']
   };
   const patterns = {
     regression:[/(관계|관련|영향).{0,20}(알고|밝히|분석|확인|궁금)/,/다른.{0,15}(통제|고려)/,/어떤.{0,8}요인/,/여러.{0,8}요인/,/독립적.{0,8}(관련|관계)/],
@@ -40,6 +40,8 @@
     lgm:[/잠재성장|성장모형/,/변화.{0,4}(궤적|속도|양상)/,/시간.{0,8}따라.{0,12}(변화|변하|달라)/,/변화.{0,12}개인차/],
     'case-study':[/사례.{0,3}연구/,/(특정|한).{0,6}(조직|기업|학교|프로그램).{0,15}(사례|깊이|왜|어떻게)/,/운영 사례|도입 사례/],
     multilevel:[/다층|위계적 선형/,/(팀|집단|학급|조직).{0,8}(수준|안에 속|에 속한).{0,12}(개인|효과)/,/교차.{0,3}수준/,/개인.{0,6}(수준|특성).{0,10}(팀|집단).{0,6}(수준|특성)/],
+    'sentiment-analysis':[/(긍정|부정).{0,12}(정도|비율|평가|반응|감성)/,/(후기|댓글|리뷰|강의평가|서술).{0,15}(감성|감정|긍정|부정|만족|불만)/,/여론|반응.{0,8}(긍정|부정)/],
+    'thematic-analysis':[/(면담|인터뷰|개방형|서술형|일지).{0,20}(반복|공통).{0,10}(주제|의미|패턴)/,/(주제|의미).{0,6}(패턴|묶)/,/브라운|braun/i],
     'topic-modeling':[/토픽/,/(글|텍스트|응답|후기|댓글).{0,15}(주제|토픽)/,/서술.{0,8}응답.{0,12}(주제|분석)/,/말뭉치/],
     'theory-building':[/왜.{0,12}어떻게.{0,15}설명/,/기존 이론.{0,15}(못|한계)/,/새로운.{0,10}(설명|메커니즘|명제)/]
   };
@@ -49,7 +51,7 @@
     lpa:/잠재\s*프로파일|\blpa\b/,lca:/잠재\s*(계층|클래스)|\blca\b/,lta:/잠재\s*전이|\blta\b/,'scale-development':/척도\s*(를\s*)?(개발|타당화)|측정\s*도구\s*(를\s*)?(개발|타당화|만들)|문항\s*개발|\brasch\b|라쉬/,
     prediction:/머신\s*러닝|기계\s*학습|랜덤\s*포레스트|예측\s*모형|random forest/,arcl:/교차\s*지연|자기\s*회귀|\b(arcl|clpm)\b|ri-clpm/,phenomenology:/현상학/,'grounded-theory':/근거\s*이론/,narrative:/내러티브|네러티브|생애사/,
     'scoping-review':/스코핑|주제\s*범위\s*(문헌|고찰)/,'integrative-review':/통합적\s*(문헌|고찰)/,'systematic-review':/체계적\s*(문헌|고찰|리뷰)/,'meta-analysis':/메타\s*분석|meta.?analysis/,'theory-building':/이론\s*구축|명제/,
-    sna:/사회\s*(관계\s*)?(망|네트워크)|\bsna\b|네트워크\s*분석/,'topic-modeling':/토픽|텍스트\s*마이닝|\blda\b/,multilevel:/다층|위계적\s*선형|\bhlm\b/,'case-study':/사례\s*연구|case study/,lgm:/잠재\s*성장|\blgm\b/,
+    sna:/사회\s*(관계\s*)?(망|네트워크)|\bsna\b|네트워크\s*분석/,'topic-modeling':/토픽|텍스트\s*마이닝|\blda\b/,'sentiment-analysis':/감성\s*분석|감정\s*분석|sentiment|오피니언\s*마이닝/,'thematic-analysis':/주제\s*분석|thematic|테마\s*분석/,multilevel:/다층|위계적\s*선형|\bhlm\b/,'case-study':/사례\s*연구|case study/,lgm:/잠재\s*성장|\blgm\b/,
     'mixed-methods':/혼합\s*(연구|방법)|mixed.?method/,ddr:/설계\s*기반\s*연구|설계.?개발\s*연구|\b(ddr|dbr)\b|개발\s*연구/,'quasi-experiment':/준실험|quasi/
   };
   const hints = {
@@ -78,7 +80,7 @@
     if(/점수|척도|평균|연속형|리커트/.test(text)) return 'continuous';
     return 'unknown';
   }
-  const FLEX=new Set(['topic-modeling','sna','case-study','ddr','mixed-methods']);
+  const FLEX=new Set(['topic-modeling','sentiment-analysis','sna','case-study','ddr','mixed-methods']);
   function kindFits(m,kind){
     if(kind==='unknown'||kind==='mixed') return true;
     if(FLEX.has(m.id)) return true;

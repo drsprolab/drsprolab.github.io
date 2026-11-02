@@ -1794,5 +1794,85 @@
    ],
    "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 350\" role=\"img\" aria-labelledby=\"qe3-t qe3-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qe3-t\">면담을 더한 혼합 설계 (설계 도식)</title><desc id=\"qe3-d\">실험집단과 통제집단의 사전 검사, 교육, 사후 검사, 면담 순서를 나타낸 설계 도식</desc><defs><marker id=\"qe3-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker><marker id=\"qe3-s\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto-start-reverse\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"175.0\" y1=\"70.0\" x2=\"230.0\" y2=\"70.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"350.0\" y1=\"70.0\" x2=\"410.0\" y2=\"70.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"530.0\" y1=\"70.0\" x2=\"590.0\" y2=\"70.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"710.0\" y1=\"70.0\" x2=\"745.0\" y2=\"70.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"175.0\" y1=\"185.0\" x2=\"230.0\" y2=\"185.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"350.0\" y1=\"185.0\" x2=\"410.0\" y2=\"185.0\" marker-end=\"url(#qe3-a)\"/><line class=\"mm-edge\" x1=\"530.0\" y1=\"185.0\" x2=\"590.0\" y2=\"185.0\" marker-end=\"url(#qe3-a)\"/><rect class=\"mm-node mm-x\" x=\"25.0\" y=\"41.0\" width=\"150\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"66\" text-anchor=\"middle\">실험집단</text><text class=\"mm-r mm-x\" x=\"100\" y=\"84\" text-anchor=\"middle\">A 부서 (n=60)</text><rect class=\"mm-node mm-c\" x=\"230.0\" y=\"41.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"290\" y=\"66\" text-anchor=\"middle\">사전 검사</text><text class=\"mm-r mm-c\" x=\"290\" y=\"84\" text-anchor=\"middle\">O₁</text><rect class=\"mm-node mm-w\" x=\"410.0\" y=\"41.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"470\" y=\"66\" text-anchor=\"middle\">교육 6주</text><text class=\"mm-r mm-w\" x=\"470\" y=\"84\" text-anchor=\"middle\">X</text><rect class=\"mm-node mm-y\" x=\"590.0\" y=\"41.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"650\" y=\"66\" text-anchor=\"middle\">사후 검사</text><text class=\"mm-r mm-y\" x=\"650\" y=\"84\" text-anchor=\"middle\">O₂</text><rect class=\"mm-node mm-m\" x=\"745.0\" y=\"41.0\" width=\"110\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"800\" y=\"66\" text-anchor=\"middle\">면담 12명</text><text class=\"mm-r mm-m\" x=\"800\" y=\"84\" text-anchor=\"middle\">QUAL</text><rect class=\"mm-node mm-c\" x=\"25.0\" y=\"156.0\" width=\"150\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"100\" y=\"181\" text-anchor=\"middle\">통제집단</text><text class=\"mm-r mm-c\" x=\"100\" y=\"199\" text-anchor=\"middle\">B 부서 (n=60)</text><rect class=\"mm-node mm-c\" x=\"230.0\" y=\"156.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"290\" y=\"181\" text-anchor=\"middle\">사전 검사</text><text class=\"mm-r mm-c\" x=\"290\" y=\"199\" text-anchor=\"middle\">O₁</text><rect class=\"mm-node mm-c\" x=\"410.0\" y=\"156.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"470\" y=\"181\" text-anchor=\"middle\">일상 업무</text><text class=\"mm-r mm-c\" x=\"470\" y=\"199\" text-anchor=\"middle\">처치 없음</text><rect class=\"mm-node mm-y\" x=\"590.0\" y=\"156.0\" width=\"120\" height=\"58\" rx=\"6\"/><text class=\"mm-t\" x=\"650\" y=\"181\" text-anchor=\"middle\">사후 검사</text><text class=\"mm-r mm-y\" x=\"650\" y=\"199\" text-anchor=\"middle\">O₂</text><text class=\"mm-note mm-strong\" x=\"440\" y=\"262\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">무선 할당 없이 이미 있는 두 부서를 그대로 비교합니다. 그래서 ‘준’실험입니다.</tspan></text><text class=\"mm-note\" x=\"440\" y=\"288\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">면담을 더하면 왜 효과가 났는지 설명할 수 있어 혼합 설계가 됩니다.</tspan></text><text class=\"mm-note\" x=\"440\" y=\"314\" text-anchor=\"middle\"><tspan x=\"440\" dy=\"0\">통제집단은 연구가 끝난 뒤 같은 교육을 받을 수 있게 하면 윤리 부담을 줄입니다.</tspan></text></svg>"
   }
+ ],
+ "sentiment-analysis": [
+  {
+   "title": "감성 점수를 만들고 다른 변수와 연결하는 모형",
+   "question": "기업교육 서술형 후기의 감성은 과정 유형에 따라 다르며, 리커트 만족도와 일치하는가?",
+   "hypotheses": [
+    "H1: 집합 과정의 후기는 온라인 과정보다 감성 점수가 높다.",
+    "H2: 후기의 감성 점수는 같은 응답자의 리커트 만족도와 정적 상관이 있다."
+   ],
+   "how": "왼쪽 위에서 후기 텍스트가 분류 모델을 거쳐 문서별 감성 점수가 됩니다. 점선은 사람이 판정한 검증 자료로 모델의 정확도를 확인하는 과정입니다. 감성 점수가 만들어진 뒤에는 일반 변수처럼 과정 유형과의 관계(β)와 만족도와의 상관(r)을 검정합니다.",
+   "results": [
+    "예시 결과: 검증 자료 500건에서 모델의 F1은 .86, 사람 코더 간 일치도는 κ = .81이었습니다.",
+    "과정 유형이 감성 점수에 미치는 효과는 β = .21(p < .01)로, 집합 과정의 후기가 더 긍정적이었습니다.",
+    "감성 점수와 만족도의 상관은 r = .58(p < .001)로 높지만 같지 않습니다. 만족도는 높은데 후기가 부정적인 사례를 읽으면 점수가 놓친 불만 요인을 찾을 수 있습니다."
+   ],
+   "roles": [
+    [
+     "관측 자료",
+     "c"
+    ],
+    [
+     "분류 모델·감성 점수",
+     "m"
+    ],
+    [
+     "검증 기준",
+     "w"
+    ],
+    [
+     "비교 집단",
+     "x"
+    ],
+    [
+     "연결 변수",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 420\" role=\"img\" aria-labelledby=\"sa1-t sa1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"sa1-t\">감성 점수를 만들고 다른 변수와 연결하는 모형</title><desc id=\"sa1-d\">서술형 후기에서 감성 점수를 만들고 과정 유형과 만족도와의 관계를 검정하는 구조</desc><defs><marker id=\"sa1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"215\" y1=\"178\" x2=\"295\" y2=\"178\" marker-end=\"url(#sa1-a)\"/><rect class=\"mm-lbg\" x=\"240.6\" y=\"165.0\" width=\"28.9\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"255.0\" y=\"179.0\" text-anchor=\"middle\">분류</text><line class=\"mm-edge\" x1=\"485\" y1=\"178\" x2=\"575\" y2=\"178\" marker-end=\"url(#sa1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"390\" y1=\"290\" x2=\"390\" y2=\"208\" marker-end=\"url(#sa1-a)\"/><rect class=\"mm-lbg\" x=\"360.7\" y=\"236.0\" width=\"58.6\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"390.0\" y=\"250.0\" text-anchor=\"middle\">정확도 확인</text><line class=\"mm-edge\" x1=\"670\" y1=\"78\" x2=\"670\" y2=\"150\" marker-end=\"url(#sa1-a)\"/><rect class=\"mm-lbg\" x=\"629.5\" y=\"101.0\" width=\"81.0\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"670.0\" y=\"115.0\" text-anchor=\"middle\">β = .21**</text><line class=\"mm-edge\" x1=\"670\" y1=\"206\" x2=\"670\" y2=\"290\" marker-end=\"url(#sa1-a)\"/><rect class=\"mm-lbg\" x=\"625.8\" y=\"235.0\" width=\"88.4\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"670.0\" y=\"249.0\" text-anchor=\"middle\">r = .58***</text><rect class=\"mm-node mm-c\" x=\"25\" y=\"150\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"120.0\" y=\"174.0\" text-anchor=\"middle\">서술형 후기 텍스트</text><text class=\"mm-r mm-c\" x=\"120.0\" y=\"192.0\" text-anchor=\"middle\">관측 자료</text><rect class=\"mm-node mm-m\" x=\"295\" y=\"150\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"390.0\" y=\"174.0\" text-anchor=\"middle\">감성 분류 모델</text><text class=\"mm-r mm-m\" x=\"390.0\" y=\"192.0\" text-anchor=\"middle\">사전·기계학습·언어모델</text><rect class=\"mm-node mm-m\" x=\"575\" y=\"150\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"670.0\" y=\"174.0\" text-anchor=\"middle\">감성 점수 (−1~+1)</text><text class=\"mm-r mm-m\" x=\"670.0\" y=\"192.0\" text-anchor=\"middle\">문서별 감성</text><rect class=\"mm-node mm-w\" x=\"295\" y=\"290\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"390.0\" y=\"314.0\" text-anchor=\"middle\">사람 코딩 (검증용)</text><text class=\"mm-r mm-w\" x=\"390.0\" y=\"332.0\" text-anchor=\"middle\">정확도 기준</text><rect class=\"mm-node mm-x\" x=\"575\" y=\"22\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"670.0\" y=\"46.0\" text-anchor=\"middle\">과정 유형</text><text class=\"mm-r mm-x\" x=\"670.0\" y=\"64.0\" text-anchor=\"middle\">집합 = 1, 온라인 = 0</text><rect class=\"mm-node mm-y\" x=\"575\" y=\"290\" width=\"190\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"670.0\" y=\"314.0\" text-anchor=\"middle\">리커트 만족도</text><text class=\"mm-r mm-y\" x=\"670.0\" y=\"332.0\" text-anchor=\"middle\">연결 변수</text><text class=\"mm-note\" x=\"440\" y=\"395\" text-anchor=\"middle\">감성 점수는 표현의 극성이며, 사람 코딩과의 일치로 타당성을 먼저 확인합니다.</text></svg>"
+  }
+ ],
+ "thematic-analysis": [
+  {
+   "title": "성찰적 주제분석의 여섯 단계 (Braun & Clarke)",
+   "question": "생성형 AI 도입 이후 실무자들은 자신의 일과 전문성이 어떻게 달라졌다고 말하는가?",
+   "hypotheses": [
+    "실무자들은 AI 도입 후 어떤 일이 줄고 어떤 일이 늘었다고 말하는가?",
+    "그 변화를 자신의 전문성과 관련해 어떻게 해석하는가?",
+    "변화에 대해 어떤 걱정과 기대를 이야기하는가?"
+   ],
+   "how": "주제분석은 가설을 세워 검정하지 않습니다. 이 틀은 자료에서 주제를 만드는 여섯 단계를 보여 줍니다. 단계는 차례로 진행되지만, 주제를 검토하다가 코딩으로 돌아가는 것처럼 앞 단계로 되돌아가며 반복합니다. 위 줄은 왼쪽에서 오른쪽으로 1→2→3, 아래 줄은 오른쪽에서 왼쪽으로 4→5→6 순서입니다.",
+   "results": [
+    "결과물은 주제와 하위 주제, 각 주제의 정의, 대표 인용, 주제 지도입니다.",
+    "화살표는 범주 사이의 효과가 아니라 분석의 진행 순서입니다. 계수나 유의성이 없습니다."
+   ],
+   "roles": [
+    [
+     "자료와 친숙해지기",
+     "c"
+    ],
+    [
+     "코딩",
+     "x"
+    ],
+    [
+     "주제 만들기·검토",
+     "m"
+    ],
+    [
+     "주제 정의",
+     "w"
+    ],
+    [
+     "보고",
+     "y"
+    ]
+   ],
+   "svg": "<svg class=\"mm-svg\" viewBox=\"0 0 880 400\" role=\"img\" aria-labelledby=\"qta1-t qta1-d\" xmlns=\"http://www.w3.org/2000/svg\" style=\"--mm-w:880px\"><title id=\"qta1-t\">성찰적 주제분석의 여섯 단계</title><desc id=\"qta1-d\">자료 익히기부터 보고서 쓰기까지 앞뒤로 오가며 진행하는 주제분석의 여섯 단계</desc><defs><marker id=\"qta1-a\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path class=\"mm-ah\" d=\"M0,0 L10,5 L0,10 z\"/></marker></defs><line class=\"mm-edge\" x1=\"290\" y1=\"95\" x2=\"305\" y2=\"95\" marker-end=\"url(#qta1-a)\"/><line class=\"mm-edge\" x1=\"575\" y1=\"95\" x2=\"590\" y2=\"95\" marker-end=\"url(#qta1-a)\"/><line class=\"mm-edge\" x1=\"725\" y1=\"123\" x2=\"725\" y2=\"227\" marker-end=\"url(#qta1-a)\"/><line class=\"mm-edge\" x1=\"590\" y1=\"255\" x2=\"575\" y2=\"255\" marker-end=\"url(#qta1-a)\"/><line class=\"mm-edge\" x1=\"305\" y1=\"255\" x2=\"290\" y2=\"255\" marker-end=\"url(#qta1-a)\"/><line class=\"mm-edge mm-dash\" x1=\"640\" y1=\"227\" x2=\"480\" y2=\"123\" marker-end=\"url(#qta1-a)\"/><rect class=\"mm-lbg\" x=\"534.4\" y=\"162.0\" width=\"51.2\" height=\"20\" rx=\"4\"/><text class=\"mm-lbl\" x=\"560.0\" y=\"176.0\" text-anchor=\"middle\">다시 코딩</text><rect class=\"mm-node mm-c\" x=\"20\" y=\"67\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"155.0\" y=\"91.0\" text-anchor=\"middle\">1. 자료 익히기</text><text class=\"mm-r mm-c\" x=\"155.0\" y=\"109.0\" text-anchor=\"middle\">반복 읽기·메모</text><rect class=\"mm-node mm-x\" x=\"305\" y=\"67\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"440.0\" y=\"91.0\" text-anchor=\"middle\">2. 초기 코드 만들기</text><text class=\"mm-r mm-x\" x=\"440.0\" y=\"109.0\" text-anchor=\"middle\">의미에 이름 붙이기</text><rect class=\"mm-node mm-m\" x=\"590\" y=\"67\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"725.0\" y=\"91.0\" text-anchor=\"middle\">3. 후보 주제 만들기</text><text class=\"mm-r mm-m\" x=\"725.0\" y=\"109.0\" text-anchor=\"middle\">코드 묶기·주제 지도</text><rect class=\"mm-node mm-m\" x=\"590\" y=\"227\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"725.0\" y=\"251.0\" text-anchor=\"middle\">4. 주제 검토</text><text class=\"mm-r mm-m\" x=\"725.0\" y=\"269.0\" text-anchor=\"middle\">코드·전체 자료와 대조</text><rect class=\"mm-node mm-w\" x=\"305\" y=\"227\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"440.0\" y=\"251.0\" text-anchor=\"middle\">5. 주제 정의·이름</text><text class=\"mm-r mm-w\" x=\"440.0\" y=\"269.0\" text-anchor=\"middle\">핵심 의미와 경계</text><rect class=\"mm-node mm-y\" x=\"20\" y=\"227\" width=\"270\" height=\"56\" rx=\"6\"/><text class=\"mm-t\" x=\"155.0\" y=\"251.0\" text-anchor=\"middle\">6. 보고서 쓰기</text><text class=\"mm-r mm-y\" x=\"155.0\" y=\"269.0\" text-anchor=\"middle\">인용과 해석 엮기</text><text class=\"mm-note mm-strong\" x=\"440\" y=\"330\" text-anchor=\"middle\">각 단계는 한 방향이 아니라 앞 단계로 돌아가며 반복됩니다.</text><text class=\"mm-note\" x=\"440\" y=\"360\" text-anchor=\"middle\">화살표는 통계적 효과가 아니라 분석이 진행되는 순서입니다.</text></svg>",
+   "frame": true,
+   "hlabel": "연구 질문"
+  }
  ]
 }

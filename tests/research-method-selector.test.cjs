@@ -59,8 +59,8 @@ test('checklist never declares a method optimal or a probability',()=>{
  assert.equal(evaluateChecklist(['yes','unknown',undefined]).state,'clarify');assert.equal(evaluateChecklist(['yes','no','yes']).state,'revise');assert.equal(evaluateChecklist(['yes','yes','yes']).state,'consider');
 });
 test('catalog coverage, concrete beginner cases and references are complete',()=>{
- assert.equal(methods.length,28);assert.equal(new Set(methods.map(m=>m.id)).size,28);
- assert.deepEqual(content.categories.map(c=>methods.filter(m=>m.category===c.id).length),[16,4,5,3]);
+ assert.equal(methods.length,30);assert.equal(new Set(methods.map(m=>m.id)).size,30);
+ assert.deepEqual(content.categories.map(c=>methods.filter(m=>m.category===c.id).length),[17,5,5,3]);
  for(const m of methods){
   assert.equal(m.cases.length,2);assert(m.references.length>=1&&m.references.length<=2);assert.equal(m.applications.length,2);assert.deepEqual(m.applications.map(a=>a.index).sort(),['KCI','SSCI']);m.applications.forEach(a=>assert(a.doi&&a.title&&a.journal&&a.year&&a.url===`https://doi.org/${a.doi}`));
   for(const c of m.cases)for(const field of ['purpose','question','data','analysis','output','learn'])assert(c[field]?.length>20,`${m.id}.${field}`);
@@ -111,6 +111,10 @@ const B=[
 ['sna',{dataText:'사회네트워크분석으로 지식공유 연결망과 중심성을 봅니다'}],
 ['topic-modeling',{purpose:'수강 후기에 어떤 주제가 많이 나오는지 알고 싶다',dataText:'온라인 강의 후기 텍스트 5000건'}],
 ['topic-modeling',{dataText:'논문 초록으로 토픽모델링을 해서 연구동향을 봅니다'}],
+['sentiment-analysis',{purpose:'교육 후기가 얼마나 긍정적인지 부정적인지 알고 싶다',dataText:'서술형 후기 3000건과 만족도 점수'}],
+['sentiment-analysis',{dataText:'강의평가 서술형 응답으로 감성분석을 하려고 합니다'}],
+['thematic-analysis',{purpose:'면담에서 실무자들이 반복해서 말하는 의미의 패턴을 찾고 싶다',dataText:'실무자 15명 면담 전사본'}],
+['thematic-analysis',{dataText:'개방형 응답을 Braun과 Clarke의 주제분석으로 분석하려고 합니다'}],
 ['multilevel',{purpose:'팀 수준의 학습문화가 개인의 학습전이에 미치는 영향',dataText:'팀에 속한 직원 설문'}],
 ['multilevel',{dataText:'학생이 학급에 중첩된 자료로 HLM 다층분석을 합니다'}],
 ['quasi-experiment',{purpose:'리더십 교육의 효과를 교육 안 받은 부서와 비교하고 싶어요',dataText:'두 부서 사전 사후 점수'}],
