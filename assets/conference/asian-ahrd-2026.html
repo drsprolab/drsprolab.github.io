@@ -29,7 +29,7 @@ aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{mar
 </style></head><body>
 <nav class="atlas-back" aria-label="학회 목록"><a class="conference-open" href="/conference/asian-ahrd-2026/" target="_top">← 학회 페이지로</a></nav>
 <header><h1>Asian AHRD-Japan 2026 · Research Keyword Atlas<span class="dt">2026.11.5-11.8</span><small>발표 제목 270건 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
-<div class="ctl"><input id="q" placeholder="검색(키워드·저자)"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS &amp; S'Kids</button><button id="rs">초기화</button></div></header>
+<div class="ctl"><input id="qk" placeholder="키워드 검색"><input id="qa" placeholder="저자 검색"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS &amp; S'Kids</button><button id="rs">초기화</button></div></header>
 <main><div id="g"><svg></svg></div><p class="atlas-zoom-hint">그림을 누르면 가로로 크게 볼 수 있습니다.</p><aside id="pn"></aside></main>
 <section class="lg" id="lg"></section>
 <p class="note">제목 기반 탐색 분석입니다. 표시된 시간은 개별 논문이 아닌 세션 시작 시각이며, 일정은 변경될 수 있습니다.</p>
@@ -64,11 +64,12 @@ const item=(p,showSchedule=false)=>`<div class="it ${p.s?'s':''}">${p.s?'<span s
 function hl(id){G.style("opacity",d=>!id||d.id==id||(adj[id]||[]).some(([m])=>m==d.id)?1:.18);L.attr("stroke-opacity",d=>!id?.25:(d.source.id==id||d.target.id==id)?.8:.05)}
 function show(id){pn.classList.add("is-list");pn.scrollTop=0;hl(id);const ps=D.P.filter(p=>p.k.includes(id)).sort((a,b)=>b.s-a.s);const nb=(adj[id]||[]).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]+" "+x[1]).join(" · ");
 pn.innerHTML=`<h2>${id} <span style="color:var(--accent)">${ps.length}편</span></h2>${nb?`<p style="font-size:12px;color:var(--muted)">주요 연결: ${nb}</p>`:''}`+ps.map(p=>item(p)).join("")}
-document.getElementById("overview").onclick=()=>{q.value="";home()};
-document.getElementById("all").onclick=()=>{pn.classList.add("is-list");hl(null);q.value="";pn.innerHTML=`<h2>모든 발표 ${D.P.length}편</h2><p style="font-size:12px;color:var(--muted)">전체 발표 목록 · 날짜 · 세션 시작 · 장소 · 세션</p>`+D.P.map(p=>item(p,true)).join("");pn.scrollTop=0};
+document.getElementById("overview").onclick=()=>{qk.value="";qa.value="";home()};
+document.getElementById("all").onclick=()=>{pn.classList.add("is-list");hl(null);qk.value="";qa.value="";pn.innerHTML=`<h2>모든 발표 ${D.P.length}편</h2><p style="font-size:12px;color:var(--muted)">전체 발표 목록 · 날짜 · 세션 시작 · 장소 · 세션</p>`+D.P.map(p=>item(p,true)).join("");pn.scrollTop=0};
 sb.onclick=()=>{pn.classList.add("is-list");pn.scrollTop=0;hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:var(--atlas-gold)">★ DrS &amp; S'Kids 발표 ${ps.length}편</h2><p style="font-size:12px;color:var(--muted)">날짜 · 세션 시작 · 장소 · 세션</p>`+ps.map(p=>item(p)).join("")};
-rs.onclick=()=>{home();q.value="";sim.alpha(.8).restart()};
-q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)return show(m.id);const ps=D.P.filter(p=>p.a.toLowerCase().includes(v));pn.classList.add("is-list");pn.scrollTop=0;hl(null);pn.innerHTML=ps.length?`<h2>"${q.value.trim()}" 검색 <span style="color:var(--accent)">${ps.length}편</span></h2><p style="font-size:12px;color:var(--muted)">저자 이름으로 찾은 결과입니다.</p>`+split(ps):`<p style="font-size:13px">"${q.value.trim()}"에 해당하는 키워드·저자가 없습니다.</p>`};
+rs.onclick=()=>{home();qk.value="";qa.value="";sim.alpha(.8).restart()};
+qk.oninput=()=>{qa.value="";const v=qk.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)return show(m.id);pn.classList.add("is-list");pn.scrollTop=0;hl(null);pn.innerHTML=`<p style="font-size:13px">"${qk.value.trim()}"에 해당하는 키워드가 없습니다.</p>`};
+qa.oninput=()=>{qk.value="";const v=qa.value.trim().toLowerCase();if(!v)return home();const ps=D.P.filter(p=>p.a.toLowerCase().includes(v));pn.classList.add("is-list");pn.scrollTop=0;hl(null);pn.innerHTML=ps.length?`<h2>"${qa.value.trim()}" 저자 검색 <span style="color:var(--accent)">${ps.length}편</span></h2>`+ps.map(p=>item(p,true)).join(""):`<p style="font-size:13px">"${qa.value.trim()}"에 해당하는 저자가 없습니다.</p>`};
 const chip=n=>`<button type="button" class="chip" data-k="${n.id}"><span>${n.id}</span><span class="keyword-count">${n.n}편${n.s?` <span class="st">★ ${n.s}</span>`:''}</span></button>`;
 lg.innerHTML=`<h2>전체 핵심 키워드</h2>`+gs.map((g,i)=>`<div class="grp"><h3><span style="color:${col[i%6]}">●</span> 군집 ${i+1}<span class="cluster-count">${g.length}개 키워드 · 발표 편수순</span></h3><div class="keyword-grid">${g.sort((a,b)=>b.n-a.n).map(chip).join("")}</div></div>`).join("")+(D.O.length?`<div class="grp"><h3>네트워크 표시 기준 미만 키워드</h3><div class="keyword-grid">${D.O.map(chip).join("")}</div></div>`:'');
 lg.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{show(c.dataset.k);el.scrollIntoView({behavior:"smooth"})});
