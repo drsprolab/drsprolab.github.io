@@ -33,7 +33,7 @@ aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{mar
 </style></head><body>
 <nav class="atlas-back" aria-label="학회 목록"><a class="conference-open" href="/conference/hrd-2026-2/" target="_top">← 학회 페이지로</a></nav>
 <header><h1>한국인력개발학회 2026 추계학술대회 · 키워드 네트워크<span class="dt">2026.11.20(금) 11:00-18:00</span><small>포스터·트랙 발표 86건 제목 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
-<div class="ctl"><input id="q" placeholder="키워드 검색"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS &amp; S'Kids</button><button id="rs">초기화</button></div></header>
+<div class="ctl"><input id="q" placeholder="검색(키워드·저자)"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS &amp; S'Kids</button><button id="rs">초기화</button></div></header>
 <div class="seg"><span class="lb" style="margin-left:0">소속</span><button data-f="org" data-v="all">전체</button><button class="hy" data-f="org" data-v="hy">한양대학교</button><span class="lb">발표 유형</span><button data-f="ty" data-v="all">전체</button><button data-f="ty" data-v="paper">논문 발표</button><button data-f="ty" data-v="poster">포스터</button><span class="lb" style="font-size:11px"><span style="color:#3276aa">●</span> 노드 테두리: 논문 발표 / <span style="color:#a66b24">●</span> 포스터 비율</span></div>
 <main><div id="g"><svg></svg></div><p class="atlas-zoom-hint">그림을 누르면 가로로 크게 볼 수 있습니다.</p><aside id="pn"></aside></main>
 <section class="lg" id="lg"></section>
@@ -89,7 +89,7 @@ sb.onclick=()=>{pn.classList.add("is-list");pn.scrollTop=0;hl(null);G.style("opa
 document.getElementById("overview").onclick=()=>{q.value="";home()};
 document.getElementById("all").onclick=()=>{hl(null);pn.classList.add("is-list");pn.scrollTop=0;q.value="";pn.innerHTML=`<h2>모든 발표 ${D.P.length}편</h2><p class="summary-copy">${scope()} · 시작 시간 · 장소 · 세션</p>`+split(D.P)};
 rs.onclick=()=>{F.org="all";F.ty="all";q.value="";refresh();};
-q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)show(m.id)};
+q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)return show(m.id);const ps=D.P.filter(p=>p.a.toLowerCase().includes(v));pn.classList.add("is-list");pn.scrollTop=0;hl(null);pn.innerHTML=ps.length?`<h2>"${q.value.trim()}" 검색 <span style="color:var(--accent)">${ps.length}편</span></h2><p style="font-size:12px;color:var(--muted)">저자 이름으로 찾은 결과입니다.</p>`+split(ps):`<p style="font-size:13px">"${q.value.trim()}"에 해당하는 키워드·저자가 없습니다.</p>`};
 const chip=n=>`<button type="button" class="chip" data-k="${n.id}"><span>${n.id}</span><span class="keyword-count">${n.n}편${n.s?` <span class="st">★ ${n.s}</span>`:''}</span></button>`;
 function legend(){lg.innerHTML=`<h2>전체 핵심 키워드 <span style="font-size:12px;color:var(--muted);font-weight:400">${scope()}</span></h2>`+gs.map((g,i)=>`<div class="grp"><h3><span style="color:${col[i%6]}">●</span> 군집 ${i+1}<span class="cluster-count">${g.length}개 키워드 · 발표 편수순</span></h3><div class="keyword-grid">${[...g].sort((a,b)=>b.n-a.n).map(chip).join("")}</div></div>`).join("")+(D.O.length?`<div class="grp"><h3>네트워크 표시 기준 미만 키워드</h3><div class="keyword-grid">${D.O.map(chip).join("")}</div></div>`:'');
 lg.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{show(c.dataset.k);el.scrollIntoView({behavior:"smooth"})})}
