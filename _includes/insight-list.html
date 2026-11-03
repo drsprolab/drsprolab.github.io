@@ -11,7 +11,7 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
     <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
     <h1 id="daily-title">{% if include.section == 'lab' %}Lab Weekly Insight{% elsif include.section == 'deep-research' %}Deep Research{% else %}DrS Weekly Insight{% endif %}</h1>
     <nav class="tabs insight-tabs" aria-label="Weekly Insight 구분"><a href="{{ '/weekly-insight/' | relative_url }}"{% if include.section == 'drs' %} aria-current="page"{% endif %}>DrS Weekly Insight</a><a href="{{ '/weekly-insight/lab/' | relative_url }}"{% if include.section == 'lab' %} aria-current="page"{% endif %}>Lab Weekly Insight</a><a href="{{ '/weekly-insight/deep-research/' | relative_url }}"{% if include.section == 'deep-research' %} aria-current="page"{% endif %}>Deep Research</a></nav>
-    <p class="lede">{% if include.section == 'lab' %}PRO-AX 연구실 연구원들의 insight 입니다.{% elsif include.section == 'deep-research' %}주제를 깊이 파고든 분석과 리포트를 공유합니다.{% else %}HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.{% endif %}</p>
+    <p class="lede">{% if include.section == 'lab' %}PRO-AX 연구실 연구원들의 insight 입니다.{% elsif include.section == 'deep-research' %}하나의 주제를 학문적으로 깊이 있게 다루고 있습니다.{% else %}HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.{% endif %}</p>
     {% include sharing-guidance.html class="daily-issue-notice" %}
     {%- assign orbit_issues = '' | split: '' -%}
     {%- for day in days -%}{%- assign orbit_issues = orbit_issues | concat: day.items -%}{%- endfor -%}
