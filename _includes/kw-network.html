@@ -62,7 +62,6 @@
           <img class="rmap-lab-mark" src="{{ '/assets/images/logo/mark-dark.png' | relative_url }}" alt="" width="16" height="16">
           <strong>PRO AnalytiX Research Map</strong>
         </div>
-        <button type="button" class="rmap-rotate-btn" id="rmap-rotate">⤢ 가로로 보기</button>
         <span>Drag to pin · Double-click to unpin · Use +/− to zoom</span>
       </div>
       <svg id="rm-svg" class="rm-svg" role="group" aria-label="Network of papers and keywords"></svg>
@@ -74,38 +73,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="{{ '/assets/js/research-map-data.js' | relative_url }}?v={{ research_map.version }}" defer></script>
 <script src="{{ '/assets/js/kw-network.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
-<script>
-// 모바일: Research Map을 화면 전체로 돌려서 크게 보는 버튼 (research-help 연구방법 도식의 '크게 보기'와 같은 방식, 실제 그래프를 옮겨서 드래그·확대·선택이 그대로 된다)
-(function () {
-  var btn = document.getElementById('rmap-rotate');
-  if (!btn) return;
-  btn.addEventListener('click', function () {
-    var graph = document.querySelector('.rmap-graph'), svg = document.getElementById('rm-svg'), head = graph && graph.querySelector('.rmap-graph-head');
-    if (!graph || !svg) return;
-    var parent = graph.parentNode, next = graph.nextSibling;
-    var overlay = document.createElement('div'); overlay.className = 'rmap-zoom'; overlay.setAttribute('role', 'dialog'); overlay.setAttribute('aria-label', 'Research Map 크게 보기');
-    var close = document.createElement('button'); close.type = 'button'; close.className = 'rmap-zoom-close'; close.textContent = '닫기 ✕';
-    var inner = document.createElement('div'); inner.className = 'rmap-zoom-inner';
-    overlay.append(close, inner);
-    document.body.append(overlay);
-    document.body.style.overflow = 'hidden';
-    inner.append(graph);
-    var longSide = window.innerHeight - 64, shortSide = window.innerWidth - 24;
-    graph.style.width = longSide + 'px';
-    var headH = head ? head.getBoundingClientRect().height : 0;
-    svg.style.height = Math.max(260, shortSide - headH) + 'px';
-    svg.setAttribute('preserveAspectRatio', 'xMidYMid slice'); // 원래 비율대로 레터박스 없이 화면을 채운다(바깥쪽은 패닝·확대로 볼 수 있음)
-    function shut() {
-      svg.style.height = ''; graph.style.width = '';
-      svg.removeAttribute('preserveAspectRatio');
-      if (next) parent.insertBefore(graph, next); else parent.appendChild(graph);
-      overlay.remove(); document.body.style.overflow = '';
-      document.removeEventListener('keydown', onEsc);
-    }
-    function onEsc(e) { if (e.key === 'Escape') shut(); }
-    close.addEventListener('click', shut);
-    overlay.addEventListener('click', function (e) { if (e.target === overlay) shut(); });
-    document.addEventListener('keydown', onEsc);
-  });
-})();
-</script>
