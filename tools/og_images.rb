@@ -40,7 +40,7 @@ def html(fm, kind)
   raw_title = fm["title"].to_s
   # Series metadata stays in the headline and page title; the small badge carries
   # the full series name on thumbnails so the story title remains legible.
-  display_title = raw_title.sub(/\AAI Paradox 시리즈 10가지 이야기 · \d{2}\/10 · /, "")
+  display_title = raw_title.sub(/\AAI Paradox \d+ · /, "")
   title = CGI.escapeHTML(display_title)
   series_badge = if kind == "insights" && fm["series"]
     number = Integer(fm["series_number"] || 0)

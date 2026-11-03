@@ -4,7 +4,7 @@ Weekly Insight 목록 (DrS / Lab 공용). include.section: 'drs' 또는 'lab'
 {%- endcomment -%}
 {% assign all = site.insights | sort: 'date' %}
 {% if include.section == 'lab' %}{% assign issues = all | where: 'section', 'lab' %}{% else %}{% assign issues = all | where_exp: 'i', "i.section != 'lab'" %}{% endif %}
-{%- comment -%} 최신 날짜의 글이 가장 먼저, 같은 날 올린 연재(AI 역설 1~10 등)는 순서대로 {%- endcomment -%}
+{%- comment -%} 최신 날짜의 글이 가장 먼저, 같은 날 올린 연재(AI Paradox 1~10 등)도 늦은 번호(10)가 먼저 {%- endcomment -%}
 {% assign days = issues | group_by_exp: 'i', "i.date | date: '%Y-%m-%d'" | reverse %}
 <section class="daily-index" aria-labelledby="daily-title">
   <header class="daily-hero">
@@ -21,7 +21,7 @@ Weekly Insight 목록 (DrS / Lab 공용). include.section: 'drs' 또는 'lab'
   <div class="daily-archive">
     <h2>Insights <span class="n">{{ issues.size }}</span></h2>
     <div class="inst-grid">
-      {% for day in days %}{% for issue in day.items %}
+      {% for day in days %}{% assign day_items = day.items | reverse %}{% for issue in day_items %}
       <a class="inst" href="{{ issue.url | relative_url }}">
         {% if issue.image.path %}<img class="inst-thumb inst-thumb--compact" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
         <div class="tags">{% for topic in issue.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
