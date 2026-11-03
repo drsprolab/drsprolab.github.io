@@ -19,6 +19,10 @@ endpoint: "https://script.google.com/macros/s/AKfycbzFBQTVCz2H2jlaWRaWe9_jj8MjAp
   <h2>진단도구 소개</h2>
   <p>학교가 AI를 전제로 가르치고 배우는 학교로 바뀌려면, 기반이 마련되고, 교원이 AI를 활용할 준비가 되고, 동료 교원들과 함께 실천하고, 학교 전체로 확산되고, 끝으로 AI가 교육과 학교 생활에 자연스럽게 녹아드는 다섯 단계를 거칩니다.</p>
   <p><strong>활용:</strong> 학교 AIX 준비 수준 진단 및 발전 전략 지원</p>
+  <div class="inst-docs">
+    <a class="inst-doc" href="{{ '/assets/files/aix-school-structure-report.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조_보고용.pdf">설문 문항과 구조 설명 (보고용)</a>
+    <a class="inst-doc" href="{{ '/assets/files/aix-school-structure.pdf' | relative_url }}" download="우리학교AIX전환준비성숙도진단_문항과구조_실무자용.pdf">설문 문항과 구조 설명 (실무자용)</a>
+  </div>
 </div>
 
 <div class="aidx axr" id="axr" data-endpoint="{{ page.endpoint }}" aria-live="polite">
