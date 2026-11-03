@@ -645,9 +645,10 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 .rm-label { fill: var(--rm-label); font-size: 9.5px; text-anchor: middle; paint-order: stroke; stroke: var(--rm-label-bg); stroke-width: 2.5px; stroke-linejoin: round; pointer-events: none; }
 .rm-node.kw .rm-label { font-size: 9.5px; font-weight: 600; letter-spacing: .01em; }
 .rm-node.paper .rm-label { display: none; }
-/* 배치 자체(틱)는 멈춰 있다(CPU 절약). rm-float는 각 노드 phase로 시작점만 다르게 한 CSS 애니메이션이라 거의 공짜로 살짝 떠다니는 느낌을 준다. */
-@keyframes rm-float { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(1px, -2px); } 50% { transform: translate(0, -3px); } 75% { transform: translate(-1px, -2px); } }
-.rm-float { animation: rm-float 9s ease-in-out infinite; }
+/* 배치 자체(틱)는 멈춰 있다(CPU 절약). rm-float는 각 노드 phase로 시작점만 다르게 한 CSS 애니메이션이라 거의 공짜로 떠다니는 느낌을 준다.
+   글자가 흐려 보이지 않도록 scale은 쓰지 않고 위치(translate)만 움직인다. */
+@keyframes rm-float { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(3.5px, -4.5px); } 50% { transform: translate(0, -6.5px); } 75% { transform: translate(-3.5px, -4.5px); } }
+.rm-float { animation: rm-float 5.5s ease-in-out infinite; }
 .rm-node.pinned .rm-float { animation: none; }
 @media (prefers-reduced-motion: reduce) { .rm-float { animation: none; } }
 .rm-zoom { position: absolute; right: 12px; bottom: 12px; display: grid; gap: 4px; }

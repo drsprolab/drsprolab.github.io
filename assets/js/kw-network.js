@@ -10,7 +10,7 @@
   var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   var COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var RM_FLOAT_S = 9; // assets/css/style.css의 @keyframes rm-float 지속시간과 같은 값이어야 한다
+  var RM_FLOAT_S = 5.5; // assets/css/style.css의 .rm-float animation 지속시간과 같은 값이어야 한다
 
   var svg = d3.select('#rm-svg');
   var detail = document.getElementById('rm-detail');
