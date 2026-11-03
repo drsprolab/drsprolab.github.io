@@ -4,7 +4,7 @@ title: 나의 연구 발전시키기(실습)
 permalink: /research-help/
 wide: true
 research_practice: true
-lede: 최초 작성문을 1·2차 DrS comments를 보며 수정하고, 최종 연구계획서와 전체 수정 이력을 함께 제출합니다.
+lede: 최초 작성문을 1·2·3차 DrS comments를 보며 수정하고, 최종 수정본과 전체 수정 이력을 함께 제출합니다.
 ---
 
 <p class="rh-motto">여러분들의 연구는 깊은 문제의식에서 발산하여 실천적 이론적 시사점으로 수렴 되어야 합니다.</p>

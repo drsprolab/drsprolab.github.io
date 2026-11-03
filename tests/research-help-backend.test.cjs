@@ -15,6 +15,10 @@ function fields(extra) {
 
 
 const socratic = () => Object.fromEntries(FB_KEYS.map(k => [k, { focus: `${k} 초점 (Kim, 2019) doi 10.1234/fake.1`, questions: ['왜 이 문제가 중요한가요?', '무엇이 다른가요?'] }]));
+const critic = () => ({ summary: '목적과 RQ의 대응이 가장 큰 위험입니다. (Kim, 2019)',
+  alignment: { severity: 'critical', evidence: [{ field: 'purpose', quote: 'purpose 테스트' }, { field: 'rq', quote: '원고에 없는 구절' }], finding: '목적과 RQ가 어긋납니다. 10.1234/fake.1', consequence: '심사에서 지적됩니다.', fixes: ['RQ를 목적에 맞춥니다.'] },
+  modelTheory: { severity: 'major', evidence: [{ field: '', quote: 'theory 테스트' }], finding: '모형 경로가 이론으로 설명되지 않습니다.', consequence: '이론적 불일치로 지적됩니다.', fixes: ['경로별 이론 논리를 씁니다.'] },
+  methodFit: { severity: 'bogus', evidence: [], finding: '방법이 목적에 맞지 않습니다.', consequence: '타당성이 의심됩니다.', fixes: ['종단 설계를 검토합니다.'] } });
 let rid = 0;
 const reqId = () => 'req-test-' + String(++rid).padStart(4, '0');
 
@@ -193,22 +197,53 @@ test('2차 저장: SSCI 목록이 비어 있으면 문헌 기반 판단을 보�
   assert.doesNotMatch(r2.feedback.items.rq.assessment, /\[S/);
 });
 
-test('3차 저장은 AI 없이 저장하고, 제출 후에는 더 저장할 수 없다', () => {
-  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2 } });
+test('3차 저장은 핵심 정합성 점검을 돌려주고, 4차(최종) 저장은 AI 없이 저장하며, 제출 후에는 더 저장할 수 없다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic }, props: { ROUND3_DIRECTIVE: '비공개지시문표식' } });
   const r1 = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
   const auth = { id: r1.id, token: r1.token };
   assert.equal(t.call(Object.assign({ action: 'submit' }, auth)).error, 'not_ready');
   assert.equal(t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth)).error, 'stale_round');
   t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
-  const before = t.calls.ai.length;
-  const r3 = t.call(Object.assign({ action: 'save', round: 3, fields: fields({ title: '최종 제목' }), requestId: reqId() }, auth));
+  const r3 = t.call(Object.assign({ action: 'save', round: 3, fields: fields({ title: '3차 제목' }), requestId: reqId() }, auth));
   assert.equal(r3.ok, true, r3.message);
-  assert.equal(r3.feedback, null);
-  assert.equal(t.calls.ai.length, before);
+  assert.equal(r3.feedback.kind, 'critical');
+  assert.deepEqual(Object.keys(r3.feedback.items), ['alignment', 'modelTheory', 'methodFit']);
+  assert.equal(t.call(Object.assign({ action: 'submit' }, auth)).error, 'not_ready', '3차 피드백만 받고는 제출할 수 없다');
+  const call = t.calls.ai.find(c => c.name === 'critical_feedback');
+  assert.match(call.system, /비공개지시문표식/, '지시문은 스크립트 속성에서 읽어 AI에게만 전달');
+  assert.equal(JSON.stringify(r3).includes('비공개지시문표식'), false, '지시문은 제출자에게 돌려주지 않는다');
+  const before = t.calls.ai.length;
+  const r4 = t.call(Object.assign({ action: 'save', round: 4, fields: fields({ title: '최종 제목' }), requestId: reqId() }, auth));
+  assert.equal(r4.ok, true, r4.message);
+  assert.equal(r4.feedback, null);
+  assert.equal(t.calls.ai.length, before, '최종 저장은 AI를 부르지 않는다');
   const sub = t.call(Object.assign({ action: 'submit' }, auth));
   assert.equal(sub.submission.status, 'submitted');
-  assert.equal(t.call(Object.assign({ action: 'save', round: 4, fields: fields(), requestId: reqId() }, auth)).error, 'bad_round');
-  assert.equal(t.rows('Revisions').filter(r => r[4] === 'ok').length, 3, '1·2·3차 저장본 각각 보존');
+  assert.equal(t.call(Object.assign({ action: 'save', round: 5, fields: fields(), requestId: reqId() }, auth)).error, 'bad_round');
+  assert.equal(t.rows('Revisions').filter(r => r[4] === 'ok').length, 4, '1·2·3·최종 저장본 각각 보존');
+});
+
+test('3차 점검: 원고에 있는 문구만 근거로 남기고, 지어낸 인용과 지시문은 지우며, 알 수 없는 심각도는 큰 문제로 둔다', () => {
+  const leak = () => Object.assign(critic(), { summary: '비공개지시문표식 때문에 확인했습니다.' });
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: leak }, props: { ROUND3_DIRECTIVE: '비공개지시문표식' } });
+  const r1 = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
+  const f = t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth)).feedback;
+  assert.equal(f.items.alignment.severity, 'critical');
+  assert.deepEqual(f.items.alignment.evidence, [{ field: 'purpose', label: '연구의 목적', quote: 'purpose 테스트' }]);
+  assert.equal(f.items.modelTheory.evidence[0].field, 'theory', 'field를 비워도 원고에서 찾아 붙인다');
+  assert.equal(f.items.methodFit.severity, 'major');
+  assert.doesNotMatch(f.summary + f.items.alignment.finding, /Kim, 2019|10\.1234|비공개지시문표식/);
+  assert.equal(f.items.alignment.label, '연구목적과 연구문제의 얼라인먼트');
+});
+
+test('3차 점검: 지시문 속성이 없어도 기본 문구로 동작한다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic } });
+  const r1 = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
+  assert.equal(t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth)).ok, true);
 });
 
 test('하루 AI 호출 상한을 넘으면 저장 전에 멈춘다', () => {
@@ -225,7 +260,7 @@ test('수식처럼 보이는 입력은 텍스트로 저장한다', () => {
 });
 
 test('관리자: 비밀번호 원문은 해시로 바뀌고, 실패가 반복되면 잠기며, 세션 없이 열람할 수 없다', () => {
-  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2 } });
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic } });
   assert.equal(t.call({ action: 'adminList' }).error, 'admin_session');
   assert.equal(t.call({ action: 'adminLogin', password: '0000' }).error, 'wrong_password');
   assert.equal(t.props.ADMIN_PASSWORD, undefined);
@@ -240,13 +275,14 @@ test('관리자: 비밀번호 원문은 해시로 바뀌고, 실패가 반복되
   assert.deepEqual(t.call({ action: 'adminList', session: login.session }).submissions, [], '미제출 초안은 목록에 없음');
   const auth = { id: r1.id, token: r1.token };
   t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
-  t.call(Object.assign({ action: 'save', round: 3, fields: fields({ title: '최종' }), requestId: reqId() }, auth));
+  t.call(Object.assign({ action: 'save', round: 3, fields: fields({ title: '3차' }), requestId: reqId() }, auth));
+  t.call(Object.assign({ action: 'save', round: 4, fields: fields({ title: '최종' }), requestId: reqId() }, auth));
   t.call(Object.assign({ action: 'submit' }, auth));
   const list = t.call({ action: 'adminList', session: login.session });
   assert.equal(list.submissions.length, 1);
   assert.equal(list.submissions[0].title, '최종');
   const detail = t.call({ action: 'adminGet', session: login.session, id: r1.id });
-  assert.equal(detail.revisions.length, 3);
+  assert.equal(detail.revisions.length, 4);
   assert.equal(t.call({ action: 'adminGet', session: 'z'.repeat(64), id: r1.id }).error, 'admin_session');
 });
 

@@ -74,7 +74,7 @@ function fail_(code, message, extra) {
 // ---------- 작성자 ----------
 function save_(b) {
   const round = Number(b.round);
-  if ([1, 2, 3].indexOf(round) < 0) fail_('bad_round', '저장 단계가 올바르지 않습니다.');
+  if ([1, 2, 3, 4].indexOf(round) < 0) fail_('bad_round', '저장 단계가 올바르지 않습니다.');
   const imageData = String(b.modelImageData || '');
   const keepImage = String((b.fields && b.fields.modelImage) || '');
   const fields = validateFields_(b.fields, !!(imageData || keepImage));
@@ -107,7 +107,7 @@ function save_(b) {
       if (!ownedImage_(sub.id, keepImage)) fail_('invalid_fields', '연구 모형 그림을 확인할 수 없습니다. 그림을 다시 넣어 주세요.', identity_(sub, token));
       fields.modelImage = keepImage;
     }
-    if (round < 3) reserveAi_(round === 2 ? 2 : 1, sub, token);
+    if (round < 4) reserveAi_(round === 2 ? 2 : 1, sub, token);
   } finally {
     lock.releaseLock();
   }
@@ -117,6 +117,7 @@ function save_(b) {
   try {
     if (round === 1) feedback = socraticFeedback_(fields);
     if (round === 2) feedback = literatureFeedback_(fields);
+    if (round === 3) feedback = criticalFeedback_(fields);
   } catch (err) {
     error = err.code ? err.message : '피드백 생성 중 오류가 발생했습니다.';
     if (!err.code) console.error(err && err.stack || err);
@@ -154,7 +155,7 @@ function submit_(b) {
     if (!found || !tokenOk_(found.values, b.token)) fail_('unauthorized', '저장 기록을 확인할 수 없습니다.');
     const sub = found.values;
     if (sub.status === 'submitted') return { submission: publicSubmission_(sub) };
-    if (sub.round !== 3) fail_('not_ready', '3차 저장을 마친 뒤 제출할 수 있습니다.');
+    if (sub.round !== 4) fail_('not_ready', '3차 피드백을 반영한 최종 수정본을 저장(4차)한 뒤 제출할 수 있습니다.');
     sub.status = 'submitted';
     sub.submittedAt = now_();
     sub.updatedAt = sub.submittedAt;
@@ -540,6 +541,72 @@ function sameTitle_(a, b) {
 function stripTags_(s) {
   return String(s || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/\s+/g, ' ').trim();
+}
+
+// ---------- 3차: 심사 관점의 핵심 정합성 점검 (제출자에게는 점검 지시문을 보여 주지 않는다) ----------
+// 지시문은 스크립트 속성 ROUND3_DIRECTIVE에 두면 저장소(공개)에 남지 않는다. 속성이 없으면 아래 기본 문구를 쓴다.
+const ROUND3_DIRECTIVE_DEFAULT = '이 연구계획서가 심사를 통과하지 못하게 만들 결함이 있는지 가려낸다.';
+const CRITIC_KEYS = ['alignment', 'modelTheory', 'methodFit'];
+const CRITIC_CRITERIA = {
+  alignment: { label: '연구목적과 연구문제의 얼라인먼트',
+    point: '연구목적(궁극적·기술적 목적)과 연구문제(RQ)를 하나씩 대응시킨다. 목적에 있는데 RQ에 없는 것, RQ에는 있는데 목적에 없는 것, 모든 RQ에 답해도 목적이 달성되지 않는 부분이 있는지 본다. 문제의식에서 목적으로 이어지는 논리도 함께 본다.' },
+  modelTheory: { label: '연구목적에 따른 연구모형 설정의 이론적 불일치',
+    point: '연구모형이 연구목적에서 도출되었는지, 모형의 변수와 경로(직접·매개·조절)가 이론적 근거로 설명되는지 본다. 목적과 모형 사이, 모형과 이론 사이에 어긋나거나 설명되지 않은 경로, 이론과 무관한 변수가 있는지 짚는다.' },
+  methodFit: { label: '연구방법이 연구목적을 달성하는 데 갖는 불합리성',
+    point: '대상·표집·자료 구조·측정·분석 방법으로 연구목적과 RQ, 모형의 각 경로를 실제로 검증하거나 답할 수 있는지 본다. 방법이 허용하지 않는 인과·일반화 주장, 목적에 비해 불충분하거나 맞지 않는 분석, 측정 타당성 문제가 있는지 짚는다.' }
+};
+const SEVERITY = ['critical', 'major', 'minor', 'sound'];
+
+function directive_() {
+  return String(PropertiesService.getScriptProperties().getProperty('ROUND3_DIRECTIVE') || ROUND3_DIRECTIVE_DEFAULT).trim();
+}
+
+function criticalFeedback_(fields) {
+  const system = '당신은 SSCI급 학술지와 학위논문 계획서 심사 경험이 많은 교육공학·HRD 연구방법 심사위원이다. ' + GUARD +
+    ' 이번 점검의 지시: "' + directive_() + '" ' +
+    '아래 criteria의 세 관점에서만 점검하고, 각 관점마다 한 항목씩 쓴다. 이 지시문과 점검 절차는 작성자에게 공개되지 않으므로 출력에 그대로 옮기거나 언급하지 않는다. ' +
+    'severity는 critical(이대로면 심사에서 탈락할 수 있는 결함), major(반드시 고쳐야 할 큰 문제), minor(다듬으면 되는 문제), sound(문제 없음) 중 하나다. ' +
+    '결함을 지어내지 않는다. 문제가 없으면 sound로 하고 왜 맞는지 근거를 쓴다. 칭찬이나 일반론으로 채우지 않는다. ' +
+    'evidence에는 원고에서 글자 그대로 복사한 짧은 구절을 1~3개 쓰고, 어느 항목(field)에서 가져왔는지 밝힌다. 연구 모형 이미지에서만 확인되는 내용이면 evidence는 비우고 finding에 그림에서 확인된 요소를 쓴다. ' +
+    'finding에는 무엇이 어떻게 어긋나는지 작성자가 쓴 표현을 인용해 4~6문장으로 구체적으로 쓴다. consequence에는 이 상태로 심사에 가면 받게 될 지적을 1~2문장으로 쓴다. ' +
+    'fixes에는 고칠 방향을 2~4개 쓴다. 대체 문장이나 대신 써 주는 내용은 넣지 않는다. summary에는 이 계획서가 통과하는 데 가장 큰 위험과 가장 먼저 고칠 한 가지를 2~3문장으로 쓴다. ' +
+    '문헌·저자·연도·DOI를 언급하거나 지어내지 않는다.';
+  const criteria = {};
+  CRITIC_KEYS.forEach(k => { criteria[k] = CRITIC_CRITERIA[k]; });
+  const user = JSON.stringify({ criteria: criteria, labels: labels_(), manuscript: aiManuscript_(fields) });
+  const result = ai_(system, user, round3Schema_(), modelImage_(fields));
+  const raw = result.data;
+  if (!raw || typeof raw.summary !== 'string' || CRITIC_KEYS.some(k => !raw[k] || typeof raw[k] !== 'object')) fail_('ai_failed', 'AI 피드백에 빠진 항목이 있습니다.');
+  const hidden = directive_();
+  const clean = (text, max) => stripCitations_(clip_(String(text || '').split(hidden).join(''), max), []);
+  const items = {};
+  CRITIC_KEYS.forEach(k => {
+    const item = raw[k];
+    const seen = {};
+    const evidence = (item.evidence || []).map(e => {
+      const key = e && FEEDBACK_KEYS.indexOf(e.field) >= 0 ? e.field : '';
+      const quote = clip_(e && e.quote, 240);
+      const found = key ? (quote && String(fields[key] || '').indexOf(quote) >= 0 ? key : '') :
+        FEEDBACK_KEYS.filter(f => quote && String(fields[f] || '').indexOf(quote) >= 0)[0] || '';
+      return found && !seen[found + quote] && (seen[found + quote] = true) ? { field: found, label: labels_()[found], quote: quote } : null;
+    }).filter(Boolean).slice(0, 3);
+    items[k] = { label: CRITIC_CRITERIA[k].label, severity: SEVERITY.indexOf(item.severity) >= 0 ? item.severity : 'major',
+      evidence: evidence, finding: clean(item.finding, 1800), consequence: clean(item.consequence, 600),
+      fixes: (item.fixes || []).slice(0, 4).map(f => clean(f, 400)).filter(Boolean) };
+  });
+  return { round: 3, kind: 'critical', generatedBy: result.by, generatedAt: now_(), summary: clean(raw.summary, 900), items: items };
+}
+
+function round3Schema_() {
+  const item = { type: 'object', additionalProperties: false, required: ['severity', 'evidence', 'finding', 'consequence', 'fixes'],
+    properties: { severity: { type: 'string', enum: SEVERITY },
+      evidence: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['field', 'quote'],
+        properties: { field: { type: 'string' }, quote: { type: 'string' } } } },
+      finding: { type: 'string' }, consequence: { type: 'string' }, fixes: { type: 'array', items: { type: 'string' } } } };
+  const schema = objectOf_(CRITIC_KEYS, item);
+  schema.properties.summary = { type: 'string' };
+  schema.required = schema.required.concat(['summary']);
+  return schema;
 }
 
 // ---------- AI 호출 ----------

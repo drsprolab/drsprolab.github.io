@@ -1951,6 +1951,16 @@ span.warn { color: var(--warn); font-weight: 600; }
 .rh-withheld { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--accent-soft); color: var(--accent); }
 .rh-withheld { background: transparent; border: 1px solid var(--muted); color: var(--muted); margin-bottom: 4px; }
 .rh-comment p, .rh-comment li { overflow-wrap: anywhere; }
+.rh-critic { margin: 0 0 18px; }
+.rh-critic-summary { margin: 4px 0 12px; }
+.rh-critic-card { margin-top: 12px; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--muted); border-radius: 8px; background: var(--paper); }
+.rh-critic-card h4 { margin: 0 0 8px; font-size: 15px; }
+.rh-critic-card.is-critical { border-left-color: #c92d28; }
+.rh-critic-card.is-major { border-left-color: #b54708; }
+.rh-critic-card.is-minor { border-left-color: var(--accent); }
+.rh-critic-card.is-sound { border-left-color: #1a7f37; }
+.rh-sev { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--tint); color: var(--muted); }
+.rh-quote { color: var(--muted); font-size: 13.5px; }
 .rh-comment p { margin: 0 0 8px; }
 .rh-comment ol, .rh-comment ul { margin: 0 0 8px; padding-left: 1.3em; }
 .rh-sources { font-size: 13px; border-top: 1px dashed var(--line); padding-top: 8px; }

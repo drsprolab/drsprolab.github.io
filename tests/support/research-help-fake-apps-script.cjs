@@ -81,7 +81,7 @@ function setup(opts) {
         const system = gem ? body.system_instruction : body.messages[0].content;
         const raw = gem ? body.input : body.messages[1].content;
         const user = Array.isArray(raw) ? raw.find(p => p.type === 'text').text : raw;
-        const name = schema.properties.queries ? 'search_plan' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
+        const name = schema.properties.queries ? 'search_plan' : schema.properties.alignment ? 'critical_feedback' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
         calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
         if (!handler) throw new Error('unexpected AI call ' + name);

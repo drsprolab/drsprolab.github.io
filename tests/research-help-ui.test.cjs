@@ -7,7 +7,11 @@ const RH = require(path.join(__dirname, '../assets/js/research-help.js'));
 
 const KEYS = ['name', 'title', 'problem', 'purpose', 'model', 'rq', 'theory', 'method', 'implications'];
 const fields = extra => Object.assign(Object.fromEntries(KEYS.map(k => [k, k === 'name' ? '테스트 작성자' : `${k} 연구 내용`])), extra);
-const feedback = round => ({ round, kind: round === 1 ? 'socratic' : 'literature', generatedBy: 'AI (test)',
+const critical = () => ({ round: 3, kind: 'critical', generatedBy: 'AI (test)', summary: '종합 의견', items: {
+  alignment: { label: '연구목적과 연구문제의 얼라인먼트', severity: 'critical', evidence: [{ field: 'purpose', label: '연구의 목적', quote: '목적 구절' }], finding: '어긋납니다.', consequence: '지적됩니다.', fixes: ['고칩니다.'] },
+  modelTheory: { label: '모형 이론 불일치', severity: 'major', evidence: [], finding: 'f', consequence: 'c', fixes: [] },
+  methodFit: { label: '방법 불합리성', severity: 'sound', evidence: [], finding: 'f', consequence: 'c', fixes: [] } } });
+const feedback = round => round === 3 ? critical() : ({ round, kind: round === 1 ? 'socratic' : 'literature', generatedBy: 'AI (test)',
   items: Object.fromEntries(KEYS.slice(1).map(k => [k, round === 1 ? { focus: 'f', questions: ['q'] } : { status: 'reviewed', assessment: 'a', suggestions: [], sources: [] }])) });
 
 function memoryStorage() {
@@ -23,9 +27,9 @@ function fakeServer() {
       if (body.round !== s.round + 1) return { ok: false, error: 'stale_round', message: '단계 불일치' };
       s.round = body.round;
       return { ok: true, id: 'RH261029ABCDEF12', token: body.id ? undefined : 't'.repeat(64), round: body.round, savedAt: `2026-10-29T0${body.round}:00:00+09:00`,
-        feedback: body.round < 3 ? feedback(body.round) : null, submission: { round: body.round, status: 'draft' } };
+        feedback: body.round < 4 ? feedback(body.round) : null, submission: { round: body.round, status: 'draft' } };
     }
-    if (body.action === 'submit') return s.round === 3 ? { ok: true, submission: { status: 'submitted' } } : { ok: false, error: 'not_ready', message: '3차 저장 필요' };
+    if (body.action === 'submit') return s.round === 4 ? { ok: true, submission: { status: 'submitted' } } : { ok: false, error: 'not_ready', message: '최종 저장 필요' };
     return { ok: false, error: 'unsupported' };
   };
   return s;
@@ -80,16 +84,20 @@ test('서버 실패 시 단계를 유지하고, 재시도는 같은 요청 번�
   assert.notEqual(server.calls[2].requestId, server.calls[1].requestId);
 });
 
-test('3차 저장 전에는 제출할 수 없고, 3차 저장 후 제출하면 상태가 바뀐다', async () => {
+test('최종(4차) 저장 전에는 제출할 수 없고, 최종 저장 후 제출하면 상태가 바뀐다', async () => {
   const server = fakeServer();
   const app = RH.createController({ transport: server.transport });
   app.setFields(fields()); app.setConsent(true);
   await app.save(); await app.save();
-  await assert.rejects(app.submit(), /3차 저장/);
+  await assert.rejects(app.submit(), /최종 저장/);
   await app.save();
   assert.equal(app.state.round, 3);
-  assert.equal(app.state.history.length, 3);
-  await assert.rejects(app.save(), /3차 저장까지 완료/);
+  assert.equal(app.state.feedback[3].kind, 'critical', '3차 저장에서 핵심 정합성 점검을 받는다');
+  await assert.rejects(app.submit(), /최종 저장/, '3차 저장만으로는 제출할 수 없다');
+  await app.save();
+  assert.equal(app.state.round, 4);
+  assert.equal(app.state.history.length, 4);
+  await assert.rejects(app.save(), /최종 저장까지 완료/);
   await app.submit();
   assert.equal(app.state.status, 'submitted');
   await assert.rejects(app.save(), /이미 제출/);
@@ -124,7 +132,8 @@ test('PDF 문서: 작성자와 관리자 모두 최종 연구계획서와 1·2�
     { round: 1, status: 'ok', savedAt: 'a', fields: fields(), feedback: feedback(1) },
     { round: 2, status: 'failed', savedAt: 'b', fields: fields(), feedback: null },
     { round: 2, status: 'ok', savedAt: 'c', fields: fields(), feedback: feedback(2) },
-    { round: 3, status: 'ok', savedAt: 'd', fields: fields({ title: '최종 제목' }), feedback: null }
+    { round: 3, status: 'ok', savedAt: 'd', fields: fields({ title: '3차 제목' }), feedback: critical() },
+    { round: 4, status: 'ok', savedAt: 'e', fields: fields({ title: '최종 제목' }), feedback: null }
   ] };
   const mine = RH.pdfDocument(record, { history: false });
   assert.match(mine.title, /최종 제목/);
@@ -138,8 +147,12 @@ test('PDF 문서: 작성자와 관리자 모두 최종 연구계획서와 1·2�
     '2. 1차 피드백 · DrS comments (AI 생성)',
     '3. 1차 피드백 반영 수정본 (2차 저장) · c',
     '4. 2차 피드백 · DrS comments (AI 생성)',
-    '5. 2차 피드백 반영 최종 수정본 (3차 저장) · d'
+    '5. 2차 피드백 반영 수정본 (3차 저장) · d',
+    '6. 3차 피드백 · DrS comments (AI 생성)',
+    '7. 3차 피드백 반영 최종 수정본 (최종 저장) · e'
   ]);
+  assert.ok(history.some(b => b.text && b.text.includes('연구목적과 연구문제의 얼라인먼트')), '3차 점검 항목이 PDF 부록에 들어간다');
+  assert.ok(history.some(b => b.text && b.text.includes('어긋납니다.')));
   assert.deepEqual(RH.pdfDocument(record, { history: true }), all);
   assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('외부 AI(현재 Google Gemini)')));
   assert.equal(RH.pdfFileName(record), 'research-plan-테스트_작성자-RH261029ABCDEF12.pdf');

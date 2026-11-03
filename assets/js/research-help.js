@@ -1,4 +1,4 @@
-// Research help: 연구계획 9개 항목 작성 → 1·2차 저장(DrS comments, AI 생성) → 3차 저장(PDF) → 제출.
+// Research help: 연구계획 9개 항목 작성 → 1·2·3차 저장(DrS comments, AI 생성) → 최종 수정본 저장(PDF) → 제출.
 // 저장·피드백은 별도 Apps Script(research-help-backend)에서 처리한다. 서버가 실패하면 다음 단계로 넘어가지 않는다.
 (function (root, factory) {
   var api = factory();
@@ -25,7 +25,9 @@
   var FEEDBACK_FIELDS = FIELDS.slice(1);
   var STORE_KEY = 'research-help-v1';
   var AI_NOTICE = 'DrS comments는 외부 AI(현재 Google Gemini)가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
-  var STEP_LABELS = ['작성', '1차 저장', '2차 저장', '3차 저장', '제출'];
+  var CRITIC_KEYS = ['alignment', 'modelTheory', 'methodFit'];
+  var SEVERITY_LABELS = { critical: '치명적', major: '큰 문제', minor: '보완 권장', sound: '문제 없음' };
+  var STEP_LABELS = ['작성', '1차 저장', '2차 저장', '3차 저장', '최종 저장', '제출'];
 
   function emptyFields() {
     var o = {};
@@ -87,7 +89,7 @@
       if (state.busy) return Promise.reject(new Error('저장 중입니다. 잠시 기다려 주세요.'));
       if (state.status === 'submitted') return Promise.reject(new Error('이미 제출되었습니다.'));
       var round = state.round + 1;
-      if (round > 3) return Promise.reject(new Error('3차 저장까지 완료되었습니다. 제출해 주세요.'));
+      if (round > 4) return Promise.reject(new Error('최종 저장까지 완료되었습니다. 제출해 주세요.'));
       var fields;
       try { fields = validateFields(state.fields, !!(state.imagePending || state.fields.modelImage)); } catch (err) { return Promise.reject(err); }
       if (round === 1 && !state.id && !state.consent) return Promise.reject(new Error('외부 AI 전송 안내를 읽고 동의해 주세요.'));
@@ -118,7 +120,7 @@
     }
 
     function submit() {
-      if (state.round !== 3) return Promise.reject(new Error('3차 저장을 마친 뒤 제출할 수 있습니다.'));
+      if (state.round !== 4) return Promise.reject(new Error('3차 피드백을 반영한 최종 저장(4차)을 마친 뒤 제출할 수 있습니다.'));
       if (state.status === 'submitted') return Promise.resolve();
       state.busy = true;
       return call({ action: 'submit', id: state.id, token: state.token }).then(function (res) {
@@ -254,9 +256,22 @@
   function feedbackBlocks(feedback) {
     var blocks = [{ type: 'note', text: AI_NOTICE + ' (' + (feedback.generatedBy || 'AI') + ')' }];
     if (feedback.searchNote) blocks.push({ type: 'note', text: '문헌 확인 절차: ' + feedback.searchNote });
+    if (feedback.kind === 'critical') {
+      if (feedback.summary) blocks.push({ type: 'ci', text: '종합: ' + feedback.summary });
+      CRITIC_KEYS.forEach(function (k) {
+        var item = feedback.items && feedback.items[k];
+        if (!item) return;
+        blocks.push({ type: 'sq', text: item.label + ' · ' + (SEVERITY_LABELS[item.severity] || '') });
+        (item.evidence || []).forEach(function (e) { blocks.push({ type: 'ci', text: '원고에서 확인한 문구(' + e.label + '): “' + e.quote + '”' }); });
+        if (item.finding) blocks.push({ type: 'ci', text: item.finding });
+        if (item.consequence) blocks.push({ type: 'ci', text: '이대로 제출할 경우: ' + item.consequence });
+        (item.fixes || []).forEach(function (s) { blocks.push({ type: 'dash', text: s }); });
+      });
+      return blocks;
+    }
     FEEDBACK_FIELDS.forEach(function (f) {
       var item = feedback.items && feedback.items[f.key];
-      if (!item) return;
+      if (!item || feedback.kind === 'critical') return;
       blocks.push({ type: 'sq', text: f.label });
       if (feedback.kind === 'socratic') {
         if (item.anchor) blocks.push({ type: 'ci', text: '원고에서 확인한 문구: “' + item.anchor + '”' });
@@ -344,10 +359,10 @@
     if (lit) doc.blocks = doc.blocks.concat(recommendedBlocks(lit.feedback.recommended));
     if (opts.history !== false && oks.length) {
       doc.blocks.push({ type: 'h2', text: '부록. 연구계획 발전 과정', pageBreak: true });
-      doc.blocks.push({ type: 'note', text: '최초 작성본 → 1차 피드백 → 1차 수정본 → 2차 피드백 → 최종 수정본 순으로 수록했습니다. 각 작성본은 해당 차수에 저장한 원문이며, 피드백은 AI가 생성한 참고 의견입니다.' });
+      doc.blocks.push({ type: 'note', text: '최초 작성본 → 1차 피드백 → 1차 수정본 → 2차 피드백 → 2차 수정본 → 3차 피드백 → 최종 수정본 순으로 수록했습니다. 각 작성본은 해당 차수에 저장한 원문이며, 피드백은 AI가 생성한 참고 의견입니다.' });
       var n = 0;
       oks.forEach(function (r) {
-        var label = r.round === 1 ? '최초 작성본 (1차 저장)' : r.round === 2 ? '1차 피드백 반영 수정본 (2차 저장)' : '2차 피드백 반영 최종 수정본 (3차 저장)';
+        var label = r.round === 1 ? '최초 작성본 (1차 저장)' : r.round === 2 ? '1차 피드백 반영 수정본 (2차 저장)' : r.round === 3 ? '2차 피드백 반영 수정본 (3차 저장)' : '3차 피드백 반영 최종 수정본 (최종 저장)';
         doc.blocks.push({ type: 'h3', text: (++n) + '. ' + label + ' · ' + r.savedAt, pageBreak: n > 1 });
         doc.blocks = doc.blocks.concat(fieldBlocks(r.fields, record.images));
         if (r.feedback) {
@@ -500,6 +515,27 @@
     return wrap;
   }
 
+  // 3차 피드백: 항목별이 아니라 세 가지 핵심 정합성 점검으로 보여 준다.
+  function criticalNode(feedback) {
+    var box = el('div', { class: 'rh-comments rh-critic' }, [
+      el('div', { class: 'rh-comments-head' }, [el('strong', { text: 'DrS comments · 핵심 정합성 점검' }), el('span', { class: 'rh-ai-badge', text: 'AI 생성 · 3차' })])
+    ]);
+    if (feedback.summary) box.appendChild(el('p', { class: 'rh-critic-summary' }, [el('strong', { text: '종합 ' }), feedback.summary]));
+    CRITIC_KEYS.forEach(function (k) {
+      var item = feedback.items && feedback.items[k];
+      if (!item) return;
+      var card = el('section', { class: 'rh-comment rh-critic-card is-' + item.severity }, [
+        el('h4', {}, [item.label + ' ', el('span', { class: 'rh-sev', text: SEVERITY_LABELS[item.severity] || '' })])
+      ]);
+      (item.evidence || []).forEach(function (e) { card.appendChild(el('p', { class: 'rh-quote' }, [el('strong', { text: e.label + ' ' }), '“' + e.quote + '”'])); });
+      if (item.finding) card.appendChild(el('p', { text: item.finding }));
+      if (item.consequence) card.appendChild(el('p', {}, [el('strong', { text: '이대로 제출하면 ' }), item.consequence]));
+      if (item.fixes && item.fixes.length) card.appendChild(el('ul', {}, item.fixes.map(function (f) { return el('li', { text: f }); })));
+      box.appendChild(card);
+    });
+    return box;
+  }
+
   function mountStudent(rootEl) {
     var endpoint = rootEl.getAttribute('data-endpoint') || '';
     var app = createController({
@@ -520,8 +556,8 @@
     }
 
     function render() {
-      var s = app.state, locked = s.round >= 3 || s.status === 'submitted' || s.busy;
-      var stepIndex = s.status === 'submitted' ? 4 : s.round;
+      var s = app.state, locked = s.round >= 4 || s.status === 'submitted' || s.busy;
+      var stepIndex = s.status === 'submitted' ? 5 : s.round;
       rootEl.innerHTML = '';
       rootEl.appendChild(el('ol', { class: 'rh-steps', 'aria-label': '진행 단계' }, STEP_LABELS.map(function (label, i) {
         return el('li', { class: i < stepIndex ? 'is-done' : i === stepIndex ? 'is-current' : '', 'aria-current': i === stepIndex ? 'step' : false, text: label });
@@ -531,12 +567,13 @@
       var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
         : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
         : s.round === 2 ? '2차 피드백을 반영하는 단계입니다. 오른쪽의 새 의견을 보면서 왼쪽의 1차 수정본을 다시 다듬은 뒤 3차 저장해 주세요. 새 빈 작성란에서 다시 쓰는 방식이 아닙니다.'
-        : '최종본이 연구계획서 형식으로 정리되었습니다. PDF에는 최종 연구계획서와 최초 작성본·1차 피드백·수정본·2차 피드백·최종 수정본이 모두 포함됩니다.';
+        : s.round === 3 ? '3차 피드백을 반영하는 마지막 단계입니다. 위의 핵심 정합성 점검 의견을 보면서 왼쪽의 수정본을 고친 뒤 최종 저장해 주세요. 최종 저장을 마쳐야 제출할 수 있습니다.'
+        : '최종본이 연구계획서 형식으로 정리되었습니다. PDF에는 최종 연구계획서와 최초 작성본·세 차례의 피드백·수정본이 모두 포함됩니다.';
       rootEl.appendChild(el('p', { class: 'rh-revision-guide', text: guide }));
       if (s.round === 0 && !s.id) {
         rootEl.appendChild(el('label', { class: 'rh-consent' }, [
           el('input', { type: 'checkbox', checked: s.consent, onchange: function (e) { app.setConsent(e.target.checked); } }),
-          el('span', { text: '1·2차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
+          el('span', { text: '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
         ]));
       }
 
@@ -549,9 +586,10 @@
 
       var latest = s.feedback[2] || s.feedback[1] || null;
       var latestRound = s.feedback[2] ? 2 : 1;
-      if (s.round >= 3) rootEl.appendChild(proposalPreview(record()));
+      if (s.round >= 4) rootEl.appendChild(proposalPreview(record()));
+      if (s.feedback[3]) rootEl.appendChild(criticalNode(s.feedback[3]));
       var grid = el('div', { class: 'rh-grid' + (latest ? ' has-comments' : '') });
-      if (latest) grid.appendChild(el('div', { class: 'rh-grid-head', 'aria-hidden': 'true' }, [el('span', { text: s.round >= 3 ? '내가 작성한 내용 (최종 저장본)' : '내가 작성한 내용 (이 글을 이어서 수정)' }), el('span', { text: 'DrS comments · AI 생성 ' + latestRound + '차' })]));
+      if (latest) grid.appendChild(el('div', { class: 'rh-grid-head', 'aria-hidden': 'true' }, [el('span', { text: s.round >= 4 ? '내가 작성한 내용 (최종 저장본)' : '내가 작성한 내용 (이 글을 이어서 수정)' }), el('span', { text: 'DrS comments · AI 생성 ' + latestRound + '차' })]));
       FEEDBACK_FIELDS.forEach(function (f) {
         var counter = el('span', { class: 'rh-count', text: s.fields[f.key].length + ' / ' + f.max });
         var mine = el('div', { class: 'rh-mine' }, [
@@ -590,7 +628,7 @@
         }
         grid.appendChild(row);
       });
-      if (s.round >= 3) {
+      if (s.round >= 4) {
         rootEl.appendChild(el('details', { class: 'rh-saved-editor' }, [el('summary', { text: '작성 항목과 1·2차 피드백 다시 보기' }), grid]));
       } else rootEl.appendChild(grid);
       if (latest && latest.searchNote) rootEl.appendChild(el('p', { class: 'rh-note', text: '문헌 확인 절차: ' + latest.searchNote + ' 문헌 근거는 초록과 서지정보 범위에서만 사용했으며, 원문 내용은 직접 확인해 주세요.' }));
@@ -599,17 +637,18 @@
       if (s.status === 'submitted') {
         actions.appendChild(el('p', { class: 'rh-done', text: '제출이 완료되었습니다. 감사합니다.' }));
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(record(), {}, status); }, text: 'PDF 다운로드' }));
-      } else if (s.round >= 3) {
+      } else if (s.round >= 4) {
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(record(), {}, status); }, text: 'PDF 다운로드' }));
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', disabled: s.busy, onclick: doSubmit, text: s.busy ? '제출 중…' : '제출' }));
       } else {
-        var label = (s.round + 1) + '차 저장';
+        var label = s.round === 3 ? '최종 저장' : (s.round + 1) + '차 저장';
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', disabled: s.busy || !endpoint, onclick: doSave, text: s.busy ? busyLabel : label }));
         if (s.round < 2) actions.appendChild(el('span', { class: 'rh-hint', text: s.round === 0 ? '1차 피드백은 원고 근거를 짚고, 의도 확인 → 근거·가정 탐색 → 연구 항목 간 연결·수정 질문 순으로 생각을 돕습니다. 1–3분 걸릴 수 있습니다.' : '수정한 내용을 저장하면 검증된 SSCI 문헌에 근거한 2차 DrS comments가 표시됩니다. 2–5분 걸릴 수 있습니다.' }));
-        else actions.appendChild(el('span', { class: 'rh-hint', text: '3차 저장본이 최종본이 되며, PDF로 내려받고 제출할 수 있습니다.' }));
+        else if (s.round === 2) actions.appendChild(el('span', { class: 'rh-hint', text: '수정한 내용을 저장하면 연구목적·연구문제·연구모형·연구방법의 정합성을 점검한 3차 DrS comments가 표시됩니다. 1–3분 걸릴 수 있습니다.' }));
+        else actions.appendChild(el('span', { class: 'rh-hint', text: '최종 저장본이 연구계획서가 되며, 저장한 뒤 PDF로 내려받고 제출할 수 있습니다.' }));
       }
       rootEl.appendChild(actions);
-      if (s.round >= 3) rootEl.appendChild(el('p', { class: 'rh-hint', text: 'PDF 앞부분에는 최종 연구계획서가, 뒤쪽 부록에는 최초 작성부터 두 차례 피드백과 수정 과정이 순서대로 담깁니다.' }));
+      if (s.round >= 4) rootEl.appendChild(el('p', { class: 'rh-hint', text: 'PDF 앞부분에는 최종 연구계획서가, 뒤쪽 부록에는 최초 작성부터 세 차례 피드백과 수정 과정이 순서대로 담깁니다.' }));
       statusEl = el('p', { class: 'rh-status is-empty', role: 'status', 'aria-live': 'polite' });
       rootEl.appendChild(statusEl);
       if (s.id && s.status !== 'submitted') {
@@ -649,13 +688,13 @@
 
     function doSave() {
       var round = app.state.round + 1;
-      busyLabel = round === 3 ? '저장 중…' : round + '차 DrS comments를 만드는 중…';
+      busyLabel = round === 4 ? '저장 중…' : round + '차 DrS comments를 만드는 중…';
       var p = app.save();
       render();
-      status(round === 3 ? '최종본을 저장하는 중입니다…' : '저장하고 피드백을 만드는 중입니다. 창을 닫지 말아 주세요.');
+      status(round === 4 ? '최종본을 저장하는 중입니다…' : '저장하고 피드백을 만드는 중입니다. 창을 닫지 말아 주세요.');
       p.then(function () {
         render();
-        status(round === 3 ? '3차 저장(최종본)이 완료되었습니다. PDF를 내려받거나 제출해 주세요.' : round + '차 저장이 완료되었습니다. 오른쪽 DrS comments를 참고해 왼쪽 내용을 수정해 주세요.');
+        status(round === 4 ? '최종 저장이 완료되었습니다. PDF를 내려받거나 제출해 주세요.' : round === 3 ? '3차 저장이 완료되었습니다. 위의 핵심 정합성 점검 의견을 참고해 왼쪽 내용을 수정한 뒤 최종 저장해 주세요.' : round + '차 저장이 완료되었습니다. 오른쪽 DrS comments를 참고해 왼쪽 내용을 수정해 주세요.');
         var first = rootEl.querySelector('.rh-grid');
         if (first && first.scrollIntoView) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, function (err) {
@@ -719,19 +758,21 @@
         var body = el('div', { class: 'rh-detail' });
         function show(rev) {
           body.innerHTML = '';
-          var grid = el('div', { class: 'rh-grid' + (rev.feedback ? ' has-comments' : '') });
+          var perField = rev.feedback && rev.feedback.kind !== 'critical';
+          if (rev.feedback && rev.feedback.kind === 'critical') body.appendChild(criticalNode(rev.feedback));
+          var grid = el('div', { class: 'rh-grid' + (perField ? ' has-comments' : '') });
           FIELDS.forEach(function (f) {
             var img = f.key === 'model' && rev.fields.modelImage && rec.images && rec.images[rev.fields.modelImage];
             var row = el('section', { class: 'rh-row' }, [el('div', { class: 'rh-mine' }, [el('h3', { text: f.label }),
               img ? el('div', { class: 'rh-drop has-image is-locked' }, [el('img', { src: img, alt: '연구 모형 그림' })]) : null,
               el('p', { class: 'rh-text', text: rev.fields[f.key] })])]);
-            if (rev.feedback && f.key !== 'name') { var c = commentsNode(rev.feedback, rev.round); c.appendChild(itemNode(rev.feedback, f.key)); row.appendChild(c); }
+            if (perField && f.key !== 'name') { var c = commentsNode(rev.feedback, rev.round); c.appendChild(itemNode(rev.feedback, f.key)); row.appendChild(c); }
             grid.appendChild(row);
           });
           body.appendChild(grid);
         }
         var tabs = el('div', { class: 'rh-tabs', role: 'tablist' }, oks.map(function (r, i) {
-          return el('button', { type: 'button', role: 'tab', 'aria-selected': i === oks.length - 1 ? 'true' : 'false', text: r.round + '차 저장본', onclick: function (e) {
+          return el('button', { type: 'button', role: 'tab', 'aria-selected': i === oks.length - 1 ? 'true' : 'false', text: r.round === 4 ? '최종 저장본' : r.round + '차 저장본', onclick: function (e) {
             [].forEach.call(tabs.children, function (b) { b.setAttribute('aria-selected', 'false'); });
             e.target.setAttribute('aria-selected', 'true'); show(r);
           } });

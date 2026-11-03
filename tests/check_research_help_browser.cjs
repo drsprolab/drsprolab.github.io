@@ -19,6 +19,10 @@ const fb1 = () => Object.fromEntries(KEYS.map(k => [k, { focus: `작성하신 ${
 const fb2 = () => Object.fromEntries(KEYS.map(k => [k, k === 'theory'
   ? { status: 'reviewed', assessment: '근거 없음', suggestions: [], sources: [] }
   : { status: 'reviewed', assessment: `${k}: 상사 지원과 학습 전이의 관계는 [S1]에서 종단 자료로 보고되었습니다. 매개 경로를 명확히 하세요.`, suggestions: ['측정 시점을 분리하세요 [S1]'], sources: [{ id: 'S1', basis: '종단 표본에서 상사 지원이 전이에 미치는 영향을 보고' }] }]));
+const fb3 = () => ({ summary: '목적과 RQ의 대응이 통과를 가로막을 가장 큰 위험입니다.',
+  alignment: { severity: 'critical', evidence: [{ field: 'purpose', quote: '학습 전이' }], finding: '목적과 RQ가 어긋납니다.', consequence: '심사에서 지적됩니다.', fixes: ['RQ를 목적에 맞춥니다.'] },
+  modelTheory: { severity: 'major', evidence: [], finding: '모형 경로의 이론적 설명이 부족합니다.', consequence: '이론적 불일치로 지적됩니다.', fixes: ['경로별 논리를 씁니다.'] },
+  methodFit: { severity: 'minor', evidence: [], finding: '측정 시점을 분리해야 합니다.', consequence: '인과 해석이 제한됩니다.', fixes: ['종단 설계를 검토합니다.'] } });
 const work = {
   doi: 'https://doi.org/10.1111/test.1', title: 'Supervisor support and training transfer: a longitudinal test', publication_year: 2021,
   authorships: [{ author: { display_name: 'Test Author' } }],
@@ -29,7 +33,8 @@ const backend = setup({
   ai: {
     socratic_feedback: () => (aiFail-- > 0 ? { httpError: 400 } : fb1()),
     search_plan: () => ({ queries: [{ field: 'model', query: 'supervisor support training transfer' }] }),
-    literature_feedback: fb2
+    literature_feedback: fb2,
+    critical_feedback: fb3
   },
   web: url => {
     if (url.startsWith('https://api.openalex.org/')) return res(200, JSON.stringify({ results: [work] }));
@@ -143,22 +148,31 @@ function pdfPages(buf) {
 
 
     await p.click('.rh-actions button:has-text("3차 저장")');
+    await p.waitForSelector('.rh-critic');
+    assert.match(await p.locator('.rh-critic').innerText(), /연구목적과 연구문제의 얼라인먼트/);
+    assert.equal(await p.locator('.rh-critic-card').count(), 3);
+    assert.equal(await p.locator('.rh-actions button:has-text("제출")').count(), 0, '3차 피드백만 받고는 제출할 수 없다');
+    assert.equal(await p.getAttribute('#rh-problem', 'readonly'), null, '3차 피드백을 보면서 수정본을 계속 편집');
+    await p.screenshot({ path: outputDir + '/round3.png', fullPage: false });
+    await p.fill('#rh-problem', await p.inputValue('#rh-problem') + '\n3차 수정: 목적과 RQ의 대응을 맞춘다.');
+    await p.click('.rh-actions button:has-text("최종 저장")');
     await p.waitForSelector('.rh-actions button:has-text("제출")');
     assert.equal(await p.getAttribute('#rh-problem', 'readonly'), '');
 
     assert.equal(await p.locator('.rh-final-plan').isVisible(), true);
     assert.match(await p.locator('.rh-final-plan').innerText(), /1-1\. 연구의 문제의식/);
-    assert.match(await p.locator('.rh-final-plan').innerText(), /2차 수정: 검증된 문헌과 측정 시점을 반영한다/);
+    assert.match(await p.locator('.rh-final-plan').innerText(), /3차 수정: 목적과 RQ의 대응을 맞춘다/);
     await p.locator('.rh-final-plan').screenshot({ path: outputDir + '/final-proposal.png' });
     const auth = await p.evaluate(() => JSON.parse(localStorage.getItem('research-help-v1')));
     const record = backend.call({ action: 'load', ...auth });
     assert.equal(record.ok, true);
     const okRevisions = record.revisions.filter(r => r.status === 'ok');
-    assert.equal(okRevisions.length, 3);
+    assert.equal(okRevisions.length, 4);
     assert(!okRevisions[0].fields.problem.includes('1차 수정:'));
     assert(okRevisions[1].fields.problem.includes('1차 수정:'));
     assert(!okRevisions[1].fields.problem.includes('2차 수정:'));
     assert(okRevisions[2].fields.problem.includes('2차 수정:'));
+    assert(okRevisions[3].fields.problem.includes('3차 수정:'));
 
     // PDF 배치: 넘침 없이 최초 작성·양쪽 피드백·수정본이 모두 들어가는지 확인한다.
     const laid = await p.evaluate(record => {
@@ -188,6 +202,7 @@ function pdfPages(buf) {
     assert.ok(laid.headings.some(h => h.includes('최초 작성본')));
     assert.ok(laid.headings.some(h => h.includes('1차 피드백 ·')));
     assert.ok(laid.headings.some(h => h.includes('2차 피드백 ·')));
+    assert.ok(laid.headings.some(h => h.includes('3차 피드백 ·')));
 
     await p.click('.rh-actions button:has-text("제출")');
     await p.waitForSelector('.rh-done');
@@ -213,7 +228,7 @@ function pdfPages(buf) {
     assert.equal(pdfPages(listPdf), laid.pages, '작성자와 관리자 모두 전체 수정 이력 포함');
     await a.click('.rh-list-item');
     await a.waitForSelector('.rh-tabs');
-    assert.equal(await a.locator('.rh-tabs button').count(), 3);
+    assert.equal(await a.locator('.rh-tabs button').count(), 4);
     await a.click('.rh-tabs button >> nth=0');
     assert.equal(await a.locator('.rh-comments').count(), 8);
     const [adl] = await Promise.all([a.waitForEvent('download'), a.click('button:has-text("PDF 다운로드")')]);
