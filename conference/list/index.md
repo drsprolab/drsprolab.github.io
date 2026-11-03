@@ -2,7 +2,7 @@
 layout: page
 title: Conference
 eyebrow: Teaching & Research
-permalink: /conference/
+permalink: /conference/list/
 wide: true
 ---
 

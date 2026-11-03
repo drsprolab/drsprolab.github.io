@@ -1,0 +1,21 @@
+---
+layout: null
+permalink: /conference/
+sitemap: false
+---
+{% assign teaching = site.data.navigation | where: "title", "Teaching & Research" | first %}
+{% assign conference = teaching.children | where: "title", "Conference" | first %}
+{% assign first_conference = conference.children | first %}
+{% assign destination = first_conference.url | default: '/conference/asian-ahrd-2026/' %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ first_conference.title | default: 'Conference' }} · {{ site.title }}</title>
+  <link rel="canonical" href="{{ destination | absolute_url }}">
+  <meta http-equiv="refresh" content="0;url={{ destination | relative_url }}">
+  <script>window.location.replace({{ destination | relative_url | jsonify }} + window.location.search + window.location.hash);</script>
+</head>
+<body><p><a href="{{ destination | relative_url }}">{{ first_conference.title | default: '첫 번째 학회' }} 바로 보기</a></p></body>
+</html>
