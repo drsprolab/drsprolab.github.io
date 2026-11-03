@@ -15,6 +15,10 @@
     - { title: Research (Professor), url: /research/ }
     - { title: Research (Lab), url: /research/lab/ }
     - { title: Teaching, url: /teaching/ }
+    - title: Conference
+      url: /conference/
+      children:
+        - { title: Asian AHRD 2026, url: /conference/asian-ahrd-2026/ }
     - { title: PRO-AX Lab Review, url: /proax-lab-review/ }
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
@@ -41,7 +45,7 @@
   watch: [institutes, _data/institutes.yml, _data/institute_details.yml]
   children:
     - { title: 인문사회연구소, url: /institutes/humsoc/ }
-    - { title: 교육공학과 4단계 BK21, url: /institutes/bk21/ }
+    - { title: 교육과정혁신학과 4단계 BK21, url: /institutes/bk21/ }
     - { title: BK21 4단계 AIX 융합교육단, url: /institutes/bk21-aix/ }
     - { title: ECDI, url: /institutes/ecdi/ }
     - { title: 교육과정혁신학과, url: /institutes/curriculum/ }
