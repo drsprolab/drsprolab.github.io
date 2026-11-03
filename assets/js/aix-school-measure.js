@@ -641,6 +641,19 @@
       setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
     }).catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
   }
+  // 전체 응답학교 종합결과는 내가 응답하지 않아도 볼 수 있다(학교를 특정하지 않는 전체 집계라 "내 학교"가 필요 없음).
+  // 학교급마다 org를 비워 조회하면 모든 학교의 응답이 학교 번호로 구분되어 돌아온다(peers와 같은 방식).
+  function analyzeAll() {
+    state.tab = 'all'; state.me = null; state.pool = null;
+    viewAnalyzing('학교 응답을 모으고 있습니다');
+    var t0 = Date.now();
+    Promise.all(JOBS.map(function (j) { return fetchPeers(j, '').then(function (rs) { rs.forEach(function (r) { r.s = j + ':' + r.s; }); return rs; }); }))
+      .then(function (lists) {
+        state.pool = { group: '', org: '', rows: [] };
+        state.peers = [].concat.apply([], lists).map(scored);
+        setTimeout(viewResult, Math.max(0, 700 - (Date.now() - t0)));
+      }).catch(function () { viewError('응답을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
+  }
 
   // ---------- 화면: 결과 ----------
   function tabLabel(full, short) { return '<span class="aidx-tl">' + full + '</span><span class="aidx-ts">' + short + '</span>'; }
@@ -1187,6 +1200,7 @@
     else if (act === 'my' || act === 'report' || act === 'group' || act === 'peers' || act === 'all' || act === 'compare') {
       var me = load(LS_ME), tab = act === 'my' || act === 'report' ? 'me' : act;
       if (me) { state.me = me; state.pool = null; analyze(tab); return; }
+      if (tab === 'all') { analyzeAll(); return; }
       state.gateTab = tab;
       if (state.view !== 'home' || !document.getElementById('axr-gate')) go('home');
       document.getElementById('axr-gate-msg').textContent = ({ group: '우리 학교 종합 결과는', peers: '타 학교(학교급) 비교는', all: '전체 응답학교 종합결과는', compare: '응답자 구분별 비교는' }[tab] || '내 결과는') + ' 먼저 진단을 완료해야 볼 수 있습니다.';
