@@ -15,6 +15,10 @@
     - { title: Research (Professor), url: /research/ }
     - { title: Research (Lab), url: /research/lab/ }
     - { title: Teaching, url: /teaching/ }
+    - title: Conference
+      url: /conference/
+      children:
+        - { title: Asian AHRD 2026, url: /conference/asian-ahrd-2026/ }
     - { title: PRO-AX Lab Review, url: /proax-lab-review/ }
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
