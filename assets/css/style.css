@@ -2347,3 +2347,13 @@ details.rhb-ch { margin: 14px 0; border: 1px solid var(--line); border-radius: 1
 /* Conference network: match the site navigation and paper palette. */
 .conference-open { display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border:1px solid var(--line); border-radius:6px; background:var(--paper); color:var(--accent); text-decoration:none; font-size:14px; font-weight:500; }
 .conference-open:hover { background:var(--accent-soft); border-color:var(--accent); }
+
+/* Conference selection: neutral tabs, selected blue, gentle hover lift. */
+.conference-tabs a { display:inline-flex; align-items:center; background:var(--paper); transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease; }
+.conference-tabs a[aria-current="page"] { background:var(--accent); border-color:var(--accent); color:var(--paper); }
+@media (hover:hover) and (pointer:fine) {
+  .conference-tabs a:hover { background:var(--accent-soft); border-color:var(--accent); box-shadow:0 5px 14px rgba(29,79,134,.16); transform:translateY(-2px) scale(1.04); }
+  .conference-tabs a[aria-current="page"]:hover { background:var(--accent); }
+}
+.conference-tabs a:active { transform:scale(.98); }
+@media (prefers-reduced-motion:reduce) { .conference-tabs a { transition:none; } .conference-tabs a:hover, .conference-tabs a:active { transform:none; } }
