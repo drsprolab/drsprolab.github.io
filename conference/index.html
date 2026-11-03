@@ -13,9 +13,9 @@ sitemap: false
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ first_conference.title | default: 'Conference' }} · {{ site.title }}</title>
-  <link rel="canonical" href="{{ destination | absolute_url }}">
-  <meta http-equiv="refresh" content="0;url={{ destination | relative_url }}">
-  <script>window.location.replace({{ destination | relative_url | jsonify }} + window.location.search + window.location.hash);</script>
+  <meta name="robots" content="noindex,follow">
 </head>
-<body><p><a href="{{ destination | relative_url }}">{{ first_conference.title | default: '첫 번째 학회' }} 바로 보기</a></p></body>
+<body data-conference-redirect><p><a data-conference-entry href="{{ destination | relative_url }}">가까운 학회 바로 보기</a></p>
+{% include conference-routing.html %}
+</body>
 </html>

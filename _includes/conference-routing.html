@@ -1,0 +1,6 @@
+{% assign conference_teaching = site.data.navigation | where: "title", "Teaching & Research" | first %}
+{% assign conference_menu = conference_teaching.children | where: "title", "Conference" | first %}
+<script id="conference-schedule" type="application/json">[
+{% for event in conference_menu.children %}{"url":{{ event.url | relative_url | jsonify }},"starts_on":{{ event.starts_on | jsonify }},"ends_on":{{ event.ends_on | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}
+]</script>
+<script src="{{ '/assets/js/conference-routing.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
