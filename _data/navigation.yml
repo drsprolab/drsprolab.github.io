@@ -8,8 +8,8 @@
     - { title: Alumni, url: /members/#alumni }
 - title: Teaching & Research
   url: /research/
-  # new_until: 이 시각(유닉스 초)까지 NEW 표시 (2026-11-04 19:30 KST, 3일). 지나면 방문 시각 기준으로 저절로 사라짐
-  new_until: 1793788200
+  # new_until: 이 시각(유닉스 초)까지 NEW 표시. 교수님이 지우라고 할 때까지 유지(2026-11-03 고정, 4070908800 = 2099년)
+  new_until: 4070908800
   watch: [research.md, research, teaching.md, _data/publications.yml, _data/presentations.yml, _data/books.yml, _data/teaching.yml]
   children:
     - { title: Research (Professor), url: /research/ }
@@ -19,7 +19,7 @@
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
       url: /research-help/basics/
-      new_until: 1793788200
+      new_until: 4070908800
       children:
         - { title: 논문작성법(기초), url: /research-help/basics/ }
         - { title: 연구방법선택(중급), url: /research-help/methods/ }
