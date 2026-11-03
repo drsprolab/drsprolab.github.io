@@ -9,6 +9,11 @@ measurement_target: 학교 교원 (교사·부장교사·교감·교장)
 measurement_factors: 5단계 준비도 · 전반 인식 · 32문항
 measurement_summary: 우리 학교는 AI를 전제로 가르치고 배우는 학교로 바뀔 준비가 얼마나 되어 있을까요? 기반 마련에서 AI 내재화까지 다섯 단계로 학교 AIX 준비 성숙도를 진단합니다.
 measurement_use: 학교 AIX 준비 수준 진단 및 발전 전략 지원
+# /blog/ 목록 카드에 "설문 문항과 구조 설명" 다운로드 버튼을 보여 주는 데도 쓰인다(blog/index.html).
+structure_pdf_report: /assets/files/aix-school-structure-report.pdf
+structure_pdf_report_name: 우리학교AIX전환준비성숙도진단_문항과구조_보고용.pdf
+structure_pdf: /assets/files/aix-school-structure.pdf
+structure_pdf_name: 우리학교AIX전환준비성숙도진단_문항과구조_실무자용.pdf
 # 응답 저장소: Google Apps Script 웹앱 URL (tools/aix-school-measure/README.md). 비워 두면 시험 모드로, 응답이 이 브라우저에만 저장된다.
 endpoint: "https://script.google.com/macros/s/AKfycbzFBQTVCz2H2jlaWRaWe9_jj8MjAptDxG3yUqvA0sCNy9wYPcNDEkdYKOS0y85BQ7DI/exec"
 ---

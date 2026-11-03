@@ -9,6 +9,23 @@ lede: 개인의 행동과, 조직의 특성, 그리고 역량을 진단하고 �
 <div class="inst-grid">
   {% assign tools = site.posts | where: "category", "측정도구" | sort: "measurement_order" %}
   {% for tool in tools %}
+  {% if tool.structure_pdf %}
+  <div class="inst inst--multi">
+    {% if tool.image.path and tool.image.path contains '/assets/og/measurement/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tool.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+    <div class="tags"><span class="badge">{{ tool.measurement_badge | default: "역량 진단" }}</span><span class="badge">{{ tool.measurement_target }}</span></div>
+    <h3><a class="inst-main" href="{{ tool.url | relative_url }}">{{ tool.title }}</a></h3>
+    <div class="inst-docs">
+      <a class="inst-doc" href="{{ tool.structure_pdf_report | relative_url }}" download="{{ tool.structure_pdf_report_name }}">설문 문항과 구조 설명 (보고용)</a>
+      <a class="inst-doc" href="{{ tool.structure_pdf | relative_url }}" download="{{ tool.structure_pdf_name }}">설문 문항과 구조 설명 (실무자용)</a>
+    </div>
+    <p>{{ tool.measurement_summary }}</p>
+    <dl class="kv">
+      <dt>진단 대상</dt><dd>{{ tool.measurement_target }}</dd>
+      <dt>측정 요인</dt><dd>{{ tool.measurement_factors }}</dd>
+      <dt>활용</dt><dd>{{ tool.measurement_use | default: "요인별 특성 분석 및 교육·지원 설계" }}</dd>
+    </dl>
+  </div>
+  {% else %}
   <a class="inst" href="{{ tool.url | relative_url }}">
     {% if tool.image.path and tool.image.path contains '/assets/og/measurement/' %}<img class="inst-thumb inst-thumb--compact" src="{{ tool.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
     <div class="tags"><span class="badge">{{ tool.measurement_badge | default: "역량 진단" }}</span><span class="badge">{{ tool.measurement_target }}</span></div>
@@ -20,5 +37,6 @@ lede: 개인의 행동과, 조직의 특성, 그리고 역량을 진단하고 �
       <dt>활용</dt><dd>{{ tool.measurement_use | default: "요인별 특성 분석 및 교육·지원 설계" }}</dd>
     </dl>
   </a>
+  {% endif %}
   {% endfor %}
 </div>
