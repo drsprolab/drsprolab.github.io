@@ -10,6 +10,7 @@
   var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   var COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RM_FLOAT_S = 9; // assets/css/style.css의 @keyframes rm-float 지속시간과 같은 값이어야 한다
 
   var svg = d3.select('#rm-svg');
   var detail = document.getElementById('rm-detail');
@@ -94,8 +95,12 @@
         .on('start', function (e, n) { if (!e.active) sim.alphaTarget(0.05).restart(); n.fx = n.x; n.fy = n.y; })
         .on('drag', function (e, n) { n.fx = e.x; n.fy = e.y; })
         .on('end', function (e, n) { if (!e.active) sim.alphaTarget(0); n.pinned = true; d3.select(this).classed('pinned', true); }));
-    nodeSel.append('circle').attr('r', radius).attr('fill', color);
-    nodeSel.append('text').attr('class', 'rm-label').attr('dy', function (n) { return -radius(n) - 4; })
+    // 위치(translate)는 바깥 g(rm-node)가 시뮬레이션 틱으로 고정값을 가진다.
+    // 그 안의 rm-float는 각 노드의 phase로 시작 지점을 달리해 CSS 애니메이션만으로 살짝 떠다니게 한다(JS 틱 없이 GPU 합성, CPU 비용 거의 없음).
+    var floatSel = nodeSel.append('g').attr('class', 'rm-float')
+      .style('animation-delay', function (n) { return (-(n.phase / (2 * Math.PI)) * RM_FLOAT_S).toFixed(2) + 's'; });
+    floatSel.append('circle').attr('r', radius).attr('fill', color);
+    floatSel.append('text').attr('class', 'rm-label').attr('dy', function (n) { return -radius(n) - 4; })
       .text(function (n) { return n.type === 'kw' ? n.name : short(n.name, 24); });
     nodeSel.filter(function (n) { return n.type === 'kw'; }).raise(); // 키워드 라벨이 논문 점에 가리지 않게
 
@@ -116,10 +121,19 @@
     for (var i = 0; i < 300; i++) sim.tick();
     sim.on('tick')();
 
-    zoom = d3.zoom().scaleExtent([0.4, 5]).on('zoom', function (e) {
-      gAll.attr('transform', e.transform); k = e.transform.k;
-      svg.classed('zoomed', k >= 1.6);
-    });
+    zoom = d3.zoom().scaleExtent([0.4, 5])
+      // 크기(scale)는 오직 +/− 버튼(과 Fit 버튼)으로만 바꾼다. 휠 스크롤과 트랙패드 핀치(ctrlKey+wheel로 들어옴),
+      // 터치 핀치(멀티터치)는 모두 막아서, 버튼을 누르지 않는 한 지금 이 크기 그대로 고정한다.
+      // 한 손가락 드래그(배경 이동)는 확대/축소가 아니므로 그대로 둔다.
+      .filter(function (event) {
+        if (event.type === 'wheel') return false;
+        if (event.touches && event.touches.length > 1) return false;
+        return !event.ctrlKey && !event.button;
+      })
+      .on('zoom', function (e) {
+        gAll.attr('transform', e.transform); k = e.transform.k;
+        svg.classed('zoomed', k >= 1.6);
+      });
     svg.call(zoom).on('dblclick.zoom', null);
     fit(false);
   }
