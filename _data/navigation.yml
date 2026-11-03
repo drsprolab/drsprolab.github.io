@@ -20,6 +20,7 @@
       new_until: 4070908800
       children:
         - { title: Asian AHRD 2026, url: /conference/asian-ahrd-2026/ }
+        - { title: HRD 학회 2026-2, url: /conference/hrd-2026-2/ }
     - { title: PRO-AX Lab Review, url: /proax-lab-review/ }
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
