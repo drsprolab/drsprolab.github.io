@@ -652,6 +652,17 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 @media (prefers-reduced-motion: reduce) { .rm-float { animation: none; } }
 .rm-zoom { position: absolute; right: 12px; bottom: 12px; display: grid; gap: 4px; }
 .rm-zoom button { width: 32px; height: 32px; font: inherit; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); cursor: pointer; }
+/* 모바일: Research Map을 화면 가득 가로로 돌려 크게 보는 버튼(연구방법 도식의 '크게 보기'와 같은 방식) */
+.rmap-rotate-btn { display: none; }
+@media (max-width: 860px) {
+  .rmap-rotate-btn { display: inline-flex; align-items: center; gap: 4px; font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); cursor: pointer; }
+  .rmap-rotate-btn:hover, .rmap-rotate-btn:active { border-color: var(--accent); color: var(--accent); }
+}
+.rmap-zoom { position: fixed; inset: 0; z-index: 1000; background: var(--paper); display: flex; align-items: center; justify-content: center; }
+.rmap-zoom-close { position: fixed; top: 12px; right: 12px; z-index: 1; font: inherit; font-size: 14px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); }
+.rmap-zoom-inner { transform: rotate(90deg); }
+.rmap-zoom-inner .rmap-graph { border-radius: 0; }
+
 
 /* Soft academic background behind the home introduction. */
 .hero-intro {
@@ -2085,10 +2096,24 @@ span.warn { color: var(--warn); font-weight: 600; }
   box-shadow: 0 8px 24px rgba(10, 20, 35, .08); display: none;
 }
 .submenu .has-sub:hover > .submenu-sub, .submenu .has-sub:focus-within > .submenu-sub { display: block; }
+/* 모바일은 display:contents 대신(일부 iOS Safari에서 ul/li 기본 들여쓰기가 남는 버그가 있음) Conference·Research help를 제 줄로 두고
+   그 아래에 하위 항목을 같은 모양의 알약 버튼으로 줄바꿈해 보여 준다. */
 @media (max-width: 860px) {
-  .submenu .has-sub, .submenu-sub { display: contents; }
   .submenu .has-sub > a::after { content: none; }
-  .submenu .has-sub:hover > .submenu-sub, .submenu .has-sub:focus-within > .submenu-sub { display: contents; }
+  html.nav-open body > #site-nav.open .submenu > li.has-sub {
+    flex: 1 1 100% !important; width: 100% !important;
+  }
+  html.nav-open body > #site-nav.open .submenu-sub {
+    display: flex !important; flex-wrap: wrap !important; gap: 6px !important;
+    position: static !important; width: 100%; margin: 6px 0 0; padding: 0 !important;
+    min-width: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important;
+  }
+  html.nav-open body > #site-nav.open .submenu-sub li {
+    list-style: none; flex: 0 0 auto !important; width: auto !important; max-width: 100%;
+  }
+  html.nav-open body > #site-nav.open .submenu-sub a {
+    display: inline-block !important; width: auto !important; max-width: 100%;
+  }
 }
 
 /* 논문작성법(기초) */
