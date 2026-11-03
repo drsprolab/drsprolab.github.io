@@ -12,15 +12,15 @@ aside{width:360px;max-height:680px;overflow:auto;background:#0f1830;border:1px s
 aside h2{margin:0 0 6px;font-size:18px}.it{padding:10px 0;border-bottom:1px solid #1d2a49;font-size:13px;line-height:1.45}.it.s{border-left:3px solid #f5c451;padding-left:10px;background:rgba(245,196,81,.06)}.it b{color:#9fb0d4;font-weight:500;font-size:12px}
 .sch{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:#2a2410;color:#f5c451;font-size:12px}
 .lg{padding:10px 24px 30px}.grp{margin:10px 0}.grp h3{font-size:13px;margin:0 0 6px;color:#9fb0d4}.chip{display:inline-block;margin:3px;padding:5px 10px;border-radius:999px;font-size:12px;background:#142039;border:1px solid #2c3d66;cursor:pointer}.chip .st{color:#f5c451}
-.lbl{font-weight:700;pointer-events:none;text-anchor:middle;fill:#f3f6ff;paint-order:stroke;stroke:#0a1124;stroke-width:3px}.cnt{font-size:11px;fill:#0a1124;font-weight:800;text-anchor:middle;pointer-events:none}
+.lbl{font-weight:700;pointer-events:none;text-anchor:middle;fill:#f3f6ff;paint-order:stroke;stroke:#0a1124;stroke-width:3px}.cnt{font-size:10px;fill:#0a1124;font-weight:800;text-anchor:middle;pointer-events:none}
 .note{font-size:12px;color:#8494b8;padding:0 24px 20px}
 @keyframes pulse{0%,100%{stroke-opacity:.35;stroke-width:3}50%{stroke-opacity:1;stroke-width:7}}.glow{animation:pulse 1.8s ease-in-out infinite;fill:none;stroke:#f5c451}.noglow .glow,.noglow .spark{display:none}
 @keyframes tw{0%,100%{opacity:0}50%{opacity:1}}.spark{fill:#ffe7a3;animation:tw 1.6s infinite}
 @media(max-width:900px){main{flex-direction:column}aside{width:auto}}
 </style></head><body>
 <header><h1>Asian AHRD-Japan 2026 · Research Keyword Atlas<small>발표 제목 270건 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
-<div class="ctl"><input id="q" placeholder="키워드 검색"><button id="mv">일시정지</button><button class="gold" id="sb">★ Song Ji Hoon 발표 보기</button><button id="gl">반짝임 끄기</button><button id="rs">초기화</button></div></header>
-<main><div id="g"><svg></svg></div><aside id="pn"><h2>안내</h2><p style="font-size:13px;color:#9fb0d4">노드나 하단 키워드를 누르면 관련 발표 목록이 나타납니다. 금빛으로 반짝이는 노드는 Song Ji Hoon 공동저자 발표를 포함합니다.</p></aside></main>
+<div class="ctl"><input id="q" placeholder="키워드 검색"><button id="mv">일시정지</button><button class="gold" id="sb">★ DrS 발표 보기</button><button id="gl">반짝임 끄기</button><button id="rs">초기화</button></div></header>
+<main><div id="g"><svg></svg></div><aside id="pn"></aside></main>
 <section class="lg" id="lg"></section>
 <p class="note">제목 기반 탐색 분석입니다. 표시된 시간은 개별 논문이 아닌 세션 시작 시각이며, 일정은 변경될 수 있습니다.</p>
 <script>
@@ -31,16 +31,16 @@ let lab={};D.N.forEach(n=>lab[n.id]=n.id);for(let it=0;it<30;it++)D.N.forEach(n=
 const gs=[...new Set(Object.values(lab))].map(g=>D.N.filter(n=>lab[n.id]==g)).sort((a,b)=>d3.sum(b,x=>x.n)-d3.sum(a,x=>x.n));const gi={};gs.forEach((g,i)=>g.forEach(n=>gi[n.id]=i));
 const svg=d3.select("svg"),el=document.getElementById("g");let W=el.clientWidth,H=el.clientHeight;const root=svg.append("g");
 svg.call(d3.zoom().scaleExtent([.4,4]).on("zoom",e=>root.attr("transform",e.transform)));
-const r=d3.scaleSqrt().domain([0,60]).range([8,46]);const nodes=D.N.map(n=>({...n}));const links=D.E.map(([s,t,v])=>({source:s,target:t,v}));
+const r=d3.scaleSqrt().domain([0,60]).range([6,30]);const nodes=D.N.map(n=>({...n}));const links=D.E.map(([s,t,v])=>({source:s,target:t,v}));
 const L=root.append("g").selectAll("line").data(links).join("line").attr("stroke","#8fa6d8").attr("stroke-opacity",.25).attr("stroke-width",d=>d.v*.6);
 const G=root.append("g").selectAll("g").data(nodes).join("g").style("cursor","pointer").call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(.2).restart();d.fx=d.x;d.fy=d.y}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y}).on("end",(e,d)=>{d.fx=null;d.fy=null})).on("click",(e,d)=>show(d.id));
 G.filter(d=>d.s).append("circle").attr("class","glow").attr("r",d=>r(d.n)+6);
 G.append("circle").attr("r",d=>r(d.n)).attr("fill",d=>col[gi[d.id]%6]).attr("fill-opacity",.88).attr("stroke","#fff").attr("stroke-opacity",.25).style("filter","drop-shadow(0 0 8px rgba(124,227,209,.35))");
 G.append("text").attr("class","cnt").attr("dy",4).text(d=>d.n+"편");
-G.append("text").attr("class","lbl").attr("dy",d=>-r(d.n)-6).style("font-size",d=>Math.max(11,Math.min(17,8+d.n/5))+"px").text(d=>d.id);
+G.append("text").attr("class","lbl").attr("dy",d=>-r(d.n)-6).style("font-size",d=>Math.max(10,Math.min(15,8+d.n/6))+"px").text(d=>d.id);
 G.filter(d=>d.s).each(function(d){const g=d3.select(this);for(let i=0;i<5;i++){const a=i*1.256,R=r(d.n)+12;g.append("circle").attr("class","spark").attr("r",2.2).attr("cx",Math.cos(a)*R).attr("cy",Math.sin(a)*R).style("animation-delay",i*.3+"s")}
 g.append("text").attr("x",r(d.n)*.75).attr("y",r(d.n)*.95).attr("fill","#f5c451").style("font-size","12px").style("font-weight",800).text("★ "+d.s)});
-const sim=d3.forceSimulation(nodes).force("link",d3.forceLink(links).id(d=>d.id).distance(d=>150-d.v*3).strength(.25)).force("charge",d3.forceManyBody().strength(-420)).force("center",d3.forceCenter(W/2,H/2)).force("col",d3.forceCollide(d=>r(d.n)+18)).force("x",d3.forceX(W/2).strength(.04)).force("y",d3.forceY(H/2).strength(.05))
+const sim=d3.forceSimulation(nodes).force("link",d3.forceLink(links).id(d=>d.id).distance(d=>120-d.v*2).strength(.25)).force("charge",d3.forceManyBody().strength(-300)).force("center",d3.forceCenter(W/2,H/2)).force("col",d3.forceCollide(d=>r(d.n)+14)).force("x",d3.forceX(W/2).strength(.04)).force("y",d3.forceY(H/2).strength(.05))
 .on("tick",()=>{L.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);G.attr("transform",d=>`translate(${d.x},${d.y})`)});
 let moving=!matchMedia("(prefers-reduced-motion: reduce)").matches,t0=0;
 d3.timer(t=>{if(!moving)return;nodes.forEach((n,i)=>{n.vx+=Math.sin(t/1400+i)*.05;n.vy+=Math.cos(t/1700+i*1.3)*.05});if(sim.alpha()<.03)sim.alpha(.03).restart()});
@@ -52,10 +52,16 @@ const item=p=>`<div class="it ${p.s?'s':''}">${p.s?'<span style="color:#f5c451">
 function hl(id){G.style("opacity",d=>!id||d.id==id||adj[id].some(([m])=>m==d.id)?1:.18);L.attr("stroke-opacity",d=>!id?.25:(d.source.id==id||d.target.id==id)?.8:.05)}
 function show(id){hl(id);const ps=D.P.filter(p=>p.k.includes(id)).sort((a,b)=>b.s-a.s);const nb=(adj[id]||[]).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]+" "+x[1]).join(" · ");
 pn.innerHTML=`<h2>${id} <span style="color:#7ce3d1">${ps.length}편</span></h2>${nb?`<p style="font-size:12px;color:#9fb0d4">주요 연결: ${nb}</p>`:''}`+ps.map(item).join("")}
-sb.onclick=()=>{hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:#f5c451">★ Song Ji Hoon 발표 ${ps.length}편</h2><p style="font-size:12px;color:#9fb0d4">날짜 · 세션 시작 · 장소 · 세션</p>`+ps.map(item).join("")};
-rs.onclick=()=>{hl(null);q.value="";svg.transition().call(d3.zoom().transform,d3.zoomIdentity);sim.alpha(.8).restart()};
-q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return hl(null);const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)show(m.id)};
+sb.onclick=()=>{hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:#f5c451">★ DrS 발표 ${ps.length}편</h2><p style="font-size:12px;color:#9fb0d4">날짜 · 세션 시작 · 장소 · 세션</p>`+ps.map(item).join("")};
+rs.onclick=()=>{home();q.value="";svg.transition().call(d3.zoom().transform,d3.zoomIdentity);sim.alpha(.8).restart()};
+q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)show(m.id)};
 const chip=n=>`<span class="chip" data-k="${n.id}">${n.id} · ${n.n}편${n.s?` <span class="st">★ ${n.s}</span>`:''}</span>`;
 lg.innerHTML=`<h2 style="font-size:16px;margin:0">전체 핵심 키워드</h2>`+gs.map((g,i)=>`<div class="grp"><h3><span style="color:${col[i%6]}">●</span> 군집 ${i+1}</h3>${g.sort((a,b)=>b.n-a.n).map(chip).join("")}</div>`).join("")+(D.O.length?`<div class="grp"><h3>네트워크 표시 기준 미만 키워드</h3>${D.O.map(chip).join("")}</div>`:'');
 lg.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{show(c.dataset.k);el.scrollIntoView({behavior:"smooth"})});
+function home(){hl(null);const top=[...D.N].sort((a,b)=>b.n-a.n);const pr=[...D.E].sort((a,b)=>b[2]-a[2]).slice(0,8);
+pn.innerHTML=`<h2>전체 키워드 분석</h2><p style="font-size:12px;color:#9fb0d4">발표 ${D.P.length}건 · 키워드 ${D.N.length}개 · 연결 ${D.E.length}개<br>노드를 누르면 관련 발표가 표시됩니다. 금빛 노드는 DrS 공동저자 발표 포함.</p>
+<h3 style="font-size:13px;margin:14px 0 4px">키워드별 발표 편수</h3>`+top.map(n=>`<div class="bar" data-k="${n.id}" style="display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0;cursor:pointer"><span style="width:120px">${n.id}${n.s?' <span style=color:#f5c451>★</span>':''}</span><span style="flex:1;background:#142039;border-radius:4px;height:8px"><span style="display:block;height:8px;border-radius:4px;width:${n.n/top[0].n*100}%;background:${col[gi[n.id]%6]}"></span></span><span style="width:34px;text-align:right">${n.n}편</span></div>`).join("")+
+`<h3 style="font-size:13px;margin:16px 0 4px">자주 함께 등장한 키워드</h3>`+pr.map(([a,b,v])=>`<div style="font-size:12px;padding:3px 0">${a} ↔ ${b} <span style="color:#7ce3d1">${v}편</span></div>`).join("");
+pn.querySelectorAll(".bar").forEach(c=>c.onclick=()=>show(c.dataset.k))}
+home();
 </script></body></html>
