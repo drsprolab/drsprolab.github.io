@@ -2387,3 +2387,4 @@ details.rhb-ch { margin: 14px 0; border: 1px solid var(--line); border-radius: 1
 @keyframes drs-glow{0%,100%{box-shadow:0 0 0 0 rgba(212,160,60,0)}50%{box-shadow:0 0 9px 1px rgba(212,160,60,.4)}}
 @keyframes drs-twinkle{0%,100%{opacity:.55;transform:scale(.85) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(18deg)}}
 @media (prefers-reduced-motion: reduce){.drs-hl,.drs-hl .drs-star{animation:none}}
+.summary-copy .drs-hl{font-size:11.5px}
