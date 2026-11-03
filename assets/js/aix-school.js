@@ -288,8 +288,16 @@
   function copyBtn(id, small) { return '<button type="button" class="aidx-copy' + (small ? ' small' : '') + '" data-act="copycode" data-code="' + fmtId(id) + '">복사</button>'; }
   // 비교 집단 이름: 학교 이름이 있으면 같은 학교, 없으면 링크의 그룹, 둘 다 없으면 전체
   function groupLabel(P) { return P.org ? '우리 학교 ' + P.org : P.group ? '학교(그룹) ' + P.group : '전체 응답자'; }
-  // 같은 학교 판단: 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(apps-script.gs의 normOrg_와 같은 규칙).
-  function normOrg(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
+  // 같은 학교 판단: 띄어쓰기·대소문자·문장부호 차이, "학교" 축약(가상중학교=가상중, 나랑고등학교=나랑고)은 같은 학교로 본다(apps-script.gs의 normOrg_와 같은 규칙).
+  var ORG_SUFFIX = [['초등학교', '초'], ['고등학교', '고'], ['중학교', '중'], ['특수학교', '특수']];
+  function normOrg(s) {
+    var t = String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, '');
+    for (var i = 0; i < ORG_SUFFIX.length; i++) {
+      if (t.slice(-ORG_SUFFIX[i][0].length) === ORG_SUFFIX[i][0]) { t = t.slice(0, -ORG_SUFFIX[i][0].length) + ORG_SUFFIX[i][1]; break; }
+    }
+    if (t.slice(-2) === '학교') t = t.slice(0, -2);
+    return t;
+  }
   function stageTitle(k) { return k ? STAGE_NAMES[k] + '까지 준비됐어요!' : '아직 1단계부터 준비가 필요해요'; }
   function sc(v) { return v === null ? '–' : r0(v); }
 

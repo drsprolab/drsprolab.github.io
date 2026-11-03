@@ -31,8 +31,16 @@ function rows_() {
   var sh = sheet_(), n = sh.getLastRow() - 1;
   return n > 0 ? sh.getRange(2, 1, n, HEAD.length).getDisplayValues() : [];
 }
-// 띄어쓰기·대소문자·문장부호 차이는 같은 학교로 본다(aix-school.js의 normOrg와 같은 규칙).
-function normOrg_(s) { return String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, ''); }
+// 띄어쓰기·대소문자·문장부호 차이, "학교" 축약(가상중학교=가상중, 나랑고등학교=나랑고)은 같은 학교로 본다(aix-school.js의 normOrg와 같은 규칙).
+var ORG_SUFFIX_ = [['초등학교', '초'], ['고등학교', '고'], ['중학교', '중'], ['특수학교', '특수']];
+function normOrg_(s) {
+  var t = String(s || '').toLowerCase().replace(/[\s.,·()\[\]'"-]/g, '');
+  for (var i = 0; i < ORG_SUFFIX_.length; i++) {
+    if (t.slice(-ORG_SUFFIX_[i][0].length) === ORG_SUFFIX_[i][0]) { t = t.slice(0, -ORG_SUFFIX_[i][0].length) + ORG_SUFFIX_[i][1]; break; }
+  }
+  if (t.slice(-2) === '학교') t = t.slice(0, -2);
+  return t;
+}
 function cleanGroup_(g) { return String(g || '').trim().replace(/[^\w가-힣-]/g, '').slice(0, 40); }
 function validAnswers_(a) {
   if (!Array.isArray(a) || a.length !== ITEMS.length) return false;
