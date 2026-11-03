@@ -29,7 +29,7 @@ aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{mar
 </style></head><body>
 <nav class="atlas-back" aria-label="학회 목록"><a class="conference-open" href="/conference/list/" target="_top">← 학회 목록으로</a></nav>
 <header><h1>Asian AHRD-Japan 2026 · Research Keyword Atlas<span class="dt">2026.11.5-11.8</span><small>발표 제목 270건 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
-<div class="ctl"><input id="q" placeholder="키워드 검색"><button id="mv">일시정지</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS/S' Kids</button><button id="gl">반짝임 끄기</button><button id="rs">초기화</button></div></header>
+<div class="ctl"><input id="q" placeholder="키워드 검색"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS/S' Kids</button><button id="rs">초기화</button></div></header>
 <main><div id="g"><svg></svg></div><aside id="pn"></aside></main>
 <section class="lg" id="lg"></section>
 <p class="note">제목 기반 탐색 분석입니다. 표시된 시간은 개별 논문이 아닌 세션 시작 시각이며, 일정은 변경될 수 있습니다.</p>
@@ -58,14 +58,13 @@ const sim=d3.forceSimulation(nodes).force("link",d3.forceLink(links).id(d=>d.id)
 new ResizeObserver(()=>{const w=el.clientWidth,h=el.clientHeight;if(w===W&&h===H)return;W=w;H=h;sim.force("center",d3.forceCenter(W/2,H/2)).force("x",d3.forceX(W/2).strength(.04)).force("y",d3.forceY(H/2).strength(.05));contain();sim.alpha(.5).restart()}).observe(el);
 let moving=!matchMedia("(prefers-reduced-motion: reduce)").matches,t0=0;
 d3.timer(t=>{if(!moving)return;nodes.forEach((n,i)=>{n.vx+=Math.sin(t/1400+i)*.05;n.vy+=Math.cos(t/1700+i*1.3)*.05});if(sim.alpha()<.03)sim.alpha(.03).restart()});
-if(!moving){document.body.classList.add("noglow");mv.textContent="움직이기"}
-mv.onclick=()=>{moving=!moving;mv.textContent=moving?"일시정지":"움직이기"};
-gl.onclick=()=>{document.body.classList.toggle("noglow");gl.textContent=document.body.classList.contains("noglow")?"반짝임 켜기":"반짝임 끄기"};
+if(!moving)document.body.classList.add("noglow");
 const sch=p=>`<div class="sch">${p.d} · ${p.h} · ${p.room} · ${p.sess}</div>`;
 const item=(p,showSchedule=false)=>`<div class="it ${p.s?'s':''}">${p.s?'<span style="color:var(--atlas-gold)">★ </span>':''}${p.t}<br><b>${p.a} · ${p.sess}</b>${p.s||showSchedule?'<br>'+sch(p):''}</div>`;
 function hl(id){G.style("opacity",d=>!id||d.id==id||(adj[id]||[]).some(([m])=>m==d.id)?1:.18);L.attr("stroke-opacity",d=>!id?.25:(d.source.id==id||d.target.id==id)?.8:.05)}
 function show(id){pn.classList.add("is-list");pn.scrollTop=0;hl(id);const ps=D.P.filter(p=>p.k.includes(id)).sort((a,b)=>b.s-a.s);const nb=(adj[id]||[]).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]+" "+x[1]).join(" · ");
 pn.innerHTML=`<h2>${id} <span style="color:var(--accent)">${ps.length}편</span></h2>${nb?`<p style="font-size:12px;color:var(--muted)">주요 연결: ${nb}</p>`:''}`+ps.map(p=>item(p)).join("")}
+document.getElementById("overview").onclick=()=>{q.value="";home()};
 document.getElementById("all").onclick=()=>{pn.classList.add("is-list");hl(null);q.value="";pn.innerHTML=`<h2>모든 발표 ${D.P.length}편</h2><p style="font-size:12px;color:var(--muted)">전체 발표 목록 · 날짜 · 세션 시작 · 장소 · 세션</p>`+D.P.map(p=>item(p,true)).join("");pn.scrollTop=0};
 sb.onclick=()=>{pn.classList.add("is-list");pn.scrollTop=0;hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:var(--atlas-gold)">★ DrS/S' Kids 발표 ${ps.length}편</h2><p style="font-size:12px;color:var(--muted)">날짜 · 세션 시작 · 장소 · 세션</p>`+ps.map(p=>item(p)).join("")};
 rs.onclick=()=>{home();q.value="";sim.alpha(.8).restart()};
