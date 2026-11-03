@@ -32,7 +32,7 @@ aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{mar
 @media(max-width:540px){.seg{padding:16px 16px 0}.list-toggle .filter-results{max-height:400px}}
 </style></head><body>
 <nav class="atlas-back" aria-label="학회 목록"><a class="conference-open" href="/conference/list/" target="_top">← 학회 목록으로</a></nav>
-<header><h1>한국인력개발학회 2026 추계학술대회 · 키워드 네트워크<small>포스터·트랙 발표 86건 제목 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
+<header><h1>한국인력개발학회 2026 추계학술대회 · 키워드 네트워크<span class="dt">2026.11.20(금) 11:00-18:00</span><small>포스터·트랙 발표 86건 제목 기반 키워드 네트워크 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
 <div class="ctl"><input id="q" placeholder="키워드 검색"><button id="mv">일시정지</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS/S' Kids</button><button id="gl">반짝임 끄기</button><button id="rs">초기화</button></div></header>
 <div class="seg"><span class="lb" style="margin-left:0">소속</span><button data-f="org" data-v="all">전체</button><button class="hy" data-f="org" data-v="hy">한양대학교</button><span class="lb">발표 유형</span><button data-f="ty" data-v="all">전체</button><button data-f="ty" data-v="paper">논문 발표</button><button data-f="ty" data-v="poster">포스터</button><span class="lb" style="font-size:11px"><span style="color:#3276aa">●</span> 노드 테두리: 논문 발표 / <span style="color:#a66b24">●</span> 포스터 비율</span></div>
 <main><div id="g"><svg></svg></div><aside id="pn"></aside></main>
@@ -80,14 +80,14 @@ if(!moving){document.body.classList.add("noglow");mv.textContent="움직이기"}
 mv.onclick=()=>{moving=!moving;mv.textContent=moving?"일시정지":"움직이기"};
 gl.onclick=()=>{document.body.classList.toggle("noglow");gl.textContent=document.body.classList.contains("noglow")?"반짝임 켜기":"반짝임 끄기"};
 const badge=p=>p.ty=="poster"?`<span class="tb" style="background:${PC}">포스터</span>`:`<span class="tb" style="background:${AC}">논문 발표</span>`;
-const sch=p=>`<div class="sch">${p.h} · ${p.room} · ${p.sess}</div>`;
+const sch=p=>`<div class="sch">11.20.금 · ${p.h} · ${p.room} · ${p.sess}</div>`;
 const item=p=>`<div class="it ${p.s?'s':''}">${badge(p)} ${p.s?'<span style="color:var(--atlas-gold)">★ </span>':''}${p.t}<br><b>${p.a}</b><br>${sch(p)}</div>`;
 const sortP=ps=>ps.sort((a,b)=>b.s-a.s||(a.ty==b.ty?0:a.ty=="paper"?-1:1));
 const split=ps=>{const pa=ps.filter(p=>p.ty=="paper"),po=ps.filter(p=>p.ty=="poster");return (pa.length?`<h3 class="sh" style="color:${AC}">논문 발표 ${pa.length}편</h3>`+sortP(pa).map(item).join(""):"")+(po.length?`<h3 class="sh" style="color:${PC}">포스터 ${po.length}편</h3>`+sortP(po).map(item).join(""):"")};
 function hl(id){G.style("opacity",d=>!id||d.id==id||(adj[id]||[]).some(([m])=>m==d.id)?1:.18);L.attr("stroke-opacity",d=>!id?.25:(d.source.id==id||d.target.id==id)?.8:.05)}
 function show(id){pn.classList.add("is-list");pn.scrollTop=0;hl(id);const ps=D.P.filter(p=>p.k.includes(id));const nb=[...(adj[id]||[])].sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]+" "+x[1]).join(" · ");
 pn.innerHTML=`<h2>${id} <span style="color:var(--accent)">${ps.length}편</span></h2>${nb?`<p style="font-size:12px;color:var(--muted)">주요 연결: ${nb}</p>`:''}`+split(ps)}
-sb.onclick=()=>{pn.classList.add("is-list");pn.scrollTop=0;hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:var(--atlas-gold)">★ DrS/S' Kids 발표 ${ps.length}편</h2><p style="font-size:12px;color:var(--muted)">시작 시간 · 장소 · 세션 (서울대학교)</p>`+(ps.length?split(ps):'<p style="font-size:13px">현재 필터에 해당하는 발표가 없습니다.</p>')};
+sb.onclick=()=>{pn.classList.add("is-list");pn.scrollTop=0;hl(null);G.style("opacity",d=>d.s?1:.2);const ps=D.P.filter(p=>p.s);pn.innerHTML=`<h2 style="color:var(--atlas-gold)">★ DrS/S' Kids 발표 ${ps.length}편</h2><p style="font-size:12px;color:var(--muted)">11.20.금 · 시작 시간 · 장소 · 세션 (서울대학교)</p>`+(ps.length?split(ps):'<p style="font-size:13px">현재 필터에 해당하는 발표가 없습니다.</p>')};
 document.getElementById("all").onclick=()=>{hl(null);pn.classList.add("is-list");pn.scrollTop=0;q.value="";pn.innerHTML=`<h2>모든 발표 ${D.P.length}편</h2><p class="summary-copy">${scope()} · 시작 시간 · 장소 · 세션</p>`+split(D.P)};
 rs.onclick=()=>{F.org="all";F.ty="all";q.value="";refresh();};
 q.oninput=()=>{const v=q.value.trim().toLowerCase();if(!v)return home();const m=nodes.find(n=>n.id.toLowerCase().includes(v));if(m)show(m.id)};
