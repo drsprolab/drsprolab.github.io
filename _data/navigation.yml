@@ -19,6 +19,7 @@
       url: /conference/
       new_until: 4070908800
       children:
+        - { title: UFHRD 2026, url: /conference/ufhrd-2026/, starts_on: "2026-06-17", ends_on: "2026-06-19" }
         - { title: Asian AHRD 2026, url: /conference/asian-ahrd-2026/, starts_on: "2026-11-05", ends_on: "2026-11-08" }
         - { title: 교육공학회 - 2026-2, url: /conference/kset-2026-2/, starts_on: "2026-11-13", ends_on: "2026-11-14" }
         - { title: HRD 학회 2026-2, url: /conference/hrd-2026-2/, starts_on: "2026-11-20", ends_on: "2026-11-20" }
