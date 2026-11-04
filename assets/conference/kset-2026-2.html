@@ -14,7 +14,7 @@ header{padding:24px 28px 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:c
 h1{margin:0;font-size:24px;letter-spacing:-.025em}h1 small{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:8px;line-height:1.7}
 .ctl{display:flex;gap:8px;flex-wrap:wrap}button,input{background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer}input{cursor:text;width:150px}input::placeholder{color:var(--muted)}
 button.gold{border-color:var(--atlas-gold);color:var(--atlas-gold);background:var(--atlas-gold-soft)}button:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-main{display:flex;gap:16px;padding:24px 28px}#g{flex:1;min-width:0;height:720px;min-height:0;border-radius:12px;background-color:var(--tint);background-image:radial-gradient(ellipse 70% 55% at 50% 38%,var(--atlas-gold-soft),transparent 70%),radial-gradient(var(--atlas-dot) 1.4px,transparent 1.4px);background-size:auto,22px 22px;background-position:center,-4px -4px;border:1px solid var(--line);position:relative;overflow:hidden}#g{cursor:default}@media(max-width:640px){#g{cursor:zoom-in}}.atlas-zoom-hint{display:none;margin:6px 0 0;font-size:11.5px;color:var(--muted);text-align:center}@media(max-width:640px){.atlas-zoom-hint{display:block}}.atlas-zoom{position:fixed;inset:0;z-index:1000;background:var(--paper);display:flex;align-items:center;justify-content:center}.atlas-zoom-close{position:fixed;top:12px;right:12px;z-index:1;font:inherit;font-size:14px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink)}.atlas-zoom-inner{transform:rotate(90deg)}.atlas-zoom-inner #g{border-radius:0}svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+main{display:flex;gap:16px;padding:24px 28px}#g{flex:1;min-width:0;height:720px;min-height:0;border-radius:12px;background-color:var(--tint);background-image:radial-gradient(ellipse 70% 55% at 50% 38%,var(--atlas-gold-soft),transparent 70%),radial-gradient(var(--atlas-dot) 1.4px,transparent 1.4px);background-size:auto,22px 22px;background-position:center,-4px -4px;border:1px solid var(--line);position:relative;overflow:hidden}svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 aside{width:420px;max-height:none;overflow:visible;align-self:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px}
 aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{margin:0 0 8px;font-size:20px}.it{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.7}.it.s{border-left:3px solid var(--atlas-gold);padding-left:12px;background:var(--atlas-gold-soft)}.it b{color:var(--muted);font-weight:400;font-size:12px}
 .sch{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:4px;background:var(--atlas-gold-soft);color:var(--atlas-gold);font-size:12px}
@@ -35,7 +35,7 @@ aside.is-list{max-height:720px;overflow-y:auto;scrollbar-width:thin}aside h2{mar
 <header><h1>한국교육공학회 2026 추계공동학술대회 · 키워드 네트워크<span class="dt">2026.11.13(금)-11.14(토)</span><small>Day 2 논문 발표·포스터·미디어전 179건 제목 기반 · 원 크기 = 발표 편수, 선 두께 = 동시 등장 횟수</small></h1>
 <div class="ctl"><input id="q" placeholder="검색(키워드·저자)"><button id="overview">전체 키워드 분석</button><button id="all">모든 발표</button><button class="gold" id="sb">★ DrS &amp; S'Kids</button><button id="rs">초기화</button></div></header>
 <div class="seg"><span class="lb" style="margin-left:0">소속</span><button data-f="org" data-v="all">전체</button><button class="hy" data-f="org" data-v="hy">한양대학교</button><span class="lb">발표 유형</span><button data-f="ty" data-v="all">전체</button><button data-f="ty" data-v="paper">논문 발표</button><button data-f="ty" data-v="poster">포스터</button><button data-f="ty" data-v="media">미디어전</button><span class="lb" style="font-size:11px">노드 테두리: <span style="color:#3276aa">●</span> 논문 발표 / <span style="color:#a66b24">●</span> 포스터 / <span style="color:#8a4f9e">●</span> 미디어전 비율</span></div>
-<main><div id="g"><svg></svg></div><p class="atlas-zoom-hint">그림을 누르면 가로로 크게 볼 수 있습니다.</p><aside id="pn"></aside></main>
+<main><div id="g"><svg></svg></div><aside id="pn"></aside></main>
 <section class="lg" id="lg"></section>
 <p class="note">발표 제목 기반 탐색 분석입니다. 제공된 프로그램 이미지(Day 2, 11.14 토)만 반영했습니다. 논문 발표 시간은 세션 시작 시각이며, 장소는 건국대학교 법학관입니다. 일정은 변경될 수 있습니다.</p>
 <script>
@@ -107,35 +107,4 @@ refresh();
 function reportHeight(){if(parent!==window)parent.postMessage({type:"conference-atlas-height",height:Math.ceil(document.body.getBoundingClientRect().height)},location.origin)}
 new ResizeObserver(reportHeight).observe(document.body);
 if(document.fonts)document.fonts.ready.then(reportHeight);
-</script><script>
-// 모바일: 네트워크를 누르면 화면 가득 가로로 돌려 크게 본다(실제 그래프를 옮겨서 선택·드래그는 그대로 동작, ResizeObserver가 새 크기에 맞춰 다시 배치한다)
-(function () {
-  var small = window.matchMedia('(max-width:640px)');
-  var g = document.getElementById('g');
-  if (!g) return;
-  g.addEventListener('click', function () {
-    if (!small.matches || g.classList.contains('is-zoomed')) return;
-    var parent = g.parentNode, next = g.nextSibling;
-    var overlay = document.createElement('div'); overlay.className = 'atlas-zoom'; overlay.setAttribute('role', 'dialog'); overlay.setAttribute('aria-label', '네트워크 크게 보기');
-    var close = document.createElement('button'); close.type = 'button'; close.className = 'atlas-zoom-close'; close.textContent = '닫기 ✕';
-    var inner = document.createElement('div'); inner.className = 'atlas-zoom-inner';
-    overlay.append(close, inner);
-    document.body.append(overlay);
-    document.body.style.overflow = 'hidden';
-    inner.append(g);
-    g.classList.add('is-zoomed');
-    g.style.width = (window.innerHeight - 64) + 'px';
-    g.style.height = (window.innerWidth - 24) + 'px';
-    function shut() {
-      g.style.width = ''; g.style.height = ''; g.classList.remove('is-zoomed');
-      if (next) parent.insertBefore(g, next); else parent.appendChild(g);
-      overlay.remove(); document.body.style.overflow = '';
-      document.removeEventListener('keydown', onEsc);
-    }
-    function onEsc(e) { if (e.key === 'Escape') shut(); }
-    close.addEventListener('click', function (e) { e.stopPropagation(); shut(); });
-    overlay.addEventListener('click', function (e) { if (e.target === overlay) shut(); });
-    document.addEventListener('keydown', onEsc);
-  });
-})();
 </script></body></html>
