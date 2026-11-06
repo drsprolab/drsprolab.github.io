@@ -21,7 +21,7 @@
     <li value="{{ publication_number }}" data-tags="{{ p.index | join: ' ' | upcase }}">
       <span class="publication-number" aria-hidden="true">{{ publication_number }}.</span>
       <span class="cite">{{ p.citation }}</span>
-      {% if p.index %}<span class="idx">{% for i in p.index %}<span class="badge">{{ i }}</span>{% endfor %}</span>{% endif %}
+      {% if p.index or p.url %}<span class="idx">{% for i in p.index %}<span class="badge">{{ i }}</span>{% endfor %}{% if p.url %}<a class="badge" href="{{ p.url }}" target="_blank" rel="noopener">원문</a>{% endif %}</span>{% endif %}
     </li>
     {% assign publication_number = publication_number | minus: 1 %}
     {% endfor %}
