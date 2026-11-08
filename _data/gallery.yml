@@ -1,5 +1,29 @@
 # 갤러리. 사진은 assets/images/gallery/ 에 있고 image 에 파일 이름을 적습니다.
 conferences:
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-53b76d2213.jpg"
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-8fb6a54c04.jpg"
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-6b361b4929.jpg"
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-dd148b3be8.jpg"
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-85f33ebcec.jpg"
+  - title: "2026 AHRD Japan"
+    year: 2026
+    month: 11
+    image: "conferences-3b29ec4978.jpg"
   - title: "2026 고용·직업능력개발 학술대회"
     year: 2026
     month: 8
