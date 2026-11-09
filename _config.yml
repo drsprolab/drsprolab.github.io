@@ -2,6 +2,7 @@ title: PRO AnalytiX Lab
 subtitle: People-Relation-Organization-AX
 description: 한양대학교 교육공학과 송지훈 교수 연구실
 lang: ko
+bilingual_preview: true
 locale: ko_KR
 author: Ji Hoon Song
 email: jhsong77@hanyang.ac.kr
@@ -44,6 +45,9 @@ exclude:
   - research-help-backend
   - _config.preview.yml
   - LOCAL_REVIEW.md
+  - ENGLISH_REVIEW.md
+  - _config.english-preview.yml
+  - _site-en-preview
 
 # 링크 공유 미리보기(Open Graph) 기본 이미지. Weekly Insight 글은 글마다 따로 만든 이미지를 쓴다(_plugins/og_image.rb).
 defaults:

@@ -1,0 +1,339 @@
+/* PRO-AX Lab Review — 대문(보드)
+ * 논문 리뷰 카드와 Concept map 카드를 각각 불러와 박스형으로 보여 줍니다.
+ * 카드를 누르면 본문 페이지로 이동하며, 누구나 열람할 수 있습니다.
+ * 주차별로 묶습니다. 논문 리뷰는 다음 주 수요일 밤 10시, Concept map은 그 주 목요일 오전 10시에 접습니다.
+ */
+(function () {
+  'use strict';
+
+  var PL = window.PL;
+  var BEST_ADMIN_MODE = new URLSearchParams(window.location.search).get('best-admin') === '1';
+
+  var state = {
+    reviews: [],
+    maps: []
+  };
+
+  var els = {
+    reviewEntries: document.getElementById('reviewEntries'),
+    reviewSub: document.getElementById('reviewSub'),
+    mapEntries: document.getElementById('mapEntries'),
+    mapSub: document.getElementById('mapSub')
+  };
+
+  function tags(values) {
+    var list = values.filter(Boolean);
+    if (!list.length) return '';
+    return '<div class="tags">' + list.map(function (v) {
+      return '<span class="badge">' + PL.esc(v) + '</span>';
+    }).join('') + '</div>';
+  }
+
+  // 제출자 이름 — 카드 맨 위에 크게
+  function who(name) {
+    return '<div class="inst-who">' + PL.esc(name || "Unnamed") + '</div>';
+  }
+
+  function countLabel(list) {
+    return "All " + list.length + " entries";
+  }
+
+  function isBest(row) {
+    return String(row.best_of_week).toLowerCase() === 'true';
+  }
+
+  function bestControl(row, kind) {
+    var best = isBest(row);
+    var weekLocked = state[kind].some(function (item) {
+      return isBest(item) && String(item.week_key || '') === String(row.week_key || '');
+    });
+    if (!best && weekLocked) return '';
+    if (best) return '<span class="best-week-badge">Best Review of Week</span>';
+    if (!BEST_ADMIN_MODE || !PL.isBestAdmin()) return '';
+    return "<label class=\"best-checkbox\" title=\"Select Best Review of Week\">" +
+      '<input type="checkbox" data-best-kind="' + kind + '" data-best-id="' + PL.esc(row.id) +
+      '" aria-label="' + PL.esc((row.student || "Unnamed") + ' · Best Review of Week') +
+      '" />' +
+      '<span class="best-week-badge" hidden>Best Review of Week</span></label>';
+  }
+
+  function summaryOf(row) {
+    return PL.snippet(row.r5_message || row.r2_problem || row.r1_reason || '', 200);
+  }
+
+  /* ---------- 주차 묶음 ----------
+   * 완료된 주차는 해당 주차의 마감 일정에 맞춰 목요일 오전 10시에 접습니다.
+   * 논문 리뷰(일요일 마감)는 다음 주 목요일, Concept map(수요일 마감)은 같은 주 목요일에 접습니다.
+   * 새 주차만 마감 시각까지 펼쳐 두고, 이미 묶인 이전 주차는 계속 접힌 상태로 둡니다.
+   */
+  var FOLD_HOUR = 10;
+  var REVIEW_FOLD_HOUR = 22;
+
+  // Concept map: 이번 주 목요일 10시에 접습니다(가장 최근 주차만 펼침).
+  function currentWeekFoldAt(now) {
+    var d = PL.weekStart(now);
+    d.setDate(d.getDate() + 3); // 이번 주 목요일
+    d.setHours(FOLD_HOUR, 0, 0, 0);
+    return d;
+  }
+
+  // 논문 리뷰: 일요일 22:00 마감 → 다음 주 수요일 22:00에 그 주차를 묶음으로 접습니다.
+  function reviewFoldAt(key) {
+    var d = PL.weekKeyToDate(key);
+    if (!d) return null;
+    d = new Date(d);
+    d.setDate(d.getDate() + 7 + 2); // 다음 주 수요일
+    d.setHours(REVIEW_FOLD_HOUR, 0, 0, 0);
+    return d;
+  }
+
+  var groupingTimer = null;
+  function scheduleGroupingRefresh() {
+    var now = new Date();
+    var changeAt = null;
+    function consider(t) { if (t && t > now && (!changeAt || t < changeAt)) changeAt = t; }
+    if (state.maps.length) {
+      consider(currentWeekFoldAt(now));
+      var nextMon = PL.weekStart(now);
+      nextMon.setDate(nextMon.getDate() + 7);
+      consider(nextMon);
+    }
+    state.reviews.forEach(function (r) { consider(reviewFoldAt(r.week_key)); });
+    if (groupingTimer) window.clearTimeout(groupingTimer);
+    if (!changeAt) return;
+    // 아주 먼 시각은 setTimeout 한계를 넘지 않게 나눠서 다시 확인합니다.
+    var wait = Math.min(changeAt.getTime() - now.getTime() + 100, 2147000000);
+    groupingTimer = window.setTimeout(function () {
+      renderReviews();
+      renderMaps();
+      scheduleGroupingRefresh();
+    }, Math.max(0, wait));
+  }
+
+  function weekTitle(key) {
+    var m = String(key || '').match(/^(\d{4})-W(\d{2})$/); return m ? m[1] + ' · Week ' + Number(m[2]) : (key || 'No week assigned');
+  }
+
+  function foldNote(d) {
+    return 'Grouped on ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',weekday:'short'}) + ' at ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' KST';
+  }
+
+  // list → [{ key, rows }] 최신 주차부터, 주 안에서는 이름순
+  function groupByWeek(list) {
+    var groups = {};
+    list.forEach(function (r) {
+      var k = r.week_key || '';
+      (groups[k] = groups[k] || []).push(r);
+    });
+    return Object.keys(groups)
+      .sort(function (a, b) { return b.localeCompare(a); })
+      .map(function (k) {
+        return {
+          key: k,
+          rows: groups[k].sort(function (a, b) {
+            return String(a.student || '').localeCompare(String(b.student || ''), 'ko');
+          })
+        };
+      });
+  }
+
+  function renderWeeks(container, list, kind, gridClass, card) {
+    var now = new Date();
+    var groups = groupByWeek(list);
+    var latestKey = groups.length ? groups[0].key : null;
+    var mapCutoff = currentWeekFoldAt(now);
+    container.innerHTML = groups.map(function (g) {
+      var cards = '<div class="' + gridClass + '">' + g.rows.map(card).join('') + '</div>';
+      var count = '<small>' + g.rows.length + " entries</small>";
+      var cutoff = kind === 'reviews' ? reviewFoldAt(g.key) : mapCutoff;
+      var stillOpen = kind === 'reviews' ? (cutoff && now < cutoff) : (g.key === latestKey && now < cutoff);
+      if (stillOpen) {
+        return '<section class="wk-open">' +
+          '<h3 class="wk-head">' + PL.esc(weekTitle(g.key)) + count +
+            '<span class="wk-note">' + PL.esc(foldNote(cutoff)) + '</span></h3>' +
+          cards +
+        '</section>';
+      }
+      return '<details class="wk-fold">' +
+        '<summary class="wk-head">' + PL.esc(weekTitle(g.key)) + count + '</summary>' +
+        cards +
+      '</details>';
+    }).join('');
+  }
+
+  /* ---------- 논문 리뷰 ---------- */
+
+  function renderReviews() {
+    var list = state.reviews;
+    els.reviewEntries.setAttribute('aria-busy', 'false');
+    els.reviewSub.textContent = countLabel(list, 'reviews');
+
+    if (!list.length) {
+      els.reviewEntries.innerHTML = "<div class=\"empty\"><strong>No paper reviews yet</strong>" +
+        "Your first review will appear here as a card. Readers can open it to see the full entry. " +
+        "<a href=\"submit.html\">Submit the first review</a></div>";
+      return;
+    }
+
+    renderWeeks(els.reviewEntries, list, 'reviews', 'entries', function (r) {
+      var sum = summaryOf(r);
+      var best = isBest(r);
+      return '<div class="review-card-wrap' + (best ? ' is-best' : '') + '"><div class="best-card-head">' +
+        who(r.student) + bestControl(r, 'reviews') + '</div><a class="inst" href="review.html?id=' + encodeURIComponent(r.id) + '">' +
+        PL.submitTime(r, 'reviews') +
+        tags([r.journal_name, r.pub_year]) +
+        '<h3 class="review-title">' + PL.esc(r.paper_title || "(Untitled)") +
+          '</h3>' +
+        (sum ? '<p>' + PL.esc(sum) + '</p>' : '') +
+      '</a></div>';
+    });
+  }
+
+  /* ---------- Concept map ---------- */
+
+  function thumb(row) {
+    var ref = String(row.cm_diagram_ref || '').trim();
+    if (!ref) return '';
+    var src = PL.fileUrl('concept-maps', ref);
+    return '<img class="cm-thumb" src="' + PL.esc(src) + '" alt="' +
+      PL.esc((row.student || '') + ' ' + PL.weekShort(row.week_key) + " Concept map diagram") + '" loading="lazy" />';
+  }
+
+  function renderMaps() {
+    var list = state.maps;
+    els.mapEntries.setAttribute('aria-busy', 'false');
+    els.mapSub.textContent = countLabel(list, 'maps');
+
+    if (!list.length) {
+      els.mapEntries.innerHTML = "<div class=\"empty\"><strong>No concept maps yet</strong>" +
+        "Submit your Wednesday seminar materials to display your concept map here. " +
+        "<a href=\"concept.html\">Submit the first concept map</a></div>";
+      return;
+    }
+
+    renderWeeks(els.mapEntries, list, 'maps', 'cm-grid', function (m) {
+      var best = isBest(m);
+      return '<div class="review-card-wrap' + (best ? ' is-best' : '') + '"><div class="best-card-head">' +
+        who(m.student) + bestControl(m, 'maps') + '</div><a class="inst" href="concept-detail.html?id=' + encodeURIComponent(m.id) + '">' +
+        PL.submitTime(m, 'concept_maps') +
+        '<h3 class="review-title">' + PL.esc(PL.snippet(m.cm_theory || 'Concept map', 60)) +
+          '</h3>' +
+        thumb(m) +
+        (m.cm_explanation ? '<p>' + PL.esc(PL.snippet(m.cm_explanation, 200)) + '</p>' : '') +
+      '</a></div>';
+    });
+  }
+
+  /* ---------- 방금 제출한 글 표시 ----------
+   * 제출 화면이 index.html?submitted=<id>&kind=reviews|maps 로 보내면
+   * 그 카드가 든 묶음을 펼치고, 카드를 강조해 화면 가운데로 가져옵니다.
+   */
+  function markSubmitted(kind, container) {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('submitted');
+    if (!id || params.get('kind') !== kind) return;
+
+    var card = container.querySelector('a.inst[href$="id=' + encodeURIComponent(id) + '"]');
+    if (card) {
+      var fold = card.closest('details');
+      if (fold) fold.open = true;
+      card.classList.add('is-mine');
+      card.insertAdjacentHTML('afterbegin', "<span class=\"mine-flag\">Just submitted</span>");
+      card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+    PL.toast("Submission complete. You can now read your entry.", 'ok');
+    // 새로고침해도 다시 뜨지 않게 주소에서 지웁니다.
+    window.history.replaceState(null, '', window.location.pathname);
+  }
+
+  /* ---------- 이벤트 ---------- */
+
+  function boot() {
+    scheduleGroupingRefresh();
+    PL.table('reviews').list()
+      .then(function (rows) {
+        state.reviews = rows || [];
+        renderReviews();
+        renderMaps();
+        scheduleGroupingRefresh();
+        markSubmitted('reviews', els.reviewEntries);
+      })
+      .catch(function (err) {
+        els.reviewEntries.setAttribute('aria-busy', 'false');
+        els.reviewEntries.innerHTML = "<div class=\"empty\"><strong>Paper reviews could not be loaded</strong>" +
+          PL.esc(err.message || "Network error") + '</div>';
+      });
+
+    PL.table('concept_maps').list()
+      .then(function (rows) {
+        state.maps = rows || [];
+        renderMaps();
+        renderReviews();
+        scheduleGroupingRefresh();
+        markSubmitted('maps', els.mapEntries);
+      })
+      .catch(function (err) {
+        els.mapEntries.setAttribute('aria-busy', 'false');
+        els.mapEntries.innerHTML = "<div class=\"empty\"><strong>Concept maps could not be loaded</strong>" +
+          PL.esc(err.message || "Network error") + '</div>';
+      });
+  }
+
+  function attachBestToggle(container, kind) {
+    // 기존 제출 시간 옆의 빨간 점으로도 같은 체크박스를 선택할 수 있습니다.
+    container.addEventListener('click', function (event) {
+      if (!event.target.closest('.late-dot')) return;
+      var card = event.target.closest('.review-card-wrap');
+      var input = card && card.querySelector('[data-best-id]');
+      if (!input) return;
+      event.preventDefault();
+      if (!input.disabled) input.click();
+    });
+    container.addEventListener('change', function (event) {
+      var input = event.target.closest('[data-best-id]');
+      if (!input || !container.contains(input)) return;
+      var id = input.getAttribute('data-best-id');
+      // 목록 로딩 때 state 배열이 교체되므로 클릭 시점의 최신 목록을 읽습니다.
+      var row = state[kind].filter(function (r) { return String(r.id) === String(id); })[0];
+      if (!row || input.disabled) return;
+      var previous = isBest(row);
+      var next = input.checked;
+      // 저장을 시작하자마자 주차의 나머지 선택 상자를 잠급니다.
+      row.best_of_week = next;
+      renderReviews();
+      renderMaps();
+      PL.table(kind === 'maps' ? 'concept_maps' : 'reviews').update(id, {
+        best_of_week: next,
+        submitted_time: row.submitted_time || row.updated_at || row.created_at || null
+      }).then(function (updated) {
+        if (!updated || !Object.prototype.hasOwnProperty.call(updated, 'best_of_week') || isBest(updated) !== next) {
+          throw new Error("Could not confirm that your changes were saved. Please try again.");
+        }
+        Object.assign(row, updated);
+        renderReviews();
+        renderMaps();
+      }).catch(function (err) {
+        row.best_of_week = previous;
+        renderReviews();
+        renderMaps();
+        PL.toast("Could not save the Best Review selection: " + (err.message || "Network error"), 'error');
+      });
+    });
+  }
+
+  attachBestToggle(els.reviewEntries, 'reviews');
+  attachBestToggle(els.mapEntries, 'maps');
+
+  // 관리자 버튼: 관리자 화면에서는 '관리자 나가기'로 바뀐다.
+  var adminLink = document.querySelector('[data-best-admin-link]');
+  if (adminLink && BEST_ADMIN_MODE) { adminLink.textContent = "Exit admin mode"; adminLink.href = 'index.html'; adminLink.classList.add('is-admin'); }
+
+  function start() {
+    if (!BEST_ADMIN_MODE) { boot(); return; }
+    PL.activateBestAdmin().catch(function (err) {
+      PL.toast("Best Review admin verification failed: " + (err.message || "Verification failed"), 'error');
+    }).then(boot);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();

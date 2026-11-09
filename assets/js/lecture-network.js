@@ -2,6 +2,7 @@
   'use strict';
   var root = document.getElementById('lecture-network');
   if (!root || !window.d3) return;
+  var english = document.documentElement.lang === 'en';
   var groups = JSON.parse(document.getElementById('lecture-network-data').textContent);
   var topicData = JSON.parse(document.getElementById("lecture-topic-data").textContent);
   var W = 760, H = 640, selected = '', query = '';
@@ -47,7 +48,8 @@
     root.querySelectorAll('[data-lecture-name]').forEach(function(b){b.classList.toggle('is-selected',b.dataset.lectureName===selected);var d=nodes.find(function(n){return n.id===b.dataset.lectureName;});b.classList.toggle('is-related',!!selected&&active(d));b.closest('li').hidden=!matches(d);});
     root.querySelectorAll('[data-lecture-group],[data-lecture-topic]').forEach(function(b){b.classList.toggle('is-selected',(b.dataset.lectureGroup||'topic:'+b.dataset.lectureTopic)===selected);});
     var chosen=nodes.find(function(d){return d.id===selected;});
-    root.querySelector('.lecture-selection').textContent=chosen?chosen.name+(chosen.type==='org'?' · 예시 주제: '+topicData.assignments[chosen.id].join(' · '):' · 연결 기관 '+nodes.filter(function(d){return d.type==='org'&&neighbors[selected]&&neighbors[selected].has(d.id);}).length+'개'):'기관이나 주제를 누르면 연결된 항목이 강조됩니다.';
+    var count=nodes.filter(function(d){return d.type==='org'&&neighbors[selected]&&neighbors[selected].has(d.id);}).length;
+    root.querySelector('.lecture-selection').textContent=chosen?chosen.name+(chosen.type==='org'?(english?' · Example topics: ':' · 예시 주제: ')+(topicData.assignments[chosen.id]||[]).join(' · '):(english?' · Connected organizations: ':' · 연결 기관 ')+count+(english?'':'개')):(english?'Select an organization or topic to highlight its connections.':'기관이나 주제를 누르면 연결된 항목이 강조됩니다.');
   }
   function choose(id){selected=selected===id?'':id;apply();}
   node.on('click',function(e,d){choose(d.id==='lab'?'':d.id);}).on('keydown',function(e,d){if(e.key==='Enter'||e.key===' '){e.preventDefault();choose(d.id==='lab'?'':d.id);}});

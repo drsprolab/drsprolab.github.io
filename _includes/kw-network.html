@@ -1,4 +1,5 @@
 {% assign research_map = site.data.research_map %}
+{% if page.lang == 'en' %}<script id="research-keyword-translations" type="application/json">{{ site.data.english.research_keywords | jsonify }}</script>{% endif %}
 <section class="rmap" id="rmap" aria-label="Research Map"
   data-graph="{{ '/assets/data/research-map.json' | relative_url }}?v={{ research_map.version }}"
   data-version="{{ research_map.version }}">

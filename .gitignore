@@ -1,4 +1,5 @@
 _site/
+_site-en-preview/
 .jekyll-cache/
 .sass-cache/
 vendor

@@ -1,13 +1,15 @@
 {%- comment -%} 제목 옆 공유 버튼. 휴대폰은 기기 공유 창, 컴퓨터는 링크 복사·SNS 메뉴. 쓰는 곳: insight 레이아웃, share: true인 page {%- endcomment -%}
 {%- assign share_url = page.url | absolute_url -%}
-<div class="share" data-url="{{ share_url }}" data-title="{{ page.title | escape }}" data-attribution="출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab.">
+{%- assign share_attribution = '출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab.' -%}
+{%- if page.lang == 'en' -%}{%- assign share_attribution = 'Source: PRO-AnalytiX (PRO-AX) Lab, Professor Ji Hoon Song, Department of Educational Technology, Hanyang University.' -%}{%- endif -%}
+<div class="share" data-url="{{ share_url }}" data-title="{{ page.title | escape }}" data-attribution="{{ share_attribution | escape }}">
   <button type="button" class="share-btn" aria-haspopup="true" aria-expanded="false" aria-controls="share-menu">공유</button>
   <div class="share-menu" id="share-menu" role="menu" hidden>
     <button type="button" role="menuitem" data-share="copy">링크 복사</button>
     <a role="menuitem" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | url_encode }}">Facebook</a>
     <a role="menuitem" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url | url_encode }}">LinkedIn</a>
-    <a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ '출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab. ' | append: page.title | url_encode }}">X</a>
-    <a role="menuitem" href="mailto:?subject={{ page.title | url_encode }}&amp;body={{ '출처: 한양대학교 교육공학과 송지훈 교수 PRO-AnalytiX (PRO-AX) Lab. ' | append: share_url | url_encode }}">이메일</a>
+    <a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ share_attribution | append: ' ' | append: page.title | url_encode }}">X</a>
+    <a role="menuitem" href="mailto:?subject={{ page.title | url_encode }}&amp;body={{ share_attribution | append: ' ' | append: share_url | url_encode }}">이메일</a>
     <span class="share-done" role="status" aria-live="polite"></span>
   </div>
 </div>
@@ -17,6 +19,7 @@
   var box = document.querySelector('.share'); if (!box) return;
   var btn = box.querySelector('.share-btn'), menu = box.querySelector('.share-menu'), done = box.querySelector('.share-done');
   var url = box.dataset.url, title = box.dataset.title, attribution = box.dataset.attribution;
+  var english = document.documentElement.lang === 'en';
   var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
   function place() { // 메뉴는 화면 기준(fixed)으로 놓아 조상의 overflow에 잘리지 않고, 화면 안에 들어오게 한다
     var r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth;
@@ -34,9 +37,9 @@
   });
   box.querySelector('[data-share="copy"]').addEventListener('click', function () {
     var text = title + '\n' + url + '\n' + attribution; // 복사한 글에도 출처를 붙인다
-    function ok() { done.textContent = '링크를 복사했습니다'; setTimeout(function () { toggle(false); }, 1200); }
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, function () { window.prompt('링크를 복사하세요', text); });
-    else window.prompt('링크를 복사하세요', text);
+    function ok() { done.textContent = english ? 'Link copied' : '링크를 복사했습니다'; setTimeout(function () { toggle(false); }, 1200); }
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, function () { window.prompt(english ? 'Copy this link' : '링크를 복사하세요', text); });
+    else window.prompt(english ? 'Copy this link' : '링크를 복사하세요', text);
   });
   menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') toggle(false); });
   document.addEventListener('click', function (e) { if (!box.contains(e.target)) toggle(false); });

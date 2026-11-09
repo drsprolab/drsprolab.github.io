@@ -1,0 +1,7 @@
+# Review only. Never included by the GitHub Pages deployment workflow.
+preview: true
+preview_news: false
+bilingual_preview: true
+url: "http://127.0.0.1:4012"
+baseurl: ""
+destination: _site-en-preview

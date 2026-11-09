@@ -32,6 +32,11 @@
     fields = graph.fields;
     papers = graph.papers;
     kws = graph.keywords;
+    var englishLabels = document.getElementById('research-keyword-translations');
+    if (englishLabels) {
+      var labels = JSON.parse(englishLabels.textContent);
+      kws.forEach(function (kw) { kw.name = labels[kw.name] || kw.name; });
+    }
     links = graph.links;
     fields.forEach(function (f) { f.color = COLORS[f.fi % COLORS.length]; });
     kws.forEach(function (kw) { kw.fis = new Set([kw.fi]); var f = fields[kw.fi]; kw.groups = new Set([f.group, fieldBtn(f)].concat(kw.also)); });

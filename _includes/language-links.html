@@ -1,0 +1,15 @@
+{% if site.bilingual_preview %}
+{% assign ko_url = page.korean_url | default: page.url %}
+{% assign en_url = site.data.language_routes[ko_url] %}
+{% if en_url %}
+<div class="language-switch" role="group" aria-label="언어 선택">
+  <a href="{{ ko_url | relative_url }}" data-language-choice="ko" lang="ko" hreflang="ko"{% unless page.lang == 'en' %} aria-current="true"{% endunless %}>KOR</a>
+  <span aria-hidden="true">/</span>
+  <a href="{{ en_url | relative_url }}" data-language-choice="en" lang="en" hreflang="en"{% if page.lang == 'en' %} aria-current="true"{% endif %}>ENG</a>
+</div>
+{% else %}
+<div class="language-switch" role="group" aria-label="언어 선택">
+  <a href="{{ page.url | relative_url }}" data-language-choice="ko" lang="ko" aria-current="true">KOR</a><span aria-hidden="true">/</span><a href="{{ '/en/' | relative_url }}" data-language-choice="en" lang="en" hreflang="en" title="English homepage">ENG</a>
+</div>
+{% endif %}
+{% endif %}

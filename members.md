@@ -93,6 +93,6 @@ lede: 안녕, 윙맨. 같이 날아봅시다.
 {% assign list = site.data.members[key] %}
 <h3>{{ label }} <span class="n">{{ list.size }}</span></h3>
 <ul class="alumni">
-  {% for m in list %}<li{% if m.highlight %} class="alumni-hl"{% endif %}><strong>{{ m.name }}</strong>{% if m.affiliation %}<span class="sub">{{ m.affiliation }}</span>{% endif %}</li>{% endfor %}
+  {% for m in list %}<li{% if m.highlight %} class="alumni-hl"{% endif %}><strong>{{ m.name }}{% if m.name_en %} <span lang="en">{{ m.name_en }}</span>{% endif %}</strong>{% if m.affiliation %}<span class="sub">{{ m.affiliation }}</span>{% endif %}</li>{% endfor %}
 </ul>
 {% endfor %}

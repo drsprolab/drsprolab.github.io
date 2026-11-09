@@ -3,14 +3,16 @@
   var nav = document.getElementById('site-nav');
   if (!btn || !nav) return;
   var label = btn.querySelector('.menu-label');
+  var english = document.documentElement.lang === 'en';
+  var mobileWidth = Number(btn.getAttribute('data-mobile-width')) || 860;
   // iOS Safari: keep the mobile panel outside the sticky header's stacking context.
   var originalParent = nav.parentNode;
   var originalNext = nav.nextSibling;
   function setOpen(open) {
-    if (open && window.innerWidth <= 860 && nav.parentNode !== document.body) {
+    if (open && window.innerWidth <= mobileWidth && nav.parentNode !== document.body) {
       document.body.appendChild(nav);
     }
-    if (open && window.innerWidth <= 860) {
+    if (open && window.innerWidth <= mobileWidth) {
       var header = document.querySelector('.site-header');
       var height = header ? Math.ceil(header.getBoundingClientRect().height) : 60;
       document.documentElement.style.setProperty('--mobile-header-height', height + 'px');
@@ -19,8 +21,8 @@
     nav.classList.toggle('open', open);
     document.documentElement.classList.toggle('nav-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    btn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
-    if (label) label.textContent = open ? '닫기' : '메뉴';
+    btn.setAttribute('aria-label', english ? (open ? 'Close menu' : 'Open menu') : (open ? '메뉴 닫기' : '메뉴 열기'));
+    if (label) label.textContent = english ? (open ? 'Close' : 'Menu') : (open ? '닫기' : '메뉴');
     if (!open && nav.parentNode !== originalParent) originalParent.insertBefore(nav, originalNext);
   }
   btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
@@ -33,7 +35,7 @@
     if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); }
   });
   // 화면을 넓히면(가로 회전 등) 데스크톱 메뉴로 돌아가므로 열림 상태 해제
-  window.addEventListener('resize', function () { if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false); });
+  window.addEventListener('resize', function () { if (window.innerWidth > mobileWidth && nav.classList.contains('open')) setOpen(false); });
 })();
 
 // iOS Safari는 터치 리스너가 있어야 :active 스타일이 적용됨 (박스 확대 효과)
@@ -49,7 +51,8 @@ document.addEventListener('touchstart', function () {}, { passive: true });
     var b = document.createElement('span');
     b.className = 'nav-new';
     b.textContent = 'NEW';
-    b.title = '새로 올라옴: ' + new Date(t * 1000).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    var english = document.documentElement.lang === 'en';
+    b.title = (english ? 'New content: ' : '새로 올라옴: ') + new Date(t * 1000).toLocaleString(english ? 'en-US' : 'ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     a.appendChild(b);
   });
 })();
@@ -80,7 +83,7 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   function norm(s) { return String(s).toLowerCase().replace(/[^0-9a-z가-힣]/g, ''); }
 
   // 이 페이지가 속한 메뉴
-  var path = location.pathname, best = '';
+  var path = location.pathname.replace(/^\/en(?=\/)/, ''), best = '';
   Object.keys(data.nav || {}).forEach(function (u) { if (u !== '/' && path.indexOf(u) === 0 && u.length > best.length) best = u; });
 
   // 바뀐 항목 표시: 항목 글이 들어 있는 가장 안쪽 목록·카드에 NEW
@@ -114,7 +117,8 @@ document.addEventListener('touchstart', function () {}, { passive: true });
     var b = document.createElement('span');
     b.className = top ? 'nav-new' : 'submenu-new';
     b.textContent = 'NEW';
-    b.title = new Date(until * 1000).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' }) + '까지 표시';
+    var english = document.documentElement.lang === 'en';
+    b.title = (english ? 'Shown until ' : '') + new Date(until * 1000).toLocaleDateString(english ? 'en-US' : 'ko-KR', { month: 'numeric', day: 'numeric' }) + (english ? '' : '까지 표시');
     a.appendChild(b);
   });
 })();

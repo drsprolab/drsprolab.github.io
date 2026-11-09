@@ -13,6 +13,7 @@ gem "base64"
 gem "bigdecimal"
 gem "logger"
 gem "webrick"
+gem "nokogiri", ">= 1.18", "< 2"
 
 group :test do
   gem "minitest", "~> 5.0"

@@ -13,6 +13,7 @@ require "tmpdir"
 
 ROOT = File.expand_path("..", __dir__)
 OUT_ROOT = File.join(ROOT, "assets/og")
+MEASUREMENT_EN = YAML.load_file(File.join(ROOT, "_data/english/measurement.yml"))
 CHROME = ENV["CHROME"] || [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "google-chrome", "google-chrome-stable", "chromium"
@@ -69,7 +70,7 @@ def html(fm, kind)
   topics = chip_texts.compact.first(4).map { |t| %(<span class="chip">#{CGI.escapeHTML(t.to_s)}</span>) }.join
   size = title.length > 46 ? 50 : title.length > 30 ? 58 : 66
   <<~HTML
-    <!doctype html><html lang="ko"><head><meta charset="utf-8">
+    <!doctype html><html lang="#{fm['og_lang'] || 'ko'}"><head><meta charset="utf-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=block">
     <style>
       * { box-sizing: border-box; margin: 0; }
@@ -122,13 +123,23 @@ Dir.mktmpdir do |tmp|
       next if fm["title"].to_s.empty? || !keep.call(fm)
       name = File.basename(md) == "index.html" ? File.basename(File.dirname(md)) : File.basename(md, ".md")
       png = File.join(out, "#{name}.png")
-      next if File.exist?(png) && File.mtime(png) > File.mtime(md) && ENV["OG_FORCE"].nil?
-      page = File.join(tmp, "#{kind}-#{name}.html")
-      File.write(page, html(fm, kind))
-      ok = system(CHROME, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1",
-                  "--window-size=1200,630", "--virtual-time-budget=5000", "--screenshot=#{png}", "file://#{page}",
-                  out: File::NULL, err: File::NULL)
-      if ok && File.exist?(png) then made += 1 else warn "og_images: #{kind}/#{name} 실패" end
+      targets = [[png, fm]]
+      if kind == 'measurement'
+        english = fm.transform_values { |value| value.is_a?(String) ? MEASUREMENT_EN.fetch(value, value) : value }
+        english['og_lang'] = 'en'
+        english_dir = File.join(OUT_ROOT, 'measurement-en')
+        FileUtils.mkdir_p(english_dir)
+        targets << [File.join(english_dir, "#{name}.png"), english]
+      end
+      targets.each do |target, content|
+        next if File.exist?(target) && File.mtime(target) > File.mtime(md) && File.mtime(target) > File.mtime(File.join(ROOT, '_data/english/measurement.yml')) && ENV["OG_FORCE"].nil?
+        page = File.join(tmp, "#{kind}-#{name}-#{content['og_lang'] || 'ko'}.html")
+        File.write(page, html(content, kind))
+        ok = system(CHROME, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1",
+                    "--window-size=1200,630", "--virtual-time-budget=5000", "--screenshot=#{target}", "file://#{page}",
+                    out: File::NULL, err: File::NULL)
+        if ok && File.exist?(target) then made += 1 else warn "og_images: #{kind}/#{name} 실패" end
+      end
     end
   end
 end
