@@ -116,6 +116,9 @@ module Bilingual
       page = Jekyll::PageWithoutAFile.new(site, site.source, url.delete_prefix('/'), "index#{extension}")
       page.data = source.data.dup.merge(meta).merge('lang' => 'en', 'locale' => 'en_US',
         'permalink' => url, 'korean_url' => source.url, 'english_url' => url)
+      if source.url == '/blog/'
+        page.data['header_notice'] = 'Detailed assessment tools and reports are available in Korean only.'
+      end
       references = source.content.split('### References', 2)
       page.data['original_references'] = references.last if references.size == 2
       page.data['original_figures'] = source.content.scan(/<figure[\s\S]*?<\/figure>/)

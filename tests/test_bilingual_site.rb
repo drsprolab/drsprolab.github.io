@@ -42,6 +42,7 @@ class BilingualSiteTest < Minitest::Test
 
   def test_measurement_listing_is_english_with_english_thumbnails
     page=html('/en/blog/')
+    assert_match(/Korean only/,page.at_css('.page-head .page-header-notice').text)
     assert_equal 10,page.css('.inst-grid .inst').size
     refute_match(/[가-힣]/,page.css('.inst-grid').text)
     assert_equal 10,page.css('.inst-thumb[src^="/assets/og/measurement-en/"]').size
