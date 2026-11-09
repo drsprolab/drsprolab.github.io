@@ -1,7 +1,7 @@
 ---
 layout: insight
 section: lab
-author: "노윤정 (Ph.D., 스타벅스 코리아 교육인사담당)"
+author: "노윤정 (Ph.D., 스타벅스 코리아 인사교육담당자)"
 thumbnail_author: "노윤정"
 title: "업무는 빨라졌는데, 성장 기회는 누구에게 갔는가?: AI 시대 HR 시스템의 재설계"
 date: 2026-11-09 08:00:00 +0900
