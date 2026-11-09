@@ -3,6 +3,8 @@
 #     - YAML 데이터 파일: 최근 커밋들을 차례로 비교해 처음 나타난 항목만 고른다. 비슷한 항목이 이전 버전에 있었으면 '수정'으로 본다.
 #     - Weekly Insight·Measurement 글처럼 파일 하나가 글 하나인 경우: 파일이 처음 추가된 시각.
 #   site.data["nav_updated"]: 메뉴(url)별 가장 최근 추가 시각 → 상단 메뉴 NEW 배지 (_includes/header.html)
+#   site.data["subnav_updated"]: 하위 메뉴(url)별 가장 최근 추가 시각 → 드롭다운 하위 메뉴 NEW 배지
+#     - Weekly Insight 글은 머리말 section 값으로 DrS / Lab / Deep Research 중 어디에 올라갔는지 나눈다.
 #   site.data["nav_changes"]: NEW 를 보는 메뉴 url 목록 (값은 빈 배열; 페이지가 어느 메뉴에 속하는지 찾는 데만 씀)
 # 실제로 NEW 를 보일지는 방문 시각 기준 3일(72시간)로 브라우저에서 판단한다 (assets/js/nav.js).
 require "open3"
@@ -21,6 +23,7 @@ module ItemUpdates
       site.data["item_updates"] = []
       site.data["nav_updated"] = {}
       site.data["nav_changes"] = {}
+      site.data["subnav_updated"] = {}
       @root = site.source
       shallow, = git("rev-parse", "--is-shallow-repository")
       return if shallow.strip != "false"
@@ -42,6 +45,9 @@ module ItemUpdates
           elsif (doc = docs[f]) && doc.data["title"]
             t, = git("log", "--diff-filter=A", "-1", "--format=%ct", "--", f)
             found[[url, doc.data["title"].to_s]] = t.to_i if t.to_i >= cutoff
+            if t.to_i >= cutoff && (sub = submenu_url(doc))
+              site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, t.to_i].max
+            end
           end
         end
       end
@@ -53,6 +59,16 @@ module ItemUpdates
     end
 
     private
+
+    # Weekly Insight 글이 속한 하위 메뉴 (_data/navigation.yml 의 Weekly Insight children)
+    def submenu_url(doc)
+      return nil unless doc.collection&.label == "insights"
+      case doc.data["section"]
+      when "lab" then "/weekly-insight/lab/"
+      when "deep-research" then "/weekly-insight/deep-research/"
+      else "/weekly-insight/"
+      end
+    end
 
     def git(*args)
       Open3.capture2("git", "-C", @root, *args)

@@ -54,6 +54,20 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   });
 })();
 
+// 하위 메뉴에도 같은 기준(72시간)으로 NEW 표시 — 예: Lab Weekly Insight에 글이 올라오면 그 하위 메뉴에만 (_plugins/item_updates.rb subnav_updated)
+(function () {
+  var now = Date.now() / 1000, WINDOW = 72 * 3600;
+  document.querySelectorAll('.submenu > li > a[data-updated]').forEach(function (a) {
+    var t = +a.dataset.updated;
+    if (!t || now - t > WINDOW || now < t - 3600 || a.querySelector('.submenu-new')) return;
+    var b = document.createElement('span');
+    b.className = 'submenu-new';
+    b.textContent = 'NEW';
+    b.title = '새로 올라옴: ' + new Date(t * 1000).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    a.appendChild(b);
+  });
+})();
+
 // 메뉴에 들어가면 무엇이 바뀌었는지 보여 줌 (_plugins/item_updates.rb)
 //  새로 올라온 항목(논문, 프로젝트, 글 카드 등)의 제목 옆에 NEW 표시 (수정된 항목은 제외)
 (function () {
