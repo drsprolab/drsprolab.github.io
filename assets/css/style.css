@@ -549,6 +549,14 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 }
 .profile-details { display: grid; gap: 24px; min-width: 0; }
 .profile-intro > .plain { font-size: 15px; }
+/* 책임교수 직함 목록: 항목마다 점 표시로 구분하고, 과거 직함은 속이 빈 점·옅은 글씨로 나눈다(모바일에서 줄이 이어져 보이던 문제) */
+.profile-intro > .plain { gap: 10px; }
+.profile-intro > .plain li { position: relative; padding-left: 18px; line-height: 1.55; }
+.profile-intro > .plain li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.profile-intro > .plain li.past { font-size: 14px; }
+.profile-intro > .plain li.past::before { background: transparent; border: 1.5px solid var(--muted); width: 5px; height: 5px; }
+.profile-intro > .plain li:not(.past) + li.past { margin-top: 8px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.profile-intro > .plain li:not(.past) + li.past::before { top: calc(16px + .62em); }
 .profile .profile-name { margin: 0 0 12px; }
 .profile-name span { display: block; margin: 6px 0 0; }
 .profile .kv dd { min-width: 0; overflow-wrap: anywhere; }
