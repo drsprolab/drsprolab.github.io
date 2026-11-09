@@ -47,10 +47,12 @@ module ItemUpdates
             t = published_at(f)
             found[[url, doc.data["title"].to_s]] = t if t >= cutoff
             # 영문판 카드는 번역된 제목으로 나오므로 영문 제목도 같은 시각의 새 글로 등록한다
+            # 영문판이 한글보다 나중에 추가되면 그때를 영문판의 새 글 시각으로 본다(영문판 업데이트도 NEW)
             en = english_title(doc)
-            found[[url, en]] = t if en && t >= cutoff
-            if t >= cutoff && (sub = submenu_url(doc))
-              site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, t].max
+            latest = [t, translation_added_at(doc)].max
+            found[[url, en]] = latest if en && latest >= cutoff
+            if latest >= cutoff && (sub = submenu_url(doc))
+              site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, latest].max
             end
           end
         end
@@ -71,6 +73,23 @@ module ItemUpdates
     end
 
     private
+
+    # 영문판(_translations/en/<글 파일 이름>.md)이 처음 추가된 시각(없으면 0)
+    def translation_added_at(doc)
+      file = "_translations/en/#{File.basename(doc.relative_path, '.*')}.md"
+      return 0 unless File.exist?(File.join(@root, file))
+      added, = git("log", "--diff-filter=A", "-1", "--format=%ct", "--", file)
+      # 영문판을 처음 연 날(일괄 추가)에 올라온 번역은 '새 영문판'으로 세지 않는다 — 그 뒤에 따로 추가·보강된 영문판만 NEW
+      added.to_i > english_launch + 86_400 ? added.to_i : 0
+    end
+
+    # 영문판 번역이 처음 올라온 시각(저장소에서 가장 이른 번역 파일 추가 시각)
+    def english_launch
+      @english_launch ||= begin
+        times, = git("log", "--diff-filter=A", "--format=%ct", "--", "_translations/en")
+        times.lines.map(&:to_i).min || Time.now.to_i
+      end
+    end
 
     # _translations/en/<글 파일 이름>.md 머리말의 영문 title (없으면 nil)
     def english_title(doc)
@@ -94,7 +113,7 @@ module ItemUpdates
           t = if f =~ /\.ya?ml\z/
                 added_items(f, cutoff).values.max
               elsif (doc = docs[f]) && doc.data["title"]
-                added = published_at(f)
+                added = [published_at(f), translation_added_at(doc)].max
                 added if added >= cutoff
               end
           next unless t
