@@ -34,6 +34,7 @@ module ItemUpdates
       found = {} # [메뉴 url, 대표 글] => 추가 시각
 
       Array(site.data["navigation"]).each do |item|
+        mark_children(site, item, docs, cutoff)
         paths = Array(item["watch"])
         next if paths.empty?
         url = item["url"]
@@ -43,10 +44,10 @@ module ItemUpdates
           if f =~ /\.ya?ml\z/
             added_items(f, cutoff).each { |s, t| found[[url, s]] = t }
           elsif (doc = docs[f]) && doc.data["title"]
-            t, = git("log", "--diff-filter=A", "-1", "--format=%ct", "--", f)
-            found[[url, doc.data["title"].to_s]] = t.to_i if t.to_i >= cutoff
-            if t.to_i >= cutoff && (sub = submenu_url(doc))
-              site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, t.to_i].max
+            t = published_at(f)
+            found[[url, doc.data["title"].to_s]] = t if t >= cutoff
+            if t >= cutoff && (sub = submenu_url(doc))
+              site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, t].max
             end
           end
         end
@@ -59,6 +60,38 @@ module ItemUpdates
     end
 
     private
+
+    # 하위 메뉴(children)에 watch 가 있으면, 거기서 최근 새로 추가된 것의 시각을 subnav_updated 에 넣는다.
+    # 예: Awards & Gallery 의 Awards 는 _data/member_awards.yml, Gallery 는 _data/gallery.yml 에 새 항목이 생겼을 때만 NEW.
+    def mark_children(site, item, docs, cutoff)
+      Array(item["children"]).each do |child|
+        paths = Array(child["watch"])
+        next if paths.empty?
+        files, = git("ls-files", "--", *paths)
+        files.lines.map(&:chomp).each do |f|
+          t = if f =~ /\.ya?ml\z/
+                added_items(f, cutoff).values.max
+              elsif (doc = docs[f]) && doc.data["title"]
+                added = published_at(f)
+                added if added >= cutoff
+              end
+          next unless t
+          site.data["subnav_updated"][child["url"]] = [site.data["subnav_updated"][child["url"]].to_i, t].max
+        end
+      end
+    end
+
+    # 글이 사이트에 처음 보이게 된 시각. 파일을 추가한 시각이지만, 숨겨 둔 글(published: false)을 나중에 공개했다면 그 공개 시각.
+    def published_at(file)
+      added, = git("log", "--diff-filter=A", "-1", "--format=%ct", "--", file)
+      time = added.to_i
+      current, status = git("show", "HEAD:#{file}")
+      if status.success? && current !~ /^published:\s*false\s*$/
+        toggled, = git("log", "-S", "published: false", "--format=%ct", "--", file)
+        time = [time, toggled.lines.map(&:to_i).max.to_i].max
+      end
+      time
+    end
 
     # Weekly Insight 글이 속한 하위 메뉴 (_data/navigation.yml 의 Weekly Insight children)
     def submenu_url(doc)

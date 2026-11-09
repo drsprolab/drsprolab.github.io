@@ -12,9 +12,9 @@
   new_until: 4070908800
   watch: [research.md, research, teaching.md, _data/publications.yml, _data/presentations.yml, _data/books.yml, _data/teaching.yml]
   children:
-    - { title: Research (Professor), url: /research/ }
+    - { title: Research (Professor), url: /research/, watch: [_data/publications.yml, _data/presentations.yml, _data/books.yml] }
     - { title: Research (Lab), url: /research/lab/ }
-    - { title: Teaching, url: /teaching/ }
+    - { title: Teaching, url: /teaching/, watch: [teaching.md, _data/teaching.yml] }
     - title: Conference
       url: /conference/
       new_until: 4070908800
@@ -42,8 +42,8 @@
   url: /project/
   watch: [project.md, _data/projects.yml, _data/lectures.yml, _data/lecture_groups.json, _data/lecture_topics.json]
   children:
-    - { title: Project, url: /project/ }
-    - { title: Lecture and Consulting, url: /project/#lecture }
+    - { title: Project, url: /project/, watch: [_data/projects.yml] }
+    - { title: Lecture and Consulting, url: /project/#lecture, watch: [_data/lectures.yml] }
 - title: Institute & Center
   url: /institutes/
   watch: [institutes, _data/institutes.yml, _data/institute_details.yml]
@@ -58,8 +58,8 @@
   url: /highlights/
   watch: [highlights.md, _data/gallery.yml, _data/member_awards.yml, assets/images/gallery]
   children:
-    - { title: Awards, url: /highlights/#awards }
-    - { title: Gallery, url: /highlights/#gallery }
+    - { title: Awards, url: /highlights/#awards, watch: [_data/member_awards.yml] }
+    - { title: Gallery, url: /highlights/#gallery, watch: [_data/gallery.yml] }
 - title: Weekly Insight
   url: /weekly-insight/
   watch: [weekly-insight, daily-insight, _insights]
