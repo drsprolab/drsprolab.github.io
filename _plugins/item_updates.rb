@@ -46,10 +46,21 @@ module ItemUpdates
           elsif (doc = docs[f]) && doc.data["title"]
             t = published_at(f)
             found[[url, doc.data["title"].to_s]] = t if t >= cutoff
+            # 영문판 카드는 번역된 제목으로 나오므로 영문 제목도 같은 시각의 새 글로 등록한다
+            en = english_title(doc)
+            found[[url, en]] = t if en && t >= cutoff
             if t >= cutoff && (sub = submenu_url(doc))
               site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, t].max
             end
           end
+        end
+      end
+
+      # 영문판 목록은 영어 사전(_data/english)으로 번역된 제목이 나오므로, 번역된 제목도 같은 새 항목으로 등록한다
+      if defined?(Bilingual)
+        found.to_a.each do |(u, s), t|
+          en = Bilingual.translate(s.to_s, site).to_s.strip
+          found[[u, en]] ||= t if !en.empty? && en != s.to_s.strip
         end
       end
 
@@ -60,6 +71,17 @@ module ItemUpdates
     end
 
     private
+
+    # _translations/en/<글 파일 이름>.md 머리말의 영문 title (없으면 nil)
+    def english_title(doc)
+      path = File.join(@root, "_translations", "en", "#{File.basename(doc.relative_path, '.*')}.md")
+      return nil unless File.exist?(path)
+      front = File.read(path, encoding: "utf-8")[/\A---\s*\n(.*?)\n---/m, 1]
+      title = front && YAML.safe_load(front, permitted_classes: [Date, Time])&.fetch("title", nil)
+      title.to_s.strip.empty? ? nil : title.to_s
+    rescue StandardError
+      nil
+    end
 
     # 하위 메뉴(children)에 watch 가 있으면, 거기서 최근 새로 추가된 것의 시각을 subnav_updated 에 넣는다.
     # 예: Awards & Gallery 의 Awards 는 _data/member_awards.yml, Gallery 는 _data/gallery.yml 에 새 항목이 생겼을 때만 NEW.
