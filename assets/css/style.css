@@ -2283,6 +2283,22 @@ span.warn { color: var(--warn); font-weight: 600; }
 .insight-pdf-link { display:inline-block; margin: 8px 0 8px 14px; padding: 7px 12px; border:1px solid var(--accent); border-radius:999px; color:var(--accent); font-size:13px; font-weight:600; text-decoration:none; vertical-align:middle; white-space:nowrap; }
 .insight-pdf-link:hover { background:var(--accent); color:var(--paper); }
 .daily-issue-author { display:inline-block; margin:4px 0 12px; padding:8px 12px; border-left:3px solid var(--accent); border-radius:6px; background:#eaf0f7; color:#183b5b; font-size:15px; font-weight:700; line-height:1.5; }
+/* Lab Insight 작성자 강조: 은은한 빛이 지나가는 배지 + 부드러운 광채 + 반짝이는 별 */
+.author-hl{width:fit-content;max-width:100%;align-self:flex-start;--au-ink:#183b5b;--au-bg:#eaf0f7;--au-sheen:#ffffff;--au-line:#9dbbdc;--au-star:#2f6db0;display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px 8px;border:1px solid var(--au-line);border-left:3px solid var(--accent);color:var(--au-ink);background:linear-gradient(110deg,var(--au-bg) 0%,var(--au-bg) 38%,var(--au-sheen) 50%,var(--au-bg) 62%,var(--au-bg) 100%);background-size:260% 100%;animation:au-shine 3.6s linear infinite,au-glow 2.8s ease-in-out infinite}
+.author-hl strong{font-size:1.06em;font-weight:800;letter-spacing:.01em}
+.author-hl .author-role{font-weight:600;opacity:.85}
+.author-hl .author-star{color:var(--au-star);display:inline-block;animation:au-twinkle 1.8s ease-in-out infinite}
+.author-hl--card{gap:6px;margin:0 0 8px;padding:3px 12px 3px 9px;border-radius:999px;border-left-width:1px;font-size:13px;line-height:1.5;align-self:flex-start;width:max-content}
+@media (prefers-color-scheme: dark){.author-hl{--au-ink:#dbe8f8;--au-bg:#1c2a3b;--au-sheen:#33496a;--au-line:#4f6f96;--au-star:#8fc3ff}}
+@keyframes au-shine{0%{background-position:100% 0}100%{background-position:-160% 0}}
+@keyframes au-glow{0%,100%{box-shadow:0 0 0 0 rgba(47,109,176,0)}50%{box-shadow:0 0 14px 2px rgba(47,109,176,.35)}}
+@keyframes au-twinkle{0%,100%{opacity:.55;transform:scale(.85) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(18deg)}}
+@media (prefers-reduced-motion: reduce){.author-hl,.author-hl .author-star{animation:none}}
+@media print{.author-hl,.author-hl .author-star{animation:none;box-shadow:none}}
+/* Lab 목록: 카드마다 태그 줄 수가 달라도 작성자·제목·요약의 높이를 나란히 맞춤 */
+@supports (grid-template-rows: subgrid){.inst-grid--aligned .inst{grid-row:span 5;grid-template-rows:subgrid;row-gap:10px}}
+.author-hl--card{justify-self:start;align-self:start}
+.inst-grid--aligned .inst .tags{align-items:flex-start;align-content:flex-start}
 @media(max-width:600px) { .insight-pdf-link { margin-left:0; } }
 .study-first-figure { max-width:900px; margin:28px auto; }
 .study-first-figure svg { display:block; width:100%; height:auto; }

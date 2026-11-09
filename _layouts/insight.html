@@ -11,7 +11,7 @@ layout: default
       {% if page.pdf_url %}<a class="insight-pdf-link" href="{{ page.pdf_url | relative_url }}" download>전문 PDF ↓</a>{% endif %}
       {% include share.html %}
     </div>
-    {% if page.author %}<p class="daily-issue-author">{{ page.author | escape }}</p>{% endif %}
+    {% if page.author %}{% if page.thumbnail_author %}{% assign author_role = page.author | remove_first: page.thumbnail_author | strip %}<p class="daily-issue-author author-hl"><span class="author-star" aria-hidden="true">✦</span><strong>{{ page.thumbnail_author | escape }}</strong>{% if author_role != '' %} <span class="author-role">{{ author_role | escape }}</span>{% endif %}</p>{% else %}<p class="daily-issue-author">{{ page.author | escape }}</p>{% endif %}{% endif %}
     {% include sharing-guidance.html class="daily-issue-notice" %}
     <p class="lede">{{ page.summary | escape }}</p>
     <ul class="tags" aria-label="주제">{% for topic in page.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
