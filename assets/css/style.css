@@ -243,6 +243,13 @@ tfoot td { font-weight: 600; border-bottom: 0; }
 
 /* ---- Blog post content ---- */
 .post .prose > table, .daily-content > table { display: block; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; margin-block: 16px; }
+/* Weekly Insight 표: 본문 폭을 꽉 채우고 칸이 내용에 맞게 나뉜다. 좁은 화면에서는 옆으로 밀어서 본다. */
+.daily-content > table { display: table; width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+.daily-content > table th { white-space: normal; }
+.daily-content > table tr:last-child td { border-bottom: 0; }
+.daily-content > table th:first-child { border-top-left-radius: 7px; }
+.daily-content > table th:last-child { border-top-right-radius: 7px; }
+@media (max-width: 720px) { .daily-content > table { display: block; overflow-x: auto; } .daily-content > table th { white-space: nowrap; } }
 .post .prose > table td:first-child { font-weight: 600; white-space: nowrap; }
 .post .prose thead th:empty { background: var(--tint); }
 .post .prose blockquote { margin: 16px 0; padding: 16px 20px; background: var(--accent-soft); border-radius: 8px; }
