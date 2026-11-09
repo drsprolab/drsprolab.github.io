@@ -116,6 +116,13 @@ module Bilingual
       page = Jekyll::PageWithoutAFile.new(site, site.source, url.delete_prefix('/'), "index#{extension}")
       page.data = source.data.dup.merge(meta).merge('lang' => 'en', 'locale' => 'en_US',
         'permalink' => url, 'korean_url' => source.url, 'english_url' => url)
+      # Weekly Insight: share/thumbnail image with the English title (tools/og_images.rb writes assets/og/insights-en/).
+      if source.is_a?(Jekyll::Document) && source.collection&.label == 'insights'
+        english_og = "/assets/og/insights-en/#{File.basename(source.path, File.extname(source.path))}.png"
+        if File.exist?(File.join(site.source, english_og.delete_prefix('/')))
+          page.data['image'] = { 'path' => english_og, 'width' => 1200, 'height' => 630, 'alt' => page.data['title'].to_s }
+        end
+      end
       if source.url == '/blog/'
         page.data['header_notice'] = 'Detailed assessment tools and reports are available in Korean only.'
       end
@@ -250,6 +257,10 @@ module Bilingual
       label['class'] = 'language-only'
       label.content = ' (Korean only)'
       link.add_child(label)
+    end
+    html.css('img[src^="/assets/og/insights/"]').each do |image|
+      english = image['src'].sub('/assets/og/insights/', '/assets/og/insights-en/')
+      image['src'] = english if File.exist?(File.join(page.site.source, english.delete_prefix('/')))
     end
     if page.data['korean_url'] == '/blog/'
       html.css('.inst-thumb[src^="/assets/og/measurement/"]').each do |image|

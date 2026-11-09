@@ -124,6 +124,16 @@ Dir.mktmpdir do |tmp|
       name = File.basename(md) == "index.html" ? File.basename(File.dirname(md)) : File.basename(md, ".md")
       png = File.join(out, "#{name}.png")
       targets = [[png, fm]]
+      if kind == 'insights'
+        translation = File.join(ROOT, '_translations/en', File.basename(md))
+        if File.exist?(translation)
+          ten = front_matter(translation)
+          english = fm.merge('title' => ten['title'], 'topics' => ten['topics'], 'og_lang' => 'en', 'og_src' => translation)
+          english_dir = File.join(OUT_ROOT, 'insights-en')
+          FileUtils.mkdir_p(english_dir)
+          targets << [File.join(english_dir, "#{name}.png"), english]
+        end
+      end
       if kind == 'measurement'
         english = fm.transform_values { |value| value.is_a?(String) ? MEASUREMENT_EN.fetch(value, value) : value }
         english['og_lang'] = 'en'
@@ -132,7 +142,7 @@ Dir.mktmpdir do |tmp|
         targets << [File.join(english_dir, "#{name}.png"), english]
       end
       targets.each do |target, content|
-        next if File.exist?(target) && File.mtime(target) > File.mtime(md) && File.mtime(target) > File.mtime(File.join(ROOT, '_data/english/measurement.yml')) && ENV["OG_FORCE"].nil?
+        next if File.exist?(target) && File.mtime(target) > File.mtime(md) && File.mtime(target) > File.mtime(File.join(ROOT, '_data/english/measurement.yml')) && (content['og_src'].nil? || File.mtime(target) > File.mtime(content['og_src'])) && ENV["OG_FORCE"].nil?
         page = File.join(tmp, "#{kind}-#{name}-#{content['og_lang'] || 'ko'}.html")
         File.write(page, html(content, kind))
         ok = system(CHROME, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1",
