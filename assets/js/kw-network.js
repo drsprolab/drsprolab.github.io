@@ -16,7 +16,10 @@
   var detail = document.getElementById('rm-detail');
   var fields = [], groups = [], papers = [], kws = [], nodes = [], links = [], byId = {};
   var state = { q: '', group: '', local: false, sel: null };
-  var sim, zoom, gAll, linkSel, nodeSel, W, H, k = 1;
+  var sim, zoom, gAll, linkSel, nodeSel, W, H, k = 1, fitK = 1;
+  // 휴대폰에서 지도 배경을 손가락으로 쓸면 페이지 스크롤이 막히던 문제: 기본 크기(맞춤)에서는 배경 터치 이동을 끄고 세로 스크롤을 허용한다.
+  // +로 확대해 둔 동안에만 터치 이동을 켠다(노드 끌기는 d3.drag가 따로 처리해 그대로 된다). 마우스는 언제나 그대로.
+  function touchPan() { return k > fitK * 1.12; }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function short(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
@@ -132,14 +135,16 @@
       // 한 손가락 드래그(배경 이동)는 확대/축소가 아니므로 그대로 둔다.
       .filter(function (event) {
         if (event.type === 'wheel') return false;
-        if (event.touches && event.touches.length > 1) return false;
+        if (event.type && event.type.indexOf('touch') === 0 && (event.touches.length > 1 || !touchPan())) return false;
         return !event.ctrlKey && !event.button;
       })
       .on('zoom', function (e) {
         gAll.attr('transform', e.transform); k = e.transform.k;
         svg.classed('zoomed', k >= 1.6);
+        svg.style('touch-action', touchPan() ? 'none' : 'pan-y');
       });
     svg.call(zoom).on('dblclick.zoom', null);
+    svg.style('touch-action', 'pan-y');
     fit(false);
   }
 
@@ -149,6 +154,7 @@
     var x0 = d3.min(vis, function (n) { return n.x; }), x1 = d3.max(vis, function (n) { return n.x; });
     var y0 = d3.min(vis, function (n) { return n.y; }), y1 = d3.max(vis, function (n) { return n.y; });
     var s = Math.min(3, 0.97 / Math.max((x1 - x0 + 40) / W, (y1 - y0 + 40) / H));
+    fitK = s;
     var t = d3.zoomIdentity.translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
     (animate && !reduceMotion ? svg.transition().duration(600) : svg).call(zoom.transform, t);
   }

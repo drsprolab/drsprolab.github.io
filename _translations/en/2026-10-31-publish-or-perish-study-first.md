@@ -1,6 +1,7 @@
 ---
 title: "Publish or Perish, Study or Leave: What Are Researchers Studying For?"
 author: "Jaehong Joo, Ph.D. · Research Professor, Hanyang University"
+thumbnail_author: "Jaehong Joo"
 summary: "Publication is an important outcome of research, but a publication count is not its purpose. Early in a research career, the first task is to develop questions and make theories and methods one's own."
 description: "A reflection on publication pressure, AI, scholarly judgment, and the value of sharing what we learn with the world."
 topics: [Researcher Development, Publish or Perish, Generative AI, HRD]
