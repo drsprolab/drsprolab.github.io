@@ -1,9 +1,9 @@
 ---
 layout: insight
 title: "메타인지적 정확성과 독립적 수행능력의 상실: AI로 인한 멍청해지는 똑똑함"
-date: 2026-10-26 17:30:00 +0900
+date: 2026-11-09 15:43:00 +0900
 summary: "AI와 함께 문제를 풀면 점수는 오르는데, 내가 얼마나 잘했는지는 더 모르게 됩니다. 메타인지적 정확성이 왜 학습의 조건인지, AI를 활용한 학습과 AI 튜터 설계에서 무엇을 고민해야 하는지 살펴봅니다."
-description: "2026년 10월 26일 Weekly Insight. Fernandes 등(2026, Computers in Human Behavior)의 ‘AI makes you smarter but none the wiser’를 리뷰합니다. AI 사용과 수행 과대평가, 사라진 더닝-크루거 효과, 메타인지적 정확성이 학습에 중요한 이유, AI 튜터 설계 방향을 다룹니다."
+description: "2026년 11월 9일 Weekly Insight. Fernandes 등(2026, Computers in Human Behavior)의 ‘AI makes you smarter but none the wiser’를 리뷰합니다. AI 사용과 수행 과대평가, 사라진 더닝-크루거 효과, 메타인지적 정확성이 학습에 중요한 이유, AI 튜터 설계 방향을 다룹니다."
 source_count: 8
 reading_minutes: 6
 topics: [메타인지, 더닝-크루거 효과, AI 튜터, 소크라테스식 질문]
