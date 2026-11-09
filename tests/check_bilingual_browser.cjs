@@ -14,7 +14,7 @@ const base='http://127.0.0.1:4012';
   await fs.mkdir(output,{recursive:true});
   await page.goto(base+'/'); await page.waitForURL(base+'/en/');
   await page.locator('.hero-intro h1').waitFor(); await page.screenshot({path:output+'/english-home-desktop.png',fullPage:true});
-  assert.match(await page.locator('.hero-intro').innerText(),/Led by Professor Ji Hoon Song/);
+  assert.match(await page.locator('.hero-intro').innerText(),/Led by Professor\/Dr\. Ji Hoon Song/);
   for(const width of [1440,1024,900,390,360]){
     await page.setViewportSize({width,height:900});
     const geometry=await page.evaluate(()=>({window:innerWidth,scroll:document.documentElement.scrollWidth,links:[...document.querySelectorAll('.language-switch a')].map(a=>{const r=a.getBoundingClientRect();return {left:r.left,right:r.right};}), header:[...document.querySelectorAll('.brand,.site-nav,.language-switch')].filter(n=>getComputedStyle(n).display!=='none').map(n=>{const r=n.getBoundingClientRect();return {left:r.left,right:r.right};})}));
