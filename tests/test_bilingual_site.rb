@@ -16,7 +16,7 @@ class BilingualSiteTest < Minitest::Test
   end
 
   def test_counterparts_are_complete_and_language_metadata_is_consistent
-    assert_equal 56, routes.length
+    assert_equal 57, routes.length
     routes.each do |ko,en|
       original=html(ko); translated=html(en)
       assert_equal 'en', translated.at_css('html')['lang'], en
@@ -55,7 +55,7 @@ class BilingualSiteTest < Minitest::Test
   def test_all_published_insights_have_english_text_and_original_references
     index=html('/en/weekly-insight/'); lab=html('/en/weekly-insight/lab/')
     cards=index.css('.daily-archive .inst')+lab.css('.daily-archive .inst')
-    assert_equal 21,cards.size
+    assert_equal 22,cards.size
     cards.each do |card|
       assert card['href'].start_with?('/en/weekly-insight/'),card['href']
       refute_match(/[가-힣]/, card.at_css('h3').text)
@@ -65,7 +65,9 @@ class BilingualSiteTest < Minitest::Test
       assert_operator translated.css('.daily-content p').size,:>=,10
       expected=original.css('.references').text.scan(%r{https://doi\.org/[^\s<>]+})
       expected.each{|doi|assert_includes translated.css('.references').text,doi}
-      refute_match(/[가-힣]/,translated.css('.daily-content').text)
+      prose=translated.at_css('.daily-content').dup
+      prose.css('.references').remove # preserve source-language bibliographic records
+      refute_match(/[가-힣]/,prose.text)
     end
   end
 

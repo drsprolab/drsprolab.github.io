@@ -26,7 +26,7 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
       <a class="inst" href="{{ issue.url | relative_url }}">
         {% if issue.image.path %}<img class="inst-thumb inst-thumb--compact" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
         <div class="tags">{% for topic in edition.topics %}<span class="badge">{{ topic | escape }}</span>{% endfor %}</div>
-        {% if issue.thumbnail_author %}<span class="author-hl author-hl--card"><span class="author-star" aria-hidden="true">✦</span><strong>{{ issue.thumbnail_author | escape }}</strong></span>{% endif %}
+        {% if edition.thumbnail_author %}<span class="author-hl author-hl--card"><span class="author-star" aria-hidden="true">✦</span><strong>{{ edition.thumbnail_author | escape }}</strong></span>{% endif %}
         <h3>{{ edition.title | escape }}</h3>
         <p>{{ edition.summary | escape }}</p>
       </a>
