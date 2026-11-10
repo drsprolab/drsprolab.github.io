@@ -24,7 +24,13 @@
   ];
   var FEEDBACK_FIELDS = FIELDS.slice(1);
   var STORE_KEY = 'research-help-v1';
-  var AI_NOTICE = 'DrS comments는 외부 AI(현재 Google Gemini)가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
+  // 피드백 AI 서비스는 사이트 설정(research_help_ai)이 페이지의 data-ai-provider로 알려 준다. 문구가 실제 서비스와 어긋나지 않게 한다.
+  var aiHost = typeof document !== 'undefined' && document.querySelector ? document.querySelector('[data-ai-provider]') : null;
+  var AI_PROVIDER = aiHost && aiHost.getAttribute('data-ai-provider') === 'claude' ? 'claude' : 'gemini';
+  var AI_NOTICE = 'DrS comments는 외부 AI(현재 ' + (AI_PROVIDER === 'claude' ? 'Anthropic Claude' : 'Google Gemini') + ')가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
+  var AI_CONSENT = AI_PROVIDER === 'claude'
+    ? '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Anthropic Claude API)로 전송되는 것에 동의합니다. Anthropic은 API로 받은 내용을 AI 모델 학습에 사용하지 않지만 외부 서비스로 전송되므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.'
+    : null;
   var CRITIC_KEYS = ['alignment', 'modelTheory', 'methodFit'];
   var SEVERITY_LABELS = { critical: '치명적', major: '큰 문제', minor: '보완 권장', sound: '문제 없음' };
   var STEP_LABELS = ['작성', '1차 저장', '2차 저장', '3차 저장', '최종 저장', '제출'];
@@ -573,7 +579,7 @@
       if (s.round === 0 && !s.id) {
         rootEl.appendChild(el('label', { class: 'rh-consent' }, [
           el('input', { type: 'checkbox', checked: s.consent, onchange: function (e) { app.setConsent(e.target.checked); } }),
-          el('span', { text: '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
+          el('span', { text: AI_CONSENT || '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
         ]));
       }
 

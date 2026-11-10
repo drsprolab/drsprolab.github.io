@@ -19,7 +19,7 @@ const WITHHELD = '검증된 근거 부족으로 판단 보류';
 const SOURCE_SCOPE = '초록·서지정보 확인 (원문 미확인)';
 const BLOCKED_DOI = /^10\.(3390|3389)\//; // MDPI, Frontiers
 const BLOCKED_PUBLISHER = /\bmdpi\b|frontiers/i;
-const DEFAULT_DAILY_AI_LIMIT = 40;
+const DEFAULT_MONTHLY_AI_LIMIT = 200;
 const MAX_ATTEMPTS = 5;
 const ADMIN_SESSION_SECONDS = 7200;
 // 연구 모형은 글 대신(또는 글과 함께) 그림 파일로도 낼 수 있다. 그림은 실행 계정 드라이브의 비공개 폴더에 저장하고,
@@ -206,15 +206,15 @@ function publicRevision_(r) {
   return { round: r.round, attempt: r.attempt, savedAt: r.savedAt, status: r.status, fields: r.fields, feedback: r.feedback, error: r.error };
 }
 
-// 외부 AI 과금 폭주 방지: 하루 호출 수 상한(스크립트 속성 DAILY_AI_LIMIT).
+// 외부 AI 과금 폭주 방지: 한 달 호출 수 상한(스크립트 속성 MONTHLY_AI_LIMIT).
 function reserveAi_(calls, sub, token) {
   const props = PropertiesService.getScriptProperties();
-  const limit = Number(props.getProperty('DAILY_AI_LIMIT')) || DEFAULT_DAILY_AI_LIMIT;
-  const today = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
+  const limit = Number(props.getProperty('MONTHLY_AI_LIMIT')) || DEFAULT_MONTHLY_AI_LIMIT;
+  const period = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM');
   const usage = JSON.parse(props.getProperty('AI_USAGE') || '{}');
-  const used = usage.date === today ? usage.count : 0;
-  if (used + calls > limit) fail_('daily_limit', '오늘 AI 피드백 사용량이 모두 소진되었습니다. 작성 내용을 보관한 뒤 내일 다시 저장해 주세요.', identity_(sub, token));
-  props.setProperty('AI_USAGE', JSON.stringify({ date: today, count: used + calls }));
+  const used = usage.period === period ? usage.count : 0;
+  if (used + calls > limit) fail_('monthly_limit', '이번 달 AI 피드백 사용량이 모두 소진되었습니다. 작성 내용은 그대로 보관되니, 다음 달에 다시 저장하거나 연구실에 문의해 주세요.', identity_(sub, token));
+  props.setProperty('AI_USAGE', JSON.stringify({ period: period, count: used + calls }));
 }
 
 // ---------- 1차: 원고 근거에 기반한 소크라테스식 성찰 질문 ----------
@@ -613,13 +613,14 @@ function round3Schema_() {
 // AI_PROVIDERS(기본 'gemini'): 'gemini,openai'처럼 적으면 앞 서비스가 한도 초과(429)·일시 오류(5xx)일 때 다음 서비스로 넘긴다.
 // API 키가 없는 서비스는 건너뛴다.
 const PROVIDERS = {
+  claude: { keyProp: 'ANTHROPIC_API_KEY', modelProp: 'ANTHROPIC_MODEL', model: 'claude-sonnet-5-5', label: 'Claude', call: claude_ },
   gemini: { keyProp: 'GEMINI_API_KEY', modelProp: 'GEMINI_MODEL', model: 'gemini-3.8-flash,gemini-3.6-flash,gemini-3.5-flash-lite', label: 'Google Gemini', call: gemini_ },
   openai: { keyProp: 'OPENAI_API_KEY', modelProp: 'OPENAI_MODEL', model: 'gpt-5-mini', label: 'OpenAI', call: openai_ }
 };
 
 function providers_() {
   const props = PropertiesService.getScriptProperties();
-  return String(props.getProperty('AI_PROVIDERS') || 'gemini').split(',').map(s => s.trim()).filter(n => PROVIDERS[n])
+  return String(props.getProperty('AI_PROVIDERS') || 'claude').split(',').map(s => s.trim()).filter(n => PROVIDERS[n])
     .map(n => Object.assign({ name: n, key: props.getProperty(PROVIDERS[n].keyProp), modelId: props.getProperty(PROVIDERS[n].modelProp) || PROVIDERS[n].model }, PROVIDERS[n]))
     .filter(p => p.key);
 }
@@ -656,6 +657,50 @@ function parseJson_(text) {
   } catch (err) {
     fail_('ai_failed', 'AI 피드백 형식이 올바르지 않습니다.');
   }
+}
+
+// Claude Messages API(공식 REST). Apps Script에는 Anthropic SDK가 없어 UrlFetchApp으로 직접 호출한다.
+// 구조화 출력은 output_config.format(json_schema)을 쓰며, 기존 스키마가 전부 additionalProperties:false를 쓰고 있어 그대로 넘긴다.
+// ANTHROPIC_MODEL에 쉼표로 여러 모델을 적으면 과부하(5xx)·한도(429) 때 다음 모델로 넘긴다.
+function claude_(key, models, system, user, schema, image) {
+  const list = String(models).split(',').map(m => m.trim()).filter(Boolean);
+  for (let i = 0; i < list.length; i++) {
+    try {
+      return { data: claudeModel_(key, list[i], system, user, schema, image), model: list[i] };
+    } catch (err) {
+      if (!err.retryable || i === list.length - 1) throw err;
+      console.error(list[i] + ' 실패, 다음 모델로 전환: ' + err.message);
+    }
+  }
+}
+
+function claudeModel_(key, model, system, user, schema, image) {
+  const build = withImage => ({
+    method: 'post', contentType: 'application/json',
+    headers: { 'x-api-key': key, 'anthropic-version': '2026-10-21' },
+    payload: JSON.stringify({
+      model: model, max_tokens: 32000, system: system,
+      messages: [{ role: 'user', content: withImage ?
+        [{ type: 'text', text: user }, { type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.data } }] : user }],
+      // effort:'low'로 사고 깊이를 낮춰 비용·응답 시간을 줄인다(OpenAI 쪽 reasoning_effort:'low'와 같은 취지).
+      output_config: { effort: 'low', format: { type: 'json_schema', schema: schema } }
+    }), muteHttpExceptions: true
+  });
+  let request = build(!!image);
+  const url = 'https://api.anthropic.com/v1/messages';
+  let res = UrlFetchApp.fetch(url, request);
+  // 그림을 받지 못하면(400) 글만으로 다시 보낸다(그림 설명은 원고에 남아 있다).
+  if (image && res.getResponseCode() === 400) {
+    console.error('Claude 그림 입력 거부, 글만으로 재시도: ' + res.getContentText().slice(0, 300));
+    request = build(false);
+    res = UrlFetchApp.fetch(url, request);
+  }
+  if (res.getResponseCode() !== 200) httpFail_('Claude', res);
+  const data = JSON.parse(res.getContentText());
+  if (data.stop_reason === 'refusal') fail_('ai_failed', 'AI가 안전 정책상 이 요청에 응답하지 않았습니다.');
+  const text = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
+  if (!text) fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
+  return parseJson_(text);
 }
 
 // Gemini Interactions API(Google 권장 방식). store:false로 Google 쪽에 대화 기록을 남기지 않는다.
@@ -984,11 +1029,27 @@ function setupCheck() {
     aiProviders: providers_().map(x => x.name + ':' + x.modelId),
     adminPassword: !!p.getProperty('ADMIN_PASSWORD_HASH'),
     ssciJournals: ssciIndex_().count,
-    dailyAiLimit: Number(p.getProperty('DAILY_AI_LIMIT')) || DEFAULT_DAILY_AI_LIMIT
+    monthlyAiLimit: Number(p.getProperty('MONTHLY_AI_LIMIT')) || DEFAULT_MONTHLY_AI_LIMIT
   }));
 }
 
 // 편집기에서 실행: Gemini 연결 상태를 확인한다. 응답 코드와 오류 메시지만 출력하고 키는 출력하지 않는다.
+// 편집기에서 실행: Claude 연결 상태를 확인한다. 응답 코드와 오류 메시지만 출력하고 키는 출력하지 않는다.
+function diagnoseClaude() {
+  const p = PropertiesService.getScriptProperties();
+  const key = p.getProperty('ANTHROPIC_API_KEY') || '';
+  const model = p.getProperty('ANTHROPIC_MODEL') || PROVIDERS.claude.model;
+  console.log('key: ' + (key ? key.length + '자, 앞 7자 ' + key.slice(0, 7) : '없음'));
+  String(model).split(',').map(m => m.trim()).filter(Boolean).forEach(m => {
+    const r = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+      method: 'post', contentType: 'application/json',
+      headers: { 'x-api-key': key, 'anthropic-version': '2026-10-21' }, muteHttpExceptions: true,
+      payload: JSON.stringify({ model: m, max_tokens: 32, messages: [{ role: 'user', content: '안녕하세요라고 한 단어로 답하세요.' }] })
+    });
+    console.log(m + ' → ' + r.getResponseCode() + ': ' + r.getContentText().slice(0, 400));
+  });
+}
+
 function diagnoseGemini() {
   const p = PropertiesService.getScriptProperties();
   const key = p.getProperty('GEMINI_API_KEY') || '';

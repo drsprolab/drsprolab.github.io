@@ -28,7 +28,9 @@ function fakeSheet(name) {
 
 function setup(opts) {
   opts = opts || {};
-  const props = Object.assign({ GEMINI_API_KEY: 'test-gemini-key', ADMIN_PASSWORD: 'test-admin-pass' }, opts.props);
+  // AI_PROVIDERS는 테스트에서 명시적으로 Gemini를 기본값으로 고정한다(운영 코드의 기본값이 바뀌어도
+  // 기존 테스트들이 계속 같은 경로를 검증하도록). Claude 경로는 각 테스트에서 props로 따로 켠다.
+  const props = Object.assign({ GEMINI_API_KEY: 'test-gemini-key', ADMIN_PASSWORD: 'test-admin-pass', AI_PROVIDERS: 'gemini' }, opts.props);
   const cache = new Map();
   const sheets = {};
   const calls = { ai: [], fetchAll: [] };
@@ -39,7 +41,7 @@ function setup(opts) {
     console: { log() {}, error() {} },
     Utilities: {
       sleep: () => {},
-      formatDate: (d, z, f) => f === 'yyMMdd' ? '261029' : f === 'yyyy-MM-dd' ? '2026-10-29' : new Date(clock).toISOString(),
+      formatDate: (d, z, f) => f === 'yyMMdd' ? '261029' : f === 'yyyy-MM-dd' ? '2026-10-29' : f === 'yyyy-MM' ? '2026-10' : new Date(clock).toISOString(),
       getUuid: () => crypto.randomUUID(),
       computeDigest: (a, s) => Array.from(crypto.createHash('sha256').update(String(s), 'utf8').digest()).map(b => b > 127 ? b - 256 : b),
       DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' },
@@ -71,24 +73,27 @@ function setup(opts) {
     },
     ContentService: { createTextOutput: t => ({ setMimeType: () => t }), MimeType: { JSON: 'json' } },
     UrlFetchApp: {
-      // Gemini·OpenAI 호출을 흉내 낸다. 응답 스키마 모양으로 어떤 요청인지 구분한다.
+      // Gemini·OpenAI·Claude 호출을 흉내 낸다. 응답 스키마 모양으로 어떤 요청인지 구분한다.
       fetch: (url, o) => {
         const body = JSON.parse(o.payload);
-        const provider = url.startsWith('https://generativelanguage.googleapis.com/') ? 'gemini' : url.startsWith('https://api.openai.com/') ? 'openai' : null;
+        const provider = url.startsWith('https://generativelanguage.googleapis.com/') ? 'gemini'
+          : url.startsWith('https://api.openai.com/') ? 'openai'
+          : url.startsWith('https://api.anthropic.com/') ? 'claude' : null;
         if (!provider) throw new Error('unexpected fetch ' + url);
-        const gem = provider === 'gemini';
-        const schema = gem ? body.response_format.schema : body.response_format.json_schema.schema;
-        const system = gem ? body.system_instruction : body.messages[0].content;
-        const raw = gem ? body.input : body.messages[1].content;
+        let schema, system, raw;
+        if (provider === 'gemini') { schema = body.response_format.schema; system = body.system_instruction; raw = body.input; }
+        else if (provider === 'openai') { schema = body.response_format.json_schema.schema; system = body.messages[0].content; raw = body.messages[1].content; }
+        else { schema = body.output_config.format.schema; system = body.system; raw = body.messages[0].content; }
         const user = Array.isArray(raw) ? raw.find(p => p.type === 'text').text : raw;
         const name = schema.properties.queries ? 'search_plan' : schema.properties.alignment ? 'critical_feedback' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
         calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
         if (!handler) throw new Error('unexpected AI call ' + name);
         const out = handler(body, provider);
-        if (out && out.httpError) return res(out.httpError, '{"error":"x"}');
+        if (out && out.httpError) return res(out.httpError, provider === 'claude' ? '{"type":"error","error":{"type":"test_error","message":"x"}}' : '{"error":"x"}');
         const text = JSON.stringify(out);
-        return res(200, JSON.stringify(gem
+        if (provider === 'claude') return res(200, JSON.stringify({ content: [{ type: 'thinking', thinking: '' }, { type: 'text', text }], stop_reason: 'end_turn' }));
+        return res(200, JSON.stringify(provider === 'gemini'
           ? { status: 'completed', steps: [{ type: 'thought', signature: 'x' }, { type: 'model_output', content: [{ type: 'text', text }] }] }
           : { choices: [{ finish_reason: 'stop', message: { content: text } }] }));
       },

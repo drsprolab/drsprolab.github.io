@@ -131,7 +131,7 @@ lede: 최초 작성문을 1·2·3차 DrS comments를 보며 수정하고, 최종
   <p class="rh-intro-start"><a class="rh-btn primary rh-intro-go" href="#write">나의 연구 발전 시키기</a></p>
 </section>
 
-<div id="research-help" class="rh" hidden data-endpoint="{{ site.research_help_script_url | escape }}">
+<div id="research-help" class="rh" hidden data-endpoint="{{ site.research_help_script_url | escape }}" data-ai-provider="{{ site.research_help_ai | default: 'gemini' | escape }}">
   <noscript><p>이 기능은 JavaScript가 켜져 있어야 사용할 수 있습니다.</p></noscript>
 </div>
 <script src="{{ '/assets/js/research-help-pdf.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

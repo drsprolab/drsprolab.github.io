@@ -17,12 +17,13 @@ Google Cloud 콘솔의 OAuth 클라이언트는 필요하지 않습니다. 웹 �
 
 | 속성 | 필수 | 내용 |
 | --- | --- | --- |
-| `GEMINI_API_KEY` | 예 | Google AI Studio(aistudio.google.com)에서 만든 API 키. 무료 등급은 결제 등록이 필요 없습니다. |
+| `ANTHROPIC_API_KEY` | 예 | console.anthropic.com에서 만든 API 키. 선불 크레딧을 충전해야 호출됩니다(무료 등급 없음). 자동 충전을 켜지 않으면 크레딧이 떨어졌을 때 호출만 막히고 추가 청구는 없습니다. |
 | `ADMIN_PASSWORD` | 예 | 제출물 열람 비밀번호. 첫 로그인(또는 `setupCheck` 실행) 때 솔트+SHA-256 해시로 바뀌고 원문 속성은 삭제됩니다. |
-| `GEMINI_MODEL` | 아니요 | 기본 `gemini-3.8-flash,gemini-3.6-flash,gemini-3.5-flash-lite`. 앞 모델이 과부하·한도 초과면 다음 모델로 넘깁니다(Interactions API, `store:false`). |
-| `AI_PROVIDERS` | 아니요 | 기본 `gemini`. `gemini,openai`로 두고 `OPENAI_API_KEY`를 넣으면 Gemini 한도 초과(429)·일시 오류 때 OpenAI(유료)로 넘깁니다. |
+| `ANTHROPIC_MODEL` | 아니요 | 기본 `claude-sonnet-5-5`. 쉼표로 여러 모델을 적으면 앞 모델이 과부하(5xx)·한도 초과(429)일 때 다음 모델로 넘깁니다. |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | 아니요 | Gemini를 보조(또는 대체) 서비스로 쓸 때만. Google AI Studio(aistudio.google.com)에서 만든 키이며 무료 등급은 결제 등록이 필요 없습니다. 기본 모델 `gemini-3.8-flash,gemini-3.6-flash,gemini-3.5-flash-lite`(Interactions API, `store:false`). |
+| `AI_PROVIDERS` | 아니요 | 기본 `claude`. `claude,gemini`처럼 두면 Claude 한도 초과(429)·일시 오류(5xx) 때 Gemini로 넘깁니다. |
 | `OPENAI_API_KEY`, `OPENAI_MODEL` | 아니요 | 유료 OpenAI를 쓸 때만. 기본 모델 `gpt-5-mini`. |
-| `DAILY_AI_LIMIT` | 아니요 | 하루 AI 호출 상한(기본 40). 1차 저장 1회, 2차 저장 2회를 씁니다. |
+| `MONTHLY_AI_LIMIT` | 아니요 | 한 달 AI 호출 상한(기본 200). 1차 저장 1회, 2차 저장 2회, 3차 저장 1회를 씁니다. 매달 1일(KST) 자정에 다시 채워집니다. |
 | `CONTACT_EMAIL` | 아니요 | OpenAlex·Crossref 요청에 붙이는 연락 이메일(두 서비스가 권장). |
 | `OPENALEX_API_KEY` | 사실상 예 | OpenAlex 무료 키(하루 $1 한도). 키가 없으면 Apps Script 서버들이 공유하는 IP 한도가 바닥나 문헌 검색이 0건이 됩니다. |
 
@@ -31,7 +32,8 @@ Google Cloud 콘솔의 OAuth 클라이언트는 필요하지 않습니다. 웹 �
 ## 3. 점검 실행과 권한 승인
 
 편집기 위쪽 함수 목록에서 `setupCheck` → **실행**. Google 권한 승인(스프레드시트, 외부 서비스 연결)을 계정 소유자가 직접 진행합니다.
-실행 로그에 스프레드시트 주소와 설정 여부(`openaiKey`, `adminPassword`, `ssciJournals`)가 표시됩니다. 비밀값 자체는 출력하지 않습니다.
+실행 로그에 스프레드시트 주소와 설정 여부(`aiProviders`, `adminPassword`, `ssciJournals`, `monthlyAiLimit`)가 표시됩니다. 비밀값 자체는 출력하지 않습니다.
+키를 등록한 뒤에는 `diagnoseClaude`(또는 `diagnoseGemini`)를 따로 실행해 실제로 응답이 오는지 확인할 수 있습니다.
 
 ## 4. SSCI 저널 목록 등록 (2차 피드백 문헌 근거의 기준)
 
@@ -69,7 +71,7 @@ mjl.clarivate.com에 무료 계정으로 로그인한 뒤 컬렉션 목록 다�
 - 1차: 원고 근거에 기반한 소크라테스식 질문. `의도 확인 → 근거·가정 탐색 → 정렬·수정 결정` 순서이며, 항목별 질문 기준과 문헌 검토 근거는 [socratic-feedback-design.md](socratic-feedback-design.md)에 정리했습니다. 단회 원고 검토이므로 실시간 대화라고 표시하지 않습니다.
 - 2차: 검증된 SSCI 문헌을 근거로 한 항목별 대조 검토.
 - 3차: 심사 관점의 핵심 정합성 점검. ① 연구목적과 연구문제의 얼라인먼트 ② 연구목적에 따른 연구모형 설정의 이론적 불일치 ③ 연구방법이 연구목적을 달성하는 데 갖는 불합리성을 항목마다 심각도(치명적·큰 문제·보완 권장·문제 없음)와 함께 돌려줍니다. AI에게 주는 점검 지시문은 작성자에게 보이지 않으며, 서버 응답과 화면·PDF에 담기지 않습니다. 지시문은 스크립트 속성 `ROUND3_DIRECTIVE`에 넣습니다(저장소가 공개라서 코드에는 중립 문구만 둡니다). 속성이 없으면 기본 문구로 동작합니다.
-- 최종 저장(4차): AI 호출 없이 최종 수정본만 저장합니다. 하루 AI 호출 한도는 1·3차가 1회, 2차가 2회씩 씁니다.
+- 최종 저장(4차): AI 호출 없이 최종 수정본만 저장합니다. 한 달 AI 호출 한도는 1·3차가 1회, 2차가 2회씩 씁니다.
 
 최종 저장 후 화면에는 서론·이론적 근거·연구방법·기대시사점으로 구성한 최종 연구계획서가 표시됩니다. 학생과 관리자 모두 PDF 앞부분에는 최종 연구계획서와 추천 참고문헌을, 뒤쪽 부록에는 최초 작성본 → 1차 피드백 → 1차 수정본 → 2차 피드백 → 2차 수정본 → 3차 피드백 → 최종 수정본을 내려받습니다. 이 변경은 화면·PDF 생성 코드에서 처리하며 기존 저장소의 수정 이력을 그대로 사용합니다.
 
@@ -82,8 +84,10 @@ mjl.clarivate.com에 무료 계정으로 로그인한 뒤 컬렉션 목록 다�
 
 ## 비용과 개인정보
 
-기본 설정(Gemini 무료 등급)은 비용이 들지 않습니다. 무료 등급의 분당·일일 한도는 AI Studio의 사용량 화면에서 확인하며, 한도를 넘으면 저장이 실패로 처리되고(작성 내용은 보존) 잠시 뒤 다시 저장하면 됩니다.
+기본 설정은 **Claude(Sonnet 5.5, 유료)**를 씁니다. console.anthropic.com에서 선불 크레딧을 충전해 쓰는 종량제이고 무료 등급은 없습니다.
+자동 충전을 켜지 않으면 크레딧이 떨어졌을 때 호출이 막힐 뿐 카드에서 추가로 빠져나가지 않습니다(그 달 제출은 저장 실패로 처리되고 작성 내용은 보존됩니다). 호출량은 `MONTHLY_AI_LIMIT`(기본 월 200회)로 한 번 더 막아 둡니다.
+학생 30명이 한 달에 1·2·3차를 한 번씩 다 쓰는 정도면(120회 안팎) Sonnet 5.5 기준 월 10달러 안팎입니다. 정확한 사용량은 console.anthropic.com의 사용량 화면에서 확인합니다.
 
-Gemini 무료 등급 약관(Unpaid Services)은 제출 내용과 응답을 Google이 서비스 개선에 사용하고 사람 검토자가 읽을 수 있으며, 민감·기밀·개인정보를 보내지 말라고 안내합니다.
-그래서 이름은 AI로 보내지 않고, 작성 화면의 동의 문구에 이 조건을 적어 두었습니다. 미발표 연구 아이디어 보호가 중요해지면 Gemini 유료 등급(결제 연결 시 학습에 쓰지 않음)이나 OpenAI 유료로 바꾸세요.
+`AI_PROVIDERS`에 `claude,gemini`처럼 Gemini를 같이 넣으면 Claude 한도 초과·오류 때 자동으로 넘어가는 보조 수단으로 쓸 수 있습니다. 다만 Gemini 무료 등급 약관(Unpaid Services)은 제출 내용과 응답을 Google이 서비스 개선에 사용하고 사람 검토자가 읽을 수 있으며, 민감·기밀·개인정보를 보내지 말라고 안내합니다.
+그래서 이름은 어느 서비스로도 보내지 않고, 작성 화면의 동의 문구에 이 조건을 적어 두었습니다.
 OpenAlex·Crossref는 무료입니다.
