@@ -2435,4 +2435,4 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 
 /* Deep Research: temporarily hide its navigation and archive tab. */
 .site-nav li:has(> a[href$="/weekly-insight/deep-research/"]),
-.insight-tabs a[href$="/weekly-insight/deep-research/"] { display:none; }
+.insight-tabs a[href$="/weekly-insight/deep-research/"] { display:none !important; }
