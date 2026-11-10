@@ -10,7 +10,7 @@
   var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   var COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var RM_FLOAT_S = 5.5; // assets/css/style.css의 .rm-float animation 지속시간과 같은 값이어야 한다
+  var RM_FLOAT_S = 3.8; // assets/css/style.css의 .rm-float animation 지속시간과 같은 값이어야 한다
 
   var svg = d3.select('#rm-svg');
   var detail = document.getElementById('rm-detail');
@@ -43,6 +43,11 @@
     links = graph.links;
     fields.forEach(function (f) { f.color = COLORS[f.fi % COLORS.length]; });
     kws.forEach(function (kw) { kw.fis = new Set([kw.fi]); var f = fields[kw.fi]; kw.groups = new Set([f.group, fieldBtn(f)].concat(kw.also)); });
+    // 큰 키워드 노드 10개 = 연결된 논문 수가 가장 많은 키워드. 동률은 id로 고정한다.
+    var coreIds = new Set(kws.slice().sort(function (a, b) {
+      return b.papers.length - a.papers.length || a.id.localeCompare(b.id);
+    }).slice(0, 10).map(function (kw) { return kw.id; }));
+    kws.forEach(function (kw) { kw.core = coreIds.has(kw.id); });
     nodes = kws.concat(papers);
     nodes.forEach(function (n) { byId[n.id] = n; n.nb = new Set([n.id]); n.phase = Math.random() * 6.283; });
     links.forEach(function (l) { byId[l.source].nb.add(l.target); byId[l.target].nb.add(l.source); });
@@ -91,7 +96,7 @@
     linkSel = gAll.append('g').attr('class', 'rm-links').selectAll('line').data(links).join('line')
       .attr('class', 'rm-link').attr('stroke', function (l) { return color(byId[l.source.id || l.source]); });
     nodeSel = gAll.append('g').attr('class', 'rm-nodes').selectAll('g').data(nodes).join('g')
-      .attr('class', function (n) { return 'rm-node ' + n.type; })
+      .attr('class', function (n) { return 'rm-node ' + n.type + (n.core ? ' rm-core' : ''); })
       .attr('tabindex', function (n) { return n.type === 'kw' ? 0 : -1; }).attr('role', 'button')
       .attr('aria-label', function (n) { return n.type === 'kw' ? n.name + ', ' + n.papers.length + ' papers' : n.name; })
       .on('click', function (e, n) { if (e.defaultPrevented) return; select(n); })
@@ -107,6 +112,9 @@
     // 그 안의 rm-float는 각 노드의 phase로 시작 지점을 달리해 CSS 애니메이션만으로 살짝 떠다니게 한다(JS 틱 없이 GPU 합성, CPU 비용 거의 없음).
     var floatSel = nodeSel.append('g').attr('class', 'rm-float')
       .style('animation-delay', function (n) { return (-(n.phase / (2 * Math.PI)) * RM_FLOAT_S).toFixed(2) + 's'; });
+    floatSel.filter(function (n) { return n.core; }).append('circle').attr('class', 'rm-core-halo')
+      .attr('r', function (n) { return radius(n) + 6; })
+      .style('animation-delay', function (n) { return (-(n.phase / (2 * Math.PI)) * 2.4).toFixed(2) + 's'; });
     floatSel.append('circle').attr('r', radius).attr('fill', color);
     floatSel.append('text').attr('class', 'rm-label').attr('dy', function (n) { return -radius(n) - 4; })
       .text(function (n) { return n.type === 'kw' ? n.name : short(n.name, 24); });
