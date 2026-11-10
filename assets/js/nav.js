@@ -41,10 +41,10 @@
 // iOS Safari는 터치 리스너가 있어야 :active 스타일이 적용됨 (박스 확대 효과)
 document.addEventListener('touchstart', function () {}, { passive: true });
 
-// 최근 3일(72시간) 안에 새 글·새 항목이 올라온 메뉴에 NEW 표시 — 기존 내용 수정은 제외 (_plugins/item_updates.rb)
-// 빌드 시각이 아니라 방문 시각 기준이라 3일 뒤 저절로 사라짐
+// 최근 7일 안에 새 글·새 항목이 올라온 메뉴에 NEW 표시 — 기존 내용 수정은 제외 (_plugins/item_updates.rb)
+// 빌드 시각이 아니라 방문 시각 기준이라 7일 뒤 저절로 사라짐
 (function () {
-  var now = Date.now() / 1000, WINDOW = 72 * 3600;
+  var now = Date.now() / 1000, WINDOW = 7 * 24 * 3600;
   document.querySelectorAll('.nav-item > a[data-updated]').forEach(function (a) {
     var t = +a.dataset.updated;
     if (!t || now - t > WINDOW || now < t - 3600) return;
@@ -57,9 +57,9 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   });
 })();
 
-// 하위 메뉴에도 같은 기준(72시간)으로 NEW 표시 — 예: Lab Weekly Insight에 글이 올라오면 그 하위 메뉴에만 (_plugins/item_updates.rb subnav_updated)
+// 하위 메뉴에도 같은 7일 기준으로 NEW 표시 — 예: Lab Weekly Insight (_plugins/item_updates.rb subnav_updated)
 (function () {
-  var now = Date.now() / 1000, WINDOW = 72 * 3600;
+  var now = Date.now() / 1000, WINDOW = 7 * 24 * 3600;
   document.querySelectorAll('.submenu > li > a[data-updated]').forEach(function (a) {
     var t = +a.dataset.updated;
     if (!t || now - t > WINDOW || now < t - 3600 || a.querySelector('.submenu-new')) return;
@@ -79,7 +79,7 @@ document.addEventListener('touchstart', function () {}, { passive: true });
   var main = document.querySelector('main');
   if (!el || !main) return;
   var data; try { data = JSON.parse(el.textContent); } catch (e) { return; }
-  var now = Date.now() / 1000, WINDOW = 72 * 3600;
+  var now = Date.now() / 1000, WINDOW = 7 * 24 * 3600;
   function fresh(t) { return t && now - t <= WINDOW && now >= t - 3600; }
   function norm(s) { return String(s).toLowerCase().replace(/[^0-9a-z가-힣]/g, ''); }
 
@@ -108,18 +108,20 @@ document.addEventListener('touchstart', function () {}, { passive: true });
     });
 })();
 
-// 수동 NEW 표시: 메뉴 항목의 data-new-until(유닉스 초)까지 NEW 배지를 보여 줌 (_data/navigation.yml new_until). 방문 시각 기준이라 기한이 지나면 저절로 사라짐
+// 상시 표시(Research Help) 또는 종료일까지만 표시(Conference).
 (function () {
   var now = Date.now() / 1000;
-  document.querySelectorAll('a[data-new-until], li[data-new-until] > a').forEach(function (a) {
+  document.querySelectorAll('a[data-always-new], a[data-new-until], li[data-new-until] > a').forEach(function (a) {
+    var always = a.dataset.alwaysNew === 'true';
     var until = +(a.dataset.newUntil || a.parentElement.dataset.newUntil);
-    if (!until || now > until || a.querySelector('.nav-new')) return;
+    if ((!always && (!until || now > until)) || a.querySelector('.nav-new, .submenu-new')) return;
     var top = a.parentElement && a.parentElement.classList.contains('nav-item');
     var b = document.createElement('span');
     b.className = top ? 'nav-new' : 'submenu-new';
     b.textContent = 'NEW';
     var english = document.documentElement.lang === 'en';
-    b.title = (english ? 'Shown until ' : '') + new Date(until * 1000).toLocaleDateString(english ? 'en-US' : 'ko-KR', { month: 'numeric', day: 'numeric' }) + (english ? '' : '까지 표시');
+    b.title = always ? (english ? 'Research Help is highlighted' : 'Research Help 상시 표시') :
+      (english ? 'Shown until ' : '') + new Date(until * 1000).toLocaleDateString(english ? 'en-US' : 'ko-KR', { month: 'numeric', day: 'numeric' }) + (english ? '' : '까지 표시');
     a.appendChild(b);
   });
 })();

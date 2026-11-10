@@ -1,23 +1,21 @@
-# watch: 이 메뉴의 내용 파일. 여기서 새 글·새 항목이 추가되면 3일간 메뉴와 해당 항목 옆에 NEW 표시 (_plugins/item_updates.rb). 기존 내용 수정은 NEW가 아님
+# watch: 새 글·새 항목 추가 시 7일간 NEW 표시. 기존 내용 수정은 제외한다.
 - title: Members
   url: /members/
-  # Members는 NEW 표시를 하지 않음 (watch 없음)
+  watch: [_data/members.yml]
   children:
     - { title: Professor-in-charge, url: /members/#professor }
-    - { title: Lab Members, url: /members/#lab-members }
-    - { title: Alumni, url: /members/#alumni }
+    - { title: Lab Members, url: /members/#lab-members, watch: [_data/members.yml], watch_sections: [postdoc, phd, ma] }
+    - { title: Alumni, url: /members/#alumni, watch: [_data/members.yml], watch_sections: [alumni_phd, alumni_ma] }
 - title: Teaching & Research
   url: /research/
-  # new_until: 이 시각(유닉스 초)까지 NEW 표시. 교수님이 지우라고 할 때까지 유지(2026-11-03 고정, 4070908800 = 2099년)
-  new_until: 4070908800
+  always_new: true # Research Help가 상시 NEW인 동안 상위 메뉴도 표시
   watch: [research.md, research, teaching.md, _data/publications.yml, _data/presentations.yml, _data/books.yml, _data/teaching.yml]
   children:
-    - { title: Research (Professor), url: /research/, watch: [_data/publications.yml, _data/presentations.yml, _data/books.yml] }
-    - { title: Research (Lab), url: /research/lab/ }
+    - { title: Research (Professor), url: /research/, watch: [_data/publications.yml, _data/books.yml], watch_scope: professor }
+    - { title: Research (Lab), url: /research/lab/, watch: [research/lab.md, _data/publications.yml, _data/presentations.yml], watch_scope: lab }
     - { title: Teaching, url: /teaching/, watch: [teaching.md, _data/teaching.yml] }
     - title: Conference
       url: /conference/
-      new_until: 4070908800
       children:
         - { title: UFHRD 2026, url: /conference/ufhrd-2026/, starts_on: "2026-06-17", ends_on: "2026-06-19" }
         - { title: Asian AHRD 2026, url: /conference/asian-ahrd-2026/, starts_on: "2026-11-05", ends_on: "2026-11-08" }
@@ -27,7 +25,7 @@
     - { title: Appointment request, url: /appointment/ }
     - title: Research help
       url: /research-help/basics/
-      new_until: 4070908800
+      always_new: true
       children:
         - { title: 논문작성법(기초), url: /research-help/basics/ }
         - { title: 연구방법선택(중급), url: /research-help/methods/ }
@@ -36,24 +34,24 @@
   url: /blog/
   watch: [blog, _posts, in-progress, assets/data/academic-motivation-personas.json, assets/data/academic-motivation-sample.json, assets/data/adaptive-performance-personas.json, assets/data/adaptive-performance-sample.json, assets/data/ap-teams.json, assets/data/ee-data.json, assets/data/employee-engagement-personas.json, assets/data/employee-engagement-sample.json, assets/data/gl-profiles.json, assets/data/goal-orientation-personas.json, assets/data/goal-orientation-sample.json, assets/data/kh-data.json, assets/data/knowledge-hiding-personas.json, assets/data/knowledge-hiding-sample.json, assets/data/la-personas.json, assets/data/la-teams.json, assets/data/learning-agility-sample.json, assets/data/lm-profiles.json, assets/data/pe-data.json, assets/data/psychological-entitlement-personas.json, assets/data/psychological-entitlement-sample.json, assets/data/sc-profiles.json, assets/data/self-compassion-personas.json, assets/data/self-compassion-sample.json, assets/data/ye-personas.json, assets/data/youth-entrepreneurship-sample.json]
   children:
-    - { title: Measurement & Solution, url: /blog/ }
-    - { title: In progress 진단, url: /in-progress/, badge: BETA test }
+    - { title: Measurement & Solution, url: /blog/, watch: [_posts] }
+    - { title: In progress 진단, url: /in-progress/, watch: [in-progress], badge: BETA test }
 - title: Project
   url: /project/
   watch: [project.md, _data/projects.yml, _data/lectures.yml, _data/lecture_groups.json, _data/lecture_topics.json]
   children:
     - { title: Project, url: /project/, watch: [_data/projects.yml] }
-    - { title: Lecture and Consulting, url: /project/#lecture, watch: [_data/lectures.yml] }
+    - { title: Lecture and Consulting, url: /project/#lecture, watch: [_data/lectures.yml, _data/lecture_groups.json, _data/lecture_topics.json] }
 - title: Institute & Center
   url: /institutes/
   watch: [institutes, _data/institutes.yml, _data/institute_details.yml]
   children:
-    - { title: 인문사회연구소, url: /institutes/humsoc/ }
-    - { title: 교육공학과 4단계 BK21, url: /institutes/bk21/ }
-    - { title: BK21 4단계 AIX 융합교육단, url: /institutes/bk21-aix/ }
-    - { title: ECDI, url: /institutes/ecdi/ }
-    - { title: 교육과정혁신학과, url: /institutes/curriculum/ }
-    - { title: 교육복지정책중점연구소, url: /institutes/welfare/ }
+    - { title: 인문사회연구소, url: /institutes/humsoc/, watch: [institutes/humsoc.md, _data/institute_details.yml], watch_sections: [humsoc] }
+    - { title: 교육공학과 4단계 BK21, url: /institutes/bk21/, watch: [institutes/bk21.md, _data/institute_details.yml], watch_sections: [bk21] }
+    - { title: BK21 4단계 AIX 융합교육단, url: /institutes/bk21-aix/, watch: [institutes/bk21-aix.md, _data/institute_details.yml], watch_sections: [bk21-aix] }
+    - { title: ECDI, url: /institutes/ecdi/, watch: [institutes/ecdi.md, _data/institute_details.yml], watch_sections: [ecdi] }
+    - { title: 교육과정혁신학과, url: /institutes/curriculum/, watch: [institutes/curriculum.md, _data/institute_details.yml], watch_sections: [curriculum] }
+    - { title: 교육복지정책중점연구소, url: /institutes/welfare/, watch: [institutes/welfare.md, _data/institute_details.yml], watch_sections: [welfare] }
 - title: Awards & Gallery
   url: /highlights/
   watch: [highlights.md, _data/gallery.yml, _data/member_awards.yml, assets/images/gallery]

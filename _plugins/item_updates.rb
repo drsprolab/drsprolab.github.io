@@ -6,10 +6,11 @@
 #   site.data["subnav_updated"]: 하위 메뉴(url)별 가장 최근 추가 시각 → 드롭다운 하위 메뉴 NEW 배지
 #     - Weekly Insight 글은 머리말 section 값으로 DrS / Lab / Deep Research 중 어디에 올라갔는지 나눈다.
 #   site.data["nav_changes"]: NEW 를 보는 메뉴 url 목록 (값은 빈 배열; 페이지가 어느 메뉴에 속하는지 찾는 데만 씀)
-# 실제로 NEW 를 보일지는 방문 시각 기준 3일(72시간)로 브라우저에서 판단한다 (assets/js/nav.js).
+# 실제로 NEW 를 보일지는 방문 시각 기준 7일로 브라우저에서 판단한다 (assets/js/nav.js).
 require "open3"
 require "yaml"
 require "date"
+require "time"
 
 module ItemUpdates
   LOOKBACK = 7 * 24 * 3600
@@ -25,6 +26,7 @@ module ItemUpdates
       site.data["nav_changes"] = {}
       site.data["subnav_updated"] = {}
       @root = site.source
+      mark_conferences(site)
       shallow, = git("rev-parse", "--is-shallow-repository")
       return if shallow.strip != "false"
 
@@ -41,7 +43,7 @@ module ItemUpdates
         site.data["nav_changes"][url] = []
         files, = git("ls-files", "--", *paths)
         files.lines.map(&:chomp).each do |f|
-          if f =~ /\.ya?ml\z/
+          if f =~ /\.(?:ya?ml|json)\z/
             added_items(f, cutoff).each { |s, t| found[[url, s]] = t }
           elsif (doc = docs[f]) && doc.data["title"]
             t = published_at(f)
@@ -54,6 +56,9 @@ module ItemUpdates
             if latest >= cutoff && (sub = submenu_url(doc))
               site.data["subnav_updated"][sub] = [site.data["subnav_updated"][sub].to_i, latest].max
             end
+          elsif (title = page_title(f))
+            t = published_at(f)
+            found[[url, title]] = t if t >= cutoff
           end
         end
       end
@@ -73,6 +78,29 @@ module ItemUpdates
     end
 
     private
+
+    # 컨퍼런스 NEW는 등록 시점부터 종료일 당일까지 유지한다(KST).
+    def mark_conferences(site)
+      Array(site.data["navigation"]).each do |item|
+        Array(item["children"]).each do |child|
+          next unless child["url"] == "/conference/"
+          deadlines = Array(child["children"]).filter_map do |event|
+            next unless event["ends_on"]
+            event["new_until"] = Time.parse("#{event['ends_on']} 23:59:59 +09:00").to_i
+          end
+          child["new_until"] = deadlines.max if deadlines.any?
+        end
+      end
+    end
+
+    def page_title(file)
+      return nil unless file.match?(/\.(?:md|html)\z/)
+      front = File.read(File.join(@root, file), encoding: "utf-8")[/\A---\s*\n(.*?)\n---/m, 1]
+      data = front && YAML.safe_load(front, permitted_classes: [Date, Time])
+      data["title"] if data && data["published"] != false
+    rescue StandardError
+      nil
+    end
 
     # 영문판(_translations/en/<글 파일 이름>.md)이 처음 추가된 시각(없으면 0)
     def translation_added_at(doc)
@@ -110,10 +138,14 @@ module ItemUpdates
         next if paths.empty?
         files, = git("ls-files", "--", *paths)
         files.lines.map(&:chomp).each do |f|
-          t = if f =~ /\.ya?ml\z/
-                added_items(f, cutoff).values.max
+          t = if f =~ /\.(?:ya?ml|json)\z/
+                scope = f.end_with?("publications.yml") ? child["watch_scope"] : nil
+                added_items(f, cutoff, child["watch_sections"], scope).values.max
               elsif (doc = docs[f]) && doc.data["title"]
                 added = [published_at(f), translation_added_at(doc)].max
+                added if added >= cutoff
+              elsif page_title(f)
+                added = published_at(f)
                 added if added >= cutoff
               end
           next unless t
@@ -149,15 +181,15 @@ module ItemUpdates
     end
 
     # 최근 커밋마다 파일 내용을 앞 버전과 비교해, 새로 생긴 항목과 그 시각을 돌려준다.
-    def added_items(file, cutoff)
+    def added_items(file, cutoff, sections = nil, scope = nil)
       log, = git("log", "--since=#{cutoff}", "--reverse", "--format=%H %ct", "--", file)
       commits = log.lines.map(&:split)
       return {} if commits.empty?
 
-      prev = items_at("#{commits.first[0]}^", file)
+      prev = items_at("#{commits.first[0]}^", file, sections, scope)
       added = {}
       commits.each do |sha, ct|
-        cur = items_at(sha, file)
+        cur = items_at(sha, file, sections, scope)
         (cur - prev).each do |s|
           base = prev.find { |p| similar?(p, s) }
           if base.nil? then added[s] ||= ct.to_i            # 새 항목
@@ -166,14 +198,16 @@ module ItemUpdates
         end
         prev = cur
       end
-      current = items_at("HEAD", file)
+      current = items_at("HEAD", file, sections, scope)
       added.select { |s, _| current.include?(s) } # 그 뒤 다시 고쳐졌거나 삭제된 항목은 제외
     end
 
-    def items_at(rev, file)
+    def items_at(rev, file, sections = nil, scope = nil)
       text, status = git("show", "#{rev}:#{file}")
       return [] unless status.success?
       data = YAML.safe_load(text, permitted_classes: [Date, Time], aliases: true)
+      data = data.slice(*sections) if sections && data.is_a?(Hash)
+      data = data.select { |item| item.is_a?(Hash) && item[scope] == true } if scope && data.is_a?(Array)
       out = []
       collect(data, false, out)
       out.uniq
