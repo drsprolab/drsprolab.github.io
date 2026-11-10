@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -38,20 +39,12 @@ jobs:
           node --test tests/test_orbit.cjs
           node --test tests/test_appointment.cjs
           node --test tests/research-help-ui.test.cjs tests/research-help-backend.test.cjs tests/research-method-selector.test.cjs
-      - name: Check whether share images need regeneration
+      - name: Restore unchanged share images for gallery updates
         id: og
         env:
           EVENT_NAME: ${{ github.event_name }}
-          BEFORE_SHA: ${{ github.event.before }}
-        run: |
-          if [ "$EVENT_NAME" != "push" ] || ! git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null || [ ! -d assets/og ]; then
-            echo "required=true" >> "$GITHUB_OUTPUT"
-          elif git diff --name-only "$BEFORE_SHA" "$GITHUB_SHA" | grep -qvE '^(assets/images/gallery/|_data/gallery\.yml$|highlights\.md$|assets/js/gallery-photo\.js$|assets/css/style\.css$|\.github/workflows/jekyll\.yml$)'; then
-            echo "required=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "required=false" >> "$GITHUB_OUTPUT"
-            echo "Gallery-only update: reuse committed share images."
-          fi
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/restore_share_images.sh
       - name: Weekly Insight·Measurement 공유 이미지(Open Graph·썸네일) 만들기
         if: steps.og.outputs.required == 'true'
         run: |
