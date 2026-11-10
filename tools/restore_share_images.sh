@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Reuse share images only when every change since the last successful build is
-# confined to the gallery or this deployment plumbing. Any doubt regenerates.
+# confined to presentation-only changes or this deployment plumbing. Any doubt regenerates.
 set -euo pipefail
 output_required() { echo "required=$1" >> "$GITHUB_OUTPUT"; }
-allowed='^(assets/images/gallery/|_data/gallery\.yml$|highlights\.md$|assets/js/gallery-photo\.js$|assets/css/style\.css$|\.github/workflows/jekyll\.yml$|tools/restore_share_images\.sh$)'
+allowed='^(assets/images/gallery/|_includes/insight-list\.html$|_data/insight_positions\.yml$|_data/gallery\.yml$|highlights\.md$|assets/js/gallery-photo\.js$|assets/css/style\.css$|\.github/workflows/jekyll\.yml$|tools/restore_share_images\.sh$)'
 if [ "${EVENT_NAME:-}" != push ]; then output_required true; exit; fi
 if ! previous=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow jekyll.yml --branch main --status success --limit 1 --json databaseId,headSha --jq '.[] | [.databaseId,.headSha] | @tsv'); then
   output_required true; exit

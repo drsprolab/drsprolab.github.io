@@ -6,6 +6,19 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
 {% if include.section == 'lab' %}{% assign issues = all | where: 'section', 'lab' %}{% elsif include.section == 'deep-research' %}{% assign issues = all | where: 'section', 'deep-research' %}{% else %}{% assign issues = all | where_exp: 'i', "i.section != 'lab' and i.section != 'deep-research'" %}{% endif %}
 {%- comment -%} 최신 날짜의 글이 가장 먼저, 같은 날 올린 연재(AI Paradox 1~10 등)도 늦은 번호(10)가 먼저 {%- endcomment -%}
 {% assign days = issues | group_by_exp: 'i', "i.date | date: '%Y-%m-%d'" | reverse %}
+{%- assign ordered_issues = '' | split: '' -%}
+{%- for day in days -%}{%- assign day_items_rev = day.items | reverse -%}{%- assign ordered_issues = ordered_issues | concat: day_items_rev -%}{%- endfor -%}
+{%- assign editorial_positions = site.data.insight_positions | sort: 'position' -%}
+{%- for placement in editorial_positions -%}
+  {%- assign moved = ordered_issues | where: 'url', placement.url -%}
+  {%- if moved.size > 0 -%}
+    {%- assign remaining = ordered_issues | where_exp: 'i', 'i.url != placement.url' -%}
+    {%- assign slot = placement.position | minus: 1 | at_least: 0 | at_most: remaining.size -%}
+    {%- assign before = remaining | slice: 0, slot -%}
+    {%- assign after = remaining | slice: slot, remaining.size -%}
+    {%- assign ordered_issues = before | concat: moved | concat: after -%}
+  {%- endif -%}
+{%- endfor -%}
 <section class="daily-index" aria-labelledby="daily-title">
   <header class="daily-hero">
     <div class="eyebrow">AI NEWS · CONTEXT · QUESTIONS</div>
@@ -13,15 +26,13 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
     <nav class="tabs insight-tabs" aria-label="Weekly Insight 구분"><a href="{{ '/weekly-insight/' | relative_url }}"{% if include.section == 'drs' %} aria-current="page"{% endif %}>DrS Weekly Insight</a><a href="{{ '/weekly-insight/lab/' | relative_url }}"{% if include.section == 'lab' %} aria-current="page"{% endif %}>Lab Weekly Insight</a><a href="{{ '/weekly-insight/deep-research/' | relative_url }}"{% if include.section == 'deep-research' %} aria-current="page"{% endif %}>Deep Research</a></nav>
     <p class="lede">{% if include.section == 'lab' %}<span class="drs-hl"><span class="drs-star" aria-hidden="true">★</span>PRO-AX 연구실 연구원들의 (DrS' Kids) insight 입니다.</span>{% elsif include.section == 'deep-research' %}하나의 주제를 학문적으로 깊이 있게 다루고 있습니다.{% else %}HRD 담당자, 조직의 리더, 그리고 모든 조직원들에게 새로운 Insight를 공유합니다.{% endif %}</p>
     {% include sharing-guidance.html class="daily-issue-notice" %}
-    {%- assign orbit_issues = '' | split: '' -%}
-    {%- for day in days -%}{%- assign day_items_rev = day.items | reverse -%}{%- assign orbit_issues = orbit_issues | concat: day_items_rev -%}{%- endfor -%}
-    {% include page-banner.html key="daily-insight" issues=orbit_issues %}
+    {% include page-banner.html key="daily-insight" issues=ordered_issues %}
   </header>
   {% if issues.size > 0 %}
   <div class="daily-archive">
     <h2>Insights <span class="n">{{ issues.size }}</span></h2>
     <div class="inst-grid{% if include.section == 'lab' %} inst-grid--aligned{% endif %}">
-      {% for day in days %}{% assign day_items = day.items | reverse %}{% for issue in day_items %}
+      {% for issue in ordered_issues %}
       {% assign edition = issue %}{% if page.lang == 'en' %}{% assign edition = site.data.english_insights[issue.url] | default: issue %}{% endif %}
       <a class="inst" href="{{ issue.url | relative_url }}">
         {% if issue.image.path %}<img class="inst-thumb inst-thumb--compact" src="{{ issue.image.path | relative_url }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
@@ -30,7 +41,7 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
         <h3>{{ edition.title | escape }}</h3>
         <p>{{ edition.summary | escape }}</p>
       </a>
-      {% endfor %}{% endfor %}
+      {% endfor %}
     </div>
   </div>
   {% elsif include.section == 'lab' %}{%- comment -%} Lab: 글이 없을 때는 아무것도 표시하지 않음 {%- endcomment -%}
