@@ -2432,3 +2432,7 @@ details.rhb-ch { margin: 14px 0; border: 1px solid var(--line); border-radius: 1
 .gallery-photo-dialog .gallery-photo-full { display:block; width:100%; height:auto; max-height:70dvh; object-fit:contain; border-radius:6px; }
 .gallery-photo-dialog figcaption { margin-top:10px; font-size:14px; color:var(--muted); }
 html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
+
+/* Deep Research: temporarily hide its navigation and archive tab. */
+.site-nav li:has(> a[href$="/weekly-insight/deep-research/"]),
+.insight-tabs a[href$="/weekly-insight/deep-research/"] { display:none; }
