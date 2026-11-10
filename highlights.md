@@ -56,6 +56,13 @@ lede: 우리가 함께 꿈꾸고 바라보는 것.
 <p class="gal-empty" hidden>이 해의 사진이 아직 없습니다.</p>
 </div>
 
+
+<dialog class="gallery-photo-dialog" id="gallery-photo-dialog" aria-labelledby="gallery-photo-caption">
+  <div class="gallery-photo-toolbar"><button type="button" class="gallery-photo-close" aria-label="확대 사진 닫기">닫기 ×</button></div>
+  <figure><img class="gallery-photo-full" alt=""><figcaption id="gallery-photo-caption"></figcaption></figure>
+</dialog>
+<script src="{{ '/assets/js/gallery-photo.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+
 <script>
 // 연도 버튼: 전체는 모든 사진을 연도별로, 연도를 고르면 그 해 사진만 보여 준다.
 // 바뀔 때 빠지는 사진은 흐려지며 사라지고, 남는 사진은 새 자리로 미끄러지고, 새 사진은 차례로 떠오른다.
