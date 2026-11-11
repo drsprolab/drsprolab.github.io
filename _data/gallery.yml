@@ -446,8 +446,12 @@ workshops:
     image: "workshops-ea94bc7313.jpg"
   - title: "2026 동계워크샵"
     image: "workshops-2026-winter-group.png"
+    new_badge: false
   - title: "2025 하계 워크샵"
     image: "workshops-efc3d99724.jpg"
+  - title: "2025 하계 워크샵"
+    image: "workshops-2025-summer-group.png"
+    new_badge: false
   - title: "2025 동계 워크샵"
     image: "workshops-c74ce865a9.jpg"
   - title: "2025 동계 방학 스터디"
@@ -489,6 +493,7 @@ workshops:
 daily:
   - title: "2026 동희 결혼 모임"
     image: "daily-2026-donghee-wedding-gathering.png"
+    new_badge: false
   - title: "2026 주재홍박사 결혼식"
     image: "daily-2d565df940.jpg"
   - title: "2026 추석"
@@ -501,12 +506,15 @@ daily:
     image: "daily-3c831683d3.jpg"
   - title: "2026년 4월 박사모임"
     image: "daily-2026-apr-doctoral-gathering.png"
+    new_badge: false
   - title: "2026 졸업생 환송회"
     image: "daily-2026-graduates-farewell.png"
+    new_badge: false
   - title: "2026-1 박사 모임"
     image: "daily-94d75e3cc0.jpg"
   - title: "2026 설"
     image: "daily-2026-lunar-new-year.png"
+    new_badge: false
   - title: "2025-2학기 조직개발 책거리"
     image: "daily-be25706bd0.jpg"
   - title: "2025 추석"

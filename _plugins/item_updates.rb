@@ -220,6 +220,8 @@ module ItemUpdates
     def collect(node, inside_titled, out)
       case node
       when Hash
+        # 과거 행사 사진은 갤러리에 추가해도 최근 콘텐츠 NEW 표시를 띄우지 않는다.
+        return if node["new_badge"] == false
         key = TITLE_KEYS.find { |k| node[k].is_a?(String) && long_enough?(node[k]) }
         out << node[key].strip if key
         node.each_value { |v| collect(v, inside_titled || !key.nil?, out) }
