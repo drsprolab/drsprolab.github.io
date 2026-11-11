@@ -91,7 +91,8 @@ for(const name of fs.readdirSync('assets/conference')){
   source=chunks.map((s,i)=>i%2?s:markup(s)).join('').replace('<html lang="ko">','<html lang="en">');
   source=source.replaceAll('href="/conference/','href="/en/conference/');
   source=source.replace('</head>','<meta name="robots" content="noindex,nofollow"></head>');
-  source=source.replace('<main>','<p class="english-original-note" style="margin:12px 28px">Interface and keywords are in English. Presentation titles, authors, and program details retain their original language.</p><main>');
+  const programLanguage=/^(asian-ahrd|ufhrd)/.test(name)?'English':'Korean'; // 학회 프로그램 원문 언어(국내 학회는 한국어, 해외 학회는 영어)
+  source=source.replace('<main>','<p class="english-original-note" style="margin:12px 28px">Interface and keywords are in English. Presentation titles, authors, and program details are in '+programLanguage+'.</p><main>');
   write('assets/conference/'+name,source);
 }
 fs.writeFileSync('/tmp/proax-english-unmatched.json',JSON.stringify([...unknown],null,2));
