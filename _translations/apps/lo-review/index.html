@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" href="css/style.css?v=4" />
-<link rel="stylesheet" href="css/components.css?v=20261023" />
+<link rel="stylesheet" href="css/components.css?v=20261111-weekly-pdf" />
 </head>
 <body>
 <a class="skip-link" href="#reviewList">본문으로 건너뛰기</a>
@@ -97,6 +97,15 @@
     <span class="sub" id="mapSub">불러오는 중…</span>
   </section>
 
+  <section class="admin-pdf-panel" id="mapPdfAdmin" hidden aria-labelledby="mapPdfTitle">
+    <div class="admin-pdf-copy">
+      <h3 id="mapPdfTitle">주차별 Conceptual Map PDF 다운로드</h3>
+      <p>주차 버튼을 누르면 해당 주 제출물 전체가 한 개의 PDF로 저장됩니다. 이 브라우저에서 파일을 만들며 제출 내용은 외부로 전송하지 않습니다.</p>
+    </div>
+    <div class="admin-pdf-weeks" id="mapPdfWeeks"></div>
+    <p class="admin-pdf-status" id="mapPdfStatus" role="status" aria-live="polite"></p>
+  </section>
+
   <div class="weeks" id="mapEntries" aria-live="polite" aria-busy="true">
     <div class="skeleton"></div><div class="skeleton"></div>
   </div>
@@ -114,6 +123,8 @@
 </footer>
 
 <script src="js/api.js?v=20261102-admin-btn"></script>
-<script src="js/app.js?v=20261102-admin-btn"></script>
+<script src="js/markdown.js?v=20261026-best-lock"></script>
+<script src="js/admin-weekly-pdf.js?v=20261111"></script>
+<script src="js/app.js?v=20261111-weekly-pdf"></script>
 </body>
 </html>

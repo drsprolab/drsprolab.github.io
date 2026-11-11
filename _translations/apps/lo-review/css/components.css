@@ -158,6 +158,20 @@ a.chip-week:hover { border-color: var(--accent); }
 
 .weeks { display: grid; gap: 12px; }
 .weeks .entries, .weeks .cm-grid { margin-top: 12px; }
+
+.admin-pdf-panel { margin: 0 0 18px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface, var(--paper)); }
+.admin-pdf-panel[hidden] { display: none; }
+.admin-pdf-copy h3 { margin: 0; font-size: 16px; }
+.admin-pdf-copy p { margin: 6px 0 14px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.admin-pdf-weeks { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-pdf-weeks .btn[disabled] { opacity: .6; cursor: wait; }
+.admin-pdf-empty { margin: 0; color: var(--muted); font-size: 13px; }
+.admin-pdf-status { min-height: 1.2em; margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+
+@media (max-width: 600px) {
+  .admin-pdf-panel { padding: 14px; }
+  .admin-pdf-weeks .btn { width: 100%; justify-content: center; }
+}
 .wk-head {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
   margin: 0; font-size: 16px; font-weight: 600; color: var(--ink);

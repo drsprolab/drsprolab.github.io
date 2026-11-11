@@ -19,7 +19,9 @@
     reviewEntries: document.getElementById('reviewEntries'),
     reviewSub: document.getElementById('reviewSub'),
     mapEntries: document.getElementById('mapEntries'),
-    mapSub: document.getElementById('mapSub')
+    mapSub: document.getElementById('mapSub'),
+    mapPdfAdmin: document.getElementById('mapPdfAdmin'),
+    mapPdfWeeks: document.getElementById('mapPdfWeeks')
   };
 
   function tags(values) {
@@ -175,6 +177,7 @@
     var list = state.maps;
     els.mapEntries.setAttribute('aria-busy', 'false');
     els.mapSub.textContent = countLabel(list, 'maps');
+    if (PL.renderAdminMapPdf) PL.renderAdminMapPdf(els.mapPdfAdmin, els.mapPdfWeeks, list, BEST_ADMIN_MODE);
 
     if (!list.length) {
       els.mapEntries.innerHTML = '<div class="empty"><strong>아직 제출된 Conceptual Map이 없습니다</strong>' +
