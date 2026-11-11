@@ -104,6 +104,7 @@ function seg(){document.querySelectorAll(".seg button").forEach(b=>b.classList.t
 function refresh(){build();comm();draw();legend();home();seg()}
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{F[b.dataset.f]=b.dataset.v;refresh()});
 refresh();
+document.getElementById("all").click();
 function reportHeight(){if(parent!==window)parent.postMessage({type:"conference-atlas-height",height:Math.ceil(document.body.getBoundingClientRect().height)},location.origin)}
 new ResizeObserver(reportHeight).observe(document.body);
 if(document.fonts)document.fonts.ready.then(reportHeight);

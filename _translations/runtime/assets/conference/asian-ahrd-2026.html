@@ -76,7 +76,7 @@ function home(){pn.classList.remove("is-list");pn.scrollTop=0;hl(null);const top
 pn.innerHTML=`<h2>Keyword overview</h2><p class="summary-copy">Presentations ${D.P.length} presentations · Keywords ${D.N.length} · Connections ${D.E.length}<br>Select a node to see related presentations. <span class='drs-hl' style='margin-top:6px'><span class='drs-star'>★</span>Gold highlights identify presentations by DrS and DrS' Kids.</span></p>
 <h3 class="summary-heading">Presentations by keyword</h3><div class="rank-grid">`+top.map(n=>`<button type="button" class="bar" data-k="${n.id}"><span>${n.id}${n.s?' <span style="color:var(--atlas-gold)">★</span>':''}</span><span>${n.n} entries</span><span class="bar-track"><span style="width:${n.n/top[0].n*100}%;background:${col[gi[n.id]%6]}"></span></span></button>`).join("")+`</div><h3 class="summary-heading">Frequently co-occurring keywords</h3><div class="pair-grid">`+pr.map(([a,b,v])=>`<div class="pair">${a} ↔ ${b} <span style="color:var(--accent)">${v} entries</span></div>`).join("")+`</div>`;
 pn.querySelectorAll(".bar").forEach(c=>c.onclick=()=>show(c.dataset.k))}
-home();
+document.getElementById("all").click();
 // Let the host page show the full atlas without an inner frame scrollbar.
 function reportHeight(){if(parent!==window)parent.postMessage({type:"conference-atlas-height",height:Math.ceil(document.body.getBoundingClientRect().height)},location.origin)}
 new ResizeObserver(reportHeight).observe(document.body);
