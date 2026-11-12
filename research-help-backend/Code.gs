@@ -683,32 +683,42 @@ function claude_(key, models, system, user, schema, image) {
 }
 
 function claudeModel_(key, model, system, user, schema, image) {
-  const build = withImage => ({
+  // lax=true: 구조화 출력(strict 스키마) 대신 프롬프트로 JSON 형식을 지시한다. 스키마가 커서 400 'compiled grammar is too large'가 날 때의 대체 경로.
+  const build = (withImage, lax) => ({
     method: 'post', contentType: 'application/json',
     headers: { 'x-api-key': key, 'anthropic-version': '2026-10-21' },
     payload: JSON.stringify({
-      model: model, max_tokens: 32000, system: system,
+      model: model, max_tokens: 32000,
+      system: lax ? system + '\n\n출력은 마크다운·설명 없이 아래 JSON 스키마를 그대로 따르는 JSON 객체 하나만 쓴다(필수 키를 모두 포함).\n' + JSON.stringify(schema) : system,
       messages: [{ role: 'user', content: withImage ?
         [{ type: 'text', text: user }, { type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.data } }] : user }],
       // effort:'low'로 사고 깊이를 낮춰 비용·응답 시간을 줄인다(OpenAI 쪽 reasoning_effort:'low'와 같은 취지).
-      output_config: { effort: 'low', format: { type: 'json_schema', schema: schema } }
+      output_config: lax ? { effort: 'low' } : { effort: 'low', format: { type: 'json_schema', schema: schema } }
     }), muteHttpExceptions: true
   });
-  let request = build(!!image);
+  let request = build(!!image, false);
   const url = 'https://api.anthropic.com/v1/messages';
   let res = UrlFetchApp.fetch(url, request);
   // 그림을 받지 못하면(400) 글만으로 다시 보낸다(그림 설명은 원고에 남아 있다).
   if (image && res.getResponseCode() === 400) {
     console.error('Claude 그림 입력 거부, 글만으로 재시도: ' + res.getContentText().slice(0, 300));
-    request = build(false);
+    request = build(false, false);
     res = UrlFetchApp.fetch(url, request);
+  }
+  let lax = false;
+  if (res.getResponseCode() === 400 && /grammar is too large/i.test(res.getContentText())) {
+    console.error('Claude 스키마 너무 큼, 스키마 없이 JSON 지시로 재시도');
+    lax = true;
+    res = UrlFetchApp.fetch(url, build(!!image, true));
   }
   if (res.getResponseCode() !== 200) httpFail_('Claude', res);
   const data = JSON.parse(res.getContentText());
   if (data.stop_reason === 'refusal') fail_('ai_failed', 'AI가 안전 정책상 이 요청에 응답하지 않았습니다.');
   const text = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
   if (!text) fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
-  return parseJson_(text);
+  if (data.stop_reason === 'max_tokens') fail_('ai_failed', 'AI 피드백이 완전하게 생성되지 않았습니다.');
+  // lax 경로는 앞뒤 설명이나 코드 펜스가 붙을 수 있어 첫 '{'부터 마지막 '}'까지만 읽는다.
+  return parseJson_(lax ? text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1) : text);
 }
 
 // Gemini Interactions API(Google 권장 방식). store:false로 Google 쪽에 대화 기록을 남기지 않는다.

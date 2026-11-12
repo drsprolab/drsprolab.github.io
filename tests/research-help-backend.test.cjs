@@ -514,3 +514,17 @@ test('퀴즈: 같은 이름은 7일이 지나야 다시 풀 수 있다', () => {
   t.advance(1 * 86400000 + 1000);
   assert.equal(t.call({ action: 'quizSubmit', name: '홍길동', answers: answersWith(30) }).ok, true);
 });
+
+test('Claude가 스키마 크기 오류(400 compiled grammar is too large)를 내면 스키마 없이 JSON 지시로 다시 요청한다', () => {
+  const tooLarge = (body, provider) => body.output_config.format
+    ? { httpError: 400, errorBody: '{"type":"error","error":{"type":"invalid_request_error","message":"The compiled grammar is too large, which would cause performance issues."}}' }
+    : socratic();
+  const t = setup({ props: { AI_PROVIDERS: 'claude', ANTHROPIC_API_KEY: 'test-anthropic-key' }, ai: { socratic_feedback: tooLarge } });
+  const r = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  assert.equal(r.ok, true, r.message);
+  assert.equal(t.calls.ai.length, 2);
+  assert.ok(t.calls.ai[0].body.output_config.format);
+  assert.equal(t.calls.ai[1].body.output_config.format, undefined);
+  assert.match(t.calls.ai[1].system, /JSON 스키마/);
+  assert.equal(r.feedback.kind, 'socratic');
+});
