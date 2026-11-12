@@ -79,24 +79,41 @@ Hou 등(2025)은 디자이너가 AI와 함께 아이디어를 만들고 실제 �
 4~6주간 새 흐름을 써 보고 처음에 정한 지표를 확인합니다. 소요 시간과 결과 품질, 재작업, 실제로 채택된 개선안을 함께 살핍니다. 성과가 나아졌다면 팀이 반복해 쓸 수 있도록 절차를 정리하고, 필요한 권한과 학습, 도구를 역할에 반영합니다. 일이 늘었는데 결과가 좋아지지 않았다면 단계를 줄이거나 다시 설계합니다. 효과가 있더라도 업무를 계속 얹지만 말고, 새 과제를 넣을 때 기존 우선순위와 업무량을 함께 조정합니다.
 
 <figure>
-<svg class="aiwr-svg" viewBox="0 0 760 320" role="img" aria-labelledby="aiwr-title aiwr-desc" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:760px">
-  <title id="aiwr-title">개인의 개선 의도를 조직 성과로 잇는 work redesign 흐름</title>
-  <desc id="aiwr-desc">더 잘하고 싶은 과제를 발견하고 현재 흐름을 그린 다음 성과 목표를 정한다. AI와 사람이 각 단계를 다시 나누고, 파일럿 결과에 따라 업무 흐름과 역할, 자원을 조정한다.</desc>
-  <defs><marker id="aiwr-arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#63778c"/></marker></defs>
-  <style>
-    .aiwr-card{fill:#f4f7fb;stroke:#94a8bd;stroke-width:1.5}.aiwr-focus{fill:#edf7f1;stroke:#4f9871;stroke-width:1.8}.aiwr-end{fill:#eef2fb;stroke:#697eb2;stroke-width:1.8}.aiwr-h{font:600 16px sans-serif;fill:#20334b}.aiwr-p{font:13px sans-serif;fill:#34495e}.aiwr-small{font:12px sans-serif;fill:#56687a}.aiwr-arrow{stroke:#63778c;stroke-width:2;fill:none;marker-end:url(#aiwr-arrow)}
-  </style>
-  <rect class="aiwr-card" x="20" y="54" width="130" height="82" rx="12"/><text class="aiwr-h" x="85" y="84" text-anchor="middle">개선 의도</text><text class="aiwr-p" x="85" y="108" text-anchor="middle">더 잘하고 싶은</text><text class="aiwr-p" x="85" y="126" text-anchor="middle">과제를 찾는다</text>
-  <path class="aiwr-arrow" d="M150 95 H170"/>
-  <rect class="aiwr-card" x="176" y="54" width="130" height="82" rx="12"/><text class="aiwr-h" x="241" y="84" text-anchor="middle">현재 흐름</text><text class="aiwr-p" x="241" y="108" text-anchor="middle">단계·시간·문제</text><text class="aiwr-p" x="241" y="126" text-anchor="middle">기준선을 그린다</text>
-  <path class="aiwr-arrow" d="M306 95 H326"/>
-  <rect class="aiwr-card" x="332" y="54" width="130" height="82" rx="12"/><text class="aiwr-h" x="397" y="84" text-anchor="middle">성과 목표</text><text class="aiwr-p" x="397" y="108" text-anchor="middle">더 나은 결과와</text><text class="aiwr-p" x="397" y="126" text-anchor="middle">업무 경계를 정한다</text>
-  <path class="aiwr-arrow" d="M462 95 H482"/>
-  <rect class="aiwr-focus" x="488" y="54" width="130" height="82" rx="12"/><text class="aiwr-h" x="553" y="84" text-anchor="middle">흐름 재설계</text><text class="aiwr-p" x="553" y="108" text-anchor="middle">AI와 사람이</text><text class="aiwr-p" x="553" y="126" text-anchor="middle">단계를 나눈다</text>
-  <path class="aiwr-arrow" d="M618 95 H638"/>
-  <rect class="aiwr-end" x="644" y="54" width="100" height="82" rx="12"/><text class="aiwr-h" x="694" y="84" text-anchor="middle">파일럿</text><text class="aiwr-p" x="694" y="108" text-anchor="middle">성과 확인</text><text class="aiwr-p" x="694" y="126" text-anchor="middle">역할에 반영</text>
-  <path class="aiwr-arrow" d="M694 137 V207 H553 V143"/>
-  <rect x="250" y="218" width="385" height="63" rx="12" fill="#fff8ee" stroke="#d5a86e" stroke-width="1.5"/><text class="aiwr-h" x="442" y="244" text-anchor="middle">성과가 확인되면 표준화하고, 범위·자원·우선순위를 조정</text><text class="aiwr-small" x="442" y="266" text-anchor="middle">성과는 올리고, 일의 범위는 합의한 경계 안에 둔다.</text>
+<svg class="aiwr-svg" viewBox="0 0 600 590" role="img" aria-labelledby="aiwr-title aiwr-desc" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="aiwr-title">개인의 개선 의도를 조직 성과로 잇는 work redesign 5단계</title>
+  <desc id="aiwr-desc">과제 고르기, 흐름 그리기, 성공 정하기, 역할 나누기, 조정하기의 다섯 단계로 이어진다. 효과가 없으면 2~4단계로 돌아가 다시 설계한다.</desc>
+  <defs><marker id="aiwr-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
+  <style>.aiwr-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.aiwr-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.aiwr-chip{fill:var(--accent-soft)}.aiwr-hot+.aiwr-chip{fill:var(--paper)}.aiwr-spine{stroke:var(--accent);stroke-opacity:.35;stroke-width:3}.aiwr-dot{fill:var(--accent)}.aiwr-n{font:700 20px sans-serif;fill:var(--paper)}.aiwr-h{font:700 19px sans-serif;fill:var(--ink)}.aiwr-p{font:14.5px sans-serif;fill:var(--muted)}.aiwr-c{font:700 13.5px sans-serif;fill:var(--accent)}.aiwr-loop{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5;marker-end:url(#aiwr-arrow)}.aiwr-note{font:700 15px sans-serif;fill:var(--ink)}.aiwr-small{font:13.5px sans-serif;fill:var(--muted)}.aiwr-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}</style>
+  <line class="aiwr-spine" x1="40" y1="59" x2="40" y2="459"/>
+  <rect class="aiwr-card" x="84" y="20" width="464" height="78" rx="14"/>
+  <rect class="aiwr-chip" x="414" y="44" width="120" height="30" rx="15"/>
+  <circle class="aiwr-dot" cx="40" cy="59" r="22"/><text class="aiwr-n" x="40" y="66" text-anchor="middle">1</text>
+  <text class="aiwr-h" x="106" y="53">과제 고르기</text><text class="aiwr-p" x="106" y="78">시간이 더 있다면 손보고 싶은 일</text>
+  <text class="aiwr-c" x="474" y="64" text-anchor="middle">파일럿 1건</text>
+  <rect class="aiwr-card" x="84" y="120" width="464" height="78" rx="14"/>
+  <rect class="aiwr-chip" x="414" y="144" width="120" height="30" rx="15"/>
+  <circle class="aiwr-dot" cx="40" cy="159" r="22"/><text class="aiwr-n" x="40" y="166" text-anchor="middle">2</text>
+  <text class="aiwr-h" x="106" y="153">흐름 그리기</text><text class="aiwr-p" x="106" y="178">5~8단계, 대기·재작업·판단 표시</text>
+  <text class="aiwr-c" x="474" y="164" text-anchor="middle">현재 흐름도</text>
+  <rect class="aiwr-card" x="84" y="220" width="464" height="78" rx="14"/>
+  <rect class="aiwr-chip" x="414" y="244" width="120" height="30" rx="15"/>
+  <circle class="aiwr-dot" cx="40" cy="259" r="22"/><text class="aiwr-n" x="40" y="266" text-anchor="middle">3</text>
+  <text class="aiwr-h" x="106" y="253">성공 정하기</text><text class="aiwr-p" x="106" y="278">시간에 더해 품질·채택 여부까지</text>
+  <text class="aiwr-c" x="474" y="264" text-anchor="middle">측정 지표</text>
+  <rect class="aiwr-hot" x="84" y="320" width="464" height="78" rx="14"/>
+  <rect class="aiwr-chip" x="414" y="344" width="120" height="30" rx="15"/>
+  <circle class="aiwr-dot" cx="40" cy="359" r="22"/><text class="aiwr-n" x="40" y="366" text-anchor="middle">4</text>
+  <text class="aiwr-h" x="106" y="353">역할 나누기</text><text class="aiwr-p" x="106" y="378">AI는 초안·분류, 사람은 판단·책임</text>
+  <text class="aiwr-c" x="474" y="364" text-anchor="middle">AI + 사람</text>
+  <rect class="aiwr-card" x="84" y="420" width="464" height="78" rx="14"/>
+  <rect class="aiwr-chip" x="414" y="444" width="120" height="30" rx="15"/>
+  <circle class="aiwr-dot" cx="40" cy="459" r="22"/><text class="aiwr-n" x="40" y="466" text-anchor="middle">5</text>
+  <text class="aiwr-h" x="106" y="453">조정하기</text><text class="aiwr-p" x="106" y="478">4~6주 뒤 지표 확인, 일과 자원 조정</text>
+  <text class="aiwr-c" x="474" y="464" text-anchor="middle">표준화</text>
+  <path class="aiwr-loop" d="M548 459 H580 V159 H552"/>
+  <rect class="aiwr-band" x="20" y="520" width="560" height="62" rx="14"/>
+  <text class="aiwr-note" x="300" y="546" text-anchor="middle">효과가 없으면 2~4단계로 돌아가 다시 설계</text>
+  <text class="aiwr-small" x="300" y="568" text-anchor="middle">새 과제를 얹을 때는 기존 우선순위와 업무량도 함께 조정</text>
 </svg>
 <figcaption><strong>그림 1.</strong> 개인의 개선 의도를 업무흐름과 직무 설계로 이어가는 실행 절차. 파일럿과 조정 단계는 필자의 실천 제안이며, 검증된 인과 모형이 아닙니다.</figcaption>
 </figure>
