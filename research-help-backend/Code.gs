@@ -320,10 +320,10 @@ function literatureFeedback_(fields) {
     'basis가 literature인 점검은 candidates 문헌과 작성 내용을 대조해 [S#]을 달고, manuscript인 점검은 작성 항목끼리 대조한다. ' +
     'assessment에는 그 항목의 종합 판단을 2~3문장으로, suggestions에는 바로 고칠 수 있는 수정 제안을 3~5개 쓴다. 문헌 근거는 반드시 candidates 목록의 id(S1, S2...)로만 인용하고, ' +
     '본문에서는 [S1]처럼 표기한다. 목록 밖의 논문·저자·연도·DOI·이론 출처를 언급하거나 지어내지 않는다. ' +
-    '각 문헌은 제공된 초록과 서지정보 범위에서만 근거로 쓰고 원문을 읽은 것처럼 서술하지 않는다. sources[].basis에는 그 초록에서 확인되는 근거 내용을 적는다. ' +
-    '문제의식·이론적 근거 항목에서 적합한 후보 문헌이 없으면 status를 "withheld"로 하고 literature 점검은 근거 없이 판단하지 않는다(manuscript 점검은 그대로 답한다). ' +
+    '각 문헌은 제공된 초록과 서지정보 범위에서만 근거로 쓰고 원문을 읽은 것처럼 서술하지 않는다. sources에는 근거로 쓴 문헌을 “S3: 그 초록에서 확인되는 근거 내용” 형식의 문자열 한 줄씩 적는다. ' +
+    '문제의식·이론적 근거 항목에서 적합한 후보 문헌이 없으면 sources를 비우고 literature 점검은 근거 없이 판단하지 않는다(manuscript 점검은 그대로 답한다). ' +
     '연구 모형·연구 방법·목적·RQ·제목·시사점은 작성 내용 간 논리와 연구방법론 지식으로 판단할 수 있으며, 문헌을 꾸며 붙이지 않는다. ' +
-    'recommended에는 작성자가 연구를 다듬기 위해 꼭 읽어야 할 논문을 candidates 중에서 최대 10편, 중요한 순서로 골라 id와 한두 문장의 추천 이유(초록 근거)를 적는다.';
+    'recommended에는 작성자가 연구를 다듬기 위해 꼭 읽어야 할 논문을 candidates 중에서 최대 10편, 중요한 순서로 골라 “S3: 한두 문장의 추천 이유(초록 근거)” 형식의 문자열 한 줄씩 적는다.';
   const user = JSON.stringify({ criteria: ROUND2_CRITERIA, labels: labels_(), manuscript: aiManuscript_(fields),
     candidates: search.candidates.map(c => ({ id: c.id, title: c.title, authors: c.authors.slice(0, 6), year: c.year, journal: c.journal, abstract: c.abstract })) });
   const result = ai_(system, user, round2Schema_(), modelImage_(fields));
@@ -335,25 +335,30 @@ function literatureFeedback_(fields) {
 
 function round2Schema_() {
   const schema = round2ItemsSchema_();
-  schema.properties.recommended = { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'reason'],
-    properties: { id: { type: 'string' }, reason: { type: 'string' } } } };
+  schema.properties.recommended = { type: 'array', items: { type: 'string' } }; // 'S3: 추천 이유' 한 줄씩
   schema.required = schema.required.concat(['recommended']);
   return schema;
 }
 
 function round2ItemsSchema_() {
-  const item = { type: 'object', additionalProperties: false, required: ['status', 'checks', 'assessment', 'suggestions', 'sources'],
+  // Claude·OpenAI의 구조화 출력(strict 스키마)은 컴파일된 문법이 크면 400 'compiled grammar is too large'로 거부한다.
+  // 그래서 항목마다 enum·객체를 쓰지 않고 문자열 배열만 쓴다. 점검 질문 문구·유형, 상태(보류 여부)는 서버가 정한다.
+  //  checks: criteria 순서대로 답 문장 / sources: 'S3: 이 초록에서 확인되는 근거' 한 줄씩
+  const item = { type: 'object', additionalProperties: false, required: ['checks', 'assessment', 'suggestions', 'sources'],
     properties: {
-      status: { type: 'string', enum: ['reviewed', 'withheld'] },
-      // 점검 질문의 문구·유형(literature/manuscript)은 서버 기준표를 쓰므로 모델은 답 문장만 순서대로 준다.
-      // (객체·enum을 항목마다 넣으면 OpenAI strict 스키마가 너무 커져 400 'compiled grammar is too large'가 난다.)
       checks: { type: 'array', items: { type: 'string' } },
       assessment: { type: 'string' },
       suggestions: { type: 'array', items: { type: 'string' } },
-      sources: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'basis'],
-        properties: { id: { type: 'string' }, basis: { type: 'string' } } } }
+      sources: { type: 'array', items: { type: 'string' } }
     } };
   return objectOf_(FEEDBACK_KEYS, item);
+}
+
+// 'S3: 근거' 문자열(또는 예전 형식의 {id, basis} 객체)을 {id, basis}로 바꾼다.
+function splitIdText_(v, textKey) {
+  if (v && typeof v === 'object') return { id: String(v.id || '').trim(), text: String(v[textKey] || '') };
+  const m = String(v || '').match(/^\s*\[?(S\d+)\]?\s*[:：|\-–—]?\s*([\s\S]*)$/);
+  return m ? { id: m[1], text: m[2] } : { id: '', text: String(v || '') };
 }
 
 // 코드 차원의 인용 검증: 서버가 확인한 후보 문헌만 남기고, 서지정보는 모델 출력이 아니라 서버 조회값을 쓴다.
@@ -364,12 +369,13 @@ function verifyRound2_(raw, candidates) {
   FEEDBACK_KEYS.forEach(k => {
     const item = (raw && raw[k]) || {};
     const seen = {};
-    const sources = (item.sources || []).filter(s => s && byId[s.id] && !seen[s.id] && (seen[s.id] = true)).slice(0, 4);
+    const sources = (item.sources || []).map(v => { const x = splitIdText_(v, 'basis'); return { id: x.id, basis: x.text }; })
+      .filter(s => s.id && byId[s.id] && !seen[s.id] && (seen[s.id] = true)).slice(0, 4);
     const allowed = sources.map(s => byId[s.id]);
     const numbering = {};
     sources.forEach((s, i) => { numbering[s.id] = i + 1; });
     const fix = text => renumber_(stripCitations_(clip_(text, 2500), allowed), numbering);
-    let status = item.status === 'reviewed' ? 'reviewed' : 'withheld';
+    let status = item.status === 'withheld' ? 'withheld' : 'reviewed';
     if (LITERATURE_KEYS.indexOf(k) >= 0 && !sources.length) status = 'withheld';
     // 점검 질문은 서버 기준(ROUND2_CRITERIA)의 문구를 쓰고, 문헌 근거가 없는 항목의 literature 점검은 보류한다.
     const given = Array.isArray(item.checks) ? item.checks : [];
@@ -392,8 +398,9 @@ function verifyRound2_(raw, candidates) {
   });
   // 추천 논문: AI가 고른 후보만 인정하고, 10편이 안 되면 검증된 후보 순서대로 채운다.
   const picked = [], used = {};
-  ((raw && raw.recommended) || []).forEach(r => {
-    if (r && byId[r.id] && !used[r.id] && picked.length < 10) { used[r.id] = true; picked.push({ c: byId[r.id], reason: stripCitations_(clip_(r.reason, 400), [byId[r.id]]) }); }
+  ((raw && raw.recommended) || []).forEach(v => {
+    const r = splitIdText_(v, 'reason');
+    if (r.id && byId[r.id] && !used[r.id] && picked.length < 10) { used[r.id] = true; picked.push({ c: byId[r.id], reason: stripCitations_(clip_(r.text, 400), [byId[r.id]]) }); }
   });
   candidates.forEach(c => { if (!used[c.id] && picked.length < 10) { used[c.id] = true; picked.push({ c: c, reason: '' }); } });
   const recommended = picked.map(p => Object.assign(citation_(p.c), { reason: renumber_(p.reason, {}), scope: SOURCE_SCOPE }));
