@@ -158,6 +158,9 @@ test('2차 저장: SSCI 목록·차단 출판사·Crossref 검증을 통과한 �
   assert.match(pchecks[0].point, /다른 연구들에서도 고민/, '점검 질문은 서버 기준 문구');
   assert.match(pchecks[0].finding, /\[1\]/);
   assert.doesNotMatch(pchecks[0].finding, /Smith/);
+  // OpenAI/Gemini strict 스키마가 너무 커지지 않도록 checks는 문자열 배열이어야 한다
+  const schemaText = JSON.stringify(lit.body.response_format || {});
+  assert.doesNotMatch(schemaText, /"finding"|"point"/);
   const lit2 = JSON.parse(lit.user).criteria;
   assert.ok(Array.isArray(lit2.purpose) && /기술적/.test(lit2.purpose[1].point));
   assert.equal(r2.feedback.recommended.length, 1, '후보에 없는 S9와 중복은 제외');

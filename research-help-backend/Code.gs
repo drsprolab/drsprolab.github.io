@@ -315,7 +315,7 @@ function literatureFeedback_(fields) {
   const search = literatureCandidates_(fields);
   const system = '당신은 SSCI급 학술지 심사 경험이 많은 교육공학·HRD·조직행동 연구방법 검토자다. ' + GUARD +
     ' 2차 피드백은 작성자의 실제 수정 내용에 근거한 구체적이고 상세한 대조 검토다. ' +
-    '각 항목의 criteria에 있는 점검 질문(point)마다 checks에 하나씩, 같은 순서로 답한다. finding에는 작성자가 쓴 문장을 짧게 인용해 대조 대상(예: 문제의식의 어느 문장과 목적의 어느 문장)을 밝히고, ' +
+    '각 항목의 criteria에 있는 점검 질문(point)마다 checks 배열에 답 문자열을 하나씩, criteria와 같은 순서로 넣는다(질문 문구는 다시 쓰지 않는다). 각 답에는 작성자가 쓴 문장을 짧게 인용해 대조 대상(예: 문제의식의 어느 문장과 목적의 어느 문장)을 밝히고, ' +
     '잘 맞는 부분, 불일치하거나 빠진 부분, 그 이유를 4~6문장으로 구체적으로 쓴다. 칭찬이나 일반론으로 채우지 않는다. ' +
     'basis가 literature인 점검은 candidates 문헌과 작성 내용을 대조해 [S#]을 달고, manuscript인 점검은 작성 항목끼리 대조한다. ' +
     'assessment에는 그 항목의 종합 판단을 2~3문장으로, suggestions에는 바로 고칠 수 있는 수정 제안을 3~5개 쓴다. 문헌 근거는 반드시 candidates 목록의 id(S1, S2...)로만 인용하고, ' +
@@ -345,8 +345,9 @@ function round2ItemsSchema_() {
   const item = { type: 'object', additionalProperties: false, required: ['status', 'checks', 'assessment', 'suggestions', 'sources'],
     properties: {
       status: { type: 'string', enum: ['reviewed', 'withheld'] },
-      checks: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['point', 'basis', 'finding'],
-        properties: { point: { type: 'string' }, basis: { type: 'string', enum: ['literature', 'manuscript'] }, finding: { type: 'string' } } } },
+      // 점검 질문의 문구·유형(literature/manuscript)은 서버 기준표를 쓰므로 모델은 답 문장만 순서대로 준다.
+      // (객체·enum을 항목마다 넣으면 OpenAI strict 스키마가 너무 커져 400 'compiled grammar is too large'가 난다.)
+      checks: { type: 'array', items: { type: 'string' } },
       assessment: { type: 'string' },
       suggestions: { type: 'array', items: { type: 'string' } },
       sources: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'basis'],
@@ -375,7 +376,7 @@ function verifyRound2_(raw, candidates) {
     const checks = ROUND2_CRITERIA[k].map((c, i) => {
       const literatureHeld = c.basis === 'literature' && !sources.length;
       return { point: c.point, basis: c.basis,
-        finding: literatureHeld ? WITHHELD : (given[i] ? fix(clip_(given[i].finding, 1800)) : '') };
+        finding: literatureHeld ? WITHHELD : fix(clip_(given[i] && typeof given[i] === 'object' ? given[i].finding : given[i], 1800)) };
     }).filter(c => c.finding);
     if (status === 'withheld' && LITERATURE_KEYS.indexOf(k) >= 0) {
       items[k] = { status: status, checks: checks, assessment: WITHHELD, suggestions: [], sources: [] };
