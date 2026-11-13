@@ -75,11 +75,18 @@
       // 연구 모형 그림: imagePending = 아직 서버에 안 보낸 새 그림(data URL), images = 파일 id → 화면용 data URL
       imagePending: null, images: {} };
 
-    function call(body) {
+    function call(body, retries) {
       if (!transport) return Promise.reject(serverError({ error: 'not_configured', message: '서버 연결이 아직 설정되지 않아 저장할 수 없습니다.' }));
       return Promise.resolve(transport(body)).then(function (res) {
         if (!res || res.ok !== true) throw serverError(res);
         return res;
+      }).catch(function (err) {
+        // 저장 요청은 같은 요청 번호로 다시 보내도 서버가 중복 없이 처리한다. 일시적인 서버 오류·혼잡이면 자동으로 다시 시도한다.
+        var code = err && err.code;
+        if (retries > 0 && (code === 'server_error' || code === 'busy')) {
+          return new Promise(function (resolve) { setTimeout(resolve, opts.retryDelay === undefined ? 5000 : opts.retryDelay); }).then(function () { return call(body, retries - 1); });
+        }
+        throw err;
       });
     }
     function remember(id, token) {
@@ -104,7 +111,7 @@
       state.busy = true;
       var body = { action: 'save', round: round, fields: fields, id: state.id, token: state.token, consent: state.consent, requestId: state.pending.id };
       if (state.imagePending) { body.modelImageData = state.imagePending; delete body.fields.modelImage; }
-      return call(body)
+      return call(body, 2)
         .then(function (res) {
           remember(res.id, res.token);
           if (res.modelImage) {

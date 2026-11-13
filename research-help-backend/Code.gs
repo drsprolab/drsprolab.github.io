@@ -71,6 +71,12 @@ function fail_(code, message, extra) {
   throw err;
 }
 
+// 여러 학생이 동시에 저장해 대기가 길어지면 waitLock이 예외를 던져 '서버 오류'로 보이던 문제:
+// 오래 기다리고, 그래도 못 얻으면 다시 시도하라는 안내(busy)로 돌려준다(화면이 자동으로 다시 시도한다).
+function waitLock_(lock) {
+  try { lock.waitLock(60000); } catch (err) { fail_('busy', '접속자가 많아 잠시 대기 중입니다. 같은 버튼을 다시 눌러 주세요.'); }
+}
+
 // ---------- 작성자 ----------
 function save_(b) {
   const round = Number(b.round);
@@ -82,7 +88,7 @@ function save_(b) {
   if (!/^[A-Za-z0-9-]{8,64}$/.test(requestId)) fail_('bad_request', '요청 식별값이 올바르지 않습니다.');
   let sub, token;
   const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
+  waitLock_(lock);
   try {
     if (!b.id) {
       if (round !== 1) fail_('bad_round', '1차 저장부터 진행해 주세요.');
@@ -123,7 +129,7 @@ function save_(b) {
     if (!err.code) console.error(err && err.stack || err);
   }
 
-  lock.waitLock(20000);
+  waitLock_(lock);
   try {
     const current = findSubmission_(sub.id);
     const attempt = revisions_(sub.id).filter(r => r.round === round).length + 1;
@@ -149,7 +155,7 @@ function load_(b) {
 
 function submit_(b) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
+  waitLock_(lock);
   try {
     const found = findSubmission_(String(b.id || ''));
     if (!found || !tokenOk_(found.values, b.token)) fail_('unauthorized', '저장 기록을 확인할 수 없습니다.');
@@ -888,7 +894,7 @@ function adminHash_() {
 // 실패 5회마다 15분 잠금, 하루 20회 실패 시 24시간 잠금. Apps Script는 접속 IP를 알 수 없어 전체 기준으로 센다.
 function adminLogin_(b) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
+  waitLock_(lock);
   try {
     const props = PropertiesService.getScriptProperties();
     const now = Date.now();

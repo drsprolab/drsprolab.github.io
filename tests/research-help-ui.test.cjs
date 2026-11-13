@@ -232,3 +232,20 @@ test('1·2차 피드백 뒤에도 모든 기존 작성 칸을 유지하고, 각 
     }
   }
 });
+
+test('일시적인 서버 오류·혼잡은 같은 요청 번호로 자동 재시도하고, 그 밖의 오류는 재시도하지 않는다', async () => {
+  const server = fakeServer();
+  server.failNext = { ok: false, error: 'server_error', message: '서버 오류' };
+  const app = RH.createController({ transport: server.transport, storage: memoryStorage(), retryDelay: 0 });
+  app.setFields(fields()); app.setConsent(true);
+  const res = await app.save();
+  assert.equal(res.round, 1);
+  assert.equal(server.calls.length, 2, '한 번 실패한 뒤 다시 보냈다');
+  assert.equal(server.calls[0].requestId, server.calls[1].requestId, '같은 요청 번호');
+  const other = fakeServer();
+  other.failNext = { ok: false, error: 'invalid_fields', message: '입력 오류' };
+  const app2 = RH.createController({ transport: other.transport, storage: memoryStorage(), retryDelay: 0 });
+  app2.setFields(fields()); app2.setConsent(true);
+  await assert.rejects(app2.save(), /입력 오류/);
+  assert.equal(other.calls.length, 1, '입력 오류는 다시 보내지 않는다');
+});
