@@ -59,6 +59,20 @@
     return c.replace(/[^A-Za-z0-9-]/g, '').slice(0, 64);
   }
 
+  var AUTO_INPUT_MIN = 40; // 한 번의 입력으로 이만큼 이상 늘면 자동입력으로 본다
+  var RULE_TEXT = '복사 붙이기는 원칙적으로 금지입니다. 복사 붙이기를 하거나 자동입력 기능을 사용하는 경우 관리자 기록에 그대로 남게 됩니다.';
+  // 저장본의 입력 기록(fields._input)을 사람이 읽는 문장 목록으로 바꾼다
+  function inputLogLines(log) {
+    var out = [];
+    FIELDS.forEach(function (f) {
+      var e = log && log[f.key]; if (!e) return;
+      var parts = [];
+      if (e.p) parts.push('붙여넣기 ' + e.p[0] + '회 (' + e.p[1].toLocaleString('ko-KR') + '자)');
+      if (e.a) parts.push('자동입력 의심 ' + e.a[0] + '회 (' + e.a[1].toLocaleString('ko-KR') + '자)');
+      if (parts.length) out.push(f.label + ': ' + parts.join(', '));
+    });
+    return out;
+  }
   function serverError(res) {
     var err = new Error((res && res.message) || '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');
     err.code = (res && res.error) || 'network';
@@ -73,7 +87,7 @@
     var state = { fields: emptyFields(), round: 0, status: 'draft', id: null, token: null, consent: false,
       history: [], feedback: {}, busy: false, pending: null,
       // 연구 모형 그림: imagePending = 아직 서버에 안 보낸 새 그림(data URL), images = 파일 id → 화면용 data URL
-      imagePending: null, images: {} };
+      imagePending: null, images: {}, inputLog: {} };
 
     function call(body, retries) {
       if (!transport) return Promise.reject(serverError({ error: 'not_configured', message: '서버 연결이 아직 설정되지 않아 저장할 수 없습니다.' }));
@@ -94,6 +108,13 @@
       if (token) state.token = token;
       if (state.id && state.token) storage.set({ id: state.id, token: state.token });
     }
+    // 붙여넣기(p)·자동입력으로 보이는 한 번에 긴 입력(a)을 항목별로 센다. 저장할 때 서버에 함께 보내 관리자 기록에 남긴다.
+    function logInput(key, type, chars) {
+      if (!(chars > 0)) return;
+      var e = state.inputLog[key] || (state.inputLog[key] = {});
+      var pair = e[type] || (e[type] = [0, 0]);
+      pair[0] += 1; pair[1] += chars;
+    }
     function snapshot(round, savedAt, fields, feedback) {
       return Object.freeze({ round: round, savedAt: savedAt, fields: Object.freeze(Object.assign({}, fields)), feedback: feedback || null });
     }
@@ -110,6 +131,7 @@
       if (!state.pending || state.pending.round !== round) state.pending = { round: round, id: requestId() };
       state.busy = true;
       var body = { action: 'save', round: round, fields: fields, id: state.id, token: state.token, consent: state.consent, requestId: state.pending.id };
+      var sentLog = JSON.parse(JSON.stringify(state.inputLog)); body.inputLog = sentLog;
       if (state.imagePending) { body.modelImageData = state.imagePending; delete body.fields.modelImage; }
       return call(body, 2)
         .then(function (res) {
@@ -124,6 +146,7 @@
           if (res.feedback) state.feedback[round] = res.feedback;
           state.round = round;
           state.pending = null;
+          state.inputLog = {}; // 저장된 기록은 서버에 남았으므로 다음 저장부터 새로 센다
           return res;
         }, function (err) {
           remember(err.response && err.response.id, err.response && err.response.token);
@@ -191,6 +214,7 @@
       setFields: function (v) { state.fields = Object.assign(emptyFields(), v); },
       setField: function (k, v) { state.fields[k] = v; },
       setConsent: function (v) { state.consent = !!v; },
+      logInput: logInput,
       setImage: function (dataUrl) { state.imagePending = dataUrl; },
       clearImage: function () { state.imagePending = null; state.fields.modelImage = ''; },
       imageUrl: function () { return state.imagePending || state.images[state.fields.modelImage] || null; },
@@ -568,6 +592,26 @@
         images: app.state.images };
     }
 
+    // 붙여넣기·끌어다 놓기·한 번에 긴 입력을 항목별로 센다(막지는 않고 기록으로 남긴다)
+    function trackInput(node, key) {
+      if (!node || node.readOnly) return;
+      var prev = node.value.length, pasted = false;
+      node.addEventListener('paste', function (e) {
+        var t = (e.clipboardData && e.clipboardData.getData('text')) || '';
+        if (t.length) { app.logInput(key, 'p', t.length); pasted = true; }
+      });
+      node.addEventListener('drop', function (e) {
+        var t = (e.dataTransfer && e.dataTransfer.getData('text')) || '';
+        if (t.length) { app.logInput(key, 'p', t.length); pasted = true; }
+      });
+      node.addEventListener('input', function (e) {
+        var len = node.value.length, d = len - prev; prev = len;
+        if (pasted) { pasted = false; return; }
+        var type = e.inputType || '';
+        if (type === 'insertCompositionText' || /^insertFrom(Paste|Drop)/.test(type)) return;
+        if (d >= AUTO_INPUT_MIN) app.logInput(key, 'a', d);
+      });
+    }
     function render() {
       var s = app.state, locked = s.round >= 4 || s.status === 'submitted' || s.busy;
       var stepIndex = s.status === 'submitted' ? 5 : s.round;
@@ -576,6 +620,7 @@
         return el('li', { class: i < stepIndex ? 'is-done' : i === stepIndex ? 'is-current' : '', 'aria-current': i === stepIndex ? 'step' : false, text: label });
       })));
       if (!endpoint) rootEl.appendChild(el('p', { class: 'rh-status is-error', text: '서버 연결 준비 중입니다. 지금은 작성 내용을 저장할 수 없습니다.' }));
+      rootEl.appendChild(el('div', { class: 'rh-rule', role: 'note' }, [el('strong', { class: 'rh-rule-title', text: '실습 시 주의사항' }), el('p', { class: 'rh-rule-text' }, [el('mark', { text: '복사 붙이기는 원칙적으로 금지' }), '입니다. 복사 붙이기를 하거나 자동입력 기능을 사용하는 경우 ', el('mark', { text: '관리자 기록에 그대로 남게' }), ' 됩니다.'])]));
       rootEl.appendChild(el('p', { class: 'rh-notice', text: AI_NOTICE }));
       var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
         : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
@@ -596,6 +641,7 @@
         el('input', { id: 'rh-name', type: 'text', maxlength: String(nameField.max), autocomplete: 'name', value: s.fields.name, readonly: locked,
           oninput: function (e) { app.setField('name', e.target.value); } })
       ]));
+      trackInput(rootEl.querySelector('#rh-name'), 'name');
 
       var latest = s.feedback[2] || s.feedback[1] || null;
       var latestRound = s.feedback[2] ? 2 : 1;
@@ -612,6 +658,7 @@
             oninput: function (e) { app.setField(f.key, e.target.value); counter.textContent = e.target.value.length + ' / ' + f.max; } }, [s.fields[f.key]]),
           counter
         ]);
+        trackInput(mine.querySelector('textarea'), f.key);
         if (f.key === 'model') {
           var textarea = mine.querySelector('textarea');
           mine.appendChild(modelImageArea(locked));
@@ -754,7 +801,8 @@
           el('div', { class: 'rh-admin-bar' }, [el('strong', { text: '제출물 ' + subs.length + '건' }), el('button', { type: 'button', class: 'rh-link', onclick: function () { admin.logout(); loginView(); }, text: '로그아웃' })]),
           el('ul', { class: 'rh-list' }, subs.map(function (s) {
             return el('li', {}, [el('button', { type: 'button', class: 'rh-list-item', onclick: function () { detailView(s.id); } }, [
-              el('strong', { text: shortTitle(s.title) || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id })
+              el('strong', { text: shortTitle(s.title) || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id }),
+              (s.inputLog && (s.inputLog.pasteCount || s.inputLog.autoCount)) ? el('span', { class: 'rh-flag', text: '⚠ 입력 기록: 붙여넣기 ' + s.inputLog.pasteCount + '회(' + s.inputLog.pasteChars.toLocaleString('ko-KR') + '자) · 자동입력 의심 ' + s.inputLog.autoCount + '회' }) : null
             ]), el('button', { type: 'button', class: 'rh-btn rh-list-download', 'aria-label': s.name + ' 제출물 PDF 다운로드', onclick: function () {
               status('제출물을 불러오는 중…');
               admin.get(s.id).then(function (rec) { return savePdf(rec, { history: true }, status); }, failed);
@@ -771,6 +819,10 @@
         var body = el('div', { class: 'rh-detail' });
         function show(rev) {
           body.innerHTML = '';
+          var lines = inputLogLines(rev.fields._input);
+          body.appendChild(el('div', { class: 'rh-inputlog' + (lines.length ? ' is-flagged' : '') }, lines.length
+            ? [el('strong', { text: '⚠ 입력 기록 · 이 저장 단계에서 붙여넣기·자동입력이 있었습니다' }), el('ul', {}, lines.map(function (l) { return el('li', { text: l }); }))]
+            : [el('span', { text: '입력 기록: 이 저장 단계에서 붙여넣기·자동입력이 기록되지 않았습니다.' })]));
           var perField = rev.feedback && rev.feedback.kind !== 'critical';
           if (rev.feedback && rev.feedback.kind === 'critical') body.appendChild(criticalNode(rev.feedback));
           var grid = el('div', { class: 'rh-grid' + (perField ? ' has-comments' : '') });

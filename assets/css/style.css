@@ -2441,3 +2441,18 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 /* Deep Research: temporarily hide its navigation and archive tab. */
 .site-nav li:has(> a[href$="/weekly-insight/deep-research/"]),
 .insight-tabs a[href$="/weekly-insight/deep-research/"] { display:none !important; }
+
+/* Research help: 실습 시 주의사항(복사 붙이기 금지) 강조 */
+.rh-rule { position: relative; margin: 0 0 14px; padding: 14px 16px 14px 20px; border: 1px solid #e0312b; border-left-width: 6px; border-radius: 10px; background: #fff3f2; color: #5a1411; animation: rh-rule-pulse 2.4s ease-out 2; }
+.rh-rule-title { display: block; margin-bottom: 4px; color: #c4241f; font-size: 15px; letter-spacing: .01em; }
+.rh-rule-title::before { content: "⚠ "; }
+.rh-rule-text { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.65; }
+.rh-rule-text mark { background: linear-gradient(transparent 55%, rgba(224, 49, 43, .28) 55%); color: #b3211b; padding: 0 2px; font-weight: 800; }
+@keyframes rh-rule-pulse { 0% { box-shadow: 0 0 0 0 rgba(224, 49, 43, .45); } 70% { box-shadow: 0 0 0 12px rgba(224, 49, 43, 0); } 100% { box-shadow: 0 0 0 0 rgba(224, 49, 43, 0); } }
+@media (prefers-reduced-motion: reduce) { .rh-rule { animation: none; } }
+@media (prefers-color-scheme: dark) { .rh-rule { background: #3a1d1d; border-color: #e0605a; color: #f6d4d1; } .rh-rule-title { color: #ff8f89; } .rh-rule-text mark { color: #ffb0ab; background: linear-gradient(transparent 55%, rgba(255, 143, 137, .3) 55%); } }
+.rh-inputlog { margin: 0 0 12px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; color: var(--muted); }
+.rh-inputlog.is-flagged { border-color: #e0312b; background: #fff3f2; color: #5a1411; }
+.rh-inputlog ul { margin: 6px 0 0; padding-left: 20px; }
+.rh-flag { color: #c4241f !important; font-weight: 700; }
+@media (prefers-color-scheme: dark) { .rh-inputlog.is-flagged { background: #3a1d1d; border-color: #e0605a; color: #f6d4d1; } .rh-flag { color: #ff8f89 !important; } }

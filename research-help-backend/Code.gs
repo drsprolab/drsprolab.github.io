@@ -71,6 +71,38 @@ function fail_(code, message, extra) {
   throw err;
 }
 
+// 화면이 보낸 입력 기록을 {항목: {p:[횟수,글자수], a:[횟수,글자수]}} 모양으로 정리한다(p: 붙여넣기, a: 자동입력으로 보이는 한 번에 긴 입력).
+function cleanInputLog_(raw) {
+  const out = {};
+  if (!raw || typeof raw !== 'object') return out;
+  const num = v => Math.max(0, Math.min(1000000, Math.floor(Number(v) || 0)));
+  FIELDS.forEach(f => {
+    const e = raw[f.key];
+    if (!e || typeof e !== 'object') return;
+    const item = {};
+    ['p', 'a'].forEach(t => {
+      const pair = Array.isArray(e[t]) ? e[t] : [];
+      const n = num(pair[0]), c = num(pair[1]);
+      if (n > 0) item[t] = [n, c];
+    });
+    if (Object.keys(item).length) out[f.key] = item;
+  });
+  return out;
+}
+
+// 입력 기록 합계: 붙여넣기·자동입력 횟수와 글자 수
+function inputTotals_(fieldsList) {
+  const t = { pasteCount: 0, pasteChars: 0, autoCount: 0, autoChars: 0 };
+  fieldsList.forEach(fields => {
+    const log = (fields && fields._input) || {};
+    Object.keys(log).forEach(k => {
+      if (log[k].p) { t.pasteCount += log[k].p[0]; t.pasteChars += log[k].p[1]; }
+      if (log[k].a) { t.autoCount += log[k].a[0]; t.autoChars += log[k].a[1]; }
+    });
+  });
+  return t;
+}
+
 // 여러 학생이 동시에 저장해 대기가 길어지면 waitLock이 예외를 던져 '서버 오류'로 보이던 문제:
 // 오래 기다리고, 그래도 못 얻으면 다시 시도하라는 안내(busy)로 돌려준다(화면이 자동으로 다시 시도한다).
 function waitLock_(lock) {
@@ -84,6 +116,9 @@ function save_(b) {
   const imageData = String(b.modelImageData || '');
   const keepImage = String((b.fields && b.fields.modelImage) || '');
   const fields = validateFields_(b.fields, !!(imageData || keepImage));
+  // 붙여넣기·자동입력 기록(화면이 센 값). 이 저장본과 함께 보관하고, AI에는 보내지 않는다.
+  const inputLog = cleanInputLog_(b.inputLog);
+  if (Object.keys(inputLog).length) fields._input = inputLog;
   const requestId = String(b.requestId || '').slice(0, 64);
   if (!/^[A-Za-z0-9-]{8,64}$/.test(requestId)) fail_('bad_request', '요청 식별값이 올바르지 않습니다.');
   let sub, token;
@@ -811,6 +846,7 @@ function requireItems_(raw) {
 // 이름 등 개인정보는 피드백에 필요 없으므로 외부 AI로 보내지 않는다.
 function aiManuscript_(fields) {
   const out = Object.assign({}, fields);
+  delete out._input;
   delete out.name;
   delete out.modelImage;
   if (fields.modelImage) out.model = (out.model ? out.model + '\n\n' : '') + '[연구 모형 그림이 함께 첨부됨: 첨부 이미지를 연구 모형으로 보고 검토할 것]';
@@ -935,7 +971,8 @@ function adminList_(b) {
   const all = rows_('Revisions').map(parseRevision_);
   const subs = rows_('Submissions').filter(s => s.status === 'submitted').map(s => {
     const latest = all.filter(r => r.submissionId === s.id && r.status === 'ok').pop();
-    return Object.assign(publicSubmission_(s), { title: latest ? latest.fields.title : '' });
+    const mine = all.filter(r => r.submissionId === s.id).map(r => r.fields);
+    return Object.assign(publicSubmission_(s), { title: latest ? latest.fields.title : '', inputLog: inputTotals_(mine) });
   });
   subs.sort((a, b) => String(b.submittedAt).localeCompare(String(a.submittedAt)));
   return { submissions: subs };

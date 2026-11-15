@@ -528,3 +528,17 @@ test('Claude가 스키마 크기 오류(400 compiled grammar is too large)를 �
   assert.match(t.calls.ai[1].system, /JSON 스키마/);
   assert.equal(r.feedback.kind, 'socratic');
 });
+
+test('붙여넣기·자동입력 기록은 정리해 저장본에 남기고 AI에는 보내지 않는다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic } });
+  const log = { purpose: { p: [2, 540], a: [1, 80] }, bogus: { p: [9, 9] }, rq: { p: [-5, 'x'] }, title: { p: [1, 30] } };
+  const r = t.call({ action: 'save', round: 1, consent: true, fields: fields(), inputLog: log, requestId: reqId() });
+  assert.equal(r.ok, true, r.message);
+  const stored = JSON.parse(t.rows('Revisions')[0][5]);
+  assert.deepEqual(stored._input, { title: { p: [1, 30] }, purpose: { p: [2, 540], a: [1, 80] } }, '알 수 없는 항목·음수는 버린다');
+  const aiCall = t.calls.ai.find(c => c.name === 'socratic_feedback');
+  assert.doesNotMatch(aiCall.user, /_input|540/);
+  const clean = setup({ ai: { socratic_feedback: socratic } });
+  clean.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  assert.equal(JSON.parse(clean.rows('Revisions')[0][5])._input, undefined, '기록이 없으면 필드를 만들지 않는다');
+});

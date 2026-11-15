@@ -249,3 +249,14 @@ test('일시적인 서버 오류·혼잡은 같은 요청 번호로 자동 재�
   await assert.rejects(app2.save(), /입력 오류/);
   assert.equal(other.calls.length, 1, '입력 오류는 다시 보내지 않는다');
 });
+
+test('붙여넣기·자동입력 횟수를 저장 요청에 실어 보내고, 저장되면 다시 센다', async () => {
+  const server = fakeServer();
+  const app = RH.createController({ transport: server.transport, storage: memoryStorage(), retryDelay: 0 });
+  app.setFields(fields()); app.setConsent(true);
+  app.logInput('purpose', 'p', 300); app.logInput('purpose', 'p', 120); app.logInput('method', 'a', 90); app.logInput('rq', 'p', 0);
+  await app.save();
+  assert.deepEqual(server.calls[0].inputLog, { purpose: { p: [2, 420] }, method: { a: [1, 90] } });
+  await app.save();
+  assert.deepEqual(server.calls[1].inputLog, {}, '이미 저장된 기록은 다음 저장에 다시 보내지 않는다');
+});
