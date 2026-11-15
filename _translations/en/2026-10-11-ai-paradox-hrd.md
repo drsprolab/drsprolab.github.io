@@ -32,6 +32,37 @@ The question is not simply whether to use AI, but **in what order**. In the high
 
 A **Generative Cognitive Pause (GCP)** is a brief, structured delay before asking for AI assistance or accepting its output. During the pause, people first generate their own ideas and the reasoning behind their judgments. It is a pause for producing thought, rather than simply resting.
 
+<figure class="gcp-fig">
+<svg class="gcp-svg" viewBox="0 0 600 346" role="img" aria-labelledby="gcp-en-t gcp-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="gcp-en-t">Generative Cognitive Pause (GCP): comparing an AI-first flow with a think-first flow</title>
+  <desc id="gcp-en-d">With an AI-first flow, a task leads to AI output and submission, skipping thinking, comparing, and explaining. With GCP, people think first, use AI, then compare and explain.</desc>
+  <defs><marker id="gcp-en-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker><marker id="gcp-en-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+  <style>.gcp-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.gcp-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.gcp-acc{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.gcp-ghost{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4;opacity:.7}.gcp-h{font:700 17px sans-serif;fill:var(--ink)}.gcp-p{font:13.5px sans-serif;fill:var(--muted)}.gcp-tag{font:700 15px sans-serif;fill:var(--muted)}.gcp-tagb{font:700 15px sans-serif;fill:var(--accent)}.gcp-dot{fill:var(--accent)}.gcp-n{font:700 13px sans-serif;fill:var(--paper)}.gcp-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#gcp-en-a)}.gcp-am{stroke:var(--muted);stroke-width:2;fill:none;marker-end:url(#gcp-en-m)}.gcp-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.gcp-note{font:700 15px sans-serif;fill:var(--ink)}.gcp-sep{stroke:var(--line);stroke-width:1.2}</style>
+  <text class="gcp-tag" x="18" y="28">AI first</text>
+  <rect class="gcp-card" x="18" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="82" y="70" text-anchor="middle">Task</text><text class="gcp-p" x="82" y="90" text-anchor="middle">Ask AI</text><text class="gcp-p" x="82" y="106" text-anchor="middle">right away</text>
+  <path class="gcp-am" d="M148 76 H161"/>
+  <rect class="gcp-card" x="163" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="227" y="70" text-anchor="middle">AI output</text><text class="gcp-p" x="227" y="90" text-anchor="middle">Answer arrives</text><text class="gcp-p" x="227" y="106" text-anchor="middle">in one go</text>
+  <path class="gcp-am" d="M293 76 H306"/>
+  <rect class="gcp-card" x="308" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="372" y="70" text-anchor="middle">Submit</text><text class="gcp-p" x="372" y="90" text-anchor="middle">Pass it on</text><text class="gcp-p" x="372" y="106" text-anchor="middle">as it is</text>
+  <path class="gcp-am" d="M438 76 H451"/>
+  <rect class="gcp-ghost" x="453" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="517" y="70" text-anchor="middle" opacity=".65">Learning</text><text class="gcp-p" x="517" y="90" text-anchor="middle">Think, compare,</text><text class="gcp-p" x="517" y="106" text-anchor="middle">explain: skipped</text>
+  <line class="gcp-sep" x1="18" y1="141" x2="582" y2="141"/>
+  <text class="gcp-tagb" x="18" y="166">GCP: think first, then AI</text>
+  <rect class="gcp-hot" x="18" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="82" y="208" text-anchor="middle">Think first</text><text class="gcp-p" x="82" y="228" text-anchor="middle">Ideas and drafts</text><text class="gcp-p" x="82" y="244" text-anchor="middle">without AI</text>
+  <path class="gcp-ar" d="M148 214 H161"/>
+  <rect class="gcp-acc" x="163" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="227" y="208" text-anchor="middle">Use AI</text><text class="gcp-p" x="227" y="228" text-anchor="middle">Ask and get</text><text class="gcp-p" x="227" y="244" text-anchor="middle">a result</text>
+  <path class="gcp-ar" d="M293 214 H306"/>
+  <rect class="gcp-acc" x="308" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="372" y="208" text-anchor="middle">Compare</text><text class="gcp-p" x="372" y="228" text-anchor="middle">Gaps between</text><text class="gcp-p" x="372" y="244" text-anchor="middle">views, and why</text>
+  <path class="gcp-ar" d="M438 214 H451"/>
+  <rect class="gcp-acc" x="453" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="517" y="208" text-anchor="middle">Explain</text><text class="gcp-p" x="517" y="228" text-anchor="middle">In your words,</text><text class="gcp-p" x="517" y="244" text-anchor="middle">with evidence</text>
+  <circle class="gcp-dot" cx="32" cy="178" r="11"/><text class="gcp-n" x="32" y="182.5" text-anchor="middle">1</text>
+  <circle class="gcp-dot" cx="322" cy="178" r="11"/><text class="gcp-n" x="322" y="182.5" text-anchor="middle">2</text>
+  <circle class="gcp-dot" cx="467" cy="178" r="11"/><text class="gcp-n" x="467" y="182.5" text-anchor="middle">3</text>
+  <rect class="gcp-band" x="18" y="266" width="564" height="64" rx="14"/><text class="gcp-note" x="300" y="292" text-anchor="middle">Same AI, different order, different learning left behind</text><text class="gcp-p" x="300" y="314" text-anchor="middle">Reasons for judgments are recorded, so learning is visible again</text>
+</svg>
+<figcaption><strong>Figure 1.</strong> An AI-first flow compared with a Generative Cognitive Pause (GCP) flow. GCP is a concept proposed in this piece; field application and evidence of effect remain to be tested.</figcaption>
+</figure>
+
 | Process | What people do | Theoretical grounding |
 |---|---|---|
 | Think first | Record an initial hypothesis, draft, or decision criterion before asking AI. | Generation supports memory (Slamecka & Graf, 1978); an initial struggle can support deeper understanding (Kapur, 2016). |

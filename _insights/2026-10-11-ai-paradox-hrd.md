@@ -37,6 +37,37 @@ HRD의 눈으로 보면 이 역설은 세 문장으로 줄일 수 있습니다.
 
 **생성적 인지 멈춤(Generative Cognitive Pause, GCP)**은 AI의 도움을 받기 직전, 또는 AI의 결과를 받아들이기 직전에 AI 사용을 잠시 미루고 자신의 생각과 판단 근거를 먼저 만들어 보는 짧고 구조화된 멈춤입니다. ‘쉬는 멈춤’이 아니라 ‘생각을 만들어 보는 멈춤’입니다.
 
+<figure class="gcp-fig">
+<svg class="gcp-svg" viewBox="0 0 600 346" role="img" aria-labelledby="gcp-t gcp-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="gcp-t">생성적 인지 멈춤(GCP): AI를 먼저 쓰는 흐름과 먼저 생각하는 흐름 비교</title>
+  <desc id="gcp-d">AI를 먼저 쓰면 과제, AI 결과, 제출로 이어지며 생각·비교·설명의 과정이 빠진다. GCP는 먼저 생각하고, AI를 활용한 뒤, 비교하고 설명한다.</desc>
+  <defs><marker id="gcp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker><marker id="gcp-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+  <style>.gcp-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.gcp-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.gcp-acc{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.gcp-ghost{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4;opacity:.7}.gcp-h{font:700 17px sans-serif;fill:var(--ink)}.gcp-p{font:13.5px sans-serif;fill:var(--muted)}.gcp-tag{font:700 15px sans-serif;fill:var(--muted)}.gcp-tagb{font:700 15px sans-serif;fill:var(--accent)}.gcp-dot{fill:var(--accent)}.gcp-n{font:700 13px sans-serif;fill:var(--paper)}.gcp-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#gcp-a)}.gcp-am{stroke:var(--muted);stroke-width:2;fill:none;marker-end:url(#gcp-m)}.gcp-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.gcp-note{font:700 15px sans-serif;fill:var(--ink)}.gcp-sep{stroke:var(--line);stroke-width:1.2}</style>
+  <text class="gcp-tag" x="18" y="28">AI 먼저</text>
+  <rect class="gcp-card" x="18" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="82" y="70" text-anchor="middle">과제 받음</text><text class="gcp-p" x="82" y="90" text-anchor="middle">바로 AI에</text><text class="gcp-p" x="82" y="106" text-anchor="middle">질문한다</text>
+  <path class="gcp-am" d="M148 76 H161"/>
+  <rect class="gcp-card" x="163" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="227" y="70" text-anchor="middle">AI 결과</text><text class="gcp-p" x="227" y="90" text-anchor="middle">초안·답이</text><text class="gcp-p" x="227" y="106" text-anchor="middle">한 번에 나온다</text>
+  <path class="gcp-am" d="M293 76 H306"/>
+  <rect class="gcp-card" x="308" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="372" y="70" text-anchor="middle">제출</text><text class="gcp-p" x="372" y="90" text-anchor="middle">결과를 그대로</text><text class="gcp-p" x="372" y="106" text-anchor="middle">전달한다</text>
+  <path class="gcp-am" d="M438 76 H451"/>
+  <rect class="gcp-ghost" x="453" y="40" width="128" height="72" rx="12"/><text class="gcp-h" x="517" y="70" text-anchor="middle" opacity=".65">배움의 과정</text><text class="gcp-p" x="517" y="90" text-anchor="middle">생각·비교·</text><text class="gcp-p" x="517" y="106" text-anchor="middle">설명이 빠짐</text>
+  <line class="gcp-sep" x1="18" y1="141" x2="582" y2="141"/>
+  <text class="gcp-tagb" x="18" y="166">GCP: 먼저 생각하고, AI는 그다음</text>
+  <rect class="gcp-hot" x="18" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="82" y="208" text-anchor="middle">먼저 생각</text><text class="gcp-p" x="82" y="228" text-anchor="middle">AI 없이</text><text class="gcp-p" x="82" y="244" text-anchor="middle">가설·초안 적기</text>
+  <path class="gcp-ar" d="M148 214 H161"/>
+  <rect class="gcp-acc" x="163" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="227" y="208" text-anchor="middle">AI 활용</text><text class="gcp-p" x="227" y="228" text-anchor="middle">묻고 결과를</text><text class="gcp-p" x="227" y="244" text-anchor="middle">받는다</text>
+  <path class="gcp-ar" d="M293 214 H306"/>
+  <rect class="gcp-acc" x="308" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="372" y="208" text-anchor="middle">비교하기</text><text class="gcp-p" x="372" y="228" text-anchor="middle">내 생각과</text><text class="gcp-p" x="372" y="244" text-anchor="middle">차이·이유 점검</text>
+  <path class="gcp-ar" d="M438 214 H451"/>
+  <rect class="gcp-acc" x="453" y="178" width="128" height="72" rx="12"/><text class="gcp-h" x="517" y="208" text-anchor="middle">설명하기</text><text class="gcp-p" x="517" y="228" text-anchor="middle">근거와 함께</text><text class="gcp-p" x="517" y="244" text-anchor="middle">내 말로 설명</text>
+  <circle class="gcp-dot" cx="32" cy="178" r="11"/><text class="gcp-n" x="32" y="182.5" text-anchor="middle">1</text>
+  <circle class="gcp-dot" cx="322" cy="178" r="11"/><text class="gcp-n" x="322" y="182.5" text-anchor="middle">2</text>
+  <circle class="gcp-dot" cx="467" cy="178" r="11"/><text class="gcp-n" x="467" y="182.5" text-anchor="middle">3</text>
+  <rect class="gcp-band" x="18" y="266" width="564" height="64" rx="14"/><text class="gcp-note" x="300" y="292" text-anchor="middle">같은 AI를 써도 순서가 달라지면 남는 것이 달라진다</text><text class="gcp-p" x="300" y="314" text-anchor="middle">판단의 근거가 기록으로 남아 배움이 다시 보이게 된다</text>
+</svg>
+<figcaption><strong>그림 1.</strong> AI를 먼저 쓰는 흐름과 생성적 인지 멈춤(GCP) 흐름의 비교. GCP는 이 글에서 처음 제안하는 개념으로, 현장 적용과 효과 검증은 앞으로의 과제입니다.</figcaption>
+</figure>
+
 | 단계 | 하는 일 | 근거 |
 |---|---|---|
 | ① 먼저 생각하기 | AI에 묻기 전에 가설·초안·판단 기준을 먼저 적는다 | 스스로 떠올린 것이 더 잘 기억되고(Slamecka & Graf, 1978), 먼저 부딪혀 본 사람이 더 깊이 이해한다(Kapur, 2016) |
