@@ -4,10 +4,10 @@ title: 학습조직과 조직학습
 description: 인간–AI 학습, 학습조직, 조직학습, 지식경영, 조직변화를 다루는 Deep Research 주제 폴더.
 permalink: /weekly-insight/deep-research/learning-organization-organizational-learning/
 image:
-  path: /assets/images/deep-research-hai-knowledge-strategy.png
+  path: /assets/images/deep-research-hai-interaction.png
   width: 1672
   height: 941
-  alt: 인간과 AI가 지식을 연결하는 HAI 지식관리 전략 이미지
+  alt: HAI — Human AI Interaction 지식관리 전략 이미지
 ---
 {% assign topic = site.data.deep_research_topics | where: 'slug', 'learning-organization-organizational-learning' | first %}
 {% assign lang = page.lang | default: 'ko' %}
@@ -19,7 +19,7 @@ image:
     <p>{% if lang == 'en' %}{{ topic.summary_en }}{% else %}{{ topic.summary_ko }}{% endif %}</p>
   </header>
   <figure class="deep-topic-hero">
-    <img src="{{ topic.image | relative_url }}" alt="{% if lang == 'en' %}HAI visualizing connections between human and AI knowledge{% else %}인간과 AI의 지식이 연결되는 HAI 이미지{% endif %}" width="1672" height="941" decoding="async">
+    <img src="{{ topic.image | relative_url }}" alt="HAI — Human AI Interaction" width="1672" height="941" decoding="async">
     <figcaption>{% if lang == 'en' %}{{ topic.cover_title_en }}{% else %}{{ topic.cover_title_ko }}{% endif %}</figcaption>
   </figure>
   <ul class="tags deep-topic-keywords" aria-label="{% if lang == 'en' %}Keywords{% else %}키워드{% endif %}">

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941" role="img" aria-labelledby="title desc">
+  <title id="title">HAI — Human AI Interaction</title>
+  <desc id="desc">PRO AnalytiX 로고의 남색, 파란색, 금색을 사용한 간결한 Human AI Interaction 표지</desc>
+  <rect width="1672" height="941" fill="#f7f9fc"/>
+  <path d="M0 940H1672" stroke="#dce3ed" stroke-width="2"/>
+  <path d="M116 270H385" stroke="#c7a15a" stroke-width="7"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="500">
+    <text x="286" y="635" font-size="458" letter-spacing="-22" fill="#10224c">HA</text>
+    <text x="930" y="635" font-size="458" fill="#2459e8">I</text>
+    <text x="298" y="746" font-size="61" letter-spacing="1.6" fill="#10224c">Human AI Interaction</text>
+  </g>
+  <path d="M300 799H1372" stroke="#c7a15a" stroke-width="3"/>
+  <circle cx="1372" cy="799" r="7" fill="#2459e8"/>
+</svg>
