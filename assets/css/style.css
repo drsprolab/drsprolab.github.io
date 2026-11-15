@@ -2438,10 +2438,6 @@ details.rhb-ch { margin: 14px 0; border: 1px solid var(--line); border-radius: 1
 .gallery-photo-dialog figcaption { margin-top:10px; font-size:14px; color:var(--muted); }
 html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 
-/* Deep Research: temporarily hide its navigation and archive tab. */
-.site-nav li:has(> a[href$="/weekly-insight/deep-research/"]),
-.insight-tabs a[href$="/weekly-insight/deep-research/"] { display:none !important; }
-
 /* Research help: 실습 시 주의사항(복사 붙이기 금지) 강조 */
 .rh-rule { position: relative; margin: 0 0 14px; padding: 14px 16px 14px 20px; border: 1px solid #e0312b; border-left-width: 6px; border-radius: 10px; background: #fff3f2; color: #5a1411; animation: rh-rule-pulse 2.4s ease-out 2; }
 .rh-rule-title { display: block; margin-bottom: 4px; color: #c4241f; font-size: 15px; letter-spacing: .01em; }
