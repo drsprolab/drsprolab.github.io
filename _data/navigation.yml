@@ -64,4 +64,4 @@
   children:
     - { title: DrS Weekly Insight, url: /weekly-insight/ }
     - { title: Lab Weekly Insight, url: /weekly-insight/lab/ }
-    - { title: Deep Research, url: /weekly-insight/deep-research/ }
+    - { title: Deep Research, url: /weekly-insight/deep-research/, new_until: 1796050799 }
