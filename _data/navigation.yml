@@ -64,4 +64,5 @@
   children:
     - { title: DrS Weekly Insight, url: /weekly-insight/ }
     - { title: Lab Weekly Insight, url: /weekly-insight/lab/ }
-    - { title: Deep Research, url: /weekly-insight/deep-research/, new_until: 1796050799 }
+    # Deep Research는 비활성(2026-11-15). 다시 켜려면 아래 줄의 주석을 풀고 _config.yml 의 deep_research 를 true 로, weekly-insight/deep-research 아래 두 페이지의 published: false 를 지운다.
+    # - { title: Deep Research, url: /weekly-insight/deep-research/, new_until: 1796050799 }

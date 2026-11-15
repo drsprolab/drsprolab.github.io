@@ -2,6 +2,7 @@ title: PRO AnalytiX Lab
 subtitle: People-Relation-Organization-AX
 description: 한양대학교 교육공학과 송지훈 교수 연구실
 lang: ko
+deep_research: false  # Weekly Insight의 Deep Research 메뉴·탭·페이지 사용 여부(2026-11-15 비활성)
 bilingual_preview: true
 locale: ko_KR
 author: Ji Hoon Song
