@@ -154,7 +154,7 @@ test('PDF 문서: 작성자와 관리자 모두 최종 연구계획서와 1·2�
   assert.ok(history.some(b => b.text && b.text.includes('연구목적과 연구문제의 얼라인먼트')), '3차 점검 항목이 PDF 부록에 들어간다');
   assert.ok(history.some(b => b.text && b.text.includes('어긋납니다.')));
   assert.deepEqual(RH.pdfDocument(record, { history: true }), all);
-  assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('외부 AI(현재 Google Gemini)')));
+  assert.ok(all.blocks.some(b => b.type === 'note' && b.text.includes('DrS 미리 설정해 둔 심사 기준, 논리적 흐름 문제, 이론적 정합성 확인 방식에 따라 제시되는 의견입니다.')));
   assert.equal(RH.pdfFileName(record), 'research-plan-테스트_작성자-RH261029ABCDEF12.pdf');
 });
 

@@ -27,7 +27,7 @@
   // 피드백 AI 서비스는 사이트 설정(research_help_ai)이 페이지의 data-ai-provider로 알려 준다. 문구가 실제 서비스와 어긋나지 않게 한다.
   var aiHost = typeof document !== 'undefined' && document.querySelector ? document.querySelector('[data-ai-provider]') : null;
   var AI_PROVIDER = aiHost && aiHost.getAttribute('data-ai-provider') === 'claude' ? 'claude' : 'gemini';
-  var AI_NOTICE = 'DrS comments는 외부 AI(현재 ' + (AI_PROVIDER === 'claude' ? 'Anthropic Claude' : 'Google Gemini') + ')가 지정된 기준에 따라 생성한 참고 의견이며, 송지훈 교수가 직접 작성한 평가가 아닙니다.';
+  var AI_NOTICE = 'DrS 미리 설정해 둔 심사 기준, 논리적 흐름 문제, 이론적 정합성 확인 방식에 따라 제시되는 의견입니다.';
   var AI_CONSENT = AI_PROVIDER === 'claude'
     ? '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Anthropic Claude API)로 전송되는 것에 동의합니다. Anthropic은 API로 받은 내용을 AI 모델 학습에 사용하지 않지만 외부 서비스로 전송되므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.'
     : null;
