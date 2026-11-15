@@ -1,0 +1,18 @@
+# Deep Research 주제 폴더. 개별 자료를 공개할 때 해당 주제의 files에
+# title_ko, title_en, summary_ko, summary_en, url을 추가합니다.
+- slug: learning-organization-organizational-learning
+  url: /weekly-insight/deep-research/learning-organization-organizational-learning/
+  title_ko: 학습조직과 조직학습
+  title_en: Learning Organizations and Organizational Learning
+  cover_title_ko: 지식관리 전략
+  cover_title_en: Knowledge Management Strategy
+  summary_ko: 인간–AI 학습을 바탕으로 학습조직, 조직학습, 지식경영과 조직변화를 함께 살펴보는 주제 폴더입니다.
+  summary_en: A topic folder on human–AI learning, learning organizations, organizational learning, knowledge management, and organizational change.
+  image: /assets/images/deep-research-hai-knowledge-strategy.png
+  keywords:
+    - { ko: 인간-AI 학습, en: Human–AI Learning }
+    - { ko: 학습조직, en: Learning Organizations }
+    - { ko: 조직학습, en: Organizational Learning }
+    - { ko: 지식경영, en: Knowledge Management }
+    - { ko: 조직변화, en: Organizational Change }
+  files: []

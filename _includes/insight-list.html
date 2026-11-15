@@ -28,6 +28,27 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
     {% include sharing-guidance.html class="daily-issue-notice" %}
     {% include page-banner.html key="daily-insight" issues=ordered_issues %}
   </header>
+  {% if include.section == 'deep-research' %}
+  {% assign lang = page.lang | default: 'ko' %}
+  <div class="daily-archive deep-topic-archive">
+    <h2>{% if lang == 'en' %}Topics{% else %}주제 폴더{% endif %} <span class="n">{{ site.data.deep_research_topics.size }}</span></h2>
+    <div class="inst-grid deep-topic-grid">
+      {% for topic in site.data.deep_research_topics %}
+      <a class="inst deep-topic-card" href="{{ topic.url | relative_url }}">
+        <div class="deep-topic-cover">
+          <img src="{{ topic.image | relative_url }}" alt="" width="1672" height="941" loading="lazy" decoding="async">
+          <span>{% if lang == 'en' %}{{ topic.cover_title_en }}{% else %}{{ topic.cover_title_ko }}{% endif %}</span>
+        </div>
+        <div class="deep-topic-kind">{% if lang == 'en' %}Topic folder{% else %}주제 폴더{% endif %} · {{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+        <h3>{% if lang == 'en' %}{{ topic.title_en }}{% else %}{{ topic.title_ko }}{% endif %}</h3>
+        <p>{% if lang == 'en' %}{{ topic.summary_en }}{% else %}{{ topic.summary_ko }}{% endif %}</p>
+        <div class="tags">{% for keyword in topic.keywords %}<span class="badge">{% if lang == 'en' %}{{ keyword.en }}{% else %}{{ keyword.ko }}{% endif %}</span>{% endfor %}</div>
+        <span class="deep-topic-open">{% if lang == 'en' %}Open folder →{% else %}폴더 열기 →{% endif %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
   {% if issues.size > 0 %}
   <div class="daily-archive">
     <h2>Insights <span class="n">{{ issues.size }}</span></h2>
@@ -44,7 +65,7 @@ Weekly Insight 목록 (DrS / Lab / Deep Research 공용). include.section: 'drs'
       {% endfor %}
     </div>
   </div>
-  {% elsif include.section == 'lab' %}{%- comment -%} Lab: 글이 없을 때는 아무것도 표시하지 않음 {%- endcomment -%}
+  {% elsif include.section == 'lab' or include.section == 'deep-research' %}{%- comment -%} 주제 폴더나 글이 없을 때는 빈 글 목록을 표시하지 않음 {%- endcomment -%}
   {% else %}
   <p class="daily-method">첫 Insights을 준비하고 있습니다.</p>
   {% endif %}

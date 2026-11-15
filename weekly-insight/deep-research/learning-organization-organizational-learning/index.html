@@ -1,0 +1,43 @@
+---
+layout: default
+title: 학습조직과 조직학습
+description: 인간–AI 학습, 학습조직, 조직학습, 지식경영, 조직변화를 다루는 Deep Research 주제 폴더.
+permalink: /weekly-insight/deep-research/learning-organization-organizational-learning/
+image:
+  path: /assets/images/deep-research-hai-knowledge-strategy.png
+  width: 1672
+  height: 941
+  alt: 인간과 AI가 지식을 연결하는 HAI 지식관리 전략 이미지
+---
+{% assign topic = site.data.deep_research_topics | where: 'slug', 'learning-organization-organizational-learning' | first %}
+{% assign lang = page.lang | default: 'ko' %}
+<article class="page deep-topic-page">
+  <a class="daily-back" href="{{ '/weekly-insight/deep-research/' | relative_url }}">{% if lang == 'en' %}← All Deep Research topics{% else %}← Deep Research 전체 보기{% endif %}</a>
+  <header class="deep-topic-head">
+    <div class="eyebrow">DEEP RESEARCH · TOPIC 01</div>
+    <h1>{% if lang == 'en' %}{{ topic.title_en }}{% else %}{{ topic.title_ko }}{% endif %}</h1>
+    <p>{% if lang == 'en' %}{{ topic.summary_en }}{% else %}{{ topic.summary_ko }}{% endif %}</p>
+  </header>
+  <figure class="deep-topic-hero">
+    <img src="{{ topic.image | relative_url }}" alt="{% if lang == 'en' %}HAI visualizing connections between human and AI knowledge{% else %}인간과 AI의 지식이 연결되는 HAI 이미지{% endif %}" width="1672" height="941" decoding="async">
+    <figcaption>{% if lang == 'en' %}{{ topic.cover_title_en }}{% else %}{{ topic.cover_title_ko }}{% endif %}</figcaption>
+  </figure>
+  <ul class="tags deep-topic-keywords" aria-label="{% if lang == 'en' %}Keywords{% else %}키워드{% endif %}">
+    {% for keyword in topic.keywords %}<li>{% if lang == 'en' %}{{ keyword.en }}{% else %}{{ keyword.ko }}{% endif %}</li>{% endfor %}
+  </ul>
+  <section class="deep-topic-files" aria-labelledby="deep-topic-files-title">
+    <h2 id="deep-topic-files-title">{% if lang == 'en' %}Files in this topic{% else %}주제별 자료{% endif %} <span class="n">{{ topic.files.size }}</span></h2>
+    {% if topic.files.size > 0 %}
+    <div class="inst-grid">
+      {% for file in topic.files %}
+      <a class="inst" href="{{ file.url | relative_url }}">
+        <h3>{% if lang == 'en' %}{{ file.title_en }}{% else %}{{ file.title_ko }}{% endif %}</h3>
+        <p>{% if lang == 'en' %}{{ file.summary_en }}{% else %}{{ file.summary_ko }}{% endif %}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="deep-topic-empty">{% if lang == 'en' %}The first file in this topic is being prepared.{% else %}이 주제의 첫 자료를 준비하고 있습니다.{% endif %}</p>
+    {% endif %}
+  </section>
+</article>

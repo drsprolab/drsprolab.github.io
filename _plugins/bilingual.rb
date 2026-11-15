@@ -10,7 +10,7 @@ module Bilingual
                    /highlights/ /institutes/ /institutes/bk21/ /institutes/bk21-aix/
                    /institutes/curriculum/ /institutes/ecdi/ /institutes/humsoc/
                    /institutes/welfare/ /weekly-insight/ /weekly-insight/lab/
-                   /weekly-insight/deep-research/ /conference/list/
+                   /weekly-insight/deep-research/ /weekly-insight/deep-research/learning-organization-organizational-learning/ /conference/list/
                    /conference/ufhrd-2026/ /conference/asian-ahrd-2026/
                    /conference/kset-2026-2/ /conference/hrd-2026-2/
                    /appointment/ /appointment/admin/ /blog/].freeze
