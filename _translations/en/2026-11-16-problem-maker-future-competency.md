@@ -18,7 +18,7 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
 
 This is the author's own perspective piece. It sorts the problems organizations handle by time direction into fix-it, exploratory, and creative types, starts from a case in which AI extends to high-level reasoning (the 2025 International Mathematical Olympiad), and asks where human value moves.
 
-The sorting of problem types and the claim about connecting experience, reflection, and imagination are the author's proposals, not empirically validated models. The Olympiad case concerns mathematics, which differs from organizational problems entangled with interests and accountability, as the essay itself notes.
+The sorting of problem types and the claim about connecting experience, reflection, and imagination are the author's proposals. The Olympiad case concerns mathematics, which differs from organizational problems entangled with interests and accountability, as the essay itself notes.
 </div>
 
 ## 01 · Why Organizations Have Needed Problem Solvers
@@ -91,7 +91,7 @@ Here, before solving a problem, we must first create what to treat as a problem.
   <rect class="pbm-bar" x="82" y="448" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="470" text-anchor="middle">Solving given problems</text>
   <rect class="pbm-bar3" x="414" y="448" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="470" text-anchor="middle">Creating problems</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> Three types of problems organizations handle. This is the author's division by time direction, not an empirically validated classification.</figcaption>
+<figcaption><strong>Figure 1.</strong> Three types of problems organizations handle. This is the author's division by time direction.</figcaption>
 </figure>
 
 ## 03 · The Better AI Answers, the More It Matters What We Pursue
@@ -165,7 +165,7 @@ So organizations and HRD should not evaluate only how quickly set problems were 
   <rect class="hrd-out" x="18" y="270" width="564" height="40" rx="20"/><text class="hrd-ot" x="300" y="296" text-anchor="middle">A challenge worth exploring together</text>
   <rect class="hrd-band" x="18" y="322" width="564" height="80" rx="14"/><text class="hrd-bh" x="300" y="346" text-anchor="middle">To keep this path open</text><text class="hrd-c" x="300" y="368" text-anchor="middle">Do not treat every question of unclear usefulness as inefficiency</text><text class="hrd-c" x="300" y="388" text-anchor="middle">Explore with AI, but keep your own view of what to pursue</text>
 </svg>
-<figcaption><strong>Figure 2.</strong> The path from members' questions to challenges, and the opportunities HRD can provide. It summarizes the essay's proposals and is not a validated model.</figcaption>
+<figcaption><strong>Figure 2.</strong> The path from members' questions to challenges, and the opportunities HRD can provide. It summarizes the essay's proposals.</figcaption>
 </figure>
 
 In the future, too, organizations will be groups that solve problems. But those problems will not all come from outside. Questions arising from members' experience, reflection, and imagination can become an organization's next reason to exist.

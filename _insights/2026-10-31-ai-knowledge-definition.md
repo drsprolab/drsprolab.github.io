@@ -84,7 +84,7 @@ AI가 들어온 뒤 조직학습에서 놓치기 쉬운 장면은 두 가지입�
 <rect class="kf-note" x="324" y="158" width="286" height="116" rx="12"/><text class="kf-heading" x="340" y="184">과정이 가려질 때</text><text class="kf-caption" x="340" y="210">질문·수정·검토가 workflow에 분산됨</text><text class="kf-caption" x="340" y="232">완성된 결과물에는 배움이 잘 드러나지 않음</text><text class="kf-caption" x="340" y="254">이해와 실천의 변화를 함께 확인해야 함</text>
 <text class="kf-caption" x="310" y="313" text-anchor="middle">HRD의 초점: 개인이 배웠는가, 함께 해석했는가, 조직의 실천이 달라졌는가</text>
 </svg>
-<figcaption id="knowledge-formation-caption"><strong>그림 1.</strong> 개인학습과 조직학습을 거쳐 조직의 지식이 형성되는 과정, 그리고 AI 환경에서 생길 수 있는 생략과 비가시성. 기존 조직학습 이론을 바탕으로 필자가 제안한 도식이며, 실증 검증된 모형은 아닙니다.</figcaption>
+<figcaption id="knowledge-formation-caption"><strong>그림 1.</strong> 개인학습과 조직학습을 거쳐 조직의 지식이 형성되는 과정, 그리고 AI 환경에서 생길 수 있는 생략과 비가시성. 기존 조직학습 이론을 바탕으로 필자가 제안한 도식입니다.</figcaption>
 </figure>
 
 ## 04 · 더 적게 일하는 설계만으로는 충분하지 않다

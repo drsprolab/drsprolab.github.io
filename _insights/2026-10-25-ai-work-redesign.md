@@ -115,7 +115,7 @@ Hou 등(2025)은 디자이너가 AI와 함께 아이디어를 만들고 실제 �
   <text class="aiwr-note" x="300" y="546" text-anchor="middle">효과가 없으면 2~4단계로 돌아가 다시 설계</text>
   <text class="aiwr-small" x="300" y="568" text-anchor="middle">새 과제를 얹을 때는 기존 우선순위와 업무량도 함께 조정</text>
 </svg>
-<figcaption><strong>그림 1.</strong> 개인의 개선 의도를 업무흐름과 직무 설계로 이어가는 실행 절차. 파일럿과 조정 단계는 필자의 실천 제안이며, 검증된 인과 모형이 아닙니다.</figcaption>
+<figcaption><strong>그림 1.</strong> 개인의 개선 의도를 업무흐름과 직무 설계로 이어가는 실행 절차. 파일럿과 조정 단계는 필자의 실천 제안입니다.</figcaption>
 </figure>
 
 ## 05 · 조직 성과는 ‘더 일한 시간’이 아니라 개선이 업무에 남을 때 생긴다

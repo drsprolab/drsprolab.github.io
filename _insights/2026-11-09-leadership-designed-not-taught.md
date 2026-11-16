@@ -96,7 +96,7 @@ topics: [리더십 개발, 교육 전이, 70-20-10, 리더 선발]
 <line class="ld2-ln" x1="408" y1="288" x2="432" y2="288" marker-end="url(#ld2-arrow)"/>
 <text class="ld2-s" x="280" y="334" text-anchor="middle">같은 경험도 성찰하는 사람에게만 학습으로 남습니다.</text>
 </svg>
-<figcaption id="ld2-fig-cap"><strong>그림 1.</strong> 리더가 만들어지는 경로. 70-20-10 비율은 CCL이 제시한 방향 지침이고(Center for Creative Leadership, 2025), 위쪽의 조건은 교육이 성공하려면 필요하다고 Beer 등(2016)이 든 요소입니다. 둘을 하나로 묶은 도식은 필자의 개념도이며 실증 검증된 모형은 아닙니다.</figcaption>
+<figcaption id="ld2-fig-cap"><strong>그림 1.</strong> 리더가 만들어지는 경로. 70-20-10 비율은 CCL이 제시한 방향 지침이고(Center for Creative Leadership, 2025), 위쪽의 조건은 교육이 성공하려면 필요하다고 Beer 등(2016)이 든 요소입니다. 둘을 하나로 묶은 도식은 필자의 개념도입니다.</figcaption>
 </figure>
 
 같은 경험이라도 모두에게 같은 결과를 주지는 않습니다. 같은 프로젝트를 맡고도 누군가는 그 경험을 학습으로 바꾸고, 누군가는 그냥 지나칩니다. 조직이 리더 후보를 맞이하는 시점에는 이미 수년, 수십 년의 경험이 쌓여 있습니다. 그 경험을 어떻게 발현했고, 얼마나 성찰했고, 학습으로 전환했는가에 따라 좋은 리더가 되기도 하고 아무것도 아닌 리더가 되기도 합니다.

@@ -53,7 +53,7 @@ Alfieri와 동료들(2011)의 발견학습 메타분석에서도 안내를 더�
 <rect x="542" y="28" width="210" height="105" rx="12" fill="#f0f5f9" stroke="#56718c" stroke-width="2"/><text x="647" y="68" text-anchor="middle" font-size="20" font-weight="700" fill="#173e62">자율성 확대</text><text x="647" y="98" text-anchor="middle" font-size="14" fill="#42566a">탐구·선택·자기점검</text>
 <text x="380" y="164" text-anchor="middle" font-size="14" fill="#596a7b">학습 결과를 다시 확인하고 안내의 양을 조정</text>
 </svg>
-<figcaption>그림 1. 저자의 교수설계 제안입니다. 검증된 단일 단계 모형이나 핀란드 PISA 하락의 인과 설명을 뜻하지 않습니다.</figcaption>
+<figcaption>그림 1. 저자의 교수설계 제안입니다.</figcaption>
 </figure>
 
 ## 03 · 학교 성적은 학생의 배움을 얼마나 보여 주는가

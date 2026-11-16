@@ -65,7 +65,7 @@ HRD의 눈으로 보면 이 역설은 세 문장으로 줄일 수 있습니다.
   <circle class="gcp-dot" cx="467" cy="178" r="11"/><text class="gcp-n" x="467" y="182.5" text-anchor="middle">3</text>
   <rect class="gcp-band" x="18" y="266" width="564" height="64" rx="14"/><text class="gcp-note" x="300" y="292" text-anchor="middle">같은 AI를 써도 순서가 달라지면 남는 것이 달라진다</text><text class="gcp-p" x="300" y="314" text-anchor="middle">판단의 근거가 기록으로 남아 배움이 다시 보이게 된다</text>
 </svg>
-<figcaption><strong>그림 1.</strong> AI를 먼저 쓰는 흐름과 생성적 인지 멈춤(GCP) 흐름의 비교. GCP는 이 글에서 처음 제안하는 개념으로, 현장 적용과 효과 검증은 앞으로의 과제입니다.</figcaption>
+<figcaption><strong>그림 1.</strong> AI를 먼저 쓰는 흐름과 생성적 인지 멈춤(GCP) 흐름의 비교. GCP는 이 글에서 처음 제안하는 개념입니다.</figcaption>
 </figure>
 
 | 단계 | 하는 일 | 근거 |

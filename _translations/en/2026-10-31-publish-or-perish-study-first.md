@@ -52,7 +52,7 @@ Manabu's theoretical critique presents becoming a scholar as more than accumulat
 <g fill="var(--paper)" stroke="var(--muted)" stroke-dasharray="5 4"><rect x="10" y="137" width="450" height="157" rx="10"/><rect x="500" y="137" width="450" height="157" rx="10"/></g>
 <g fill="currentColor" font-family="sans-serif" font-size="14"><text x="30" y="166" font-weight="700">When publication becomes the goal</text><text x="30" y="199">Output may stand in for research value.</text><text x="30" y="230">Questions and learning may be overlooked.</text><text x="30" y="261">Fast AI outputs risk replacing judgment.</text><text x="520" y="166" font-weight="700">When study and publication remain connected</text><text x="520" y="199">We explain and share what we have learned.</text><text x="520" y="230">Criticism and revision clarify our thinking.</text><text x="520" y="261">Better ideas open the next question.</text></g>
 </svg>
-<figcaption>Figure 1. The author's conceptual account of researcher development and the relationship between “Publish or Perish” and “Study or Leave.” It is not a validated stage model.</figcaption>
+<figcaption>Figure 1. The author's conceptual account of researcher development and the relationship between “Publish or Perish” and “Study or Leave.”</figcaption>
 </figure>
 
 ## 04 · We Persist So That Our Ideas Can Reach Other People

@@ -65,7 +65,7 @@ Manabu의 이론적 비평은 학자가 되어가는 일이 지식을 쌓는 데
     <rect class="sf-card" x="24" y="174" width="448" height="166" rx="14"/><text class="sf-card-title" x="46" y="208">publish가 목표가 될 때</text><text class="sf-card-text" x="46" y="244">산출량이 연구의 가치를 대신할 수 있음</text><text class="sf-card-text" x="46" y="274">질문과 배움의 과정이 가려질 수 있음</text><text class="sf-card-text" x="46" y="304">AI의 빠른 결과가 판단을 대신할 위험</text>
     <rect class="sf-card" x="488" y="174" width="470" height="166" rx="14"/><text class="sf-card-title" x="510" y="208">Study와 publish가 이어질 때</text><text class="sf-card-text" x="510" y="244">배운 것을 자기 언어로 설명하고 나눔</text><text class="sf-card-text" x="510" y="274">비판과 수정으로 생각을 더 분명히 함</text><text class="sf-card-text" x="510" y="304">다듬은 생각이 다음 질문과 공부를 엶</text>
   </svg>
-  <figcaption id="study-first-caption">그림 1. 연구자의 성장을 설명하기 위한 작성자의 개념도입니다. 검증된 단계 모형이 아니라, Publish or Perish와 Study or Leave의 관계를 정리했습니다.</figcaption>
+  <figcaption id="study-first-caption">그림 1. 연구자의 성장을 설명하기 위한 작성자의 개념도로, Publish or Perish와 Study or Leave의 관계를 정리했습니다.</figcaption>
 </figure>
 
 ## 04 · 고통을 견디는 이유는 생각을 세상과 나누기 위해서다

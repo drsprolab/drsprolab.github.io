@@ -60,7 +60,7 @@ A **Generative Cognitive Pause (GCP)** is a brief, structured delay before askin
   <circle class="gcp-dot" cx="467" cy="178" r="11"/><text class="gcp-n" x="467" y="182.5" text-anchor="middle">3</text>
   <rect class="gcp-band" x="18" y="266" width="564" height="64" rx="14"/><text class="gcp-note" x="300" y="292" text-anchor="middle">Same AI, different order, different learning left behind</text><text class="gcp-p" x="300" y="314" text-anchor="middle">Reasons for judgments are recorded, so learning is visible again</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> An AI-first flow compared with a Generative Cognitive Pause (GCP) flow. GCP is a concept proposed in this piece; field application and evidence of effect remain to be tested.</figcaption>
+<figcaption><strong>Figure 1.</strong> An AI-first flow compared with a Generative Cognitive Pause (GCP) flow. GCP is a concept proposed in this piece.</figcaption>
 </figure>
 
 | Process | What people do | Theoretical grounding |

@@ -168,7 +168,7 @@ topics: [지식경영, 조직학습, 학습조직, 더블루프 학습]
 <text class="km-t" x="386" y="470" text-anchor="middle">로그와 버전 이력으로만 보임</text>
 <text class="km-kc" x="265" y="542" text-anchor="middle">진짜 조직학습은 어디서 일어나고, 어떻게 찾아 지원할까?</text>
 </svg>
-<figcaption id="km-fig-cap"><strong>그림 2.</strong> 조직학습이 보이는 경로와 숨는 경로. 위는 송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)와 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)의 논의를 바탕으로 한 고전적 흐름이고, 아래는 4세대/4.5세대에 개인의 지식이 사람 사이의 학습을 건너뛰고 시스템에 바로 저장되는 흐름입니다. 필자가 제안하는 개념도이며, 실증적으로 검증된 모형은 아닙니다.</figcaption>
+<figcaption id="km-fig-cap"><strong>그림 2.</strong> 조직학습이 보이는 경로와 숨는 경로. 위는 송지훈 교수와 Chermack 교수(Song &amp; Chermack, 2008)와 송지훈 교수와 동료들(Lim, Song, &amp; Yoon, 2014)의 논의를 바탕으로 한 고전적 흐름이고, 아래는 4세대/4.5세대에 개인의 지식이 사람 사이의 학습을 건너뛰고 시스템에 바로 저장되는 흐름입니다. 필자가 제안하는 개념도입니다.</figcaption>
 </figure>
 
 ## 03 · 4세대/4.5세대, 조직학습이 보이지 않게 되었다

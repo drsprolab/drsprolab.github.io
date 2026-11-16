@@ -22,7 +22,7 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
 
 이 글은 조직이 다루는 문제를 시간의 방향에 따라 해결형, 탐색형, 창조형으로 나누고, AI가 높은 수준의 추론까지 넓혀 가고 있다는 사례(2025년 국제수학올림피아드)에서 출발해 인간의 가치가 어디로 옮겨 가는지 묻는 필자의 관점 글입니다.
 
-문제 유형의 구분과 경험, 성찰, 상상력을 연결하는 역량이라는 주장은 필자의 제안이며 실증적으로 검증된 모형은 아닙니다. 인용한 올림피아드 사례는 수학 문제이고, 이해관계와 책임이 얽힌 조직의 문제와는 다르다는 점도 글 안에서 짚습니다.
+문제 유형의 구분과 경험, 성찰, 상상력을 연결하는 역량이라는 주장은 필자의 제안입니다. 인용한 올림피아드 사례는 수학 문제이고, 이해관계와 책임이 얽힌 조직의 문제와는 다르다는 점도 글 안에서 짚습니다.
 </div>
 
 ## 01 · 조직은 왜 문제 해결자를 필요로 했는가
@@ -95,7 +95,7 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
   <rect class="pbm-bar" x="82" y="448" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="470" text-anchor="middle">주어진 문제를 푸는 능력</text>
   <rect class="pbm-bar3" x="414" y="448" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="470" text-anchor="middle">문제를 만드는 능력</text>
 </svg>
-<figcaption><strong>그림 1.</strong> 조직이 다루는 문제의 세 유형. 시간의 방향에 따른 필자의 구분이며, 실증적으로 검증된 분류는 아닙니다.</figcaption>
+<figcaption><strong>그림 1.</strong> 조직이 다루는 문제의 세 유형. 시간의 방향에 따른 필자의 구분입니다.</figcaption>
 </figure>
 
 ## 03 · AI가 답을 잘할수록, 무엇을 추구할지가 중요해진다
@@ -169,7 +169,7 @@ AI는 이 과정에서도 협력자가 될 수 있습니다. 문제 생성은 �
   <rect class="hrd-out" x="18" y="270" width="564" height="40" rx="20"/><text class="hrd-ot" x="300" y="296" text-anchor="middle">함께 탐구할 가치가 있는 과제</text>
   <rect class="hrd-band" x="18" y="322" width="564" height="80" rx="14"/><text class="hrd-bh" x="300" y="346" text-anchor="middle">이 경로가 막히지 않으려면</text><text class="hrd-c" x="300" y="368" text-anchor="middle">쓸모가 분명하지 않은 질문을 모두 비효율로 취급하지 않는다</text><text class="hrd-c" x="300" y="388" text-anchor="middle">AI와 함께 탐색하되, 무엇을 추구할지는 사람이 관점을 유지한다</text>
 </svg>
-<figcaption><strong>그림 2.</strong> 구성원의 질문이 과제가 되는 경로와 HRD가 마련할 기회. 본문의 제안을 정리한 것이며, 검증된 모형은 아닙니다.</figcaption>
+<figcaption><strong>그림 2.</strong> 구성원의 질문이 과제가 되는 경로와 HRD가 마련할 기회. 본문의 제안을 정리한 것입니다.</figcaption>
 </figure>
 
 미래에도 조직은 문제를 해결하는 집단일 것입니다. 다만 그 문제는 외부에서 주어지는 것만은 아닐 것입니다. 구성원의 경험과 성찰, 상상력에서 나온 질문이 조직의 다음 존재 이유가 될 수 있습니다.

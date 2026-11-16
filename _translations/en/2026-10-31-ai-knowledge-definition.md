@@ -67,7 +67,7 @@ The study did not measure knowledge formation or organizational learning. It nev
 <g fill="currentColor" font-family="sans-serif" font-size="12"><text x="26" y="159" font-weight="700">When the process is bypassed</text><text x="26" y="185">Outputs are stored and reused directly.</text><text x="26" y="207">Individual understanding and collective review</text><text x="26" y="229">may never take place.</text><text x="410" y="159" font-weight="700">When the process is obscured</text><text x="410" y="185">Questions and revisions occur across the workflow.</text><text x="410" y="207">Learning may leave little trace in the final output.</text><text x="410" y="229">Look for changes in understanding and practice.</text></g>
 <text x="380" y="285" text-anchor="middle" fill="currentColor" font-size="12">HRD: Did individuals learn, did people interpret together, and did practice change?</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> Knowledge formation through individual and organizational learning, with possible bypassing or loss of visibility in AI-supported work. This is the author's conceptual diagram, informed by organizational learning theory, not an empirically validated model.</figcaption>
+<figcaption><strong>Figure 1.</strong> Knowledge formation through individual and organizational learning, with possible bypassing or loss of visibility in AI-supported work. This is the author's conceptual diagram, informed by organizational learning theory.</figcaption>
 </figure>
 
 ## 04 · Designing Only for Less Work Is Not Enough

@@ -68,7 +68,7 @@ The Center for Creative Leadership's (CCL) "Lessons of Experience" research, whi
 <g stroke="var(--muted)" stroke-width="2"><line x1="120" y1="288" x2="144" y2="288" marker-end="url(#en-ld2-arrow)"/><line x1="264" y1="288" x2="288" y2="288" marker-end="url(#en-ld2-arrow)"/><line x1="408" y1="288" x2="432" y2="288" marker-end="url(#en-ld2-arrow)"/></g>
 <text x="280" y="334" text-anchor="middle" fill="var(--muted)" font-size="11.5" font-family="sans-serif">The same experience becomes learning only for people who reflect on it.</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> How leaders are made. The 70-20-10 proportions are CCL's directional guideline (Center for Creative Leadership, 2025), and the conditions at the top are elements Beer et al. (2016) say training needs in order to succeed. Combining the two in one diagram is the author's concept sketch, not an empirically validated model.</figcaption>
+<figcaption><strong>Figure 1.</strong> How leaders are made. The 70-20-10 proportions are CCL's directional guideline (Center for Creative Leadership, 2025), and the conditions at the top are elements Beer et al. (2016) say training needs in order to succeed. Combining the two in one diagram is the author's concept sketch.</figcaption>
 </figure>
 
 The same experience does not give everyone the same result. Two people take on the same project, and one turns the experience into learning while the other lets it pass. By the time an organization meets a leadership candidate, years or decades of experience have already accumulated. Whether someone becomes a good leader or an ordinary one depends on how they drew on that experience, how much they reflected on it, and whether they turned it into learning.
