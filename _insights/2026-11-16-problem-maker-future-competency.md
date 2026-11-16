@@ -50,28 +50,40 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
 여기서는 문제를 푸는 것에 앞서 무엇을 문제로 삼을지부터 만들어야 합니다. 현재의 결함이 아니라, 상상한 가능성과 현실 사이에서 새로운 문제가 생겨납니다.
 
 <figure class="pbm-fig">
-<svg class="pbm-svg" viewBox="0 0 600 386" role="img" aria-labelledby="pbm-t pbm-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
-  <title id="pbm-t">조직이 다루는 문제의 세 유형</title>
-  <desc id="pbm-d">과거를 향하는 해결형 문제, 현재를 바꾸는 탐색형 문제, 미래를 향하는 창조형 문제. 앞의 둘은 주어진 문제이고 셋째는 스스로 만들어야 하는 문제다.</desc>
-  <defs><marker id="pbm-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
-  <style>.pbm-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.pbm-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.pbm-dot{fill:var(--accent)}.pbm-tm{font:700 13px sans-serif;fill:var(--paper)}.pbm-h{font:700 18px sans-serif;fill:var(--ink)}.pbm-p{font:14.5px sans-serif;fill:var(--muted)}.pbm-chip{fill:var(--accent-soft)}.pbm-chip2{fill:var(--paper);stroke:var(--accent);stroke-width:1.4}.pbm-c{font:700 13px sans-serif;fill:var(--accent)}.pbm-ax{stroke:var(--accent);stroke-width:2.5;stroke-opacity:.5;fill:none;marker-end:url(#pbm-a)}.pbm-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-note{font:700 15px sans-serif;fill:var(--ink)}</style>
-  <path class="pbm-ax" d="M36 50 V220"/>
-  <rect class="pbm-card" x="78" y="14" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="56" r="28"/><text class="pbm-tm" x="36" y="61" text-anchor="middle">과거</text>
-  <text class="pbm-h" x="98" y="44">해결형 문제</text>
-  <rect class="pbm-chip" x="442" y="26" width="120" height="26" rx="13"/><text class="pbm-c" x="502" y="44" text-anchor="middle">주어진 문제</text>
-  <text class="pbm-p" x="98" y="70">불량·고객 이탈·프로젝트 지연이 이미 일어났다</text><text class="pbm-p" x="98" y="88">무엇이 잘못됐는지 진단해 정상으로 되돌린다</text>
-  <rect class="pbm-card" x="78" y="112" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="154" r="28"/><text class="pbm-tm" x="36" y="159" text-anchor="middle">현재</text>
-  <text class="pbm-h" x="98" y="142">탐색형 문제</text>
-  <rect class="pbm-chip" x="442" y="124" width="120" height="26" rx="13"/><text class="pbm-c" x="502" y="142" text-anchor="middle">주어진 문제</text>
-  <text class="pbm-p" x="98" y="168">고장 난 것은 없지만 더 나은 방법을 찾는다</text><text class="pbm-p" x="98" y="186">생산성·고객 경험·업무 절차의 간극을 줄인다</text>
-  <rect class="pbm-hot" x="78" y="210" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="252" r="28"/><text class="pbm-tm" x="36" y="257" text-anchor="middle">미래</text>
-  <text class="pbm-h" x="98" y="240">창조형 문제</text>
-  <rect class="pbm-chip2" x="442" y="222" width="120" height="26" rx="13"/><text class="pbm-c" x="502" y="240" text-anchor="middle">만드는 문제</text>
-  <text class="pbm-p" x="98" y="266">아직 문제도, 개선 요구도 없다</text><text class="pbm-p" x="98" y="284">상상한 가능성과 현실 사이에서 문제를 만든다</text>
-  <rect class="pbm-band" x="18" y="312" width="564" height="62" rx="14"/><text class="pbm-note" x="300" y="338" text-anchor="middle">앞의 둘은 주어진 문제를 푸는 능력, 셋째는 풀어야 할 문제를 만드는 능력</text><text class="pbm-p" x="300" y="360" text-anchor="middle">해법이 풍부해질수록 무엇을 문제로 삼을지가 더 중요해진다</text>
+<svg class="pbm-svg" viewBox="0 0 600 390" role="img" aria-labelledby="pbm-t pbm-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="pbm-t">조직이 다루는 문제의 세 유형 비교</title>
+  <desc id="pbm-d">해결형, 탐색형, 창조형 문제를 출발점, 핵심 질문, 목적, 예시, 필요한 능력으로 비교한다. 앞의 둘은 주어진 문제를 푸는 능력, 셋째는 풀어야 할 문제를 만드는 능력을 요구한다.</desc>
+  <style>.pbm-colbg{fill:var(--accent-soft)}.pbm-hd{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-hd3{fill:var(--accent)}.pbm-tm{font:700 12.5px sans-serif;fill:var(--accent)}.pbm-tm3{font:700 12.5px sans-serif;fill:var(--paper);fill-opacity:.85}.pbm-h{font:700 17px sans-serif;fill:var(--ink)}.pbm-h3{font:700 17px sans-serif;fill:var(--paper)}.pbm-rl{font:700 12.5px sans-serif;fill:var(--muted)}.pbm-p{font:13.5px sans-serif;fill:var(--ink)}.pbm-p3{font:600 13.5px sans-serif;fill:var(--ink)}.pbm-sep{stroke:var(--line);stroke-width:1}.pbm-bar{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-bar3{fill:var(--paper);stroke:var(--accent);stroke-width:2}.pbm-bt{font:700 14px sans-serif;fill:var(--muted)}.pbm-bt3{font:700 14px sans-serif;fill:var(--accent)}</style>
+  <rect class="pbm-colbg" x="410" y="6" width="168" height="328" rx="14"/>
+  <rect class="pbm-hd" x="82" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="162" y="30" text-anchor="middle">과거 · 되돌리기</text><text class="pbm-h" x="162" y="51" text-anchor="middle">해결형 문제</text>
+  <rect class="pbm-hd" x="248" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="328" y="30" text-anchor="middle">현재 · 개선하기</text><text class="pbm-h" x="328" y="51" text-anchor="middle">탐색형 문제</text>
+  <rect class="pbm-hd3" x="414" y="10" width="160" height="52" rx="10"/><text class="pbm-tm3" x="494" y="30" text-anchor="middle">미래 · 만들기</text><text class="pbm-h3" x="494" y="51" text-anchor="middle">창조형 문제</text>
+  <text class="pbm-rl" x="14" y="100">출발점</text>
+  <text class="pbm-p" x="162" y="92" text-anchor="middle">이미 일어난 문제</text><text class="pbm-p" x="162" y="110" text-anchor="middle">불량·이탈·지연</text>
+  <text class="pbm-p" x="328" y="92" text-anchor="middle">고장은 없지만</text><text class="pbm-p" x="328" y="110" text-anchor="middle">더 나은 방법 모색</text>
+  <text class="pbm-p3" x="494" y="92" text-anchor="middle">문제도 요구도</text><text class="pbm-p3" x="494" y="110" text-anchor="middle">아직 없음</text>
+  <line class="pbm-sep" x1="14" y1="122" x2="408" y2="122"/><line class="pbm-sep" x1="414" y1="122" x2="574" y2="122"/>
+  <text class="pbm-rl" x="14" y="152">핵심 질문</text>
+  <text class="pbm-p" x="162" y="144" text-anchor="middle">무엇이 잘못됐는가?</text><text class="pbm-p" x="162" y="162" text-anchor="middle">어떻게 되돌릴까?</text>
+  <text class="pbm-p" x="328" y="144" text-anchor="middle">어떻게 더 나은</text><text class="pbm-p" x="328" y="162" text-anchor="middle">방식으로 바꿀까?</text>
+  <text class="pbm-p3" x="494" y="144" text-anchor="middle">왜 꼭 지금과</text><text class="pbm-p3" x="494" y="162" text-anchor="middle">같아야 하는가?</text>
+  <line class="pbm-sep" x1="14" y1="174" x2="408" y2="174"/><line class="pbm-sep" x1="414" y1="174" x2="574" y2="174"/>
+  <text class="pbm-rl" x="14" y="204">목적</text>
+  <text class="pbm-p" x="162" y="196" text-anchor="middle">정상 상태로</text><text class="pbm-p" x="162" y="214" text-anchor="middle">되돌리기</text>
+  <text class="pbm-p" x="328" y="196" text-anchor="middle">현재와 더 나은 방식</text><text class="pbm-p" x="328" y="214" text-anchor="middle">사이의 간극 줄이기</text>
+  <text class="pbm-p3" x="494" y="196" text-anchor="middle">상상한 가능성과 현실</text><text class="pbm-p3" x="494" y="214" text-anchor="middle">사이에서 문제 만들기</text>
+  <line class="pbm-sep" x1="14" y1="226" x2="408" y2="226"/><line class="pbm-sep" x1="414" y1="226" x2="574" y2="226"/>
+  <text class="pbm-rl" x="14" y="256">예시</text>
+  <text class="pbm-p" x="162" y="248" text-anchor="middle">불이 난 집의</text><text class="pbm-p" x="162" y="266" text-anchor="middle">불 끄기</text>
+  <text class="pbm-p" x="328" y="248" text-anchor="middle">생산성 향상,</text><text class="pbm-p" x="328" y="266" text-anchor="middle">고객 경험 개선</text>
+  <text class="pbm-p3" x="494" y="248" text-anchor="middle">화성에 사람이</text><text class="pbm-p3" x="494" y="266" text-anchor="middle">사는 미래</text>
+  <line class="pbm-sep" x1="14" y1="278" x2="408" y2="278"/><line class="pbm-sep" x1="414" y1="278" x2="574" y2="278"/>
+  <text class="pbm-rl" x="14" y="308">필요 능력</text>
+  <text class="pbm-p" x="162" y="300" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="162" y="318" text-anchor="middle">해법 탐색</text>
+  <text class="pbm-p" x="328" y="300" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="328" y="318" text-anchor="middle">해법 탐색</text>
+  <text class="pbm-p3" x="494" y="300" text-anchor="middle">경험·성찰·상상력</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">연결, 문제 정의</text>
+  <rect class="pbm-bar" x="82" y="344" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="366" text-anchor="middle">주어진 문제를 푸는 능력</text>
+  <rect class="pbm-bar3" x="414" y="344" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="366" text-anchor="middle">문제를 만드는 능력</text>
 </svg>
 <figcaption><strong>그림 1.</strong> 조직이 다루는 문제의 세 유형. 시간의 방향에 따른 필자의 구분이며, 실증적으로 검증된 분류는 아닙니다.</figcaption>
 </figure>

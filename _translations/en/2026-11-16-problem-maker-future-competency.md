@@ -46,28 +46,40 @@ The third faces the future: **"creative problems."** No problem has occurred yet
 Here, before solving a problem, we must first create what to treat as a problem. A new problem emerges not from a present defect but between an imagined possibility and reality.
 
 <figure class="pbm-fig">
-<svg class="pbm-svg" viewBox="0 0 600 386" role="img" aria-labelledby="pbm-en-t pbm-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
-  <title id="pbm-en-t">Three types of problems organizations deal with</title>
-  <desc id="pbm-en-d">Fix-it problems face the past, exploratory problems change the present, and creative problems face the future. The first two are given; the third must be created.</desc>
-  <defs><marker id="pbm-en-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
-  <style>.pbm-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.pbm-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.pbm-dot{fill:var(--accent)}.pbm-tm{font:700 13px sans-serif;fill:var(--paper)}.pbm-h{font:700 18px sans-serif;fill:var(--ink)}.pbm-p{font:14.5px sans-serif;fill:var(--muted)}.pbm-chip{fill:var(--accent-soft)}.pbm-chip2{fill:var(--paper);stroke:var(--accent);stroke-width:1.4}.pbm-c{font:700 13px sans-serif;fill:var(--accent)}.pbm-ax{stroke:var(--accent);stroke-width:2.5;stroke-opacity:.5;fill:none;marker-end:url(#pbm-en-a)}.pbm-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-note{font:700 15px sans-serif;fill:var(--ink)}</style>
-  <path class="pbm-ax" d="M36 50 V220"/>
-  <rect class="pbm-card" x="78" y="14" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="56" r="28"/><text class="pbm-tm" x="36" y="61" text-anchor="middle">Past</text>
-  <text class="pbm-h" x="98" y="44">Fix-it problems</text>
-  <rect class="pbm-chip" x="422" y="26" width="140" height="26" rx="13"/><text class="pbm-c" x="492" y="44" text-anchor="middle">Given problem</text>
-  <text class="pbm-p" x="98" y="70">Defects, lost customers, delayed projects</text><text class="pbm-p" x="98" y="88">Diagnose what went wrong and restore normal</text>
-  <rect class="pbm-card" x="78" y="112" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="154" r="28"/><text class="pbm-tm" x="36" y="159" text-anchor="middle">Now</text>
-  <text class="pbm-h" x="98" y="142">Exploratory problems</text>
-  <rect class="pbm-chip" x="422" y="124" width="140" height="26" rx="13"/><text class="pbm-c" x="492" y="142" text-anchor="middle">Given problem</text>
-  <text class="pbm-p" x="98" y="168">Nothing is broken; look for a better way</text><text class="pbm-p" x="98" y="186">Narrow gaps in productivity, experience, process</text>
-  <rect class="pbm-hot" x="78" y="210" width="504" height="84" rx="14"/>
-  <circle class="pbm-dot" cx="36" cy="252" r="28"/><text class="pbm-tm" x="36" y="257" text-anchor="middle">Future</text>
-  <text class="pbm-h" x="98" y="240">Creative problems</text>
-  <rect class="pbm-chip2" x="422" y="222" width="140" height="26" rx="13"/><text class="pbm-c" x="492" y="240" text-anchor="middle">Problem to create</text>
-  <text class="pbm-p" x="98" y="266">No problem yet, and no one has asked for change</text><text class="pbm-p" x="98" y="284">Create a problem between possibility and reality</text>
-  <rect class="pbm-band" x="18" y="312" width="564" height="62" rx="14"/><text class="pbm-note" x="300" y="338" text-anchor="middle">The first two ask us to solve given problems; the third, to create them</text><text class="pbm-p" x="300" y="360" text-anchor="middle">The more solutions abound, the more the choice of problem matters</text>
+<svg class="pbm-svg" viewBox="0 0 600 390" role="img" aria-labelledby="pbm-en-t pbm-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="pbm-en-t">Comparing the three types of problems organizations handle</title>
+  <desc id="pbm-en-d">Fix-it, exploratory, and creative problems compared by starting point, key question, aim, example, and needed ability. The first two call for solving given problems; the third for creating problems worth solving.</desc>
+  <style>.pbm-colbg{fill:var(--accent-soft)}.pbm-hd{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-hd3{fill:var(--accent)}.pbm-tm{font:700 12.5px sans-serif;fill:var(--accent)}.pbm-tm3{font:700 12.5px sans-serif;fill:var(--paper);fill-opacity:.85}.pbm-h{font:700 17px sans-serif;fill:var(--ink)}.pbm-h3{font:700 17px sans-serif;fill:var(--paper)}.pbm-rl{font:700 12.5px sans-serif;fill:var(--muted)}.pbm-p{font:13.5px sans-serif;fill:var(--ink)}.pbm-p3{font:600 13.5px sans-serif;fill:var(--ink)}.pbm-sep{stroke:var(--line);stroke-width:1}.pbm-bar{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-bar3{fill:var(--paper);stroke:var(--accent);stroke-width:2}.pbm-bt{font:700 14px sans-serif;fill:var(--muted)}.pbm-bt3{font:700 14px sans-serif;fill:var(--accent)}</style>
+  <rect class="pbm-colbg" x="410" y="6" width="168" height="328" rx="14"/>
+  <rect class="pbm-hd" x="82" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="162" y="30" text-anchor="middle">Past · restore</text><text class="pbm-h" x="162" y="51" text-anchor="middle">Fix-it</text>
+  <rect class="pbm-hd" x="248" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="328" y="30" text-anchor="middle">Present · improve</text><text class="pbm-h" x="328" y="51" text-anchor="middle">Exploratory</text>
+  <rect class="pbm-hd3" x="414" y="10" width="160" height="52" rx="10"/><text class="pbm-tm3" x="494" y="30" text-anchor="middle">Future · create</text><text class="pbm-h3" x="494" y="51" text-anchor="middle">Creative</text>
+  <text class="pbm-rl" x="14" y="100">Start</text>
+  <text class="pbm-p" x="162" y="92" text-anchor="middle">Problem already</text><text class="pbm-p" x="162" y="110" text-anchor="middle">occurred</text>
+  <text class="pbm-p" x="328" y="92" text-anchor="middle">Nothing broken;</text><text class="pbm-p" x="328" y="110" text-anchor="middle">seek a better way</text>
+  <text class="pbm-p3" x="494" y="92" text-anchor="middle">No problem or</text><text class="pbm-p3" x="494" y="110" text-anchor="middle">request yet</text>
+  <line class="pbm-sep" x1="14" y1="122" x2="408" y2="122"/><line class="pbm-sep" x1="414" y1="122" x2="574" y2="122"/>
+  <text class="pbm-rl" x="14" y="152">Question</text>
+  <text class="pbm-p" x="162" y="144" text-anchor="middle">What went wrong?</text><text class="pbm-p" x="162" y="162" text-anchor="middle">How do we restore it?</text>
+  <text class="pbm-p" x="328" y="144" text-anchor="middle">How can we do</text><text class="pbm-p" x="328" y="162" text-anchor="middle">it better?</text>
+  <text class="pbm-p3" x="494" y="144" text-anchor="middle">Why must it be</text><text class="pbm-p3" x="494" y="162" text-anchor="middle">as it is now?</text>
+  <line class="pbm-sep" x1="14" y1="174" x2="408" y2="174"/><line class="pbm-sep" x1="414" y1="174" x2="574" y2="174"/>
+  <text class="pbm-rl" x="14" y="204">Aim</text>
+  <text class="pbm-p" x="162" y="196" text-anchor="middle">Restore a</text><text class="pbm-p" x="162" y="214" text-anchor="middle">normal state</text>
+  <text class="pbm-p" x="328" y="196" text-anchor="middle">Narrow the gap to</text><text class="pbm-p" x="328" y="214" text-anchor="middle">a better way</text>
+  <text class="pbm-p3" x="494" y="196" text-anchor="middle">Create a problem</text><text class="pbm-p3" x="494" y="214" text-anchor="middle">from a possibility</text>
+  <line class="pbm-sep" x1="14" y1="226" x2="408" y2="226"/><line class="pbm-sep" x1="414" y1="226" x2="574" y2="226"/>
+  <text class="pbm-rl" x="14" y="256">Example</text>
+  <text class="pbm-p" x="162" y="248" text-anchor="middle">Putting out a fire</text><text class="pbm-p" x="162" y="266" text-anchor="middle">in a burning house</text>
+  <text class="pbm-p" x="328" y="248" text-anchor="middle">Productivity, customer</text><text class="pbm-p" x="328" y="266" text-anchor="middle">experience, procedures</text>
+  <text class="pbm-p3" x="494" y="248" text-anchor="middle">People living</text><text class="pbm-p3" x="494" y="266" text-anchor="middle">on Mars</text>
+  <line class="pbm-sep" x1="14" y1="278" x2="408" y2="278"/><line class="pbm-sep" x1="414" y1="278" x2="574" y2="278"/>
+  <text class="pbm-rl" x="14" y="308">Ability</text>
+  <text class="pbm-p" x="162" y="300" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="162" y="318" text-anchor="middle">find solutions</text>
+  <text class="pbm-p" x="328" y="300" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="328" y="318" text-anchor="middle">find solutions</text>
+  <text class="pbm-p3" x="494" y="300" text-anchor="middle">Link experience,</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">reflection, imagination</text>
+  <rect class="pbm-bar" x="82" y="344" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="366" text-anchor="middle">Solving given problems</text>
+  <rect class="pbm-bar3" x="414" y="344" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="366" text-anchor="middle">Creating problems</text>
 </svg>
 <figcaption><strong>Figure 1.</strong> Three types of problems organizations handle. This is the author's division by time direction, not an empirically validated classification.</figcaption>
 </figure>
