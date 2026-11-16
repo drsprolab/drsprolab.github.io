@@ -50,11 +50,11 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
 여기서는 문제를 푸는 것에 앞서 무엇을 문제로 삼을지부터 만들어야 합니다. 현재의 결함이 아니라, 상상한 가능성과 현실 사이에서 새로운 문제가 생겨납니다.
 
 <figure class="pbm-fig">
-<svg class="pbm-svg" viewBox="0 0 600 390" role="img" aria-labelledby="pbm-t pbm-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+<svg class="pbm-svg" viewBox="0 0 600 494" role="img" aria-labelledby="pbm-t pbm-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
   <title id="pbm-t">조직이 다루는 문제의 세 유형 비교</title>
   <desc id="pbm-d">해결형, 탐색형, 창조형 문제를 출발점, 핵심 질문, 목적, 예시, 필요한 능력으로 비교한다. 앞의 둘은 주어진 문제를 푸는 능력, 셋째는 풀어야 할 문제를 만드는 능력을 요구한다.</desc>
   <style>.pbm-colbg{fill:var(--accent-soft)}.pbm-hd{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-hd3{fill:var(--accent)}.pbm-tm{font:700 12.5px sans-serif;fill:var(--accent)}.pbm-tm3{font:700 12.5px sans-serif;fill:var(--paper);fill-opacity:.85}.pbm-h{font:700 17px sans-serif;fill:var(--ink)}.pbm-h3{font:700 17px sans-serif;fill:var(--paper)}.pbm-rl{font:700 12.5px sans-serif;fill:var(--muted)}.pbm-p{font:13.5px sans-serif;fill:var(--ink)}.pbm-p3{font:600 13.5px sans-serif;fill:var(--ink)}.pbm-sep{stroke:var(--line);stroke-width:1}.pbm-bar{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-bar3{fill:var(--paper);stroke:var(--accent);stroke-width:2}.pbm-bt{font:700 14px sans-serif;fill:var(--muted)}.pbm-bt3{font:700 14px sans-serif;fill:var(--accent)}</style>
-  <rect class="pbm-colbg" x="410" y="6" width="168" height="328" rx="14"/>
+  <rect class="pbm-colbg" x="410" y="6" width="168" height="432" rx="14"/>
   <rect class="pbm-hd" x="82" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="162" y="30" text-anchor="middle">과거 · 되돌리기</text><text class="pbm-h" x="162" y="51" text-anchor="middle">해결형 문제</text>
   <rect class="pbm-hd" x="248" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="328" y="30" text-anchor="middle">현재 · 개선하기</text><text class="pbm-h" x="328" y="51" text-anchor="middle">탐색형 문제</text>
   <rect class="pbm-hd3" x="414" y="10" width="160" height="52" rx="10"/><text class="pbm-tm3" x="494" y="30" text-anchor="middle">미래 · 만들기</text><text class="pbm-h3" x="494" y="51" text-anchor="middle">창조형 문제</text>
@@ -78,12 +78,22 @@ Luong, T., & Lockhart, E. (2025, July 21). Advanced version of Gemini with Deep 
   <text class="pbm-p" x="328" y="248" text-anchor="middle">생산성 향상,</text><text class="pbm-p" x="328" y="266" text-anchor="middle">고객 경험 개선</text>
   <text class="pbm-p3" x="494" y="248" text-anchor="middle">화성에 사람이</text><text class="pbm-p3" x="494" y="266" text-anchor="middle">사는 미래</text>
   <line class="pbm-sep" x1="14" y1="278" x2="408" y2="278"/><line class="pbm-sep" x1="414" y1="278" x2="574" y2="278"/>
-  <text class="pbm-rl" x="14" y="308">필요 능력</text>
-  <text class="pbm-p" x="162" y="300" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="162" y="318" text-anchor="middle">해법 탐색</text>
-  <text class="pbm-p" x="328" y="300" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="328" y="318" text-anchor="middle">해법 탐색</text>
-  <text class="pbm-p3" x="494" y="300" text-anchor="middle">경험·성찰·상상력</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">연결, 문제 정의</text>
-  <rect class="pbm-bar" x="82" y="344" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="366" text-anchor="middle">주어진 문제를 푸는 능력</text>
-  <rect class="pbm-bar3" x="414" y="344" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="366" text-anchor="middle">문제를 만드는 능력</text>
+  <text class="pbm-rl" x="14" y="308">성격</text>
+  <text class="pbm-p" x="162" y="300" text-anchor="middle">무엇을 풀지가</text><text class="pbm-p" x="162" y="318" text-anchor="middle">어느 정도 주어짐</text>
+  <text class="pbm-p" x="328" y="300" text-anchor="middle">무엇을 풀지가</text><text class="pbm-p" x="328" y="318" text-anchor="middle">어느 정도 주어짐</text>
+  <text class="pbm-p3" x="494" y="300" text-anchor="middle">무엇을 문제로 삼을지</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">부터 만들어야 함</text>
+  <line class="pbm-sep" x1="14" y1="330" x2="408" y2="330"/><line class="pbm-sep" x1="414" y1="330" x2="574" y2="330"/>
+  <text class="pbm-rl" x="14" y="360">필요 능력</text>
+  <text class="pbm-p" x="162" y="352" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="162" y="370" text-anchor="middle">해법 탐색</text>
+  <text class="pbm-p" x="328" y="352" text-anchor="middle">원인 분석,</text><text class="pbm-p" x="328" y="370" text-anchor="middle">해법 탐색</text>
+  <text class="pbm-p3" x="494" y="352" text-anchor="middle">경험·성찰·상상력</text><text class="pbm-p3" x="494" y="370" text-anchor="middle">연결, 문제 정의</text>
+  <line class="pbm-sep" x1="14" y1="382" x2="408" y2="382"/><line class="pbm-sep" x1="414" y1="382" x2="574" y2="382"/>
+  <text class="pbm-rl" x="14" y="412">AI 활용</text>
+  <text class="pbm-p" x="162" y="404" text-anchor="middle">분석·대안 탐색을</text><text class="pbm-p" x="162" y="422" text-anchor="middle">AI와 함께 수행 가능</text>
+  <text class="pbm-p" x="328" y="404" text-anchor="middle">분석·대안 탐색을</text><text class="pbm-p" x="328" y="422" text-anchor="middle">AI와 함께 수행 가능</text>
+  <text class="pbm-p3" x="494" y="404" text-anchor="middle">AI는 협력자,</text><text class="pbm-p3" x="494" y="422" text-anchor="middle">관점은 사람이 유지</text>
+  <rect class="pbm-bar" x="82" y="448" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="470" text-anchor="middle">주어진 문제를 푸는 능력</text>
+  <rect class="pbm-bar3" x="414" y="448" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="470" text-anchor="middle">문제를 만드는 능력</text>
 </svg>
 <figcaption><strong>그림 1.</strong> 조직이 다루는 문제의 세 유형. 시간의 방향에 따른 필자의 구분이며, 실증적으로 검증된 분류는 아닙니다.</figcaption>
 </figure>
@@ -133,6 +143,34 @@ AI의 발전은 앞의 두 영역에서 인간의 역할을 다시 생각하게 
 AI는 이 과정에서도 협력자가 될 수 있습니다. 문제 생성은 인간만 하고 해결은 AI만 한다고 나눌 필요는 없습니다. 중요한 것은 AI와 함께 가능성을 탐색하면서도, 무엇을 추구하고 왜 그것이 중요한지에 대한 자신의 관점을 유지하는 것입니다.
 
 따라서 조직과 HRD도 정해진 문제를 얼마나 빨리 해결했는지만 평가해서는 안 됩니다. 구성원이 현장에서 어떤 의문을 발견했고, 그것을 어떻게 의미 있는 과제로 발전시켰는지 살펴야 합니다. 자신의 질문을 제안하고, 동료와 검토하고, 작은 실험을 거쳐 다듬는 기회를 제공해야 합니다. 당장의 쓸모가 분명하지 않은 질문을 모두 비효율로 취급한다면, 상상력을 강조하는 교육만으로는 달라지기 어렵습니다.
+
+<figure class="pbm-fig">
+<svg class="hrd-svg" viewBox="0 0 600 410" role="img" aria-labelledby="hrd-t hrd-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="hrd-t">구성원의 질문이 과제가 되는 경로와 HRD의 역할</title>
+  <desc id="hrd-d">평가의 초점을 정해진 문제를 얼마나 빨리 풀었는가에서 어떤 의문을 발견하고 과제로 키웠는가로 옮긴다. 의문 발견, 질문 제안, 동료 검토, 작은 실험을 거쳐 함께 탐구할 가치가 있는 과제가 된다.</desc>
+  <defs><marker id="hrd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
+  <style>.hrd-old{fill:var(--tint);stroke:var(--line);stroke-width:1.5}.hrd-new{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}.hrd-card{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.hrd-tag{font:700 12.5px sans-serif;fill:var(--muted)}.hrd-tagb{font:700 12.5px sans-serif;fill:var(--accent)}.hrd-p{font:14px sans-serif;fill:var(--ink)}.hrd-pm{font:14px sans-serif;fill:var(--muted)}.hrd-h{font:700 16px sans-serif;fill:var(--ink)}.hrd-c{font:13.5px sans-serif;fill:var(--muted)}.hrd-dot{fill:var(--accent)}.hrd-n{font:700 13px sans-serif;fill:var(--paper)}.hrd-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#hrd-a)}.hrd-out{fill:var(--accent)}.hrd-ot{font:700 15.5px sans-serif;fill:var(--paper)}.hrd-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.hrd-bh{font:700 14.5px sans-serif;fill:var(--ink)}.hrd-sec{font:700 14px sans-serif;fill:var(--muted)}</style>
+  <rect class="hrd-old" x="18" y="10" width="248" height="90" rx="14"/><text class="hrd-tag" x="34" y="34">지금의 평가</text><text class="hrd-pm" x="34" y="60">정해진 문제를</text><text class="hrd-pm" x="34" y="80">얼마나 빨리 풀었는가</text>
+  <path class="hrd-ar" d="M270 55 H326"/>
+  <rect class="hrd-new" x="332" y="10" width="250" height="90" rx="14"/><text class="hrd-tagb" x="348" y="34">바꿀 방향</text><text class="hrd-p" x="348" y="60" font-weight="700">어떤 의문을 발견했고</text><text class="hrd-p" x="348" y="80" font-weight="700">어떻게 과제로 키웠는가</text>
+  <text class="hrd-sec" x="20" y="132">HRD가 마련할 기회</text>
+  <rect class="hrd-card" x="20" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="82" cy="146" r="12"/><text class="hrd-n" x="82" y="150.5" text-anchor="middle">1</text>
+  <text class="hrd-h" x="82" y="184" text-anchor="middle">의문 발견</text><text class="hrd-c" x="82" y="208" text-anchor="middle">현장에서 만난</text><text class="hrd-c" x="82" y="226" text-anchor="middle">의문을 짚는다</text>
+  <path class="hrd-ar" d="M147 194 H163"/>
+  <rect class="hrd-card" x="165" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="227" cy="146" r="12"/><text class="hrd-n" x="227" y="150.5" text-anchor="middle">2</text>
+  <text class="hrd-h" x="227" y="184" text-anchor="middle">질문 제안</text><text class="hrd-c" x="227" y="208" text-anchor="middle">자신의 질문을</text><text class="hrd-c" x="227" y="226" text-anchor="middle">꺼내 제안한다</text>
+  <path class="hrd-ar" d="M292 194 H308"/>
+  <rect class="hrd-card" x="310" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="372" cy="146" r="12"/><text class="hrd-n" x="372" y="150.5" text-anchor="middle">3</text>
+  <text class="hrd-h" x="372" y="184" text-anchor="middle">동료 검토</text><text class="hrd-c" x="372" y="208" text-anchor="middle">동료와 함께</text><text class="hrd-c" x="372" y="226" text-anchor="middle">따져 본다</text>
+  <path class="hrd-ar" d="M437 194 H453"/>
+  <rect class="hrd-card" x="455" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="517" cy="146" r="12"/><text class="hrd-n" x="517" y="150.5" text-anchor="middle">4</text>
+  <text class="hrd-h" x="517" y="184" text-anchor="middle">작은 실험</text><text class="hrd-c" x="517" y="208" text-anchor="middle">작은 실험으로</text><text class="hrd-c" x="517" y="226" text-anchor="middle">다듬는다</text>
+  <path class="hrd-ar" d="M300 244 V266"/>
+  <rect class="hrd-out" x="18" y="270" width="564" height="40" rx="20"/><text class="hrd-ot" x="300" y="296" text-anchor="middle">함께 탐구할 가치가 있는 과제</text>
+  <rect class="hrd-band" x="18" y="322" width="564" height="80" rx="14"/><text class="hrd-bh" x="300" y="346" text-anchor="middle">이 경로가 막히지 않으려면</text><text class="hrd-c" x="300" y="368" text-anchor="middle">쓸모가 분명하지 않은 질문을 모두 비효율로 취급하지 않는다</text><text class="hrd-c" x="300" y="388" text-anchor="middle">AI와 함께 탐색하되, 무엇을 추구할지는 사람이 관점을 유지한다</text>
+</svg>
+<figcaption><strong>그림 2.</strong> 구성원의 질문이 과제가 되는 경로와 HRD가 마련할 기회. 본문의 제안을 정리한 것이며, 검증된 모형은 아닙니다.</figcaption>
+</figure>
 
 미래에도 조직은 문제를 해결하는 집단일 것입니다. 다만 그 문제는 외부에서 주어지는 것만은 아닐 것입니다. 구성원의 경험과 성찰, 상상력에서 나온 질문이 조직의 다음 존재 이유가 될 수 있습니다.
 

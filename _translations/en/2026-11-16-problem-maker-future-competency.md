@@ -46,11 +46,11 @@ The third faces the future: **"creative problems."** No problem has occurred yet
 Here, before solving a problem, we must first create what to treat as a problem. A new problem emerges not from a present defect but between an imagined possibility and reality.
 
 <figure class="pbm-fig">
-<svg class="pbm-svg" viewBox="0 0 600 390" role="img" aria-labelledby="pbm-en-t pbm-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+<svg class="pbm-svg" viewBox="0 0 600 494" role="img" aria-labelledby="pbm-en-t pbm-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
   <title id="pbm-en-t">Comparing the three types of problems organizations handle</title>
   <desc id="pbm-en-d">Fix-it, exploratory, and creative problems compared by starting point, key question, aim, example, and needed ability. The first two call for solving given problems; the third for creating problems worth solving.</desc>
   <style>.pbm-colbg{fill:var(--accent-soft)}.pbm-hd{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-hd3{fill:var(--accent)}.pbm-tm{font:700 12.5px sans-serif;fill:var(--accent)}.pbm-tm3{font:700 12.5px sans-serif;fill:var(--paper);fill-opacity:.85}.pbm-h{font:700 17px sans-serif;fill:var(--ink)}.pbm-h3{font:700 17px sans-serif;fill:var(--paper)}.pbm-rl{font:700 12.5px sans-serif;fill:var(--muted)}.pbm-p{font:13.5px sans-serif;fill:var(--ink)}.pbm-p3{font:600 13.5px sans-serif;fill:var(--ink)}.pbm-sep{stroke:var(--line);stroke-width:1}.pbm-bar{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.pbm-bar3{fill:var(--paper);stroke:var(--accent);stroke-width:2}.pbm-bt{font:700 14px sans-serif;fill:var(--muted)}.pbm-bt3{font:700 14px sans-serif;fill:var(--accent)}</style>
-  <rect class="pbm-colbg" x="410" y="6" width="168" height="328" rx="14"/>
+  <rect class="pbm-colbg" x="410" y="6" width="168" height="432" rx="14"/>
   <rect class="pbm-hd" x="82" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="162" y="30" text-anchor="middle">Past · restore</text><text class="pbm-h" x="162" y="51" text-anchor="middle">Fix-it</text>
   <rect class="pbm-hd" x="248" y="10" width="160" height="52" rx="10"/><text class="pbm-tm" x="328" y="30" text-anchor="middle">Present · improve</text><text class="pbm-h" x="328" y="51" text-anchor="middle">Exploratory</text>
   <rect class="pbm-hd3" x="414" y="10" width="160" height="52" rx="10"/><text class="pbm-tm3" x="494" y="30" text-anchor="middle">Future · create</text><text class="pbm-h3" x="494" y="51" text-anchor="middle">Creative</text>
@@ -74,12 +74,22 @@ Here, before solving a problem, we must first create what to treat as a problem.
   <text class="pbm-p" x="328" y="248" text-anchor="middle">Productivity, customer</text><text class="pbm-p" x="328" y="266" text-anchor="middle">experience, procedures</text>
   <text class="pbm-p3" x="494" y="248" text-anchor="middle">People living</text><text class="pbm-p3" x="494" y="266" text-anchor="middle">on Mars</text>
   <line class="pbm-sep" x1="14" y1="278" x2="408" y2="278"/><line class="pbm-sep" x1="414" y1="278" x2="574" y2="278"/>
-  <text class="pbm-rl" x="14" y="308">Ability</text>
-  <text class="pbm-p" x="162" y="300" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="162" y="318" text-anchor="middle">find solutions</text>
-  <text class="pbm-p" x="328" y="300" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="328" y="318" text-anchor="middle">find solutions</text>
-  <text class="pbm-p3" x="494" y="300" text-anchor="middle">Link experience,</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">reflection, imagination</text>
-  <rect class="pbm-bar" x="82" y="344" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="366" text-anchor="middle">Solving given problems</text>
-  <rect class="pbm-bar3" x="414" y="344" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="366" text-anchor="middle">Creating problems</text>
+  <text class="pbm-rl" x="14" y="308">Nature</text>
+  <text class="pbm-p" x="162" y="300" text-anchor="middle">What to solve is</text><text class="pbm-p" x="162" y="318" text-anchor="middle">largely given</text>
+  <text class="pbm-p" x="328" y="300" text-anchor="middle">What to solve is</text><text class="pbm-p" x="328" y="318" text-anchor="middle">largely given</text>
+  <text class="pbm-p3" x="494" y="300" text-anchor="middle">What counts as a</text><text class="pbm-p3" x="494" y="318" text-anchor="middle">problem must be made</text>
+  <line class="pbm-sep" x1="14" y1="330" x2="408" y2="330"/><line class="pbm-sep" x1="414" y1="330" x2="574" y2="330"/>
+  <text class="pbm-rl" x="14" y="360">Ability</text>
+  <text class="pbm-p" x="162" y="352" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="162" y="370" text-anchor="middle">find solutions</text>
+  <text class="pbm-p" x="328" y="352" text-anchor="middle">Analyze causes,</text><text class="pbm-p" x="328" y="370" text-anchor="middle">find solutions</text>
+  <text class="pbm-p3" x="494" y="352" text-anchor="middle">Link experience,</text><text class="pbm-p3" x="494" y="370" text-anchor="middle">reflection, imagination</text>
+  <line class="pbm-sep" x1="14" y1="382" x2="408" y2="382"/><line class="pbm-sep" x1="414" y1="382" x2="574" y2="382"/>
+  <text class="pbm-rl" x="14" y="412">With AI</text>
+  <text class="pbm-p" x="162" y="404" text-anchor="middle">Analysis and options</text><text class="pbm-p" x="162" y="422" text-anchor="middle">can be done with AI</text>
+  <text class="pbm-p" x="328" y="404" text-anchor="middle">Analysis and options</text><text class="pbm-p" x="328" y="422" text-anchor="middle">can be done with AI</text>
+  <text class="pbm-p3" x="494" y="404" text-anchor="middle">AI as partner; people</text><text class="pbm-p3" x="494" y="422" text-anchor="middle">keep their own view</text>
+  <rect class="pbm-bar" x="82" y="448" width="326" height="34" rx="17"/><text class="pbm-bt" x="245" y="470" text-anchor="middle">Solving given problems</text>
+  <rect class="pbm-bar3" x="414" y="448" width="160" height="34" rx="17"/><text class="pbm-bt3" x="494" y="470" text-anchor="middle">Creating problems</text>
 </svg>
 <figcaption><strong>Figure 1.</strong> Three types of problems organizations handle. This is the author's division by time direction, not an empirically validated classification.</figcaption>
 </figure>
@@ -129,6 +139,34 @@ Coming up with a new question differs from developing it. We must keep thinking 
 AI can be a partner in this process too. There is no need to divide the work so that only humans create problems and only AI solves them. What matters is to keep our own view of what we pursue and why it matters, even while exploring possibilities with AI.
 
 So organizations and HRD should not evaluate only how quickly set problems were solved. They should look at what questions members found in the field and how they developed them into meaningful tasks. They should offer chances to propose one's own questions, review them with colleagues, and refine them through small experiments. If every question whose usefulness is not yet clear is treated as inefficiency, education that stresses imagination alone will struggle to change anything.
+
+<figure class="pbm-fig">
+<svg class="hrd-svg" viewBox="0 0 600 410" role="img" aria-labelledby="hrd-en-t hrd-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="hrd-en-t">The path from members' questions to challenges, and HRD's role</title>
+  <desc id="hrd-en-d">Shift the evaluation focus from how fast set problems were solved to what questions people found and how they developed them. Spotting, proposing, reviewing with colleagues, and small experiments lead to a challenge worth exploring together.</desc>
+  <defs><marker id="hrd-en-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
+  <style>.hrd-old{fill:var(--tint);stroke:var(--line);stroke-width:1.5}.hrd-new{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}.hrd-card{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.hrd-tag{font:700 12.5px sans-serif;fill:var(--muted)}.hrd-tagb{font:700 12.5px sans-serif;fill:var(--accent)}.hrd-p{font:14px sans-serif;fill:var(--ink)}.hrd-pm{font:14px sans-serif;fill:var(--muted)}.hrd-h{font:700 16px sans-serif;fill:var(--ink)}.hrd-c{font:13.5px sans-serif;fill:var(--muted)}.hrd-dot{fill:var(--accent)}.hrd-n{font:700 13px sans-serif;fill:var(--paper)}.hrd-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#hrd-en-a)}.hrd-out{fill:var(--accent)}.hrd-ot{font:700 15.5px sans-serif;fill:var(--paper)}.hrd-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.hrd-bh{font:700 14.5px sans-serif;fill:var(--ink)}.hrd-sec{font:700 14px sans-serif;fill:var(--muted)}</style>
+  <rect class="hrd-old" x="18" y="10" width="248" height="90" rx="14"/><text class="hrd-tag" x="34" y="34">Evaluation today</text><text class="hrd-pm" x="34" y="60">How quickly set problems</text><text class="hrd-pm" x="34" y="80">were solved</text>
+  <path class="hrd-ar" d="M270 55 H326"/>
+  <rect class="hrd-new" x="332" y="10" width="250" height="90" rx="14"/><text class="hrd-tagb" x="348" y="34">Shift toward</text><text class="hrd-p" x="348" y="60" font-weight="700">What questions people found</text><text class="hrd-p" x="348" y="80" font-weight="700">and how they developed them</text>
+  <text class="hrd-sec" x="20" y="132">Opportunities HRD can provide</text>
+  <rect class="hrd-card" x="20" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="82" cy="146" r="12"/><text class="hrd-n" x="82" y="150.5" text-anchor="middle">1</text>
+  <text class="hrd-h" x="82" y="184" text-anchor="middle">Spot</text><text class="hrd-c" x="82" y="208" text-anchor="middle">Notice questions</text><text class="hrd-c" x="82" y="226" text-anchor="middle">in the field</text>
+  <path class="hrd-ar" d="M147 194 H163"/>
+  <rect class="hrd-card" x="165" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="227" cy="146" r="12"/><text class="hrd-n" x="227" y="150.5" text-anchor="middle">2</text>
+  <text class="hrd-h" x="227" y="184" text-anchor="middle">Propose</text><text class="hrd-c" x="227" y="208" text-anchor="middle">Put forward your</text><text class="hrd-c" x="227" y="226" text-anchor="middle">own question</text>
+  <path class="hrd-ar" d="M292 194 H308"/>
+  <rect class="hrd-card" x="310" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="372" cy="146" r="12"/><text class="hrd-n" x="372" y="150.5" text-anchor="middle">3</text>
+  <text class="hrd-h" x="372" y="184" text-anchor="middle">Review</text><text class="hrd-c" x="372" y="208" text-anchor="middle">Examine it with</text><text class="hrd-c" x="372" y="226" text-anchor="middle">colleagues</text>
+  <path class="hrd-ar" d="M437 194 H453"/>
+  <rect class="hrd-card" x="455" y="146" width="125" height="96" rx="12"/><circle class="hrd-dot" cx="517" cy="146" r="12"/><text class="hrd-n" x="517" y="150.5" text-anchor="middle">4</text>
+  <text class="hrd-h" x="517" y="184" text-anchor="middle">Test</text><text class="hrd-c" x="517" y="208" text-anchor="middle">Refine through</text><text class="hrd-c" x="517" y="226" text-anchor="middle">small experiments</text>
+  <path class="hrd-ar" d="M300 244 V266"/>
+  <rect class="hrd-out" x="18" y="270" width="564" height="40" rx="20"/><text class="hrd-ot" x="300" y="296" text-anchor="middle">A challenge worth exploring together</text>
+  <rect class="hrd-band" x="18" y="322" width="564" height="80" rx="14"/><text class="hrd-bh" x="300" y="346" text-anchor="middle">To keep this path open</text><text class="hrd-c" x="300" y="368" text-anchor="middle">Do not treat every question of unclear usefulness as inefficiency</text><text class="hrd-c" x="300" y="388" text-anchor="middle">Explore with AI, but keep your own view of what to pursue</text>
+</svg>
+<figcaption><strong>Figure 2.</strong> The path from members' questions to challenges, and the opportunities HRD can provide. It summarizes the essay's proposals and is not a validated model.</figcaption>
+</figure>
 
 In the future, too, organizations will be groups that solve problems. But those problems will not all come from outside. Questions arising from members' experience, reflection, and imagination can become an organization's next reason to exist.
 
