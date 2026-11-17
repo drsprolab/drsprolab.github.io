@@ -39,21 +39,65 @@
     var second = t.slice(cut).trim();
     return [t.slice(0, cut).trim(), second.length > 10 ? second.slice(0, 9) + '…' : second];
   }
-  // 연구모형 도식: 독립(왼쪽) → 매개(가운데 위) → 종속(오른쪽), 조절변수는 맨 위에서 점선으로 해당 경로를 가리킨다.
+  // 연구모형 도식: 독립(왼쪽) → 매개(가운데) → 종속(오른쪽), 조절변수는 경로 가운데 위(막히면 아래)에서 점선으로 가리킨다.
   function modelDiagram(model) {
     var nodes = (model && model.nodes) || [];
     if (nodes.length < 2) return null;
-    var BW = 150, BH = 56, W = 720;
+    var BW = 150, BH = 56, W = 740;
     var by = function (role) { return nodes.filter(function (n) { return n.role === role; }); };
     var X = by('독립변수'), M = by('매개변수'), Y = by('종속변수'), Wm = by('조절변수'), C = by('통제변수');
-    var rowW = 24, rowM = Wm.length ? 120 : 24, base = rowM + (M.length ? 120 : 0);
+    var paths = (model && model.paths) || [];
+    var mIds = {};
+    M.forEach(function (n) { mIds[n.id] = true; });
+    var mPaths = paths.filter(function (p) { return mIds[p.from] && mIds[p.to]; });
+
+    // 매개변수 사이에 경로가 있으면(직렬 매개) 위상 정렬해 왼쪽→오른쪽 순서로 세운다.
+    if (mPaths.length && M.length > 1) {
+      var inDeg = {}, adj = {}, mById = {};
+      M.forEach(function (n) { inDeg[n.id] = 0; adj[n.id] = []; mById[n.id] = n; });
+      mPaths.forEach(function (p) { adj[p.from].push(p.to); inDeg[p.to]++; });
+      var q = M.filter(function (n) { return inDeg[n.id] === 0; }).map(function (n) { return n.id; });
+      var ordered = [], seenM = {};
+      while (q.length) {
+        var cur = q.shift();
+        if (seenM[cur]) continue;
+        seenM[cur] = true;
+        ordered.push(mById[cur]);
+        adj[cur].forEach(function (nxt) { inDeg[nxt]--; if (inDeg[nxt] === 0) q.push(nxt); });
+      }
+      M.forEach(function (n) { if (!seenM[n.id]) ordered.push(n); });
+      M = ordered;
+    }
+
+    var rowW = 24, rowM = Wm.length ? 120 : 24;
+    var serialM = mPaths.length > 0 && M.length > 1;
+    var hasXY = paths.some(function (p) {
+      var fn = nodes.filter(function (n) { return n.id === p.from; })[0];
+      var tn = nodes.filter(function (n) { return n.id === p.to; })[0];
+      return fn && tn && fn.role === '독립변수' && tn.role === '종속변수';
+    });
+    var mGap = BH + 28;
+    var mBlockH = M.length ? (serialM ? BH + 38 : M.length * mGap + 12) : 0;
+    var base = rowM + mBlockH;
     var pos = {};
     function place(list, cx, top) { list.forEach(function (n, i) { pos[n.id] = { x: cx - BW / 2, y: top + i * (BH + 26), n: n }; }); }
     var stack = Math.max(X.length, Y.length, 1);
-    var yTop = base;
+    // 병렬 매개변수가 2개 이상이고 X→Y 직접 경로가 없으면 X·Y를 전체 중앙 높이에 맞춘다.
+    var yTop = (!serialM && M.length > 1 && !hasXY) ? rowM + Math.max(0, (M.length - stack) * mGap / 2) : base;
     place(X, 95, yTop);
     place(Y, W - 95, yTop + (stack - Y.length) * (BH + 26) / 2);
-    if (M.length) M.forEach(function (n, i) { pos[n.id] = { x: W / 2 - BW / 2 + (i - (M.length - 1) / 2) * (BW + 24), y: rowM, n: n }; });
+    if (M.length) {
+      if (serialM) {
+        var stepX = Math.min(BW + 44, (W - 2 * 190) / Math.max(M.length, 1));
+        M.forEach(function (n, i) {
+          pos[n.id] = { x: W / 2 - BW / 2 + (i - (M.length - 1) / 2) * stepX, y: rowM, n: n };
+        });
+      } else {
+        M.forEach(function (n, i) {
+          pos[n.id] = { x: W / 2 - BW / 2, y: rowM + i * mGap, n: n };
+        });
+      }
+    }
     // 조절변수는 자신이 조절하는 경로의 가운데 위에 둔다(겹치지 않게 차례로 비켜 놓음).
     var used = [];
     Wm.forEach(function (n, i) {
@@ -64,9 +108,10 @@
       used.push(x);
       pos[n.id] = { x: x, y: rowW, n: n };
     });
-    var H = yTop + stack * (BH + 26) + 10;
+    var maxNodeBottom = Math.max.apply(null, Object.keys(pos).map(function (id) { return pos[id].y + BH; }));
+    var H = maxNodeBottom + 24;
     // 조절변수에서 경로 가운데로 내린 선이 다른 상자를 지나가면, 그 조절변수는 아래쪽 줄로 옮긴다.
-    var bottomY = H + 10, movedDown = false;
+    var bottomY = H + 4, movedDown = false;
     Wm.forEach(function (n) {
       var m = (model.moderations || []).filter(function (x) { return x.by === n.id && pos[x.from] && pos[x.to]; })[0];
       if (!m) return;
@@ -79,7 +124,7 @@
       });
       if (blocked) { p.y = bottomY; movedDown = true; }
     });
-    if (movedDown) H = bottomY + BH + 12;
+    if (movedDown) H = bottomY + BH + 16;
     // 위쪽이 비면(조절변수가 모두 아래로 갔을 때) 잘라 낸다.
     var minY = Math.min.apply(null, Object.keys(pos).map(function (id) { return pos[id].y; })) - 22;
     var root = svg('svg', { viewBox: '0 ' + minY + ' ' + W + ' ' + (H - minY), class: 'rhx-model-svg', role: 'img', 'aria-label': model.caption || '연구모형 도식' });
@@ -92,12 +137,33 @@
       var dx = b.x - a.x, dy = b.y - a.y, t = Math.min((BW / 2 + 4) / Math.abs(dx || 1e-9), (BH / 2 + 4) / Math.abs(dy || 1e-9));
       return { x: a.x + dx * t, y: a.y + dy * t };
     }
+    function hitsBox(s, e, fromId, toId) {
+      return Object.keys(pos).some(function (id) {
+        if (id === fromId || id === toId) return false;
+        var q = pos[id], pad = 10;
+        var x1 = q.x - pad, y1 = q.y - pad, x2 = q.x + BW + pad, y2 = q.y + BH + pad;
+        for (var k = 1; k < 12; k++) {
+          var t = k / 12, px = s.x + (e.x - s.x) * t, py = s.y + (e.y - s.y) * t;
+          if (px >= x1 && px <= x2 && py >= y1 && py <= y2) return true;
+        }
+        return false;
+      });
+    }
     var mids = {};
-    (model.paths || []).forEach(function (p) {
+    paths.forEach(function (p) {
       if (!pos[p.from] || !pos[p.to]) return;
       var a = center(p.from), b = center(p.to), s = edge(a, b), e = edge(b, a);
-      root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: e.x, y2: e.y, class: 'rhx-path', 'marker-end': 'url(#rhx-arrow)' }));
-      mids[p.from + '>' + p.to] = { x: (s.x + e.x) / 2, y: (s.y + e.y) / 2 };
+      if (hitsBox(s, e, p.from, p.to)) {
+        var dir = ((a.y + b.y) / 2 <= rowM + BH) ? -48 : 48;
+        var cx = (s.x + e.x) / 2, cy = (s.y + e.y) / 2 + dir;
+        if (cy < minY + 12) { minY = cy - 12; root.setAttribute('viewBox', '0 ' + minY + ' ' + W + ' ' + (H - minY)); }
+        if (cy > H - 12) { H = cy + 12; root.setAttribute('viewBox', '0 ' + minY + ' ' + W + ' ' + (H - minY)); }
+        root.appendChild(svg('path', { d: 'M' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ' Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + e.x.toFixed(1) + ' ' + e.y.toFixed(1), fill: 'none', class: 'rhx-path', 'marker-end': 'url(#rhx-arrow)' }));
+        mids[p.from + '>' + p.to] = { x: 0.25 * s.x + 0.5 * cx + 0.25 * e.x, y: 0.25 * s.y + 0.5 * cy + 0.25 * e.y };
+      } else {
+        root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: e.x, y2: e.y, class: 'rhx-path', 'marker-end': 'url(#rhx-arrow)' }));
+        mids[p.from + '>' + p.to] = { x: (s.x + e.x) / 2, y: (s.y + e.y) / 2 };
+      }
     });
     (model.moderations || []).forEach(function (m) {
       var mid = mids[m.from + '>' + m.to]; if (!pos[m.by] || !mid) return;
@@ -138,7 +204,92 @@
     ])]);
   }
 
-  function render(box, r) {
+  var EXPLORE_CLARIFY_OPTIONS = [
+    { key: 'problem', label: '1. 연구의 문제의식' },
+    { key: 'purpose', label: '2. 연구의 목적' },
+    { key: 'theory', label: '3. 이론적 근거' },
+    { key: 'variables', label: '4. 변수와 개념' },
+    { key: 'model', label: '5. 연구모형' },
+    { key: 'method', label: '5. 연구방법' },
+    { key: 'considerations', label: '6. 앞으로 생각해 볼 고민거리' }
+  ];
+
+  function renderClarificationCard(c) {
+    return el('article', { class: 'rh-clarify-card' }, [
+      el('div', { class: 'rh-clarify-card-head' }, [
+        el('strong', { text: '추가 설명' }),
+        el('span', { class: 'rh-muted', text: c.generatedBy || 'AI' })
+      ]),
+      c.summary ? el('p', { class: 'rh-clarify-summary', text: c.summary }) : null
+    ].concat((c.items || []).map(function (it) {
+      return el('div', { class: 'rh-clarify-item' }, [
+        el('h4', { text: it.label || it.topic }),
+        el('p', { text: it.easyExplanation }),
+        it.examples && it.examples.length ? el('div', {}, [
+          el('strong', { class: 'rh-clarify-sub', text: '이해가 쉬워지는 예시' }),
+          el('ul', {}, it.examples.map(function (ex) { return el('li', { text: ex }); }))
+        ]) : null,
+        it.checkTip ? el('p', { class: 'rh-clarify-tip' }, [el('strong', { text: '이렇게 다듬어 보세요 ' }), it.checkTip]) : null
+      ]);
+    })));
+  }
+
+  function clarifySection(r, ctx) {
+    var picked = {};
+    var note = el('textarea', { class: 'rh-text', rows: 2, maxlength: 500, placeholder: '특히 어떤 표현이나 개념이 헷갈렸는지 적어 주세요 (선택)' });
+    var btn = el('button', { type: 'button', class: 'rh-btn primary', text: '추가 설명 받기' });
+    var msg = el('span', { class: 'rh-status is-empty', role: 'status', 'aria-live': 'polite' });
+    var results = el('div', { class: 'rh-clarify-results' });
+    function setMsg(text, isErr) {
+      msg.textContent = text || '';
+      msg.className = 'rh-status' + (isErr ? ' is-error' : '') + (text ? '' : ' is-empty');
+    }
+    var checks = el('fieldset', { class: 'rh-clarify-checks' }, [
+      el('legend', { text: '추가 설명이 필요한 부분을 선택해 주세요' })
+    ].concat(EXPLORE_CLARIFY_OPTIONS.map(function (opt) {
+      var cb = el('input', { type: 'checkbox', value: opt.key });
+      cb.addEventListener('change', function () {
+        if (cb.checked) picked[opt.key] = true; else delete picked[opt.key];
+      });
+      return el('label', { class: 'rh-clarify-opt' }, [cb, opt.label]);
+    })));
+    btn.addEventListener('click', function () {
+      var topics = EXPLORE_CLARIFY_OPTIONS.map(function (o) { return o.key; }).filter(function (k) { return picked[k]; });
+      if (!topics.length) { setMsg('더 설명이 필요한 부분을 하나 이상 선택해 주세요.', true); return; }
+      if (!ctx || !ctx.endpoint) { setMsg('서버 연결이 설정되지 않았습니다.', true); return; }
+      btn.disabled = true; btn.textContent = '쉬운 설명 만드는 중…';
+      setMsg('선택한 부분에 대한 쉬운 설명과 예시를 준비하고 있습니다.');
+      post(ctx.endpoint, {
+        action: 'exploreClarify',
+        text: ctx.text || '',
+        result: r,
+        topics: topics,
+        note: note.value.trim()
+      }, 180000).then(function (res) {
+        btn.disabled = false; btn.textContent = '추가 설명 받기';
+        if (!res || res.ok !== true || !res.clarification) {
+          setMsg((res && res.message) || '추가 설명을 만들지 못했습니다.', true);
+          return;
+        }
+        setMsg('');
+        results.appendChild(renderClarificationCard(res.clarification));
+        results.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+    return el('section', { class: 'rh-clarify' }, [
+      el('h3', { class: 'rh-clarify-title', text: '더 설명이 필요한 부분이 있나요?' }),
+      el('p', { class: 'rh-lead', text: '잘 이해되지 않거나 헷갈리는 부분을 선택해 다시 제출하시면, 여러분의 주제에 맞춘 쉬운 설명과 예시를 추가로 받아 보실 수 있습니다.' }),
+      checks,
+      el('div', { class: 'rh-clarify-note' }, [
+        el('label', { text: '궁금한 점이나 더 알고 싶은 내용 (선택)' }),
+        note
+      ]),
+      el('div', { class: 'rh-clarify-actions' }, [btn, msg]),
+      results
+    ]);
+  }
+
+  function render(box, r, ctx) {
     box.innerHTML = '';
     box.appendChild(el('div', { class: 'rhx-head' }, [el('h2', { text: '나의 고민을 연구로 바꿔 보기' }), el('span', { class: 'rhx-badge', text: 'DrS가 설계해 둔 논리적 흐름으로 제시합니다' })]));
     if (r.understanding) box.appendChild(el('p', { class: 'rhx-understand' }, [el('strong', { text: '여러분이 궁금해하는 것 ' }), r.understanding]));
@@ -185,6 +336,7 @@
       el('ul', { class: 'rhx-keywords' }, r.keywords.map(function (k) {
         return el('li', {}, [el('a', { href: 'https://scholar.google.com/scholar?q=' + encodeURIComponent(k), target: '_blank', rel: 'noopener', text: k })]);
       }))]));
+    box.appendChild(clarifySection(r, ctx));
     box.appendChild(el('p', { class: 'rhx-note', text: '이 정리는 출발점입니다. 이론과 척도는 반드시 원문을 찾아 확인하고, 지도교수와 상의해 주제를 정하세요. (' + (r.generatedBy || 'AI') + ')' }));
     box.appendChild(el('div', { class: 'rhx-actions' }, [
       el('button', { type: 'button', class: 'rh-btn', text: '다시 써서 추천받기', onclick: function () { document.getElementById('rhx-text').focus(); window.scrollTo({ top: document.getElementById('rh-explore').offsetTop - 80, behavior: 'smooth' }); } }),
@@ -211,7 +363,7 @@
         go.disabled = false; go.textContent = '연구주제 추천받기';
         if (!res || res.ok !== true) { status((res && res.message) || '추천을 만들지 못했습니다.', true); return; }
         status('');
-        render(result, res.result);
+        render(result, res.result, { endpoint: endpoint, text: v });
         result.hidden = false;
         result.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });

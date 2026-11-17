@@ -51,7 +51,7 @@ function doPost(e) {
 
 function handle_(body) {
   const handlers = { save: save_, load: load_, submit: submit_, clarify: clarify_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_,
-    quizQuestions: quizQuestions_, quizSubmit: quizSubmit_, adminQuizList: adminQuizList_, explore: explore_ };
+    quizQuestions: quizQuestions_, quizSubmit: quizSubmit_, adminQuizList: adminQuizList_, explore: explore_, exploreClarify: exploreClarify_ };
   const handler = handlers[body && body.action];
   if (!handler) return { ok: false, error: 'unsupported', message: '지원하지 않는 요청입니다.' };
   try {
@@ -1038,6 +1038,79 @@ function exploreSchema_() {
     considerations: arr({ topic: str, detail: str }),
     keywords: strs
   });
+}
+
+const EXPLORE_CLARIFY_LABELS = {
+  problem: '1. 연구의 문제의식',
+  purpose: '2. 연구의 목적',
+  theory: '3. 이론적 근거',
+  variables: '4. 변수와 개념',
+  model: '5. 연구모형',
+  method: '5. 연구방법',
+  considerations: '6. 앞으로 생각해 볼 고민거리'
+};
+
+function exploreClarify_(b) {
+  const keys = Object.keys(EXPLORE_CLARIFY_LABELS);
+  const seen = {};
+  const topics = (Array.isArray(b.topics) ? b.topics : []).map(t => String(t || '').trim())
+    .filter(t => keys.indexOf(t) >= 0 && !seen[t] && (seen[t] = true)).slice(0, keys.length);
+  if (!topics.length) fail_('invalid_fields', '더 설명이 필요한 부분을 하나 이상 선택해 주세요.');
+  if (!b.result || typeof b.result !== 'object') fail_('bad_request', '이전 추천 결과를 확인할 수 없습니다.');
+  const note = clip_(String(b.note || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, ''), 500);
+  const text = clip_(String(b.text || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, ''), 4000);
+  const lock = LockService.getScriptLock();
+  waitLock_(lock);
+  try {
+    reserveAi_(1);
+  } finally {
+    lock.releaseLock();
+  }
+  return { clarification: exploreClarifyFeedback_(text, b.result, topics, note) };
+}
+
+function exploreClarifyFeedback_(text, prevResult, topics, note) {
+  const selected = topics.map(k => ({ key: k, label: EXPLORE_CLARIFY_LABELS[k] || k }));
+  const system = '당신은 교육공학·HRD·조직행동 분야에서 연구를 처음 시작하는 학생을 돕는 지도교수의 조교다. ' + GUARD +
+    ' 학생이 "어서와, 연구는 처음이지?" 추천 결과를 읽고, 특히 이해가 어렵거나 추가 설명이 필요하다고 선택한 항목(selectedTopics)과 메모(studentNote)에 대해 더 쉬운 설명과 구체적인 예시를 제공한다. ' +
+    '읽는 사람은 연구를 처음 해 보는 사람이다. 출력에서는 "여러분"이라고 부르고, 따뜻하고 쉬운 일상어로 설명한다. 꼭 필요한 전문 용어는 처음 나올 때 괄호 안에 쉬운 뜻을 적는다. ' +
+    'summary에는 여러분이 헷갈려하는 핵심 지점을 1~2문장으로 따뜻하게 짚어 준다. ' +
+    'items 배열에는 selectedTopics에 있는 각 항목마다 정확히 하나의 객체를 만든다(topic은 입력된 key 문자열 그대로). ' +
+    'easyExplanation에는 그 추천 내용이 왜 이렇게 나왔는지, 실제로 무슨 뜻인지를 3~5문장으로 아주 쉽게 풀어서 설명한다. ' +
+    'examples에는 여러분의 실제 관심 주제·변수·대상에 맞춘 구체적인 예시를 2~3개 적는다(예: 여러분의 연구에서는 ...). ' +
+    'checkTip에는 지금 바로 자신의 생각을 한 걸음 더 구체화할 때 무엇을 먼저 해 보면 좋은지 1~2문장으로 적는다. ' +
+    '확인되지 않은 문헌·저자·연도·DOI를 지어내지 않는다.';
+  const user = JSON.stringify({
+    selectedTopics: selected,
+    studentNote: note || '',
+    studentWriting: text || '',
+    previousRecommendation: prevResult
+  });
+  const result = ai_(system, user, clarifySchema_());
+  const raw = result.data || {};
+  const clean = (s, max) => stripCitations_(clip_(s, max), []);
+  const byTopic = {};
+  (Array.isArray(raw.items) ? raw.items : []).forEach(it => {
+    if (it && typeof it === 'object' && it.topic && !byTopic[it.topic]) byTopic[it.topic] = it;
+  });
+  const items = selected.map(s => {
+    const it = byTopic[s.key] || {};
+    return {
+      topic: s.key,
+      label: s.label,
+      easyExplanation: clean(it.easyExplanation || '선택하신 항목을 더 쉬운 말과 예시로 풀어서 설명해 드립니다.', 1800),
+      examples: (Array.isArray(it.examples) ? it.examples : []).slice(0, 3).map(ex => clean(ex, 600)).filter(Boolean),
+      checkTip: clean(it.checkTip || '', 500)
+    };
+  });
+  return {
+    topics: topics,
+    note: note,
+    summary: clean(raw.summary || '', 600),
+    items: items,
+    generatedBy: result.by,
+    createdAt: now_()
+  };
 }
 
 // ---------- AI 호출 ----------
