@@ -236,7 +236,7 @@
 
   function clarifySection(r, ctx) {
     var picked = {};
-    var note = el('textarea', { class: 'rh-text', rows: 2, maxlength: 500, placeholder: '특히 어떤 표현이나 개념이 헷갈렸는지 적어 주세요 (선택)' });
+    var note = el('textarea', { class: 'rhx-text', rows: 2, maxlength: 500, placeholder: '특히 어떤 표현이나 개념이 헷갈렸는지 적어 주세요 (선택)' });
     var btn = el('button', { type: 'button', class: 'rh-btn primary', text: '추가 설명 받기' });
     var msg = el('span', { class: 'rh-status is-empty', role: 'status', 'aria-live': 'polite' });
     var results = el('div', { class: 'rh-clarify-results' });
