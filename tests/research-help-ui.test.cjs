@@ -103,6 +103,38 @@ test('최종(4차) 저장 전에는 제출할 수 없고, 최종 저장 후 제�
   await assert.rejects(app.save(), /이미 제출/);
 });
 
+test('같은 작성자가 제출 후 새 연구계획서를 별도 기록으로 다시 시작한다', async () => {
+  const storage = memoryStorage(), records = new Map();
+  const transport = async body => {
+    if (body.action === 'save') {
+      const id = body.id || `RH-NEW-${records.size + 1}`;
+      const round = records.get(id) || 0;
+      assert.equal(body.round, round + 1);
+      records.set(id, body.round);
+      return { ok: true, id, token: body.id ? undefined : 't'.repeat(64), round: body.round,
+        savedAt: `saved-${id}-${body.round}`, feedback: body.round < 4 ? feedback(body.round) : null };
+    }
+    if (body.action === 'submit') return { ok: true, submission: { status: 'submitted' } };
+    throw new Error('예상하지 못한 요청');
+  };
+  const app = RH.createController({ transport, storage });
+  app.setFields(fields()); app.setConsent(true);
+  for (let i = 0; i < 4; i++) await app.save();
+  await app.submit();
+  const firstId = app.state.id;
+  app.logInput('title', 'p', 51);
+  app.reset();
+  assert.equal(storage.peek(), null);
+  assert.deepEqual(app.state.inputLog, {});
+  assert.equal(app.state.round, 0);
+  app.setFields(fields({ title: '두 번째 연구' })); app.setConsent(true);
+  await app.save();
+  assert.notEqual(app.state.id, firstId);
+  assert.equal(records.get(firstId), 4);
+  assert.equal(records.get(app.state.id), 1);
+  assert.deepEqual(storage.peek(), { id: app.state.id, token: 't'.repeat(64) });
+});
+
 test('이어쓰기: 저장 기록으로 단계·피드백·마지막 작성 내용을 되살린다', async () => {
   const storage = memoryStorage();
   storage.set({ id: 'RH261029ABCDEF12', token: 't'.repeat(64) });

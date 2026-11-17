@@ -206,7 +206,7 @@
       storage.remove();
       state.fields = emptyFields(); state.round = 0; state.status = 'draft'; state.id = null; state.token = null;
       state.consent = false; state.history = []; state.feedback = {}; state.pending = null;
-      state.imagePending = null; state.images = {};
+      state.imagePending = null; state.images = {}; state.inputLog = {}; state.busy = false;
     }
 
     return {
@@ -707,6 +707,11 @@
       if (s.status === 'submitted') {
         actions.appendChild(el('p', { class: 'rh-done', text: '제출이 완료되었습니다. 감사합니다.' }));
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(record(), {}, status); }, text: 'PDF 다운로드' }));
+        actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', onclick: function () {
+          if (window.confirm('새 연구계획서를 작성할까요? 기존 제출물은 서버에 보존됩니다. 현재 제출물의 PDF가 필요하면 먼저 다운로드해 주세요.')) {
+            app.reset(); render(); status('새 연구계획서를 작성할 수 있습니다.');
+          }
+        }, text: '새 연구계획서 작성' }));
       } else if (s.round >= 4) {
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(record(), {}, status); }, text: 'PDF 다운로드' }));
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', disabled: s.busy, onclick: doSubmit, text: s.busy ? '제출 중…' : '제출' }));
