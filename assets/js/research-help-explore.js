@@ -40,7 +40,9 @@
     return [t.slice(0, cut).trim(), second.length > 10 ? second.slice(0, 9) + '…' : second];
   }
   // 연구모형 도식: 독립(왼쪽) → 매개(가운데) → 종속(오른쪽), 조절변수는 경로 가운데 위(막히면 아래)에서 점선으로 가리킨다.
+  var diagramNo = 0;
   function modelDiagram(model) {
+    var arrowId = 'rhx-arrow-' + (++diagramNo);
     var nodes = (model && model.nodes) || [];
     if (nodes.length < 2) return null;
     var BW = 150, BH = 56, W = 740;
@@ -125,11 +127,17 @@
       if (blocked) { p.y = bottomY; movedDown = true; }
     });
     if (movedDown) H = bottomY + BH + 16;
+    // 통제변수는 맨 아래 줄에 두고, 종속변수로 가는 옅은 점선으로 "결과에 미치는 영향을 걷어 낸다"는 뜻을 보여 준다.
+    if (C.length) {
+      var ctrlY = H + 14;
+      C.forEach(function (n, i) { pos[n.id] = { x: W / 2 - BW / 2 + (i - (C.length - 1) / 2) * (BW + 24), y: ctrlY, n: n }; });
+      H = ctrlY + BH + 12;
+    }
     // 위쪽이 비면(조절변수가 모두 아래로 갔을 때) 잘라 낸다.
     var minY = Math.min.apply(null, Object.keys(pos).map(function (id) { return pos[id].y; })) - 22;
     var root = svg('svg', { viewBox: '0 ' + minY + ' ' + W + ' ' + (H - minY), class: 'rhx-model-svg', role: 'img', 'aria-label': model.caption || '연구모형 도식' });
     var defs = svg('defs');
-    var mk = svg('marker', { id: 'rhx-arrow', viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' });
+    var mk = svg('marker', { id: arrowId, viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' });
     mk.appendChild(svg('path', { d: 'M0,0 L10,5 L0,10 z', class: 'rhx-arrowhead' }));
     defs.appendChild(mk); root.appendChild(defs);
     function center(id) { var p = pos[id]; return { x: p.x + BW / 2, y: p.y + BH / 2 }; }
@@ -158,20 +166,26 @@
         var cx = (s.x + e.x) / 2, cy = (s.y + e.y) / 2 + dir;
         if (cy < minY + 12) { minY = cy - 12; root.setAttribute('viewBox', '0 ' + minY + ' ' + W + ' ' + (H - minY)); }
         if (cy > H - 12) { H = cy + 12; root.setAttribute('viewBox', '0 ' + minY + ' ' + W + ' ' + (H - minY)); }
-        root.appendChild(svg('path', { d: 'M' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ' Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + e.x.toFixed(1) + ' ' + e.y.toFixed(1), fill: 'none', class: 'rhx-path', 'marker-end': 'url(#rhx-arrow)' }));
+        root.appendChild(svg('path', { d: 'M' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ' Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + e.x.toFixed(1) + ' ' + e.y.toFixed(1), fill: 'none', class: 'rhx-path', 'marker-end': 'url(#' + arrowId + ')' }));
         mids[p.from + '>' + p.to] = { x: 0.25 * s.x + 0.5 * cx + 0.25 * e.x, y: 0.25 * s.y + 0.5 * cy + 0.25 * e.y };
       } else {
-        root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: e.x, y2: e.y, class: 'rhx-path', 'marker-end': 'url(#rhx-arrow)' }));
+        root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: e.x, y2: e.y, class: 'rhx-path', 'marker-end': 'url(#' + arrowId + ')' }));
         mids[p.from + '>' + p.to] = { x: (s.x + e.x) / 2, y: (s.y + e.y) / 2 };
       }
+    });
+    C.forEach(function (c) {
+      Y.forEach(function (y) {
+        var a = center(c.id), b = center(y.id), s = edge(a, b), e = edge(b, a);
+        root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: e.x, y2: e.y, class: 'rhx-path is-ctrl', 'marker-end': 'url(#' + arrowId + ')' }));
+      });
     });
     (model.moderations || []).forEach(function (m) {
       var mid = mids[m.from + '>' + m.to]; if (!pos[m.by] || !mid) return;
       var a = center(m.by), s = edge(a, mid);
-      root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: mid.x, y2: mid.y, class: 'rhx-path is-mod', 'marker-end': 'url(#rhx-arrow)' }));
+      root.appendChild(svg('line', { x1: s.x, y1: s.y, x2: mid.x, y2: mid.y, class: 'rhx-path is-mod', 'marker-end': 'url(#' + arrowId + ')' }));
     });
     Object.keys(pos).forEach(function (id) {
-      var p = pos[id], g = svg('g', { class: 'rhx-node is-' + ({ '독립변수': 'x', '매개변수': 'm', '종속변수': 'y', '조절변수': 'w' }[p.n.role] || 'x') });
+      var p = pos[id], g = svg('g', { class: 'rhx-node is-' + ({ '독립변수': 'x', '매개변수': 'm', '종속변수': 'y', '조절변수': 'w', '통제변수': 'c' }[p.n.role] || 'x') });
       g.appendChild(svg('rect', { x: p.x, y: p.y, width: BW, height: BH, rx: 10 }));
       var lines = wrapLabel(p.n.label);
       lines.forEach(function (l, i) { g.appendChild(svg('text', { x: p.x + BW / 2, y: p.y + BH / 2 + (i - (lines.length - 1) / 2) * 17 + 5, 'text-anchor': 'middle', class: 'rhx-node-label' }, l)); });
@@ -180,10 +194,31 @@
     });
     var wrap = el('figure', { class: 'rhx-model' }, [root]);
     var foot = [];
-    if (C.length) foot.push('통제변수: ' + C.map(function (n) { return n.label; }).join(', '));
-    foot.push('실선 화살표는 직접 관계, 점선 화살표는 조절 관계(어떤 조건에서 관계의 크기가 달라지는지)를 뜻합니다.');
+    var legend = '실선 화살표는 직접 관계' + ((model.moderations || []).length ? ', 점선 화살표는 조절 관계(어떤 조건에서 관계의 크기가 달라지는지)' : '') + '를 뜻합니다.';
+    if (C.length) legend += ' 맨 아래 회색 상자는 통제변수로, 결과에 영향을 줄 수 있는 다른 요인의 영향을 걷어 내고 보기 위해 함께 넣습니다.';
+    foot.push(legend);
     wrap.appendChild(el('figcaption', {}, [model.caption ? el('strong', { text: model.caption }) : null].concat(foot.map(function (t) { return el('span', { text: t }); }))));
     return wrap;
+  }
+
+  // 이론의 렌즈: 연구 변수(실선 상자)와 이론의 개념(렌즈 색 상자)을 이어, 이론이 모형을 어떻게 읽는지 보여 준다.
+  function lensDiagram(t) {
+    var l = t.lens;
+    if (!l || !(l.chain || []).length) return null;
+    var flow = el('ol', { class: 'rhx-lens-flow' }, l.chain.map(function (n, i) {
+      return el('li', { class: 'rhx-lens-item' }, [
+        i > 0 ? el('span', { class: 'rhx-lens-arrow', 'aria-hidden': 'true' }, [el('span', { class: 'rhx-lens-note', text: n.note || '' })]) : null,
+        el('span', { class: 'rhx-lens-box is-' + (n.kind === 'concept' ? 'concept' : 'variable'), text: n.label })
+      ]);
+    }));
+    return el('figure', { class: 'rhx-lens' }, [
+      el('div', { class: 'rhx-lens-head' }, [el('span', { class: 'rhx-lens-tag', text: '이론의 렌즈' }), el('strong', { text: t.name + '의 눈으로 보면' })]),
+      l.question ? el('p', { class: 'rhx-lens-q' }, [el('b', { text: '이 이론이 묻는 것 ' }), l.question]) : null,
+      flow,
+      el('p', { class: 'rhx-lens-legend' }, [el('span', { class: 'rhx-lens-key is-variable', text: '연구 변수' }), el('span', { class: 'rhx-lens-key is-concept', text: '이론의 개념' })]),
+      l.reading ? el('p', {}, [el('b', { text: '이렇게 해석돼요 ' }), l.reading]) : null,
+      l.blind ? el('p', { class: 'rhx-caution' }, [el('b', { text: '이 렌즈로 놓치기 쉬운 것 ' }), l.blind]) : null
+    ]);
   }
 
   function step(n, title, lead, body) {
@@ -316,7 +351,8 @@
           t.scholars ? el('p', { class: 'rhx-scholar', text: '대표 학자: ' + t.scholars }) : null,
           t.core ? el('p', {}, [el('b', { text: '핵심 주장 ' }), t.core]) : null,
           el('p', { class: 'rhx-logic' }, [el('b', { text: '이 연구에 적용하면 ' }), t.logic]),
-          t.caution ? el('p', { class: 'rhx-caution' }, [el('b', { text: '주의 ' }), t.caution]) : null
+          t.caution ? el('p', { class: 'rhx-caution' }, [el('b', { text: '주의 ' }), t.caution]) : null,
+          lensDiagram(t)
         ]);
       })));
     var v = r.variables || {};
@@ -324,11 +360,19 @@
       el('h4', { class: 'rhx-subhead', text: '사용하고자 하는 변수' }), varTable(v.core, false),
       v.extra && v.extra.length ? el('h4', { class: 'rhx-subhead', text: '추가로 고려해 볼 수 있는 변수' }) : null, varTable(v.extra, true)
     ]));
-    box.appendChild(step(5, '연구모형과 연구방법', '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 처음에는 "누구에게, 무엇을, 어떻게 물어볼까" 정도로 생각하면 충분해요. 이런 연구모형이라면 이런 방법을 고려해 볼 수 있어요.', [
-      modelDiagram(r.model)
-    ].concat((r.methods || []).map(function (m) {
-      return el('article', { class: 'rhx-card' }, [el('h4', { text: m.name }), el('p', {}, [el('b', { text: '왜 이 방법일까요 ' }), m.why]), el('p', {}, [el('b', { text: '어떻게 해 보면 될까요 ' }), m.how])]);
-    }))));
+    var models = (r.models && r.models.length) ? r.models : (r.model ? [Object.assign({}, r.model, { method: (r.methods || [])[0] })] : []);
+    box.appendChild(step(5, '연구모형과 연구방법', '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 처음에는 "누구에게, 무엇을, 어떻게 물어볼까" 정도로 생각하면 충분해요. 여러분의 고민에 맞는 연구모형 후보를 방법별로 보여 드릴게요. 마음에 가장 가까운 모형을 골라 보세요.',
+      models.map(function (m, i) {
+        var me = m.method || {};
+        return el('article', { class: 'rhx-card rhx-modelcard' }, [
+          el('h4', {}, [el('span', { class: 'rhx-no', text: '모형 ' + (i + 1) }), (m.title || '').replace(/^모형\s*\d+\s*[:：]\s*/, '')]),
+          m.purposeNo ? el('p', { class: 'rhx-scholar', text: '연구목적 ' + m.purposeNo + '에 가까운 모형' }) : null,
+          modelDiagram(m),
+          me.name ? el('p', {}, [el('b', { text: '이런 방법으로 확인해요 ' }), me.name]) : null,
+          me.why ? el('p', {}, [el('b', { text: '왜 이 방법일까요 ' }), me.why]) : null,
+          me.how ? el('p', {}, [el('b', { text: '어떻게 해 보면 될까요 ' }), me.how]) : null
+        ]);
+      })));
     box.appendChild(step(6, '앞으로 생각해 볼 고민거리', '정답을 찾으려 하기보다, 아래 질문에 여러분의 말로 한 줄씩 답해 보세요.', [
       el('ol', { class: 'rhx-consider' }, (r.considerations || []).map(function (k) { return el('li', {}, [el('b', { text: k.topic }), el('span', { text: k.detail })]); }))
     ]));
