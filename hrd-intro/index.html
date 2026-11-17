@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Course Materials · HRD개론</title>
+<meta name="robots" content="noindex" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="PRO AnalytiX Lab" />
+<meta property="og:title" content="Course Materials · HRD개론" />
+<meta property="og:description" content="HRD개론(DET1003) 수업자료 PDF 자료실" />
+<meta property="og:url" content="https://hrdpro.hanyang.ac.kr/hrd-intro/" />
+<meta property="og:image" content="https://hrdpro.hanyang.ac.kr/assets/images/og-default.jpg" />
+<meta name="description" content="HRD개론(DET1003) 수업자료 PDF 자료실" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="css/style.css?v=20261117" />
+<link rel="stylesheet" href="css/components.css?v=20261117" />
+<style>
+#pw-gate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:var(--paper,#fff)}
+#pw-gate form{width:min(100%,380px);display:grid;gap:12px}
+#pw-gate .pw-mark{font-family:var(--f-mono,monospace);font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+#pw-gate h1{margin:0;font-size:26px;line-height:1.3;color:var(--ink)}
+#pw-gate p{margin:0;color:var(--muted);font-size:14.5px}
+#pw-gate input{font:inherit;font-size:16px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+#pw-gate input:focus{outline:2px solid var(--accent);outline-offset:1px}
+#pw-gate button{font:inherit;font-weight:600;font-size:15px;padding:11px 14px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+#pw-msg{color:var(--danger);font-size:14px;min-height:1.2em}
+.mat-empty{padding:28px 4px;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#materials">본문으로 건너뛰기</a>
+
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="./" aria-label="HRD개론 수업자료 처음으로">
+      <span class="brand-logo" aria-hidden="true"><img src="assets/lab-mark.png" alt="" width="39" height="36"></span>
+      <span class="brand-text">
+        <span class="brand-name">HRD개론</span>
+      </span>
+    </a>
+    <div class="header-actions">
+      <a class="btn" href="https://hrdpro.hanyang.ac.kr/">연구실 홈</a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="테마 전환">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="lo-tabs" aria-label="HRD개론 메뉴">
+    <a href="./" aria-current="page">Course Materials</a>
+  </nav>
+
+  <section class="landing" aria-labelledby="pageTitle">
+    <div class="eyebrow">DET1003 HRD개론 · COURSE MATERIALS</div>
+    <h1 id="pageTitle">Course Materials</h1>
+    <p class="lede">수업 순서에 따라 정리한 강의자료입니다. 제목 오른쪽 버튼을 누르면 PDF로 내려받을 수 있습니다.</p>
+  </section>
+
+  <section class="sec-head" aria-labelledby="matTitle">
+    <h2 id="matTitle">강의자료</h2>
+    <span class="sub" id="matCount"></span>
+  </section>
+
+  <ol class="mat-list" id="materials"></ol>
+  <p class="mat-empty" id="matEmpty" hidden>아직 올라온 자료가 없습니다.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <div>
+      <div class="footer-name">HRD개론</div>
+      <p>DET1003 HRD개론 · Course Materials</p>
+    </div>
+  </div>
+  <div class="container copyright">PRO AnalytiX Lab · DET1003 HRD개론</div>
+</footer>
+
+<script>
+/* 자료 목록: 새 자료는 materials/ 폴더에 PDF를 넣고 여기에 한 줄 추가한다. */
+var MATERIALS = [
+  // { title: '제목', sub: '핵심 키워드', file: 'materials/hrd-note-01.pdf', pages: 20, mb: 3.1 },
+];
+
+(function () {
+  'use strict';
+  // 열람 비밀번호의 SHA-256 (원문은 코드에 두지 않는다)
+  var PASS_HASH = '517e6378947cd7aa3ba388d78ce7e8e1c0a2cf07e7282c981856449e03985297';
+  var PASS_KEY = 'hrd-intro-pass';
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  // 테마
+  var theme = store('paperlog-theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  var tbtn = document.querySelector('[data-theme-toggle]');
+  tbtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  tbtn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    tbtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    store('paperlog-theme', next);
+  });
+
+  // 목록
+  var list = document.getElementById('materials');
+  function fileName(i, t) { return 'HRD개론_' + String(i).padStart(2, '0') + '_' + t.replace(/\s*·\s*/g, '_').replace(/[·\s]+/g, '_') + '.pdf'; }
+  MATERIALS.forEach(function (m, i) {
+    var n = i + 1, li = document.createElement('li');
+    li.className = 'mat-item';
+    li.innerHTML = '<span class="mat-no"></span><div class="mat-body"><h3 class="mat-title"></h3><span class="mat-sub"></span><span class="mat-meta"></span></div><a class="btn btn-sm mat-dl">PDF 다운로드</a>';
+    li.querySelector('.mat-no').textContent = n;
+    li.querySelector('.mat-title').textContent = m.title;
+    li.querySelector('.mat-sub').textContent = m.sub || '';
+    li.querySelector('.mat-meta').textContent = 'PDF' + (m.pages ? ' · ' + m.pages + '쪽' : '') + (m.mb ? ' · ' + m.mb.toFixed(1) + 'MB' : '');
+    var a = li.querySelector('.mat-dl'); a.href = m.file; a.setAttribute('download', fileName(n, m.title));
+    list.appendChild(li);
+  });
+  document.getElementById('matCount').textContent = MATERIALS.length + '개 자료';
+  if (!MATERIALS.length) { list.hidden = true; document.getElementById('matEmpty').hidden = false; }
+
+  // 비밀번호
+  function sha256(text) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    });
+  }
+  if (store(PASS_KEY) === PASS_HASH) return;
+  var gate = document.createElement('div');
+  gate.id = 'pw-gate';
+  gate.innerHTML = '<form autocomplete="on"><div class="pw-mark">HRD개론 · DET1003</div>' +
+    '<h1>비밀번호를 입력해 주세요</h1>' +
+    '<p>HRD개론 수강생만 열람할 수 있습니다. 한 번 입력하면 이 브라우저에서는 다시 묻지 않습니다.</p>' +
+    '<input id="pw-input" type="password" name="password" autocomplete="current-password" placeholder="비밀번호" aria-label="비밀번호" required>' +
+    '<button type="submit">들어가기</button><div id="pw-msg" role="alert"></div></form>';
+  document.body.appendChild(gate);
+  var input = gate.querySelector('#pw-input');
+  input.focus();
+  gate.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    sha256(input.value.trim()).then(function (h) {
+      if (h === PASS_HASH) { store(PASS_KEY, h); gate.remove(); return; }
+      gate.querySelector('#pw-msg').textContent = '비밀번호가 맞지 않습니다. 다시 입력해 주세요.';
+      input.select();
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -18,7 +18,7 @@ undergraduate:
   - { code: "DET4022", title: "교수체제개발" }
   - { code: "DET2037", title: "학습전이모형개발" }
   - { code: "DET3037", title: "HRD컨설팅제안서개발" }
-  - { code: "DET1003", title: "HRD개론" }
+  - { code: "DET1003", title: "HRD개론", review: "/hrd-intro/", review_label: "26-2", review_title: "26-2 학기 수업자료 페이지로 이동" }
   - { code: "DET2039", title: "HRD트렌드" }
   - { code: "EDU4037", title: "데이터기반인적자원개발" }
 curriculum_links:
