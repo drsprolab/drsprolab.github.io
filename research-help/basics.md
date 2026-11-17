@@ -435,13 +435,12 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
   <p>이 페이지의 내용을 바탕으로 5지선다형 퀴즈 30문항을 준비했습니다.</p>
   <ul>
     <li>25문항 이상 맞으면 통과입니다.</li>
-    <li>채점 후 틀린 문항의 정답과 해설을 확인할 수 있습니다.</li>
+    <li>채점 후 정답률과 틀린 문항의 정답·해설을 PDF로 내려받을 수 있습니다.</li>
     <li>이름과 점수는 연구실에 기록됩니다.</li>
     <li>다시 응시하려면 7일이 지나야 합니다. 먼저 해설을 보며 복습해 주세요.</li>
   </ul>
   <button type="button" class="rh-btn primary rhq-start">Quiz 풀기</button>
   <div class="rhq-body"></div>
-  <p class="rhq-admin-link"><a href="{{ '/research-help/quiz-admin/' | relative_url }}">응시자 점수 확인(비밀번호)</a></p>
 </section>
 
 <p class="rhb-cta"><a class="rh-btn primary" href="{{ '/research-help/' | relative_url }}">나의 연구 발전시키기(실습) 시작하기</a></p>

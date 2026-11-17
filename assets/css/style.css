@@ -2291,6 +2291,14 @@ span.warn { color: var(--warn); font-weight: 600; }
 .rhq-right { display: grid; gap: 8px; }
 .rhq-right summary { cursor: pointer; color: var(--muted); margin-bottom: 8px; }
 .rhq-admin-link { font-size: 13px; text-align: right; }
+.rhq-result { display: grid; gap: 10px; padding: 20px 22px; border-radius: 10px; border: 1px solid var(--line); }
+.rhq-result h3 { margin: 0; font-size: 18px; }
+.rhq-result.is-pass { background: #e8f5ec; } .rhq-result.is-fail { background: #fdecec; }
+.rhq-result-line { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.rhq-result.is-pass .rhq-verdict { color: #15803d; } .rhq-result.is-fail .rhq-verdict { color: #b91c1c; }
+.rhq-result-line strong { font-size: 18px; }
+.rhq-pdf-msg { margin: 0; font-size: 13.5px; color: var(--muted); min-height: 1.2em; }
+.rhq-pdf-msg.is-error { color: #b91c1c; }
 .rhq-wait { margin: 0; padding: 14px 16px; border-radius: 8px; background: var(--accent-soft); line-height: 1.7; }
 .rhq-wait strong { color: var(--accent); }
 .rhq-table td.rhq-pass { color: #15803d; font-weight: 700; }
@@ -2298,6 +2306,8 @@ span.warn { color: var(--warn); font-weight: 600; }
 .rhq-table td.rhq-wrong { text-align: left; font-size: 13px; }
 @media (prefers-color-scheme: dark) {
   .rhq-score.is-pass { background: #12301d; color: #bbf7d0; }
+  .rhq-result.is-pass { background: #12301d; } .rhq-result.is-fail { background: #3a1d1d; }
+  .rhq-result.is-pass .rhq-verdict { color: #86efac; } .rhq-result.is-fail .rhq-verdict { color: #fca5a5; }
   .rhq-score.is-fail { background: #3a1d1d; color: #fecaca; }
   .rhq-mine { color: #fca5a5; } .rhq-answer { color: #86efac; }
 }

@@ -51,6 +51,97 @@
     return p;
   }
 
+  // ---------- 결과 PDF (A4, html2canvas + jsPDF) ----------
+  var H2C = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  var JSPDF = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  var PW = 680, PH = 990;
+  function loadScript(src, ready) {
+    return new Promise(function (ok, fail) { if (ready()) return ok(); var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s); });
+  }
+  function loadFonts() {
+    if (!document.getElementById('rhq-rep-font')) {
+      var l = document.createElement('link'); l.id = 'rhq-rep-font'; l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=block';
+      document.head.appendChild(l);
+    }
+    return document.fonts && document.fonts.load ? Promise.all([document.fonts.load('400 14px "Noto Sans KR"', '가'), document.fonts.load('700 14px "Noto Sans KR"', '가')]).catch(function () {}) : Promise.resolve();
+  }
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function repHtml(name, res, passMark) {
+    var now = new Date(), date = now.getFullYear() + '. ' + (now.getMonth() + 1) + '. ' + now.getDate() + '.';
+    var rate = res.total ? Math.round(res.score / res.total * 100) : 0;
+    var wrong = res.results.filter(function (r) { return !r.ok; });
+    var byCh = Object.keys(CHAPTERS).map(function (c) {
+      var rs = res.results.filter(function (r) { return String(r.ch) === c; }), ok = rs.filter(function (r) { return r.ok; }).length;
+      return rs.length ? '<tr><td>' + esc(CHAPTERS[c]) + '</td><td>' + ok + ' / ' + rs.length + '</td><td>' + Math.round(ok / rs.length * 100) + '%</td></tr>' : '';
+    }).join('');
+    var h = '<style>.rep{width:' + PW + 'px;color:#222;font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;font-size:13px;line-height:1.7;word-break:keep-all;background:#fff}' +
+      '.rep *{box-sizing:border-box;margin:0}.rep .hd{border-top:3px solid #222;padding-top:22px;text-align:center}.rep h1{font-size:22px;font-weight:700}' +
+      '.rep .sub{font-size:12.5px;color:#444;margin-top:8px;padding-bottom:14px;border-bottom:1px solid #222}.rep .date{text-align:right;font-size:12px;color:#444;margin:10px 0 4px}' +
+      '.rep h2{font-size:15.5px;font-weight:700;margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid #222}' +
+      '.rep .sum{display:flex;gap:10px}.rep .box{flex:1;border:1px solid #bbb;border-radius:6px;padding:10px 12px;text-align:center}.rep .box b{display:block;font-size:20px}.rep .box span{font-size:11.5px;color:#555}' +
+      '.rep .pass b{color:#15803d}.rep .fail b{color:#b91c1c}' +
+      '.rep table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}.rep th{background:#f1f1f1;border-top:1.5px solid #222;border-bottom:1px solid #999;padding:5px}.rep td{border-bottom:1px solid #d4d4d4;padding:5px;text-align:center}.rep td:first-child{text-align:left}' +
+      '.rep .q{padding:9px 12px;border-left:3px solid #c2410c;background:#f7f7f7;margin-bottom:8px}.rep .q p{margin:1px 0}.rep .qq{font-weight:700}.rep .tag{font-weight:400;color:#777;font-size:11px;margin-left:6px}' +
+      '.rep .mine{color:#b91c1c}.rep .ans{color:#15803d;font-weight:700}.rep .ex{font-size:12px;color:#333}.rep .note{margin-top:18px;padding-top:8px;border-top:1px solid #999;font-size:11px;color:#555}</style>';
+    h += '<div class="rep"><div class="hd"><h1>논문작성법(기초) 퀴즈 결과</h1><p class="sub">' + esc(name) + ' · PRO AnalytiX Lab 연구 도움</p></div><p class="date">' + date + '</p>';
+    h += '<h2>1. 결과 요약</h2><div><div class="sum"><div class="box ' + (res.pass ? 'pass' : 'fail') + '"><b>' + (res.pass ? 'Pass' : 'Fail') + '</b><span>' + '통과 기준 ' + passMark + '문항 이상' + '</span></div>' +
+      '<div class="box"><b>' + rate + '%</b><span>정답률</span></div><div class="box"><b>' + res.score + ' / ' + res.total + '</b><span>맞힌 문항</span></div><div class="box"><b>' + wrong.length + '</b><span>틀린 문항</span></div></div>' +
+      '<table><thead><tr><th>장</th><th>맞힌 문항</th><th>정답률</th></tr></thead><tbody>' + byCh + '</tbody></table></div>';
+    h += '<h2>2. 틀린 문항 복습' + (wrong.length ? ' (' + wrong.length + '개)' : '') + '</h2>';
+    h += wrong.length ? wrong.map(function (r) {
+      var n = Number(String(r.id).slice(1));
+      return '<div class="q"><p class="qq">' + n + '. ' + esc(r.q) + '<span class="tag">' + esc(CHAPTERS[r.ch]) + '</span></p>' +
+        '<p class="mine">내 답: ' + MARKS[r.chosen] + ' ' + esc(r.o[r.chosen]) + '</p><p class="ans">정답: ' + MARKS[r.correct] + ' ' + esc(r.o[r.correct]) + '</p>' +
+        '<p class="ex">' + esc(r.e) + '</p></div>';
+    }).join('') : '<p>모든 문항을 맞혔습니다.</p>';
+    h += '<p class="note">※ 다시 응시는 ' + esc(dateText(new Date(res.retakeAt || Date.now() + 7 * 86400000))) + ' 이후에 가능합니다. ' + RETAKE_MSG + '<br>※ hrdpro.hanyang.ac.kr/research-help/basics/</p></div>';
+    return h;
+  }
+  function paginate(rep) {
+    var blocks = Array.prototype.slice.call(rep.children), pages = [], cur = [], start = 0;
+    blocks.forEach(function (node) {
+      var bottom = node.offsetTop + node.offsetHeight;
+      if (cur.length && bottom - start > PH) {
+        var carry = [];
+        while (cur.length > 1 && /^H2$/.test(cur[cur.length - 1].tagName)) carry.unshift(cur.pop());
+        pages.push(cur); cur = carry; start = (carry[0] || node).offsetTop;
+      }
+      if (!cur.length && !pages.length) start = node.offsetTop - (parseFloat(getComputedStyle(node).marginTop) || 0);
+      cur.push(node);
+    });
+    if (cur.length) pages.push(cur);
+    return pages;
+  }
+  function downloadPdf(btn, msg, name, res, passMark) {
+    var host;
+    btn.disabled = true; msg.textContent = 'PDF를 만드는 중…'; msg.className = 'rhq-pdf-msg';
+    Promise.all([loadScript(H2C, function () { return !!window.html2canvas; }), loadScript(JSPDF, function () { return !!(window.jspdf && window.jspdf.jsPDF); }), loadFonts()]).then(function () {
+      host = document.createElement('div'); host.setAttribute('aria-hidden', 'true');
+      host.style.cssText = 'position:fixed;left:-20000px;top:0;width:' + PW + 'px;background:#fff';
+      host.innerHTML = repHtml(name, res, passMark); document.body.appendChild(host);
+      var rep = host.querySelector('.rep');
+      var pages = paginate(rep), pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' }), chain = Promise.resolve();
+      pages.forEach(function (blocks, i) {
+        chain = chain.then(function () {
+          var page = document.createElement('div'); page.className = 'rep';
+          page.style.cssText = 'width:' + PW + 'px;height:' + PH + 'px;overflow:hidden;background:#fff';
+          blocks.forEach(function (node, k) { var c = node.cloneNode(true); if (k === 0) c.style.marginTop = '0'; page.appendChild(c); });
+          host.appendChild(page);
+          return window.html2canvas(page, { scale: 2, backgroundColor: '#ffffff', logging: false }).then(function (cv) {
+            if (i) pdf.addPage();
+            pdf.addImage(cv.toDataURL('image/jpeg', 0.92), 'JPEG', 15, 16, 180, 180 * PH / PW);
+            pdf.setFontSize(9); pdf.setTextColor(90); pdf.text('- ' + (i + 1) + ' -', 105, 289, { align: 'center' });
+            host.removeChild(page);
+          });
+        });
+      });
+      return chain.then(function () { pdf.save('논문작성법_퀴즈결과_' + name.replace(/[\\/:*?"<>|\s]+/g, '_') + '.pdf'); });
+    }).then(function () { msg.textContent = ''; btn.disabled = false; })
+      .catch(function () { msg.textContent = 'PDF를 만들지 못했습니다. 잠시 뒤 다시 눌러 주세요.'; msg.className = 'rhq-pdf-msg is-error'; btn.disabled = false; })
+      .then(function () { if (host && host.parentNode) host.parentNode.removeChild(host); });
+  }
+
   function mountQuiz(root) {
     var endpoint = root.getAttribute('data-endpoint');
     var body = root.querySelector('.rhq-body');
@@ -104,36 +195,22 @@
       body.appendChild(form);
     }
 
+    // 채점 뒤에는 '내 결과 확인하기' 한 화면만 보여 주고, 틀린 문항·정답률은 PDF로 받게 한다.
     function renderResult(name, res) {
       body.innerHTML = '';
-      var wrong = res.results.filter(function (r) { return !r.ok; });
-      body.appendChild(el('div', { class: 'rhq-score ' + (res.pass ? 'is-pass' : 'is-fail') }, [
-        el('span', { class: 'rhq-verdict', text: res.pass ? 'Pass' : 'Fail' }),
-        el('strong', { text: name + '님의 점수: ' + res.score + ' / ' + res.total }),
-        el('span', { text: res.pass ? data.pass + '개 이상 맞혀 통과했습니다.' : (data.pass - 1) + '개 이하로 통과하지 못했습니다. 아래 해설로 복습한 뒤 다시 도전해 보세요.' })
+      var rate = res.total ? Math.round(res.score / res.total * 100) : 0;
+      var wrongN = res.results.filter(function (r) { return !r.ok; }).length;
+      var msg = el('p', { class: 'rhq-pdf-msg', role: 'status', 'aria-live': 'polite' });
+      var btn = el('button', { type: 'button', class: 'rh-btn primary', text: '결과 PDF 다운로드', onclick: function () { downloadPdf(btn, msg, name, res, data.pass); } });
+      body.appendChild(el('div', { class: 'rhq-result ' + (res.pass ? 'is-pass' : 'is-fail') }, [
+        el('h3', { text: '내 결과 확인하기' }),
+        el('p', { class: 'rhq-result-line' }, [el('span', { class: 'rhq-verdict', text: res.pass ? 'Pass' : 'Fail' }),
+          el('strong', { text: '정답률 ' + rate + '% (' + res.score + ' / ' + res.total + ')' })]),
+        el('p', { class: 'rhq-guide', text: wrongN ? '틀린 문항 ' + wrongN + '개의 정답과 해설은 PDF에 정리되어 있습니다.' : '모든 문항을 맞혔습니다.' }),
+        el('div', { class: 'rhq-actions' }, [btn]), msg
       ]));
-      if (wrong.length) {
-        body.appendChild(el('h3', { class: 'rhq-ch', text: '틀린 문항 복습 (' + wrong.length + '개)' }));
-        wrong.forEach(function (r) { body.appendChild(reviewItem(r)); });
-      } else {
-        body.appendChild(el('p', { class: 'rhq-guide', text: '모든 문항을 맞혔습니다.' }));
-      }
-      var right = res.results.filter(function (r) { return r.ok; });
-      if (right.length) {
-        body.appendChild(el('details', { class: 'rhq-right' }, [el('summary', { text: '맞힌 문항 해설 보기 (' + right.length + '개)' })].concat(right.map(reviewItem))));
-      }
       body.appendChild(waitNotice(new Date(res.retakeAt || Date.now() + 7 * 86400000)));
       root.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function reviewItem(r) {
-      var n = Number(r.id.slice(1));
-      return el('div', { class: 'rhq-review' + (r.ok ? ' is-ok' : '') }, [
-        el('p', { class: 'rhq-review-q' }, [el('b', { text: n + '. ' }), r.q, el('span', { class: 'rhq-tag', text: CHAPTERS[r.ch] })]),
-        r.ok ? null : el('p', { class: 'rhq-mine', text: '내 답: ' + MARKS[r.chosen] + ' ' + r.o[r.chosen] }),
-        el('p', { class: 'rhq-answer', text: '정답: ' + MARKS[r.correct] + ' ' + r.o[r.correct] }),
-        el('p', { class: 'rhq-explain', text: (r.ok ? '' : '왜 틀렸을까요? ') + r.e })
-      ]);
     }
 
     var startBtn = root.querySelector('.rhq-start'), waitUntil = retakeAt();
