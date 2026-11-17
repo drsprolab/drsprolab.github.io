@@ -30,6 +30,12 @@ lede: 무엇을 연구하고 싶은지 아직 정리되지 않아도 괜찮습�
   </section>
   <p class="rh-status is-empty" id="rhx-status" role="status" aria-live="polite"></p>
   <section class="rhx-result" id="rhx-result" hidden aria-live="polite"></section>
-  <p class="rhx-next">주제가 어느 정도 잡혔다면 <a href="{{ '/research-help/basics/' | relative_url }}">논문작성법(기초)</a>을 읽고 <a href="{{ '/research-help/#write' | relative_url }}">나의 연구 발전시키기(실습)</a>로 연구계획을 써 보세요.</p>
+  <section class="rhx-next" aria-label="다음 단계">
+    <p class="rhx-next-lead">주제가 어느 정도 잡혔다면, 다음 단계로 이어가 보세요.</p>
+    <div class="rhx-next-links">
+      <a class="rhx-next-card" href="{{ '/research-help/basics/' | relative_url }}"><span class="rhx-next-tag">1단계 · 읽기</span><strong>논문작성법(기초)</strong><span class="rhx-next-desc">논문의 기본 구조와 쓰는 법 익히기</span><span class="rhx-next-go" aria-hidden="true">바로가기 →</span></a>
+      <a class="rhx-next-card" href="{{ '/research-help/#write' | relative_url }}"><span class="rhx-next-tag">2단계 · 쓰기</span><strong>나의 연구 발전시키기(실습)</strong><span class="rhx-next-desc">연구계획을 직접 써 보기</span><span class="rhx-next-go" aria-hidden="true">바로가기 →</span></a>
+    </div>
+  </section>
 </div>
 <script src="{{ '/assets/js/research-help-explore.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
