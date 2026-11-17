@@ -26,7 +26,7 @@ const ADMIN_SESSION_SECONDS = 7200;
 // 작성 내용(fieldsJson)에는 파일 id(modelImage)만 남긴다. 파일 이름은 제출 id로 시작해 소유자를 확인한다.
 const MODEL_IMAGE_FOLDER = 'Research help 연구모형 그림 (비공개)';
 const MODEL_IMAGE_TYPES = /^image\/(png|jpeg|webp|gif)$/;
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 3.5 * 1024 * 1024; // Claude 이미지 한도(base64 5MB)를 넘지 않게
 const SHEETS = {
   Submissions: ['id', 'createdAt', 'updatedAt', 'name', 'round', 'status', 'tokenHash', 'submittedAt'],
   Revisions: ['submissionId', 'round', 'attempt', 'savedAt', 'status', 'fieldsJson', 'feedbackJson', 'error', 'requestId'],
@@ -1129,10 +1129,16 @@ function storeModelImage_(subId, round, dataUrl) {
   const m = String(dataUrl).match(/^data:(image\/[a-z+]+);base64,([A-Za-z0-9+/=]+)$/);
   if (!m || !MODEL_IMAGE_TYPES.test(m[1])) fail_('invalid_fields', '연구 모형 그림은 PNG·JPG·WEBP·GIF 파일만 넣을 수 있습니다.');
   const bytes = Utilities.base64Decode(m[2]);
-  if (!bytes.length || bytes.length > MAX_IMAGE_BYTES) fail_('invalid_fields', '연구 모형 그림은 5MB 이하로 넣어 주세요.');
+  if (!bytes.length || bytes.length > MAX_IMAGE_BYTES) fail_('invalid_fields', '연구 모형 그림은 3.5MB 이하로 넣어 주세요.');
   const ext = m[1].split('/')[1].replace('jpeg', 'jpg');
-  const file = modelImageFolder_().createFile(Utilities.newBlob(bytes, m[1], subId + '-model-r' + round + '-' + Date.now() + '.' + ext));
-  return file.getId(); // 공유 설정을 바꾸지 않으므로 실행 계정만 볼 수 있다
+  try {
+    const file = modelImageFolder_().createFile(Utilities.newBlob(bytes, m[1], subId + '-model-r' + round + '-' + Date.now() + '.' + ext));
+    return file.getId(); // 공유 설정을 바꾸지 않으므로 실행 계정만 볼 수 있다
+  } catch (err) {
+    // 드라이브 권한이 없으면(매니페스트에 drive 범위가 없거나 승인 전) 여기서 실패한다. 서버 오류 대신 원인을 알려 준다.
+    console.error('연구 모형 그림 저장 실패: ' + (err && err.stack || err));
+    fail_('image_store_failed', '연구 모형 그림을 저장하지 못했습니다(드라이브 권한 문제일 수 있습니다). 연구실에 알려 주세요. 그림 없이 글로만 저장할 수도 있습니다.');
+  }
 }
 
 function ownedImage_(subId, fileId) {
@@ -1394,3 +1400,11 @@ function diagnoseGemini() {
   });
 }
 
+
+// 편집기에서 실행: 드라이브 권한을 승인받고, 연구 모형 그림 폴더에 쓸 수 있는지 확인한다.
+function diagnoseDrive() {
+  const folder = modelImageFolder_();
+  const file = folder.createFile(Utilities.newBlob('ok', 'text/plain', 'drive-check-' + Date.now() + '.txt'));
+  console.log('드라이브 확인 성공: 폴더 "' + folder.getName() + '"에 파일을 만들고 지웠습니다.');
+  file.setTrashed(true);
+}

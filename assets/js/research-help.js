@@ -522,22 +522,30 @@
   function readImage(file) {
     return new Promise(function (resolve, reject) {
       if (!file || !IMAGE_TYPES.test(file.type)) { reject(new Error('연구 모형 그림은 PNG·JPG·WEBP·GIF 파일만 넣을 수 있습니다.')); return; }
-      if (file.size > 15 * 1024 * 1024) { reject(new Error('그림 파일이 너무 큽니다(15MB 이하).')); return; }
+      if (file.size > 40 * 1024 * 1024) { reject(new Error('그림 파일이 너무 큽니다(40MB 이하).')); return; }
       var reader = new FileReader();
       reader.onerror = function () { reject(new Error('그림 파일을 읽지 못했습니다.')); };
       reader.onload = function () {
         var src = reader.result, img = new Image();
         img.onerror = function () { reject(new Error('그림 파일을 열지 못했습니다.')); };
         img.onload = function () {
-          var max = 2000, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
-          if (k === 1 && file.size <= 2 * 1024 * 1024) { resolve(src); return; }
-          var c = document.createElement('canvas');
-          c.width = Math.round(w * k); c.height = Math.round(h * k);
-          var g = c.getContext('2d');
-          var png = /png|gif/.test(file.type);
-          if (!png) { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
-          g.drawImage(img, 0, 0, c.width, c.height);
-          resolve(png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.9));
+          // AI가 받을 수 있는 크기(긴 변 1600px, 약 1.5MB)로 맞춘다. 큰 그림은 줄이고, 그래도 크면 JPEG 품질을 낮춘다.
+          var LIMIT = 1.5 * 1024 * 1024, bytes = function (u) { return Math.floor((u.length - u.indexOf(',') - 1) * 0.75); };
+          var max = 1600, w = img.naturalWidth, h = img.naturalHeight;
+          if (!w || !h) { reject(new Error('그림 파일을 열지 못했습니다.')); return; }
+          if (Math.max(w, h) <= max && file.size <= LIMIT && /png|jpeg/.test(file.type)) { resolve(src); return; }
+          var png = /png|gif/.test(file.type), scale = Math.min(1, max / Math.max(w, h));
+          for (var tries = 0; tries < 6; tries++) {
+            var c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(w * scale)); c.height = Math.max(1, Math.round(h * scale));
+            var g = c.getContext('2d');
+            g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); // 투명 배경은 흰색으로
+            g.drawImage(img, 0, 0, c.width, c.height);
+            if (png) { var p = c.toDataURL('image/png'); if (bytes(p) <= LIMIT) { resolve(p); return; } }
+            for (var q = 0.9; q >= 0.6; q -= 0.1) { var j = c.toDataURL('image/jpeg', q); if (bytes(j) <= LIMIT) { resolve(j); return; } }
+            scale *= 0.75;
+          }
+          reject(new Error('그림이 너무 커서 줄이지 못했습니다. 화면을 캡처한 작은 그림으로 다시 넣어 주세요.'));
         };
         img.src = src;
       };
