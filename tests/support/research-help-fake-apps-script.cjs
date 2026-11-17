@@ -85,7 +85,7 @@ function setup(opts) {
         else if (provider === 'openai') { schema = body.response_format.json_schema.schema; system = body.messages[0].content; raw = body.messages[1].content; }
         else { const f = body.output_config.format; schema = f ? f.schema : JSON.parse(body.system.split('\n').pop()); system = body.system; raw = body.messages[0].content; }
         const user = Array.isArray(raw) ? raw.find(p => p.type === 'text').text : raw;
-        const name = schema.properties.logic ? 'constructive_feedback' : schema.properties.topics ? 'explore' : schema.properties.queries ? 'search_plan' : schema.properties.alignment ? 'critical_feedback' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
+        const name = schema.properties.logic ? 'constructive_feedback' : schema.properties.purposes ? 'explore' : schema.properties.queries ? 'search_plan' : schema.properties.alignment ? 'critical_feedback' : schema.properties.title.properties.questions ? 'socratic_feedback' : 'literature_feedback';
         calls.ai.push({ provider, url, headers: o.headers, name, system, user, body });
         const handler = ai[name];
         if (!handler) throw new Error('unexpected AI call ' + name);

@@ -858,41 +858,77 @@ function explore_(b) {
 
 function exploreFeedback_(text) {
   const system = '당신은 교육공학·HRD·조직행동 분야에서 연구를 처음 시작하는 학생을 돕는 지도교수의 조교다. ' + GUARD +
-    ' 학생이 연구 경험 없이 자기 관심사·궁금증·현장 경험을 생각나는 대로 쓴 글을 읽고, 연구로 발전시킬 출발점을 제안한다. ' +
-    'understanding에는 학생이 궁금해하는 핵심을 학생의 표현을 살려 2~3문장으로 정리한다. ' +
-    'topics에는 학생의 관심에서 나올 수 있는 연구주제를 정확히 3개 제안한다. 각 주제는 서로 다른 각도(예: 관계 확인, 과정·매개 설명, 조건·조절 탐색, 집단 차이, 질적 이해)로 만든다. ' +
-    'title은 핵심 변수·대상·관계가 드러나는 논문 제목 형태, question은 그 주제의 대표 연구문제 한 문장, why는 학생의 글 어느 부분에서 이 주제가 나왔는지와 연구할 가치를 2문장, approach는 적합한 자료·설계·분석 방법을 1~2문장으로 쓴다. 설계가 허용하지 않는 인과 표현은 쓰지 않는다. ' +
-    'variables에는 위 주제들에 쓸 수 있는 주요 변수를 4~8개 제안한다. role은 독립변수·종속변수·매개변수·조절변수·통제변수 중 하나, meaning은 이 연구에서의 의미 1문장, measure는 측정 방향(자기보고 설문, 관찰, 기록 자료 등)과 기존 척도를 찾을 때 쓸 영어 검색어를 쓴다. 척도 이름·저자를 지어내지 않는다. ' +
-    'theories에는 연구 모형의 관계를 설명할 수 있는 잘 알려진 이론을 2~4개 제안한다. name은 한국어 이름과 영어 이름, scholars는 그 이론을 제안한 대표 학자 이름만 쓴다(연도·DOI·논문 제목은 쓰지 않는다). 확실하지 않으면 scholars를 빈 문자열로 둔다. ' +
-    'logic은 이 이론의 핵심 논리가 학생의 관심 주제에서 어떤 변수 관계를 설명하는지 2~3문장, caution은 이 이론을 쓸 때 흔히 하는 실수 1문장을 쓴다. 학생 수준에 맞게 쉬운 말로 설명하되 학술 용어는 정확히 쓴다. ' +
-    'keywords에는 선행연구 검색에 쓸 영어 검색어 4~6개, nextSteps에는 이 학생이 이번 주에 해 볼 구체적인 다음 단계 3개를 쓴다. ' +
+    ' 학생이 연구 경험 없이 관심사·궁금증·현장 경험을 생각나는 대로 쓴 글을 읽고, 학생의 생각을 연구계획의 순서(문제의식 → 연구목적 → 이론적 근거 → 변수 → 연구모형·방법 → 앞으로 고민할 점)로 추론해 정리해 준다. ' +
+    '말투는 처음 연구하는 학생을 격려하는 지도교수처럼 쉽고 따뜻하게 하되, 학술 용어는 정확히 쓴다. ' +
+    '1) problem.text에는 학생의 글에서 출발한 연구의 문제의식 초안을 3~5문장으로 쓴다. 현상에서 무엇이 실제 문제인지, 왜 아직 답이 없는지, 왜 알아야 하는지가 드러나게 하고 일반적인 시대 흐름 이야기로 시작하지 않는다. problem.basis에는 학생 글의 어떤 부분에서 이 문제의식을 읽어 냈는지 1~2문장으로 쓴다. ' +
+    '2) purposes에는 이 문제의식에서 나올 수 있는 연구목적 예시를 정확히 3개 쓴다. 각각 서로 다른 방향(예: 관계 확인, 과정·매개 설명, 조건·조절 탐색, 집단 비교, 경험의 의미 이해)으로 만든다. purpose는 "본 연구의 목적은 ~이다" 형태의 한두 문장, focus는 이 목적이 특히 무엇에 초점을 두는지 한 문장, rqs는 이 목적에 맞는 연구문제 2~3개다. ' +
+    '3) theories에는 이 연구를 설명할 수 있는 잘 알려진 이론을 정확히 3개 고른다. name은 한국어 이름과 영어 이름, scholars는 대표 학자 이름만(연도·DOI·논문 제목 없이, 확실하지 않으면 빈 문자열), core는 이론의 핵심 주장 1~2문장, logic은 "이 이론을 사용하면 ~이기 때문에 ~가 ~에 영향을 준다고 설명할 수 있다"처럼 이 연구의 변수 관계를 설명하는 논리 2~3문장, caution은 이 이론을 쓸 때 흔한 실수 1문장이다. ' +
+    '4) variables.core에는 학생이 다루고 싶어 하는 핵심 변수 3~5개, variables.extra에는 추가로 고려해 볼 만한 변수(매개·조절·통제 등) 2~4개를 쓴다. role은 독립변수·종속변수·매개변수·조절변수·통제변수 중 하나, concept는 이 연구에서의 개념적 정의 1~2문장, extra의 why는 왜 함께 고려하면 좋은지 1문장, measure는 측정 방향과 기존 척도를 찾을 영어 검색어다. 척도 이름·저자를 지어내지 않는다. ' +
+    '5) model에는 purposes 중 가장 기본이 되는 목적을 기준으로 연구모형을 만든다. nodes는 2~6개, id는 X1, X2, M1, W1, Y1, C1처럼 짧게, label은 변수 이름, role은 위 다섯 역할 중 하나다. paths는 직접 경로(from→to, id 사용), moderations는 조절 관계(by: 조절변수 id, from·to: 조절되는 경로의 양 끝 id)다. 통제변수는 경로 없이 nodes에만 둔다. caption은 모형을 한 문장으로 설명한다. ' +
+    'methods에는 이 연구모형을 확인할 수 있는 연구방법을 2~3개 제안한다. name은 방법 이름(예: 설문조사와 매개효과 분석), why는 왜 이 모형에 맞는지, how는 대상·자료 수집·분석을 처음 연구하는 학생이 이해할 수 있게 2~3문장으로 쓴다. 설계가 허용하지 않는 인과 표현은 쓰지 않는다. ' +
+    '6) considerations에는 학생이 앞으로 고민하고 정해야 할 부분을 4~6개 쓴다. topic은 짧은 제목, detail은 왜 중요하고 무엇을 결정해야 하는지 1~2문장이다. ' +
+    'titles에는 위 연구목적 3개에 하나씩 대응하는 연구제목 예시를 정확히 3개 쓴다. title은 핵심 변수·대상·관계가 드러나는 학술 논문 제목(필요하면 부제 포함), note는 어느 목적(목적 1·2·3)에 맞춘 제목이고 무엇을 강조하는지 1문장이다. 설계가 허용하지 않는 "효과", "영향" 같은 인과 표현은 피한다. ' +
+    'understanding에는 학생이 궁금해하는 핵심을 학생의 표현을 살려 1~2문장으로, keywords에는 선행연구 검색용 영어 검색어 4~6개를 쓴다. ' +
     '학생의 글에 없는 경험·사실을 지어내지 않는다. 문헌·저자·연도·DOI를 지어내지 않는다.';
   const result = ai_(system, JSON.stringify({ studentWriting: text }), exploreSchema_());
   const raw = result.data || {};
-  if (!Array.isArray(raw.topics) || !raw.topics.length) fail_('ai_failed', '추천 결과에 빠진 부분이 있습니다.');
+  if (!raw.problem || !Array.isArray(raw.purposes) || !raw.purposes.length) fail_('ai_failed', '추천 결과에 빠진 부분이 있습니다.');
   const c = (t, max) => stripCitations_(clip_(t, max), []);
   const list = (arr, n, fn) => (Array.isArray(arr) ? arr : []).slice(0, n).map(fn).filter(Boolean);
+  const role = r => EXPLORE_ROLES.indexOf(r) >= 0 ? r : '독립변수';
+  const vars = raw.variables || {};
   return {
-    generatedBy: result.by, generatedAt: now_(),
-    understanding: c(raw.understanding, 800),
-    topics: list(raw.topics, 3, t => t && { title: c(t.title, 300), question: c(t.question, 400), why: c(t.why, 700), approach: c(t.approach, 500) }),
-    variables: list(raw.variables, 8, v => v && { name: c(v.name, 120), role: EXPLORE_ROLES.indexOf(v.role) >= 0 ? v.role : '독립변수', meaning: c(v.meaning, 400), measure: c(v.measure, 400) }),
-    theories: list(raw.theories, 4, t => t && { name: c(t.name, 160), scholars: c(t.scholars, 160), logic: c(t.logic, 700), caution: c(t.caution, 300) }),
-    keywords: list(raw.keywords, 6, k => c(k, 120)),
-    nextSteps: list(raw.nextSteps, 3, k => c(k, 300))
+    generatedBy: result.by, generatedAt: now_(), version: 2,
+    understanding: c(raw.understanding, 600),
+    titles: list(raw.titles, 3, t => t && t.title && { title: c(t.title, 200), note: c(t.note, 300) }),
+    problem: { text: c(raw.problem.text, 1500), basis: c(raw.problem.basis, 500) },
+    purposes: list(raw.purposes, 3, p => p && p.purpose && { purpose: c(p.purpose, 500), focus: c(p.focus, 300), rqs: list(p.rqs, 3, q => c(q, 300)) }),
+    theories: list(raw.theories, 3, t => t && t.name && { name: c(t.name, 160), scholars: c(t.scholars, 160), core: c(t.core, 500), logic: c(t.logic, 800), caution: c(t.caution, 300) }),
+    variables: {
+      core: list(vars.core, 5, v => v && v.name && { name: c(v.name, 80), role: role(v.role), concept: c(v.concept, 500), measure: c(v.measure, 300) }),
+      extra: list(vars.extra, 4, v => v && v.name && { name: c(v.name, 80), role: role(v.role), concept: c(v.concept, 500), why: c(v.why, 300), measure: c(v.measure, 300) })
+    },
+    model: exploreModel_(raw.model || {}),
+    methods: list(raw.methods, 3, m => m && m.name && { name: c(m.name, 120), why: c(m.why, 500), how: c(m.how, 700) }),
+    considerations: list(raw.considerations, 6, k => k && k.topic && { topic: c(k.topic, 80), detail: c(k.detail, 400) }),
+    keywords: list(raw.keywords, 6, k => c(k, 120))
   };
 }
 
+// 도식으로 그릴 수 있게 연구모형을 정리한다: 있는 변수끼리의 경로만, 조절은 실제 경로를 가리킬 때만 남긴다.
+function exploreModel_(m) {
+  const nodes = [], ids = {};
+  (Array.isArray(m.nodes) ? m.nodes : []).slice(0, 6).forEach(n => {
+    const id = String(n && n.id || '').replace(/[^A-Za-z0-9_]/g, '').slice(0, 12);
+    if (!id || ids[id] || !n.label) return;
+    ids[id] = EXPLORE_ROLES.indexOf(n.role) >= 0 ? n.role : '독립변수';
+    nodes.push({ id: id, label: clip_(n.label, 40), role: ids[id] });
+  });
+  const key = (a, b) => a + '>' + b, seen = {};
+  const paths = (Array.isArray(m.paths) ? m.paths : []).filter(p => p && ids[p.from] && ids[p.to] && p.from !== p.to &&
+    ids[p.from] !== '통제변수' && ids[p.to] !== '통제변수' && !seen[key(p.from, p.to)] && (seen[key(p.from, p.to)] = true))
+    .slice(0, 8).map(p => ({ from: p.from, to: p.to }));
+  const moderations = (Array.isArray(m.moderations) ? m.moderations : []).filter(x => x && ids[x.by] === '조절변수' && seen[key(x.from, x.to)])
+    .slice(0, 3).map(x => ({ by: x.by, from: x.from, to: x.to }));
+  return { nodes: nodes, paths: paths, moderations: moderations, caption: stripCitations_(clip_(m.caption, 400), []) };
+}
+
 function exploreSchema_() {
-  const str = { type: 'string' };
-  const obj = (props) => ({ type: 'object', additionalProperties: false, required: Object.keys(props), properties: props });
+  const str = { type: 'string' }, strs = { type: 'array', items: str };
+  const role = { type: 'string', enum: EXPLORE_ROLES };
+  const obj = props => ({ type: 'object', additionalProperties: false, required: Object.keys(props), properties: props });
+  const arr = props => ({ type: 'array', items: obj(props) });
   return obj({
     understanding: str,
-    topics: { type: 'array', items: obj({ title: str, question: str, why: str, approach: str }) },
-    variables: { type: 'array', items: obj({ name: str, role: { type: 'string', enum: EXPLORE_ROLES }, meaning: str, measure: str }) },
-    theories: { type: 'array', items: obj({ name: str, scholars: str, logic: str, caution: str }) },
-    keywords: { type: 'array', items: str },
-    nextSteps: { type: 'array', items: str }
+    titles: arr({ title: str, note: str }),
+    problem: obj({ text: str, basis: str }),
+    purposes: arr({ purpose: str, focus: str, rqs: strs }),
+    theories: arr({ name: str, scholars: str, core: str, logic: str, caution: str }),
+    variables: obj({ core: arr({ name: str, role: role, concept: str, measure: str }), extra: arr({ name: str, role: role, concept: str, why: str, measure: str }) }),
+    model: obj({ nodes: arr({ id: str, label: str, role: role }), paths: arr({ from: str, to: str }), moderations: arr({ by: str, from: str, to: str }), caption: str }),
+    methods: arr({ name: str, why: str, how: str }),
+    considerations: arr({ topic: str, detail: str }),
+    keywords: strs
   });
 }
 

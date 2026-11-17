@@ -2584,3 +2584,39 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 }
 .rh-type-opt .rh-hint { font-weight: 400; }
 .rhx-label .rhx-req { color: #b91c1c; }
+/* 어서와: 6단계 결과 */
+.rhx-titles { padding: 16px 18px; border: 2px solid var(--accent); border-radius: 12px; background: var(--accent-soft); }
+.rhx-titles h3 { margin: 0 0 8px; font-size: 17px; color: var(--accent); }
+.rhx-titles ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.rhx-titles li strong { display: block; font-size: 16px; line-height: 1.5; color: var(--ink); }
+.rhx-titles li span { font-size: 13.5px; color: var(--muted); }
+.rhx-step { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+.rhx-step-head { display: flex; align-items: center; gap: 10px; }
+.rhx-step-head h3 { margin: 0; font-size: 19px; }
+.rhx-step-no { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; }
+.rhx-lead { margin: 0; color: var(--accent); font-weight: 600; }
+.rhx-draft { margin: 0; padding: 14px 16px; border-left: 4px solid var(--accent); background: var(--tint); border-radius: 0 8px 8px 0; line-height: 1.85; }
+.rhx-basis { margin: 0; font-size: 14px; color: var(--muted); }
+.rhx-purpose { font-weight: 600; }
+.rhx-rqs ol { margin: 4px 0 0; padding-left: 1.3em; }
+.rhx-logic { padding: 8px 10px; background: var(--accent-soft); border-radius: 6px; }
+.rhx-subhead { margin: 4px 0 0; font-size: 15px; }
+.rhx-model { margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+.rhx-model-svg { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 auto; }
+.rhx-model rect { fill: var(--paper); stroke: var(--accent); stroke-width: 1.6; }
+.rhx-node.is-m rect { fill: var(--accent-soft); }
+.rhx-node.is-y rect { fill: var(--accent); }
+.rhx-node.is-y .rhx-node-label { fill: #fff; }
+.rhx-node.is-w rect { stroke-dasharray: 5 4; }
+.rhx-node-label { fill: var(--ink); font-size: 15px; font-weight: 600; }
+.rhx-node-role { fill: var(--muted); font-size: 11.5px; }
+.rhx-path { stroke: var(--ink); stroke-width: 1.6; }
+.rhx-path.is-mod { stroke-dasharray: 6 5; stroke: var(--muted); }
+.rhx-arrowhead { fill: var(--ink); }
+.rhx-model figcaption { display: grid; gap: 4px; margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+.rhx-model figcaption strong { color: var(--ink); font-size: 14.5px; }
+.rhx-consider { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.rhx-consider b { display: block; }
+.rhx-consider span { color: var(--muted); font-size: 14.5px; }
+.rhx-kw { display: grid; gap: 6px; }
+.rhx-step, .rhx-card, .rhx-model, .rhx-titles { break-inside: avoid; }

@@ -607,10 +607,19 @@ test('최종 저장: 3차 점검에 대한 수용·불수용과 반박을 함께
 
 // ---------- 어서와, 연구는 처음이지? ----------
 const exploreOut = () => ({ understanding: '신입사원의 적응이 궁금합니다.',
-  topics: [1, 2, 3, 4].map(i => ({ title: `주제 ${i}`, question: `질문 ${i}`, why: `이유 ${i} (Smith, 2018)`, approach: '설문' })),
-  variables: [{ name: '조직사회화', role: '독립변수', meaning: 'm', measure: 'organizational socialization scale' }, { name: '이상한', role: '모름', meaning: 'm', measure: 'x' }],
-  theories: [{ name: '자기결정성 이론(Self-Determination Theory)', scholars: 'Deci & Ryan', logic: 'l', caution: 'c' }],
-  keywords: ['newcomer adjustment'], nextSteps: ['선행연구 5편 읽기'] });
+  titles: [1, 2, 3, 4].map(i => ({ title: `제목 ${i}`, note: `목적 ${i}에 맞춘 제목` })),
+  problem: { text: '신입사원의 조기 이직이 반복됩니다. (Smith, 2018)', basis: '선배가 챙기는 팀 관찰' },
+  purposes: [1, 2, 3, 4].map(i => ({ purpose: `목적 ${i}`, focus: 'f', rqs: ['RQ1', 'RQ2', 'RQ3', 'RQ4'] })),
+  theories: [{ name: '자기결정성 이론(Self-Determination Theory)', scholars: 'Deci & Ryan', core: 'c', logic: '이 이론을 사용하면 ...', caution: 'x' }, { name: '', scholars: '', core: '', logic: '', caution: '' }],
+  variables: { core: [{ name: '선배 지원', role: '독립변수', concept: 'c', measure: 'm' }, { name: '이상한', role: '모름', concept: 'c', measure: 'm' }],
+    extra: [{ name: '조직사회화', role: '매개변수', concept: 'c', why: 'w', measure: 'm' }] },
+  model: { nodes: [{ id: 'X1', label: '선배 지원', role: '독립변수' }, { id: 'M1', label: '조직사회화', role: '매개변수' }, { id: 'Y1', label: '이직의도', role: '종속변수' },
+      { id: 'W1', label: '팀 분위기', role: '조절변수' }, { id: 'C1', label: '연령', role: '통제변수' }, { id: 'X1', label: '중복', role: '독립변수' }],
+    paths: [{ from: 'X1', to: 'M1' }, { from: 'M1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Z9' }, { from: 'C1', to: 'Y1' }],
+    moderations: [{ by: 'W1', from: 'X1', to: 'M1' }, { by: 'Y1', from: 'X1', to: 'M1' }, { by: 'W1', from: 'M1', to: 'X1' }], caption: '선배 지원이 조직사회화를 거쳐 이직의도와 관련됩니다.' },
+  methods: [{ name: '설문조사와 매개효과 분석', why: 'w', how: 'h' }],
+  considerations: [{ topic: '대상', detail: '어느 기업의 신입사원인가' }],
+  keywords: ['newcomer adjustment'] });
 
 test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 이름은 AI에 보내지 않으며 기록을 남긴다', () => {
   const t = setup({ ai: { explore: exploreOut } });
@@ -620,10 +629,20 @@ test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 
   assert.match(noName.message, /이름/);
   const r = t.call({ action: 'explore', name: '홍길동', text: '회사에 들어온 지 1년 된 신입사원들이 왜 쉽게 그만두는지 궁금합니다. 선배의 도움이 영향을 주는지 알고 싶어요.' });
   assert.equal(r.ok, true, r.message);
-  assert.equal(r.result.topics.length, 3);
-  assert.doesNotMatch(r.result.topics[0].why, /Smith, 2018/);
-  assert.equal(r.result.variables[1].role, '독립변수', '알 수 없는 역할은 기본값');
+  assert.equal(r.result.purposes.length, 3);
+  assert.equal(r.result.titles.length, 3, '추천 제목은 3개까지');
+  assert.equal(r.result.purposes[0].rqs.length, 3);
+  assert.doesNotMatch(r.result.problem.text, /Smith, 2018/);
+  assert.equal(r.result.theories.length, 1, '이름 없는 이론은 뺀다');
   assert.equal(r.result.theories[0].scholars, 'Deci & Ryan');
+  assert.equal(r.result.variables.core[1].role, '독립변수', '알 수 없는 역할은 기본값');
+  assert.equal(r.result.variables.extra[0].name, '조직사회화');
+  const m = r.result.model;
+  assert.deepEqual(m.nodes.map(n => n.id), ['X1', 'M1', 'Y1', 'W1', 'C1'], '중복 id는 뺀다');
+  assert.deepEqual(m.paths, [{ from: 'X1', to: 'M1' }, { from: 'M1', to: 'Y1' }, { from: 'X1', to: 'Y1' }], '없는 변수·통제변수·중복 경로는 뺀다');
+  assert.deepEqual(m.moderations, [{ by: 'W1', from: 'X1', to: 'M1' }], '조절변수가 실제 경로를 가리킬 때만');
+  assert.equal(r.result.methods.length, 1);
+  assert.equal(r.result.considerations[0].topic, '대상');
   const call = t.calls.ai.find(c => c.name === 'explore');
   assert.doesNotMatch(call.user, /홍길동/);
   assert.match(call.system, /지어내지 않는다/);
