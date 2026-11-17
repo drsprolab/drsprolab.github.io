@@ -32,6 +32,52 @@ AI로 누구나 언제든 원하는 교육을 만들고 들을 수 있게 되었
 
 개인이 아무리 많이 배워도 해석과 통합의 단계를 거치지 않으면 학습은 개인 안에 머뭅니다. 조직이 배웠다는 말은 **일하는 방식이 바뀌었다**는 뜻입니다.
 
+<figure class="l4i-fig">
+<svg class="l4i-svg" viewBox="0 0 600 410" role="img" aria-labelledby="l4i-t l4i-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+  <title id="l4i-t">4I 조직학습 모형: AI 콘텐츠가 강한 구간과 HRD가 설계해야 할 구간</title>
+  <desc id="l4i-d">학습은 개인의 직관에서 해석, 집단의 통합, 조직의 제도화로 옮겨 간다. AI 콘텐츠는 직관 단계에 강하고, 나머지 세 단계는 사람 사이와 실제 업무 안에서 일어난다.</desc>
+  <defs><marker id="l4i-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker></defs>
+  <style>.l4i-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.l4i-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.l4i-acc{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.l4i-lv{font:700 12px sans-serif;fill:var(--accent)}.l4i-h{font:700 18px sans-serif;fill:var(--ink)}.l4i-e{font:italic 11.5px sans-serif;fill:var(--muted)}.l4i-p{font:13px sans-serif;fill:var(--muted)}.l4i-chip{fill:var(--tint);stroke:var(--accent);stroke-width:1.2}.l4i-ct{font:700 12px sans-serif;fill:var(--ink)}.l4i-dot{fill:var(--accent)}.l4i-n{font:700 13px sans-serif;fill:var(--paper)}.l4i-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#l4i-a)}.l4i-dir{font:700 13px sans-serif;fill:var(--accent)}.l4i-bar1{fill:var(--accent);opacity:.95}.l4i-bar2{fill:var(--tint);stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 4}.l4i-bt1{font:700 13px sans-serif;fill:var(--paper)}.l4i-bt2{font:700 13px sans-serif;fill:var(--ink)}.l4i-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.l4i-note{font:700 14.5px sans-serif;fill:var(--ink)}</style>
+  <text class="l4i-dir" x="18" y="30">학습이 개인에서 조직으로 옮겨 가는 길</text>
+  <path class="l4i-ar" d="M18 46 H578"/>
+  <rect class="l4i-hot" x="18" y="162" width="132" height="108" rx="12"/>
+  <text class="l4i-lv" x="84" y="186" text-anchor="middle">개인</text>
+  <text class="l4i-h" style="" x="84" y="208" text-anchor="middle">직관</text>
+  <text class="l4i-e" x="84" y="224" text-anchor="middle">Intuiting</text>
+  <text class="l4i-p" x="84" y="244" text-anchor="middle">새로운 가능성을</text>
+  <text class="l4i-p" x="84" y="260" text-anchor="middle">알아차린다</text>
+  <circle class="l4i-dot" cx="32" cy="162" r="11"/><text class="l4i-n" x="32" y="166.5" text-anchor="middle">1</text>
+  <rect class="l4i-card" x="162" y="130" width="132" height="140" rx="12"/>
+  <text class="l4i-lv" x="228" y="154" text-anchor="middle">개인 → 집단</text>
+  <text class="l4i-h" style="" x="228" y="176" text-anchor="middle">해석</text>
+  <text class="l4i-e" x="228" y="192" text-anchor="middle">Interpreting</text>
+  <text class="l4i-p" x="228" y="212" text-anchor="middle">말로 풀어</text>
+  <text class="l4i-p" x="228" y="228" text-anchor="middle">나눈다</text>
+  <rect class="l4i-chip" x="170" y="236" width="116" height="26" rx="13"/><text class="l4i-ct" x="228" y="253" text-anchor="middle">현업 회고 진행</text>
+  <circle class="l4i-dot" cx="176" cy="130" r="11"/><text class="l4i-n" x="176" y="134.5" text-anchor="middle">2</text>
+  <rect class="l4i-card" x="306" y="98" width="132" height="172" rx="12"/>
+  <text class="l4i-lv" x="372" y="122" text-anchor="middle">집단</text>
+  <text class="l4i-h" style="" x="372" y="144" text-anchor="middle">통합</text>
+  <text class="l4i-e" x="372" y="160" text-anchor="middle">Integrating</text>
+  <text class="l4i-p" x="372" y="180" text-anchor="middle">공유된 이해로</text>
+  <text class="l4i-p" x="372" y="196" text-anchor="middle">함께 행동한다</text>
+  <rect class="l4i-chip" x="314" y="236" width="116" height="26" rx="13"/><text class="l4i-ct" x="372" y="253" text-anchor="middle">팀 간 빌려 가기</text>
+  <circle class="l4i-dot" cx="320" cy="98" r="11"/><text class="l4i-n" x="320" y="102.5" text-anchor="middle">3</text>
+  <rect class="l4i-card" x="450" y="66" width="132" height="204" rx="12"/>
+  <text class="l4i-lv" x="516" y="90" text-anchor="middle">조직</text>
+  <text class="l4i-h" style="" x="516" y="112" text-anchor="middle">제도화</text>
+  <text class="l4i-e" x="516" y="128" text-anchor="middle">Institutionalizing</text>
+  <text class="l4i-p" x="516" y="148" text-anchor="middle">규칙·절차로</text>
+  <text class="l4i-p" x="516" y="164" text-anchor="middle">자리 잡는다</text>
+  <rect class="l4i-chip" x="458" y="236" width="116" height="26" rx="13"/><text class="l4i-ct" x="516" y="253" text-anchor="middle">한 장 변경 기록</text>
+  <circle class="l4i-dot" cx="464" cy="66" r="11"/><text class="l4i-n" x="464" y="70.5" text-anchor="middle">4</text>
+  <rect class="l4i-bar1" x="18" y="284" width="132" height="34" rx="10"/><text class="l4i-bt1" x="84" y="306" text-anchor="middle">AI 콘텐츠가 강한 구간</text>
+  <rect class="l4i-bar2" x="162" y="284" width="420" height="34" rx="10"/><text class="l4i-bt2" x="372" y="306" text-anchor="middle">사람 사이, 실제 업무 안에서 일어나는 구간: HRD의 설계 영역</text>
+  <rect class="l4i-band" x="18" y="336" width="564" height="58" rx="14"/><text class="l4i-note" x="300" y="361" text-anchor="middle">개인이 아무리 많이 배워도 해석·통합을 거치지 않으면</text><text class="l4i-note" x="300" y="381" text-anchor="middle">학습은 개인 안에 머문다</text>
+</svg>
+<figcaption><strong>그림 1.</strong> 4I 조직학습 모형의 네 단계와, AI 콘텐츠가 강한 구간·HRD가 설계할 구간. 04절의 실천이 놓이는 단계를 함께 표시했습니다.</figcaption>
+</figure>
+
 ## 03 · AI 교육 콘텐츠는 '직관'만 늘린다
 
 AI 맞춤형 콘텐츠는 4I의 첫 단계인 개인의 직관을 풍부하게 만드는 데 강합니다. 나머지 세 단계는 사정이 다릅니다. 사람과 사람 사이, 그리고 실제 업무 안에서 일어나기 때문입니다. 오늘날 일터의 학습은 정해진 교육보다 일하는 과정 속에서, 동료와의 상호작용 속에서 더 많이 일어납니다(Noe et al., 2014).
