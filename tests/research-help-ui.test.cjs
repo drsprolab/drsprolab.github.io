@@ -14,6 +14,12 @@ const critical = () => ({ round: 3, kind: 'critical', generatedBy: 'AI (test)', 
 const feedback = round => round === 3 ? critical() : ({ round, kind: round === 1 ? 'socratic' : 'literature', generatedBy: 'AI (test)',
   items: Object.fromEntries(KEYS.slice(1).map(k => [k, round === 1 ? { focus: 'f', questions: ['q'] } : { status: 'reviewed', assessment: 'a', suggestions: [], sources: [] }])) });
 
+// 2·3차 피드백의 모든 항목을 수용으로 답한다(3차·최종 저장 전에 필요).
+function acceptAll(app) {
+  [2, 3].forEach(to => { const fb = app.state.feedback[to]; if (fb && fb.items) Object.keys(fb.items).forEach(k => app.setResponse(to, k, { d: 'accept' })); });
+}
+const plain = f => Object.fromEntries(Object.entries(f).filter(([k]) => k[0] !== '_'));
+
 function memoryStorage() {
   let v = null;
   return { get: () => v, set: x => { v = x; }, remove: () => { v = null; }, peek: () => v };
@@ -37,7 +43,7 @@ function fakeServer() {
 
 test('서버 연결이 없으면 저장을 거절하고 단계를 올리지 않는다', async () => {
   const app = RH.createController({});
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   await assert.rejects(app.save(), /서버|연결/);
   assert.equal(app.state.round, 0);
   assert.equal(app.state.history.length, 0);
@@ -46,7 +52,7 @@ test('서버 연결이 없으면 저장을 거절하고 단계를 올리지 않�
 test('빈 항목이나 미동의 상태에서는 서버로 보내지 않는다', async () => {
   const server = fakeServer();
   const app = RH.createController({ transport: server.transport });
-  app.setFields(fields({ theory: ' ' })); app.setConsent(true);
+  app.setFields(fields({ theory: ' ' })); app.setConsent(true); app.setPaperType('thesis');
   await assert.rejects(app.save(), /이론적 근거/);
   app.setFields(fields()); app.setConsent(false);
   await assert.rejects(app.save(), /동의/);
@@ -56,7 +62,7 @@ test('빈 항목이나 미동의 상태에서는 서버로 보내지 않는다',
 test('1차 저장은 저장본을 고정해 보관하고, 이후 수정은 별도 편집본으로 남는다', async () => {
   const server = fakeServer(), storage = memoryStorage();
   const app = RH.createController({ transport: server.transport, storage });
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   await app.save();
   assert.equal(app.state.round, 1);
   assert.equal(app.state.feedback[1].kind, 'socratic');
@@ -69,7 +75,7 @@ test('1차 저장은 저장본을 고정해 보관하고, 이후 수정은 별�
 test('서버 실패 시 단계를 유지하고, 재시도는 같은 요청 번호와 서버가 준 식별값으로 보낸다', async () => {
   const server = fakeServer(), storage = memoryStorage();
   const app = RH.createController({ transport: server.transport, storage });
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   server.failNext = { ok: false, error: 'feedback_failed', message: 'AI 피드백 생성에 실패했습니다.', id: 'RH261029ABCDEF12', token: 't'.repeat(64) };
   await assert.rejects(app.save(), /AI 피드백 생성에 실패/);
   assert.equal(app.state.round, 0);
@@ -87,14 +93,14 @@ test('서버 실패 시 단계를 유지하고, 재시도는 같은 요청 번�
 test('최종(4차) 저장 전에는 제출할 수 없고, 최종 저장 후 제출하면 상태가 바뀐다', async () => {
   const server = fakeServer();
   const app = RH.createController({ transport: server.transport });
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   await app.save(); await app.save();
   await assert.rejects(app.submit(), /최종 저장/);
-  await app.save();
+  acceptAll(app); await app.save();
   assert.equal(app.state.round, 3);
   assert.equal(app.state.feedback[3].kind, 'critical', '3차 저장에서 핵심 정합성 점검을 받는다');
   await assert.rejects(app.submit(), /최종 저장/, '3차 저장만으로는 제출할 수 없다');
-  await app.save();
+  acceptAll(app); await app.save();
   assert.equal(app.state.round, 4);
   assert.equal(app.state.history.length, 4);
   await assert.rejects(app.save(), /최종 저장까지 완료/);
@@ -118,8 +124,8 @@ test('같은 작성자가 제출 후 새 연구계획서를 별도 기록으로 
     throw new Error('예상하지 못한 요청');
   };
   const app = RH.createController({ transport, storage });
-  app.setFields(fields()); app.setConsent(true);
-  for (let i = 0; i < 4; i++) await app.save();
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
+  for (let i = 0; i < 4; i++) { acceptAll(app); await app.save(); }
   await app.submit();
   const firstId = app.state.id;
   app.logInput('title', 'p', 51);
@@ -127,7 +133,7 @@ test('같은 작성자가 제출 후 새 연구계획서를 별도 기록으로 
   assert.equal(storage.peek(), null);
   assert.deepEqual(app.state.inputLog, {});
   assert.equal(app.state.round, 0);
-  app.setFields(fields({ title: '두 번째 연구' })); app.setConsent(true);
+  app.setFields(fields({ title: '두 번째 연구' })); app.setConsent(true); app.setPaperType('thesis');
   await app.save();
   assert.notEqual(app.state.id, firstId);
   assert.equal(records.get(firstId), 4);
@@ -221,7 +227,7 @@ test('연구 모형 그림: 글 없이 그림만 넣어도 저장되고, 새 그
   server.transport = async body => { const r = await inner(body); if (r.ok && body.action === 'save') r.modelImage = body.modelImageData ? 'file00000001' : (body.fields.modelImage || ''); return r; };
   const app = RH.createController({ transport: server.transport, storage: memoryStorage() });
   app.setFields(fields({ model: '' }));
-  app.setConsent(true);
+  app.setConsent(true); app.setPaperType('thesis');
   await assert.rejects(app.save(), /연구 모형/);
   app.setImage('data:image/png;base64,QUJD');
   assert.equal(app.imageUrl(), 'data:image/png;base64,QUJD');
@@ -243,7 +249,7 @@ test('1·2차 피드백 뒤에도 모든 기존 작성 칸을 유지하고, 각 
   const server = fakeServer();
   const app = RH.createController({ transport: server.transport });
   const original = fields();
-  app.setFields(original); app.setConsent(true);
+  app.setFields(original); app.setConsent(true); app.setPaperType('thesis');
   await app.save();
   for (const key of KEYS) assert.equal(app.state.fields[key], original[key]);
   const firstEdit = fields(Object.fromEntries(KEYS.slice(1).map(key => [key, original[key] + '\n1차 피드백을 반영한 수정'])));
@@ -252,10 +258,10 @@ test('1·2차 피드백 뒤에도 모든 기존 작성 칸을 유지하고, 각 
   for (const key of KEYS) assert.equal(app.state.fields[key], firstEdit[key]);
   assert.deepEqual(app.state.history[0].fields, original);
   const finalEdit = fields(Object.fromEntries(KEYS.slice(1).map(key => [key, firstEdit[key] + '\n2차 피드백을 반영한 최종 수정'])));
-  app.setFields(finalEdit); await app.save();
+  app.setFields(finalEdit); acceptAll(app); await app.save();
   assert.deepEqual(app.state.history[0].fields, original);
   assert.deepEqual(app.state.history[1].fields, firstEdit);
-  assert.deepEqual(app.state.history[2].fields, finalEdit);
+  assert.deepEqual(plain(app.state.history[2].fields), finalEdit);
   const doc = RH.pdfDocument({ submission: { id: 'test', name: original.name }, revisions: app.state.history.map(h => ({ ...h, status: 'ok' })) });
   for (const version of [original, firstEdit, finalEdit]) {
     for (const key of KEYS) {
@@ -269,7 +275,7 @@ test('일시적인 서버 오류·혼잡은 같은 요청 번호로 자동 재�
   const server = fakeServer();
   server.failNext = { ok: false, error: 'server_error', message: '서버 오류' };
   const app = RH.createController({ transport: server.transport, storage: memoryStorage(), retryDelay: 0 });
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   const res = await app.save();
   assert.equal(res.round, 1);
   assert.equal(server.calls.length, 2, '한 번 실패한 뒤 다시 보냈다');
@@ -277,7 +283,7 @@ test('일시적인 서버 오류·혼잡은 같은 요청 번호로 자동 재�
   const other = fakeServer();
   other.failNext = { ok: false, error: 'invalid_fields', message: '입력 오류' };
   const app2 = RH.createController({ transport: other.transport, storage: memoryStorage(), retryDelay: 0 });
-  app2.setFields(fields()); app2.setConsent(true);
+  app2.setFields(fields()); app2.setConsent(true); app2.setPaperType('thesis');
   await assert.rejects(app2.save(), /입력 오류/);
   assert.equal(other.calls.length, 1, '입력 오류는 다시 보내지 않는다');
 });
@@ -285,10 +291,49 @@ test('일시적인 서버 오류·혼잡은 같은 요청 번호로 자동 재�
 test('붙여넣기·자동입력 횟수를 저장 요청에 실어 보내고, 저장되면 다시 센다', async () => {
   const server = fakeServer();
   const app = RH.createController({ transport: server.transport, storage: memoryStorage(), retryDelay: 0 });
-  app.setFields(fields()); app.setConsent(true);
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
   app.logInput('purpose', 'p', 300); app.logInput('purpose', 'p', 120); app.logInput('method', 'a', 90); app.logInput('rq', 'p', 0);
   await app.save();
   assert.deepEqual(server.calls[0].inputLog, { purpose: { p: [2, 420] }, method: { a: [1, 90] } });
   await app.save();
   assert.deepEqual(server.calls[1].inputLog, {}, '이미 저장된 기록은 다음 저장에 다시 보내지 않는다');
+});
+
+test('3차·최종 저장: 피드백마다 수용·불수용을 골라야 하고, 불수용은 이유가 있어야 하며, 응답을 함께 보낸다', async () => {
+  const server = fakeServer();
+  const app = RH.createController({ transport: server.transport });
+  app.setFields(fields()); app.setConsent(true);
+  await assert.rejects(app.save(), /학위논문용과 소논문용/);
+  app.setPaperType('article');
+  await app.save();
+  assert.equal(server.calls[0].paperType, 'article');
+  await app.save();
+  await assert.rejects(app.save(), /수용·불수용을 선택/);
+  acceptAll(app);
+  app.setResponse(2, 'method', { d: 'reject', r: '짧음' });
+  await assert.rejects(app.save(), /이유를 10자 이상/);
+  app.setResponse(2, 'method', { r: '횡단 자료라서 관계 확인까지만 다루는 것이 이 연구의 범위입니다.' });
+  await app.save();
+  const sent = server.calls[server.calls.length - 1];
+  assert.equal(sent.responses.to, 2);
+  assert.equal(sent.responses.items.method.d, 'reject');
+  assert.equal(sent.paperType, undefined, '유형은 1차 저장에서만 보낸다');
+  acceptAll(app);
+  await app.save();
+  assert.equal(server.calls[server.calls.length - 1].responses.to, 3);
+  const doc = RH.pdfDocument({ submission: { id: 'x', name: 'n' }, revisions: app.state.history.map(h => ({ ...h, status: 'ok' })) });
+  assert(doc.blocks.some(b => /연구 방법: 불수용 — 횡단 자료/.test(b.text)), 'PDF에 반박이 남는다');
+});
+
+test('소논문 3차 종합 의견과 반박 검토를 PDF에 담는다', () => {
+  const fb = { round: 3, kind: 'constructive', generatedBy: 'AI', summary: '발전했습니다.', revisions: [{ field: 'RQ', change: '순서 정리', reflected: '2차 의견' }],
+    items: { logic: { label: '논문 전체의 논리성', assessment: '흐름이 이어집니다.', strengths: ['목적 분명'], next: ['시사점 정리'] },
+      theoryFit: { label: '이론적 근거의 정합성', assessment: 'a', strengths: [], next: [] }, methodValidity: { label: '연구방법의 타당성', assessment: 'b', strengths: [], next: [] } },
+    rebuttals: [{ field: 'method', label: '연구 방법', rebuttal: 'r', verdict: 'valid', review: '타당합니다.', develop: ['한계에 명시'] }] };
+  const doc = RH.pdfDocument({ submission: { id: 'x', name: 'n' }, revisions: [{ round: 3, savedAt: 's', status: 'ok', fields: fields(), feedback: fb }] });
+  const text = doc.blocks.map(b => b.text).join('\n');
+  assert.match(text, /논문 전체의 논리성/);
+  assert.match(text, /다음 단계: 시사점 정리/);
+  assert.match(text, /RQ: 순서 정리/);
+  assert.match(text, /연구 방법 · 타당함: 타당합니다/);
 });

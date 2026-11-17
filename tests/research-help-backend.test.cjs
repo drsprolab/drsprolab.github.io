@@ -552,3 +552,143 @@ test('붙여넣기·자동입력 기록은 정리해 저장본에 남기고 AI�
   clean.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
   assert.equal(JSON.parse(clean.rows('Revisions')[0][5])._input, undefined, '기록이 없으면 필드를 만들지 않는다');
 });
+
+// ---------- 2·3차 피드백 수용·불수용 ----------
+const rebutCritic = () => Object.assign(critic(), { rebuttals: [
+  { field: 'method', verdict: 'partial', review: '횡단 설계의 한계를 인정한 반박은 일부 타당합니다. (Kim, 2019)', develop: ['연구 범위를 관계 확인으로 명시합니다.', '한계 절에 인과 해석 제한을 씁니다.'] },
+  { field: 'title', verdict: 'valid', review: '불수용하지 않은 항목', develop: ['x'] },
+  { field: 'method', verdict: 'weak', review: '중복', develop: [] }
+] });
+function toRound2(t) {
+  const r1 = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
+  return auth;
+}
+
+test('3차 저장: 2차 피드백에 불수용하면 이유가 있어야 하고, 반박은 3차 점검에 전달돼 타당성 검토로 돌아온다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: rebutCritic } });
+  const auth = toRound2(t);
+  const noReason = t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId(),
+    responses: { to: 2, items: { method: { d: 'reject', r: '  ' } } } }, auth));
+  assert.equal(noReason.error, 'invalid_fields');
+  assert.match(noReason.message, /연구 방법/);
+  const items = Object.fromEntries(FB_KEYS.map(k => [k, { d: 'accept' }]));
+  items.method = { d: 'reject', r: '자료가 한 시점뿐이라 종단 설계는 현실적으로 불가능하며, 관계 확인에 목적을 한정합니다.' };
+  const r3 = t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId(), responses: { to: 2, items } }, auth));
+  assert.equal(r3.ok, true, r3.message);
+  const call = t.calls.ai.find(c => c.name === 'critical_feedback');
+  const sent = JSON.parse(call.user);
+  assert.equal(sent.rebuttals.length, 1);
+  assert.equal(sent.rebuttals[0].field, 'method');
+  assert.match(sent.rebuttals[0].rebuttal, /종단 설계/);
+  assert.match(sent.rebuttals[0].round2Feedback, /method/);
+  assert.equal(sent.manuscript._responses, undefined, '응답은 원고와 따로 보낸다');
+  assert.match(call.system, /반박을 유지하면서/);
+  assert.equal(r3.feedback.rebuttals.length, 1, '불수용한 항목만, 한 번씩');
+  assert.equal(r3.feedback.rebuttals[0].verdict, 'partial');
+  assert.equal(r3.feedback.rebuttals[0].label, '연구 방법');
+  assert.doesNotMatch(r3.feedback.rebuttals[0].review, /Kim, 2019/);
+  const saved = JSON.parse(t.rows('Revisions').filter(r => r[1] === '3' && r[4] === 'ok')[0][5]);
+  assert.equal(saved._responses.items.method.d, 'reject');
+});
+
+test('최종 저장: 3차 점검에 대한 수용·불수용과 반박을 함께 보관한다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic } });
+  const auth = toRound2(t);
+  t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth));
+  const r4 = t.call(Object.assign({ action: 'save', round: 4, fields: fields(), requestId: reqId(),
+    responses: { to: 3, items: { alignment: { d: 'accept' }, modelTheory: { d: 'reject', r: '이론은 매개 경로만 설명하도록 범위를 정했습니다.' }, bogus: { d: 'reject', r: 'x' } } } }, auth));
+  assert.equal(r4.ok, true, r4.message);
+  const saved = JSON.parse(t.rows('Revisions').filter(r => r[1] === '4')[0][5]);
+  assert.deepEqual(Object.keys(saved._responses.items), ['alignment', 'modelTheory']);
+  assert.equal(saved._responses.to, 3);
+});
+
+// ---------- 어서와, 연구는 처음이지? ----------
+const exploreOut = () => ({ understanding: '신입사원의 적응이 궁금합니다.',
+  topics: [1, 2, 3, 4].map(i => ({ title: `주제 ${i}`, question: `질문 ${i}`, why: `이유 ${i} (Smith, 2018)`, approach: '설문' })),
+  variables: [{ name: '조직사회화', role: '독립변수', meaning: 'm', measure: 'organizational socialization scale' }, { name: '이상한', role: '모름', meaning: 'm', measure: 'x' }],
+  theories: [{ name: '자기결정성 이론(Self-Determination Theory)', scholars: 'Deci & Ryan', logic: 'l', caution: 'c' }],
+  keywords: ['newcomer adjustment'], nextSteps: ['선행연구 5편 읽기'] });
+
+test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 이름은 AI에 보내지 않으며 기록을 남긴다', () => {
+  const t = setup({ ai: { explore: exploreOut } });
+  assert.equal(t.call({ action: 'explore', text: '짧음' }).error, 'invalid_fields');
+  const r = t.call({ action: 'explore', name: '홍길동', text: '회사에 들어온 지 1년 된 신입사원들이 왜 쉽게 그만두는지 궁금합니다. 선배의 도움이 영향을 주는지 알고 싶어요.' });
+  assert.equal(r.ok, true, r.message);
+  assert.equal(r.result.topics.length, 3);
+  assert.doesNotMatch(r.result.topics[0].why, /Smith, 2018/);
+  assert.equal(r.result.variables[1].role, '독립변수', '알 수 없는 역할은 기본값');
+  assert.equal(r.result.theories[0].scholars, 'Deci & Ryan');
+  const call = t.calls.ai.find(c => c.name === 'explore');
+  assert.doesNotMatch(call.user, /홍길동/);
+  assert.match(call.system, /지어내지 않는다/);
+  const row = t.rows('Explorations')[0];
+  assert.equal(row[2], '홍길동');
+  assert.match(row[0], /^EX\d{6}[A-F0-9]{8}$/);
+  assert.equal(JSON.parse(t.props.AI_USAGE).count, 1, '한 달 AI 상한에 함께 센다');
+});
+
+test('어서와: 하루 이용 상한을 넘으면 AI를 부르지 않는다', () => {
+  const t = setup({ props: { EXPLORE_DAILY_LIMIT: '1' }, ai: { explore: exploreOut } });
+  const text = '조직에서 리더의 코칭이 구성원의 학습에 어떤 영향을 주는지 궁금합니다. 현장에서 많이 봤어요.';
+  assert.equal(t.call({ action: 'explore', text }).ok, true);
+  const r = t.call({ action: 'explore', text });
+  assert.equal(r.error, 'daily_limit');
+  assert.equal(t.calls.ai.length, 1);
+});
+
+test('어서와: 한 달 AI 상한이 소진되면 멈춘다', () => {
+  const t = setup({ props: { MONTHLY_AI_LIMIT: '1', AI_USAGE: JSON.stringify({ period: '2026-10', count: 1 }) }, ai: { explore: exploreOut } });
+  assert.equal(t.call({ action: 'explore', text: '조직에서 리더의 코칭이 구성원의 학습에 어떤 영향을 주는지 궁금합니다. 현장에서 많이 봤어요.' }).error, 'monthly_limit');
+});
+
+// ---------- 학위논문·소논문 ----------
+const constructive = () => ({ summary: '1차보다 목적과 RQ가 잘 맞게 되었습니다. (Lee, 2020)',
+  revisions: [{ field: 'rq', change: 'RQ를 목적 순서로 바꿈', reflected: '2차 RQ 의견' }, { field: '', change: '', reflected: '' }],
+  logic: { assessment: '흐름이 대체로 이어집니다.', strengths: ['목적이 분명함'], next: ['시사점을 RQ 순서로 정리'] },
+  theoryFit: { assessment: '이론이 매개 경로를 설명합니다.', strengths: [], next: ['조절 경로의 근거 보완'] },
+  methodValidity: { assessment: '횡단 설계의 범위 안에서 주장합니다.', strengths: ['측정 명확'], next: ['표본 크기 근거 제시'] },
+  rebuttals: [{ field: 'method', verdict: 'valid', review: '타당합니다.', develop: ['한계 절에 명시'] }] });
+
+test('소논문: 1차 저장에서 고른 유형을 따르고, 3차는 1·2차 피드백과 수정 이력을 종합한 건설적 의견을 준다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic, constructive_feedback: constructive } });
+  assert.equal(t.call({ action: 'save', round: 1, consent: true, paperType: 'essay', fields: fields(), requestId: reqId() }).error, 'invalid_fields');
+  assert.equal(t.rows('Submissions').length, 0, '잘못된 유형이면 기록을 만들지 않는다');
+  const r1 = t.call({ action: 'save', round: 1, consent: true, paperType: 'article', fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  t.call(Object.assign({ action: 'save', round: 2, paperType: 'thesis', fields: fields({ rq: '2차 RQ' }), requestId: reqId() }, auth));
+  const items = Object.fromEntries(FB_KEYS.map(k => [k, { d: 'accept' }]));
+  items.method = { d: 'reject', r: '횡단 자료로 관계만 확인하는 것이 이 논문의 범위입니다.' };
+  const r3 = t.call(Object.assign({ action: 'save', round: 3, fields: fields({ rq: '3차 RQ' }), requestId: reqId(), responses: { to: 2, items } }, auth));
+  assert.equal(r3.ok, true, r3.message);
+  assert.equal(r3.feedback.kind, 'constructive');
+  assert.deepEqual(Object.keys(r3.feedback.items), ['logic', 'theoryFit', 'methodValidity']);
+  assert.equal(r3.feedback.items.logic.label, '논문 전체의 논리성');
+  assert.equal(r3.feedback.revisions.length, 1);
+  assert.equal(r3.feedback.revisions[0].field, 'RQ');
+  assert.doesNotMatch(r3.feedback.summary, /Lee, 2020/);
+  assert.equal(r3.feedback.rebuttals[0].verdict, 'valid');
+  assert.equal(t.calls.ai.filter(c => c.name === 'critical_feedback').length, 0, '소논문은 심사자식 점검을 쓰지 않는다');
+  const call = t.calls.ai.find(c => c.name === 'constructive_feedback');
+  const sent = JSON.parse(call.user);
+  assert.equal(sent.history.round2Manuscript.rq, '2차 RQ');
+  assert.equal(sent.history.round2Feedback.length, FB_KEYS.length);
+  assert.equal(sent.manuscript._type, undefined);
+  assert.match(call.system, /건설적/);
+  const r4 = t.call(Object.assign({ action: 'save', round: 4, fields: fields(), requestId: reqId(),
+    responses: { to: 3, items: { logic: { d: 'accept' }, theoryFit: { d: 'reject', r: '조절 경로는 탐색적으로만 다룹니다.' }, methodValidity: { d: 'accept' } } } }, auth));
+  assert.equal(r4.ok, true, r4.message);
+  const saved = JSON.parse(t.rows('Revisions').filter(r => r[1] === '4')[0][5]);
+  assert.deepEqual(Object.keys(saved._responses.items), ['logic', 'theoryFit', 'methodValidity']);
+  assert.equal(saved._type, 'article');
+});
+
+test('학위논문(또는 유형 미지정)은 지금처럼 심사자식 3차 점검을 쓴다', () => {
+  const t = setup({ ai: { socratic_feedback: socratic, literature_feedback: round2, critical_feedback: critic, constructive_feedback: constructive } });
+  const r1 = t.call({ action: 'save', round: 1, consent: true, paperType: 'thesis', fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
+  assert.equal(t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth)).feedback.kind, 'critical');
+});

@@ -32,8 +32,42 @@
     ? '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Anthropic Claude API)로 전송되는 것에 동의합니다. Anthropic은 API로 받은 내용을 AI 모델 학습에 사용하지 않지만 외부 서비스로 전송되므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.'
     : null;
   var CRITIC_KEYS = ['alignment', 'modelTheory', 'methodFit'];
+  // 소논문의 3차 의견(건설적 종합 의견) 관점
+  var CONSTRUCT_KEYS = ['logic', 'theoryFit', 'methodValidity'];
+  var PAPER_TYPE_LABELS = { thesis: '학위논문용', article: '소논문용' };
+  function isRound3(fb) { return !!fb && (fb.kind === 'critical' || fb.kind === 'constructive'); }
+  function round3Keys(fb) { return fb && fb.kind === 'constructive' ? CONSTRUCT_KEYS : CRITIC_KEYS; }
   var SEVERITY_LABELS = { critical: '치명적', major: '큰 문제', minor: '보완 권장', sound: '문제 없음' };
   var STEP_LABELS = ['작성', '1차 저장', '2차 저장', '3차 저장', '최종 저장', '제출'];
+  var VERDICT_LABELS = { valid: '타당함', partial: '일부 타당 · 보완 필요', weak: '근거 부족' };
+  var CRITIC_LABELS = { alignment: '연구목적과 연구문제의 얼라인먼트', modelTheory: '연구목적에 따른 연구모형 설정의 이론적 불일치', methodFit: '연구방법이 연구목적을 달성하는 데 갖는 불합리성',
+    logic: '논문 전체의 논리성', theoryFit: '이론적 근거의 정합성', methodValidity: '연구방법의 타당성' };
+
+  // 피드백 수용·불수용: 3차 저장은 2차 피드백(작성 항목별), 최종 저장은 3차 점검(세 관점)에 응답한다.
+  function responseKeys(to) { return to === 2 ? FEEDBACK_FIELDS.map(function (f) { return f.key; }) : CRITIC_KEYS.concat(CONSTRUCT_KEYS); }
+  function responseLabel(to, key) {
+    if (to === 3) return CRITIC_LABELS[key];
+    var f = FEEDBACK_FIELDS.filter(function (x) { return x.key === key; })[0];
+    return f ? f.label : key;
+  }
+  function checkResponses(to, items, feedback) {
+    var missing = [], noReason = [];
+    responseKeys(to).forEach(function (k) {
+      if (!feedback || !feedback.items || !feedback.items[k]) return;
+      var e = items[k];
+      if (!e || (e.d !== 'accept' && e.d !== 'reject')) missing.push(responseLabel(to, k));
+      else if (e.d === 'reject' && String(e.r || '').trim().length < 10) noReason.push(responseLabel(to, k));
+    });
+    if (missing.length) throw new Error(to + '차 피드백의 수용·불수용을 선택해 주세요: ' + missing.join(', '));
+    if (noReason.length) throw new Error('불수용을 선택한 항목은 수용하지 않는 이유를 10자 이상 작성해 주세요: ' + noReason.join(', '));
+  }
+  function responseLines(res) {
+    if (!res || !res.items) return [];
+    return responseKeys(res.to).filter(function (k) { return res.items[k]; }).map(function (k) {
+      var e = res.items[k];
+      return { label: responseLabel(res.to, k), reject: e.d === 'reject', text: e.d === 'reject' ? '불수용 — ' + e.r : '수용' };
+    });
+  }
 
   function emptyFields() {
     var o = {};
@@ -87,7 +121,7 @@
     var state = { fields: emptyFields(), round: 0, status: 'draft', id: null, token: null, consent: false,
       history: [], feedback: {}, busy: false, pending: null,
       // 연구 모형 그림: imagePending = 아직 서버에 안 보낸 새 그림(data URL), images = 파일 id → 화면용 data URL
-      imagePending: null, images: {}, inputLog: {} };
+      imagePending: null, images: {}, inputLog: {}, responses: { 2: {}, 3: {} }, paperType: '' };
 
     function call(body, retries) {
       if (!transport) return Promise.reject(serverError({ error: 'not_configured', message: '서버 연결이 아직 설정되지 않아 저장할 수 없습니다.' }));
@@ -126,12 +160,20 @@
       if (round > 4) return Promise.reject(new Error('최종 저장까지 완료되었습니다. 제출해 주세요.'));
       var fields;
       try { fields = validateFields(state.fields, !!(state.imagePending || state.fields.modelImage)); } catch (err) { return Promise.reject(err); }
+      if (round === 1 && !state.id && !state.paperType) return Promise.reject(new Error('학위논문용과 소논문용 중 하나를 선택해 주세요.'));
       if (round === 1 && !state.id && !state.consent) return Promise.reject(new Error('외부 AI 전송 안내를 읽고 동의해 주세요.'));
+      var responses = null;
+      if (round === 3 || round === 4) {
+        try { checkResponses(round - 1, state.responses[round - 1], state.feedback[round - 1]); } catch (err) { return Promise.reject(err); }
+        responses = { to: round - 1, items: JSON.parse(JSON.stringify(state.responses[round - 1])) };
+      }
       // 시간 초과 뒤 다시 누르면 같은 요청 번호로 보낸다. 서버가 이미 저장했다면 그 결과를 돌려준다.
       if (!state.pending || state.pending.round !== round) state.pending = { round: round, id: requestId() };
       state.busy = true;
       var body = { action: 'save', round: round, fields: fields, id: state.id, token: state.token, consent: state.consent, requestId: state.pending.id };
       var sentLog = JSON.parse(JSON.stringify(state.inputLog)); body.inputLog = sentLog;
+      if (responses) body.responses = responses;
+      if (round === 1) body.paperType = state.paperType || 'thesis';
       if (state.imagePending) { body.modelImageData = state.imagePending; delete body.fields.modelImage; }
       return call(body, 2)
         .then(function (res) {
@@ -142,6 +184,7 @@
           } else delete fields.modelImage;
           state.fields.modelImage = res.modelImage || '';
           state.imagePending = null;
+          if (responses) fields._responses = responses;
           state.history.push(snapshot(round, res.savedAt, fields, res.feedback));
           if (res.feedback) state.feedback[round] = res.feedback;
           state.round = round;
@@ -186,6 +229,9 @@
       state.history = revs.filter(function (r) { return r.status === 'ok'; }).map(function (r) { return snapshot(r.round, r.savedAt, r.fields, r.feedback); });
       state.feedback = {};
       state.history.forEach(function (h) { if (h.feedback) state.feedback[h.round] = h.feedback; });
+      state.responses = { 2: {}, 3: {} };
+      state.paperType = (state.history.filter(function (h) { return h.fields && h.fields._type; })[0] || { fields: { _type: 'thesis' } }).fields._type;
+      state.history.forEach(function (h) { var r = h.fields && h.fields._responses; if (r && r.items && state.responses[r.to]) state.responses[r.to] = JSON.parse(JSON.stringify(r.items)); });
       // 마지막으로 보낸 내용(실패한 시도 포함)을 편집 칸에 되살린다.
       var latest = revs[revs.length - 1];
       if (latest) state.fields = Object.assign(emptyFields(), latest.fields);
@@ -206,7 +252,7 @@
       storage.remove();
       state.fields = emptyFields(); state.round = 0; state.status = 'draft'; state.id = null; state.token = null;
       state.consent = false; state.history = []; state.feedback = {}; state.pending = null;
-      state.imagePending = null; state.images = {}; state.inputLog = {}; state.busy = false;
+      state.imagePending = null; state.images = {}; state.inputLog = {}; state.busy = false; state.responses = { 2: {}, 3: {} }; state.paperType = '';
     }
 
     return {
@@ -214,6 +260,8 @@
       setFields: function (v) { state.fields = Object.assign(emptyFields(), v); },
       setField: function (k, v) { state.fields[k] = v; },
       setConsent: function (v) { state.consent = !!v; },
+      setPaperType: function (v) { state.paperType = PAPER_TYPE_LABELS[v] ? v : ''; },
+      setResponse: function (to, key, patch) { state.responses[to][key] = Object.assign({}, state.responses[to][key], patch); },
       logInput: logInput,
       setImage: function (dataUrl) { state.imagePending = dataUrl; },
       clearImage: function () { state.imagePending = null; state.fields.modelImage = ''; },
@@ -293,22 +341,40 @@
   function feedbackBlocks(feedback) {
     var blocks = [{ type: 'note', text: AI_NOTICE + ' (' + (feedback.generatedBy || 'AI') + ')' }];
     if (feedback.searchNote) blocks.push({ type: 'note', text: '문헌 확인 절차: ' + feedback.searchNote });
-    if (feedback.kind === 'critical') {
+    if (isRound3(feedback)) {
       if (feedback.summary) blocks.push({ type: 'ci', text: '종합: ' + feedback.summary });
-      CRITIC_KEYS.forEach(function (k) {
+      if (feedback.revisions && feedback.revisions.length) {
+        blocks.push({ type: 'sq', text: '1·2차 피드백 이후 수정한 점' });
+        feedback.revisions.forEach(function (r) { blocks.push({ type: 'dash', text: r.field + ': ' + r.change + (r.reflected ? ' (' + r.reflected + ')' : '') }); });
+      }
+      round3Keys(feedback).forEach(function (k) {
         var item = feedback.items && feedback.items[k];
         if (!item) return;
+        if (feedback.kind === 'constructive') {
+          blocks.push({ type: 'sq', text: item.label });
+          if (item.assessment) blocks.push({ type: 'ci', text: item.assessment });
+          (item.strengths || []).forEach(function (x) { blocks.push({ type: 'dash', text: '잘된 점: ' + x }); });
+          (item.next || []).forEach(function (x) { blocks.push({ type: 'dash', text: '다음 단계: ' + x }); });
+          return;
+        }
         blocks.push({ type: 'sq', text: item.label + ' · ' + (SEVERITY_LABELS[item.severity] || '') });
         (item.evidence || []).forEach(function (e) { blocks.push({ type: 'ci', text: '원고에서 확인한 문구(' + e.label + '): “' + e.quote + '”' }); });
         if (item.finding) blocks.push({ type: 'ci', text: item.finding });
         if (item.consequence) blocks.push({ type: 'ci', text: '이대로 제출할 경우: ' + item.consequence });
         (item.fixes || []).forEach(function (s) { blocks.push({ type: 'dash', text: s }); });
       });
+      if (feedback.rebuttals && feedback.rebuttals.length) {
+        blocks.push({ type: 'sq', text: '2차 피드백 불수용(반박)에 대한 검토' });
+        feedback.rebuttals.forEach(function (x) {
+          blocks.push({ type: 'ci', text: x.label + ' · ' + (VERDICT_LABELS[x.verdict] || '') + ': ' + x.review });
+          (x.develop || []).forEach(function (d) { blocks.push({ type: 'dash', text: d }); });
+        });
+      }
       return blocks;
     }
     FEEDBACK_FIELDS.forEach(function (f) {
       var item = feedback.items && feedback.items[f.key];
-      if (!item || feedback.kind === 'critical') return;
+      if (!item || isRound3(feedback)) return;
       blocks.push({ type: 'sq', text: f.label });
       if (feedback.kind === 'socratic') {
         if (item.anchor) blocks.push({ type: 'ci', text: '원고에서 확인한 문구: “' + item.anchor + '”' });
@@ -401,6 +467,11 @@
       oks.forEach(function (r) {
         var label = r.round === 1 ? '최초 작성본 (1차 저장)' : r.round === 2 ? '1차 피드백 반영 수정본 (2차 저장)' : r.round === 3 ? '2차 피드백 반영 수정본 (3차 저장)' : '3차 피드백 반영 최종 수정본 (최종 저장)';
         doc.blocks.push({ type: 'h3', text: (++n) + '. ' + label + ' · ' + r.savedAt, pageBreak: n > 1 });
+        var answered = r.fields && r.fields._responses;
+        if (answered && answered.items) {
+          doc.blocks.push({ type: 'sq', text: answered.to + '차 피드백에 대한 수용·불수용' });
+          responseLines(answered).forEach(function (l) { doc.blocks.push({ type: 'ci', text: l.label + ': ' + l.text }); });
+        }
         doc.blocks = doc.blocks.concat(fieldBlocks(r.fields, record.images));
         if (r.feedback) {
           doc.blocks.push({ type: 'h3', text: (++n) + '. ' + r.round + '차 피드백 · DrS comments (AI 생성)' });
@@ -552,15 +623,70 @@
     return wrap;
   }
 
+  // 피드백 한 항목에 대한 수용·불수용. onChange가 없으면 저장된 응답을 읽기 전용으로 보여 준다.
+  var responseSeq = 0;
+  function responseNode(to, key, current, onChange) {
+    current = current || {};
+    var box = el('div', { class: 'rh-response' + (current.d === 'reject' ? ' is-reject' : current.d === 'accept' ? ' is-accept' : '') });
+    if (!onChange) {
+      if (!current.d) return null;
+      box.appendChild(el('p', {}, [el('strong', { text: '나의 응답 ' }), current.d === 'reject' ? '불수용' : '수용']));
+      if (current.d === 'reject') box.appendChild(el('p', { class: 'rh-response-reason', text: current.r }));
+      return box;
+    }
+    var name = 'rh-resp-' + to + '-' + key + '-' + (++responseSeq);
+    var reason = el('textarea', { rows: '4', maxlength: '2000', placeholder: '이 피드백을 수용하지 않는 이유를 본인의 논리로 적어 주세요. 예: 연구의 범위, 자료의 조건, 이론적 판단 등', 'aria-label': responseLabel(to, key) + ' 불수용 이유',
+      oninput: function (e) { onChange({ r: e.target.value }); } }, [current.r || '']);
+    var reasonWrap = el('div', { class: 'rh-response-why' }, [
+      el('label', { text: '수용하지 않는 이유(반박)' }), reason,
+      el('span', { class: 'rh-hint', text: to === 2 ? '이 반박은 3차 점검에서 타당성을 검토하고, 입장을 유지하면서 발전시키는 방법을 함께 제시합니다.' : '반박 내용은 최종 저장본과 PDF에 함께 남습니다.' })
+    ]);
+    reasonWrap.hidden = current.d !== 'reject';
+    function pick(d) {
+      onChange({ d: d });
+      reasonWrap.hidden = d !== 'reject';
+      box.className = 'rh-response ' + (d === 'reject' ? 'is-reject' : 'is-accept');
+      if (d === 'reject') reason.focus();
+    }
+    box.appendChild(el('fieldset', { class: 'rh-response-pick' }, [
+      el('legend', { text: to + '차 피드백 반영 여부' }),
+      el('label', {}, [el('input', { type: 'radio', name: name, value: 'accept', checked: current.d === 'accept', onchange: function () { pick('accept'); } }), ' 수용']),
+      el('label', {}, [el('input', { type: 'radio', name: name, value: 'reject', checked: current.d === 'reject', onchange: function () { pick('reject'); } }), ' 불수용'])
+    ]));
+    box.appendChild(reasonWrap);
+    return box;
+  }
+  function responsesSummary(res) {
+    var lines = responseLines(res);
+    if (!lines.length) return null;
+    return el('div', { class: 'rh-response-summary' }, [el('strong', { text: res.to + '차 피드백에 대한 수용·불수용' }),
+      el('ul', {}, lines.map(function (l) { return el('li', { class: l.reject ? 'is-reject' : '' }, [el('b', { text: l.label + ' ' }), l.text]); }))]);
+  }
+
   // 3차 피드백: 항목별이 아니라 세 가지 핵심 정합성 점검으로 보여 준다.
-  function criticalNode(feedback) {
-    var box = el('div', { class: 'rh-comments rh-critic' }, [
-      el('div', { class: 'rh-comments-head' }, [el('strong', { text: 'DrS comments · 핵심 정합성 점검' }), el('span', { class: 'rh-ai-badge', text: 'AI 생성 · 3차' })])
+  function criticalNode(feedback, opts) {
+    opts = opts || {};
+    var constructive = feedback.kind === 'constructive';
+    var box = el('div', { class: 'rh-comments rh-critic' + (constructive ? ' is-constructive' : '') }, [
+      el('div', { class: 'rh-comments-head' }, [el('strong', { text: constructive ? 'DrS comments · 종합 의견 (소논문)' : 'DrS comments · 핵심 정합성 점검' }), el('span', { class: 'rh-ai-badge', text: 'AI 생성 · 3차' })])
     ]);
     if (feedback.summary) box.appendChild(el('p', { class: 'rh-critic-summary' }, [el('strong', { text: '종합 ' }), feedback.summary]));
-    CRITIC_KEYS.forEach(function (k) {
+    if (feedback.revisions && feedback.revisions.length) {
+      box.appendChild(el('section', { class: 'rh-comment rh-revised' }, [el('h4', { text: '1·2차 피드백 이후 수정한 점' }),
+        el('ul', {}, feedback.revisions.map(function (r) { return el('li', {}, [el('b', { text: r.field + ' ' }), r.change, r.reflected ? el('span', { class: 'rh-hint', text: ' · ' + r.reflected }) : null]); }))]));
+    }
+    round3Keys(feedback).forEach(function (k) {
       var item = feedback.items && feedback.items[k];
       if (!item) return;
+      if (constructive) {
+        var cc = el('section', { class: 'rh-comment rh-critic-card is-constructive' }, [el('h4', { text: item.label })]);
+        if (item.assessment) cc.appendChild(el('p', { text: item.assessment }));
+        if (item.strengths && item.strengths.length) cc.appendChild(el('div', { class: 'rh-good' }, [el('strong', { text: '잘된 점' }), el('ul', {}, item.strengths.map(function (x) { return el('li', { text: x }); }))]));
+        if (item.next && item.next.length) cc.appendChild(el('div', { class: 'rh-next' }, [el('strong', { text: '다음 단계' }), el('ul', {}, item.next.map(function (x) { return el('li', { text: x }); }))]));
+        if (opts.respond) { var rc = opts.respond(k); if (rc) cc.appendChild(rc); }
+        box.appendChild(cc);
+        return;
+      }
       var card = el('section', { class: 'rh-comment rh-critic-card is-' + item.severity }, [
         el('h4', {}, [item.label + ' ', el('span', { class: 'rh-sev', text: SEVERITY_LABELS[item.severity] || '' })])
       ]);
@@ -568,8 +694,22 @@
       if (item.finding) card.appendChild(el('p', { text: item.finding }));
       if (item.consequence) card.appendChild(el('p', {}, [el('strong', { text: '이대로 제출하면 ' }), item.consequence]));
       if (item.fixes && item.fixes.length) card.appendChild(el('ul', {}, item.fixes.map(function (f) { return el('li', { text: f }); })));
+      if (opts.respond) { var r = opts.respond(k); if (r) card.appendChild(r); }
       box.appendChild(card);
     });
+    if (feedback.rebuttals && feedback.rebuttals.length) {
+      var reb = el('section', { class: 'rh-comment rh-rebuttals' }, [el('h4', { text: '2차 피드백 불수용(반박)에 대한 검토' }),
+        el('p', { class: 'rh-hint', text: '불수용한 입장을 유지하는 것을 전제로, 반박의 타당성과 더 설득력 있게 만드는 방법을 정리했습니다.' })]);
+      feedback.rebuttals.forEach(function (x) {
+        reb.appendChild(el('div', { class: 'rh-rebuttal is-' + x.verdict }, [
+          el('p', {}, [el('strong', { text: x.label + ' ' }), el('span', { class: 'rh-sev', text: VERDICT_LABELS[x.verdict] || '' })]),
+          el('p', { class: 'rh-quote', text: '나의 반박: “' + x.rebuttal + '”' }),
+          el('p', { text: x.review }),
+          x.develop && x.develop.length ? el('ul', {}, x.develop.map(function (d) { return el('li', { text: d }); })) : null
+        ]));
+      });
+      box.appendChild(reb);
+    }
     return box;
   }
 
@@ -624,17 +764,25 @@
       rootEl.appendChild(el('p', { class: 'rh-notice', text: AI_NOTICE }));
       var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
         : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
-        : s.round === 2 ? '2차 피드백을 반영하는 단계입니다. 오른쪽의 새 의견을 보면서 왼쪽의 1차 수정본을 다시 다듬은 뒤 3차 저장해 주세요. 새 빈 작성란에서 다시 쓰는 방식이 아닙니다.'
-        : s.round === 3 ? '3차 피드백을 반영하는 마지막 단계입니다. 위의 핵심 정합성 점검 의견을 보면서 왼쪽의 수정본을 고친 뒤 최종 저장해 주세요. 최종 저장을 마쳐야 제출할 수 있습니다.'
+        : s.round === 2 ? '2차 피드백을 반영하는 단계입니다. 오른쪽 의견마다 수용·불수용을 선택하고, 불수용하면 그 이유(반박)를 적어 주세요. 수용한 의견은 왼쪽의 1차 수정본에 반영한 뒤 3차 저장합니다. 반박은 3차 점검에서 타당성을 검토받습니다.'
+        : s.round === 3 ? '3차 피드백을 반영하는 마지막 단계입니다. 위의 점검 의견마다 수용·불수용을 선택하고, 불수용하면 그 이유(반박)를 적어 주세요. 수용한 의견은 왼쪽 수정본에 반영한 뒤 최종 저장합니다. 최종 저장을 마쳐야 제출할 수 있습니다.'
         : '최종본이 연구계획서 형식으로 정리되었습니다. PDF에는 최종 연구계획서와 최초 작성본·세 차례의 피드백·수정본이 모두 포함됩니다.';
       rootEl.appendChild(el('p', { class: 'rh-revision-guide', text: guide }));
       if (s.round === 0 && !s.id) {
+        rootEl.appendChild(el('fieldset', { class: 'rh-type' }, [
+          el('legend', { text: '어떤 논문을 준비하나요?' }),
+          el('label', { class: 'rh-type-opt' }, [el('input', { type: 'radio', name: 'rh-type', value: 'thesis', checked: s.paperType === 'thesis', onchange: function () { app.setPaperType('thesis'); } }),
+            el('span', {}, [el('strong', { text: '학위논문용' }), el('span', { class: 'rh-hint', text: '3차 피드백은 학위논문 심사 기준으로 핵심 결함을 엄격하게 점검합니다.' })])]),
+          el('label', { class: 'rh-type-opt' }, [el('input', { type: 'radio', name: 'rh-type', value: 'article', checked: s.paperType === 'article', onchange: function () { app.setPaperType('article'); } }),
+            el('span', {}, [el('strong', { text: '소논문용(학술지 논문)' }), el('span', { class: 'rh-hint', text: '3차 피드백은 1·2차 피드백과 수정 과정을 종합해 논리성·이론적 정합성·방법의 타당성 중심으로 건설적인 의견을 드립니다.' })])])
+        ]));
         rootEl.appendChild(el('label', { class: 'rh-consent' }, [
           el('input', { type: 'checkbox', checked: s.consent, onchange: function (e) { app.setConsent(e.target.checked); } }),
           el('span', { text: AI_CONSENT || '1·2·3차 저장 시 이름을 제외한 연구 내용이 피드백 생성을 위해 외부 AI 서비스(Google Gemini API 무료 등급)로 전송되는 것에 동의합니다. 무료 등급 약관에 따라 Google이 전송 내용을 서비스 개선에 사용할 수 있고 사람 검토자가 읽을 수 있으므로, 민감한 개인정보나 공개되면 안 되는 내용은 적지 마세요. 이름과 작성 내용은 연구실의 비공개 저장소에 보관되며 공개 블로그에 게시되지 않습니다.' })
         ]));
       }
 
+      if (s.id && s.paperType) rootEl.appendChild(el('p', { class: 'rh-type-badge', text: '논문 유형: ' + PAPER_TYPE_LABELS[s.paperType] }));
       var nameField = FIELDS[0];
       rootEl.appendChild(el('div', { class: 'rh-name' }, [
         el('label', { for: 'rh-name', text: nameField.label }),
@@ -646,7 +794,12 @@
       var latest = s.feedback[2] || s.feedback[1] || null;
       var latestRound = s.feedback[2] ? 2 : 1;
       if (s.round >= 4) rootEl.appendChild(proposalPreview(record()));
-      if (s.feedback[3]) rootEl.appendChild(criticalNode(s.feedback[3]));
+      var canRespond = s.status !== 'submitted' && !s.busy;
+      function respond(to, key) {
+        var editable = canRespond && s.round === to;
+        return responseNode(to, key, s.responses[to][key], editable ? function (patch) { app.setResponse(to, key, patch); } : null);
+      }
+      if (s.feedback[3]) rootEl.appendChild(criticalNode(s.feedback[3], { respond: function (k) { return respond(3, k); } }));
       var grid = el('div', { class: 'rh-grid' + (latest ? ' has-comments' : '') });
       if (latest) grid.appendChild(el('div', { class: 'rh-grid-head', 'aria-hidden': 'true' }, [el('span', { text: s.round >= 4 ? '내가 작성한 내용 (최종 저장본)' : '내가 작성한 내용 (이 글을 이어서 수정)' }), el('span', { text: 'DrS comments · AI 생성 ' + latestRound + '차' })]));
       FEEDBACK_FIELDS.forEach(function (f) {
@@ -691,6 +844,7 @@
         if (latest) {
           var c = commentsNode(latest, latestRound);
           c.appendChild(itemNode(latest, f.key));
+          if (latestRound === 2 && latest.items && latest.items[f.key]) { var rn = respond(2, f.key); if (rn) c.appendChild(rn); }
           if (latestRound === 2 && s.feedback[1]) {
             c.appendChild(el('details', { class: 'rh-earlier' }, [el('summary', { text: '1차 질문 다시 보기' }), itemNode(s.feedback[1], f.key)]));
           }
@@ -719,7 +873,9 @@
         var label = s.round === 3 ? '최종 저장' : (s.round + 1) + '차 저장';
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', disabled: s.busy || !endpoint, onclick: doSave, text: s.busy ? busyLabel : label }));
         if (s.round < 2) actions.appendChild(el('span', { class: 'rh-hint', text: s.round === 0 ? '1차 피드백은 원고 근거를 짚고, 의도 확인 → 근거·가정 탐색 → 연구 항목 간 연결·수정 질문 순으로 생각을 돕습니다. 1–3분 걸릴 수 있습니다.' : '수정한 내용을 저장하면 검증된 SSCI 문헌에 근거한 2차 DrS comments가 표시됩니다. 2–5분 걸릴 수 있습니다.' }));
-        else if (s.round === 2) actions.appendChild(el('span', { class: 'rh-hint', text: '수정한 내용을 저장하면 연구목적·연구문제·연구모형·연구방법의 정합성을 점검한 3차 DrS comments가 표시됩니다. 1–3분 걸릴 수 있습니다.' }));
+        else if (s.round === 2) actions.appendChild(el('span', { class: 'rh-hint', text: s.paperType === 'article'
+          ? '수정한 내용을 저장하면 1·2차 피드백과 수정 과정을 종합해 논리성·이론적 정합성·방법의 타당성을 짚는 3차 종합 의견이 표시됩니다. 1–3분 걸릴 수 있습니다.'
+          : '수정한 내용을 저장하면 연구목적·연구문제·연구모형·연구방법의 정합성을 점검한 3차 DrS comments가 표시됩니다. 1–3분 걸릴 수 있습니다.' }));
         else actions.appendChild(el('span', { class: 'rh-hint', text: '최종 저장본이 연구계획서가 되며, 저장한 뒤 PDF로 내려받고 제출할 수 있습니다.' }));
       }
       rootEl.appendChild(actions);
@@ -779,7 +935,7 @@
       status(round === 4 ? '최종본을 저장하는 중입니다…' : '저장하고 피드백을 만드는 중입니다. 창을 닫지 말아 주세요.');
       p.then(function () {
         render();
-        status(round === 4 ? '최종 저장이 완료되었습니다. PDF를 내려받거나 제출해 주세요.' : round === 3 ? '3차 저장이 완료되었습니다. 위의 핵심 정합성 점검 의견을 참고해 왼쪽 내용을 수정한 뒤 최종 저장해 주세요.' : round + '차 저장이 완료되었습니다. 오른쪽 DrS comments를 참고해 왼쪽 내용을 수정해 주세요.');
+        status(round === 4 ? '최종 저장이 완료되었습니다. PDF를 내려받거나 제출해 주세요.' : round === 3 ? '3차 저장이 완료되었습니다. 위의 3차 의견마다 수용·불수용을 선택하고, 의견을 참고해 왼쪽 내용을 수정한 뒤 최종 저장해 주세요.' : round + '차 저장이 완료되었습니다. 오른쪽 DrS comments를 참고해 왼쪽 내용을 수정해 주세요.');
         var first = rootEl.querySelector('.rh-grid');
         if (first && first.scrollIntoView) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, function (err) {
@@ -848,8 +1004,10 @@
           body.appendChild(el('div', { class: 'rh-inputlog' + (lines.length ? ' is-flagged' : '') }, lines.length
             ? [el('strong', { text: '⚠ 입력 기록 · 이 저장 단계에서 붙여넣기·자동입력이 있었습니다' }), el('ul', {}, lines.map(function (l) { return el('li', { text: l }); }))]
             : [el('span', { text: '입력 기록: 이 저장 단계에서 붙여넣기·자동입력이 기록되지 않았습니다.' })]));
-          var perField = rev.feedback && rev.feedback.kind !== 'critical';
-          if (rev.feedback && rev.feedback.kind === 'critical') body.appendChild(criticalNode(rev.feedback));
+          var perField = rev.feedback && !isRound3(rev.feedback);
+          var answered = responsesSummary(rev.fields._responses);
+          if (answered) body.appendChild(answered);
+          if (isRound3(rev.feedback)) body.appendChild(criticalNode(rev.feedback));
           var grid = el('div', { class: 'rh-grid' + (perField ? ' has-comments' : '') });
           FIELDS.forEach(function (f) {
             var img = f.key === 'model' && rev.fields.modelImage && rec.images && rec.images[rev.fields.modelImage];

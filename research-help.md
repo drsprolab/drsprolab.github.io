@@ -11,6 +11,10 @@ lede: 최초 작성문을 1·2·3차 DrS comments를 보며 수정하고, 최종
 {% include research-help-tabs.html %}
 <p class="rh-admin-entry"><a class="rh-btn" href="{{ '/research-help/admin/' | relative_url }}">제출목록 확인하기</a></p>
 <section class="rh-intro" id="rh-intro" markdown="1">
+<nav class="rh-paths" aria-label="연구 도움 과정 선택" markdown="0">
+  <a class="rh-path is-new" href="{{ '/research-help/start/' | relative_url }}"><span class="rh-path-tag">처음이라면</span><strong>어서와, 연구는 처음이지?</strong><span>하고 싶은 것, 궁금한 것을 생각나는 대로 적으면 가능한 연구주제·변수·이론적 근거를 추천해 드립니다.</span><em>고민 적어 보기 →</em></a>
+  <a class="rh-path" href="#write"><span class="rh-path-tag">주제가 정해졌다면</span><strong>나의 연구 발전시키기</strong><span>최초 작성문을 1·2·3차 DrS comments를 보며 수정하고, 최종 수정본과 수정 이력을 함께 제출합니다.</span><em>작성 시작하기 →</em></a>
+</nav>
 <div class="rhg rhb" markdown="1">
 <section class="rhb-map" aria-labelledby="rhb-map-title" markdown="0">
 <h2 id="rhb-map-title">연구계획은 논문의 1~5장과 하나의 논리로 이어집니다</h2>
