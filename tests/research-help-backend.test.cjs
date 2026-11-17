@@ -610,14 +610,18 @@ const exploreOut = () => ({ understanding: '신입사원의 적응이 궁금합�
   titles: [1, 2, 3, 4].map(i => ({ title: `제목 ${i}`, note: `목적 ${i}에 맞춘 제목` })),
   problem: { text: '신입사원의 조기 이직이 반복됩니다. (Smith, 2018)', basis: '선배가 챙기는 팀 관찰' },
   purposes: [1, 2, 3, 4].map(i => ({ purpose: `목적 ${i}`, focus: 'f', rqs: ['RQ1', 'RQ2', 'RQ3', 'RQ4'] })),
-  theories: [{ name: '자기결정성 이론(Self-Determination Theory)', scholars: 'Deci & Ryan', core: 'c', logic: '이 이론을 사용하면 ...', caution: 'x' }, { name: '', scholars: '', core: '', logic: '', caution: '' }],
+  theories: [{ name: '자기결정성 이론(Self-Determination Theory)', scholars: 'Deci & Ryan', core: 'c', logic: '이 이론을 사용하면 ...', caution: 'x',
+    lens: { question: '무엇이 동기를 높이는가?', chain: [{ label: '선배 지원', kind: 'variable', note: '' }, { label: '관계 욕구 충족', kind: 'concept', note: '챙겨 준다고 느낌' }, { label: '이직의도', kind: 'variable', note: '낮아짐' }, { label: 'x', kind: 'concept', note: '' }, { label: 'y', kind: 'concept', note: '' }, { label: '여섯째', kind: 'concept', note: '' }], reading: '지원이 욕구를 채운다.', blind: '구조 요인' } }, { name: '', scholars: '', core: '', logic: '', caution: '' }],
   variables: { core: [{ name: '선배 지원', role: '독립변수', concept: 'c', measure: 'm' }, { name: '이상한', role: '모름', concept: 'c', measure: 'm' }],
     extra: [{ name: '조직사회화', role: '매개변수', concept: 'c', why: 'w', measure: 'm' }] },
-  model: { nodes: [{ id: 'X1', label: '선배 지원', role: '독립변수' }, { id: 'M1', label: '조직사회화', role: '매개변수' }, { id: 'Y1', label: '이직의도', role: '종속변수' },
-      { id: 'W1', label: '팀 분위기', role: '조절변수' }, { id: 'C1', label: '연령', role: '통제변수' }, { id: 'X1', label: '중복', role: '독립변수' }],
-    paths: [{ from: 'X1', to: 'M1' }, { from: 'M1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Z9' }, { from: 'C1', to: 'Y1' }],
-    moderations: [{ by: 'W1', from: 'X1', to: 'M1' }, { by: 'Y1', from: 'X1', to: 'M1' }, { by: 'W1', from: 'M1', to: 'X1' }], caption: '선배 지원이 조직사회화를 거쳐 이직의도와 관련됩니다.' },
-  methods: [{ name: '설문조사와 매개효과 분석', why: 'w', how: 'h' }],
+  models: [{ title: '모형 1: 매개모형', purposeNo: 9,
+      nodes: [{ id: 'X1', label: '선배 지원', role: '독립변수' }, { id: 'M1', label: '조직사회화', role: '매개변수' }, { id: 'Y1', label: '이직의도', role: '종속변수' },
+        { id: 'W1', label: '팀 분위기', role: '조절변수' }, { id: 'C1', label: '연령', role: '통제변수' }, { id: 'X1', label: '중복', role: '독립변수' }],
+      paths: [{ from: 'X1', to: 'M1' }, { from: 'M1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Y1' }, { from: 'X1', to: 'Z9' }, { from: 'C1', to: 'Y1' }],
+      moderations: [{ by: 'W1', from: 'X1', to: 'M1' }, { by: 'Y1', from: 'X1', to: 'M1' }, { by: 'W1', from: 'M1', to: 'X1' }], caption: '선배 지원이 조직사회화를 거쳐 이직의도와 관련됩니다.',
+      method: { name: '설문조사와 매개효과 분석', why: 'w', how: 'h' } },
+    { title: '노드가 모자란 모형', nodes: [{ id: 'X1', label: '하나', role: '독립변수' }], paths: [], moderations: [], caption: '', method: { name: 'm', why: 'w', how: 'h' } },
+    { title: '모형 3', nodes: [{ id: 'X1', label: '선배 지원', role: '독립변수' }, { id: 'Y1', label: '이직의도', role: '종속변수' }, { id: 'C1', label: '성별', role: '통제변수' }], paths: [{ from: 'X1', to: 'Y1' }], moderations: [], caption: 'c3', method: { name: '회귀', why: 'w', how: 'h' } }],
   considerations: [{ topic: '대상', detail: '어느 기업의 신입사원인가' }],
   keywords: ['newcomer adjustment'] });
 
@@ -637,11 +641,18 @@ test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 
   assert.equal(r.result.theories[0].scholars, 'Deci & Ryan');
   assert.equal(r.result.variables.core[1].role, '독립변수', '알 수 없는 역할은 기본값');
   assert.equal(r.result.variables.extra[0].name, '조직사회화');
-  const m = r.result.model;
+  assert.equal(r.result.models.length, 2, '노드가 2개 미만인 모형은 뺀다');
+  const m = r.result.models[0];
   assert.deepEqual(m.nodes.map(n => n.id), ['X1', 'M1', 'Y1', 'W1', 'C1'], '중복 id는 뺀다');
   assert.deepEqual(m.paths, [{ from: 'X1', to: 'M1' }, { from: 'M1', to: 'Y1' }, { from: 'X1', to: 'Y1' }], '없는 변수·통제변수·중복 경로는 뺀다');
   assert.deepEqual(m.moderations, [{ by: 'W1', from: 'X1', to: 'M1' }], '조절변수가 실제 경로를 가리킬 때만');
-  assert.equal(r.result.methods.length, 1);
+  assert.equal(m.purposeNo, 3, '연구목적 번호는 1~3 안으로');
+  assert.equal(m.method.name, '설문조사와 매개효과 분석');
+  assert.ok(r.result.models[1].nodes.some(n => n.role === '통제변수'), '통제변수는 노드로 남는다');
+  const lens = r.result.theories[0].lens;
+  assert.equal(lens.chain.length, 5, '렌즈 상자는 5개까지');
+  assert.equal(lens.chain[1].kind, 'concept');
+  assert.equal(lens.reading, '지원이 욕구를 채운다.');
   assert.equal(r.result.considerations[0].topic, '대상');
   const call = t.calls.ai.find(c => c.name === 'explore');
   assert.doesNotMatch(call.user, /홍길동/);
