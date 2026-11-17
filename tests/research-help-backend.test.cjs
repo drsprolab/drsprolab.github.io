@@ -286,6 +286,16 @@ test('Claude: 연구 모형 그림을 base64 이미지 블록으로 함께 보�
   assert.equal(r.ok, true, r.message);
   const content = t.calls.ai[0].body.messages[0].content;
   assert.ok(Array.isArray(content) && content.some(p => p.type === 'image' && p.source.type === 'base64' && p.source.media_type === 'image/png'));
+  assert.match(t.calls.ai[0].system, /화살표의 출발점·도착점·방향/);
+  assert.match(t.calls.ai[0].system, /그림과 설명의 일치·불일치·누락/);
+});
+
+test('이미지 요청이 거부되면 그림을 빼고 피드백을 생성하지 않는다', () => {
+  const t = setup({ props: { AI_PROVIDERS: 'claude', ANTHROPIC_API_KEY: 'test-anthropic-key' }, ai: { socratic_feedback: () => ({ httpError: 400 }) } });
+  const r = t.call({ action: 'save', round: 1, consent: true, fields: fields(), modelImageData: 'data:image/png;base64,' + Buffer.from('fake-png-bytes').toString('base64'), requestId: reqId() });
+  assert.equal(r.ok, false);
+  assert.equal(t.calls.ai.length, 1);
+  assert.equal(t.rows('Revisions')[0][4], 'failed');
 });
 
 test('Claude 한도 초과(429) 시 설정된 Gemini로 넘긴다', () => {

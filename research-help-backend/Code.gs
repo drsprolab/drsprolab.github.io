@@ -676,6 +676,7 @@ function providers_() {
 }
 
 function ai_(system, user, schema, image) {
+  if (image) system += ' 첨부 연구 모형 그림과 원고의 설명을 함께 읽는다. 그림에서 확인되는 변수명, 화살표의 출발점·도착점·방향, 실선·점선·양방향 관계선, 매개 경로와 조절변수가 가리키는 경로를 확인한다. 그림과 설명의 일치·불일치·누락을 해당 항목 피드백에 구체적으로 밝히고 연구목적·RQ·이론·분석방법과의 정합성을 점검한다. 양방향 선을 단방향 인과로 해석하거나 선의 교차점을 변수로 만들지 않는다. 그림에서 관찰한 내용과 설명에서 읽은 내용을 구분한다. 작은 글자나 불분명한 화살표는 추정하지 말고 해당 변수·경로의 확인 또는 그림 수정을 요청한다. 선 종류의 의미는 범례나 설명이 있을 때만 해석하며 화살표만으로 인과성이 입증되었다고 판단하지 않는다.';
   const list = providers_();
   if (!list.length) fail_('ai_not_configured', 'AI 피드백 서버 설정이 아직 완료되지 않았습니다.');
   for (let i = 0; i < list.length; i++) {
@@ -741,12 +742,6 @@ function claudeModel_(key, model, system, user, schema, image) {
   let request = build(!!image, false);
   const url = 'https://api.anthropic.com/v1/messages';
   let res = UrlFetchApp.fetch(url, request);
-  // 그림을 받지 못하면(400) 글만으로 다시 보낸다(그림 설명은 원고에 남아 있다).
-  if (image && res.getResponseCode() === 400) {
-    console.error('Claude 그림 입력 거부, 글만으로 재시도: ' + res.getContentText().slice(0, 300));
-    request = build(false, false);
-    res = UrlFetchApp.fetch(url, request);
-  }
   let lax = false;
   if (res.getResponseCode() === 400 && /grammar is too large/i.test(res.getContentText())) {
     console.error('Claude 스키마 너무 큼, 스키마 없이 JSON 지시로 재시도');
@@ -791,12 +786,6 @@ function geminiModel_(key, model, system, user, schema, image) {
   let request = build(!!image);
   const url = 'https://generativelanguage.googleapis.com/v1beta/interactions';
   let res = UrlFetchApp.fetch(url, request);
-  // 그림을 받지 못하는 모델이면 글만으로 다시 보낸다(그림 설명은 원고에 남아 있다).
-  if (image && res.getResponseCode() === 400) {
-    console.error('Gemini 그림 입력 거부, 글만으로 재시도: ' + res.getContentText().slice(0, 300));
-    request = build(false);
-    res = UrlFetchApp.fetch(url, request);
-  }
   // 일시적 과부하(500·503)는 잠시 기다렸다 두 번까지 다시 시도한다.
   for (let wait = 3000; (res.getResponseCode() === 503 || res.getResponseCode() === 500) && wait <= 6000; wait *= 2) {
     Utilities.sleep(wait);
@@ -882,7 +871,7 @@ function modelImage_(fields) {
     return { mimeType: blob.getContentType(), data: Utilities.base64Encode(blob.getBytes()) };
   } catch (err) {
     console.error('연구 모형 그림을 읽지 못함: ' + err);
-    return null;
+    fail_('model_image_failed', '첨부한 연구 모형 그림을 읽지 못했습니다. 그림을 다시 첨부한 뒤 저장해 주세요.');
   }
 }
 

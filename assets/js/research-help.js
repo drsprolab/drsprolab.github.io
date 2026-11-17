@@ -16,7 +16,7 @@
     { key: 'title', label: '연구제목', max: 300, hint: '연구의 핵심 변수·대상·관계가 드러나도록 작성합니다.' },
     { key: 'problem', label: '연구의 문제의식', max: 4000, hint: '왜 이 연구를 시작했는지, 기존 연구와 무엇이 다른지 적습니다.' },
     { key: 'purpose', label: '연구의 목적', max: 4000, hint: '문제의식에서 도출한 목적을 분명하게 적습니다.' },
-    { key: 'model', label: '연구 모형', max: 4000, hint: '변수와 관계(예: X → M → Y, 조절변수 W)를 글로 쓰거나, 연구 모형 그림 파일을 붙여넣기(⌘V/Ctrl+V)·끌어다 놓기로 넣습니다. 둘 다 써도 됩니다.' },
+    { key: 'model', label: '연구 모형', max: 4000, hint: '그림의 변수명·화살표 방향·관계선을 분명히 표시하고, 아래 설명란에 각 경로의 의미와 이론적 근거를 적어 주세요.' },
     { key: 'rq', label: 'RQ', max: 4000, hint: '연구문제를 번호를 붙여 적습니다.' },
     { key: 'theory', label: '이론적 근거', max: 4000, hint: '이 모형을 설명하는 이론과 그 논리를 적습니다.' },
     { key: 'method', label: '연구 방법', max: 4000, hint: '대상·표집·자료 구조·측정·분석 방법을 적습니다.' },
@@ -661,7 +661,17 @@
         trackInput(mine.querySelector('textarea'), f.key);
         if (f.key === 'model') {
           var textarea = mine.querySelector('textarea');
-          mine.appendChild(modelImageArea(locked));
+          var explanation = el('section', { class: 'rh-model-section', 'aria-label': '연구 모형 설명' });
+          var modelLabel = mine.querySelector('label');
+          modelLabel.textContent = '2. 연구 모형 설명';
+          textarea.setAttribute('placeholder', '예: X → M → Y는 매개 경로입니다. W는 X → M 관계를 조절합니다. 각 화살표와 선 종류의 의미, 이론적 근거를 설명해 주세요.');
+          explanation.appendChild(modelLabel);
+          explanation.appendChild(el('p', { class: 'rh-hint', text: '변수의 역할, 화살표의 출발·도착점, 매개·조절 관계, 실선·점선의 의미를 설명합니다. 그림과 설명을 함께 검토합니다.' }));
+          explanation.appendChild(textarea);
+          explanation.appendChild(counter);
+          mine.insertBefore(el('section', { class: 'rh-model-section', 'aria-label': '연구 모형 그림' }, [el('h3', { text: '1. 연구 모형 그림' }), modelImageArea(locked)]), mine.firstChild);
+          mine.insertBefore(el('h3', { text: '연구 모형' }), mine.firstChild);
+          mine.appendChild(explanation);
           if (!locked) {
             // 글 칸에 그림을 붙여 넣으면 그림으로 넣는다(글 붙여넣기는 그대로)
             textarea.addEventListener('paste', function (e) {
@@ -731,7 +741,12 @@
       var url = app.imageUrl();
       var input = el('input', { type: 'file', accept: 'image/png,image/jpeg,image/webp,image/gif', class: 'rh-file', 'aria-label': '연구 모형 그림 파일 선택',
         onchange: function (e) { var file = e.target.files && e.target.files[0]; if (file) takeImage(file); } });
-      var box = el('div', { class: 'rh-drop' + (url ? ' has-image' : '') + (locked ? ' is-locked' : '') });
+      var box = el('div', { class: 'rh-drop' + (url ? ' has-image' : '') + (locked ? ' is-locked' : ''), tabindex: locked ? '-1' : '0', role: 'group', 'aria-label': '연구 모형 그림 첨부. 이 영역을 클릭한 뒤 그림을 붙여넣으세요.' });
+      if (!locked) box.addEventListener('paste', function (e) {
+        var file = imageFrom(e.clipboardData);
+        if (file) { e.preventDefault(); takeImage(file); }
+        else status('클립보드에 그림이 없습니다. 그림을 복사하거나 파일 선택을 이용해 주세요.', true);
+      });
       if (url) {
         box.appendChild(el('img', { src: url, alt: '연구 모형 그림' }));
         if (!locked) box.appendChild(el('div', { class: 'rh-drop-actions' }, [
@@ -739,7 +754,7 @@
           el('button', { type: 'button', class: 'rh-link', onclick: function () { app.clearImage(); render(); status('연구 모형 그림을 뺐습니다.'); }, text: '그림 빼기' })
         ]));
       } else if (!locked) {
-        box.appendChild(el('p', { text: '연구 모형 그림을 여기로 끌어다 놓거나, 위 글 칸에 붙여넣기(⌘V/Ctrl+V) 하세요. ' }, [
+        box.appendChild(el('p', { text: '이 영역을 클릭한 뒤 그림을 붙여넣기(⌘V/Ctrl+V) 하거나 끌어다 놓으세요. PNG·JPG·WEBP·GIF 파일도 선택할 수 있습니다. ' }, [
           el('button', { type: 'button', class: 'rh-link', onclick: function () { input.click(); }, text: '파일 선택' })]));
       } else return el('span');
       if (!locked) box.appendChild(input);
@@ -747,6 +762,11 @@
     }
 
     function doSave() {
+      if (app.imageUrl() && !app.state.fields.model.trim()) {
+        status('연구 모형 그림에 대한 설명도 함께 작성해 주세요. 변수와 화살표의 의미를 적어 주세요.', true);
+        rootEl.querySelector('#rh-model').focus();
+        return;
+      }
       var round = app.state.round + 1;
       busyLabel = round === 4 ? '저장 중…' : round + '차 DrS comments를 만드는 중…';
       var p = app.save();
