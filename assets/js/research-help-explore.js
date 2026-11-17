@@ -141,7 +141,7 @@
   function render(box, r) {
     box.innerHTML = '';
     box.appendChild(el('div', { class: 'rhx-head' }, [el('h2', { text: '나의 고민을 연구로 바꿔 보기' }), el('span', { class: 'rhx-badge', text: 'DrS가 설계해 둔 논리적 흐름으로 제시합니다' })]));
-    if (r.understanding) box.appendChild(el('p', { class: 'rhx-understand' }, [el('strong', { text: '내가 이해한 고민 ' }), r.understanding]));
+    if (r.understanding) box.appendChild(el('p', { class: 'rhx-understand' }, [el('strong', { text: '여러분이 궁금해하는 것 ' }), r.understanding]));
     if ((r.titles || []).length) box.appendChild(el('section', { class: 'rhx-titles' }, [
       el('h3', { text: '이런 연구제목은 어떨까요?' }),
       el('ol', {}, r.titles.map(function (t) { return el('li', {}, [el('strong', { text: t.title }), t.note ? el('span', { text: t.note }) : null]); }))
@@ -169,16 +169,16 @@
         ]);
       })));
     var v = r.variables || {};
-    box.appendChild(step(4, '변수와 개념', '글에서 다루고 싶어 하는 변수와 그 개념, 그리고 함께 고려해 볼 수 있는 변수를 정리했어요.', [
+    box.appendChild(step(4, '변수와 개념', '여러분의 글에서 다루고 싶어 하는 변수와 그 뜻, 그리고 함께 생각해 볼 수 있는 변수를 정리했어요. 변수는 연구에서 재거나 비교하는 "달라질 수 있는 것"이에요.', [
       el('h4', { class: 'rhx-subhead', text: '사용하고자 하는 변수' }), varTable(v.core, false),
       v.extra && v.extra.length ? el('h4', { class: 'rhx-subhead', text: '추가로 고려해 볼 수 있는 변수' }) : null, varTable(v.extra, true)
     ]));
-    box.appendChild(step(5, '연구모형과 연구방법', '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 그래도 이런 연구모형이라면 이런 방법을 고려해 볼 수 있어요.', [
+    box.appendChild(step(5, '연구모형과 연구방법', '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 처음에는 "누구에게, 무엇을, 어떻게 물어볼까" 정도로 생각하면 충분해요. 이런 연구모형이라면 이런 방법을 고려해 볼 수 있어요.', [
       modelDiagram(r.model)
     ].concat((r.methods || []).map(function (m) {
-      return el('article', { class: 'rhx-card' }, [el('h4', { text: m.name }), el('p', {}, [el('b', { text: '왜 이 방법인가 ' }), m.why]), el('p', {}, [el('b', { text: '어떻게 진행하나 ' }), m.how])]);
+      return el('article', { class: 'rhx-card' }, [el('h4', { text: m.name }), el('p', {}, [el('b', { text: '왜 이 방법일까요 ' }), m.why]), el('p', {}, [el('b', { text: '어떻게 해 보면 될까요 ' }), m.how])]);
     }))));
-    box.appendChild(step(6, '앞으로 고민해야 할 부분', '연구계획을 쓰기 전에 아래 질문에 스스로 답해 보세요.', [
+    box.appendChild(step(6, '앞으로 생각해 볼 고민거리', '정답을 찾으려 하기보다, 아래 질문에 여러분의 말로 한 줄씩 답해 보세요.', [
       el('ol', { class: 'rhx-consider' }, (r.considerations || []).map(function (k) { return el('li', {}, [el('b', { text: k.topic }), el('span', { text: k.detail })]); }))
     ]));
     if ((r.keywords || []).length) box.appendChild(el('div', { class: 'rhx-kw' }, [el('b', { text: '선행연구 검색어 ' }),
