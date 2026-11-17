@@ -364,7 +364,7 @@
     return blocks;
   }
   function feedbackBlocks(feedback) {
-    var blocks = [{ type: 'note', text: AI_NOTICE + ' (' + (feedback.generatedBy || 'AI') + ')' }];
+    var blocks = [{ type: 'note', text: AI_NOTICE }];
     if (feedback.searchNote) blocks.push({ type: 'note', text: '문헌 확인 절차: ' + feedback.searchNote });
     if (isRound3(feedback)) {
       if (feedback.summary) blocks.push({ type: 'ci', text: '종합: ' + feedback.summary });

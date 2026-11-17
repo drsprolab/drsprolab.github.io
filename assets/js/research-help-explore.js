@@ -252,8 +252,7 @@
   function renderClarificationCard(c) {
     return el('article', { class: 'rh-clarify-card' }, [
       el('div', { class: 'rh-clarify-card-head' }, [
-        el('strong', { text: '추가 설명' }),
-        el('span', { class: 'rh-muted', text: c.generatedBy || 'AI' })
+        el('strong', { text: '추가 설명' })
       ]),
       c.summary ? el('p', { class: 'rh-clarify-summary', text: c.summary }) : null
     ].concat((c.items || []).map(function (it) {
@@ -381,7 +380,7 @@
         return el('li', {}, [el('a', { href: 'https://scholar.google.com/scholar?q=' + encodeURIComponent(k), target: '_blank', rel: 'noopener', text: k })]);
       }))]));
     box.appendChild(clarifySection(r, ctx));
-    box.appendChild(el('p', { class: 'rhx-note', text: '이 정리는 출발점입니다. 이론과 척도는 반드시 원문을 찾아 확인하고, 지도교수와 상의해 주제를 정하세요. (' + (r.generatedBy || 'AI') + ')' }));
+    box.appendChild(el('p', { class: 'rhx-note', text: '이 정리는 출발점입니다. 이론과 척도는 반드시 원문을 찾아 확인하고, 지도교수와 상의해 주제를 정하세요.' }));
     box.appendChild(el('div', { class: 'rhx-actions' }, [
       el('button', { type: 'button', class: 'rh-btn', text: '다시 써서 추천받기', onclick: function () { document.getElementById('rhx-text').focus(); window.scrollTo({ top: document.getElementById('rh-explore').offsetTop - 80, behavior: 'smooth' }); } }),
       el('button', { type: 'button', class: 'rh-btn', text: '인쇄 · PDF로 저장', onclick: function () { window.print(); } })
