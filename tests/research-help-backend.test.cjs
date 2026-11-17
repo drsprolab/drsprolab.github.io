@@ -714,3 +714,27 @@ test('학위논문(또는 유형 미지정)은 지금처럼 심사자식 3차 �
   t.call(Object.assign({ action: 'save', round: 2, fields: fields(), requestId: reqId() }, auth));
   assert.equal(t.call(Object.assign({ action: 'save', round: 3, fields: fields(), requestId: reqId() }, auth)).feedback.kind, 'critical');
 });
+
+test('피드백 추가 설명(clarify): 선택한 항목에 대한 쉬운 설명·예시를 돌려주고 해당 차수 피드백에 저장한다', () => {
+  const clarifyOut = () => ({
+    summary: '연구의 목적과 이론적 근거를 일상적인 말로 풀어 보았습니다.',
+    items: [
+      { topic: 'purpose', easyExplanation: '목적은 이 연구를 통해 결국 무엇을 밝히고 싶은지 한 문장으로 정리하는 부분입니다.', examples: ['예: 신입사원의 적응을 돕는 선배 지원의 역할을 확인하는 것입니다.'], checkTip: '문제의식에서 던진 질문에 목적 문장이 직접 답하고 있는지 확인해 보세요.' },
+      { topic: 'theory', easyExplanation: '이론적 근거는 왜 변수들이 서로 연결되는지 설명해 주는 렌즈입니다. (Kim, 2019)', examples: ['예: 사회적 교환 이론으로 선배의 도움이 보답 행동으로 이어진다고 설명할 수 있습니다.'], checkTip: '모형의 화살표마다 이론으로 설명되는지 한 줄씩 점검해 보세요.' }
+    ]
+  });
+  const t = setup({ ai: { socratic_feedback: socratic, clarify_feedback: clarifyOut } });
+  const r1 = t.call({ action: 'save', round: 1, consent: true, fields: fields(), requestId: reqId() });
+  const auth = { id: r1.id, token: r1.token };
+  assert.equal(t.call(Object.assign({ action: 'clarify', round: 1, topics: [] }, auth)).error, 'invalid_fields');
+  assert.equal(t.call(Object.assign({ action: 'clarify', round: 2, topics: ['purpose'] }, auth)).error, 'bad_round');
+  const c = t.call(Object.assign({ action: 'clarify', round: 1, topics: ['purpose', 'theory'], note: '이론 연결이 어렵습니다.' }, auth));
+  assert.equal(c.ok, true, c.message);
+  assert.equal(c.round, 1);
+  assert.equal(c.clarification.items.length, 2);
+  assert.equal(c.clarification.items[0].label, '연구의 목적');
+  assert.doesNotMatch(c.clarification.items[1].easyExplanation, /Kim, 2019/);
+  const loaded = t.call(Object.assign({ action: 'load' }, auth));
+  assert.equal(loaded.revisions[0].feedback.clarifications.length, 1);
+  assert.equal(loaded.revisions[0].feedback.clarifications[0].note, '이론 연결이 어렵습니다.');
+});

@@ -209,6 +209,31 @@
       }, function (err) { state.busy = false; throw err; });
     }
 
+    function clarify(opts) {
+      opts = opts || {};
+      if (state.busy) return Promise.reject(new Error('처리 중입니다. 잠시 기다려 주세요.'));
+      if (state.status === 'submitted') return Promise.reject(new Error('이미 제출되었습니다.'));
+      if (state.round < 1 || state.round > 3 || !state.feedback[state.round]) {
+        return Promise.reject(new Error('피드백을 받은 1·2·3차 단계에서만 추가 설명을 요청할 수 있습니다.'));
+      }
+      var seen = {};
+      var topics = (Array.isArray(opts.topics) ? opts.topics : []).map(function (t) { return String(t || '').trim(); })
+        .filter(function (t) { return t && !seen[t] && (seen[t] = true); });
+      if (!topics.length) return Promise.reject(new Error('더 설명이 필요한 부분을 하나 이상 선택해 주세요.'));
+      var note = String(opts.note || '').trim().slice(0, 500);
+      var targetRound = state.round;
+      state.busy = true;
+      return call({ action: 'clarify', id: state.id, token: state.token, round: targetRound, topics: topics, note: note }, 1)
+        .then(function (res) {
+          var fb = state.feedback[targetRound];
+          if (fb && res.clarification) {
+            fb.clarifications = (fb.clarifications || []).concat([res.clarification]);
+          }
+          state.busy = false;
+          return res;
+        }, function (err) { state.busy = false; throw err; });
+    }
+
     // 이 기기에 남은 저장 기록으로 이어서 작성한다.
     function resume() {
       var saved = storage.get();
@@ -266,7 +291,7 @@
       setImage: function (dataUrl) { state.imagePending = dataUrl; },
       clearImage: function () { state.imagePending = null; state.fields.modelImage = ''; },
       imageUrl: function () { return state.imagePending || state.images[state.fields.modelImage] || null; },
-      save: save, submit: submit, resume: resume, reset: reset
+      save: save, submit: submit, clarify: clarify, resume: resume, reset: reset
     };
   }
 
@@ -727,7 +752,16 @@
       transport: endpoint ? function (body) { return post(endpoint, body, body.round === 2 ? 330000 : 200000); } : null,
       storage: webStorage('localStorage', STORE_KEY)
     });
-    var statusEl, busyLabel = '';
+    var statusEl, busyLabel = '', clarifyTopics = {}, clarifyNote = '', clarifying = false;
+    var CLARIFY_OPTIONS = [
+      { key: 'purpose', label: '연구의 목적' },
+      { key: 'theory', label: '이론적 근거' },
+      { key: 'method', label: '연구 방법' },
+      { key: 'problem', label: '연구의 문제의식' },
+      { key: 'model', label: '연구 모형' },
+      { key: 'rq', label: 'RQ' },
+      { key: 'implications', label: '기대시사점' }
+    ];
 
     function status(msg, isError) {
       if (!statusEl) return;
@@ -864,6 +898,9 @@
         rootEl.appendChild(el('details', { class: 'rh-saved-editor' }, [el('summary', { text: '작성 항목과 1·2차 피드백 다시 보기' }), grid]));
       } else rootEl.appendChild(grid);
       if (latest && latest.searchNote) rootEl.appendChild(el('p', { class: 'rh-note', text: '문헌 확인 절차: ' + latest.searchNote + ' 문헌 근거는 초록과 서지정보 범위에서만 사용했으며, 원문 내용은 직접 확인해 주세요.' }));
+      if (s.round >= 1 && s.round <= 3 && s.status !== 'submitted' && s.feedback[s.round]) {
+        rootEl.appendChild(clarifySection(s.round, s.feedback[s.round], s.busy, endpoint));
+      }
 
       var actions = el('div', { class: 'rh-actions' });
       if (s.status === 'submitted') {
@@ -896,6 +933,98 @@
             if (window.confirm('이 기기에서 이어쓰기 기록을 지우고 새로 작성할까요? 서버에 저장된 내용은 삭제되지 않습니다.')) { app.reset(); render(); }
           }, text: '새로 작성하기' })]));
       }
+    }
+
+    function clarifySection(round, feedback, busy, endpoint) {
+      var list = (feedback && feedback.clarifications) || [];
+      var sec = el('section', { class: 'rh-clarify', 'aria-label': '피드백 추가 설명 요청' }, [
+        el('h3', { class: 'rh-clarify-title', text: '더 설명이 필요한 부분이 있나요?' }),
+        el('p', { class: 'rh-hint', text: round + '차 피드백 중 이해하기 어렵거나 구체적인 예시가 더 필요한 부분을 체크해 제출하면, 쉬운 설명과 예시를 추가로 받아볼 수 있습니다.' })
+      ]);
+      var checks = el('fieldset', { class: 'rh-clarify-checks' }, [
+        el('legend', { text: '어떤 부분의 추가 설명이 필요한가요?' })
+      ].concat(CLARIFY_OPTIONS.map(function (opt) {
+        return el('label', { class: 'rh-clarify-opt' }, [
+          el('input', {
+            type: 'checkbox',
+            value: opt.key,
+            checked: !!clarifyTopics[opt.key],
+            disabled: busy,
+            onchange: function (e) { clarifyTopics[opt.key] = e.target.checked; }
+          }),
+          el('span', { text: opt.label })
+        ]);
+      })));
+      sec.appendChild(checks);
+      sec.appendChild(el('div', { class: 'rh-clarify-note' }, [
+        el('label', { for: 'rh-clarify-note', text: '피드백에서 특히 어려웠던 내용이나 궁금한 점 (선택)' }),
+        el('textarea', {
+          id: 'rh-clarify-note', rows: '2', maxlength: '500', readonly: busy,
+          placeholder: '예: 이론적 근거에서 모형 경로를 설명하라는 부분이 잘 이해되지 않습니다.',
+          oninput: function (e) { clarifyNote = e.target.value; }
+        }, [clarifyNote])
+      ]));
+      sec.appendChild(el('div', { class: 'rh-clarify-actions' }, [
+        el('button', {
+          type: 'button', class: 'rh-btn', disabled: busy || !endpoint,
+          onclick: doClarify,
+          text: clarifying ? '추가 설명을 만드는 중…' : '추가 설명 받기'
+        })
+      ]));
+      if (list.length) {
+        var results = el('div', { class: 'rh-clarify-results' });
+        list.forEach(function (c, idx) {
+          var card = el('div', { class: 'rh-clarify-card' }, [
+            el('div', { class: 'rh-clarify-card-head' }, [
+              el('strong', { text: '추가 설명 ' + (idx + 1) }),
+              el('span', { class: 'rh-ai-badge', text: (c.items || []).map(function (it) { return it.label; }).join(' · ') })
+            ])
+          ]);
+          if (c.summary) card.appendChild(el('p', { class: 'rh-clarify-summary', text: c.summary }));
+          (c.items || []).forEach(function (it) {
+            var itemBox = el('div', { class: 'rh-clarify-item' }, [
+              el('h4', { text: it.label }),
+              el('p', { text: it.easyExplanation })
+            ]);
+            if (it.examples && it.examples.length) {
+              itemBox.appendChild(el('strong', { class: 'rh-clarify-sub', text: '구체적인 예시' }));
+              itemBox.appendChild(el('ul', {}, it.examples.map(function (ex) { return el('li', { text: ex }); })));
+            }
+            if (it.checkTip) {
+              itemBox.appendChild(el('p', { class: 'rh-clarify-tip' }, [el('strong', { text: '수정할 때 확인해 볼 점 ' }), it.checkTip]));
+            }
+            card.appendChild(itemBox);
+          });
+          results.appendChild(card);
+        });
+        sec.appendChild(results);
+      }
+      return sec;
+    }
+
+    function doClarify() {
+      var topics = CLARIFY_OPTIONS.map(function (o) { return o.key; }).filter(function (k) { return !!clarifyTopics[k]; });
+      if (!topics.length) {
+        status('더 설명이 필요한 부분을 하나 이상 체크해 주세요.', true);
+        return;
+      }
+      clarifying = true;
+      var p = app.clarify({ topics: topics, note: clarifyNote });
+      render();
+      status('선택한 부분에 대한 쉬운 설명과 예시를 만드는 중입니다…');
+      p.then(function () {
+        clarifying = false;
+        clarifyTopics = {};
+        clarifyNote = '';
+        render();
+        status('추가 설명이 아래에 표시되었습니다. 참고해 글을 수정해 보세요.');
+        var resEl = rootEl.querySelector('.rh-clarify-results');
+        if (resEl && resEl.scrollIntoView) resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, function (err) {
+        clarifying = false;
+        render();
+        status(err.message, true);
+      });
     }
 
     function takeImage(file) {

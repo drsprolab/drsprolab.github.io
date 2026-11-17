@@ -50,7 +50,7 @@ function doPost(e) {
 }
 
 function handle_(body) {
-  const handlers = { save: save_, load: load_, submit: submit_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_,
+  const handlers = { save: save_, load: load_, submit: submit_, clarify: clarify_, image: image_, adminLogin: adminLogin_, adminList: adminList_, adminGet: adminGet_,
     quizQuestions: quizQuestions_, quizSubmit: quizSubmit_, adminQuizList: adminQuizList_, explore: explore_ };
   const handler = handlers[body && body.action];
   if (!handler) return { ok: false, error: 'unsupported', message: '지원하지 않는 요청입니다.' };
@@ -216,6 +216,113 @@ function submit_(b) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// ---------- 피드백 추가 설명 (이해가 어려운 항목에 대한 쉬운 풀이·예시) ----------
+function clarify_(b) {
+  const round = Number(b.round);
+  if ([1, 2, 3].indexOf(round) < 0) fail_('bad_round', '피드백을 받은 1·2·3차 단계에서만 추가 설명을 요청할 수 있습니다.');
+  const seen = {};
+  const topics = (Array.isArray(b.topics) ? b.topics : []).map(t => String(t || '').trim())
+    .filter(t => FEEDBACK_KEYS.indexOf(t) >= 0 && !seen[t] && (seen[t] = true)).slice(0, 8);
+  if (!topics.length) fail_('invalid_fields', '더 설명이 필요한 부분을 하나 이상 선택해 주세요.');
+  const note = clip_(String(b.note || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, ''), 500);
+
+  let sub, targetRev;
+  const lock = LockService.getScriptLock();
+  waitLock_(lock);
+  try {
+    sub = authorize_(b.id, b.token);
+    if (sub.status !== 'draft') fail_('already_submitted', '이미 제출된 연구계획서입니다.');
+    targetRev = revisions_(sub.id).filter(r => r.round === round && r.status === 'ok').pop();
+    if (!targetRev || !targetRev.feedback) fail_('bad_round', '해당 차수의 피드백을 찾을 수 없습니다.');
+    reserveAi_(1, sub, b.token);
+  } finally {
+    lock.releaseLock();
+  }
+
+  const clarification = clarifyFeedback_(targetRev.fields, targetRev.feedback, round, topics, note);
+
+  waitLock_(lock);
+  try {
+    const latestRev = revisions_(sub.id).filter(r => r.round === round && r.status === 'ok').pop();
+    if (!latestRev || !latestRev.feedback) fail_('bad_round', '해당 차수의 피드백을 찾을 수 없습니다.');
+    const updatedFeedback = Object.assign({}, latestRev.feedback);
+    updatedFeedback.clarifications = (updatedFeedback.clarifications || []).concat([clarification]);
+    const feedbackJson = JSON.stringify(updatedFeedback);
+    if (feedbackJson.length > 49000 || String(latestRev.fieldsJson || '').length + feedbackJson.length > 90000) {
+      fail_('too_large', '저장할 추가 설명 용량을 초과했습니다.');
+    }
+    const updatedRow = Object.assign({}, latestRev, { feedbackJson: feedbackJson });
+    writeRow_('Revisions', latestRev._row, updatedRow);
+    return { round: round, clarification: clarification };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function clarifyFeedback_(fields, feedback, round, topics, note) {
+  const allLabels = labels_();
+  const selected = topics.map(k => ({ key: k, label: allLabels[k] || k }));
+  const system = '당신은 교육공학·HRD 분야 지도교수의 연구계획 지도를 돕는 친절한 조교다. ' + GUARD +
+    ' 작성자가 ' + round + '차 피드백을 읽고, 특히 이해하기 어렵거나 추가 설명이 필요하다고 선택한 항목(selectedTopics)과 메모(studentNote)에 대해 더 쉬운 설명과 구체적인 예시를 제공한다. ' +
+    '어려운 학술 용어나 추상적인 지적을 그대로 반복하지 말고, 연구를 처음 준비하는 사람도 바로 이해할 수 있도록 일상적이고 쉬운 말로 풀어서 설명한다. 꼭 필요한 전문 용어는 처음 나올 때 괄호 안에 쉬운 뜻을 적는다. ' +
+    'summary에는 작성자가 헷갈려하는 핵심 지점을 1~2문장으로 따뜻하게 짚어 준다. ' +
+    'items 배열에는 selectedTopics에 있는 각 항목마다 정확히 하나의 객체를 만든다(topic은 입력된 key 문자열 그대로). ' +
+    'easyExplanation에는 그 피드백이 왜 나왔는지, 실제로 무슨 뜻인지를 3~5문장으로 아주 쉽게 풀어서 설명한다. ' +
+    'examples에는 작성자의 실제 연구 주제·변수·대상에 맞춘 구체적인 예시를 2~3개 적는다(예: 여러분의 연구에서는 ...). ' +
+    'checkTip에는 지금 당장 자신의 글을 수정할 때 무엇을 먼저 확인하면 되는지 1~2문장으로 구체적인 행동 팁을 적는다. ' +
+    '확인되지 않은 문헌·저자·연도·DOI를 지어내지 않는다.';
+  const user = JSON.stringify({
+    round: round,
+    selectedTopics: selected,
+    studentNote: note || '',
+    manuscript: aiManuscript_(fields),
+    feedback: feedback
+  });
+  const result = ai_(system, user, clarifySchema_(), modelImage_(fields));
+  const raw = result.data || {};
+  const clean = (text, max) => stripCitations_(clip_(text, max), []);
+  const byTopic = {};
+  (Array.isArray(raw.items) ? raw.items : []).forEach(it => {
+    if (it && typeof it === 'object' && it.topic && !byTopic[it.topic]) byTopic[it.topic] = it;
+  });
+  const items = selected.map(s => {
+    const it = byTopic[s.key] || {};
+    return {
+      topic: s.key,
+      label: s.label,
+      easyExplanation: clean(it.easyExplanation || '선택하신 항목의 피드백을 더 쉽게 풀어서 설명해 드립니다.', 1800),
+      examples: (Array.isArray(it.examples) ? it.examples : []).slice(0, 3).map(ex => clean(ex, 600)).filter(Boolean),
+      checkTip: clean(it.checkTip || '', 500)
+    };
+  });
+  return {
+    round: round,
+    topics: topics,
+    note: note,
+    summary: clean(raw.summary || '', 600),
+    items: items,
+    generatedBy: result.by,
+    createdAt: now_()
+  };
+}
+
+function clarifySchema_() {
+  const str = { type: 'string' }, strs = { type: 'array', items: str };
+  return {
+    type: 'object', additionalProperties: false, required: ['summary', 'items'],
+    properties: {
+      summary: str,
+      items: {
+        type: 'array',
+        items: {
+          type: 'object', additionalProperties: false, required: ['topic', 'easyExplanation', 'examples', 'checkTip'],
+          properties: { topic: str, easyExplanation: str, examples: strs, checkTip: str }
+        }
+      }
+    }
+  };
 }
 
 function validateFields_(raw, hasImage) {

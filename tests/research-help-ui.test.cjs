@@ -36,6 +36,9 @@ function fakeServer() {
         feedback: body.round < 4 ? feedback(body.round) : null, submission: { round: body.round, status: 'draft' } };
     }
     if (body.action === 'submit') return s.round === 4 ? { ok: true, submission: { status: 'submitted' } } : { ok: false, error: 'not_ready', message: '최종 저장 필요' };
+    if (body.action === 'clarify') {
+      return { ok: true, round: body.round, clarification: { round: body.round, topics: body.topics, note: body.note || '', summary: '쉬운 요약', items: body.topics.map(t => ({ topic: t, label: t, easyExplanation: '쉬운 설명', examples: ['예시 1'], checkTip: '확인 팁' })) } };
+    }
     return { ok: false, error: 'unsupported' };
   };
   return s;
@@ -336,4 +339,19 @@ test('소논문 3차 종합 의견과 반박 검토를 PDF에 담는다', () => 
   assert.match(text, /다음 단계: 시사점 정리/);
   assert.match(text, /RQ: 순서 정리/);
   assert.match(text, /연구 방법 · 타당함: 타당합니다/);
+});
+
+test('피드백 추가 설명: 1·2·3차 피드백을 받은 뒤 어려운 항목을 선택해 쉬운 설명과 예시를 받아 둔다', async () => {
+  const server = fakeServer();
+  const app = RH.createController({ transport: server.transport });
+  app.setFields(fields()); app.setConsent(true); app.setPaperType('thesis');
+  await assert.rejects(app.clarify({ topics: ['purpose'] }), /1·2·3차 단계에서만/);
+  await app.save();
+  await assert.rejects(app.clarify({ topics: [] }), /하나 이상 선택/);
+  const res = await app.clarify({ topics: ['purpose', 'theory'], note: '이론적 근거 연결이 어렵습니다.' });
+  assert.equal(res.clarification.items.length, 2);
+  assert.equal(app.state.feedback[1].clarifications.length, 1);
+  assert.equal(app.state.feedback[1].clarifications[0].summary, '쉬운 요약');
+  assert.equal(server.calls[server.calls.length - 1].action, 'clarify');
+  assert.equal(server.calls[server.calls.length - 1].round, 1);
 });
