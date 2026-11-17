@@ -94,7 +94,7 @@
   }
 
   var AUTO_INPUT_MIN = 40; // 한 번의 입력으로 이만큼 이상 늘면 자동입력으로 본다
-  var RULE_TEXT = '복사 붙이기는 원칙적으로 금지입니다. 복사 붙이기를 하거나 자동입력 기능을 사용하는 경우 관리자 기록에 그대로 남게 됩니다.';
+  var RULE_TEXT = '타이핑을 하면서 여러분들의 생각이 더 잘 정리 될 수 있습니다. 마치 노트 필기 하는 것과 같은 원리로 보면 됩니다. 가급적 본인의 인지적 사고를 통해서 생각하고 AI 에게 도움을 받는 것을 추천합니다.';
   // 저장본의 입력 기록(fields._input)을 사람이 읽는 문장 목록으로 바꾼다
   function inputLogLines(log) {
     var out = [];
@@ -768,7 +768,7 @@
         return el('li', { class: i < stepIndex ? 'is-done' : i === stepIndex ? 'is-current' : '', 'aria-current': i === stepIndex ? 'step' : false, text: label });
       })));
       if (!endpoint) rootEl.appendChild(el('p', { class: 'rh-status is-error', text: '서버 연결 준비 중입니다. 지금은 작성 내용을 저장할 수 없습니다.' }));
-      rootEl.appendChild(el('div', { class: 'rh-rule', role: 'note' }, [el('strong', { class: 'rh-rule-title', text: '실습 시 주의사항' }), el('p', { class: 'rh-rule-text' }, [el('mark', { text: '복사 붙이기는 원칙적으로 금지' }), '입니다. 복사 붙이기를 하거나 자동입력 기능을 사용하는 경우 ', el('mark', { text: '관리자 기록에 그대로 남게' }), ' 됩니다.'])]));
+      rootEl.appendChild(el('div', { class: 'rh-rule', role: 'note' }, [el('strong', { class: 'rh-rule-title', text: '실습 시 주의사항' }), el('p', { class: 'rh-rule-text' }, ['타이핑을 하면서 여러분들의 생각이 더 잘 정리 될 수 있습니다. 마치 노트 필기 하는 것과 같은 원리로 보면 됩니다. ', el('mark', { text: '가급적 본인의 인지적 사고를 통해서 생각하고 AI 에게 도움을 받는 것을 추천합니다.' })])]));
       rootEl.appendChild(el('p', { class: 'rh-notice', text: AI_NOTICE }));
       var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
         : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
