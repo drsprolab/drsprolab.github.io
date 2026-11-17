@@ -194,7 +194,7 @@
 
   function mount(root) {
     var endpoint = root.getAttribute('data-endpoint');
-    var text = root.querySelector('#rhx-text'), name = root.querySelector('#rhx-name'), count = root.querySelector('#rhx-count');
+    var text = root.querySelector('#rhx-text'), count = root.querySelector('#rhx-count');
     var go = root.querySelector('#rhx-go'), statusEl = root.querySelector('#rhx-status'), result = root.querySelector('#rhx-result');
     function status(msg, isError) { statusEl.textContent = msg || ''; statusEl.className = 'rh-status' + (isError ? ' is-error' : '') + (msg ? '' : ' is-empty'); }
     text.value = store();
@@ -203,12 +203,11 @@
     text.addEventListener('input', function () { counted(); store(text.value); });
     go.addEventListener('click', function () {
       var v = text.value.trim();
-      if (!name.value.trim()) { status('이름을 입력해 주세요.', true); name.focus(); return; }
       if (v.length < 30) { status('고민하는 내용을 30자 이상 적어 주세요. 떠오르는 대로 편하게 써도 됩니다.', true); text.focus(); return; }
       if (!endpoint) { status('서버 연결이 설정되지 않았습니다.', true); return; }
       go.disabled = true; go.textContent = '추천을 만드는 중…';
       status('글을 읽고 문제의식부터 연구모형까지 정리하는 중입니다. 1~2분 걸릴 수 있으니 창을 닫지 말아 주세요.');
-      post(endpoint, { action: 'explore', name: name.value.trim(), text: v }, 180000).then(function (res) {
+      post(endpoint, { action: 'explore', name: '익명', text: v }, 180000).then(function (res) {
         go.disabled = false; go.textContent = '연구주제 추천받기';
         if (!res || res.ok !== true) { status((res && res.message) || '추천을 만들지 못했습니다.', true); return; }
         status('');
