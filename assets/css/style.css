@@ -2620,3 +2620,6 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 .rhx-consider span { color: var(--muted); font-size: 14.5px; }
 .rhx-kw { display: grid; gap: 6px; }
 .rhx-step, .rhx-card, .rhx-model, .rhx-titles { break-inside: avoid; }
+.rhx-tips ul { margin: 0; padding-left: 1.2em; }
+.rhx-tips p { margin: 6px 0 0; font-weight: 700; color: var(--accent); }
+div.rhx-tips { padding: 12px 16px; }

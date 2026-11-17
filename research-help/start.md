@@ -11,14 +11,17 @@ lede: 무엇을 연구하고 싶은지 아직 정리되지 않아도 괜찮습�
 
 <div id="rh-explore" class="rhx" data-endpoint="{{ site.research_help_script_url | escape }}">
   <section class="rhx-write" aria-labelledby="rhx-write-title">
-    <h2 id="rhx-write-title">내가 고민하는 내용 작성하기</h2>
-    <p>정답을 쓰는 칸이 아닙니다. 하고 싶은 것, 궁금한 것, 현장에서 겪은 일, 답답했던 장면을 떠오르는 대로 줄글로 적어 주세요.</p>
-    <ul class="rhx-tips">
-      <li>요즘 가장 궁금하거나 신경 쓰이는 현상은 무엇인가요?</li>
-      <li>누구(학생, 신입사원, 리더, 교사 등)에게 일어나는 일인가요?</li>
-      <li>무엇이 무엇에 영향을 주는 것 같다고 느꼈나요?</li>
-      <li>이 연구가 끝나면 누구에게 어떤 도움이 되면 좋겠나요?</li>
-    </ul>
+    <h2 id="rhx-write-title">뭔지는 모르겠는데 연구가 하고 싶다!</h2>
+    <p>연구가 무엇인지 몰라도 됩니다. 조금씩 알아가면 여러분들도 논문을 쓸 수 있습니다.</p>
+    <div class="rhx-tips">
+      <ul>
+        <li>내가 수업을 들으면서 궁금했던 것</li>
+        <li>내가 공부를 하면서 궁금했던 것</li>
+        <li>뭔지는 알겠는데 주제를 어떻게 생각해 봐야 할지 모를 때</li>
+        <li>뭔지 조금은 감이 오는데 어떻게 시작할지 모를 때</li>
+      </ul>
+      <p>여기에서 시작해 보세요.</p>
+    </div>
     <label class="rhx-label" for="rhx-name">이름 <span class="rhx-req">(필수)</span></label>
     <input id="rhx-name" class="rhx-name" type="text" maxlength="80" autocomplete="name" required>
     <label class="rhx-label" for="rhx-text">고민하는 내용</label>
