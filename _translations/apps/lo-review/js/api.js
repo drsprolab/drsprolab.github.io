@@ -32,8 +32,9 @@
   var bestAdminActive = false;
   function getPass() { try { return localStorage.getItem(PASS_KEY) || ''; } catch (e) { return ''; } }
   function setPass(v) { try { if (v) localStorage.setItem(PASS_KEY, v); else localStorage.removeItem(PASS_KEY); } catch (e) {} }
-  function getBestAdminPass() { try { return sessionStorage.getItem(BEST_ADMIN_PASS_KEY) || ''; } catch (e) { return ''; } }
-  function setBestAdminPass(v) { try { if (v) sessionStorage.setItem(BEST_ADMIN_PASS_KEY, v); else sessionStorage.removeItem(BEST_ADMIN_PASS_KEY); } catch (e) {} }
+  // 관리자 비밀번호는 이 기기(교수님 컴퓨터)에만 기억한다. '관리자 나가기'를 누르면 지운다. 서버는 매번 이 키를 다시 확인한다.
+  function getBestAdminPass() { try { return localStorage.getItem(BEST_ADMIN_PASS_KEY) || ''; } catch (e) { return ''; } }
+  function setBestAdminPass(v) { try { if (v) localStorage.setItem(BEST_ADMIN_PASS_KEY, v); else localStorage.removeItem(BEST_ADMIN_PASS_KEY); } catch (e) {} }
   var NEVER = new Promise(function () {});
 
   function activateBestAdmin() {
@@ -545,6 +546,10 @@
     doiUrl: doiUrl,
     isLocal: BACKEND === 'local',
     isBestAdmin: function () { return bestAdminActive; },
+    // 서버 호출이 없는 페이지(Course Materials)도 수강생 비밀번호를 묻는다
+    requirePass: function () { if (BACKEND === 'google' && !getPass()) needGate(); },
+    hasBestAdminPass: function () { return !!getBestAdminPass(); },
+    clearBestAdmin: function () { setBestAdminPass(''); bestAdminActive = false; },
     activateBestAdmin: activateBestAdmin,
     esc: esc,
     toLines: toLines,

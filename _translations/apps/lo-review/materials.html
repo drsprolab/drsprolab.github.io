@@ -134,22 +134,7 @@
   <div class="container copyright">PRO AnalytiX Lab · DET9111 학습조직</div>
 </footer>
 
-<script>
-(function () {
-  var saved = null;
-  try { saved = localStorage.getItem('paperlog-theme'); } catch (e) { saved = null; }
-  var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  document.documentElement.setAttribute('data-theme', theme);
-  var btn = document.querySelector('[data-theme-toggle]');
-  if (!btn) return;
-  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', function () {
-    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
-    try { localStorage.setItem('paperlog-theme', next); } catch (e) {}
-  });
-})();
-</script>
+<script src="js/api.js?v=20261117-materials"></script>
+<script>if (window.PL && PL.requirePass) PL.requirePass();</script>
 </body>
 </html>
