@@ -19,8 +19,8 @@ lede: 무엇을 연구하고 싶은지 아직 정리되지 않아도 괜찮습�
       <li>무엇이 무엇에 영향을 주는 것 같다고 느꼈나요?</li>
       <li>이 연구가 끝나면 누구에게 어떤 도움이 되면 좋겠나요?</li>
     </ul>
-    <label class="rhx-label" for="rhx-name">이름 <span>(선택)</span></label>
-    <input id="rhx-name" class="rhx-name" type="text" maxlength="80" autocomplete="name">
+    <label class="rhx-label" for="rhx-name">이름 <span class="rhx-req">(필수)</span></label>
+    <input id="rhx-name" class="rhx-name" type="text" maxlength="80" autocomplete="name" required>
     <label class="rhx-label" for="rhx-text">고민하는 내용</label>
     <textarea id="rhx-text" class="rhx-text" rows="12" maxlength="4000" placeholder="예: 회사에 들어온 지 1년도 안 된 신입사원들이 생각보다 빨리 그만두는 것을 자주 봤습니다. 선배가 잘 챙겨 주는 팀은 덜 그만두는 것 같은데, 정말 그런지, 왜 그런지 궁금합니다…"></textarea>
     <div class="rhx-meta"><span id="rhx-count">0 / 4000</span></div>

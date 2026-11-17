@@ -81,6 +81,7 @@
     text.addEventListener('input', function () { counted(); store(text.value); });
     go.addEventListener('click', function () {
       var v = text.value.trim();
+      if (!name.value.trim()) { status('이름을 입력해 주세요.', true); name.focus(); return; }
       if (v.length < 30) { status('고민하는 내용을 30자 이상 적어 주세요. 떠오르는 대로 편하게 써도 됩니다.', true); text.focus(); return; }
       if (!endpoint) { status('서버 연결이 설정되지 않았습니다.', true); return; }
       go.disabled = true; go.textContent = '추천을 만드는 중…';

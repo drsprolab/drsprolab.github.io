@@ -614,7 +614,10 @@ const exploreOut = () => ({ understanding: '신입사원의 적응이 궁금합�
 
 test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 이름은 AI에 보내지 않으며 기록을 남긴다', () => {
   const t = setup({ ai: { explore: exploreOut } });
-  assert.equal(t.call({ action: 'explore', text: '짧음' }).error, 'invalid_fields');
+  assert.equal(t.call({ action: 'explore', name: '홍길동', text: '짧음' }).error, 'invalid_fields');
+  const noName = t.call({ action: 'explore', text: '회사에 들어온 지 1년 된 신입사원들이 왜 쉽게 그만두는지 궁금합니다. 선배의 도움이 영향을 주는지 알고 싶어요.' });
+  assert.equal(noName.error, 'invalid_fields');
+  assert.match(noName.message, /이름/);
   const r = t.call({ action: 'explore', name: '홍길동', text: '회사에 들어온 지 1년 된 신입사원들이 왜 쉽게 그만두는지 궁금합니다. 선배의 도움이 영향을 주는지 알고 싶어요.' });
   assert.equal(r.ok, true, r.message);
   assert.equal(r.result.topics.length, 3);
@@ -633,15 +636,15 @@ test('어서와: 자유 서술로 연구주제·변수·이론을 추천하고, 
 test('어서와: 하루 이용 상한을 넘으면 AI를 부르지 않는다', () => {
   const t = setup({ props: { EXPLORE_DAILY_LIMIT: '1' }, ai: { explore: exploreOut } });
   const text = '조직에서 리더의 코칭이 구성원의 학습에 어떤 영향을 주는지 궁금합니다. 현장에서 많이 봤어요.';
-  assert.equal(t.call({ action: 'explore', text }).ok, true);
-  const r = t.call({ action: 'explore', text });
+  assert.equal(t.call({ action: 'explore', name: '홍길동', text }).ok, true);
+  const r = t.call({ action: 'explore', name: '홍길동', text });
   assert.equal(r.error, 'daily_limit');
   assert.equal(t.calls.ai.length, 1);
 });
 
 test('어서와: 한 달 AI 상한이 소진되면 멈춘다', () => {
   const t = setup({ props: { MONTHLY_AI_LIMIT: '1', AI_USAGE: JSON.stringify({ period: '2026-10', count: 1 }) }, ai: { explore: exploreOut } });
-  assert.equal(t.call({ action: 'explore', text: '조직에서 리더의 코칭이 구성원의 학습에 어떤 영향을 주는지 궁금합니다. 현장에서 많이 봤어요.' }).error, 'monthly_limit');
+  assert.equal(t.call({ action: 'explore', name: '홍길동', text: '조직에서 리더의 코칭이 구성원의 학습에 어떤 영향을 주는지 궁금합니다. 현장에서 많이 봤어요.' }).error, 'monthly_limit');
 });
 
 // ---------- 학위논문·소논문 ----------

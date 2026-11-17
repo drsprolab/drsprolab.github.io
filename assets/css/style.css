@@ -2583,3 +2583,4 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
   .rhx-write, .rhx-actions, .rhx-next, .site-header, .site-footer, nav.tabs { display: none !important; }
 }
 .rh-type-opt .rh-hint { font-weight: 400; }
+.rhx-label .rhx-req { color: #b91c1c; }

@@ -821,6 +821,7 @@ const EXPLORE_ROLES = ['독립변수', '종속변수', '매개변수', '조절�
 function explore_(b) {
   const name = clip_(String(b.name || '').replace(/\s+/g, ' '), 80);
   const text = String(b.text || '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').trim();
+  if (!name) fail_('invalid_fields', '이름을 입력해 주세요.');
   if (text.length < 30) fail_('invalid_fields', '고민하는 내용을 30자 이상 적어 주세요. 떠오르는 대로 편하게 써도 됩니다.');
   if (text.length > 4000) fail_('invalid_fields', '4000자 이내로 작성해 주세요.');
   const lock = LockService.getScriptLock();
