@@ -799,10 +799,11 @@
         status(subs.length ? '' : '아직 제출된 연구계획서가 없습니다.');
         view(el('div', {}, [
           el('div', { class: 'rh-admin-bar' }, [el('strong', { text: '제출물 ' + subs.length + '건' }), el('button', { type: 'button', class: 'rh-link', onclick: function () { admin.logout(); loginView(); }, text: '로그아웃' })]),
+          el('p', { class: 'rh-admin-input-note', text: '입력 기록은 저장 당시 수집된 횟수의 합계입니다. 기록이 없는 제출물은 수집 전 제출이거나 기록된 이벤트가 없는 경우로, 붙여넣기·자동입력 여부를 소급 확인할 수 없습니다. 자동입력 의심은 한 번에 긴 입력이 감지된 것으로, 부정행위를 확정하는 근거가 아닙니다.' }),
           el('ul', { class: 'rh-list' }, subs.map(function (s) {
             return el('li', {}, [el('button', { type: 'button', class: 'rh-list-item', onclick: function () { detailView(s.id); } }, [
               el('strong', { text: shortTitle(s.title) || '(제목 없음)' }), el('span', { text: s.name + ' · 제출 ' + s.submittedAt + ' · ' + s.id }),
-              (s.inputLog && (s.inputLog.pasteCount || s.inputLog.autoCount)) ? el('span', { class: 'rh-flag', text: '⚠ 입력 기록: 붙여넣기 ' + s.inputLog.pasteCount + '회(' + s.inputLog.pasteChars.toLocaleString('ko-KR') + '자) · 자동입력 의심 ' + s.inputLog.autoCount + '회' }) : null
+              (s.inputLog && (s.inputLog.pasteCount || s.inputLog.autoCount)) ? el('span', { class: 'rh-flag', text: '⚠ 입력 기록: 붙여넣기 ' + s.inputLog.pasteCount + '회(' + s.inputLog.pasteChars.toLocaleString('ko-KR') + '자) · 자동입력 의심 ' + s.inputLog.autoCount + '회(' + s.inputLog.autoChars.toLocaleString('ko-KR') + '자)' }) : el('span', { class: 'rh-input-unknown', text: '입력 기록: 저장된 이벤트 없음 · 붙여넣기·자동입력 여부 확인 불가' })
             ]), el('button', { type: 'button', class: 'rh-btn rh-list-download', 'aria-label': s.name + ' 제출물 PDF 다운로드', onclick: function () {
               status('제출물을 불러오는 중…');
               admin.get(s.id).then(function (rec) { return savePdf(rec, { history: true }, status); }, failed);
@@ -821,8 +822,8 @@
           body.innerHTML = '';
           var lines = inputLogLines(rev.fields._input);
           body.appendChild(el('div', { class: 'rh-inputlog' + (lines.length ? ' is-flagged' : '') }, lines.length
-            ? [el('strong', { text: '⚠ 입력 기록 · 이 저장 단계에서 붙여넣기·자동입력이 있었습니다' }), el('ul', {}, lines.map(function (l) { return el('li', { text: l }); }))]
-            : [el('span', { text: '입력 기록: 이 저장 단계에서 붙여넣기·자동입력이 기록되지 않았습니다.' })]));
+            ? [el('strong', { text: '⚠ 입력 기록 · 이 저장 단계에서 감지된 붙여넣기·자동입력 의심 이벤트' }), el('ul', {}, lines.map(function (l) { return el('li', { text: l }); }))]
+            : [el('span', { text: '입력 기록: 저장된 이벤트가 없습니다. 수집 전 저장본인지, 감지된 이벤트가 없었는지 구분할 수 없어 붙여넣기·자동입력 여부는 확인할 수 없습니다.' })]));
           var perField = rev.feedback && rev.feedback.kind !== 'critical';
           if (rev.feedback && rev.feedback.kind === 'critical') body.appendChild(criticalNode(rev.feedback));
           var grid = el('div', { class: 'rh-grid' + (perField ? ' has-comments' : '') });

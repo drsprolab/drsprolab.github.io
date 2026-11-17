@@ -2472,3 +2472,7 @@ html.gallery-photo-open, html.gallery-photo-open body { overflow:hidden; }
 .rh-inputlog ul { margin: 6px 0 0; padding-left: 20px; }
 .rh-flag { color: #c4241f !important; font-weight: 700; }
 @media (prefers-color-scheme: dark) { .rh-inputlog.is-flagged { background: #3a1d1d; border-color: #e0605a; color: #f6d4d1; } .rh-flag { color: #ff8f89 !important; } }
+
+/* 관리자 입력 기록: 이벤트가 없는 제출물도 상태를 표시한다. */
+.rh-admin-input-note { color: var(--muted); font-size: 13px; line-height: 1.65; }
+.rh-input-unknown { color: var(--muted); font-size: 13px; }
