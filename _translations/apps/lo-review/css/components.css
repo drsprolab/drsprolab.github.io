@@ -559,3 +559,31 @@ html[data-theme="dark"] .doc { box-shadow: 0 10px 30px rgba(0, 0, 0, .35); }
 .jcheck-warn { margin-top: 10px; padding: 12px 14px; border: 1px solid var(--danger); border-left-width: 4px; border-radius: 8px; background: color-mix(in srgb, var(--danger) 8%, var(--paper)); color: var(--danger); font-size: 14px; font-weight: 600; line-height: 1.6; }
 .jcheck-warn::before { content: "제출 불가 · "; }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* ---------- Review / Course Materials 탭 ---------- */
+.lo-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 0 0 28px; }
+.lo-tabs a {
+  padding: 10px 18px; font-weight: 600; font-size: 15.5px; color: var(--muted);
+  text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.lo-tabs a:hover { color: var(--ink); }
+.lo-tabs a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .lo-tabs a { flex: 1; text-align: center; padding: 10px 8px; } }
+
+/* ---------- Course Materials 목록 ---------- */
+.mat-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.mat-item {
+  display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 6px 16px;
+  padding: 16px 4px; border-bottom: 1px solid var(--line);
+}
+.mat-no { font-family: var(--f-mono); font-size: 22px; font-weight: 500; color: var(--accent); }
+.mat-body { display: grid; gap: 2px; min-width: 0; }
+.mat-title { font-size: 17px; font-weight: 600; line-height: 1.45; margin: 0; }
+.mat-sub { font-size: 13.5px; color: var(--muted); }
+.mat-meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.mat-dl { white-space: nowrap; }
+@media (max-width: 600px) {
+  .mat-item { grid-template-columns: 32px 1fr; }
+  .mat-no { font-size: 18px; }
+  .mat-dl { grid-column: 2; justify-self: start; }
+}
