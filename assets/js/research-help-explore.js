@@ -65,7 +65,24 @@
       pos[n.id] = { x: x, y: rowW, n: n };
     });
     var H = yTop + stack * (BH + 26) + 10;
-    var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'rhx-model-svg', role: 'img', 'aria-label': model.caption || '연구모형 도식' });
+    // 조절변수에서 경로 가운데로 내린 선이 다른 상자를 지나가면, 그 조절변수는 아래쪽 줄로 옮긴다.
+    var bottomY = H + 10, movedDown = false;
+    Wm.forEach(function (n) {
+      var m = (model.moderations || []).filter(function (x) { return x.by === n.id && pos[x.from] && pos[x.to]; })[0];
+      if (!m) return;
+      var p = pos[n.id], cx = p.x + BW / 2;
+      var midY = (pos[m.from].y + pos[m.to].y) / 2 + BH / 2;
+      var blocked = Object.keys(pos).some(function (id) {
+        if (id === n.id) return false;
+        var q = pos[id];
+        return q.x - 4 < cx && cx < q.x + BW + 4 && q.y + BH > p.y + BH && q.y < midY;
+      });
+      if (blocked) { p.y = bottomY; movedDown = true; }
+    });
+    if (movedDown) H = bottomY + BH + 12;
+    // 위쪽이 비면(조절변수가 모두 아래로 갔을 때) 잘라 낸다.
+    var minY = Math.min.apply(null, Object.keys(pos).map(function (id) { return pos[id].y; })) - 22;
+    var root = svg('svg', { viewBox: '0 ' + minY + ' ' + W + ' ' + (H - minY), class: 'rhx-model-svg', role: 'img', 'aria-label': model.caption || '연구모형 도식' });
     var defs = svg('defs');
     var mk = svg('marker', { id: 'rhx-arrow', viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' });
     mk.appendChild(svg('path', { d: 'M0,0 L10,5 L0,10 z', class: 'rhx-arrowhead' }));
