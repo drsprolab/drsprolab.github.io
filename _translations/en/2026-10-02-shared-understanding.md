@@ -12,21 +12,31 @@ AI-personalized learning gives each person material suited to their needs. Teams
 
 ## AI Paradox 4
 
-## 01 · Everyone Makes Sense, but Nobody Understands Each Other
+## 01 · If Everyone Learns Well, Will We Work Well Together?
 
-Imagine a company introducing an AI-personalized learning platform. Marketers study customer analytics, developers learn to apply models, and planners examine commercial viability, each at an appropriate level of difficulty. Learning time and satisfaction both increase.
+AI has made personalized education easy. It can adjust explanations to a learner's knowledge level, offer a different example where understanding is thin, and let each person move at their own pace. Because it sustains interest and supports growth at the right level, personalization is the direction education has long sought.
 
-Yet meetings about a new service take longer. A marketer and a developer mean different metrics when they say “conversion rate.” “Risk” means something different to everyone. Each person's statements are reasonable, but people are not hearing the same meanings.
+But as personalization becomes more precise, does learning always get better? Does it, in an organization where people must work together? What suits an individual and what an organization needs are not quite the same. An individual only has to deepen their own understanding; an organization has to connect different understandings and act together. That everyone has learned a great deal does not mean they hear each other's words in the same sense, or can collaborate.
 
-## 02 · How Teams Develop a Shared Picture
+## 02 · Everyone Makes Sense, but Nobody Understands Each Other
 
-Weick and colleagues (2005) describe organizing as a process of **sensemaking**. In ambiguous situations, people work through what is happening together, develop a common interpretation, and act on it. Without that shared interpretive experience, the same information can prompt different actions.
+When personalized learning ends inside each person's screen, something can be missed: hearing another person's question and discovering a problem you did not know you had; explaining something to a colleague and realizing your own understanding is incomplete; colliding with a different interpretation and changing your mind. Learning also happens outside the content selected as relevant to me.
 
-Research on teams makes a related point. Similar understandings of tasks and roles—**shared mental models**—support coordination and performance (DeChurch & Mesmer-Magnus, 2010; Mohammed et al., 2010). Teams also use knowledge more effectively when members know who knows what. This is a **transactive memory system** (Ren & Argote, 2011).
+So we should be wary of treating the explanations AI tailors to one's level as sufficient learning. However refined the material, it does not replace explaining to others, hearing objections, and applying ideas together in real situations. The problem is not personalization itself but **the absence of a process that connects personalized learning**.
 
-## 03 · Personalization Can Weaken What Is Shared
+Suppose a company introduces an AI-based personalized learning platform. A marketer learns deeply about customer behavior, a developer about system performance, and a planner about business viability, each at their own level. Learning hours and satisfaction rise. Yet in a planning meeting, they use the same words, “conversion” and “risk,” in different senses. Each is right from their own viewpoint, but judging and acting together becomes hard. This hypothetical case shows that an individual's understanding and a team's shared understanding are different things.
 
-Personalized learning offers different pathways, examples, and terminology to different people. Individual understanding may deepen while opportunities to examine the same example and describe it in common terms diminish. If colleagues do not know what others have learned, they cannot develop a reliable sense of whom to ask. **Deeper individual understanding can coexist with weaker shared foundations.**
+## 03 · How Teams Develop a Shared Picture
+
+Weick and colleagues (2005) describe organizing as **sensemaking**. In ambiguous situations, people put “what is going on here?” into words together, build a common interpretation, and act on it. Without experience of interpreting together, people who see the same information act differently.
+
+Team research points the same way. The more team members hold similar pictures of tasks and roles, a **shared mental model**, the better the collaboration and performance (DeChurch & Mesmer-Magnus, 2010; Mohammed et al., 2010). Teams also share knowledge better when they know who knows what, a transactive memory system (Ren & Argote, 2011).
+
+What matters in organizational learning, then, is not that everyone holds identical knowledge. It is holding a common picture of tasks and roles, understanding one another's expertise, and knowing whose knowledge to connect at the moment it is needed. That is why shared mental models and transactive memory matter.
+
+## 04 · Personalization Can Weaken What Is Shared
+
+Personalized learning lets each person learn by a different path, with different examples and different terms. Individual understanding deepens, but the chances for a team to look at the same example and put it into the same words shrink. Because people do not know what others have learned, “ask so-and-so about that” memory does not form either. **Even as each person's understanding deepens, the team's common ground can weaken.**
 
 <figure class="shu-fig">
 <svg class="shu-svg" viewBox="0 0 600 404" role="img" aria-labelledby="shu-en-t shu-en-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
@@ -44,7 +54,7 @@ Personalized learning offers different pathways, examples, and terminology to di
 <rect class="shu-en-ghost" x="18" y="130" width="564" height="68" rx="12"/>
 <text class="shu-en-h" x="300" y="158" text-anchor="middle">Team meeting: same words, different meanings</text>
 <text class="shu-en-p" x="300" y="180" text-anchor="middle">“Conversion” and “risk” are heard differently by each person</text>
-<text class="shu-en-tagb" x="18" y="228">Four bridges from individual learning to the team (section 04)</text>
+<text class="shu-en-tagb" x="18" y="228">Four bridges from individual learning to the team (section 05)</text>
 <rect class="shu-en-chip" x="18" y="240" width="132" height="84" rx="12"/><text class="shu-en-ct" x="84" y="262" text-anchor="middle" style="font-size:11.5px">Translation time</text><text class="shu-en-s" x="84" y="280" text-anchor="middle">Biweekly, 3-min talks</text><line class="shu-en-ln" x1="40" y1="292" x2="128" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-en-tagb" x="84" y="312" text-anchor="middle" style="font-size:11.5px">Sensemaking</text>
 <rect class="shu-en-chip" x="162" y="240" width="132" height="84" rx="12"/><text class="shu-en-ct" x="228" y="262" text-anchor="middle" style="font-size:11.5px">Team glossary</text><text class="shu-en-s" x="228" y="280" text-anchor="middle">One-page definitions</text><line class="shu-en-ln" x1="184" y1="292" x2="272" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-en-tagb" x="228" y="312" text-anchor="middle" style="font-size:11.5px">Shared mental model</text>
 <rect class="shu-en-chip" x="306" y="240" width="132" height="84" rx="12"/><text class="shu-en-ct" x="372" y="262" text-anchor="middle" style="font-size:11.5px">Who-knows-what map</text><text class="shu-en-s" x="372" y="280" text-anchor="middle">Updated each quarter</text><line class="shu-en-ln" x1="328" y1="292" x2="416" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-en-tagb" x="372" y="312" text-anchor="middle" style="font-size:11.5px">Transactive memory</text>
@@ -54,15 +64,27 @@ Personalized learning offers different pathways, examples, and terminology to di
 <figcaption><strong>Figure 1.</strong> How individually deepened understanding can diverge in team meetings, and four practices that bridge it into a shared team language.</figcaption>
 </figure>
 
-## 04 · Connect Individual Learning to the Team's Language
+## 05 · Connect Individual Learning to the Team's Language
 
-**1. Add time for “team translation.”** After personalized courses, meet for 30 minutes every two weeks. Each person has three minutes to explain one idea relevant to the team's work. Listeners ask what it means in their own working context.
+From this view, HRD's role cannot end with providing content suited to individuals. It has to design the interaction in which people interpret and use together what each has learned.
 
-**2. Build a one-page team glossary.** Collect terms used differently in meetings—conversion rate, risk, completion—and agree on definitions and calculation methods. Include the glossary in a new colleague's first-week materials.
+**1. Add time for “team translation.”** After personalized courses, meet for 30 minutes every two weeks. Each person explains, in three minutes, one thing they learned that applies to team work. Listeners each ask, “What does that mean in our work?” and the group compares differing interpretations.
 
-**3. Map who knows what.** Keep a brief table of what each member has recently learned and the topics on which they can help. Review it quarterly to strengthen transactive memory.
+**2. Build a one-page team glossary.** Collect terms used differently in meetings (conversion rate, risk, completion) and write down the definition and how each is calculated. Use it as required reading for newcomers in their first week.
 
-**4. Pair individual courses with one shared case.** Each quarter, have the whole team analyze the same real case. This retains the benefits of personalization while creating a regular experience of developing a common picture.
+**3. Map who knows what.** Keep a brief table of what each member has recently learned and the topics on which they can help. Revised each quarter, it builds transactive memory.
+
+**4. Pair individual courses with one shared case.** Each quarter, have the whole team analyze the same real case. The efficiency of personalized learning stays; what is added is a regular experience of drawing the same picture together and aligning how the team judges.
+
+The conversation should not end as an event for presenting what was learned. Different experiences and questions should surface, and unexpected connections should be able to form. If personalization offers a learning path that suits me, human interaction can widen that path toward learning I had not realized I needed.
+
+**5. Widen how results are viewed.** Look beyond individual learning hours and satisfaction: have members come to know one another's expertise better, has a common standard of judgment formed, and was what they learned used in collaboration?
+
+> **DrSong Opinion · From an HRD Perspective**
+>
+> In the AI era, designing human–human interaction matters as much as AI–human interaction. Beyond how well people converse with AI, HRD's task is how people then talk with one another about what they learned through AI. The next step for personalized learning is not only finer personalization; it is connecting each person's learning to everyone else's. Individuals need explanations that suit them. Organizations need a process of understanding together.
+
+---
 
 ### Insight Questions
 
