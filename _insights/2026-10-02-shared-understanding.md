@@ -36,6 +36,32 @@ AI 맞춤형 학습은 각자에게 가장 알맞은 내용을 줍니다. 그런
 
 개인 맞춤형 학습은 사람마다 다른 경로, 다른 예시, 다른 용어로 배우게 합니다. 개인의 이해는 깊어지지만, 팀이 같은 예시를 보고 같은 말로 정리해 볼 기회는 줄어듭니다. 서로가 무엇을 배웠는지 모르니 "그건 누구에게 물어보면 된다"는 교류 기억도 생기지 않습니다. **각자의 이해가 깊어져도 팀의 공통 기반은 약해질 수 있습니다.**
 
+<figure class="shu-fig">
+<svg class="shu-svg" viewBox="0 0 600 404" role="img" aria-labelledby="shu-t shu-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+<title id="shu-t">개인 맞춤형 학습과 팀의 공통 기반: 약해지는 자리와 잇는 방법</title>
+<desc id="shu-d">마케터, 개발자, 기획자가 각자 깊이 배우지만 회의에서는 같은 말을 다르게 알아듣는다. 팀 번역 시간, 팀 용어집, 누가 무엇을 아는가 지도, 팀 공통 사례가 개인 학습과 팀을 잇는다.</desc>
+<defs><marker id="shu-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker><marker id="shu-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+<style>.shu-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.shu-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.shu-acc{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.shu-ghost{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4}.shu-h{font:700 15.5px sans-serif;fill:var(--ink)}.shu-p{font:12.5px sans-serif;fill:var(--muted)}.shu-s{font:11px sans-serif;fill:var(--muted)}.shu-tag{font:700 13.5px sans-serif;fill:var(--muted)}.shu-tagb{font:700 13.5px sans-serif;fill:var(--accent)}.shu-dot{fill:var(--accent)}.shu-n{font:700 12.5px sans-serif;fill:var(--paper)}.shu-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#shu-a)}.shu-am{stroke:var(--muted);stroke-width:2;fill:none;marker-end:url(#shu-m)}.shu-chip{fill:var(--tint);stroke:var(--accent);stroke-width:1.3}.shu-ct{font:700 12.5px sans-serif;fill:var(--ink)}.shu-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.shu-note{font:700 14.5px sans-serif;fill:var(--ink)}.shu-pill{fill:var(--accent);}.shu-pt{font:700 13px sans-serif;fill:var(--paper)}.shu-hd{font:700 13px sans-serif;fill:var(--muted)}</style>
+<text class="shu-tag" x="18" y="24">맞춤형 학습으로 각자 깊어진 이해</text>
+<rect class="shu-acc" x="18" y="34" width="176" height="64" rx="12"/><text class="shu-h" x="106.0" y="60" text-anchor="middle">마케터</text><text class="shu-p" x="106.0" y="80" text-anchor="middle">고객 데이터 분석</text>
+<path class="shu-am" d="M106 100 V128"/>
+<rect class="shu-acc" x="212" y="34" width="176" height="64" rx="12"/><text class="shu-h" x="300.0" y="60" text-anchor="middle">개발자</text><text class="shu-p" x="300.0" y="80" text-anchor="middle">모델 활용</text>
+<path class="shu-am" d="M300 100 V128"/>
+<rect class="shu-acc" x="406" y="34" width="176" height="64" rx="12"/><text class="shu-h" x="494.0" y="60" text-anchor="middle">기획자</text><text class="shu-p" x="494.0" y="80" text-anchor="middle">사업성 평가</text>
+<path class="shu-am" d="M494 100 V128"/>
+<rect class="shu-ghost" x="18" y="130" width="564" height="68" rx="12"/>
+<text class="shu-h" x="300" y="158" text-anchor="middle">팀 회의: 같은 말, 다른 뜻</text>
+<text class="shu-p" x="300" y="180" text-anchor="middle">‘전환율’, ‘위험’이 사람마다 다른 의미로 들린다</text>
+<text class="shu-tagb" x="18" y="228">개인 학습과 팀을 잇는 네 가지 (04절)</text>
+<rect class="shu-chip" x="18" y="240" width="132" height="84" rx="12"/><text class="shu-ct" x="84" y="262" text-anchor="middle" style="font-size:12.5px">팀 번역 시간</text><text class="shu-s" x="84" y="280" text-anchor="middle">2주마다 30분, 3분 설명</text><line class="shu-ln" x1="40" y1="292" x2="128" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-tagb" x="84" y="312" text-anchor="middle" style="font-size:11.5px">의미 형성</text>
+<rect class="shu-chip" x="162" y="240" width="132" height="84" rx="12"/><text class="shu-ct" x="228" y="262" text-anchor="middle" style="font-size:12.5px">팀 용어집</text><text class="shu-s" x="228" y="280" text-anchor="middle">엇갈린 단어의 정의 한 장</text><line class="shu-ln" x1="184" y1="292" x2="272" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-tagb" x="228" y="312" text-anchor="middle" style="font-size:11.5px">공유된 정신 모형</text>
+<rect class="shu-chip" x="306" y="240" width="132" height="84" rx="12"/><text class="shu-ct" x="372" y="262" text-anchor="middle" style="font-size:12.5px">누가 무엇을 아는가</text><text class="shu-s" x="372" y="280" text-anchor="middle">분기마다 고쳐 쓰는 표</text><line class="shu-ln" x1="328" y1="292" x2="416" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-tagb" x="372" y="312" text-anchor="middle" style="font-size:11.5px">교류 기억 체계</text>
+<rect class="shu-chip" x="450" y="240" width="132" height="84" rx="12"/><text class="shu-ct" x="516" y="262" text-anchor="middle" style="font-size:12.5px">팀 공통 사례</text><text class="shu-s" x="516" y="280" text-anchor="middle">같은 사례를 함께 분석</text><line class="shu-ln" x1="472" y1="292" x2="560" y2="292" style="stroke:var(--line);stroke-width:1.2"/><text class="shu-tagb" x="516" y="312" text-anchor="middle" style="font-size:11.5px">공유된 정신 모형</text>
+<rect class="shu-band" x="18" y="342" width="564" height="48" rx="14"/><text class="shu-note" x="300" y="371" text-anchor="middle">각자의 이해가 깊어져도 팀의 공통 기반은 약해질 수 있다</text>
+</svg>
+<figcaption><strong>그림 1.</strong> 맞춤형 학습으로 깊어진 개인의 이해가 팀 회의에서 어긋나는 모습과, 이를 팀의 언어로 잇는 네 가지 실천.</figcaption>
+</figure>
+
 ## 04 · 각자 배운 것을 팀의 언어로 연결하기
 
 **① 개인 학습 뒤에 '팀 번역 시간'을 붙인다.** 맞춤형 과정을 마친 팀원들이 2주에 한 번 30분씩 모여, 각자 배운 것 중 팀 업무에 쓸 수 있는 것 하나를 3분 안에 설명합니다. 듣는 사람은 "우리 일에서는 그게 무슨 뜻이냐"를 한 번씩 묻습니다.
