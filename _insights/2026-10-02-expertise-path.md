@@ -32,6 +32,37 @@ AI는 초보자의 성과를 가장 크게 끌어올립니다. 그런데 전문�
 
 그러려면 **어려움을 직접 겪어야 합니다.** 막히고 틀리고 피드백을 받아 고치는 동안 판단의 기준이 몸에 새겨집니다.
 
+<figure class="exp-fig">
+<svg class="exp-svg" viewBox="0 0 600 398" role="img" aria-labelledby="exp-t exp-d" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;max-width:600px;margin:0 auto">
+<title id="exp-t">입사 첫날부터 3년 뒤까지: AI가 대신하는 경로와 의도적 연습 경로</title>
+<desc id="exp-d">AI가 어려운 과정을 대신하면 첫날 성과는 높지만 3년 뒤 추천 없이 판단하지 못한다. 핵심 과업을 AI 없이 직접 수행하고 피드백을 받으면 판단하는 전문가로 자란다.</desc>
+<defs><marker id="exp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--accent)"/></marker><marker id="exp-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+<style>.exp-card{fill:var(--paper);stroke:var(--line);stroke-width:1.6}.exp-hot{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.2}.exp-acc{fill:var(--paper);stroke:var(--accent);stroke-width:1.6}.exp-ghost{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4}.exp-h{font:700 15.5px sans-serif;fill:var(--ink)}.exp-p{font:12.5px sans-serif;fill:var(--muted)}.exp-s{font:11px sans-serif;fill:var(--muted)}.exp-tag{font:700 13.5px sans-serif;fill:var(--muted)}.exp-tagb{font:700 13.5px sans-serif;fill:var(--accent)}.exp-dot{fill:var(--accent)}.exp-n{font:700 12.5px sans-serif;fill:var(--paper)}.exp-ar{stroke:var(--accent);stroke-width:2;fill:none;marker-end:url(#exp-a)}.exp-am{stroke:var(--muted);stroke-width:2;fill:none;marker-end:url(#exp-m)}.exp-chip{fill:var(--tint);stroke:var(--accent);stroke-width:1.3}.exp-ct{font:700 12.5px sans-serif;fill:var(--ink)}.exp-band{fill:var(--tint);stroke:var(--line);stroke-width:1.4}.exp-note{font:700 14.5px sans-serif;fill:var(--ink)}.exp-pill{fill:var(--accent);}.exp-pt{font:700 13px sans-serif;fill:var(--paper)}.exp-hd{font:700 13px sans-serif;fill:var(--muted)}</style>
+<text class="exp-hd" x="106" y="24" text-anchor="middle">입사 첫날</text>
+<text class="exp-hd" x="300" y="24" text-anchor="middle">1~2년 차</text>
+<text class="exp-hd" x="494" y="24" text-anchor="middle">3년 뒤</text>
+<text class="exp-tag" x="18" y="52">AI가 어려운 과정을 대신하는 경로</text>
+<rect class="exp-card" x="18" y="62" width="176" height="76" rx="12"/><text class="exp-h" x="106.0" y="88" text-anchor="middle">성과가 높다</text><text class="exp-p" x="106.0" y="108" text-anchor="middle">초보도 베테랑 수준</text><text class="exp-s" x="106.0" y="125" text-anchor="middle">Brynjolfsson et al., 2025</text>
+<path class="exp-am" d="M196 100 H210"/>
+<rect class="exp-card" x="212" y="62" width="176" height="76" rx="12"/><text class="exp-h" x="300.0" y="88" text-anchor="middle">어려움을 건너뛴다</text><text class="exp-p" x="300.0" y="108" text-anchor="middle">막히고 틀릴 기회가 없다</text><text class="exp-s" x="300.0" y="125" text-anchor="middle">Beane, 2019</text>
+<path class="exp-am" d="M390 100 H404"/>
+<rect class="exp-ghost" x="406" y="62" width="176" height="76" rx="12"/><text class="exp-h" x="494.0" y="88" text-anchor="middle">추천 없이는 멈춘다</text><text class="exp-p" x="494.0" y="108" text-anchor="middle">복잡한 민원을 판단하지 못함</text>
+<text class="exp-tagb" x="18" y="172">의도적 연습 경로</text>
+<rect class="exp-acc" x="18" y="182" width="176" height="76" rx="12"/><text class="exp-h" x="106.0" y="208" text-anchor="middle">어려운 과업을 직접</text><text class="exp-p" x="106.0" y="228" text-anchor="middle">AI 없이 핵심 과업 수행</text>
+<path class="exp-ar" d="M196 220 H210"/>
+<rect class="exp-acc" x="212" y="182" width="176" height="76" rx="12"/><text class="exp-h" x="300.0" y="208" text-anchor="middle">피드백으로 고친다</text><text class="exp-p" x="300.0" y="228" text-anchor="middle">3단 기록과 선배 피드백</text><text class="exp-s" x="300.0" y="245" text-anchor="middle">Ericsson et al., 1993</text>
+<path class="exp-ar" d="M390 220 H404"/>
+<rect class="exp-hot" x="406" y="182" width="176" height="76" rx="12"/><text class="exp-h" x="494.0" y="208" text-anchor="middle">판단 기준이 쌓인다</text><text class="exp-p" x="494.0" y="228" text-anchor="middle">예외를 스스로 판단</text>
+<text class="exp-tagb" x="18" y="292">초보자의 경험을 전문성으로 잇는 네 가지</text>
+<rect class="exp-chip" x="18" y="302" width="132" height="32" rx="16"/><text class="exp-ct" x="84" y="322" text-anchor="middle">핵심 과업 지정</text>
+<rect class="exp-chip" x="162" y="302" width="132" height="32" rx="16"/><text class="exp-ct" x="228" y="322" text-anchor="middle">3단 기록</text>
+<rect class="exp-chip" x="306" y="302" width="132" height="32" rx="16"/><text class="exp-ct" x="372" y="322" text-anchor="middle">난도 사다리</text>
+<rect class="exp-chip" x="450" y="302" width="132" height="32" rx="16"/><text class="exp-ct" x="516" y="322" text-anchor="middle">판단 이유 말하기</text>
+<rect class="exp-band" x="18" y="346" width="564" height="44" rx="14"/><text class="exp-note" x="300" y="373" text-anchor="middle">AI는 오늘의 성과를 높이고, 전문성은 어려움을 겪는 과정에서 자란다</text>
+</svg>
+<figcaption><strong>그림 1.</strong> AI가 어려운 과정을 대신하는 경로와 의도적 연습 경로의 비교, 그리고 초보자의 경험을 전문성으로 잇는 네 가지 실천.</figcaption>
+</figure>
+
 ## 03 · AI는 초보자의 성장 경로를 지운다
 
 생성형 AI 상담 보조 도구를 도입한 대규모 연구에서 생산성 향상은 경험이 적은 상담사에게서 가장 컸습니다(Brynjolfsson et al., 2025). AI가 숙련자의 노하우를 초보자에게 빠르게 전해 준 셈입니다.
