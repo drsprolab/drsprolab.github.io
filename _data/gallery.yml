@@ -1,5 +1,9 @@
 # 갤러리. 사진은 assets/images/gallery/ 에 있고 image 에 파일 이름을 적습니다.
 conferences:
+  - title: "2026 인력개발학회추계학술대회"
+    year: 2026
+    month: 11
+    image: "conferences-53ac7b8bff.jpg"
   - title: "학부1학년 (HRD 개론수업) 인력개발학회발표"
     year: 2026
     month: 11
