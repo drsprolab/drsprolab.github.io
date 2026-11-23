@@ -808,7 +808,7 @@
         rootEl.insertBefore(el('div', { class: 'rh-new-plan-actions' }, [
           el('button', { type: 'button', class: 'rh-btn rh-new-plan-btn', onclick: function () {
             if (window.confirm('이 브라우저의 이어쓰기 기록을 지우고 새 연구계획서를 작성할까요? 서버에 저장된 기존 기록은 삭제되지 않습니다.')) {
-              app.reset(); render(); status('새 연구계획서를 작성할 수 있습니다.');
+              app.reset(); clearModelDraft(); render(); status('새 연구계획서를 작성할 수 있습니다.');
             }
           } }, [el('span', { 'aria-hidden': 'true', text: '+' }), '새 연구계획서 작성하기'])
         ]), rootEl.firstChild);
@@ -873,7 +873,7 @@
           explanation.appendChild(el('p', { class: 'rh-hint', text: '변수의 역할, 화살표의 출발·도착점, 매개·조절 관계, 실선·점선의 의미를 설명합니다. 그림과 설명을 함께 검토합니다.' }));
           explanation.appendChild(textarea);
           explanation.appendChild(counter);
-          mine.insertBefore(el('section', { class: 'rh-model-section', 'aria-label': '연구 모형 그림' }, [el('h3', { text: '1. 연구 모형 그림' }), modelImageArea(locked)]), mine.firstChild);
+          mine.insertBefore(modelFigureSection(locked), mine.firstChild);
           mine.insertBefore(el('h3', { text: '연구 모형' }), mine.firstChild);
           mine.appendChild(explanation);
           if (!locked) {
@@ -917,7 +917,7 @@
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn', onclick: function () { savePdf(record(), {}, status); }, text: 'PDF 다운로드' }));
         actions.appendChild(el('button', { type: 'button', class: 'rh-btn primary', onclick: function () {
           if (window.confirm('새 연구계획서를 작성할까요? 기존 제출물은 서버에 보존됩니다. 현재 제출물의 PDF가 필요하면 먼저 다운로드해 주세요.')) {
-            app.reset(); render(); status('새 연구계획서를 작성할 수 있습니다.');
+            app.reset(); clearModelDraft(); render(); status('새 연구계획서를 작성할 수 있습니다.');
           }
         }, text: '새 연구계획서 작성' }));
       } else if (s.round >= 4) {
@@ -1030,10 +1030,141 @@
       });
     }
 
+    // ── 연구 모형 그림을 넣는 세 가지 방법 ─────────────────────────
+    // 옵션 1 그림 붙여넣기 · 옵션 2 글로 쓰면 도식으로(Graphviz) · 옵션 3 그림판(Excalidraw).
+    // 옵션 2·3의 결과도 PNG로 바꿔 같은 그림 칸(app.setImage)에 넣으므로 저장·PDF·서버는 그대로다.
+    // 쓰던 글·그림판 장면은 이 기기에만 보관해 다시 고칠 수 있게 한다.
+    var modelStore = webStorage('localStorage', 'research-help-model-draft');
+    var modelDraft = modelStore.get() || {};
+    function saveModelDraft() { modelStore.set(modelDraft); }
+    function clearModelDraft() { modelDraft = {}; modelStore.remove(); }
+    var MODEL_OPTIONS = [
+      { key: 'image', label: '옵션 1. 그림 붙여넣기', hint: '직접 그린 그림 파일을 넣습니다' },
+      { key: 'text', label: '옵션 2. 글로 쓰면 도식으로', hint: '관계를 글로 쓰면 자동으로 그려집니다' },
+      { key: 'sketch', label: '옵션 3. 그림판에서 직접 그리기', hint: '큰 그림판에서 상자와 화살표를 그립니다' }
+    ];
+    function modelFigureSection(locked) {
+      var sec = el('section', { class: 'rh-model-section', 'aria-label': '연구 모형 그림' }, [el('h3', { text: '1. 연구 모형 그림' })]);
+      var MD = window.ResearchHelpModel;
+      if (locked || !MD) { sec.appendChild(modelImageArea(locked)); return sec; }
+      var mode = modelDraft.mode === 'text' || modelDraft.mode === 'sketch' ? modelDraft.mode : 'image';
+      sec.appendChild(el('p', { class: 'rh-hint', text: '아래 세 가지 방법 중 편한 것 하나를 골라 연구 모형 그림을 넣습니다. 어느 방법이든 넣은 그림은 저장·PDF에 똑같이 들어갑니다.' }));
+      sec.appendChild(el('div', { class: 'rh-model-tabs', role: 'tablist', 'aria-label': '연구 모형 그림 넣는 방법' }, MODEL_OPTIONS.map(function (o) {
+        return el('button', { type: 'button', role: 'tab', class: 'rh-model-tab' + (o.key === mode ? ' is-active' : ''), 'aria-selected': o.key === mode ? 'true' : 'false',
+          onclick: function () { if (o.key === mode) return; modelDraft.mode = o.key; saveModelDraft(); render(); var t = rootEl.querySelector('.rh-model-tab.is-active'); if (t) t.focus(); } },
+          [el('strong', { text: o.label }), el('span', { text: o.hint })]);
+      })));
+      var panel = el('div', { class: 'rh-model-panel', role: 'tabpanel' });
+      if (mode === 'text') panel.appendChild(modelTextArea(MD));
+      else if (mode === 'sketch') panel.appendChild(modelSketchArea(MD));
+      else panel.appendChild(modelImageArea(false));
+      sec.appendChild(panel);
+      return sec;
+    }
+    function modelSteps(items) {
+      return el('ol', { class: 'rh-model-steps' }, items.map(function (t) { return el('li', { text: t }); }));
+    }
+    function currentModelImage() {
+      var url = app.imageUrl();
+      if (!url) return null;
+      return el('div', { class: 'rh-model-current' }, [
+        el('p', { class: 'rh-hint', text: '지금 넣어 둔 연구 모형 그림 (저장하면 이 그림이 함께 저장됩니다)' }),
+        el('img', { src: url, alt: '연구 모형 그림' }),
+        el('button', { type: 'button', class: 'rh-link', onclick: function () { app.clearImage(); render(); status('연구 모형 그림을 뺐습니다.'); }, text: '그림 빼기' })
+      ]);
+    }
+    var MODEL_PLACEHOLDER = '여기에 연구 모형을 글로 쓰세요. 한 줄에 관계 하나씩 씁니다.\n\n' +
+      '예)\n직무 자율성 -> 일 몰입 -> 혁신 행동\n직무 자율성 -> 혁신 행동 : H1\n심리적 안정감 -> (직무 자율성 -> 일 몰입)\n통제: 성별, 근속연수\n\n' +
+      '· A -> B 는 "A가 B에 영향"\n· W -> (A -> B) 는 "W가 A → B 관계를 조절"\n· 위 [예시] 버튼을 누르면 틀이 채워집니다.';
+    function modelTextArea(MD) {
+      var wrap = el('div', { class: 'rh-model-text' });
+      var lastSvg = null, seq = 0, timer = null;
+      var textarea = el('textarea', { class: 'rh-model-code', rows: '12', maxlength: '3000', spellcheck: 'false', placeholder: MODEL_PLACEHOLDER, 'aria-label': '연구 모형을 글로 쓰기' }, [modelDraft.text || '']);
+      var preview = el('div', { class: 'rh-model-preview', 'aria-live': 'polite' });
+      var btn = el('button', { type: 'button', class: 'rh-btn primary', disabled: true, text: app.imageUrl() ? '이 도식으로 연구 모형 그림 바꾸기' : '이 도식을 연구 모형 그림으로 넣기' });
+      function message(text, isError) { preview.innerHTML = ''; preview.appendChild(el('p', { class: 'rh-model-msg' + (isError ? ' is-error' : ''), text: text })); }
+      function draw() {
+        var my = ++seq, text = textarea.value;
+        lastSvg = null; btn.disabled = true;
+        if (!text.trim()) { message('왼쪽 칸에 글을 쓰면 여기에 도식이 바로 그려집니다.'); return; }
+        preview.classList.add('is-busy');
+        MD.renderText(text).then(function (r) {
+          if (my !== seq) return;
+          preview.classList.remove('is-busy');
+          preview.innerHTML = '';
+          if (r.errors.length) {
+            preview.appendChild(el('p', { class: 'rh-model-msg is-error', text: '아래를 고치면 도식이 그려집니다.' }));
+            preview.appendChild(el('ul', { class: 'rh-model-errors' }, r.errors.slice(0, 5).map(function (e) { return el('li', { text: e }); })));
+            return;
+          }
+          lastSvg = r.svg; preview.appendChild(r.svg); btn.disabled = false;
+        }, function (err) { if (my !== seq) return; preview.classList.remove('is-busy'); message(err.message, true); });
+      }
+      function onInput() { modelDraft.text = textarea.value; saveModelDraft(); clearTimeout(timer); timer = setTimeout(draw, 350); }
+      textarea.addEventListener('input', onInput);
+      btn.addEventListener('click', function () {
+        if (!lastSvg) return;
+        btn.disabled = true;
+        MD.svgToPng(lastSvg).then(function (url) {
+          app.setImage(url); render();
+          status('글로 쓴 도식을 연구 모형 그림으로 넣었습니다. 아래 "2. 연구 모형 설명"도 함께 작성해 주세요.');
+        }, function (err) { btn.disabled = false; status(err.message, true); });
+      });
+      wrap.appendChild(modelSteps([
+        '아래 [예시] 중 내 연구 모형과 가장 비슷한 것을 누릅니다. 비워 두고 처음부터 써도 됩니다.',
+        '예시의 변수 이름을 내 연구의 변수로 바꿉니다. 한 줄에 관계 하나씩 쓰고, 화살표는 -> (빼기 + 오른쪽 꺾쇠)로 씁니다.',
+        '오른쪽 미리보기에서 도식을 확인한 뒤 [이 도식을 연구 모형 그림으로 넣기]를 누릅니다.'
+      ]));
+      wrap.appendChild(el('div', { class: 'rh-model-examples' }, [el('span', { text: '예시' })].concat(MD.TEMPLATES.map(function (t) {
+        return el('button', { type: 'button', class: 'rh-model-chip', text: t.label, onclick: function () {
+          if (textarea.value.trim() && textarea.value !== t.text && !window.confirm('지금 쓴 내용을 "' + t.label + '" 예시로 바꿀까요?')) return;
+          textarea.value = t.text; onInput(); textarea.focus();
+        } });
+      }))));
+      wrap.appendChild(el('details', { class: 'rh-model-syntax', open: !modelDraft.text }, [
+        el('summary', { text: '쓰는 법 한눈에 보기' }),
+        el('table', {}, MD.SYNTAX.map(function (r) { return el('tr', {}, [el('td', {}, [el('code', { text: r[0] })]), el('td', { text: r[1] })]); }))
+      ]));
+      wrap.appendChild(el('div', { class: 'rh-model-editor' }, [textarea, preview]));
+      wrap.appendChild(el('div', { class: 'rh-model-actions' }, [btn]));
+      var cur = currentModelImage();
+      if (cur) wrap.appendChild(cur);
+      draw();
+      return wrap;
+    }
+    function modelSketchArea(MD) {
+      var wrap = el('div', { class: 'rh-model-sketch-area' });
+      wrap.appendChild(modelSteps([
+        '[그림판 열기]를 누르면 화면 가득 큰 그림판이 열립니다. 독립변수 → 매개변수 → 종속변수 상자와 화살표가 미리 놓여 있습니다.',
+        '상자 안 글자를 두 번 눌러 내 변수 이름으로 바꿉니다. 필요 없는 상자·화살표는 눌러서 Delete 키로 지웁니다.',
+        '상자·화살표·글자를 더하려면 위쪽 도구 막대에서 사각형, 화살표, 글자(A)를 고릅니다. 화살표 끝을 상자 가장자리에 붙이면 상자를 옮겨도 따라옵니다. 조절변수는 화살표가 경로 선의 가운데를 가리키게 그립니다.',
+        '다 그렸으면 오른쪽 위 [저장하고 닫기]를 누릅니다. 그림이 이 연구 모형 그림 칸에 들어가며, 다시 열면 이어서 고칠 수 있습니다.'
+      ]));
+      var open = el('button', { type: 'button', class: 'rh-btn primary', text: modelDraft.scene ? '그림판 열기 (이어서 그리기)' : '그림판 열기' });
+      open.addEventListener('click', function () {
+        MD.openSketch({ scene: modelDraft.scene }).then(function (r) {
+          if (!r) return;
+          modelDraft.scene = r.scene; saveModelDraft();
+          app.setImage(r.dataUrl); render();
+          status('그림판에서 그린 연구 모형을 넣었습니다. 아래 "2. 연구 모형 설명"도 함께 작성해 주세요.');
+        });
+      });
+      var actions = el('div', { class: 'rh-model-actions' }, [open]);
+      if (modelDraft.scene) actions.appendChild(el('button', { type: 'button', class: 'rh-link', text: '그림판 처음부터 다시 그리기', onclick: function () {
+        if (!window.confirm('그림판에 그리던 내용을 지우고 처음 틀로 다시 시작할까요? (이미 넣은 그림은 그대로 있습니다)')) return;
+        delete modelDraft.scene; saveModelDraft(); render();
+      } }));
+      wrap.appendChild(actions);
+      var cur = currentModelImage();
+      if (cur) wrap.appendChild(cur);
+      return wrap;
+    }
+
     function takeImage(file) {
       status('그림을 넣는 중…');
       readImage(file).then(function (dataUrl) {
         app.setImage(dataUrl);
+        modelDraft.mode = 'image'; saveModelDraft();
         render();
         status('연구 모형 그림을 넣었습니다. 저장하면 함께 저장됩니다.');
       }, function (err) { status(err.message, true); });

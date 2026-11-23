@@ -139,6 +139,7 @@ lede: 최초 작성문을 1·2·3차 DrS comments를 보며 수정하고, 최종
   <noscript><p>이 기능은 JavaScript가 켜져 있어야 사용할 수 있습니다.</p></noscript>
 </div>
 <script src="{{ '/assets/js/research-help-pdf.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+<script src="{{ '/assets/js/research-help-model.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 <script src="{{ '/assets/js/research-help.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 <script>
 // 첫 화면은 안내 문구와 버튼만. 버튼(#write)을 누르면 작성 화면을 연다(뒤로 가기로 돌아옴).
