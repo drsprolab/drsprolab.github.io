@@ -246,19 +246,19 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 <figure class="rhb-fig" aria-labelledby="fig2">
   <figcaption id="fig2">도식 2. 이론적 틀: 연구 모형의 개념 관계를 바라보고 조망하는 렌즈</figcaption>
   <div class="rhb-node rhb-node--wide"><b>연구자의 문제의식</b><span>당연하다고 여겨 온 현상에 던지는 질문</span></div>
-  <div class="rhb-down" aria-hidden="true">↓ 이 질문으로 현상을 바라볼 이론적 틀을 세운다</div>
+  <div class="rhb-down">이 질문으로 현상을 바라볼 이론적 틀을 세운다</div>
   <div class="rhb-theory-model">
     <div class="rhb-theory"><b>이론적 틀(렌즈)</b><span>연구자가 현상을 바라보고 해석하는 관점 · 개념 간 관계를 성립시키는 근거</span></div>
-    <div class="rhb-tm-link rhb-tm-link--1"><i aria-hidden="true">↓</i><span>이 틀에 기반해 관계 ① 성립</span></div>
-    <div class="rhb-tm-link rhb-tm-link--2"><i aria-hidden="true">↓</i><span>이 틀에 기반해 관계 ② 성립</span></div>
+    <div class="rhb-tm-link rhb-tm-link--1"><i aria-hidden="true"></i><span>이 틀에 기반해 관계 ① 성립</span></div>
+    <div class="rhb-tm-link rhb-tm-link--2"><i aria-hidden="true"></i><span>이 틀에 기반해 관계 ② 성립</span></div>
     <div class="rhb-col rhb-tm-c1"><b>개념 1</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-    <div class="rhb-tm-rel rhb-tm-r1"><span>관계 ①</span><i aria-hidden="true">→</i></div>
+    <div class="rhb-tm-rel rhb-tm-r1"><span>관계 ①</span><i aria-hidden="true"></i></div>
     <div class="rhb-col rhb-tm-c2"><b>개념 2</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
-    <div class="rhb-tm-rel rhb-tm-r2"><span>관계 ②</span><i aria-hidden="true">→</i></div>
+    <div class="rhb-tm-rel rhb-tm-r2"><span>관계 ②</span><i aria-hidden="true"></i></div>
     <div class="rhb-col rhb-tm-c3"><b>개념 3</b><span>정의 → 소결</span><span>구성 요소 · 문헌연구</span></div>
     <p class="rhb-lens-model">연구 모형: 개념들의 통합적 관계는 이론적 틀로, 개별 관계 ①·②는 문헌연구와 레퍼런스로 설명된다</p>
   </div>
-  <div class="rhb-down" aria-hidden="true">↓ 이론적 근거가 되어야 하는 세 가지</div>
+  <div class="rhb-down">이론적 근거가 되어야 하는 세 가지</div>
   <div class="rhb-fig-row">
     <div class="rhb-chip"><b>연구자의 관점</b> 이 현상을 어떻게 바라보는가</div>
     <div class="rhb-chip"><b>주장의 근거</b> 무엇을 근거로 이렇게 주장하는가</div>
@@ -322,7 +322,7 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
     <div class="rhb-node"><b>표본·수집</b><span>절차, 수집량, 회수율</span></div>
     <div class="rhb-node"><b>측정도구</b><span>출처·구성·신뢰도·타당도</span></div>
   </div>
-  <div class="rhb-down" aria-hidden="true">↓ 분석은 이 순서로</div>
+  <div class="rhb-down">분석은 이 순서로</div>
   <div class="rhb-flowline rhb-flowline--steps">
     <div class="rhb-node"><b>① 스크리닝</b><span>분포·정규성</span></div>
     <div class="rhb-node"><b>② 신뢰도</b><span>문항 신뢰도</span></div>
@@ -358,11 +358,11 @@ lede: 학위논문과 학술논문의 다섯 장, 곧 서론·이론적 근거·
 <figure class="rhb-fig" aria-labelledby="fig4">
   <figcaption id="fig4">도식 4. 연구방법과 연구결과의 대응</figcaption>
   <div class="rhb-pairs">
-    <div class="rhb-pair"><span>3장 자료 수집 계획</span><i aria-hidden="true">→</i><span>자료 수집 결과</span></div>
-    <div class="rhb-pair"><span>3장 데이터 스크리닝</span><i aria-hidden="true">→</i><span>스크리닝 결과</span></div>
-    <div class="rhb-pair"><span>3장 신뢰도 분석</span><i aria-hidden="true">→</i><span>신뢰도 결과</span></div>
-    <div class="rhb-pair"><span>3장 타당도 분석</span><i aria-hidden="true">→</i><span>측정도구·모형 타당성 결과</span></div>
-    <div class="rhb-pair"><span>3장 RQ 1 · 2 · 3 분석</span><i aria-hidden="true">→</i><span>RQ 1 · 2 · 3 결과</span></div>
+    <div class="rhb-pair"><span>3장 자료 수집 계획</span><i aria-hidden="true"></i><span>자료 수집 결과</span></div>
+    <div class="rhb-pair"><span>3장 데이터 스크리닝</span><i aria-hidden="true"></i><span>스크리닝 결과</span></div>
+    <div class="rhb-pair"><span>3장 신뢰도 분석</span><i aria-hidden="true"></i><span>신뢰도 결과</span></div>
+    <div class="rhb-pair"><span>3장 타당도 분석</span><i aria-hidden="true"></i><span>측정도구·모형 타당성 결과</span></div>
+    <div class="rhb-pair"><span>3장 RQ 1 · 2 · 3 분석</span><i aria-hidden="true"></i><span>RQ 1 · 2 · 3 결과</span></div>
   </div>
   <p class="rhb-fig-note">결과에는 사실만 쓰고, 해석은 5장에서 합니다.</p>
 </figure>
