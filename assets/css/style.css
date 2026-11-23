@@ -2750,3 +2750,5 @@ div.rhx-tips { padding: 12px 16px; }
   .rhb-theory-model .rhb-tm-rel i { width: 2px; height: 18px; margin: 5px auto 0; transform: none; }
   .rhb-theory-model .rhb-tm-rel i::after { right: -4px; top: auto; bottom: -1px; transform: rotate(135deg); }
 }
+.rhx-path { stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.rhx-arrowhead { fill: var(--ink); }

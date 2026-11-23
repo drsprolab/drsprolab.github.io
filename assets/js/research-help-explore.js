@@ -137,7 +137,7 @@
     var minY = Math.min.apply(null, Object.keys(pos).map(function (id) { return pos[id].y; })) - 22;
     var root = svg('svg', { viewBox: '0 ' + minY + ' ' + W + ' ' + (H - minY), class: 'rhx-model-svg', role: 'img', 'aria-label': model.caption || '연구모형 도식' });
     var defs = svg('defs');
-    var mk = svg('marker', { id: arrowId, viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' });
+    var mk = svg('marker', { id: arrowId, viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '9', markerHeight: '9', markerUnits: 'userSpaceOnUse', orient: 'auto' });
     mk.appendChild(svg('path', { d: 'M0,0 L10,5 L0,10 z', class: 'rhx-arrowhead' }));
     defs.appendChild(mk); root.appendChild(defs);
     function center(id) { var p = pos[id]; return { x: p.x + BW / 2, y: p.y + BH / 2 }; }
@@ -197,6 +197,12 @@
     var legend = '실선 화살표는 직접 관계' + ((model.moderations || []).length ? ', 점선 화살표는 조절 관계(어떤 조건에서 관계의 크기가 달라지는지)' : '') + '를 뜻합니다.';
     if (C.length) legend += ' 맨 아래 회색 상자는 통제변수로, 결과에 영향을 줄 수 있는 다른 요인의 영향을 걷어 내고 보기 위해 함께 넣습니다.';
     foot.push(legend);
+    var connected = {};
+    paths.forEach(function (p) { connected[p.from] = true; connected[p.to] = true; });
+    (model.moderations || []).forEach(function (m) { connected[m.by] = true; });
+    var unlinked = nodes.filter(function (n) { return n.role !== '통제변수' && !connected[n.id]; });
+    var qualitative = /질적|면담|현상학|근거이론|내러티브|인터뷰|narrative|phenomenol|qualitative/i.test((model.method && model.method.name) || '');
+    if (unlinked.length && !qualitative) foot.push('연결선이 표시되지 않은 변수: ' + unlinked.map(function (n) { return n.label; }).join(', ') + '. 추천 결과에 이 변수의 경로가 포함되지 않았습니다. 연구 목적에 맞는 관계인지 확인해 보세요.');
     wrap.appendChild(el('figcaption', {}, [model.caption ? el('strong', { text: model.caption }) : null].concat(foot.map(function (t) { return el('span', { text: t }); }))));
     return wrap;
   }
