@@ -805,14 +805,13 @@
       rootEl.appendChild(el('div', { class: 'rh-rule', role: 'note' }, [el('strong', { class: 'rh-rule-title', text: '실습 시 주의사항' }), el('p', { class: 'rh-rule-text' }, ['타이핑을 하면서 여러분들의 생각이 더 잘 정리 될 수 있습니다. 마치 노트 필기 하는 것과 같은 원리로 보면 됩니다. ', el('mark', { text: '가급적 본인의 인지적 사고를 통해서 생각하고 AI 에게 도움을 받는 것을 추천합니다.' })])]));
       rootEl.appendChild(el('p', { class: 'rh-notice', text: AI_NOTICE }));
       if (s.id && s.status !== 'submitted') {
-        rootEl.appendChild(el('div', { class: 'rh-resume-notice', role: 'status' }, [
-          el('span', { text: '이 브라우저에 이어쓰기 기록이 있어 이전에 저장한 연구계획서를 불러왔습니다. 새로 작성하려면 아래 버튼을 누르세요. 기존 서버 저장본은 보존됩니다.' }),
-          el('button', { type: 'button', class: 'rh-link', onclick: function () {
+        rootEl.insertBefore(el('div', { class: 'rh-new-plan-actions' }, [
+          el('button', { type: 'button', class: 'rh-btn rh-new-plan-btn', onclick: function () {
             if (window.confirm('이 브라우저의 이어쓰기 기록을 지우고 새 연구계획서를 작성할까요? 서버에 저장된 기존 기록은 삭제되지 않습니다.')) {
               app.reset(); render(); status('새 연구계획서를 작성할 수 있습니다.');
             }
-          }, text: '새 연구계획서 작성' })
-        ]));
+          } }, [el('span', { 'aria-hidden': 'true', text: '+' }), '새 연구계획서 작성하기'])
+        ]), rootEl.firstChild);
       }
       var guide = s.round === 0 ? '처음 작성한 내용을 1차 저장하면 오른쪽에 피드백이 나타납니다. 이후에도 왼쪽의 기존 글을 이어서 수정합니다.'
         : s.round === 1 ? '1차 피드백을 반영하는 단계입니다. 오른쪽 의견을 보면서 왼쪽에 남아 있는 최초 작성문을 수정한 뒤 2차 저장해 주세요.'
