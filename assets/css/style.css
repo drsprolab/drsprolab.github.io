@@ -2684,3 +2684,18 @@ div.rhx-tips { padding: 12px 16px; }
 .rh-clarify-sub { font-size: 13.5px; color: var(--accent); margin-top: 2px; }
 .rh-clarify-item ul { margin: 0; padding-left: 1.3em; font-size: 14px; line-height: 1.65; }
 .rh-clarify-tip { padding: 8px 10px; border-radius: 6px; background: var(--tint); font-size: 13.5px; }
+
+/* Lab Insight 도식: 주장 하나와 그 이유 세 가지 (카드는 화면이 좁으면 세로로 쌓임) */
+.reasons-figure { max-width:900px; margin:28px auto; }
+.reasons-figure .rf-top, .reasons-figure .rf-bottom { padding:14px 18px; border-radius:10px; text-align:center; line-height:1.6; }
+.reasons-figure .rf-top { background:var(--accent-soft); border:1px solid var(--accent); color:var(--ink); font-size:15px; }
+.reasons-figure .rf-top strong { display:block; margin-top:2px; color:var(--accent); font-size:17px; }
+.reasons-figure .rf-cards { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; margin:12px 0; position:relative; }
+.reasons-figure .rf-card { padding:14px 16px; border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; background:var(--paper); }
+.reasons-figure .rf-num { display:inline-block; font-family:var(--f-mono); font-size:11px; letter-spacing:.06em; color:var(--muted); }
+.reasons-figure .rf-card h4 { margin:4px 0 6px; font-size:16px; color:var(--ink); }
+.reasons-figure .rf-card p { margin:0; font-size:14px; line-height:1.65; color:var(--ink); }
+.reasons-figure .rf-card p.rf-src { margin-top:8px; font-size:12px; color:var(--muted); }
+.reasons-figure .rf-bottom { border:1px dashed var(--accent); color:var(--accent); font-weight:700; font-size:15px; }
+@media (max-width:720px) { .reasons-figure .rf-cards { grid-template-columns:1fr; } }
+.reasons-figure figcaption { margin-top:9px; color:var(--muted); font-size:13px; line-height:1.6; }
