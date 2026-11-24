@@ -8,8 +8,9 @@
  *  4. [배포 → 새 배포 → 유형: 웹 앱] (실행: 나 / 액세스: 모든 사용자) → …/exec 주소를 받습니다.
  *  5. 그 주소를 hrd-intro/js/submit.js 의 GAS_URL 에 넣습니다.
  *
- * - 제출 PDF는 내 드라이브의 'HRD개론 과제 제출' 폴더 아래 과제명별 폴더에 저장됩니다.
- *   파일은 공유하지 않으므로 교수님 계정으로만 열 수 있습니다.
+ * - 제출 PDF는 내 드라이브의 'HRD개론 과제 제출' 폴더 아래 과제명별 폴더에 저장되고,
+ *   '링크가 있는 모든 사용자 보기'로 공유되어 사이트 제출 현황에서 누구나 내려받을 수 있습니다.
+ * - 코드를 바꾼 뒤에는 [배포 → 배포 관리 → 수정(연필) → 버전: 새 버전 → 배포]. 주소는 그대로입니다.
  * - 제출 기록은 이 시트의 submissions 탭에 한 줄씩 쌓입니다(자동 삭제 없음).
  */
 
@@ -21,6 +22,15 @@ var COLUMNS = ['id', 'created_at', 'submitted_at', 'assignment', 'team', 'member
 function setup() {
   sheet_();
   folder_();
+  shareAll();
+}
+
+// 이미 제출된 PDF까지 모두 '링크가 있는 모든 사용자 보기'로 바꿉니다(한 번 실행).
+function shareAll() {
+  list_().forEach(function (r) {
+    if (!r.file_id) return;
+    try { DriveApp.getFileById(r.file_id).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (e) { /* 지운 파일은 건너뜀 */ }
+  });
 }
 
 /* ---------- 요청 ---------- */
@@ -80,6 +90,7 @@ function submit_(req) {
 
   var blob = Utilities.newBlob(bytes, 'application/pdf', name);
   var file = subfolder_(assignment).createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
   var row = {
     id: Utilities.getUuid(),
