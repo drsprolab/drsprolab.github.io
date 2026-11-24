@@ -110,7 +110,12 @@
     }).then(function (row) {
       var mine = []; try { mine = JSON.parse(store(MINE_KEY) || '[]'); } catch (err) { mine = []; }
       mine.push(row.id); store(MINE_KEY, JSON.stringify(mine.slice(-30)));
-      setStatus('제출했습니다. 아래 제출 현황에서 확인할 수 있습니다.', 'ok');
+      setStatus('제출했습니다. 제출 확인서 PDF를 내려받습니다.', 'ok');
+      var rbtn = document.createElement('button');
+      rbtn.type = 'button'; rbtn.className = 'btn btn-sm'; rbtn.textContent = '제출 확인서 PDF 다시 받기';
+      rbtn.addEventListener('click', function () { receipt(row); });
+      status.appendChild(document.createTextNode(' ')); status.appendChild(rbtn);
+      receipt(row);
       file = null; dz.classList.remove('is-filled');
       $('dzTitle').textContent = 'PDF 파일을 여기로 끌어 놓거나 눌러서 고르세요';
       $('dzSub').textContent = 'PDF만 · ' + MAX_MB + 'MB 이하';
@@ -119,6 +124,62 @@
       setStatus('제출하지 못했습니다: ' + err.message + ' 잠시 후 다시 시도해 주세요.', 'err');
     }).then(function () { btn.disabled = false; });
   });
+
+  // ── 제출 확인서 PDF ──
+  var LIB = '../assets/js/pdf-libs/';
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var el = document.createElement('script'); el.src = src; el.onload = resolve;
+      el.onerror = function () { reject(new Error('PDF 도구를 불러오지 못했습니다.')); };
+      document.head.appendChild(el);
+    });
+  }
+  function pdfLibs() {
+    if (window.html2canvas && window.jspdf) return Promise.resolve();
+    return loadScript(LIB + 'html2canvas-1.4.1.min.js').then(function () { return loadScript(LIB + 'jspdf-2.5.1.umd.min.js'); });
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fullTime(ms) {
+    var d = new Date(Number(ms));
+    var p = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(d);
+    var g = function (t) { var x = p.filter(function (q) { return q.type === t; })[0]; return x ? x.value : ''; };
+    return g('year') + '. ' + g('month') + '. ' + g('day') + '. (' + g('weekday') + ') ' + g('hour') + ':' + g('minute') + ':' + g('second') + ' (한국 시간)';
+  }
+  function receipt(row) {
+    var names = String(row.members || '').split('|').filter(Boolean);
+    var box = document.createElement('div');
+    box.setAttribute('aria-hidden', 'true');
+    box.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;padding:72px 76px;background:#fff;color:#111;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;box-sizing:border-box';
+    var line = function (k, v) { return '<tr><th style="width:150px;text-align:left;padding:14px 12px;border-bottom:1px solid #d8dde4;color:#555;font-weight:600;font-size:15px;vertical-align:top">' + k + '</th><td style="padding:14px 12px;border-bottom:1px solid #d8dde4;font-size:16px;word-break:break-all">' + v + '</td></tr>'; };
+    box.innerHTML =
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:44px"><img src="assets/lab-mark.png" style="height:40px"><div style="font-size:14px;color:#555;letter-spacing:.06em">PRO AnalytiX Lab · DET1003 HRD개론</div></div>' +
+      '<div style="font-size:13px;letter-spacing:.14em;color:#1d4f86;font-weight:600">SUBMISSION RECEIPT</div>' +
+      '<h1 style="margin:8px 0 10px;font-size:34px;line-height:1.3">과제 제출 확인서</h1>' +
+      '<p style="margin:0 0 30px;font-size:15px;color:#555">아래 과제가 정상적으로 제출되었음을 확인합니다.</p>' +
+      '<table style="width:100%;border-collapse:collapse;border-top:2px solid #1d4f86">' +
+      line('과제명', esc(row.assignment)) +
+      (row.team ? line('팀', esc(row.team)) : '') +
+      line('제출자 (팀원)', esc(names.join(', '))) +
+      line('제출 시각', esc(fullTime(row.created_at))) +
+      line('제출 파일', esc(row.file_name) + (row.file_size ? ' <span style="color:#777">(' + mb(Number(row.file_size)) + ')</span>' : '')) +
+      line('접수번호', '<span style="font-family:monospace">' + esc(String(row.id).toUpperCase()) + '</span>') +
+      '</table>' +
+      '<p style="margin:36px 0 0;font-size:13px;color:#777;line-height:1.7">제출 시각은 학생 컴퓨터가 아니라 서버가 받은 시각입니다. 이 확인서는 제출 증빙으로 보관하세요.<br>https://hrdpro.hanyang.ac.kr/hrd-intro/submit.html</p>';
+    document.body.appendChild(box);
+    var fname = 'HRD개론_제출확인서_' + String(row.assignment).replace(/[\\/:*?"<>|\s]+/g, '_') + '_' + names.join('_') + '.pdf';
+    return pdfLibs().then(function () {
+      return Promise.all(Array.prototype.map.call(box.querySelectorAll('img'), function (im) { return im.complete ? 0 : new Promise(function (r) { im.onload = im.onerror = r; }); }));
+    }).then(function () {
+      return window.html2canvas(box, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+    }).then(function (canvas) {
+      var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' });
+      var w = 210, h = canvas.height * w / canvas.width;
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, w, Math.min(h, 297));
+      pdf.save(fname);
+    }).catch(function (err) {
+      setStatus('제출은 되었지만 확인서 PDF를 만들지 못했습니다: ' + err.message, 'err');
+    }).then(function () { box.remove(); });
+  }
 
   // ── 제출 현황 ──
   function fmtTime(ms) {
