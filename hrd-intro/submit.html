@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>과제 제출 · HRD개론</title>
+<meta name="robots" content="noindex" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="PRO AnalytiX Lab" />
+<meta property="og:title" content="과제 제출 · HRD개론" />
+<meta property="og:description" content="HRD개론(DET1003) 팀 과제 PDF 제출" />
+<meta property="og:url" content="https://hrdpro.hanyang.ac.kr/hrd-intro/submit.html" />
+<meta property="og:image" content="https://hrdpro.hanyang.ac.kr/assets/images/og-default.jpg" />
+<meta name="description" content="HRD개론(DET1003) 팀 과제 PDF 제출" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="css/style.css?v=20261124" />
+<link rel="stylesheet" href="css/components.css?v=20261124" />
+<style>
+#pw-gate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:var(--paper,#fff)}
+#pw-gate form{width:min(100%,380px);display:grid;gap:12px}
+#pw-gate .pw-mark{font-family:var(--f-mono,monospace);font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+#pw-gate h1{margin:0;font-size:26px;line-height:1.3;color:var(--ink)}
+#pw-gate p{margin:0;color:var(--muted);font-size:14.5px}
+#pw-gate input{font:inherit;font-size:16px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+#pw-gate input:focus{outline:2px solid var(--accent);outline-offset:1px}
+#pw-gate button{font:inherit;font-weight:600;font-size:15px;padding:11px 14px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+#pw-msg{color:var(--danger);font-size:14px;min-height:1.2em}
+#subForm{margin-top:28px}
+.member-list{display:grid;gap:8px}
+.member-row{display:flex;gap:8px;align-items:center}
+.member-row input{flex:1 1 auto;min-width:0}
+.member-row .btn{flex:none}
+.sub-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:22px}
+.sub-actions .btn-primary{padding:10px 22px;font-size:15px;font-weight:600}
+.sub-status{font-size:14px;color:var(--muted)}
+.sub-status.is-err{color:var(--danger)}
+.sub-status.is-ok{color:var(--good)}
+.sub-off{margin:0 0 22px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--tint);font-size:14px;color:var(--muted)}
+.sub-group{margin-top:26px}
+.sub-group h3{margin:0 0 8px;font-size:16px}
+.sub-table{width:100%;border-collapse:collapse;font-size:14px}
+.sub-table th,.sub-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.sub-table th{font-size:12.5px;font-weight:600;color:var(--muted)}
+.sub-table .t-time{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap;color:var(--muted)}
+.sub-table .t-file{font-family:var(--f-mono);font-size:12px;color:var(--muted);word-break:break-all}
+.sub-table .t-dl{text-align:right;white-space:nowrap}
+.sub-empty{padding:22px 4px;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0}
+.admin-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 6px}
+.admin-bar .chip{font-size:12px}
+.sub-mine{background:var(--accent-soft)}
+@media (max-width:560px){.sub-table .t-file{display:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#subForm">본문으로 건너뛰기</a>
+
+<header class="site-header">
+  <div class="container header-row">
+    <div class="brand">
+      <a class="brand-logo" href="https://hrdpro.hanyang.ac.kr/" aria-label="PRO AnalytiX Lab 홈"><img src="assets/lab-mark.png" alt="" width="39" height="36"></a>
+      <a class="brand-text" href="./" aria-label="HRD개론 수업자료 처음으로">
+        <span class="brand-name">HRD개론</span>
+      </a>
+    </div>
+    <div class="header-actions">
+      <a class="btn" href="https://hrdpro.hanyang.ac.kr/">연구실 홈</a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="테마 전환">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="lo-tabs" aria-label="HRD개론 메뉴">
+    <a href="./">Course Materials</a>
+    <a href="submit.html" aria-current="page">과제 제출</a>
+  </nav>
+
+  <section class="landing" aria-labelledby="pageTitle">
+    <div class="eyebrow">DET1003 HRD개론 · ASSIGNMENT</div>
+    <h1 id="pageTitle">과제 제출</h1>
+    <p class="lede">팀 과제를 PDF 파일로 제출합니다. 과제명과 팀원 이름을 적고 PDF를 올린 뒤 [제출하기]를 누르세요. 제출한 파일은 교수님만 내려받을 수 있습니다.</p>
+  </section>
+
+  <p class="sub-off" id="subOff" hidden>과제 제출 기능을 준비하고 있습니다. 준비가 끝나면 이 화면에서 바로 제출할 수 있습니다.</p>
+
+  <form id="subForm" novalidate>
+    <section class="csec" aria-labelledby="infoTitle">
+      <div class="csec-head">
+        <span class="csec-num">01</span>
+        <h2 id="infoTitle">과제 정보</h2>
+        <span class="csec-sub">과제명과 팀 이름을 적습니다.</span>
+      </div>
+      <div class="csec-body">
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-assign">과제명 <span class="required">*</span></label>
+            <input id="f-assign" type="text" list="assignList" maxlength="60" placeholder="예: 기말 팀 프로젝트 보고서" required />
+            <datalist id="assignList"></datalist>
+          </div>
+          <div class="field">
+            <label for="f-team">팀 이름 <span class="hint">선택</span></label>
+            <input id="f-team" type="text" maxlength="40" placeholder="예: 3조" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="csec" aria-labelledby="memTitle">
+      <div class="csec-head">
+        <span class="csec-num">02</span>
+        <h2 id="memTitle">제출자 (팀원)</h2>
+        <span class="csec-sub">팀원 모두의 이름을 한 칸에 한 명씩 적습니다. 혼자 낸다면 본인 이름만 적습니다.</span>
+      </div>
+      <div class="csec-body">
+        <div class="member-list" id="members"></div>
+        <div><button class="btn btn-sm" type="button" id="addMember">＋ 팀원 추가</button></div>
+      </div>
+    </section>
+
+    <section class="csec" aria-labelledby="fileTitle">
+      <div class="csec-head">
+        <span class="csec-num">03</span>
+        <h2 id="fileTitle">PDF 파일</h2>
+        <span class="csec-sub">PDF 파일 1개 (20MB 이하)</span>
+      </div>
+      <div class="csec-body">
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="PDF 파일 고르기">
+          <span class="dz-icon" aria-hidden="true">📄</span>
+          <span class="dz-title" id="dzTitle">PDF 파일을 여기로 끌어 놓거나 눌러서 고르세요</span>
+          <span class="dz-sub" id="dzSub">PDF만 · 20MB 이하</span>
+        </div>
+        <input id="fileInput" type="file" accept="application/pdf,.pdf" hidden />
+        <p class="dz-hint" id="dzHint" hidden></p>
+      </div>
+    </section>
+
+    <div class="sub-actions">
+      <button class="btn btn-primary" type="submit" id="submitBtn">제출하기</button>
+      <span class="sub-status" id="subStatus" role="status"></span>
+    </div>
+  </form>
+
+  <section class="sec-head" aria-labelledby="listTitle" style="margin-top:48px">
+    <h2 id="listTitle">제출 현황</h2>
+    <span class="sub" id="listCount"></span>
+  </section>
+  <div class="admin-bar" id="adminBar" hidden>
+    <span class="chip chip-ok">교수용 보기</span>
+    <a class="btn btn-sm" id="folderLink" target="_blank" rel="noopener" hidden>구글 드라이브 폴더 열기</a>
+    <span class="sub-status">PDF 받기는 교수님 구글 계정으로 로그인한 브라우저에서만 열립니다.</span>
+  </div>
+  <div id="subList"></div>
+  <p class="sub-empty" id="subEmpty" hidden>아직 제출된 과제가 없습니다.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <div>
+      <div class="footer-name">HRD개론</div>
+      <p>DET1003 HRD개론 · Assignment</p>
+    </div>
+  </div>
+  <div class="container copyright">PRO AnalytiX Lab · DET1003 HRD개론</div>
+</footer>
+
+<script src="js/common.js?v=20261124"></script>
+<script src="js/submit.js?v=20261124"></script>
+</body>
+</html>

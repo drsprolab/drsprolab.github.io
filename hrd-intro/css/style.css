@@ -93,7 +93,8 @@ main.container { padding-block: 40px 72px; }
   width: 40px; height: 40px; flex: none; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--tint); font-size: 18px;
 }
-.brand-text { display: grid; }
+.brand-text { display: grid; color: inherit; text-decoration: none; }
+.brand a:hover { text-decoration: none; }
 .brand-name { font-family: var(--f-display); font-weight: 600; font-size: 19px; }
 .brand-sub { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }

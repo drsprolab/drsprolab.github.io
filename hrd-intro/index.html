@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
-<link rel="stylesheet" href="css/style.css?v=20261117" />
-<link rel="stylesheet" href="css/components.css?v=20261117" />
+<link rel="stylesheet" href="css/style.css?v=20261124" />
+<link rel="stylesheet" href="css/components.css?v=20261124" />
 <style>
 #pw-gate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:var(--paper,#fff)}
 #pw-gate form{width:min(100%,380px);display:grid;gap:12px}
@@ -35,12 +35,12 @@
 
 <header class="site-header">
   <div class="container header-row">
-    <a class="brand" href="./" aria-label="HRD개론 수업자료 처음으로">
-      <span class="brand-logo" aria-hidden="true"><img src="assets/lab-mark.png" alt="" width="39" height="36"></span>
-      <span class="brand-text">
+    <div class="brand">
+      <a class="brand-logo" href="https://hrdpro.hanyang.ac.kr/" aria-label="PRO AnalytiX Lab 홈"><img src="assets/lab-mark.png" alt="" width="39" height="36"></a>
+      <a class="brand-text" href="./" aria-label="HRD개론 수업자료 처음으로">
         <span class="brand-name">HRD개론</span>
-      </span>
-    </a>
+      </a>
+    </div>
     <div class="header-actions">
       <a class="btn" href="https://hrdpro.hanyang.ac.kr/">연구실 홈</a>
       <button class="icon-btn" type="button" data-theme-toggle aria-label="테마 전환">🌙</button>
@@ -51,6 +51,7 @@
 <main class="container">
   <nav class="lo-tabs" aria-label="HRD개론 메뉴">
     <a href="./" aria-current="page">Course Materials</a>
+    <a href="submit.html">과제 제출</a>
   </nav>
 
   <section class="landing" aria-labelledby="pageTitle">
@@ -94,24 +95,6 @@ var MATERIALS = [
 
 (function () {
   'use strict';
-  // 열람 비밀번호의 SHA-256 (원문은 코드에 두지 않는다)
-  var PASS_HASH = '517e6378947cd7aa3ba388d78ce7e8e1c0a2cf07e7282c981856449e03985297';
-  var PASS_KEY = 'hrd-intro-pass';
-
-  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
-
-  // 테마
-  var theme = store('paperlog-theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  document.documentElement.setAttribute('data-theme', theme);
-  var tbtn = document.querySelector('[data-theme-toggle]');
-  tbtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-  tbtn.addEventListener('click', function () {
-    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    tbtn.textContent = next === 'dark' ? '☀️' : '🌙';
-    store('paperlog-theme', next);
-  });
-
   // 목록
   var list = document.getElementById('materials');
   function fileName(i, t) { return 'HRD개론_' + String(i).padStart(2, '0') + '_' + t.replace(/\s*·\s*/g, '_').replace(/[·\s]+/g, '_') + '.pdf'; }
@@ -129,32 +112,8 @@ var MATERIALS = [
   document.getElementById('matCount').textContent = MATERIALS.length + '개 자료';
   if (!MATERIALS.length) { list.hidden = true; document.getElementById('matEmpty').hidden = false; }
 
-  // 비밀번호
-  function sha256(text) {
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
-      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-    });
-  }
-  if (store(PASS_KEY) === PASS_HASH) return;
-  var gate = document.createElement('div');
-  gate.id = 'pw-gate';
-  gate.innerHTML = '<form autocomplete="on"><div class="pw-mark">HRD개론 · DET1003</div>' +
-    '<h1>비밀번호를 입력해 주세요</h1>' +
-    '<p>HRD개론 수강생만 열람할 수 있습니다. 한 번 입력하면 이 브라우저에서는 다시 묻지 않습니다.</p>' +
-    '<input id="pw-input" type="password" name="password" autocomplete="current-password" placeholder="비밀번호" aria-label="비밀번호" required>' +
-    '<button type="submit">들어가기</button><div id="pw-msg" role="alert"></div></form>';
-  document.body.appendChild(gate);
-  var input = gate.querySelector('#pw-input');
-  input.focus();
-  gate.querySelector('form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    sha256(input.value.trim()).then(function (h) {
-      if (h === PASS_HASH) { store(PASS_KEY, h); gate.remove(); return; }
-      gate.querySelector('#pw-msg').textContent = '비밀번호가 맞지 않습니다. 다시 입력해 주세요.';
-      input.select();
-    });
-  });
 })();
 </script>
+<script src="js/common.js?v=20261124"></script>
 </body>
 </html>

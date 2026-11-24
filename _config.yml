@@ -46,6 +46,7 @@ exclude:
   - tools
   - appointment-backend
   - research-help-backend
+  - hrd-intro-backend
   - _config.preview.yml
   - LOCAL_REVIEW.md
   - ENGLISH_REVIEW.md
