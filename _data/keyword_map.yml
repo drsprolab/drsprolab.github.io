@@ -12,6 +12,8 @@
     - { name: 조직시민행동, en: OCB, patterns: ["조직시민행동", "citizenship", "\\bOCB\\b"] }
     - { name: 스트레스·소진, en: Stress & Burnout, patterns: ["스트레스", "소진", "burnout", "distress"] }
     - { name: 임파워먼트, en: Empowerment, patterns: ["임파워", "empower"] }
+    - { name: 직장 내 차별, en: Workplace Discrimination, patterns: ["직장 내 차별", "차별", "discriminat"] }
+    - { name: 마이크로매니지먼트, en: Micromanagement, patterns: ["마이크로매니지먼트", "micromanag"] }
     - { name: 심리적 특권의식, en: Entitlement, patterns: ["특권의식", "entitlement"] }
     - { name: 긍정심리자본, en: PsyCap, patterns: ["긍정심리자본", "psychological capital"] }
     - { name: 직무만족, en: Job Satisfaction, patterns: ["직무만족", "만족도", "satisfaction"] }
@@ -66,6 +68,7 @@
   group: Data Analysis
   en: Methods
   keywords:
+    - { name: 현상학·질적연구, en: Phenomenology & Qualitative, patterns: ["현상학", "phenomenolog", "질적연구", "qualitative", "근거이론", "내러티브"] }
     - { name: 메타분석, en: Meta-analysis, patterns: ["메타분석", "meta-analy"] }
     - { name: 잠재프로파일, en: Latent Profile, patterns: ["잠재프로파일", "잠재계층", "latent profile", "latent class", "\\bLPA\\b"] }
     - { name: 척도 개발·타당화, en: Scale Validation, patterns: ["측정도구", "척도", "타당화", "validation", "inventory", "questionnaire"] }
