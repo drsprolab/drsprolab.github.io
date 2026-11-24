@@ -99,10 +99,10 @@
     var team = $('f-team').value.replace(/\s+/g, ' ').trim();
     var names = members();
     $('f-assign').removeAttribute('aria-invalid');
-    if (!assign) { $('f-assign').setAttribute('aria-invalid', 'true'); $('f-assign').focus(); setStatus('과제명을 적어 주세요.', 'err'); return; }
+    if (!assign) { $('f-assign').setAttribute('aria-invalid', 'true'); $('f-assign').focus(); setStatus('프로젝트명을 적어 주세요.', 'err'); return; }
     if (!names.length) { membersBox.querySelector('input').focus(); setStatus('팀원 이름을 한 명 이상 적어 주세요.', 'err'); return; }
     if (!file) { dz.focus(); setStatus('PDF 파일을 올려 주세요.', 'err'); return; }
-    if (!window.confirm('다음 내용으로 제출할까요?\n\n과제명: ' + assign + (team ? '\n팀: ' + team : '') + '\n팀원: ' + names.join(', ') + '\n파일: ' + file.name)) return;
+    if (!window.confirm('다음 내용으로 제출할까요?\n\n프로젝트명: ' + assign + (team ? '\n팀: ' + team : '') + '\n팀원: ' + names.join(', ') + '\n파일: ' + file.name)) return;
 
     btn.disabled = true;
     setStatus('제출하는 중입니다… 파일 크기에 따라 30초 정도 걸릴 수 있습니다.');
@@ -141,7 +141,7 @@
     var dl = [];
     var groups = {}, order = [];
     rows.forEach(function (r) {
-      var k = String(r.assignment || '(과제명 없음)');
+      var k = String(r.assignment || '(프로젝트명 없음)');
       if (!groups[k]) { groups[k] = []; order.push(k); }
       groups[k].push(r);
       if (dl.indexOf(k) < 0) dl.push(k);
