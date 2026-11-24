@@ -7,7 +7,7 @@
  * 주소 끝에 ?admin 을 붙이면 목록에 'PDF 받기' 버튼이 나온다(파일은 교수님 계정만 열 수 있음). */
 (function () {
   'use strict';
-  var GAS_URL = '';
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbyQrVES1C4qbwWhBy3d5ggS5JXwu8CYuKC6q_7A8EWrSrjuQst_3ES8VN1AgLhwB5thhA/exec';
   var MAX_MB = 20;
   var MAX_MEMBERS = 8;
   var ADMIN = /[?&]admin\b/.test(location.search);
