@@ -970,9 +970,12 @@ function exploreFeedback_(text) {
     '말투는 처음 연구하는 사람을 격려하는 지도교수처럼 쉽고 따뜻하게 한다. 전문 용어는 꼭 필요할 때만 쓰고, 처음 나올 때 괄호 안에 쉬운 말로 풀어 쓴다(예: 매개변수(중간에서 연결해 주는 변수), 횡단 설문(한 번에 조사하는 설문)). ' +
     '1) problem.text에는 학생의 글에서 출발한 연구의 문제의식 초안을 3~5문장으로 쓴다. 현상에서 무엇이 실제 문제인지, 왜 아직 답이 없는지, 왜 알아야 하는지가 드러나게 하고 일반적인 시대 흐름 이야기로 시작하지 않는다. problem.basis에는 여러분의 글 어떤 부분에서 이 문제의식을 읽어 냈는지 1~2문장으로 쓴다. ' +
     '2) purposes에는 이 문제의식에서 나올 수 있는 연구목적 예시를 정확히 3개 쓴다. 각각 서로 다른 방향(예: 관계 확인, 과정·매개 설명, 조건·조절 탐색, 집단 비교, 경험의 의미 이해)으로 만든다. purpose는 "본 연구의 목적은 ~이다" 형태의 한두 문장, focus는 이 목적이 특히 무엇에 초점을 두는지 한 문장, rqs는 이 목적에 맞는 연구문제 2~3개다. ' +
-    '3) theories에는 이 연구를 설명할 수 있는 잘 알려진 이론을 정확히 3개 고른다. name은 한국어 이름과 영어 이름, scholars는 대표 학자 이름만(연도·DOI·논문 제목 없이, 확실하지 않으면 빈 문자열), core는 이론의 핵심 주장 1~2문장, logic은 "이 이론을 사용하면 ~이기 때문에 ~가 ~에 영향을 준다고 설명할 수 있다"처럼 이 연구의 변수 관계를 설명하는 논리 2~3문장, caution은 이 이론을 쓸 때 흔한 실수 1문장이다. lens는 "이 이론의 렌즈로 보면 여러분의 연구모형이 어떻게 해석되는지"를 보여 주는 개념 도식이다: question은 이 이론이 이 연구에 던지는 핵심 질문 1문장, chain은 왼쪽에서 오른쪽으로 이어지는 3~5개 상자(첫 상자는 모형 1의 독립변수, 마지막 상자는 모형 1의 종속변수, 그 사이는 이론이 설명에 쓰는 핵심 개념·과정 1~3개; kind는 연구 변수면 variable, 이론의 개념이면 concept; label은 12자 이내; note는 앞 상자에서 이 상자로 넘어가는 이유를 이 이론의 말로 12자 이내로), reading은 이 렌즈로 모형을 읽으면 어떻게 해석되는지 1~2문장, blind는 이 렌즈로는 잘 보이지 않는 것 1문장이다. 이 변수 관계를 이론이 인과로 증명한다고 쓰지 않는다. ' +
+    '3) theories에는 이 연구를 설명할 수 있는 잘 알려진 이론을 정확히 3개 고른다. name은 한국어 이름과 영어 이름, scholars는 대표 학자 이름만(연도·DOI·논문 제목 없이, 확실하지 않으면 빈 문자열), core는 이론의 핵심 주장 1~2문장, logic은 "이 이론을 사용하면 ~이기 때문에 ~가 ~에 영향을 준다고 설명할 수 있다"처럼 이 연구의 변수 관계를 설명하는 논리 2~3문장, caution은 이 이론을 쓸 때 흔한 실수 1문장이다. lens는 "이 이론의 렌즈로 보면 여러분의 연구모형이 어떻게 해석되는지"를 보여 주는 개념 도식이다: question은 이 이론이 이 연구에 던지는 핵심 질문 1문장, chain은 왼쪽에서 오른쪽으로 이어지는 3~5개 상자(첫 상자는 첫 번째 추천(초중급)의 독립변수 또는 핵심 개념, 마지막 상자는 그 추천의 종속변수 또는 결과 개념, 그 사이는 이론이 설명에 쓰는 핵심 개념·과정 1~3개; kind는 연구 변수면 variable, 이론의 개념이면 concept; label은 12자 이내; note는 앞 상자에서 이 상자로 넘어가는 이유를 이 이론의 말로 12자 이내로), reading은 이 렌즈로 모형을 읽으면 어떻게 해석되는지 1~2문장, blind는 이 렌즈로는 잘 보이지 않는 것 1문장이다. 이 변수 관계를 이론이 인과로 증명한다고 쓰지 않는다. ' +
     '4) variables.core에는 여러분이 다루고 싶어 하는 핵심 변수 3~5개, variables.extra에는 추가로 고려해 볼 만한 변수(매개·조절·통제 등) 2~4개를 쓴다. role은 독립변수·종속변수·매개변수·조절변수·통제변수 중 하나, concept는 이 연구에서 이 변수가 무엇을 뜻하는지 쉬운 말로 1~2문장, extra의 why는 왜 함께 고려하면 좋은지 1문장, measure는 측정 방향과 기존 척도를 찾을 영어 검색어다. 척도 이름·저자를 지어내지 않는다. ' +
-    '5) models에는 연구모형 후보를 정확히 3개 쓴다. 3개는 서로 다른 연구방법에 대응해야 하며(예: 여러 요인이 한 결과를 설명하는 다중회귀모형, 중간 과정을 보는 매개모형, 조건에 따라 달라지는지 보는 조절모형, 집단 비교, 성장·변화 추적, 면담 같은 질적 접근 중 여러분의 글에 맞는 것), 가능하면 purposes 1·2·3에 하나씩 대응시킨다. 각 모형은 title(예: "모형 1: 여러 요인이 결과를 설명하는 다중회귀모형"), purposeNo(1~3), nodes, paths, moderations, caption, method를 가진다. nodes는 3~8개, id는 X1, X2, M1, W1, Y1, C1처럼 짧게, label은 변수 이름(14자 이내), role은 위 다섯 역할 중 하나다. 설문·패널·준실험처럼 변수를 통계적으로 다루는 모형에는 결과에 영향을 줄 수 있는 다른 요인(예: 성별, 근속연수, 직급, 사전 수준)을 통제변수 1~2개로 nodes에 반드시 포함한다. 통제변수는 경로 없이 nodes에만 둔다(도식이 알아서 종속변수로 연결해 그린다). paths는 직접 경로(from→to, id 사용), moderations는 조절 관계(by: 조절변수 id, from·to: 조절되는 경로의 양 끝 id)다. 양적 모형에서 관계를 설명하는 독립·매개·종속변수가 있으면, 그 변수들을 잇는 paths를 빠짐없이 쓴다. 회귀는 독립→종속, 매개는 독립→매개→종속(직접경로를 검토할 때는 독립→종속도 추가), 조절은 독립→종속 경로와 moderations를 함께 쓴다. paths가 비어도 되는 경우는 질적연구처럼 변수 간 관계선을 그리지 않는 모형뿐이다. 빠진 경로를 그림이 임의로 만들어 낼 수 없으므로 노드와 경로의 id가 서로 일치하는지 확인한다. 질적연구처럼 변수 모형을 그릴 수 없는 방법이면 핵심 개념 2~4개만 nodes로 두고 경로는 비워도 된다. caption은 모형을 한 문장으로 설명한다. method는 이 모형을 확인할 연구방법으로, 연구방법을 전혀 모르는 사람이 읽는다고 생각하고 쓴다. name은 쉬운 이름(예: "설문으로 관계 확인하기"), why는 이 방법이 여러분의 궁금증에 왜 맞는지 일상적인 말로 1~2문장, how는 "누구에게, 무엇을, 어떻게 물어보고, 모은 자료로 무엇을 확인하는지"를 순서대로 2~4문장이다. 분석 기법 이름(회귀분석, 구조방정식 등)은 꼭 필요할 때만 쓰고 무엇을 알려 주는지 괄호로 풀어 쓴다. 설계가 허용하지 않는 인과 표현은 쓰지 않는다. 모형 1은 가장 기본이 되는 목적의 모형이며 theories의 lens가 이 모형의 변수를 쓴다. ' +
+    '5) 연구 추천을 만든다. 먼저 diagnosis에 여러분의 글이 던지는 질문의 성격을 진단한다: kind는 이 고민이 어떤 종류의 질문인지 한 구절(예: "무엇이 무엇과 관련되는가", "어떤 과정을 거쳐 일어나는가", "시간이 지나며 어떻게 달라지는가", "어떤 유형의 사람들이 있는가", "어떤 조건에서 달라지는가", "경험이 어떤 의미인가", "무엇을 설계·개발할 것인가", "관계망·집단 간 차이", "글·말 자료에서 무엇이 드러나는가"), reason은 여러분의 글 어느 표현이 그렇게 읽히는지 1~2문장이다. ' +
+    '이어서 recommendations에 정확히 2개를 쓴다. 첫째는 level이 "초중급"인 추천(연구를 처음 하거나 몇 번 해 본 사람이 혼자 또는 지도를 받아 해낼 수 있는 연구), 둘째는 level이 "중고급"인 추천(자료 수집·분석 역량이 더 필요하지만 여러분의 질문에 더 깊이 답하는 연구)이다. ' +
+    '획일적인 추천을 피하는 것이 가장 중요하다. 기본값으로 다중회귀·단순 상관·일반 설문 검증을 고르지 않는다. 연구방법은 diagnosis에서 읽은 질문의 성격과 여러분의 글에 있는 단서(시간 흐름·변화 → 교차지연패널·잠재성장·준실험, 사람 유형 → 잠재프로파일·잠재계층, 여러 집단·팀·수준 → 다집단·다층, 관계망 → 사회네트워크, 말·글·후기 자료 → 면담·주제분석·토픽모델링·감성분석, 경험의 의미 → 현상학·내러티브·사례연구, 만들어 쓰는 것 → 설계기반연구, 기존 연구 정리 → 문헌고찰·메타분석, 중간 과정 → 매개, 조건 → 조절, 개입의 효과 → 준실험)에 맞춰 고른다. 두 추천은 연구방법이 서로 달라야 하고, 둘 다 같은 계열(예: 둘 다 설문 회귀)로 채우지 않는다. 글의 단서가 부족하면 억지로 변수 관계 모형을 만들지 말고 질적·문헌 접근이나 탐색 연구를 포함한다. 다중회귀는 글이 정말로 "여러 요인 중 무엇이 결과와 관련되는가"를 묻고 있을 때만 쓴다. 초중급은 접근하기 쉬운 방법(예: 설문 기반 관계·매개·조절 확인, 집단 비교, 면담 기반 주제분석, 사례연구, 문헌 정리, 간단한 준실험)에서, 중고급은 더 정교한 설계(예: 잠재성장·교차지연패널·잠재프로파일·다층·구조방정식·조절된 매개·사회네트워크·혼합연구·준실험·설계기반연구·텍스트마이닝)에서 질문에 맞는 것을 고른다. ' +
+    '각 추천의 항목: level, title(예: "초중급 추천: 협력 경험을 면담으로 풀어 보는 연구"처럼 이 연구가 무엇을 하는지 드러나는 이름), cue는 이 방법을 고른 단서로 여러분의 글에서 따온 표현이나 내용 1문장, fit는 왜 이 고민에 이 수준의 이 연구가 적절한지 1~2문장(쉬운 말), nodes·paths·moderations·caption은 연구모형 도식이다. nodes는 2~8개, id는 X1, X2, M1, W1, Y1, C1처럼 짧게, label은 변수 또는 핵심 개념 이름(14자 이내), role은 위 다섯 역할 중 하나다. 설문·패널·준실험처럼 변수를 통계적으로 다루는 모형에는 결과에 영향을 줄 수 있는 다른 요인(예: 성별, 근속연수, 직급, 사전 수준)을 통제변수 1~2개로 nodes에 포함한다(통제변수는 경로 없이 nodes에만 두면 도식이 알아서 종속변수로 연결해 그린다). paths는 직접 경로(from→to, id 사용), moderations는 조절 관계(by: 조절변수 id, from·to: 조절되는 경로의 양 끝 id)다. 질적·문헌·설계 연구처럼 변수 모형을 그릴 수 없으면 핵심 개념 2~4개만 nodes로 두고 경로는 비워도 된다. caption은 모형을 한 문장으로 설명한다. method는 name(쉬운 이름), why(이 방법이 여러분의 궁금증에 왜 맞는지 일상적인 말로 1~2문장), how(누구에게, 무엇을, 어떻게 물어보거나 모으고, 모은 자료로 무엇을 확인하는지 순서대로 2~4문장)이다. needs는 data(필요한 자료와 대략의 규모, 1문장)와 skill(필요한 역량이나 도구, 1문장)이다. alternatives에는 비슷한 질문에 쓸 수 있는 다른 방법 이름 1~2개를 쉬운 말로 쓴다. 분석 기법 이름(회귀분석, 구조방정식 등)은 꼭 필요할 때만 쓰고 무엇을 알려 주는지 괄호로 풀어 쓴다. 설계가 허용하지 않는 인과 표현은 쓰지 않는다. 첫 번째 추천(초중급)의 변수·개념이 theories의 lens에 쓰인다. ' +
     '6) considerations에는 연구를 처음 시작하는 여러분이 다음에 스스로 생각해 볼 고민거리를 4~6개 쓴다. 전문 용어 없이 바로 답해 볼 수 있는 쉬운 질문으로 만든다(예: "누구를 대상으로 할지 정했나요?", "궁금한 것을 한 문장으로 말할 수 있나요?", "비슷한 연구를 한 편 찾아 읽어 볼까요?"). topic은 짧은 질문 형태, detail은 왜 이것부터 생각하면 좋은지와 어떻게 해 보면 되는지를 쉬운 말로 1~2문장이다. ' +
     'titles에는 위 연구목적 3개에 하나씩 대응하는 연구제목 예시를 정확히 3개 쓴다. title은 핵심 변수·대상·관계가 드러나는 학술 논문 제목(필요하면 부제 포함), note는 어느 목적(목적 1·2·3)에 맞춘 제목이고 무엇을 강조하는지 1문장이다. 설계가 허용하지 않는 "효과", "영향" 같은 인과 표현은 피한다. ' +
     'understanding에는 여러분이 궁금해하는 핵심을 여러분의 표현을 살려 1~2문장으로, keywords에는 선행연구 검색용 영어 검색어 4~6개를 쓴다. ' +
@@ -981,11 +984,22 @@ function exploreFeedback_(text) {
   const raw = result.data || {};
   if (!raw.problem || !Array.isArray(raw.purposes) || !raw.purposes.length) fail_('ai_failed', '추천 결과에 빠진 부분이 있습니다.');
   const c = (t, max) => stripCitations_(clip_(t, max), []);
-  const list = (arr, n, fn) => (Array.isArray(arr) ? arr : []).slice(0, n).map(fn).filter(Boolean);
+  const list = (arr, n, fn) => (Array.isArray(arr) ? arr : []).slice(0, n).map((x, i) => fn(x, i)).filter(Boolean);
   const role = r => EXPLORE_ROLES.indexOf(r) >= 0 ? r : '독립변수';
   const vars = raw.variables || {};
+  const recs = list(raw.recommendations, 2, (m, idx) => {
+    if (!m) return null;
+    const g = exploreModel_(m), me = m.method || {}, nd = m.needs || {};
+    if (g.nodes.length < 2) return null;
+    g.level = idx === 1 ? '중고급' : '초중급';
+    g.title = c(m.title, 160); g.cue = c(m.cue, 400); g.fit = c(m.fit, 600);
+    g.method = { name: c(me.name, 120), why: c(me.why, 500), how: c(me.how, 700) };
+    g.needs = { data: c(nd.data, 300), skill: c(nd.skill, 300) };
+    g.alternatives = list(m.alternatives, 2, a => c(a, 80));
+    return g;
+  });
   return {
-    generatedBy: result.by, generatedAt: now_(), version: 3,
+    generatedBy: result.by, generatedAt: now_(), version: 4,
     understanding: c(raw.understanding, 600),
     titles: list(raw.titles, 3, t => t && t.title && { title: c(t.title, 200), note: c(t.note, 300) }),
     problem: { text: c(raw.problem.text, 1500), basis: c(raw.problem.basis, 500) },
@@ -995,14 +1009,9 @@ function exploreFeedback_(text) {
       core: list(vars.core, 5, v => v && v.name && { name: c(v.name, 80), role: role(v.role), concept: c(v.concept, 500), measure: c(v.measure, 300) }),
       extra: list(vars.extra, 4, v => v && v.name && { name: c(v.name, 80), role: role(v.role), concept: c(v.concept, 500), why: c(v.why, 300), measure: c(v.measure, 300) })
     },
-    models: list(raw.models, 3, m => {
-      if (!m) return null;
-      const g = exploreModel_(m), me = m.method || {};
-      if (g.nodes.length < 2) return null;
-      g.title = c(m.title, 160); g.purposeNo = Math.min(3, Math.max(0, Number(m.purposeNo) || 0));
-      g.method = { name: c(me.name, 120), why: c(me.why, 500), how: c(me.how, 700) };
-      return g;
-    }),
+    diagnosis: raw.diagnosis && raw.diagnosis.kind ? { kind: c(raw.diagnosis.kind, 160), reason: c(raw.diagnosis.reason, 500) } : null,
+    recommendations: recs,
+    models: recs,
     considerations: list(raw.considerations, 6, k => k && k.topic && { topic: c(k.topic, 80), detail: c(k.detail, 400) }),
     keywords: list(raw.keywords, 6, k => c(k, 120))
   };
@@ -1049,7 +1058,8 @@ function exploreSchema_() {
     purposes: arr({ purpose: str, focus: str, rqs: strs }),
     theories: arr({ name: str, scholars: str, core: str, logic: str, caution: str, lens: obj({ question: str, chain: arr({ label: str, kind: { type: 'string', enum: ['variable', 'concept'] }, note: str }), reading: str, blind: str }) }),
     variables: obj({ core: arr({ name: str, role: role, concept: str, measure: str }), extra: arr({ name: str, role: role, concept: str, why: str, measure: str }) }),
-    models: arr({ title: str, purposeNo: { type: 'integer' }, nodes: arr({ id: str, label: str, role: role }), paths: arr({ from: str, to: str }), moderations: arr({ by: str, from: str, to: str }), caption: str, method: obj({ name: str, why: str, how: str }) }),
+    diagnosis: obj({ kind: str, reason: str }),
+    recommendations: arr({ level: { type: 'string', enum: ['초중급', '중고급'] }, title: str, cue: str, fit: str, nodes: arr({ id: str, label: str, role: role }), paths: arr({ from: str, to: str }), moderations: arr({ by: str, from: str, to: str }), caption: str, method: obj({ name: str, why: str, how: str }), needs: obj({ data: str, skill: str }), alternatives: strs }),
     considerations: arr({ topic: str, detail: str }),
     keywords: strs
   });

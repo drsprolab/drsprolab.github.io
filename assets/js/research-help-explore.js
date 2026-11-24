@@ -365,19 +365,36 @@
       el('h4', { class: 'rhx-subhead', text: '사용하고자 하는 변수' }), varTable(v.core, false),
       v.extra && v.extra.length ? el('h4', { class: 'rhx-subhead', text: '추가로 고려해 볼 수 있는 변수' }) : null, varTable(v.extra, true)
     ]));
-    var models = (r.models && r.models.length) ? r.models : (r.model ? [Object.assign({}, r.model, { method: (r.methods || [])[0] })] : []);
-    box.appendChild(step(5, '연구모형과 연구방법', '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 처음에는 "누구에게, 무엇을, 어떻게 물어볼까" 정도로 생각하면 충분해요. 여러분의 고민에 맞는 연구모형 후보를 방법별로 보여 드릴게요. 마음에 가장 가까운 모형을 골라 보세요.',
-      models.map(function (m, i) {
-        var me = m.method || {};
-        return el('article', { class: 'rhx-card rhx-modelcard' }, [
-          el('h4', {}, [el('span', { class: 'rhx-no', text: '모형 ' + (i + 1) }), (m.title || '').replace(/^모형\s*\d+\s*[:：]\s*/, '')]),
-          m.purposeNo ? el('p', { class: 'rhx-scholar', text: '연구목적 ' + m.purposeNo + '에 가까운 모형' }) : null,
+    var recs = (r.recommendations && r.recommendations.length) ? r.recommendations : ((r.models && r.models.length) ? r.models : (r.model ? [Object.assign({}, r.model, { method: (r.methods || [])[0] })] : []));
+    var hasLevels = !!(r.recommendations && r.recommendations.length);
+    box.appendChild(step(5, '연구모형과 연구방법', hasLevels
+      ? '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 같은 방법을 모두에게 권하지 않고, 여러분의 글에서 읽은 질문의 성격에 맞춰 난이도가 다른 두 가지 연구를 제안할게요.'
+      : '지금 연구방법을 정확하게 이해하기 어려운 것은 정상입니다. 처음에는 "누구에게, 무엇을, 어떻게 물어볼까" 정도로 생각하면 충분해요. 여러분의 고민에 맞는 연구모형 후보를 보여 드릴게요.',
+      [
+        r.diagnosis ? el('div', { class: 'rhx-diagnosis' }, [
+          el('span', { class: 'rhx-diag-tag', text: '여러분의 고민은' }),
+          el('strong', { text: r.diagnosis.kind }),
+          r.diagnosis.reason ? el('span', { class: 'rhx-diag-why', text: r.diagnosis.reason }) : null
+        ]) : null
+      ].concat(recs.map(function (m, i) {
+        var me = m.method || {}, nd = m.needs || {};
+        var lvl = hasLevels ? (m.level || (i === 1 ? '중고급' : '초중급')) : '';
+        var shown = (m.title || '').replace(/^(초중급|중고급)\s*추천\s*[:：]\s*/, '').replace(/^모형\s*\d+\s*[:：]\s*/, '');
+        return el('article', { class: 'rhx-card rhx-modelcard' + (lvl ? ' is-' + (lvl === '중고급' ? 'adv' : 'beg') : '') }, [
+          el('h4', {}, [el('span', { class: 'rhx-no' + (lvl === '중고급' ? ' is-adv' : ''), text: lvl ? lvl + ' 연구 추천' : '모형 ' + (i + 1) }), shown]),
+          m.fit ? el('p', {}, [el('b', { text: '왜 이 고민에 맞을까요 ' }), m.fit]) : null,
+          m.cue ? el('p', { class: 'rhx-scholar' }, ['여러분의 글에서 읽은 단서: ', m.cue]) : null,
           modelDiagram(m),
           me.name ? el('p', {}, [el('b', { text: '이런 방법으로 확인해요 ' }), me.name]) : null,
           me.why ? el('p', {}, [el('b', { text: '왜 이 방법일까요 ' }), me.why]) : null,
-          me.how ? el('p', {}, [el('b', { text: '어떻게 해 보면 될까요 ' }), me.how]) : null
+          me.how ? el('p', {}, [el('b', { text: '어떻게 해 보면 될까요 ' }), me.how]) : null,
+          (nd.data || nd.skill) ? el('ul', { class: 'rhx-needs' }, [
+            nd.data ? el('li', {}, [el('b', { text: '필요한 자료 ' }), nd.data]) : null,
+            nd.skill ? el('li', {}, [el('b', { text: '필요한 역량 ' }), nd.skill]) : null
+          ]) : null,
+          (m.alternatives || []).length ? el('p', { class: 'rhx-scholar' }, ['비슷한 질문에 쓸 수 있는 다른 방법: ' + m.alternatives.join(', ')]) : null
         ]);
-      })));
+      }))));
     box.appendChild(step(6, '앞으로 생각해 볼 고민거리', '정답을 찾으려 하기보다, 아래 질문에 여러분의 말로 한 줄씩 답해 보세요.', [
       el('ol', { class: 'rhx-consider' }, (r.considerations || []).map(function (k) { return el('li', {}, [el('b', { text: k.topic }), el('span', { text: k.detail })]); }))
     ]));
