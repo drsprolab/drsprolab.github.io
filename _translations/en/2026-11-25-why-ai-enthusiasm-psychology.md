@@ -18,7 +18,7 @@ Kruglanski, A. W., & Webster, D. M. (1996); Risko, E. F., & Gilbert, S. J. (2016
 
 This is the author's own perspective piece. It borrows three theories, the need for cognitive closure, cognitive offloading, and the need for competence, to divide the wish to turn to generative AI into three distinct strands.
 
-All three theories predate AI, and applying them to AI use is the author's interpretation. The learning effect rests on a high school mathematics experiment (Bastani et al., 2025), and confidence in one's understanding rests on a preprint with 102 university students that has not yet been peer reviewed (Aslanov et al., 2025). Neither can be transferred directly to AI use in organizations.
+All three theories predate AI, and applying them to AI use is the author's interpretation. The learning effect rests on a high school mathematics experiment (Bastani et al., 2025), and confidence in one's understanding rests on a preliminary study with 102 university students (Aslanov et al., 2025). Neither can be transferred directly to AI use in organizations.
 </div>
 
 ## 01 · Three Different Wishes
