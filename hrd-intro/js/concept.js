@@ -6,7 +6,7 @@
  * 답은 이 브라우저(localStorage)에만 저장한다. 1단계 답은 고치지 않고 남겨 9단계 성찰에서 다시 쓴다. */
 (function () {
   'use strict';
-  var ASK_URL = '';
+  var ASK_URL = 'https://script.google.com/macros/s/AKfycbz0-YhA73OcU0QqDDUrXS2eIDOd3E6Ij0Wg3m-7ND1Dh2hxiCRSXHXkfP0Ww9ln894c/exec';
   var STORE = 'hrd-concept-w1-';
 
   var STEPS = [
@@ -41,7 +41,7 @@
   function load(i) { try { return JSON.parse(localStorage.getItem(STORE + (i + 1))) || { history: [], done: false }; } catch (e) { return { history: [], done: false }; } }
   function save(i, s) { try { localStorage.setItem(STORE + (i + 1), JSON.stringify(s)); } catch (e) { /* 저장 불가 브라우저: 화면에서만 진행 */ } }
 
-  var cur = 0, state = null, busy = false;
+  var cur = 0, state = null, busy = false, failed = false;
 
   // 단계 메뉴
   function renderSteps() {
@@ -88,14 +88,16 @@
     $('cpForm').hidden = state.done;
     $('cpDone').hidden = !state.done;
     if (state.done) $('cpDone').textContent = '이 단계를 마쳤습니다. 여기서 적은 첫 정의는 고치지 않고 남겨 두었다가, 마지막 성찰 단계에서 지금의 생각과 비교합니다.';
-    $('cpSend').disabled = busy;
+    $('cpSend').disabled = busy || failed;
+    $('cpWait').hidden = !busy;
+    $('cpRetry').hidden = !failed;
   }
 
   // 다음 질문: ASK_URL이 있으면 Claude, 없으면 정해 둔 질문
   function next() {
     var s = STEPS[cur];
     if (ASK_URL) {
-      busy = true; refresh();
+      busy = true; failed = false; refresh();
       return fetch(ASK_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ harness: cur + 1, step: s.title, goal: s.goal, question: s.script[0].text, guide: s.guide,
           history: state.history.map(function (m) { return { role: m.role, text: m.text }; }) }) })
@@ -105,7 +107,7 @@
           if (res.done) { state.done = true; state.finishedAt = new Date().toISOString(); }
           if (res.question) push({ role: 'ai', label: res.label, text: res.question });
         })
-        .catch(function () { push({ role: 'ai', label: '안내', text: '질문을 불러오지 못했습니다. 잠시 뒤 다시 답해 주세요.' }); })
+        .catch(function () { failed = true; })
         .then(function () { busy = false; save(cur, state); refresh(); renderSteps(); });
     }
     var asked = state.history.filter(function (m) { return m.role === 'ai'; }).length;
@@ -131,6 +133,7 @@
   $('cpAnswer').addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); $('cpForm').requestSubmit(); }
   });
+  $('cpRetry').querySelector('button').addEventListener('click', function () { next(); });
   $('cpReset').addEventListener('click', function () {
     if (!confirm('이 단계에서 주고받은 기록을 모두 지우고 처음부터 다시 할까요?')) return;
     try { localStorage.removeItem(STORE + (cur + 1)); } catch (e) { /* 무시 */ }
