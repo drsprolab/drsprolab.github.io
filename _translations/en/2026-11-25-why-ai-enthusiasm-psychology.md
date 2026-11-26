@@ -8,22 +8,20 @@ topics: [AI Dependence, Cognitive Closure, Cognitive Offloading, Need for Compet
 <div class="daily-takeaway" markdown="1">
 **Key Takeaway**
 
-Enthusiasm for generative AI is not simply because it finishes work quickly. AI satisfies three different psychological motives at once: the wish to get out of a state of not knowing, the wish to lighten the burden of complex thinking, and the wish to feel like someone who can accomplish things. **Telling the three apart makes both AI's appeal and its risks clearer.**
+Enthusiasm for generative AI is not simply because it finishes work quickly. AI satisfies three different psychological motives at once: the wish to get out of a state of not knowing, the wish to lighten the burden of complex thinking, and the wish to feel like someone who can accomplish things. **Telling the three apart makes both AI's appeal and its risks clearer, and opens the way to designs that turn the same motives into learning.**
 </div>
 
 <div class="daily-brief" markdown="1">
 ### A Definite Answer, the Burden of Thinking, and Feeling Competent
 
 Kruglanski, A. W., & Webster, D. M. (1996); Risko, E. F., & Gilbert, S. J. (2016); Ryan, R. M., & Deci, E. L. (2000); Bastani, H., et al. (2025); Aslanov, I., et al. (2025).
-
-This is the author's own perspective piece. It borrows three theories, the need for cognitive closure, cognitive offloading, and the need for competence, to divide the wish to turn to generative AI into three distinct strands.
-
-All three theories predate AI, and applying them to AI use is the author's interpretation. The learning effect rests on a high school mathematics experiment (Bastani et al., 2025), and confidence in one's understanding rests on a preliminary study with 102 university students (Aslanov et al., 2025). Neither can be transferred directly to AI use in organizations.
 </div>
 
-## 01 · Three Different Wishes
+## 01 · Just Because It Is Convenient? Psychological Needs People Can Hardly Help
 
-Enthusiasm for generative AI is not simply because it finishes work quickly. It is because AI satisfies three different psychological motives at once. The first is the wish to “get out of not knowing quickly.” The second is the wish to “reduce the burden of thinking things through.” The third is the wish to “feel like someone who can accomplish something.”
+Why are we so enthusiastic about generative AI? If we simply conclude that it is because AI makes things comfortable, takes less labor, and produces better results, we cannot build alternatives or countermeasures. Only by thinking about why in several ways and interpreting it from multiple angles can we build strategies for using generative AI positively.
+
+So I looked at it from the perspectives of the human need for cognitive closure, offloading (a mechanism by which the brain pursues efficiency), and the basic psychological need to feel competent, and organized what I found from my own viewpoint. Generative AI satisfies three different psychological motives at once. The first is the wish to “get out of not knowing quickly.” The second is the wish to “reduce the burden of thinking things through.” The third is the wish to “feel like someone who can accomplish something.”
 
 The three look alike but differ. The first concerns the discomfort of uncertainty, the second the effort that thinking requires, and the third how we feel about and judge our own abilities. Separating them makes both AI's appeal and its danger clearer.
 
@@ -105,7 +103,7 @@ A preprint on the relation between AI explanations and understanding also raised
 
 The core of this mechanism is not “I want to save effort” but “I want to feel like someone who is good at this.” The risk is confusing the experience of getting a good output with evidence that one's own skill has grown.
 
-## 05 · When the Three Combine, the Reasons to Turn to AI Grow Stronger
+## 05 · When the Three Combine, AI Naturally Becomes What People Want
 
 Applying the three mechanisms to one situation makes the differences clear. For someone using AI before writing a report, three wishes can operate together.
 
@@ -119,13 +117,31 @@ So after using AI, three different questions are needed: “Did I explore the pr
 
 The relief AI gives is not the same as solving the problem, the effort AI saves is not the same as one's own learning, and a result made together with AI is not the same as independent competence. Understanding the appeal of generative AI begins with distinguishing these three differences.
 
+## 06 · Designing AI So the Three Needs Become Learning
+
+The three needs are not weaknesses to block but starting points for design. The same wish can lead AI to become a tool that thinks for us, or one that helps us think better. That Bastani et al. (2025) found an AI designed to give reasoning hints instead of answers mitigated the negative learning effect supports this direction. The concrete uses below are this piece's proposals.
+
+| Need | If used as is | If designed | Example |
+|---|---|---|---|
+| A definite answer | Exploration ends at the first answer | AI structures exploration with questions instead of answers | Socratic questioning tutor |
+| Less thinking effort | Judgment is handed over too | Split what to delegate from what to keep; give hints only when stuck | Person writes first, AI critiques and compares |
+| Feeling competent | Output quality is mistaken for skill | Confirm understanding before giving the sense of achievement | Explain-then-feedback, variation problems |
+
+**1. A definite answer: a Socratic questioning tutor.** The need for closure is the wish to reach a conclusion quickly. If AI, instead of answering at once, asks one at a time, “What assumptions does this judgment rest on?”, “Is there another explanation?”, and “What data has been confirmed so far?”, it keeps AI's strength of easing vagueness while exploration does not end. In the example of asking why organizational performance fell, AI would first ask which indicator fell and since when, before listing leadership or motivation. Another way is to ask it, for each candidate cause, to find evidence that could refute it.
+
+**2. Less thinking effort: separate what to offload from what to do yourself.** Delegate repetitive work such as formatting, summarizing sources, and translation, and have people first write down the judgment of which evidence matters. Then have AI compare against it and push back. This is the same order as the Generative Cognitive Pause (GCP) discussed earlier (/weekly-insight/2026-10-11-ai-paradox-hrd/). In learning settings, a tutor that does not give the full solution at once but offers one hint at a time at the point of being stuck fits this approach.
+
+**3. Feeling competent: give an achievement confirmed by understanding.** There is no need to block the sense of achievement a good output gives. But it can be made to rest on actual understanding. Before AI hands over the output, the user explains the key assumptions in their own words; after the explanation, AI gives feedback and a variation problem with changed conditions. Keeping a separate record of “what I can explain without AI” lets people see for themselves how a result made with AI differs from their independent competence.
+
+None of the three is a proposal to reduce AI's convenience. At the moment AI fills what people want, the design adds one more step so that the need leads to learning.
+
 ---
 
 ### Insight Questions
 
-1. After receiving an answer from AI, can I say I have **explored the problem enough**?
-2. In this task, did I make the **key judgment** myself rather than AI?
-3. Can I **explain and defend** this output without AI?
+1. Does the AI our organization uses give answers at once, or does it **ask back and widen exploration**?
+2. Have we distinguished the work to hand to AI from the **judgments people make first**?
+3. What mechanisms ensure the sense of competence members gain from AI leads to **understanding they can explain without AI**?
 
 ### References
 
