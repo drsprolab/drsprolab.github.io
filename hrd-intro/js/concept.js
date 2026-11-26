@@ -1,7 +1,7 @@
 /* Conceptualization: 1주차 나만의 HRD 개념 정립 (질문-대답 활동).
  * 지금은 단계마다 정해 둔 질문(script)을 차례로 묻는다.
  * Claude를 연동할 때는 ASK_URL에 중계 서버(Apps Script 등) 주소를 넣는다. API 키는 이 파일에 두지 않는다.
- *   요청: POST { harness, guide, history:[{role:'ai'|'me', text}] }
+ *   요청: POST { harness, step, goal, question, guide, history:[{role:'ai'|'me', text}] }  (중계 코드: hrd-intro-backend/Concept.gs)
  *   응답: { question, label, done }  — done이 true면 그 단계를 마친다.
  * 답은 이 브라우저(localStorage)에만 저장한다. 1단계 답은 고치지 않고 남겨 9단계 성찰에서 다시 쓴다. */
 (function () {
@@ -97,10 +97,12 @@
     if (ASK_URL) {
       busy = true; refresh();
       return fetch(ASK_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ harness: cur + 1, guide: s.guide, history: state.history }) })
+        body: JSON.stringify({ harness: cur + 1, step: s.title, goal: s.goal, question: s.script[0].text, guide: s.guide,
+          history: state.history.map(function (m) { return { role: m.role, text: m.text }; }) }) })
         .then(function (r) { return r.json(); })
         .then(function (res) {
-          if (res.done) state.done = true;
+          if (res.error) throw new Error(res.error);
+          if (res.done) { state.done = true; state.finishedAt = new Date().toISOString(); }
           if (res.question) push({ role: 'ai', label: res.label, text: res.question });
         })
         .catch(function () { push({ role: 'ai', label: '안내', text: '질문을 불러오지 못했습니다. 잠시 뒤 다시 답해 주세요.' }); })

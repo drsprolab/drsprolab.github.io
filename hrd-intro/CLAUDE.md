@@ -39,7 +39,9 @@ GitHub Pages (`drsprolab/drsprolab.github.io`, main 브랜치). push 후 1~2분 
 1. **Claude 연동** (교수님이 Claude Console로 연동 예정)
    - `js/concept.js`의 `ASK_URL`에 중계 서버 주소를 넣으면 정해 둔 질문 대신 Claude가 다음 질문을 만든다
    - 요청 `POST {harness, guide, history:[{role:'ai'|'me', text}]}` → 응답 `{question, label, done}`
-   - API 키는 브라우저 코드에 두지 않는다. 과제 제출처럼 Apps Script 웹앱(스크립트 속성에 키 저장)이 Claude API를 부르는 방식 권장
+   - 중계 코드: `hrd-intro-backend/Concept.gs` (과제 제출과 별도의 Apps Script 프로젝트, 2026-11-26 작성). 키는 스크립트 속성 `ANTHROPIC_API_KEY`에만. 설치 순서는 파일 맨 위 주석
+   - 모델 claude-opus-5-5, effort low, 구조화 출력 {label, question, done}, 서버측 fallback(default) 사용
+   - 진행 상태: 교수님이 Apps Script에 붙여 넣고 배포하는 중 → 받은 …/exec 주소를 `ASK_URL`에 넣고 push 하면 끝
    - `guide.check`·`guide.end`를 시스템 프롬프트에 넣어 질문 선택과 단계 종료 판단에 쓴다
 2. 학생 답을 서버(구글 시트 등)에 모아 교수님이 볼 수 있게 할지 — 교수님께 확인
 3. Harness 2~9 내용 — 교수님이 단계별 구성(목적, 질문 예시, 확인할 사항, 종료 조건)을 주면 같은 형식으로 추가
