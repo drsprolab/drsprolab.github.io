@@ -1,5 +1,13 @@
 # 논문 목록. professor: 교수 논문 페이지에 표시, lab: 연구실 논문 페이지에 표시
 - year: 2026
+  month: null
+  citation: "이다은, 송지훈 (2026). 자기-상사 평가 불일치에 관한 주제범위 문헌고찰. HRD연구, 28(4)."
+  journal: "HRD연구"
+  index:
+    - "KCI"
+  professor: true
+  lab: true
+- year: 2026
   month: 11
   citation: "Joo, J., & Song, J. (2026). Beyond control: A phenomenological inquiry into leader and follower micromanagement experiences. Strategy & Leadership. Online published first. https://doi.org/10.1108/SL-06-2026-0269"
   journal: "Strategy & Leadership"
@@ -134,14 +142,6 @@
   citation: "박은실, 이다은, 김춘주, 김규진, 송지훈 (2026). 국내 영어 트랙 유학생의 한국문화 교육에 대한 요구분석-Borich 모델 및 The Locus for Focus 모델을 중심으로. 교양교육연구, 20(1), 267-294."
   url: "https://doi.org/10.46392/kjge.2026.20.1.267"
   journal: "교양교육연구"
-  index:
-    - "KCI"
-  professor: true
-  lab: true
-- year: 2026
-  month: null
-  citation: "이다은, 송지훈 (2026). 자기-상사 평가 불일치에 관한 주제범위 문헌고찰. HRD연구, 28(4)."
-  journal: "HRD연구"
   index:
     - "KCI"
   professor: true
