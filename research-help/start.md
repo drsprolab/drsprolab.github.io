@@ -12,6 +12,7 @@ lede: 무엇을 연구하고 싶은지 아직 정리되지 않아도 괜찮습�
 <div id="rh-explore" class="rhx" data-endpoint="{{ site.research_help_script_url | escape }}">
   <section class="rhx-write" aria-labelledby="rhx-write-title">
     <h2 id="rhx-write-title">뭔지는 모르겠는데 연구가 하고 싶다!</h2>
+    <p class="rhx-callout"><strong>💡 <mark>단순한 질문보다 구체적인 내용을 기입할수록 더 나에게 맞는 연구가 추천됩니다.</mark></strong><br>간단한 질문보다 <strong>한 단계만 더 생각해 보고</strong> 추천받아 보길 권장합니다.</p>
     <p>연구가 무엇인지 몰라도 됩니다. 조금씩 알아가면 여러분들도 논문을 쓸 수 있습니다.</p>
     <div class="rhx-tips">
       <ul>
